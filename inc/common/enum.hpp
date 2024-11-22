@@ -840,7 +840,10 @@ namespace Enums::Menu {
 		CO_SPELLS,
 		CO_FEATURES,
 		CO_STATS,
-		MU_ITEM
+		MU_ITEM,
+		MI_PREVIOUS_PAGE,
+		MI_NEXT_PAGE,
+		MI_GO_BACK
 	};
 
 	// Menu Items
@@ -852,7 +855,9 @@ namespace Enums::Menu {
 		SPACER,
 		TEXT,
 		SAVE,
-		CANCEL
+		CANCEL,
+		PREVIOUS,
+		NEXT
 	};
 }
 

@@ -814,6 +814,7 @@ auto Sorcery::Menu::_select_last() -> MenuSelect {
 // Check if the mouse cursor is on a menu item, and if so set it
 auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos) -> MenuSelect {
 
+	// TODO: fix this for larger menus
 	if (!bounds.empty()) {
 
 		// Look for the bounds the mouse cursor is in, but select and return
@@ -830,6 +831,9 @@ auto Sorcery::Menu::set_mouse_selected(sf::Vector2f mouse_pos) -> MenuSelect {
 			auto candidate{_visible_items.begin() + dist};
 			if (candidate->enabled) {
 				selected = _choose_by_index(candidate->index).value();
+
+				// RODO update visible items here! need to change it so that
+
 				return selected;
 			} else
 				return std::nullopt;

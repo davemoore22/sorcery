@@ -1790,7 +1790,7 @@
 
 1697389315 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/wish.cpp
 
-1727382664 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/bestiary.cpp
+1732313816 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/bestiary.cpp
 	"frontend/bestiary.hpp"
 	"core/display.hpp"
 	"core/game.hpp"
@@ -1800,6 +1800,7 @@
 	"core/window.hpp"
 	"frontend/define.hpp"
 	"gui/menu.hpp"
+	"gui/menu2.hpp"
 	"gui/monsterdisplay.hpp"
 	"resources/componentstore.hpp"
 	"resources/monsterstore.hpp"
@@ -2532,7 +2533,7 @@
 	"gui/menu.hpp"
 	"types/component.hpp"
 
-1730747433 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/menu.hpp
+1732134947 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/menu.hpp
 	"common/include.hpp"
 	"common/type.hpp"
 	"types/enum.hpp"
@@ -2787,7 +2788,7 @@
 	"resources/filestore.hpp"
 	"resources/resourcemanager.hpp"
 
-1730592395 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/game.cpp
+1731954328 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/game.cpp
 	"core/game.hpp"
 	"core/display.hpp"
 	"core/graphics.hpp"
@@ -2830,7 +2831,7 @@
 	"resources/componentstore.hpp"
 	"resources/stringstore.hpp"
 
-1730568919 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/engine.cpp
+1732305114 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/engine.cpp
 	"engine/engine.hpp"
 	"common/macro.hpp"
 	"core/display.hpp"
@@ -3024,7 +3025,7 @@
 	"resources/componentstore.hpp"
 	"resources/factory.hpp"
 
-1727382990 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/museum.cpp
+1732134954 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/museum.cpp
 	"frontend/museum.hpp"
 	"common/enum.hpp"
 	"core/display.hpp"
@@ -3281,7 +3282,7 @@
 	"types/level.hpp"
 	"types/tile.hpp"
 
-1731952781 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu.cpp
+1732135879 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu.cpp
 	"gui/menu.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3352,7 +3353,7 @@
 	"core/system.hpp"
 	"resources/resourcemanager.hpp"
 
-1731775874 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/castle.cpp
+1731954367 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/castle.cpp
 	"modules/castle.hpp"
 	"common/type.hpp"
 	"core/display.hpp"
@@ -3540,7 +3541,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1731865644 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/shop.cpp
+1731955087 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/shop.cpp
 	"modules/shop.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3553,6 +3554,7 @@
 	"core/window.hpp"
 	"engine/inspect.hpp"
 	"gui/console.hpp"
+	"gui/dialog.hpp"
 	"gui/frame.hpp"
 	"gui/menu.hpp"
 	"gui/partypanel.hpp"
@@ -3765,7 +3767,7 @@
 	"types/dice.hpp"
 	"types/enum.hpp"
 
-1727382613 /home/dave/Development/wizardry/sorcery-sfml/inc/frontend/bestiary.hpp
+1732294576 /home/dave/Development/wizardry/sorcery-sfml/inc/frontend/bestiary.hpp
 	"common/include.hpp"
 	"common/type.hpp"
 
@@ -3893,7 +3895,7 @@
 1727382296 /home/dave/Development/wizardry/sorcery-sfml/inc/frontend/define.hpp
 	"common/include.hpp"
 
-1731775354 /home/dave/Development/wizardry/sorcery-sfml/inc/common/enum.hpp
+1732302358 /home/dave/Development/wizardry/sorcery-sfml/inc/common/enum.hpp
 	"common/include.hpp"
 
 1727114304 /home/dave/Development/wizardry/sorcery-sfml/inc/common/type.hpp
@@ -4056,4 +4058,31 @@
 1731952029 /home/dave/Development/wizardry/sorcery-sfml/inc/modules/sell.hpp
 	"common/include.hpp"
 	"modules/enum.hpp"
+
+1732313906 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/menu2.hpp
+	"common/include.hpp"
+	"common/type.hpp"
+	"types/enum.hpp"
+
+1732314021 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu2.cpp
+	"gui/menu2.hpp"
+	"common/enum.hpp"
+	"common/macro.hpp"
+	"core/animation.hpp"
+	"core/display.hpp"
+	"core/game.hpp"
+	"core/graphics.hpp"
+	"core/state.hpp"
+	"core/system.hpp"
+	"core/window.hpp"
+	"resources/componentstore.hpp"
+	"resources/itemstore.hpp"
+	"resources/monsterstore.hpp"
+	"resources/resourcemanager.hpp"
+	"resources/stringstore.hpp"
+	"types/character.hpp"
+	"types/component.hpp"
+	"types/configfile.hpp"
+	"types/itemtype.hpp"
+	"types/monstertype.hpp"
 

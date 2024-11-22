@@ -314,6 +314,7 @@
 		<Unit filename="inc/gui/macro.hpp" />
 		<Unit filename="inc/gui/map.hpp" />
 		<Unit filename="inc/gui/menu.hpp" />
+		<Unit filename="inc/gui/menu2.hpp" />
 		<Unit filename="inc/gui/monsterdisplay.hpp" />
 		<Unit filename="inc/gui/partypanel.hpp" />
 		<Unit filename="inc/gui/spellpanel.hpp" />
@@ -441,6 +442,7 @@
 		<Unit filename="src/gui/keyboard.cpp" />
 		<Unit filename="src/gui/map.cpp" />
 		<Unit filename="src/gui/menu.cpp" />
+		<Unit filename="src/gui/menu2.cpp" />
 		<Unit filename="src/gui/monsterdisplay.cpp" />
 		<Unit filename="src/gui/partypanel.cpp" />
 		<Unit filename="src/gui/spellpanel.cpp" />
