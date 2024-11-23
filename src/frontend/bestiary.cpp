@@ -32,7 +32,7 @@
 #include "core/window.hpp"
 #include "frontend/define.hpp"
 #include "gui/menu.hpp"
-#include "gui/menu2.hpp"
+#include "gui/menupaged.hpp"
 #include "gui/monsterdisplay.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/monsterstore.hpp"
@@ -66,7 +66,7 @@ auto Sorcery::Bestiary::start() -> int {
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
 	_selected = _menu->items.begin();
 
-	// auto menu2 = std::make_unique<Menu2>(
+	// auto menu2 = std::make_unique<MenuPaged>(
 	//	_system, _display, _graphics, _game, MTP::BESTIARY, 10);
 	// menu2->load_entries();
 	// menu2->refresh_contents();

@@ -37,17 +37,17 @@ class Game;
 class Graphics;
 class System;
 
-class Menu2: public sf::Transformable, public sf::Drawable {
+class MenuPaged: public sf::Transformable, public sf::Drawable {
 
 	public:
 
-		Menu2(System *system, Display *display, Graphics *graphics, Game *game,
-			const MTP type, const unsigned int page_size);
-		Menu2() = delete;
+		MenuPaged(System *system, Display *display, Graphics *graphics,
+			Game *game, const MTP type, const unsigned int page_size);
+		MenuPaged() = delete;
 
 		// Overload operators
 		auto operator[](const unsigned int index) -> MenuEntry &;
-		auto friend operator<<(std::ostream &out_stream, const Menu2 &menu)
+		auto friend operator<<(std::ostream &out_stream, const MenuPaged &menu)
 			-> std::ostream &;
 
 		// Public Methods

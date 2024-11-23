@@ -34,7 +34,7 @@ class Display;
 class Game;
 class Graphics;
 class Menu;
-class Menu2;
+class MenuPaged;
 class MonsterDisplay;
 class System;
 

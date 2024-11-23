@@ -1790,7 +1790,7 @@
 
 1697389315 source:/home/dave/Development/wizardry/sorcery-sfml/src/engine/wish.cpp
 
-1732313816 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/bestiary.cpp
+1732381539 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/bestiary.cpp
 	"frontend/bestiary.hpp"
 	"core/display.hpp"
 	"core/game.hpp"
@@ -1800,7 +1800,7 @@
 	"core/window.hpp"
 	"frontend/define.hpp"
 	"gui/menu.hpp"
-	"gui/menu2.hpp"
+	"gui/menupaged.hpp"
 	"gui/monsterdisplay.hpp"
 	"resources/componentstore.hpp"
 	"resources/monsterstore.hpp"
@@ -3767,7 +3767,7 @@
 	"types/dice.hpp"
 	"types/enum.hpp"
 
-1732294576 /home/dave/Development/wizardry/sorcery-sfml/inc/frontend/bestiary.hpp
+1732381634 /home/dave/Development/wizardry/sorcery-sfml/inc/frontend/bestiary.hpp
 	"common/include.hpp"
 	"common/type.hpp"
 
@@ -4066,6 +4066,33 @@
 
 1732314021 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menu2.cpp
 	"gui/menu2.hpp"
+	"common/enum.hpp"
+	"common/macro.hpp"
+	"core/animation.hpp"
+	"core/display.hpp"
+	"core/game.hpp"
+	"core/graphics.hpp"
+	"core/state.hpp"
+	"core/system.hpp"
+	"core/window.hpp"
+	"resources/componentstore.hpp"
+	"resources/itemstore.hpp"
+	"resources/monsterstore.hpp"
+	"resources/resourcemanager.hpp"
+	"resources/stringstore.hpp"
+	"types/character.hpp"
+	"types/component.hpp"
+	"types/configfile.hpp"
+	"types/itemtype.hpp"
+	"types/monstertype.hpp"
+
+1732381629 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/menupaged.hpp
+	"common/include.hpp"
+	"common/type.hpp"
+	"types/enum.hpp"
+
+1732381521 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menupaged.cpp
+	"gui/menupaged.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
 	"core/animation.hpp"

@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "gui/menu2.hpp"
+#include "gui/menupaged.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 #include "core/animation.hpp"
@@ -44,8 +44,9 @@
 #include "types/monstertype.hpp"
 
 // Standard Constructor
-Sorcery::Menu2::Menu2(System *system, Display *display, Graphics *graphics,
-	Game *game, const MTP type, const unsigned int page_size)
+Sorcery::MenuPaged::MenuPaged(System *system, Display *display,
+	Graphics *graphics, Game *game, const MTP type,
+	const unsigned int page_size)
 	: _system{system}, _display{display}, _graphics{graphics}, _game{game},
 	  _type{type}, _page_size{page_size} {
 
@@ -63,7 +64,7 @@ Sorcery::Menu2::Menu2(System *system, Display *display, Graphics *graphics,
 // change of selected item
 
 // Reload the Contents of the Menu (for use in Paging)
-auto Sorcery::Menu2::refresh_contents() -> void {
+auto Sorcery::MenuPaged::refresh_contents() -> void {
 
 	// Rregenerate the displayable items (previous, then current page items,
 	// then next, then a space, then go back, so page size + 4 Bounds are
@@ -105,7 +106,7 @@ auto Sorcery::Menu2::refresh_contents() -> void {
 }
 
 // Load the Menu Items
-auto Sorcery::Menu2::load_entries() -> unsigned int {
+auto Sorcery::MenuPaged::load_entries() -> unsigned int {
 
 	// Now depending on the menu type, add the relevant items - note that
 	// the Previous, Next, and Go Back entries are loaded if necessary at
@@ -128,7 +129,7 @@ auto Sorcery::Menu2::load_entries() -> unsigned int {
 }
 
 // Add the Creatures to the Bestiary
-auto Sorcery::Menu2::_add_bestiary_creatures() -> void {
+auto Sorcery::MenuPaged::_add_bestiary_creatures() -> void {
 
 	const auto types{_game->monsterstore->get_all_types()};
 	for (auto &monster : types)
@@ -137,7 +138,7 @@ auto Sorcery::Menu2::_add_bestiary_creatures() -> void {
 }
 
 // Add an item to the Menu
-auto Sorcery::Menu2::_add_item(const int index, const MIT item_type,
+auto Sorcery::MenuPaged::_add_item(const int index, const MIT item_type,
 	const MIM code, std::string key, const bool enabled) -> void {
 
 	// Note passing key by value as we are modifying the key here
@@ -150,25 +151,25 @@ auto Sorcery::Menu2::_add_item(const int index, const MIT item_type,
 }
 
 // Get the Menu Type
-auto Sorcery::Menu2::get_type() const -> MTP {
+auto Sorcery::MenuPaged::get_type() const -> MTP {
 
 	return _type;
 }
 
 // Get the Page Size of the Menu (not the Count of Items)
-auto Sorcery::Menu2::get_page_size() const -> unsigned int {
+auto Sorcery::MenuPaged::get_page_size() const -> unsigned int {
 
 	return _page_size;
 }
 
 // Get the Count of the Items in the Menu (not the Page Size)
-auto Sorcery::Menu2::get_item_count() const -> unsigned int {
+auto Sorcery::MenuPaged::get_item_count() const -> unsigned int {
 
 	return _items.size();
 }
 
 // Return the index of the first Entry-type Item that is enabled.
-auto Sorcery::Menu2::_get_first_enabled() -> std::optional<unsigned int> {
+auto Sorcery::MenuPaged::_get_first_enabled() -> std::optional<unsigned int> {
 
 	auto it{std::ranges::find_if(
 		items.begin(), items.end(), [&](const auto &menu_item) {
@@ -185,7 +186,7 @@ auto Sorcery::Menu2::_get_first_enabled() -> std::optional<unsigned int> {
 }
 
 // Print the Full Menu Contents
-auto Sorcery::Menu2::print() -> void {
+auto Sorcery::MenuPaged::print() -> void {
 
 	std::string title{magic_enum::enum_name<MTP>(_type)};
 	auto body{title + "\n\n"s};
@@ -204,7 +205,7 @@ auto Sorcery::Menu2::print() -> void {
 	std::cout << body << std::endl;
 }
 
-auto Sorcery::Menu2::draw(
+auto Sorcery::MenuPaged::draw(
 	sf::RenderTarget &target, sf::RenderStates states) const -> void {
 
 	states.transform *= getTransform();
@@ -217,7 +218,7 @@ auto Sorcery::Menu2::draw(
 namespace Sorcery {
 
 // Additional Print Operator
-auto operator<<(std::ostream &out_stream, const Sorcery::Menu2 &menu)
+auto operator<<(std::ostream &out_stream, const Sorcery::MenuPaged &menu)
 	-> std::ostream & {
 
 	std::string title{magic_enum::enum_name<MTP>(menu._type)};
