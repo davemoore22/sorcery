@@ -51,12 +51,18 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 			-> std::ostream &;
 
 		// Public Methods
+		auto choose_next() -> std::optional<unsigned int>;
+		auto choose_previous() -> std::optional<unsigned int>;
+		auto generate(const Component &component, bool force_refresh = false)
+			-> void;
 		auto get_current_page() const -> unsigned int;
 		auto get_item_count() const -> unsigned int;
 		auto get_type() const -> MTP;
 		auto get_page_size() const -> unsigned int;
 		auto print() -> void;
 		auto set_current_page(const unsigned int value) -> void;
+		auto set_mouse_selected(sf::Vector2f mouse_pos)
+			-> std::optional<unsigned int>;
 
 		// Public Members
 		std::vector<MenuEntry> items;	   // Visible Items (a Window of _Items)
@@ -91,6 +97,8 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 		sf::RectangleShape _selected_bg;
 		unsigned int _current_page;
 		unsigned int _resized_item_count;
+		unsigned int _width;
+		unsigned int _height;
 };
 
 }

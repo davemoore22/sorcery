@@ -33,7 +33,6 @@ namespace Sorcery {
 class Display;
 class Game;
 class Graphics;
-class Menu;
 class MenuPaged;
 class MonsterDisplay;
 class System;
@@ -75,9 +74,9 @@ class Bestiary {
 		Graphics *_graphics;
 		Game *_game;
 		sf::RenderWindow *_window;
-		std::unique_ptr<Menu> _menu;
+		std::unique_ptr<MenuPaged> _menu;
 		std::unique_ptr<MonsterDisplay> _monster_display;
-		MenuSelect _selected;
+		std::optional<unsigned int> _selected;
 		sf::Sprite _known_gfx;
 };
 

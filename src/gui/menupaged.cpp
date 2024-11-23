@@ -64,6 +64,220 @@ Sorcery::MenuPaged::MenuPaged(System *system, Display *display,
 // each screen refresh where possible; either just a change to the selected
 // items's background bar colour, or, for example, a full refresh to reflect a
 // change of selected item
+auto Sorcery::MenuPaged::generate(
+	const Component &component, bool force_refresh) -> void {
+
+	auto do_refresh{force_refresh || _texts.empty()};
+	if (do_refresh) {
+
+		// In case we are generating the Options Menu
+		// Work out total size of texture needed
+		const auto tx{component.w * _display->window->get_cw()};
+		const auto ty{component.h * _display->window->get_ch()};
+		const sf::Vector2f sz(tx, ty);
+		_render_tx.create(sz.x, sz.y);
+
+		_width = sz.x;
+		_height = sz.y;
+
+		// Bounds are generated for each menu item to handle mouse over
+		_texts.clear();
+		bounds.clear();
+		auto i{0u};
+		auto entry_y{0};
+
+		for (const auto &item : items) {
+
+			if (item.type == MIT::TEXT || item.type == MIT::ENTRY ||
+				item.type == MIT::SAVE || item.type == MIT::CANCEL) {
+				auto text_string{item.key};
+				sf::Text text{};
+				text.setFont(_system->resources->fonts[component.font]);
+				text.setCharacterSize(component.size);
+				if (_display->get_bold())
+					text.setStyle(sf::Text::Bold);
+				if (item.enabled)
+					text.setFillColor(sf::Color(component.colour));
+				else
+					text.setFillColor(
+						sf::Color(0x606060ff)); // TODO change this to be
+												// located in the layout file
+				if (_display->get_upper())
+					std::transform(text_string.begin(), text_string.end(),
+						text_string.begin(), ::toupper);
+				text.setString(text_string);
+
+				// Check for alignment and set location appropriately
+				auto entry_x{
+					(component.justification == JUS::CENTRE) ? tx / 2 : 0};
+				text.setPosition(entry_x - text.getLocalBounds().left,
+					entry_y - text.getLocalBounds().top);
+
+				// If we have a selected entry, change the background colour
+				if (selected.value() == i) {
+
+					// See
+					// https://stackoverflow.com/questions/14505571/centering-text-on-the-screen-with-sfml/15253837#15253837
+					sf::RectangleShape bg(
+						sf::Vector2f(component.w * _display->window->get_cw(),
+							_system->resources->get_font_height(
+								component.font, component.size)));
+					bg.setPosition(0, entry_y);
+					if (component.animated)
+						bg.setFillColor(_graphics->animation->select_col);
+					else
+						bg.setFillColor(sf::Color(component.background));
+
+					text.setFillColor(sf::Color(component.colour));
+					text.setOutlineColor(sf::Color(0, 0, 0));
+					text.setOutlineThickness(1);
+
+					_selected_bg = bg;
+				}
+
+				// Handle Justification
+				if (component.justification == JUS::CENTRE)
+					text.setOrigin(text.getLocalBounds().width / 2.0f, 0);
+
+				_texts.emplace_back(text);
+
+				// Now handle the mouse move/select!
+				if (item.type == MIT::ENTRY || item.type == MIT::SAVE ||
+					item.type == MIT::CANCEL || item.type == MIT::PREVIOUS ||
+					item.type == MIT::NEXT) {
+					const sf::FloatRect actual_rect{text.getGlobalBounds()};
+					bounds.push_back(actual_rect);
+				} else {
+					const sf::FloatRect actual_rect;
+					bounds.push_back(actual_rect);
+				}
+
+				entry_y += _display->window->get_ch();
+			} else {
+				sf::Text empty_text{};
+				const sf::FloatRect actual_rect{};
+				bounds.push_back(actual_rect);
+				_texts.emplace_back(empty_text);
+				entry_y += _display->window->get_ch();
+			}
+			++i;
+		}
+	} else {
+
+		// Only change what needs to be changed
+		auto entry_y{0};
+		auto i{0u};
+		for (const auto &item : items) {
+			if (item.type == MIT::TEXT || item.type == MIT::ENTRY ||
+				item.type == MIT::SAVE || item.type == MIT::CANCEL) {
+				if (selected.value() == i) {
+					const sf::FloatRect bg_rect{_texts.at(i).getGlobalBounds()};
+					sf::RectangleShape bg(
+						sf::Vector2f(component.w * _display->window->get_cw(),
+							bg_rect.height));
+					bg.setPosition(0, entry_y);
+					if (component.animated)
+						bg.setFillColor(_graphics->animation->select_col);
+					else
+						bg.setFillColor(sf::Color(component.background));
+
+					if (item.enabled)
+						_texts.at(i).setFillColor(sf::Color(component.colour));
+					else
+						_texts.at(i).setFillColor(sf::Color(0x606060ff));
+					_texts.at(i).setOutlineColor(sf::Color(0, 0, 0));
+					_texts.at(i).setOutlineThickness(1);
+
+					_selected_bg = bg;
+				}
+			}
+			++i;
+			entry_y += _display->window->get_ch();
+		}
+	}
+}
+
+// Choose the previous selected item
+auto Sorcery::MenuPaged::choose_previous() -> std::optional<unsigned int> {
+
+	if (selected > 0) {
+
+		// Iterate backwards until we find the first previous enabled menu
+		bool found{false};
+		int i{static_cast<int>(selected.value())};
+		do {
+			--i;
+			const auto &item{items.at(i)};
+			found = item.enabled &&
+					((item.type == MIT::ENTRY) || (item.type == MIT::SAVE) ||
+						(item.type == MIT::CANCEL));
+		} while (i >= 0 && !found);
+		if (found) {
+			selected = i;
+			return selected;
+		}
+	} else
+		return selected;
+
+	return std::nullopt;
+}
+
+// Check if the mouse cursor is on a menu item, and if so set it
+auto Sorcery::MenuPaged::set_mouse_selected(sf::Vector2f mouse_pos)
+	-> std::optional<unsigned int> {
+
+	if (!bounds.empty()) {
+
+		// Look for the bounds the mouse cursor is in, but select and return
+		// the associated item with the same index, since both containers
+		// track each other
+		const sf::Vector2f global_pos{this->getPosition()};
+		mouse_pos -= global_pos;
+		auto it{std::ranges::find_if(
+			bounds.begin(), bounds.end(), [&mouse_pos](const auto &item) {
+				return item.contains(mouse_pos);
+			})};
+		if (it != bounds.end()) {
+			auto dist{std::distance(bounds.begin(), it)};
+			if (items.at(dist).enabled)
+				selected = dist;
+
+			return selected;
+		} else
+			return std::nullopt;
+	} else
+		return std::nullopt;
+
+	// If we reach here it means that bounds (which requites a draw to take
+	// place, hasn't been populated yet)
+	return std::nullopt;
+}
+
+// Choose the next selected item
+auto Sorcery::MenuPaged::choose_next() -> std::optional<unsigned int> {
+
+	if (selected < (items.size())) {
+
+		// Go forwards until we find the first next enabled item
+		bool found{false};
+		unsigned int i{selected.value()};
+		do {
+			++i;
+			const auto &item{items.at(i)};
+			found = item.enabled &&
+					(item.type == MIT::ENTRY || item.type == MIT::SAVE ||
+						item.type == MIT::CANCEL);
+		} while (i < items.size() && !found);
+		if (found) {
+
+			selected = i;
+			return selected.value();
+		}
+	} else
+		return selected.value();
+
+	return std::nullopt;
+}
 
 // Reload the Contents of the Menu (for use in Paging)
 auto Sorcery::MenuPaged::_refresh_contents() -> void {
@@ -96,11 +310,13 @@ auto Sorcery::MenuPaged::_refresh_contents() -> void {
 			items.emplace_back(_items.at(begin_page + i));
 		else
 			items.emplace_back(non_entry_index++, MIT::SPACER, MIM::ITEM_SPACER,
-				(*_display->string)["MENU_SPACER"], true, CFG::NONE, hint);
+				(*_display->string)["MENU_SPACER"], false, CFG::NONE, hint);
 	}
 
 	// And then the previous and back entries
-	const auto next_on{_current_page < (_resized_item_count / _page_size)};
+	const auto next_on{
+		_current_page <
+		(std::floor(static_cast<float>(_resized_item_count) / _page_size)) - 1};
 	items.emplace_back(non_entry_index++, MIT::NEXT, MIM::MI_NEXT_PAGE,
 		(*_display->string)["MENU_NEXT_PAGE"], next_on, CFG::NONE, hint);
 	items.emplace_back(non_entry_index++, MIT::CANCEL, MIM::MI_GO_BACK,

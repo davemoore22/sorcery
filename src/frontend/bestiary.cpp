@@ -31,7 +31,6 @@
 #include "core/system.hpp"
 #include "core/window.hpp"
 #include "frontend/define.hpp"
-#include "gui/menu.hpp"
 #include "gui/menupaged.hpp"
 #include "gui/monsterdisplay.hpp"
 #include "resources/componentstore.hpp"
@@ -64,12 +63,7 @@ auto Sorcery::Bestiary::start() -> int {
 	_display->start_bg_movie();
 
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
-	_selected = _menu->items.begin();
-
-	// auto menu2 = std::make_unique<MenuPaged>(
-	//	_system, _display, _graphics, _game, MTP::BESTIARY, 10);
-	// menu2->set_current_page(0);
-	// menu2->print();
+	_selected = 0;
 
 	if (auto result{_do_event_loop()}; result == MDR::EXIT) {
 
@@ -112,10 +106,9 @@ auto Sorcery::Bestiary::_initalise_components() -> void {
 	// Get the Window and Graphics to Display
 	_window = _display->window->get_window();
 
-	_menu = std::make_unique<Menu>(
-		_system, _display, _graphics, _game, MTP::BESTIARY);
+	_menu = std::make_unique<MenuPaged>(
+		_system, _display, _graphics, _game, MTP::BESTIARY, 10);
 	const auto menu_c{(*_display->layout)["bestiary:menu"]};
-	_menu->set_visible_size(std::stoi(menu_c["display_items"].value()));
 	_menu->generate(menu_c);
 
 	_monster_display =
@@ -152,7 +145,7 @@ auto Sorcery::Bestiary::_draw() -> void {
 auto Sorcery::Bestiary::_update_display() -> void {
 
 	const auto gfx_c{(*_display->layout)["bestiary:picture"]};
-	const auto idx{_selected.value()->idx};
+	const auto idx{_menu->items.at(_selected.value_or(0)).index};
 	const auto type{
 		(*_game->monsterstore)[magic_enum::enum_cast<MTI>(idx).value()]};
 	_known_gfx =
@@ -181,9 +174,7 @@ auto Sorcery::Bestiary::_do_event_loop() -> std::optional<MDR> {
 		}
 
 		_window->clear();
-
 		_refresh_display();
-
 		_window->display();
 	}
 
@@ -223,8 +214,6 @@ auto Sorcery::Bestiary::_handle_input(const sf::Event &event)
 	} else if (_system->input->check(CIN::MOVE, event)) {
 		_selected = _menu->set_mouse_selected(_display->get_cur());
 		if (_selected) {
-			// TODO This needs to be fixed as mouse-moving over scrolled menus
-			// is not 100%
 			const auto menu_c{(*_display->layout)["bestiary:menu"]};
 			_menu->generate(menu_c, true);
 			_update_display();
@@ -233,9 +222,9 @@ auto Sorcery::Bestiary::_handle_input(const sf::Event &event)
 
 		// We have selected something from the menu
 		if (_selected) {
-			const MIM opt{(*_selected.value()).item};
-			if (opt == MIM::ITEM_RETURN)
-				return MDR::BACK;
+			// const MIM opt{(*_selected.value()).item};
+			// if (opt == MIM::ITEM_RETURN)
+			//	return MDR::BACK;
 		}
 	}
 
