@@ -67,6 +67,7 @@ class Display {
 		auto set_input_mode(WIM input_mode) -> void;
 		auto get_input_mode() const -> WIM;
 		auto show_overlay() -> void;
+		auto overlay_shown() const -> bool;
 		auto hide_overlay() -> void;
 		auto display_overlay() -> void;
 		auto shutdown_SFML() -> void;

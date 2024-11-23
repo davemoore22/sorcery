@@ -322,6 +322,11 @@ auto Sorcery::Display::hide_overlay() -> void {
 	_show_overlay = false;
 }
 
+auto Sorcery::Display::overlay_shown() const -> bool {
+
+	return _show_overlay;
+}
+
 auto Sorcery::Display::display(
 	std::string_view screen, std::optional<std::any> param) -> void {
 

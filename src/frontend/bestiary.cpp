@@ -108,8 +108,10 @@ auto Sorcery::Bestiary::_initalise_components() -> void {
 
 	_menu = std::make_unique<MenuPaged>(
 		_system, _display, _graphics, _game, MTP::BESTIARY, 10);
+	_menu->set_current_page(0);
+
 	const auto menu_c{(*_display->layout)["bestiary:menu"]};
-	_menu->generate(menu_c);
+	_menu->generate(menu_c, true);
 
 	_monster_display =
 		std::make_unique<MonsterDisplay>(_system, _display, _graphics, _game);
@@ -144,16 +146,20 @@ auto Sorcery::Bestiary::_draw() -> void {
 
 auto Sorcery::Bestiary::_update_display() -> void {
 
-	const auto gfx_c{(*_display->layout)["bestiary:picture"]};
-	const auto idx{_menu->items.at(_selected.value_or(0)).index};
-	const auto type{
-		(*_game->monsterstore)[magic_enum::enum_cast<MTI>(idx).value()]};
-	_known_gfx =
-		_graphics->textures->get(type.get_known_gfx(), GTT::KNOWN_CREATURE)
-			.value();
-	_known_gfx.setPosition(gfx_c.pos());
-	_known_gfx.setScale(gfx_c.scl());
-	_monster_display->set(idx);
+	if (_menu->items.at(_selected.value_or(0)).type == MIT::ENTRY) {
+
+		const auto gfx_c{(*_display->layout)["bestiary:picture"]};
+		const auto idx{_menu->items.at(_selected.value_or(0)).index};
+
+		const auto type{
+			(*_game->monsterstore)[magic_enum::enum_cast<MTI>(idx).value()]};
+		_known_gfx =
+			_graphics->textures->get(type.get_known_gfx(), GTT::KNOWN_CREATURE)
+				.value();
+		_known_gfx.setPosition(gfx_c.pos());
+		_known_gfx.setScale(gfx_c.scl());
+		_monster_display->set(idx);
+	}
 };
 
 auto Sorcery::Bestiary::_do_event_loop() -> std::optional<MDR> {
@@ -208,6 +214,16 @@ auto Sorcery::Bestiary::_handle_input(const sf::Event &event)
 		_update_display();
 	} else if (_system->input->check(CIN::DOWN, event)) {
 		_selected = _menu->choose_next();
+		const auto menu_c{(*_display->layout)["bestiary:menu"]};
+		_menu->generate(menu_c, true);
+		_update_display();
+	} else if (_system->input->check(CIN::LEFT, event)) {
+		_selected = _menu->go_to_previous_page();
+		const auto menu_c{(*_display->layout)["bestiary:menu"]};
+		_menu->generate(menu_c, true);
+		_update_display();
+	} else if (_system->input->check(CIN::RIGHT, event)) {
+		_selected = _menu->go_to_next_page();
 		const auto menu_c{(*_display->layout)["bestiary:menu"]};
 		_menu->generate(menu_c, true);
 		_update_display();

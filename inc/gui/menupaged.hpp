@@ -51,6 +51,8 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 			-> std::ostream &;
 
 		// Public Methods
+		auto choose_first() -> std::optional<unsigned int>;
+		auto choose_last() -> std::optional<unsigned int>;
 		auto choose_next() -> std::optional<unsigned int>;
 		auto choose_previous() -> std::optional<unsigned int>;
 		auto generate(const Component &component, bool force_refresh = false)
@@ -59,6 +61,8 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 		auto get_item_count() const -> unsigned int;
 		auto get_type() const -> MTP;
 		auto get_page_size() const -> unsigned int;
+		auto go_to_next_page() -> std::optional<unsigned int>;
+		auto go_to_previous_page() -> std::optional<unsigned int>;
 		auto print() -> void;
 		auto set_current_page(const unsigned int value) -> void;
 		auto set_mouse_selected(sf::Vector2f mouse_pos)
@@ -80,6 +84,7 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 		auto _get_first_enabled() -> std::optional<unsigned int>;
 		auto _load_entries() -> unsigned int;
 		auto _refresh_contents() -> void;
+		auto _get_last_enabled() -> std::optional<unsigned int>;
 
 		// Private Members
 		System *_system;

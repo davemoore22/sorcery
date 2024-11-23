@@ -86,10 +86,15 @@ auto Sorcery::MenuPaged::generate(
 		auto i{0u};
 		auto entry_y{0};
 
+		// In case we do not have any item selected (such as the first time)
+		if (!selected)
+			selected = 0;
+
 		for (const auto &item : items) {
 
 			if (item.type == MIT::TEXT || item.type == MIT::ENTRY ||
-				item.type == MIT::SAVE || item.type == MIT::CANCEL) {
+				item.type == MIT::SAVE || item.type == MIT::CANCEL ||
+				item.type == MIT::PREVIOUS || item.type == MIT::NEXT) {
 				auto text_string{item.key};
 				sf::Text text{};
 				text.setFont(_system->resources->fonts[component.font]);
@@ -253,6 +258,44 @@ auto Sorcery::MenuPaged::set_mouse_selected(sf::Vector2f mouse_pos)
 	return std::nullopt;
 }
 
+auto Sorcery::MenuPaged::go_to_next_page() -> std::optional<unsigned int> {
+
+	const auto next_on{
+		_current_page <
+		(std::floor(static_cast<float>(_resized_item_count) / _page_size)) - 1};
+	if (next_on) {
+		++_current_page;
+		_refresh_contents();
+	}
+
+	return selected;
+}
+
+auto Sorcery::MenuPaged::go_to_previous_page() -> std::optional<unsigned int> {
+
+	const auto prev_on{_current_page > 0};
+	if (prev_on) {
+		--_current_page;
+		_refresh_contents();
+	}
+
+	return selected;
+}
+
+auto Sorcery::MenuPaged::choose_first() -> std::optional<unsigned int> {
+
+	selected = _get_first_enabled();
+
+	return selected;
+}
+
+auto Sorcery::MenuPaged::choose_last() -> std::optional<unsigned int> {
+
+	selected = _get_last_enabled();
+
+	return selected;
+}
+
 // Choose the next selected item
 auto Sorcery::MenuPaged::choose_next() -> std::optional<unsigned int> {
 
@@ -388,22 +431,37 @@ auto Sorcery::MenuPaged::get_item_count() const -> unsigned int {
 	return _items.size();
 }
 
-// Return the index of the first Entry-type Item that is enabled.
+// Return the index of the firstventry Item that is enabled.
 auto Sorcery::MenuPaged::_get_first_enabled() -> std::optional<unsigned int> {
 
-	auto it{std::ranges::find_if(
-		items.begin(), items.end(), [&](const auto &menu_item) {
-			return (((menu_item.type == MIT::ENTRY) ||
-						(menu_item.type == MIT::SAVE) ||
-						(menu_item.type == MIT::CANCEL)) &&
-					(menu_item.enabled));
-		})};
+	for (auto i = 0u; i < items.size(); i++) {
+		if (((items.at(i).type == MIT::ENTRY) ||
+				(items.at(i).type == MIT::SAVE) ||
+				(items.at(i).type == MIT::PREVIOUS) ||
+				(items.at(i).type == MIT::NEXT) ||
+				(items.at(i).type == MIT::CANCEL)) &&
+			(items.at(i).enabled))
+			return i;
+	}
 
-	if (it != items.end()) {
-		return (*it).index;
-	} else
-		return std::nullopt;
+	return std::nullopt;
 }
+
+// Return the index of the last entry Item that is enabled.
+auto Sorcery::MenuPaged::_get_last_enabled() -> std::optional<unsigned int> {
+
+	for (int i = items.size() - 1; i >= 0; i--) {
+		if (((items.at(i).type == MIT::ENTRY) ||
+				(items.at(i).type == MIT::SAVE) ||
+				(items.at(i).type == MIT::PREVIOUS) ||
+				(items.at(i).type == MIT::NEXT) ||
+				(items.at(i).type == MIT::CANCEL)) &&
+			(items.at(i).enabled))
+			return i;
+	}
+
+	return std::nullopt;
+};
 
 auto Sorcery::MenuPaged::get_current_page() const -> unsigned int {
 
