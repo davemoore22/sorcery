@@ -192,6 +192,12 @@ auto Sorcery::ControlOverlay::set_input_mode(WIM input_mode) -> void {
 			std::make_pair((*_display->string)["CONTROL_DOWN_MENU"],
 				_get_control_gfx(WIC::DOWN)));
 		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_LEFT_MENU"],
+				_get_control_gfx(WIC::LEFT)));
+		_controls.emplace_back(
+			std::make_pair((*_display->string)["CONTROL_RIGHT_MENU"],
+				_get_control_gfx(WIC::RIGHT)));
+		_controls.emplace_back(
 			std::make_pair((*_display->string)["CONTROL_CONFIRM_MENU"],
 				_get_control_gfx(WIC::CONFIRM)));
 		break;

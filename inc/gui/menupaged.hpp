@@ -51,12 +51,12 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 			-> std::ostream &;
 
 		// Public Methods
-		auto refresh_contents() -> void;
+		auto get_current_page() const -> unsigned int;
 		auto get_item_count() const -> unsigned int;
 		auto get_type() const -> MTP;
 		auto get_page_size() const -> unsigned int;
-		auto load_entries() -> unsigned int;
 		auto print() -> void;
+		auto set_current_page(const unsigned int value) -> void;
 
 		// Public Members
 		std::vector<MenuEntry> items;	   // Visible Items (a Window of _Items)
@@ -72,6 +72,8 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 			std::string key, const bool enabled = true) -> void;
 		auto _add_bestiary_creatures() -> void;
 		auto _get_first_enabled() -> std::optional<unsigned int>;
+		auto _load_entries() -> unsigned int;
+		auto _refresh_contents() -> void;
 
 		// Private Members
 		System *_system;

@@ -56,6 +56,8 @@ Sorcery::MenuPaged::MenuPaged(System *system, Display *display,
 	_texts.clear();
 	selected = std::nullopt;
 	_current_page = 0;
+
+	_load_entries();
 }
 
 // Noww generate the item displau; this is optimised so the minimum is done on
@@ -64,7 +66,7 @@ Sorcery::MenuPaged::MenuPaged(System *system, Display *display,
 // change of selected item
 
 // Reload the Contents of the Menu (for use in Paging)
-auto Sorcery::MenuPaged::refresh_contents() -> void {
+auto Sorcery::MenuPaged::_refresh_contents() -> void {
 
 	// Rregenerate the displayable items (previous, then current page items,
 	// then next, then a space, then go back, so page size + 4 Bounds are
@@ -102,11 +104,11 @@ auto Sorcery::MenuPaged::refresh_contents() -> void {
 	items.emplace_back(non_entry_index++, MIT::NEXT, MIM::MI_NEXT_PAGE,
 		(*_display->string)["MENU_NEXT_PAGE"], next_on, CFG::NONE, hint);
 	items.emplace_back(non_entry_index++, MIT::CANCEL, MIM::MI_GO_BACK,
-		(*_display->string)["MENU_NEXT_PAGE"], true, CFG::NONE, hint);
+		(*_display->string)["MENU_GO_BACK"], true, CFG::NONE, hint);
 }
 
 // Load the Menu Items
-auto Sorcery::MenuPaged::load_entries() -> unsigned int {
+auto Sorcery::MenuPaged::_load_entries() -> unsigned int {
 
 	// Now depending on the menu type, add the relevant items - note that
 	// the Previous, Next, and Go Back entries are loaded if necessary at
@@ -132,9 +134,11 @@ auto Sorcery::MenuPaged::load_entries() -> unsigned int {
 auto Sorcery::MenuPaged::_add_bestiary_creatures() -> void {
 
 	const auto types{_game->monsterstore->get_all_types()};
-	for (auto &monster : types)
-		_add_item(unenum(monster.get_type_id()), MIT::ENTRY, MIM::MU_ITEM,
-			monster.get_known_name(), unenum(monster.get_type_id()));
+	for (auto &monster : types) {
+		if (monster.get_type_id() <= MTI::WERDNA)
+			_add_item(unenum(monster.get_type_id()), MIT::ENTRY, MIM::MU_ITEM,
+				monster.get_known_name(), true);
+	}
 }
 
 // Add an item to the Menu
@@ -185,14 +189,25 @@ auto Sorcery::MenuPaged::_get_first_enabled() -> std::optional<unsigned int> {
 		return std::nullopt;
 }
 
-// Print the Full Menu Contents
+auto Sorcery::MenuPaged::get_current_page() const -> unsigned int {
+
+	return _current_page;
+}
+
+auto Sorcery::MenuPaged::set_current_page(const unsigned int value) -> void {
+
+	_current_page = value;
+	_refresh_contents();
+}
+
+// Print the Menu Contents
 auto Sorcery::MenuPaged::print() -> void {
 
 	std::string title{magic_enum::enum_name<MTP>(_type)};
 	auto body{title + "\n\n"s};
 	int index{0};
 
-	for (const auto &item : _items) {
+	for (const auto &item : items) {
 
 		std::string entry{item.key};
 		std::string flag{item.enabled ? "Yes" : " No"};

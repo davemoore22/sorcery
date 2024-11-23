@@ -68,9 +68,8 @@ auto Sorcery::Bestiary::start() -> int {
 
 	// auto menu2 = std::make_unique<MenuPaged>(
 	//	_system, _display, _graphics, _game, MTP::BESTIARY, 10);
-	// menu2->load_entries();
-	// menu2->refresh_contents();
-	// std::cout << menu2 << std::endl;
+	// menu2->set_current_page(0);
+	// menu2->print();
 
 	if (auto result{_do_event_loop()}; result == MDR::EXIT) {
 
