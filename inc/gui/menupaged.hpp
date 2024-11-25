@@ -58,8 +58,10 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 		auto generate(const Component &component, bool force_refresh = false)
 			-> void;
 		auto get_current_page() const -> unsigned int;
+		auto get_height() const -> unsigned int;
 		auto get_item_count() const -> unsigned int;
 		auto get_type() const -> MTP;
+		auto get_width() const -> unsigned int;
 		auto get_page_size() const -> unsigned int;
 		auto go_to_next_page() -> std::optional<unsigned int>;
 		auto go_to_previous_page() -> std::optional<unsigned int>;

@@ -531,4 +531,14 @@ auto operator<<(std::ostream &out_stream, const Sorcery::MenuPaged &menu)
 	return out_stream;
 }
 
+auto Sorcery::MenuPaged::get_width() const -> unsigned int {
+
+	return _width;
+}
+
+auto Sorcery::MenuPaged::get_height() const -> unsigned int {
+
+	return _height;
+}
+
 }

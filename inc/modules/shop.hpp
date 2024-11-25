@@ -30,6 +30,7 @@
 namespace Sorcery {
 
 // Forward Declarations
+class Buy;
 class Console;
 class Dialog;
 class Display;
@@ -73,6 +74,7 @@ class Shop {
 		Game *_game;
 		sf::RenderWindow *_window;
 		std::unique_ptr<Sell> _sell;
+		std::unique_ptr<Buy> _buy;
 		std::unique_ptr<Frame> _frame;
 		std::unique_ptr<Menu> _menu;
 		std::unique_ptr<Menu> _who;

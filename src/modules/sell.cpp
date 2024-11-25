@@ -120,7 +120,7 @@ auto Sorcery::Sell::start(const unsigned int character_id)
 		(*_display->layout)["sell:menu"].y);
 
 	// Generate the Components
-	const Component party_banel_c{(*_display->layout)["global:party_panel"]};
+	const Component party_panel_c{(*_display->layout)["global:party_panel"]};
 	_party_panel->setPosition(_display->get_centre_x(_party_panel->width),
 		(*_display->layout)["global:party_panel"].y);
 

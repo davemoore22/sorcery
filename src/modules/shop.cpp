@@ -38,6 +38,7 @@
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "gui/partypanel.hpp"
+#include "modules/buy.hpp"
 #include "modules/sell.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/factory.hpp"
@@ -290,6 +291,16 @@ auto Sorcery::Shop::start() -> std::optional<MIM> {
 										_sell->stop();
 										continue;
 									}
+								} else if (opt_what == MIM::SH_BUY) {
+									_buy = std::make_unique<Buy>(
+										_system, _display, _graphics, _game);
+									auto result{_buy->start(_chosen_char_id)};
+									if (result &&
+										result.value() == MIM::ITEM_ABORT) {
+										_buy->stop();
+										continue;
+									}
+
 								} else if (opt_what == MIM::SH_POOL_GOLD) {
 									_in_pool = true;
 									continue;
