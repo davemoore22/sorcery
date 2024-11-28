@@ -1812,9 +1812,28 @@
 
 1727383116 source:/home/dave/Development/wizardry/sorcery-sfml/src/frontend/statistics.cpp
 
-1697388678 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/buy.cpp
+1732564219 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/buy.cpp
+	"modules/buy.hpp"
+	"common/enum.hpp"
+	"common/macro.hpp"
+	"common/type.hpp"
+	"core/display.hpp"
+	"core/game.hpp"
+	"core/graphics.hpp"
+	"core/input.hpp"
+	"core/system.hpp"
+	"core/window.hpp"
+	"engine/inspect.hpp"
+	"gui/console.hpp"
+	"gui/frame.hpp"
+	"gui/menupaged.hpp"
+	"gui/partypanel.hpp"
+	"resources/componentstore.hpp"
+	"resources/factory.hpp"
+	"types/character.hpp"
+	"types/component.hpp"
 
-1731952266 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/sell.cpp
+1732563221 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/sell.cpp
 	"modules/sell.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -2449,7 +2468,7 @@
 	"common/include.hpp"
 	"resources/type.hpp"
 
-1727113211 /home/dave/Development/wizardry/sorcery-sfml/inc/core/state.hpp
+1732830022 /home/dave/Development/wizardry/sorcery-sfml/inc/core/state.hpp
 	"common/include.hpp"
 	"core/define.hpp"
 	"core/include.hpp"
@@ -2813,7 +2832,7 @@
 1727113180 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/random.cpp
 	"core/random.hpp"
 
-1727113281 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/state.cpp
+1732831945 source:/home/dave/Development/wizardry/sorcery-sfml/src/core/state.cpp
 	"core/state.hpp"
 	"core/system.hpp"
 	"resources/itemstore.hpp"
@@ -3540,7 +3559,7 @@
 	"types/character.hpp"
 	"types/component.hpp"
 
-1731955087 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/shop.cpp
+1732564252 source:/home/dave/Development/wizardry/sorcery-sfml/src/modules/shop.cpp
 	"modules/shop.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -3557,6 +3576,7 @@
 	"gui/frame.hpp"
 	"gui/menu.hpp"
 	"gui/partypanel.hpp"
+	"modules/buy.hpp"
 	"modules/sell.hpp"
 	"resources/componentstore.hpp"
 	"resources/factory.hpp"
@@ -4085,12 +4105,12 @@
 	"types/itemtype.hpp"
 	"types/monstertype.hpp"
 
-1732563416 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/menupaged.hpp
+1732831087 /home/dave/Development/wizardry/sorcery-sfml/inc/gui/menupaged.hpp
 	"common/include.hpp"
 	"common/type.hpp"
 	"types/enum.hpp"
 
-1732381521 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menupaged.cpp
+1732831567 source:/home/dave/Development/wizardry/sorcery-sfml/src/gui/menupaged.cpp
 	"gui/menupaged.hpp"
 	"common/enum.hpp"
 	"common/macro.hpp"
@@ -4111,4 +4131,8 @@
 	"types/configfile.hpp"
 	"types/itemtype.hpp"
 	"types/monstertype.hpp"
+
+1732564185 /home/dave/Development/wizardry/sorcery-sfml/inc/modules/buy.hpp
+	"common/include.hpp"
+	"modules/enum.hpp"
 

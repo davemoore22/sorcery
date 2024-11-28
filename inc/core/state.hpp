@@ -97,6 +97,15 @@ class State {
 		auto get_log_messages(unsigned int last = 0) const
 			-> std::vector<ConsoleMessage>;
 		auto print() -> void;
+		auto check_shop_stock(const ITT item_type) const -> int;
+		auto check_shop_will_sell(const ITT item_type) const -> bool;
+		auto check_shop_will_buy(const ITT item_type) const -> bool;
+		auto sell_to_shop(ItemStore *itemstore, const ITT item_type)
+			-> int; // + Gold
+		auto buy_from_shop(ItemStore *itemstore, const ITT item_type)
+			-> int; // - Gold
+		auto get_shop_display(ItemStore *itemstore, const ITT item_type)
+			-> std::string;
 
 	private:
 

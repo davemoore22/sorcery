@@ -81,7 +81,7 @@ auto Sorcery::Buy::start(const unsigned int character_id)
 	// Setup Custom Components
 
 	_menu = std::make_unique<MenuPaged>(
-		_system, _display, _graphics, _game, MTP::BUY_ITEMS, 10);
+		_system, _display, _graphics, _game, MTP::BUY_ITEMS, 7);
 	_menu->set_current_page(0);
 
 	const auto menu_c{(*_display->layout)["buy:menu"]};
@@ -146,10 +146,10 @@ auto Sorcery::Buy::_draw() -> void {
 	// Custom Components
 	_display->display("buy");
 	_window->draw(*_party_panel);
-	_window->draw(*_menu);
 
 	_menu->generate((*_display->layout)["shop_action:menu"]);
 	_window->draw(*_menu);
+
 	_display->window->draw_text(
 		_action_gold, (*_display->layout)["shop_action:action_gold"], _gold);
 	_display->window->draw_text(

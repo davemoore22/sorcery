@@ -39,7 +39,7 @@ Sorcery::State::State(System *system) : _system{system} {
 
 auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
 
-	for (int id = 1; id < 101; id++) {
+	for (int id = 0; id < 101; id++) {
 		const auto item_type{
 			(*itemstore)[magic_enum::enum_cast<ITT>(id).value()]};
 		_shop[id] = {item_type.get_shop_inital_stock(),
@@ -305,4 +305,56 @@ auto Sorcery::State::get_log_messages(unsigned int last) const
 		std::vector<ConsoleMessage> results{_log.cend() - last, _log.cend()};
 		return results;
 	}
+}
+
+auto Sorcery::State::check_shop_stock(const ITT item_type) const -> int {
+
+	return _shop[unenum(item_type)].current_stock;
+}
+
+auto Sorcery::State::check_shop_will_sell(const ITT item_type) const -> bool {
+
+	return _shop[unenum(item_type)].sellable;
+}
+
+auto Sorcery::State::check_shop_will_buy(const ITT item_type) const -> bool {
+
+	return _shop[unenum(item_type)].buyable;
+}
+
+auto Sorcery::State::sell_to_shop(ItemStore *itemstore, const ITT item_type)
+	-> int {
+
+	if (_shop[unenum(item_type)].current_stock != -1) {
+		++_shop[unenum(item_type)].current_stock;
+		return (*itemstore)[item_type].get_value() / 2;
+	} else
+		return 0;
+}
+
+auto Sorcery::State::buy_from_shop(ItemStore *itemstore, const ITT item_type)
+	-> int {
+
+	if (_shop[unenum(item_type)].current_stock > 0) {
+		--_shop[unenum(item_type)].current_stock;
+		return 0 - (*itemstore)[item_type].get_value();
+	} else
+		return 0;
+}
+
+auto Sorcery::State::get_shop_display(ItemStore *itemstore, const ITT item_type)
+	-> std::string {
+
+	const auto item{(*itemstore)[item_type]};
+	const std::string flag{std::invoke([&] {
+		if (_shop[unenum(item_type)].current_stock == -1)
+			return std::string{"(*)"};
+		else
+			return fmt::format("({})", _shop[unenum(item_type)].current_stock);
+	})};
+
+	const std::string line{fmt::format("{:>16} {:<5} {:>7} GP",
+		item.get_known_name(), flag, item.get_value())};
+
+	return line;
 }

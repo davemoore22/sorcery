@@ -1,27 +1,17 @@
-# Sorcery: Shadows under Llylgamyn
+# Sorcery
 
 An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully in 2025.
 
 Written using SFML, TGUI, and C++.
 
-**(Updated 17th November 2024)**
+**(Updated 28th November 2024)**
 
-![](/promo/screen1.png)
-![](/promo/screen23.png)
-![](/promo/screen22.png)
-![](/promo/screen20.png)
 ![](/promo/screen7.png)
+![](/promo/screen25.png)
+![](/promo/screen23.png)
+![](/promo/screen20.png)
 ![](/promo/screen18.png)
 ![](/promo/screen15.png)
-![](/promo/screen24.png)
-
-Watch some (older) videos of gameplay:
-
-[![Compendium Browsing](https://img.youtube.com/vi/TSj7Rw3l3Iw/maxresdefault.jpg)](https://youtu.be/TSj7Rw3l3Iw)
-[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
-[![Dungeon Events](https://img.youtube.com/vi/RG25iYrPBlg/maxresdefault.jpg)](https://youtu.be/RG25iYrPBlg)
-
-See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag>
 
 ## Progress Update
 
@@ -61,7 +51,7 @@ See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAH
 
 ## What next? (as of November 2024)
 
-Currently adding Item Usage and Item Invocation, as well as buying, selling, uncursing, and identifying at Boltacs. Normal inventory management has been mosty completed!
+Currently adding Item Usage/Invocation, as well as buying, selling, uncursing, and identifying at Boltac's. Normal inventory management has been mosty completed!
 
 Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru>.
 
@@ -88,8 +78,21 @@ Graphics used (all free/open source) are by:
 
 Game font is based upon the DOS Wizardry V font.
 
+## Videos
+
+Watch some (older) gameplay:
+
+[![Compendium Browsing](https://img.youtube.com/vi/TSj7Rw3l3Iw/maxresdefault.jpg)](https://youtu.be/TSj7Rw3l3Iw)
+[![Entering the Dungeon](https://img.youtube.com/vi/AQ9LhK0ta8A/maxresdefault.jpg)](https://youtu.be/AQ9LhK0ta8A)
+[![Dungeon Events](https://img.youtube.com/vi/RG25iYrPBlg/maxresdefault.jpg)](https://youtu.be/RG25iYrPBlg)
+
+See other gameplay videos at <https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag>
+
 ## Screenshots
 
+![](/promo/screen1.png)
+![](/promo/screen24.png)
+![](/promo/screen22.png)
 ![](/promo/screen16.png)
 ![](/promo/screen21.png)
 ![](/promo/screen17.png)

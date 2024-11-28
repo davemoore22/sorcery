@@ -376,6 +376,9 @@ auto Sorcery::MenuPaged::_load_entries() -> unsigned int {
 	case MTP::BESTIARY:
 		_add_bestiary_creatures();
 		break;
+	case MTP::BUY_ITEMS:
+		_add_shop_stock();
+		break;
 	default:
 		break;
 	};
@@ -398,6 +401,21 @@ auto Sorcery::MenuPaged::_add_bestiary_creatures() -> void {
 			_add_item(unenum(monster.get_type_id()), MIT::ENTRY, MIM::MU_ITEM,
 				monster.get_known_name(), true);
 	}
+}
+
+// Generate the Shop Stock Menu
+auto Sorcery::MenuPaged::_add_shop_stock() -> void {
+
+	const auto item_types{_game->itemstore->get_all_types()};
+	for (auto &item_type : item_types) {
+		const auto in_stock{
+			_game->state->check_shop_stock(item_type.get_type_id()) > 0 ||
+			_game->state->check_shop_stock(item_type.get_type_id()) == -1};
+		if (item_type.get_sell() && in_stock)
+			_add_item(unenum(item_type.get_type_id()), MIT::ENTRY, MIM::MU_ITEM,
+				_game->state->get_shop_display(
+					_game->itemstore.get(), item_type.get_type_id()));
+	};
 }
 
 // Add an item to the Menu

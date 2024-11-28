@@ -83,6 +83,7 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 		auto _add_item(const int index, const MIT item_type, const MIM code,
 			std::string key, const bool enabled = true) -> void;
 		auto _add_bestiary_creatures() -> void;
+		auto _add_shop_stock() -> void;
 		auto _get_first_enabled() -> std::optional<unsigned int>;
 		auto _load_entries() -> unsigned int;
 		auto _refresh_contents() -> void;

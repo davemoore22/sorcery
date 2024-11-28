@@ -3987,11 +3987,11 @@
 					"font": "monospace",
 					"colour": "0xffffffff",
 					"size": "24",
-					"string": "SHOP_SELL_CHOOSE",
+					"string": "SHOP_BUY_CHOOSE",
 					"justification": "centre",
 					"type": "text",
 					"priority": "4",
-					"drawmode": "manual"
+					"drawmode": "automatic"
 				},
 				{
 					"name": "frame",
