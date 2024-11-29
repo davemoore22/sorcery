@@ -69,6 +69,7 @@ class MenuPaged: public sf::Transformable, public sf::Drawable {
 		auto set_current_page(const unsigned int value) -> void;
 		auto set_mouse_selected(sf::Vector2f mouse_pos)
 			-> std::optional<unsigned int>;
+		auto set_items_for_character(Character *character) -> void;
 
 		// Public Members
 		std::vector<MenuEntry> items;	   // Visible Items (a Window of _Items)

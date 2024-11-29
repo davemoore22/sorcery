@@ -322,6 +322,32 @@ auto Sorcery::MenuPaged::choose_next() -> std::optional<unsigned int> {
 	return std::nullopt;
 }
 
+auto Sorcery::MenuPaged::set_items_for_character(Character *character) -> void {
+
+	if (_type != MTP::BUY_ITEMS)
+		return;
+
+	// first Check to see if we have space to actually buy something
+	if (character->inventory.get_empty_slots() == 0) {
+		for (auto &item : items) {
+			if (item.type == MIT::ENTRY)
+				item.enabled = false;
+		}
+	} else
+		for (auto &item : items) {
+			if (item.type == MIT::ENTRY) {
+
+				// Now the index of the menu entry is the item type
+				const auto shop_item_type{
+					magic_enum::enum_cast<ITT>(item.index).value()};
+				const auto shop_item{(*_game->itemstore.get())[shop_item_type]};
+
+				// Enable for Gold etc
+				item.enabled = shop_item.get_value() < character->get_gold();
+			}
+		}
+}
+
 // Reload the Contents of the Menu (for use in Paging)
 auto Sorcery::MenuPaged::_refresh_contents() -> void {
 

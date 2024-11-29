@@ -57,9 +57,6 @@ Sorcery::Buy::Buy(
 	_console = std::make_unique<Console>(
 		_display->window->get_gui(), _system, _display, _graphics, _game);
 	_game->hide_console();
-
-	_action_gold = sf::Text();
-	_action_name = sf::Text();
 }
 
 // Standard Destructor
@@ -79,15 +76,15 @@ auto Sorcery::Buy::start(const unsigned int character_id)
 	_party_panel->refresh();
 
 	// Setup Custom Components
-
 	_menu = std::make_unique<MenuPaged>(
 		_system, _display, _graphics, _game, MTP::BUY_ITEMS, 7);
 	_menu->set_current_page(0);
+	_menu->set_items_for_character(&_game->characters.at(character_id));
 
 	const auto menu_c{(*_display->layout)["buy:menu"]};
 	_menu->generate(menu_c, true);
 	_menu->setPosition(_display->get_centre_x(_menu->get_width()),
-		(*_display->layout)["sell:menu"].y);
+		(*_display->layout)["buy:menu"].y);
 
 	// Generate the Components
 	const Component party_panel_c{(*_display->layout)["global:party_panel"]};
@@ -96,6 +93,8 @@ auto Sorcery::Buy::start(const unsigned int character_id)
 
 	// And do the main loop
 	_display->set_input_mode(WIM::NAVIGATE_MENU);
+
+	_selected = 0;
 
 	sf::Event event{};
 	while (_window->isOpen()) {
@@ -123,6 +122,31 @@ auto Sorcery::Buy::start(const unsigned int character_id)
 
 				if (_system->input->check(CIN::BACK, event))
 					return std::nullopt;
+
+				if (_system->input->check(CIN::UP, event)) {
+					_selected = _menu->choose_previous();
+					const auto menu_c{(*_display->layout)["buy:menu"]};
+					_menu->generate(menu_c, true);
+				} else if (_system->input->check(CIN::DOWN, event)) {
+					_selected = _menu->choose_next();
+					const auto menu_c{(*_display->layout)["buy:menu"]};
+					_menu->generate(menu_c, true);
+				} else if (_system->input->check(CIN::LEFT, event)) {
+					_selected = _menu->go_to_previous_page();
+					const auto menu_c{(*_display->layout)["buy:menu"]};
+					_menu->generate(menu_c, true);
+				} else if (_system->input->check(CIN::RIGHT, event)) {
+					_selected = _menu->go_to_next_page();
+					const auto menu_c{(*_display->layout)["bestiary:menu"]};
+					_menu->generate(menu_c, true);
+				} else if (_system->input->check(CIN::MOVE, event)) {
+					_selected = _menu->set_mouse_selected(_display->get_cur());
+					if (_selected) {
+						const auto menu_c{(*_display->layout)["bestiary:menu"]};
+						_menu->generate(menu_c, true);
+					}
+				} else if (_system->input->check(CIN::CONFIRM, event)) {
+				}
 			}
 		}
 
@@ -147,25 +171,10 @@ auto Sorcery::Buy::_draw() -> void {
 	_display->display("buy");
 	_window->draw(*_party_panel);
 
-	_menu->generate((*_display->layout)["shop_action:menu"]);
+	_menu->generate((*_display->layout)["buy:menu"]);
 	_window->draw(*_menu);
-
-	_display->window->draw_text(
-		_action_gold, (*_display->layout)["shop_action:action_gold"], _gold);
-	_display->window->draw_text(
-		_action_name, (*_display->layout)["shop_action:action_name"], _name);
 
 	// Always draw the following
 	_display->display_overlay();
 	_display->display_cursor();
-}
-
-auto Sorcery::Buy::_update_welcome() -> void {
-
-	const auto character{_game->characters[_chosen_char_id]};
-
-	_gold = fmt::format("{} {} {}", (*_display->string)["SHOP_GOLD_PREFIX"],
-		character.get_gold(), (*_display->string)["SHOP_GOLD_SUFFIX"]);
-	_name = fmt::format("{} {}", (*_display->string)["SHOP_WELCOME_PREFIX"],
-		character.get_name());
 }

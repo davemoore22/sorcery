@@ -62,7 +62,6 @@ class Buy {
 
 		// Private Methods
 		auto _draw() -> void;
-		auto _update_welcome() -> void;
 
 		// Private Members
 		System *_system;
@@ -78,10 +77,7 @@ class Buy {
 		bool _show_console;
 		Character *_character;
 		unsigned int _chosen_char_id;
-		sf::Text _action_gold;
-		sf::Text _action_name;
-		std::string _gold;
-		std::string _name;
+		std::optional<unsigned int> _selected;
 };
 
 }

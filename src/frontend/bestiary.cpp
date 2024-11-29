@@ -238,6 +238,7 @@ auto Sorcery::Bestiary::_handle_input(const sf::Event &event)
 
 		// We have selected something from the menu
 		if (_selected) {
+			// TODO
 			// const MIM opt{(*_selected.value()).item};
 			// if (opt == MIM::ITEM_RETURN)
 			//	return MDR::BACK;
