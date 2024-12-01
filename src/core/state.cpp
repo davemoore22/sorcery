@@ -354,7 +354,7 @@ auto Sorcery::State::get_shop_display(ItemStore *itemstore, const ITT item_type)
 	})};
 
 	const std::string line{fmt::format("{:>16} {:<5} {:>7} GP",
-		item.get_known_name(), flag, item.get_value())};
+		item.get_display_name(), flag, item.get_value())};
 
 	return line;
 }

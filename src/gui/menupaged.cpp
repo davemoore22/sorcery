@@ -358,10 +358,18 @@ auto Sorcery::MenuPaged::_refresh_contents() -> void {
 	auto hint{""s};
 	auto non_entry_index{_items.size()};
 
+	const auto prev_str{std::invoke([&] {
+		if (_type == MTP::BUY_ITEMS)
+			return fmt::format(
+				"{:^32}", (*_display->string)["MENU_PREVIOUS_PAGE"]);
+		else
+			return (*_display->string)["MENU_PREVIOUS_PAGE"];
+	})};
+
 	// Do we enable the Previous Page Entry?
 	const auto prev_on{_current_page > 0};
 	items.emplace_back(non_entry_index++, MIT::PREVIOUS, MIM::MI_PREVIOUS_PAGE,
-		(*_display->string)["MENU_PREVIOUS_PAGE"], prev_on, CFG::NONE,
+		prev_str, prev_on, CFG::NONE,
 		hint); // Use _items.size() + 1 as index to avoid overlap
 
 	// Now work out what page we are on, and therefore what items we need to
@@ -382,14 +390,28 @@ auto Sorcery::MenuPaged::_refresh_contents() -> void {
 				(*_display->string)["MENU_SPACER"], false, CFG::NONE, hint);
 	}
 
+	const auto next_str{std::invoke([&] {
+		if (_type == MTP::BUY_ITEMS)
+			return fmt::format("{:^32}", (*_display->string)["MENU_NEXT_PAGE"]);
+		else
+			return (*_display->string)["MENU_NEXT_PAGE"];
+	})};
+
+	const auto return_str{std::invoke([&] {
+		if (_type == MTP::BUY_ITEMS)
+			return fmt::format("{:^32}", (*_display->string)["MENU_GO_BACK"]);
+		else
+			return (*_display->string)["MENU_GO_BACK"];
+	})};
+
 	// And then the previous and back entries
 	const auto next_on{
 		_current_page <
 		(std::floor(static_cast<float>(_resized_item_count) / _page_size)) - 1};
 	items.emplace_back(non_entry_index++, MIT::NEXT, MIM::MI_NEXT_PAGE,
-		(*_display->string)["MENU_NEXT_PAGE"], next_on, CFG::NONE, hint);
+		next_str, next_on, CFG::NONE, hint);
 	items.emplace_back(non_entry_index++, MIT::CANCEL, MIM::MI_GO_BACK,
-		(*_display->string)["MENU_GO_BACK"], true, CFG::NONE, hint);
+		return_str, true, CFG::NONE, hint);
 }
 
 // Load the Menu Items

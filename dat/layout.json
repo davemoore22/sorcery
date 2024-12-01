@@ -4027,7 +4027,7 @@
 					"colour": "0xffffffff",
 					"size": "24",
 					"animated": "true",
-					"width": "25",
+					"width": "32",
 					"background": " 0xff0000ff",
 					"justification": "centre",
 					"type": "menu",

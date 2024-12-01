@@ -133,16 +133,20 @@ auto Sorcery::Buy::start(const unsigned int character_id)
 					_menu->generate(menu_c, true);
 				} else if (_system->input->check(CIN::LEFT, event)) {
 					_selected = _menu->go_to_previous_page();
+					_menu->set_items_for_character(
+						&_game->characters.at(character_id));
 					const auto menu_c{(*_display->layout)["buy:menu"]};
 					_menu->generate(menu_c, true);
 				} else if (_system->input->check(CIN::RIGHT, event)) {
 					_selected = _menu->go_to_next_page();
-					const auto menu_c{(*_display->layout)["bestiary:menu"]};
+					_menu->set_items_for_character(
+						&_game->characters.at(character_id));
+					const auto menu_c{(*_display->layout)["buy:menu"]};
 					_menu->generate(menu_c, true);
 				} else if (_system->input->check(CIN::MOVE, event)) {
 					_selected = _menu->set_mouse_selected(_display->get_cur());
 					if (_selected) {
-						const auto menu_c{(*_display->layout)["bestiary:menu"]};
+						const auto menu_c{(*_display->layout)["buy:menu"]};
 						_menu->generate(menu_c, true);
 					}
 				} else if (_system->input->check(CIN::CONFIRM, event)) {
