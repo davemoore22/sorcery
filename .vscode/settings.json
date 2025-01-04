@@ -142,8 +142,7 @@
 	"editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'Monaco', 'ProggyVector', 'Hack Nerd Font Mono', 'Comic Mono', Monaco, 'monospace', monospace",
 	"cmake.debugConfig": {
 		"args": [
-			"-skip-intro",
-			"-new-game",
+			"-skip-intro"
 		]
 	},
 	"cmake.configureArgs": [
