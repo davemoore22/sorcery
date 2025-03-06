@@ -2,9 +2,12 @@
 
 An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully later in 2025.
 
-Written using SFML, TGUI, and C++.
+~~Written using SFML, TGUI, and C++.~~
 
-**(Updated 28th November 2024)**
+Written using ImGui/SDL2/OpenGL and C++
+<br>(*Note that some re-engineering is currently in progress to move to a more flexible/easier-to-use UI stack.<br>This should not affect the aimed release date of late 2025!*)
+
+**(Updated 9th March 2025)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
