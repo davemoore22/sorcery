@@ -32,3 +32,26 @@
 *.app
 ext
 collateral
+
+# Binaries
+bin/*
+build/*
+obj/*
+.debris/*
+
+# Temporary Files
+*.swp
+
+bin/Debug/sorcery-sfml
+bin/Debug/dat/strings.json
+profiler_analysis.stats
+inc/3rdparty/cereal
+inc/3rdparty/simpleini
+inc/3rdparty/magic_enum
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+sorcery
+inc/modules
