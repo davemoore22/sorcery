@@ -5,9 +5,9 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 ~~Written using SFML, TGUI, and C++.~~
 
 Written using ImGui/SDL2/OpenGL and C++
-<br>(*Note that some re-engineering is currently in progress to move to a more flexible/easier-to-use UI stack.<br>This should not affect the aimed release date of late 2025!*)
+<br>(*Note that some re-engineering is currently in progress to move to a more flexible/easier-to-use UI stack This should not affect the aimed release date of late 2025!<p>For daily updates and progress on that see the [sdl/imgui branch](https://github.com/davemoore22/sorcery/tree/sdl/imgui)*)
 
-**(Updated 9th March 2025)**
+**(Updated 14th May 2025)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
