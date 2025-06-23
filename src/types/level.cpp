@@ -164,25 +164,24 @@ auto Sorcery::Level::at(const Coordinate loc,
 						const Enums::Map::Direction direction, const int x,
 						const int z) -> Tile & {
 
-	using Enums::Map::Direction;
-
 	// Needs to be done seperately since levels have an extra row/column, and we
 	// must also remember that N/E is actually y/x
 	Coordinate dest{loc};
 	switch (direction) {
-	case Direction::NORTH: {
+		using enum Enums::Map::Direction;
+	case NORTH: {
 		dest.x = loc.x + x;
 		dest.y = loc.y + z;
 	} break;
-	case Direction::SOUTH: {
+	case SOUTH: {
 		dest.x = loc.x - x;
 		dest.y = loc.y - z;
 	} break;
-	case Direction::EAST: {
+	case EAST: {
 		dest.x = loc.x + z;
 		dest.y = loc.y - x;
 	} break;
-	case Direction::WEST: {
+	case WEST: {
 		dest.x = loc.x - z;
 		dest.y = loc.y + x;
 	} break;
@@ -254,54 +253,53 @@ auto Sorcery::Level::_create() -> void {
 
 auto Sorcery::Level::_add_event_mappings() -> void {
 
-	using Enums::Map::Event;
+	using enum Enums::Map::Event;
 
 	_event_mappings.clear();
 
-	_event_mappings["AREA_OUT_OF_BOUNDS"] = Event::AREA_OF_OUT_BOUNDS;
+	_event_mappings["AREA_OUT_OF_BOUNDS"] = AREA_OF_OUT_BOUNDS;
 
-	_event_mappings["MAN_TELEPORT_CASTLE"] = Event::MAN_TELEPORT_CASTLE;
-	_event_mappings["SILVER_KEY"] = Event::SILVER_KEY;
-	_event_mappings["BRONZE_KEY"] = Event::BRONZE_KEY;
-	_event_mappings["MURPHYS_GHOSTS"] = Event::MURPHYS_GHOSTS;
-	_event_mappings["BEAR_STATUE"] = Event::BEAR_STATUE;
-	_event_mappings["FROG_STATUE"] = Event::FROG_STATUE;
-	_event_mappings["GOLD_KEY"] = Event::GOLD_KEY;
-	_event_mappings["NEED_SILVER_KEY"] = Event::NEED_SILVER_KEY;
-	_event_mappings["NEED_BRONZE_KEY"] = Event::NEED_BRONZE_KEY;
-	_event_mappings["NEED_BEAR_STATUE"] = Event::NEED_BEAR_STATUE;
+	_event_mappings["MAN_TELEPORT_CASTLE"] = MAN_TELEPORT_CASTLE;
+	_event_mappings["SILVER_KEY"] = SILVER_KEY;
+	_event_mappings["BRONZE_KEY"] = BRONZE_KEY;
+	_event_mappings["MURPHYS_GHOSTS"] = MURPHYS_GHOSTS;
+	_event_mappings["BEAR_STATUE"] = BEAR_STATUE;
+	_event_mappings["FROG_STATUE"] = FROG_STATUE;
+	_event_mappings["GOLD_KEY"] = GOLD_KEY;
+	_event_mappings["NEED_SILVER_KEY"] = NEED_SILVER_KEY;
+	_event_mappings["NEED_BRONZE_KEY"] = NEED_BRONZE_KEY;
+	_event_mappings["NEED_BEAR_STATUE"] = NEED_BEAR_STATUE;
 
-	_event_mappings["NEED_FROG_STATUE"] = Event::NEED_FROG_STATUE;
-	_event_mappings["PLACARD_PIT_1"] = Event::PLACARD_PIT_1;
-	_event_mappings["PLACARD_PIT_2"] = Event::PLACARD_PIT_2;
-	_event_mappings["PLACARD_PIT_3"] = Event::PLACARD_PIT_3;
-	_event_mappings["TURN_AROUND"] = Event::TURN_AROUND;
-	_event_mappings["TURN_LEFT"] = Event::TURN_LEFT;
-	_event_mappings["TURN_RIGHT"] = Event::TURN_RIGHT;
+	_event_mappings["NEED_FROG_STATUE"] = NEED_FROG_STATUE;
+	_event_mappings["PLACARD_PIT_1"] = PLACARD_PIT_1;
+	_event_mappings["PLACARD_PIT_2"] = PLACARD_PIT_2;
+	_event_mappings["PLACARD_PIT_3"] = PLACARD_PIT_3;
+	_event_mappings["TURN_AROUND"] = TURN_AROUND;
+	_event_mappings["TURN_LEFT"] = TURN_LEFT;
+	_event_mappings["TURN_RIGHT"] = TURN_RIGHT;
 	_event_mappings["NEED_BEAR_STATUE_2"] =
 		Enums::Map::Event::NEED_BEAR_STATUE_2;
-	_event_mappings["TESTING_GROUNDS"] = Event::TESTING_GROUNDS;
-	_event_mappings["ALARM_BELLS"] = Event::ALARM_BELLS;
+	_event_mappings["TESTING_GROUNDS"] = TESTING_GROUNDS;
+	_event_mappings["ALARM_BELLS"] = ALARM_BELLS;
 
-	_event_mappings["TREASURE_REPOSITORY"] = Event::TREASURE_REPOSITORY;
-	_event_mappings["MONSTER_ALLOCATION_CENTRE"] =
-		Event::MONSTER_ALLOCATION_CENTRE;
-	_event_mappings["LARGE_DESK"] = Event::LARGE_DESK;
-	_event_mappings["TREBOR_VOICE"] = Event::TREBOR_VOICE;
-	_event_mappings["SERVICE_ELEVATOR"] = Event::SERVICE_ELEVATOR;
-	_event_mappings["WERDNA_BOAST"] = Event::WERDNA_BOAST;
-	_event_mappings["TURN_BACK"] = Event::TURN_BACK;
-	_event_mappings["WERDNA_SIGN"] = Event::WERDNA_SIGN;
-	_event_mappings["THREE_HUMANOIDS"] = Event::THREE_HUMANOIDS;
-	_event_mappings["GETTING_WARM_1"] = Event::GETTING_WARM_1;
+	_event_mappings["TREASURE_REPOSITORY"] = TREASURE_REPOSITORY;
+	_event_mappings["MONSTER_ALLOCATION_CENTRE"] = MONSTER_ALLOCATION_CENTRE;
+	_event_mappings["LARGE_DESK"] = LARGE_DESK;
+	_event_mappings["TREBOR_VOICE"] = TREBOR_VOICE;
+	_event_mappings["SERVICE_ELEVATOR"] = SERVICE_ELEVATOR;
+	_event_mappings["WERDNA_BOAST"] = WERDNA_BOAST;
+	_event_mappings["TURN_BACK"] = TURN_BACK;
+	_event_mappings["WERDNA_SIGN"] = WERDNA_SIGN;
+	_event_mappings["THREE_HUMANOIDS"] = THREE_HUMANOIDS;
+	_event_mappings["GETTING_WARM_1"] = GETTING_WARM_1;
 
-	_event_mappings["GETTING_WARM_2"] = Event::GETTING_WARM_2;
-	_event_mappings["GETTING_WARM_3"] = Event::GETTING_WARM_3;
-	_event_mappings["FIRE_DRAGONS_COMBAT"] = Event::FIRE_DRAGONS_COMBAT;
-	_event_mappings["DEADLY_RING_COMBAT"] = Event::DEADLY_RING_COMBAT;
-	_event_mappings["WERDNA_COMBAT"] = Event::WERDNA_COMBAT;
-	_event_mappings["GUARANTEED_COMBAT"] = Event::GUARANTEED_COMBAT;
-	_event_mappings["NEED_BLUE_RIBBON"] = Event::NEED_BLUE_RIBBON;
+	_event_mappings["GETTING_WARM_2"] = GETTING_WARM_2;
+	_event_mappings["GETTING_WARM_3"] = GETTING_WARM_3;
+	_event_mappings["FIRE_DRAGONS_COMBAT"] = FIRE_DRAGONS_COMBAT;
+	_event_mappings["DEADLY_RING_COMBAT"] = DEADLY_RING_COMBAT;
+	_event_mappings["WERDNA_COMBAT"] = WERDNA_COMBAT;
+	_event_mappings["GUARANTEED_COMBAT"] = GUARANTEED_COMBAT;
+	_event_mappings["NEED_BLUE_RIBBON"] = NEED_BLUE_RIBBON;
 }
 
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
@@ -535,18 +533,16 @@ auto Sorcery::Level::_fill_in_simple_walls() -> bool {
 auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 	-> void {
 
-	using Enums::Map::Direction;
-
 	auto &tile{_tiles.at(location)};
-	auto north_edge{tile.wall(Direction::NORTH)};
-
+	using enum Enums::Map::Direction;
+	auto north_edge{tile.wall(NORTH)};
 	using enum Enums::Tile::Edge;
 	if (north_edge == NO_EDGE) {
 
 		// Check north adjacent wall (i.e. south wall of above tile)
 		auto adj_north{
 			_tiles.at(Coordinate{location.x, get_delta_y(location.y, 1)})};
-		auto adj_north_edge{adj_north.wall(Direction::SOUTH)};
+		auto adj_north_edge{adj_north.wall(SOUTH)};
 
 		switch (adj_north_edge) {
 		case UNLOCKED_DOOR:
@@ -556,20 +552,20 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 		case SECRET_DOOR: // TODO:: secret walls
 			[[fallthrough]];
 		case LOCKED_DOOR:
-			tile.set(Direction::NORTH, adj_north_edge);
+			tile.set(NORTH, adj_north_edge);
 			break;
 		default:
 			break;
 		}
 	}
 
-	auto south_edge{tile.wall(Direction::SOUTH)};
+	auto south_edge{tile.wall(SOUTH)};
 	if (south_edge == NO_EDGE) {
 
 		// Check south adjacent wall (i.e. borth wall of below tile)
 		auto adj_south{
 			_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
-		auto adj_south_edge{adj_south.wall(Direction::NORTH)};
+		auto adj_south_edge{adj_south.wall(NORTH)};
 
 		switch (adj_south_edge) {
 		case UNLOCKED_DOOR:
@@ -579,20 +575,20 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 		case SECRET_DOOR:
 			[[fallthrough]];
 		case LOCKED_DOOR:
-			tile.set(Direction::SOUTH, adj_south_edge);
+			tile.set(SOUTH, adj_south_edge);
 			break;
 		default:
 			break;
 		}
 	}
 
-	auto west_edge{tile.wall(Direction::WEST)};
+	auto west_edge{tile.wall(WEST)};
 	if (west_edge == NO_EDGE) {
 
 		// Check west adjacent wall (i.e. east wall of left tile)
 		auto adj_west{
 			_tiles.at(Coordinate{get_delta_x(location.x, -1), location.y})};
-		auto adj_west_edge{adj_west.wall(Direction::EAST)};
+		auto adj_west_edge{adj_west.wall(EAST)};
 
 		switch (adj_west_edge) {
 		case UNLOCKED_DOOR:
@@ -602,20 +598,20 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 		case SECRET_DOOR:
 			[[fallthrough]];
 		case LOCKED_DOOR:
-			tile.set(Direction::WEST, adj_west_edge);
+			tile.set(WEST, adj_west_edge);
 			break;
 		default:
 			break;
 		}
 	}
 
-	auto east_edge{tile.wall(Direction::EAST)};
+	auto east_edge{tile.wall(EAST)};
 	if (east_edge == NO_EDGE) {
 
 		// Check west adjacent wall (i.e. east wall of left tile)
 		auto adj_east{
 			_tiles.at(Coordinate{get_delta_x(location.x, 1), location.y})};
-		auto adj_east_edge{adj_east.wall(Direction::WEST)};
+		auto adj_east_edge{adj_east.wall(WEST)};
 
 		switch (adj_east_edge) {
 		case UNLOCKED_DOOR:
@@ -625,7 +621,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 		case SECRET_DOOR:
 			[[fallthrough]];
 		case LOCKED_DOOR:
-			tile.set(Direction::EAST, adj_east_edge);
+			tile.set(EAST, adj_east_edge);
 			break;
 		default:
 			break;
@@ -649,53 +645,51 @@ auto Sorcery::Level::_update_tile_markers(
 	const Coordinate location, const bool darkness, const unsigned int marker,
 	[[maybe_unused]] const unsigned int terrain) -> void {
 
-	using Enums::Tile::Features;
-	using Enums::Tile::Properties;
-
 	// https://docs.gridcartographer.com/ref/table/marker
 	auto &tile{_tiles.at(location)};
 
 	if (darkness)
-		tile.set(Properties::DARKNESS);
+		tile.set(Enums::Tile::Properties::DARKNESS);
 	switch (marker) {
+		using enum Enums::Tile::Features;
 	case 1:
-		tile.set(Features::STAIRS_UP);
+		tile.set(STAIRS_UP);
 		break;
 	case 2:
-		tile.set(Features::STAIRS_DOWN);
+		tile.set(STAIRS_DOWN);
 		break;
 	case 4:
-		tile.set(Features::TELEPORT_FROM);
+		tile.set(TELEPORT_FROM);
 		break;
 	case 5:
-		tile.set(Features::TELEPORT_TO);
+		tile.set(TELEPORT_TO);
 		break;
 	case 7:
-		tile.set(Features::PIT);
+		tile.set(PIT);
 		break;
 	case 10:
-		tile.set(Features::PORTAL);
+		tile.set(PORTAL);
 		break;
 	case 11:
-		tile.set(Features::SPINNER);
+		tile.set(SPINNER);
 		break;
 	case 21:
-		tile.set(Features::ELEVATOR);
+		tile.set(ELEVATOR);
 		break;
 	case 25:
-		tile.set(Features::MESSAGE);
+		tile.set(MESSAGE);
 		break;
 	case 26:
-		tile.set(Features::LADDER_UP);
+		tile.set(LADDER_UP);
 		break;
 	case 27:
-		tile.set(Features::LADDER_DOWN);
+		tile.set(LADDER_DOWN);
 		break;
 	case 50:
-		tile.set(Features::CHUTE);
+		tile.set(CHUTE);
 		break;
 	case 108:
-		tile.set(Features::NOTICE);
+		tile.set(NOTICE);
 		break;
 
 	default:
@@ -703,12 +697,13 @@ auto Sorcery::Level::_update_tile_markers(
 	}
 
 	switch (terrain) {
+		using enum Enums::Tile::Properties;
 	case 34:
-		tile.set(Properties::ANTIMAGIC);
+		tile.set(ANTIMAGIC);
 		break;
 	case 35:
-		tile.set(Properties::ROCK);
-		tile.reset(Properties::WALKABLE);
+		tile.set(ROCK);
+		tile.reset(WALKABLE);
 		break;
 	default:
 		break;
@@ -723,20 +718,16 @@ auto Sorcery::Level::elevator_at(const Coordinate loc) -> bool {
 
 auto Sorcery::Level::stairs_at(const Coordinate loc) -> bool {
 
-	using Enums::Tile::Features;
-
+	using enum Enums::Tile::Features;
 	const auto &tile{_tiles.at(loc)};
-	return (
-		(tile.has(Features::LADDER_UP)) || (tile.has(Features::LADDER_DOWN)) ||
-		(tile.has(Features::STAIRS_UP)) || (tile.has(Features::STAIRS_DOWN)));
+	return ((tile.has(LADDER_UP)) || (tile.has(LADDER_DOWN)) ||
+			(tile.has(STAIRS_UP)) || (tile.has(STAIRS_DOWN)));
 }
 
 auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 												const unsigned int south_wall,
 												const unsigned int east_wall)
 	-> void {
-
-	using Enums::Map::Direction;
 
 	// OK, so this is a bit complicated due to GC only storing one set of walls
 	// per tile - we have to back fill in complicated walls (walls that differ
@@ -758,29 +749,30 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 
 	switch (south_wall) {
 		using enum Enums::Tile::Edge;
+		using enum Enums::Map::Direction;
 	case 5:
 		// One-way door (exiting left or up)
 
 		// Set south wall of current tile to wall
 		// Set north wall of adjacent tile to One-way door
-		tile.set(Direction::SOUTH, WALL);
-		adj_south.set(Direction::NORTH, ONE_WAY_DOOR);
+		tile.set(SOUTH, WALL);
+		adj_south.set(NORTH, ONE_WAY_DOOR);
 		break;
 	case 6:
 		// One-way hidden door (exiting left or up)
 
 		// Set south wall of current tile to wall
 		// Set north wall of adjacent tile to One-way hidden door
-		tile.set(Direction::SOUTH, WALL);
-		adj_south.set(Direction::NORTH, ONE_WAY_HIDDEN_DOOR);
+		tile.set(SOUTH, WALL);
+		adj_south.set(NORTH, ONE_WAY_HIDDEN_DOOR);
 		break;
 	case 7:
 		// One-way wall (exiting left or up)
 
 		// Set south wall of current tile to wall
 		// Set north wall of adjacent tile to One-way wall
-		tile.set(Direction::SOUTH, WALL);
-		adj_south.set(Direction::NORTH, ONE_WAY_WALL);
+		tile.set(SOUTH, WALL);
+		adj_south.set(NORTH, ONE_WAY_WALL);
 		break;
 
 	case 8:
@@ -788,24 +780,24 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 
 		// Set south wall of current tile to One-way door
 		// Set north wall of adjacent tile to wall
-		tile.set(Direction::SOUTH, ONE_WAY_DOOR);
-		adj_south.set(Direction::NORTH, WALL);
+		tile.set(SOUTH, ONE_WAY_DOOR);
+		adj_south.set(NORTH, WALL);
 		break;
 	case 9:
 		// One-way hidden door (exiting right or down)
 
 		// Set south wall of current tile to One-way hidden door
 		// Set north wall of adjacent tile to wall
-		tile.set(Direction::SOUTH, ONE_WAY_HIDDEN_DOOR);
-		adj_south.set(Direction::NORTH, WALL);
+		tile.set(SOUTH, ONE_WAY_HIDDEN_DOOR);
+		adj_south.set(NORTH, WALL);
 		break;
 	case 10:
 		// One-way wall (exiting right or down)
 
 		// Set south wall of current tile to One-way wall
 		// Set north wall of adjacent tile to wall
-		tile.set(Direction::SOUTH, ONE_WAY_WALL);
-		adj_south.set(Direction::NORTH, WALL);
+		tile.set(SOUTH, ONE_WAY_WALL);
+		adj_south.set(NORTH, WALL);
 		break;
 	default:
 		break;
@@ -817,29 +809,30 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 
 	switch (east_wall) {
 		using enum Enums::Tile::Edge;
+		using enum Enums::Map::Direction;
 	case 5:
 		// One-way door (exiting left or up)
 
 		// Set east wall of current tile to wall
 		// Set west wall of adjacent tile to One-way door
-		tile.set(Direction::EAST, WALL);
-		adj_east.set(Direction::WEST, ONE_WAY_DOOR);
+		tile.set(EAST, WALL);
+		adj_east.set(WEST, ONE_WAY_DOOR);
 		break;
 	case 6:
 		// One-way hidden door (exiting left or up)
 
 		// Set east wall of current tile to wall
 		// Set west wall of adjacent tile to One-way hidden door
-		tile.set(Direction::EAST, WALL);
-		adj_east.set(Direction::WEST, ONE_WAY_HIDDEN_DOOR);
+		tile.set(EAST, WALL);
+		adj_east.set(WEST, ONE_WAY_HIDDEN_DOOR);
 		break;
 	case 7:
 		// One-way wall (exiting left or up)
 
 		// Set east wall of current tile to wall
 		// Set west wall of adjacent tile to One-way wall
-		tile.set(Direction::EAST, WALL);
-		adj_east.set(Direction::WEST, ONE_WAY_WALL);
+		tile.set(EAST, WALL);
+		adj_east.set(WEST, ONE_WAY_WALL);
 		break;
 
 	case 8:
@@ -847,24 +840,24 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 
 		// Set east wall of current tile to One-way door
 		// Set west wall of adjacent tile to wall
-		tile.set(Direction::EAST, ONE_WAY_DOOR);
-		adj_east.set(Direction::WEST, WALL);
+		tile.set(EAST, ONE_WAY_DOOR);
+		adj_east.set(WEST, WALL);
 		break;
 	case 9:
 		// One-way hidden door (exiting right or down)
 
 		// Set east wall of current tile to One-way hidden door
 		// Set west wall of adjacent tile to wall
-		tile.set(Direction::EAST, ONE_WAY_HIDDEN_DOOR);
-		adj_east.set(Direction::WEST, WALL);
+		tile.set(EAST, ONE_WAY_HIDDEN_DOOR);
+		adj_east.set(WEST, WALL);
 		break;
 	case 10:
 		// One-way wall (exiting right or down)
 
 		// Set east wall of current tile to One-way wall
 		// Set west wall of adjacent tile to wall
-		tile.set(Direction::EAST, ONE_WAY_WALL);
-		adj_east.set(Direction::WEST, WALL);
+		tile.set(EAST, ONE_WAY_WALL);
+		adj_east.set(WEST, WALL);
 		break;
 	default:
 		break;

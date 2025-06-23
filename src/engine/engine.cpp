@@ -278,9 +278,6 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 // Remember Y is reversed
 auto Sorcery::Engine::_move_forward() -> bool {
 
-	using Enums::Tile::Features;
-	using Enums::Tile::Properties;
-
 	auto at_loc{_game->state->get_player_pos()};
 	auto x_d{at_loc.x};
 	auto y_d{at_loc.y};
@@ -325,22 +322,24 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		_controller->can_undo = true;
 
 		// Check for Darkness
+		using enum Enums::Tile::Properties;
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
-		if ((next_tile.is(Properties::DARKNESS)) && (_game->state->get_lit()))
+		if ((next_tile.is(DARKNESS)) && (_game->state->get_lit()))
 			_game->state->set_lit(false);
 
 		// Check for Stairs
+		using enum Enums::Tile::Features;
 		if (_game->state->level->stairs_at(next_loc)) {
 			const auto at_loc{_game->state->get_player_pos()};
 			if (const auto &to_tile{_game->state->level->at(at_loc)};
-				to_tile.has(Features::LADDER_UP)) {
+				to_tile.has(LADDER_UP)) {
 				_ui->dialog_stairs_up->show = true;
-			} else if (to_tile.has(Features::STAIRS_UP)) {
+			} else if (to_tile.has(STAIRS_UP)) {
 				_ui->dialog_stairs_up->show = true;
-			} else if (to_tile.has(Features::LADDER_DOWN)) {
+			} else if (to_tile.has(LADDER_DOWN)) {
 				_ui->dialog_stairs_down->show = true;
-			} else if (to_tile.has(Features::STAIRS_DOWN)) {
+			} else if (to_tile.has(STAIRS_DOWN)) {
 				_ui->dialog_stairs_down->show = true;
 			}
 		}
@@ -445,26 +444,23 @@ auto Sorcery::Engine::_go_up_a_level() -> void {
 
 auto Sorcery::Engine::_move_backward() -> bool {
 
-	using Enums::Map::Direction;
-	using Enums::Tile::Features;
-	using Enums::Tile::Properties;
-
 	// Work out our new position
 	auto at_loc{_game->state->get_player_pos()};
 	auto x_d{at_loc.x};
 	auto y_d{at_loc.y};
 
 	switch (_game->state->get_player_facing()) {
-	case Direction::NORTH:
+		using enum Enums::Map::Direction;
+	case NORTH:
 		--y_d;
 		break;
-	case Direction::SOUTH:
+	case SOUTH:
 		++y_d;
 		break;
-	case Direction::EAST:
+	case EAST:
 		--x_d;
 		break;
-	case Direction::WEST:
+	case WEST:
 		++x_d;
 		break;
 	default:
@@ -486,19 +482,20 @@ auto Sorcery::Engine::_move_backward() -> bool {
 	auto this_tile{_game->state->level->at(at_loc)};
 	const auto &next_tile{_game->state->level->at(next_loc)};
 
-	auto this_wall_to_check{Direction::NO_DIRECTION};
+	auto this_wall_to_check{Enums::Map::Direction::NO_DIRECTION};
 	switch (_game->state->get_player_facing()) {
-	case Direction::NORTH:
-		this_wall_to_check = Direction::SOUTH;
+		using enum Enums::Map::Direction;
+	case NORTH:
+		this_wall_to_check = SOUTH;
 		break;
-	case Direction::SOUTH:
-		this_wall_to_check = Direction::NORTH;
+	case SOUTH:
+		this_wall_to_check = NORTH;
 		break;
-	case Direction::EAST:
-		this_wall_to_check = Direction::WEST;
+	case EAST:
+		this_wall_to_check = WEST;
 		break;
-	case Direction::WEST:
-		this_wall_to_check = Direction::EAST;
+	case WEST:
+		this_wall_to_check = EAST;
 		break;
 	default:
 		break;
@@ -513,19 +510,21 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
-		if ((next_tile.is(Properties::DARKNESS)) && (_game->state->get_lit()))
+		if ((next_tile.is(Enums::Tile::Properties::DARKNESS)) &&
+			(_game->state->get_lit()))
 			_game->state->set_lit(false);
 
 		if (_game->state->level->stairs_at(next_loc)) {
+			using enum Enums::Tile::Features;
 			const auto at_loc{_game->state->get_player_pos()};
 			if (const auto &to_tile{_game->state->level->at(at_loc)};
-				to_tile.has(Features::LADDER_UP)) {
+				to_tile.has(LADDER_UP)) {
 				_ui->dialog_stairs_up->show = true;
-			} else if (to_tile.has(Features::STAIRS_UP)) {
+			} else if (to_tile.has(STAIRS_UP)) {
 				_ui->dialog_stairs_up->show = true;
-			} else if (to_tile.has(Features::LADDER_DOWN)) {
+			} else if (to_tile.has(LADDER_DOWN)) {
 				_ui->dialog_stairs_down->show = true;
-			} else if (to_tile.has(Features::STAIRS_DOWN)) {
+			} else if (to_tile.has(STAIRS_DOWN)) {
 				_ui->dialog_stairs_down->show = true;
 			}
 		}
@@ -548,7 +547,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 			}
 		}
 
-		_controller->last_dir = Direction::SOUTH;
+		_controller->last_dir = Enums::Map::Direction::SOUTH;
 
 		return true;
 	} else
@@ -557,75 +556,72 @@ auto Sorcery::Engine::_move_backward() -> bool {
 
 auto Sorcery::Engine::_turn_left() -> void {
 
-	using Enums::Map::Direction;
-
 	switch (_game->state->get_player_facing()) {
-	case Direction::NORTH:
-		_game->state->set_player_facing(Direction::WEST);
+		using enum Enums::Map::Direction;
+	case NORTH:
+		_game->state->set_player_facing(WEST);
 		break;
-	case Direction::SOUTH:
-		_game->state->set_player_facing(Direction::EAST);
+	case SOUTH:
+		_game->state->set_player_facing(EAST);
 		break;
-	case Direction::EAST:
-		_game->state->set_player_facing(Direction::NORTH);
+	case EAST:
+		_game->state->set_player_facing(NORTH);
 		break;
-	case Direction::WEST:
-		_game->state->set_player_facing(Direction::SOUTH);
+	case WEST:
+		_game->state->set_player_facing(SOUTH);
 		break;
 	default:
 		break;
 	}
 
-	_controller->last_dir = Direction::WEST;
+	_controller->last_dir = Enums::Map::Direction::WEST;
 	_controller->can_undo = false;
 }
 
 auto Sorcery::Engine::_turn_right() -> void {
 
-	using Enums::Map::Direction;
-
 	switch (_game->state->get_player_facing()) {
-	case Direction::NORTH:
-		_game->state->set_player_facing(Direction::EAST);
+		using enum Enums::Map::Direction;
+	case NORTH:
+		_game->state->set_player_facing(EAST);
 		break;
-	case Direction::SOUTH:
-		_game->state->set_player_facing(Direction::WEST);
+	case SOUTH:
+		_game->state->set_player_facing(WEST);
 		break;
-	case Direction::EAST:
-		_game->state->set_player_facing(Direction::SOUTH);
+	case EAST:
+		_game->state->set_player_facing(SOUTH);
 		break;
-	case Direction::WEST:
-		_game->state->set_player_facing(Direction::NORTH);
+	case WEST:
+		_game->state->set_player_facing(NORTH);
 		break;
 	default:
 		break;
 	}
 
-	_controller->last_dir = Direction::EAST;
+	_controller->last_dir = Enums::Map::Direction::EAST;
 	_controller->can_undo = false;
 }
 
 auto Sorcery::Engine::_turn_around() -> void {
 
-	using Enums::Map::Direction;
-
 	switch (_game->state->get_player_facing()) {
-	case Direction::NORTH:
-		_game->state->set_player_facing(Direction::SOUTH);
+		using enum Enums::Map::Direction;
+	case NORTH:
+		_game->state->set_player_facing(SOUTH);
 		break;
-	case Direction::SOUTH:
-		_game->state->set_player_facing(Direction::NORTH);
+	case SOUTH:
+		_game->state->set_player_facing(NORTH);
 		break;
-	case Direction::EAST:
-		_game->state->set_player_facing(Direction::WEST);
+	case EAST:
+		_game->state->set_player_facing(WEST);
 		break;
-	case Direction::WEST:
-		_game->state->set_player_facing(Direction::EAST);
+	case WEST:
+		_game->state->set_player_facing(EAST);
 		break;
 	default:
 		break;
 	}
 
-	_controller->last_dir = Direction::SOUTH;
+	_controller->last_dir = Enums::Map::Direction::SOUTH;
 	_controller->can_undo = false;
 }

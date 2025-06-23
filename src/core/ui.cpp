@@ -1470,48 +1470,43 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 										  [[maybe_unused]] Game *game,
 										  Character *character) -> void {
 
-	using Enums::Character::Attribute;
-
 	const auto left_col{component->x};
 	const auto middle_col{component->x + 13};
 	const auto right_col{component->x + 31};
 
 	using enum Enums::Character::Ability;
+	using enum Enums::Character::Attribute;
 	ImVec2 pos{};
 	pos = ImVec2{left_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
-	ImGui::TextUnformatted(
-		std::format("{:>8} {:>2}", "Strength",
-					character->get_cur_attr(Attribute::STRENGTH))
-			.c_str());
+	ImGui::TextUnformatted(std::format("{:>8} {:>2}", "Strength",
+									   character->get_cur_attr(STRENGTH))
+							   .c_str());
 	pos = ImVec2{left_col * adj_grid_w, (component->y + 1) * adj_grid_h};
 	ImGui::SetCursorPos(pos);
-	ImGui::TextUnformatted(std::format("{:>8} {:>2}", "I.Q.",
-									   character->get_cur_attr(Attribute::IQ))
-							   .c_str());
+	ImGui::TextUnformatted(
+		std::format("{:>8} {:>2}", "I.Q.", character->get_cur_attr(IQ))
+			.c_str());
 	pos = ImVec2{left_col * adj_grid_w, (component->y + 2) * adj_grid_h};
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
-		std::format("{:>8} {:>2}", "Piety",
-					character->get_cur_attr(Attribute::PIETY))
+		std::format("{:>8} {:>2}", "Piety", character->get_cur_attr(PIETY))
 			.c_str());
 	pos = ImVec2{left_col * adj_grid_w, (component->y + 3) * adj_grid_h};
 	ImGui::SetCursorPos(pos);
-	ImGui::TextUnformatted(
-		std::format("{:>8} {:>2}", "Vitality",
-					character->get_cur_attr(Attribute::VITALITY))
-			.c_str());
+	ImGui::TextUnformatted(std::format("{:>8} {:>2}", "Vitality",
+									   character->get_cur_attr(VITALITY))
+							   .c_str());
 	pos = ImVec2{left_col * adj_grid_w, (component->y + 4) * adj_grid_h};
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
-		std::format("{:>8} {:>2}", "Agility",
-					character->get_cur_attr(Attribute::AGILITY))
+		std::format("{:>8} {:>2}", "Agility", character->get_cur_attr(AGILITY))
 			.c_str());
 	pos = ImVec2{left_col * adj_grid_w, (component->y + 5) * adj_grid_h};
 	ImGui::SetCursorPos(pos);
-	ImGui::TextUnformatted(std::format("{:>8} {:>2}", "Luck",
-									   character->get_cur_attr(Attribute::LUCK))
-							   .c_str());
+	ImGui::TextUnformatted(
+		std::format("{:>8} {:>2}", "Luck", character->get_cur_attr(LUCK))
+			.c_str());
 
 	pos = ImVec2{left_col * adj_grid_w, (component->y + 7) * adj_grid_h};
 	ImGui::SetCursorPos(pos);
@@ -2467,7 +2462,6 @@ auto Sorcery::UI::_draw_icons([[maybe_unused]] Game *game) -> void {
 }
 
 auto Sorcery::UI::_draw_save([[maybe_unused]] Game *game) -> void {
-	using Enums::Map::Direction;
 
 	auto cmp{(*components)["engine_base_ui:save"]};
 	auto frame_cmp{(*components)["engine_base_ui:save_frame"]};

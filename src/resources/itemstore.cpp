@@ -58,18 +58,17 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				const auto id{magic_enum::enum_cast<Enums::Items::TypeID>(
 					items[i]["id"].asInt())};
 				const auto category{std::invoke([&] {
-					using Enums::Items::Category;
-
+					using enum Enums::Items::Category;
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
-							auto category{magic_enum::enum_cast<Category>(
-								items[i]["category"].asString())};
-							return category.value_or(
-								Category::NO_ITEM_CATEGORY);
+							auto category{
+								magic_enum::enum_cast<Enums::Items::Category>(
+									items[i]["category"].asString())};
+							return category.value_or(NO_ITEM_CATEGORY);
 						} else
-							return Category::NO_ITEM_CATEGORY;
+							return NO_ITEM_CATEGORY;
 					} else
-						return Category::NO_ITEM_CATEGORY;
+						return NO_ITEM_CATEGORY;
 				})};
 				const std::string known_name(items[i]["known name"].asString());
 				const std::string unknown_name(
@@ -159,16 +158,17 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 						return std::string{};
 				})};
 				const auto invoke_effect{std::invoke([&] {
-					using Enums::Items::Effects::Invoke;
+					using enum Enums::Items::Effects::Invoke;
 					if (items[i].isMember("invoke")) {
 						if (items[i]["invoke"].asString().length() > 0) {
-							auto invoke{magic_enum::enum_cast<Invoke>(
+							auto invoke{magic_enum::enum_cast<
+								Enums::Items::Effects::Invoke>(
 								items[i]["invoke"].asString())};
-							return invoke.value_or(Invoke::NO_INV_EFFECT);
+							return invoke.value_or(NO_INV_EFFECT);
 						} else
-							return Invoke::NO_INV_EFFECT;
+							return NO_INV_EFFECT;
 					} else
-						return Invoke::NO_INV_EFFECT;
+						return NO_INV_EFFECT;
 				})};
 				const auto invoke_decay{std::invoke([&] {
 					if (items[i].isMember("invoke decay"))
@@ -226,36 +226,35 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 
 				// Now do extra processing
-				using Enums::Character::Align;
-				using Enums::Character::Class;
-
+				using enum Enums::Character::Class;
 				std::array<bool, 9> item_usable{};
 				item_usable.fill(false);
-				if (allowed_classes_s.find('f') != std::string::npos)
-					item_usable[unenum(Class::FIGHTER)] = true;
-				if (allowed_classes_s.find('m') != std::string::npos)
-					item_usable[unenum(Class::MAGE)] = true;
-				if (allowed_classes_s.find('p') != std::string::npos)
-					item_usable[unenum(Class::PRIEST)] = true;
-				if (allowed_classes_s.find('t') != std::string::npos)
-					item_usable[unenum(Class::THIEF)] = true;
-				if (allowed_classes_s.find('b') != std::string::npos)
-					item_usable[unenum(Class::BISHOP)] = true;
-				if (allowed_classes_s.find('s') != std::string::npos)
-					item_usable[unenum(Class::SAMURAI)] = true;
-				if (allowed_classes_s.find('l') != std::string::npos)
-					item_usable[unenum(Class::LORD)] = true;
-				if (allowed_classes_s.find('n') != std::string::npos)
-					item_usable[unenum(Class::NINJA)] = true;
+				if (allowed_classes_s.contains('f'))
+					item_usable[unenum(FIGHTER)] = true;
+				if (allowed_classes_s.contains('m'))
+					item_usable[unenum(MAGE)] = true;
+				if (allowed_classes_s.contains('p'))
+					item_usable[unenum(PRIEST)] = true;
+				if (allowed_classes_s.contains('t'))
+					item_usable[unenum(THIEF)] = true;
+				if (allowed_classes_s.contains('b'))
+					item_usable[unenum(BISHOP)] = true;
+				if (allowed_classes_s.contains('s'))
+					item_usable[unenum(SAMURAI)] = true;
+				if (allowed_classes_s.contains('l'))
+					item_usable[unenum(LORD)] = true;
+				if (allowed_classes_s.contains('n'))
+					item_usable[unenum(NINJA)] = true;
 
+				using enum Enums::Character::Align;
 				std::array<bool, 4> item_alignment{};
 				item_alignment.fill(false);
-				if (allowed_alignments_s.find('g') != std::string::npos)
-					item_alignment[unenum(Align::GOOD)] = true;
-				if (allowed_alignments_s.find('n') != std::string::npos)
-					item_alignment[unenum(Align::NEUTRAL)] = true;
-				if (allowed_alignments_s.find('e') != std::string::npos)
-					item_alignment[unenum(Align::EVIL)] = true;
+				if (allowed_alignments_s.contains('g'))
+					item_alignment[unenum(GOOD)] = true;
+				if (allowed_alignments_s.contains('n'))
+					item_alignment[unenum(NEUTRAL)] = true;
+				if (allowed_alignments_s.contains('e'))
+					item_alignment[unenum(EVIL)] = true;
 
 				ItemType item_type{};
 				item_type.set_type_id(id.value());
@@ -406,8 +405,6 @@ auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
 auto Sorcery::ItemStore::_get_defensive_effects(
 	const std::string defensive_s) const -> std::array<bool, 22> {
 
-	using Enums::Items::Effects::Defensive;
-
 	std::array<bool, 22> effects{};
 	effects.fill(false);
 
@@ -423,17 +420,19 @@ auto Sorcery::ItemStore::_get_defensive_effects(
 					split.end());
 
 		for (const auto &term : split) {
+			using enum Enums::Items::Effects::Defensive;
 			if (term == "RESIST_ALL") {
-				for (auto i = unenum(Defensive::RESIST_COLD);
-					 i <= unenum(Defensive::PREVENT_DECAPITATION); i++)
+				for (auto i = unenum(RESIST_COLD);
+					 i <= unenum(PREVENT_DECAPITATION); i++)
 					effects[i] = true;
 			}
 			if (term == "PROTECT_VS_ALL") {
-				for (auto i = unenum(Defensive::PROTECTION_VS_ANIMAL);
-					 i <= unenum(Defensive::PROTECTION_VS_WERE); i++)
+				for (auto i = unenum(PROTECTION_VS_ANIMAL);
+					 i <= unenum(PROTECTION_VS_WERE); i++)
 					effects[i] = true;
 			};
-			auto def{magic_enum::enum_cast<Defensive>(term)};
+			auto def{
+				magic_enum::enum_cast<Enums::Items::Effects::Defensive>(term)};
 			if (def.has_value())
 				effects[unenum(def.value())] =
 					term.starts_with('!') ? false : true;
