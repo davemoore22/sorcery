@@ -65,8 +65,6 @@ extern "C" {
 #define MAGIC_ENUM_RANGE_MIN -1
 #define MAGIC_ENUM_RANGE_MAX 255
 #include "magic_enum/magic_enum.hpp"
-#define BACKWARD_HAS_BFD 1
-#include "backward_cpp/backward.hpp"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -109,6 +107,7 @@ extern "C" {
 #include <regex>
 #include <span>
 #include <sstream>
+#include <stacktrace>
 #include <stdexcept>
 #include <string>
 #include <string_view>

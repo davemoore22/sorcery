@@ -42,18 +42,9 @@ Sorcery::Error::Error(Enums::System::Error error_code,
 	// If no notes are supplied, generate a stack trace instead
 	if (_details[4].size() == 0) {
 
-		backward::StackTrace st;
-		st.load_here(32);
-
-		backward::TraceResolver tr;
-		tr.load_stacktrace(st);
-
-		for (size_t i = 0; i < st.size(); ++i) {
-			backward::ResolvedTrace trace{tr.resolve(st[i])};
-
-			_details.emplace_back(
-				std::format("#{} {} {} [{}]\n", i, trace.object_filename,
-							trace.object_function, trace.addr));
+		auto trace{std::stacktrace::current()};
+		for (const auto &entry : trace) {
+			std::println("{}", std::to_string(entry));
 		}
 
 	} else {

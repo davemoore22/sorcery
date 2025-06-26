@@ -67,7 +67,6 @@ target_compile_options(dear_imgui PRIVATE
 # Main Source Files
 include(src/core/CMakeLists.txt)
 include(src/engine/CMakeLists.txt)
-include(src/ext/CMakeLists.txt)
 include(src/frontend/CMakeLists.txt)
 include(src/gui/CMakeLists.txt)
 include(src/modules/CMakeLists.txt)
@@ -122,12 +121,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	GLEW
 	dl
 	stdc++fs
+	stdc++exp
 	fmt
 	jsoncpp
 	dear_imgui
 	uuid
-	unwind
-	bfd
 	sqlite3
 )
 
