@@ -718,8 +718,8 @@ auto Sorcery::Level::elevator_at(const Coordinate loc) -> bool {
 
 auto Sorcery::Level::stairs_at(const Coordinate loc) -> bool {
 
-	using enum Enums::Tile::Features;
 	const auto &tile{_tiles.at(loc)};
+	using enum Enums::Tile::Features;
 	return ((tile.has(LADDER_UP)) || (tile.has(LADDER_DOWN)) ||
 			(tile.has(STAIRS_UP)) || (tile.has(STAIRS_DOWN)));
 }

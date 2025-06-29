@@ -1048,7 +1048,6 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
-
 	set_StyleColor(ImGuiCol_Text,
 				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
 	ImVec2 pos{};
