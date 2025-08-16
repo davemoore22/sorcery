@@ -7,7 +7,7 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 Written using ImGui/SDL2/OpenGL and C++
 <br>(*Note that some re-engineering is currently in progress to move to a more flexible/easier-to-use UI stack This should not affect the aimed release date of late 2025!<p>For daily updates and progress on that see the [sdl/imgui branch](https://github.com/davemoore22/sorcery/tree/sdl/imgui)*)
 
-**(Updated 9th June 2025)**
+**(Updated 16th August 2025)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
@@ -35,7 +35,7 @@ Written using ImGui/SDL2/OpenGL and C++
 * ~~Wipe Handling~~ (DONE)
 * ~~Dungeon Events~~ (DONE)
 * ~~Compendium~~ (DONE)
-* ~~Inventory and Item Manipulation (DONE)~~
+* **Inventory and Item Manipulation (DOING)**
 * **Special Item Powers and Handling (DOING)**
 * **Boltac's Equipment Shop (DOING)**
 * Creatures and NPCs (TO DO)
@@ -52,7 +52,7 @@ Written using ImGui/SDL2/OpenGL and C++
 * Modding
 * Plugin/3D Graphics
 
-## What next? (as of June 2025)
+## What next? (as of August 2025)
 
 Currently adding Item Usage/Invocation, as well as buying, selling, uncursing, and identifying at Boltac's. Normal inventory management has been mosty completed!
 
@@ -68,7 +68,7 @@ All code is released under the GPL - see the doc/LICENSE text file for full deta
 
 ## Contact and Help
 
-All comments and criticism and help welcome. You can find me as *Typhon* on the C++ Help, SFML, and DungeonCrawlers.org Discord Servers, or my email address is on the Splash Screen of the Game.
+All comments and criticism and help welcome. You can find me as *Typhon* on the C++ Help and DungeonCrawlers.org Discord Servers, or my email address is on the Splash Screen of the Game.
 
 ## Credits
 
