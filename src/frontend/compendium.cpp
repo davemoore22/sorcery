@@ -54,7 +54,7 @@ auto Sorcery::Compendium::_initialise() -> bool {
 auto Sorcery::Compendium::start() -> int {
 
 	_controller->initialise("compendium");
-	_controller->unset_flag("show_compendium");
+	_controller->set_flag("show_compendium");
 
 	// Main loop
 	auto done{false};

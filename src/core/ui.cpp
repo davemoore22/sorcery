@@ -405,6 +405,7 @@ auto Sorcery::UI::_setup_draw_frontend() -> void {
 
 	_draw_frontend.clear();
 	_draw_frontend["atlas"] = std::bind(&UI::_display_atlas, this);
+	_draw_frontend["bestiary"] = std::bind(&UI::_display_bestiary, this);
 	_draw_frontend["compendium"] = std::bind(&UI::_display_compendium, this);
 	_draw_frontend["main_menu"] = std::bind(&UI::_display_main_menu, this);
 	_draw_frontend["museum"] = std::bind(&UI::_display_museum, this);
