@@ -68,7 +68,8 @@ class Application {
 		auto _continue_existing_game() -> int;
 		auto _do_start_expedition(const int mode) -> int;
 		auto _do_restart_expedition(const int mode) -> int;
-		auto _do_town() -> int;
+		auto _do_town(const int mode) -> int;
+		auto _do_edge(const int mode) -> int;
 
 		// Private Members
 		std::vector<std::string> _args;

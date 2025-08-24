@@ -99,6 +99,7 @@ inline constexpr auto GO_TO_MAZE{-3};
 inline constexpr auto RESTART_MAZE{-4};
 inline constexpr auto GO_TO_FRONT_END{-1};
 inline constexpr auto GO_TO_COMPENDIUM{0};
+inline constexpr auto GO_TO_TRAINING{1};
 inline constexpr auto COMPENDIUM_ATLAS{0};
 inline constexpr auto COMPENDIUM_BESTIARY{1};
 inline constexpr auto COMPENDIUM_MUSEUM{3};

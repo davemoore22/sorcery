@@ -53,7 +53,7 @@ auto Sorcery::EdgeOfTown::_initialise() -> bool {
 	return true;
 }
 
-auto Sorcery::EdgeOfTown::start(Game *game) -> int {
+auto Sorcery::EdgeOfTown::start(Game *game, const int mode) -> int {
 
 	_controller->initialise("edge_of_town");
 	_controller->set_flag("show_edge_of_town");
@@ -77,6 +77,10 @@ auto Sorcery::EdgeOfTown::start(Game *game) -> int {
 		}
 
 		_ui->display("edge_of_town", game);
+
+		// Handle shortcuts
+		if (mode == GO_TO_TRAINING)
+			_controller->set_flag("show_training_grounds");
 
 		if (_controller->has_flag("want_leave_game")) {
 			game->move_party_to_tavern();

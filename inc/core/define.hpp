@@ -40,6 +40,7 @@ inline constexpr auto CONTINUE_GAME_PARAM{"--continue"sv};
 inline constexpr auto NEW_GAME_PARAM{"--new"sv};
 inline constexpr auto QUICKSTART_PARAM{"--quickstart"sv};
 inline constexpr auto GO_TO_MAZE_PARAM{"--go-to-maze"sv};
+inline constexpr auto GO_TO_TRAINING_PARAM{"--go-to-training"sv};
 
 // Window Data
 #define WINDOW_LAYER_BG "##layer_bg"

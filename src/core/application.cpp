@@ -121,7 +121,7 @@ auto Sorcery::Application::start() -> int {
 		_load_existing_game();
 
 		// Castle
-		front_result = _do_town();
+		front_result = _do_town(DEST_NONE);
 		if (front_result == GO_TO_MAZE) {
 
 			// Start the Maze
@@ -133,15 +133,16 @@ auto Sorcery::Application::start() -> int {
 
 		// _game is set by this
 		_start_new_game(true);
-		front_result = _do_town();
+		front_result = _do_town(DEST_NONE);
 	} else if (_check_param(NEW_GAME_PARAM)) {
 
 		// _game is set by this
 		_start_new_game(false);
-		front_result = _do_town();
+		front_result = _do_town(DEST_NONE);
 	} else {
 
 		const auto go_to_maze{_check_param(GO_TO_MAZE_PARAM)};
+		const auto go_to_training{_check_param(GO_TO_TRAINING_PARAM)};
 
 		int mm_what{};
 		auto first_time{true};
@@ -151,7 +152,13 @@ auto Sorcery::Application::start() -> int {
 
 			if (first_time && go_to_maze)
 				mm_what = MAIN_MENU_NEW_GAME;
-			else {
+			else if (first_time && go_to_training) {
+				if (_controller->has_saved_game())
+					_load_existing_game();
+				else
+					_start_new_game(false);
+
+			} else {
 				mm_what = _main_menu->start();
 				_main_menu->stop();
 			}
@@ -184,9 +191,15 @@ auto Sorcery::Application::start() -> int {
 															  EXPEDITION_GOTO);
 							first_time = false;
 							continue;
+						} else if (_check_param(GO_TO_TRAINING_PARAM) &&
+								   first_time) {
+
+							inner_what = _do_edge(GO_TO_TRAINING);
+							first_time = false;
+							continue;
 						}
 
-						inner_what = _do_town();
+						inner_what = _do_town(DEST_NONE);
 						if (_controller->has_flag("want_enter_maze"))
 							inner_what = _do_start_expedition(EXPEDITION_START);
 						else if (_controller->has_flag(
@@ -225,7 +238,33 @@ auto Sorcery::Application::_do_start_expedition(const int mode) -> int {
 	return what;
 }
 
-auto Sorcery::Application::_do_town() -> int {
+auto Sorcery::Application::_do_edge(const int mode) -> int {
+
+	// Go to the Edge of Town, and optionally wait to do something
+	auto done{false};
+	while (!done) {
+
+		// Limited selection here of choices here (for now) to cover just the
+		// additional command line parameters used for shortcuts
+		auto edge_what{_edge_of_town->start(_game.get(), mode)};
+		_edge_of_town->stop();
+
+		if (edge_what == EDGE_OF_TOWN_GO_TO_TRAINING)
+			return EDGE_OF_TOWN_GO_TO_TRAINING;
+		else if (_controller->has_flag("want_leave_game")) {
+			_game->save_game();
+			_controller->set_game(nullptr);
+			return LEAVE_GAME;
+		} else if (edge_what == RETURN_TO_TOWN) {
+			continue;
+		} else if (edge_what == ABORT_GAME)
+			return ABORT_GAME;
+	};
+
+	return 0;
+}
+
+auto Sorcery::Application::_do_town(const int mode) -> int {
 
 	// Go to the Castle, and then wait until we've got exit back
 	auto done{false};
@@ -236,7 +275,7 @@ auto Sorcery::Application::_do_town() -> int {
 
 		if (castle_what == CASTLE_GO_TO_EDGE_OF_TOWN) {
 
-			auto edge_what{_edge_of_town->start(_game.get())};
+			auto edge_what{_edge_of_town->start(_game.get(), mode)};
 			_edge_of_town->stop();
 
 			if (edge_what == EDGE_OF_TOWN_GO_TO_CASTLE)
@@ -247,6 +286,8 @@ auto Sorcery::Application::_do_town() -> int {
 				return RESTART_MAZE;
 			else if (edge_what == ABORT_GAME)
 				return ABORT_GAME;
+			else if (edge_what == EDGE_OF_TOWN_GO_TO_TRAINING)
+				return EDGE_OF_TOWN_GO_TO_TRAINING;
 			else if (_controller->has_flag("want_leave_game")) {
 				_game->save_game();
 				_controller->set_game(nullptr);

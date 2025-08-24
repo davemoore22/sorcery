@@ -84,7 +84,7 @@
 	},
 	"cmake.debugConfig": {
 		"args": [
-			"--ddgo-to-maze"
+			"--go-to-training"
 		]
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
