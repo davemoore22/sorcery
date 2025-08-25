@@ -101,6 +101,8 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 
 	input_donate = std::make_unique<Input>(
 		_system, this, _controller, (*components)["global:input_donate"]);
+	input_name = std::make_unique<Input>(_system, this, _controller,
+										 (*components)["global:input_name"]);
 
 	dialog_stairs_up = std::make_unique<Dialog>(
 		_system, this, (*components)["engine_base_ui:dialog_stairs_up"],
@@ -269,6 +271,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 			get_popup_status((void *)dialog_stairs_up.get(), "dialog"));
 	if (input_donate)
 		output.append(get_popup_status((void *)input_donate.get(), "input"));
+	if (input_name)
+		output.append(get_popup_status((void *)input_name.get(), "input"));
 	if (message_tile)
 		output.append(get_popup_status((void *)message_tile.get(), "message"));
 	if (modal_camp)
@@ -363,6 +367,7 @@ auto Sorcery::UI::start() -> void {
 	notice_not_enough_gold->show = false;
 	notice_pool_gold->show = false;
 	input_donate->show = false;
+	input_name->show = false;
 	popup_ouch->show = false;
 	modal_camp->show = false;
 	modal_identify->show = false;
@@ -539,6 +544,10 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 	} else if (screen == "choose") {
 		if (first.type() == typeid(Game *) && second.type() == typeid(int))
 			_display_choose(std::any_cast<Game *>(first),
+							std::any_cast<int>(second));
+	} else if (screen == "create") {
+		if (first.type() == typeid(Game *) && second.type() == typeid(int))
+			_display_create(std::any_cast<Game *>(first),
 							std::any_cast<int>(second));
 	} else if (screen == "inspect") {
 		if (first.type() == typeid(Game *) && second.type() == typeid(int))
@@ -1607,6 +1616,8 @@ auto Sorcery::UI::_draw_choose(Game *game, const int mode) -> void {
 		_draw_party_panel(game);
 	}
 }
+
+auto Sorcery::UI::_draw_create(Game *game, const int stage) -> void {}
 
 auto Sorcery::UI::_draw_level_up(Game *game, const int mode) -> void {
 
@@ -2861,6 +2872,14 @@ auto Sorcery::UI::_display_roster(Game *game, const int mode) -> void {
 auto Sorcery::UI::_display_choose(Game *game, const int mode) -> void {
 	_draw_components("choose", game, mode);
 	_draw_choose(game, mode);
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_create(Game *game, const int stage) -> void {
+
+	_draw_components("create", game, stage);
+	_draw_create(game, stage);
+	input_name->display(_controller->get_flag_ref("want_name"));
 	_draw_cursor();
 }
 

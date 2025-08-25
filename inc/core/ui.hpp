@@ -122,6 +122,7 @@ class UI {
 		std::unique_ptr<Dialog> dialog_stairs_up;
 		std::unique_ptr<Dialog> dialog_stairs_down;
 		std::unique_ptr<Input> input_donate;
+		std::unique_ptr<Input> input_name;
 		std::unique_ptr<Popup> popup_ouch;
 		std::unique_ptr<Modal> modal_camp;
 		std::unique_ptr<Message> message_tile;
@@ -168,6 +169,7 @@ class UI {
 		auto _display_bestiary() -> void;
 		auto _display_castle(Game *game) -> void;
 		auto _display_choose(Game *game, const int mode) -> void;
+		auto _display_create(Game *game, const int stage) -> void;
 		auto _display_compendium() -> void;
 		auto _display_edge_of_town(Game *game) -> void;
 		auto _display_heal(Game *game, const int stage) -> void;
@@ -212,6 +214,7 @@ class UI {
 										   Character *character) -> void;
 		auto _draw_choose(Game *game, const int mode) -> void;
 		auto _draw_compass(Game *game) -> void;
+		auto _draw_create(Game *game, const int stage) -> void;
 		auto _draw_components(std::string_view screen, Game *game = nullptr,
 							  const int mode = -1) -> void;
 		auto _draw_current_character(Game *game, const int mode) -> void;

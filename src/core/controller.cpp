@@ -84,6 +84,8 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	unset_flag("want_identify");
 	unset_flag("want_invoke");
 	unset_flag("want_leave_game");
+	unset_flag("want_name");
+	unset_flag("want_name_ok");
 	unset_flag("want_not_enough_gold");
 	unset_flag("want_new_game");
 	unset_flag("want_pool_gold");
@@ -417,16 +419,14 @@ auto Sorcery::Controller::handle_toggle(const std::string &component,
 			// Only need to check if strict and reommended modes are on
 			(*_system->config)[RECOMMENDED_MODE] =
 				_system->config->is_rec_mode();
-			(*_system->config)[STRICT_MODE] =
-				_system->config->is_strict_mode();
+			(*_system->config)[STRICT_MODE] = _system->config->is_strict_mode();
 
 		} else if (tab == "Graphics") {
 
 			// Only need to check if strict and reommended modes are on
 			(*_system->config)[RECOMMENDED_MODE] =
 				_system->config->is_rec_mode();
-			(*_system->config)[STRICT_MODE] =
-				_system->config->is_strict_mode();
+			(*_system->config)[STRICT_MODE] = _system->config->is_strict_mode();
 		}
 	}
 }
@@ -954,7 +954,9 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "training_menu") {
 
 		// Training Grounds
-		if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == TRAINING_CREATE)
+			move_screen("show_training_grounds", "show_create");
+		else if (selection == (static_cast<int>(items.size()) - 1))
 			move_screen("show_training_grounds", "show_edge_of_town");
 	} else if (component == "bestiary_menu") {
 

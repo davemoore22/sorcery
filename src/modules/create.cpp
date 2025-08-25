@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/training.hpp"
+#include "modules/create.hpp"
 #include "common/macro.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -28,30 +28,33 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
-#include "modules/create.hpp"
+#include "gui/input.hpp"
 #include "types/game.hpp"
 
-Sorcery::Training::Training(System *system, Display *display, UI *ui,
-							Controller *controller)
+Sorcery::Create::Create(System *system, Display *display, UI *ui,
+						Controller *controller)
 	: _system{system},
 	  _display{display},
 	  _ui{ui},
 	  _controller{controller} {
 
 	_initialise();
-
-	_create = std::make_unique<Create>(_system, _display, _ui, _controller);
 };
 
-auto Sorcery::Training::_initialise() -> bool {
+Sorcery::Create::~Create() {};
+
+auto Sorcery::Create::_initialise() -> bool {
 
 	return true;
 }
 
-auto Sorcery::Training::start(Game *game) -> int {
+auto Sorcery::Create::start(Game *game) -> int {
 
-	_controller->initialise("training_grounds");
-	_controller->set_flag("show_training_grounds");
+	_controller->initialise("create");
+	_controller->set_flag("show_create");
+
+	_ui->input_name->show = false;
+	_ui->input_name->initialise(game);
 
 	// Main loop
 	auto done{false};
@@ -69,21 +72,16 @@ auto Sorcery::Training::start(Game *game) -> int {
 
 			// Check for Back Event
 			if (_controller->check_for_back(event)) {
-				return BACK_TO_EDGE_OF_TOWN;
-			}
-
-			if (_controller->has_flag("show_create")) {
-				_create->start(game);
-				_create->stop(game);
+				return BACK_TO_TRAINING_GROUNDS;
 			}
 		}
 
-		_ui->display("training_grounds", game);
+		_ui->display("create", game);
 
-		if (!_controller->has_flag("show_training_grounds") &&
-			_controller->has_flag("show_edge_of_town")) {
+		if (!_controller->has_flag("show_create") &&
+			_controller->has_flag("show_training_grounds")) {
 			game->save_game();
-			return BACK_TO_EDGE_OF_TOWN;
+			return BACK_TO_TRAINING_GROUNDS;
 		}
 	}
 
@@ -91,9 +89,9 @@ auto Sorcery::Training::start(Game *game) -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Training::stop() -> int {
+auto Sorcery::Create::stop(Game *game) -> int {
 
-	_controller->unset_flag("show_training_grounds");
+	_controller->unset_flag("show_create");
 
 	return 0;
 }
