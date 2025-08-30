@@ -115,6 +115,11 @@ auto Sorcery::Application::start() -> int {
 	// Now check for any command line parameters
 	auto done{false};
 	auto front_result{0};
+
+	// Optionally skip images for speed to avoid loading them
+	if (_check_param(NO_IMAGES_PARAM))
+		_ui->images->show_images = false;
+
 	if (_check_param(CONTINUE_GAME_PARAM) && _controller->has_saved_game()) {
 
 		// _game is set by this

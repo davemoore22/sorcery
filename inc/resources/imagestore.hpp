@@ -42,6 +42,7 @@ class ImageStore {
 		unsigned int progress;
 		unsigned int capacity;
 		bool busy;
+		bool show_images;
 
 	private:
 		auto _initialise() -> bool;

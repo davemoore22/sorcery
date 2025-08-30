@@ -41,6 +41,7 @@ inline constexpr auto NEW_GAME_PARAM{"--new"sv};
 inline constexpr auto QUICKSTART_PARAM{"--quickstart"sv};
 inline constexpr auto GO_TO_MAZE_PARAM{"--go-to-maze"sv};
 inline constexpr auto GO_TO_TRAINING_PARAM{"--go-to-training"sv};
+inline constexpr auto NO_IMAGES_PARAM{"--ni"sv};
 
 // Window Data
 #define WINDOW_LAYER_BG "##layer_bg"

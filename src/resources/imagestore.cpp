@@ -52,6 +52,7 @@ auto Sorcery::ImageStore::_initialise() -> bool {
 	_images.clear();
 	_sources.clear();
 	_loaded.clear();
+	show_images = true;
 
 	// Work out what we need to load and just store it in a list
 	_sources.insert(

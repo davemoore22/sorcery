@@ -80,11 +80,15 @@
 		"span": "cpp",
 		"forward_list": "cpp",
 		"any": "cpp",
-		"print": "cpp"
+		"print": "cpp",
+		"charconv": "cpp",
+		"format": "cpp",
+		"text_encoding": "cpp"
 	},
 	"cmake.debugConfig": {
 		"args": [
-			"--go-to-training"
+			"--go-to-trainingd",
+			"--ni"
 		]
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",

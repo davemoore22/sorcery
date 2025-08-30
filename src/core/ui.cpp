@@ -682,6 +682,9 @@ auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view layer,
 										  const ImVec2 p_sz, const ImVec4 tint)
 	-> void {
 
+	if (!images->show_images)
+		return;
+
 	auto tile_row_count{0};
 	auto tile_size{0};
 	auto image_size{ImVec2{0, 0}};
@@ -739,6 +742,9 @@ auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view source,
 
 auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 
+	if (!images->show_images)
+		return;
+
 	if ((*component)["source"]) {
 		const auto source{(*component)["source"].value()};
 		const auto scale{std::stof((*component)["scale"].value())};
@@ -782,6 +788,9 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 }
 
 auto Sorcery::UI::_draw_bg_image(Component *component) -> void {
+
+	if (!images->show_images)
+		return;
 
 	if ((*component)["source"]) {
 
