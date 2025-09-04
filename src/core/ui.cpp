@@ -682,8 +682,19 @@ auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view layer,
 										  const ImVec2 p_sz, const ImVec4 tint)
 	-> void {
 
-	if (!images->show_images)
+	if (!images->show_images) {
+
+		// If we aren't drawing images, draw a suitable placeholder
+		with_Window(std::string(layer).c_str(), nullptr,
+					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+			ImGui::SetCursorPos(p_min);
+			ImGui::GetWindowDrawList()->AddRectFilled(
+				p_min, ImVec2(p_min.x + p_sz.x, p_min.y + p_sz.y),
+				ImColor{ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade}});
+		}
+
 		return;
+	}
 
 	auto tile_row_count{0};
 	auto tile_size{0};
@@ -742,8 +753,16 @@ auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view source,
 
 auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 
-	if (!images->show_images)
+	if (!images->show_images) {
+
+		with_Window(WINDOW_LAYER_IMAGES, nullptr,
+					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+
+			// TODO in component add subsitute size
+		}
+
 		return;
+	}
 
 	if ((*component)["source"]) {
 		const auto source{(*component)["source"].value()};
@@ -789,8 +808,18 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 
 auto Sorcery::UI::_draw_bg_image(Component *component) -> void {
 
-	if (!images->show_images)
-		return;
+	if (!images->show_images) {
+
+		// If we aren't drawing images, draw a suitable placeholder
+		with_Window(WINDOW_LAYER_BG, nullptr,
+					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+			const auto viewport{ImGui::GetMainViewport()};
+			ImGui::SetCursorPos(ImVec2{0, 0});
+			ImGui::GetWindowDrawList()->AddRectFilled(
+				ImVec2{0, 0}, viewport->Size,
+				ImColor{ImVec4{0.2f, 0.2f, 0.2f, _system->animation->fade}});
+		}
+	}
 
 	if ((*component)["source"]) {
 
