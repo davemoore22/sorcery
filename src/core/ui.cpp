@@ -758,7 +758,25 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 		with_Window(WINDOW_LAYER_IMAGES, nullptr,
 					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-			// TODO in component add subsitute size
+			const auto x{std::invoke([&] {
+				if (component->x == -1) {
+					const auto viewport{ImGui::GetMainViewport()};
+					return (viewport->Size.x - 200) / 2;
+				} else
+					return static_cast<float>(adj_grid_w * component->x);
+			})};
+			const auto y{std::invoke([&] {
+				if (component->y == -1) {
+					const auto viewport{ImGui::GetMainViewport()};
+					return (viewport->Size.y - 200) / 2;
+				} else
+					return static_cast<float>(adj_grid_h * component->y);
+			})};
+
+			ImGui::SetCursorPos(ImVec2{x, y});
+			ImGui::GetWindowDrawList()->AddRectFilled(
+				ImVec2{x, y}, ImVec2(x + 200, y + 200),
+				ImColor{ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade}});
 		}
 
 		return;
