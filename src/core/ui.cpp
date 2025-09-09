@@ -2174,10 +2174,8 @@ auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
 
 		// Special Handling for Return Button
 		Component cmp{(*components)["license:license_return"]};
-		auto show{true};
-		_draw_button_click(&cmp, show);
-		if (!show)
-			_controller->unset_flag("show_license");
+		_draw_button_click(&cmp, _controller->get_flag_ref("show_license"),
+						   true);
 	}
 }
 
