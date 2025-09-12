@@ -22,42 +22,29 @@
 
 #pragma once
 
-#include "common/define.hpp"
 #include "common/include.hpp"
-#include "core/include.hpp"
-#include "core/video.hpp"
-#include "frontend/compendium.hpp"
-#include "frontend/license.hpp"
-#include "frontend/options.hpp"
+#include "common/types.hpp"
+#include "core/macro.hpp"
 
 namespace Sorcery {
 
-class Display;
-class UI;
-class Controller;
-class System;
-class Video;
-
-class MainMenu {
+class Video {
 
 	public:
-		MainMenu(System *system, Display *display, UI *ui,
-				 Controller *controller);
+		Video();
+		auto open(const char *filename) -> bool;
+		auto readFrame() -> bool;
+		auto cleanup() -> void;
 
-		auto start() -> int;
-		auto stop() -> int;
-
-	private:
-		auto _initialise() -> bool;
-
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
-		std::unique_ptr<Compendium> _compendium;
-		std::unique_ptr<License> _license;
-		std::unique_ptr<Options> _options;
-		Video _bg_video;
+		GLuint textureID;
+		int width, height;
+		AVFormatContext *fmt_ctx;
+		AVCodecContext *codec_ctx;
+		SwsContext *sws_ctx;
+		AVFrame *frame;
+		AVFrame *frameRGBA;
+		uint8_t *buffer;
+		int video_stream_index;
+		double fps;
 };
-
 };

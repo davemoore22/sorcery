@@ -56,6 +56,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 #include <libavutil/dict.h>
+#include <libavutil/imgutils.h>
 }
 
 // clang-format on

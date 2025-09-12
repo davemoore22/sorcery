@@ -519,7 +519,8 @@ namespace Enums::System {
 		UNKNOWN_COMPONENT = 3,
 		OPTIONAL_RETURNED = 4,
 		SQLITE_DB_ERROR = 5,
-		UNHANDLED_EXCEPTION = 6
+		UNHANDLED_EXCEPTION = 6,
+		VFX_ERROR = 7
 	};
 
 	// Return values

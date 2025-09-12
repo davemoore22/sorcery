@@ -9,4 +9,5 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/resources.cpp
 	${CMAKE_CURRENT_LIST_DIR}/system.cpp
 	${CMAKE_CURRENT_LIST_DIR}/ui.cpp
+	${CMAKE_CURRENT_LIST_DIR}/video.cpp
 )
