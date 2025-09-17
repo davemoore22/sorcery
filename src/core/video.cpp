@@ -22,122 +22,123 @@
 
 #include "core/video.hpp"
 
-Sorcery::Video::Video() {
+Sorcery::Video::Video(const std::string &filename) {
 
-	textureID = 0;
-	width = 0;
-	height = 0;
-	fmt_ctx = nullptr;
-	codec_ctx = nullptr;
-	sws_ctx = nullptr;
-	frame = nullptr;
-	frameRGBA = nullptr;
-	buffer = nullptr;
-	video_stream_index = -1;
-	fps = 30.0;
-}
-
-auto Sorcery::Video::open(const char *filename) -> bool {
-	avformat_open_input(&fmt_ctx, filename, nullptr, nullptr);
-	avformat_find_stream_info(fmt_ctx, nullptr);
-
-	// Find video stream
-	for (unsigned i = 0; i < fmt_ctx->nb_streams; i++) {
-		if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-			video_stream_index = i;
-			break;
-		}
+	if (avformat_open_input(&_format_ctx, filename.c_str(), nullptr, nullptr) <
+		0) {
+		throw std::runtime_error("Failed to open video file");
 	}
-	if (video_stream_index == -1)
-		return false;
+	if (avformat_find_stream_info(_format_ctx, nullptr) < 0) {
+		throw std::runtime_error("Failed to get stream info");
+	}
 
-	// Open codec
-	const AVCodec *codec = avcodec_find_decoder(
-		fmt_ctx->streams[video_stream_index]->codecpar->codec_id);
-	codec_ctx = avcodec_alloc_context3(codec);
+	const AVCodec *codec{nullptr};
+	auto video_stream_index{av_find_best_stream(_format_ctx, AVMEDIA_TYPE_VIDEO,
+												-1, -1, &codec, 0)};
+	if (video_stream_index < 0) {
+		throw std::runtime_error("Failed to find video stream");
+	}
+
+	_video_stream_index =
+		av_find_best_stream(_format_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
+	if (_video_stream_index < 0) {
+		throw std::runtime_error("Failed to find video stream");
+	}
+
+	_codec_ctx = avcodec_alloc_context3(codec);
 	avcodec_parameters_to_context(
-		codec_ctx, fmt_ctx->streams[video_stream_index]->codecpar);
-	avcodec_open2(codec_ctx, codec, nullptr);
+		_codec_ctx, _format_ctx->streams[video_stream_index]->codecpar);
 
-	width = codec_ctx->width;
-	height = codec_ctx->height;
+	if (avcodec_open2(_codec_ctx, codec, nullptr) < 0) {
+		throw std::runtime_error("Failed to open codec");
+	}
 
-	// FPS
-	AVRational fr = fmt_ctx->streams[video_stream_index]->avg_frame_rate;
-	fps = av_q2d(fr);
+	_width = _codec_ctx->width;
+	_height = _codec_ctx->height;
 
-	// Allocate frames
-	frame = av_frame_alloc();
-	frameRGBA = av_frame_alloc();
-	int numBytes = av_image_get_buffer_size(AV_PIX_FMT_RGBA, width, height, 1);
-	buffer = (uint8_t *)av_malloc(numBytes * sizeof(uint8_t));
-	av_image_fill_arrays(frameRGBA->data, frameRGBA->linesize, buffer,
-						 AV_PIX_FMT_RGBA, width, height, 1);
+	_frame = av_frame_alloc();
+	_rgb_frame = av_frame_alloc();
+	_packet = av_packet_alloc();
 
-	// SWS context for conversion
-	sws_ctx = sws_getContext(width, height, codec_ctx->pix_fmt, width, height,
-							 AV_PIX_FMT_RGBA, SWS_BILINEAR, nullptr, nullptr,
-							 nullptr);
+	auto num_bytes{
+		av_image_get_buffer_size(AV_PIX_FMT_RGB24, _width, _height, 1)};
+	std::vector<uint8_t> buffer(static_cast<size_t>(num_bytes));
+	av_image_fill_arrays(_rgb_frame->data, _rgb_frame->linesize, buffer.data(),
+						 AV_PIX_FMT_RGB24, _width, _height, 1);
 
-	// OpenGL texture
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
+	_sws_ctx = sws_getContext(_width, _height, _codec_ctx->pix_fmt, _width,
+							  _height, AV_PIX_FMT_RGB24, SWS_BILINEAR, nullptr,
+							  nullptr, nullptr);
+
+	glGenTextures(1, &_gl_texture);
+	glBindTexture(GL_TEXTURE_2D, _gl_texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB,
 				 GL_UNSIGNED_BYTE, nullptr);
 
-	return true;
+	_time_base = av_q2d(_format_ctx->streams[video_stream_index]->time_base);
 }
 
-auto Sorcery::Video::readFrame() -> bool {
-	AVPacket packet;
-	bool gotFrame = false;
+Sorcery::Video::~Video() {
 
-	while (av_read_frame(fmt_ctx, &packet) >= 0) {
-		if (packet.stream_index == video_stream_index) {
-			if (avcodec_send_packet(codec_ctx, &packet) == 0) {
-				while (avcodec_receive_frame(codec_ctx, frame) == 0) {
-					// Convert to RGBA
-					sws_scale(sws_ctx, frame->data, frame->linesize, 0, height,
-							  frameRGBA->data, frameRGBA->linesize);
+	if (_packet)
+		av_packet_free(&_packet);
+	if (_frame)
+		av_frame_free(&_frame);
+	if (_rgb_frame)
+		av_frame_free(&_rgb_frame);
+	if (_codec_ctx)
+		avcodec_free_context(&_codec_ctx);
+	if (_format_ctx)
+		avformat_close_input(&_format_ctx);
+	if (_sws_ctx)
+		sws_freeContext(_sws_ctx);
 
-					// Upload to OpenGL texture
-					glBindTexture(GL_TEXTURE_2D, textureID);
-					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height,
-									GL_RGBA, GL_UNSIGNED_BYTE,
-									frameRGBA->data[0]);
-					gotFrame = true;
+	if (_gl_texture != 0) {
+		glDeleteTextures(1, &_gl_texture);
+	}
+}
+
+auto Sorcery::Video::update(double playback_time) -> void {
+
+	if (_has_frame_ready && playback_time < _next_pts_sec) {
+		return;
+	}
+
+	while (av_read_frame(_format_ctx, _packet) >= 0) {
+		if (_packet->stream_index == _video_stream_index) {
+			if (avcodec_send_packet(_codec_ctx, _packet) == 0) {
+				while (avcodec_receive_frame(_codec_ctx, _frame) == 0) {
+					if (_frame->pts != AV_NOPTS_VALUE) {
+						_next_pts_sec = _frame->pts * _time_base;
+					}
+
+					sws_scale(_sws_ctx, _frame->data, _frame->linesize, 0,
+							  _height, _rgb_frame->data, _rgb_frame->linesize);
+
+					glBindTexture(GL_TEXTURE_2D, _gl_texture);
+					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _width, _height,
+									GL_RGB, GL_UNSIGNED_BYTE,
+									_rgb_frame->data[0]);
+
+					_has_frame_ready = true;
+					av_packet_unref(_packet);
+					return;
 				}
 			}
 		}
-		av_packet_unref(&packet);
-		if (gotFrame)
-			break;
+		av_packet_unref(_packet);
 	}
-
-	// If we reached EOF → loop
-	if (!gotFrame) {
-		av_seek_frame(fmt_ctx, video_stream_index, 0, AVSEEK_FLAG_BACKWARD);
-		avcodec_flush_buffers(codec_ctx);
-	}
-
-	return gotFrame;
 }
 
-auto Sorcery::Video::cleanup() -> void {
-	if (textureID)
-		glDeleteTextures(1, &textureID);
-	if (buffer)
-		av_free(buffer);
-	if (frameRGBA)
-		av_frame_free(&frameRGBA);
-	if (frame)
-		av_frame_free(&frame);
-	if (codec_ctx)
-		avcodec_free_context(&codec_ctx);
-	if (fmt_ctx)
-		avformat_close_input(&fmt_ctx);
-	if (sws_ctx)
-		sws_freeContext(sws_ctx);
-};
+auto Sorcery::Video::render() -> void {
+	if (!_has_frame_ready)
+		return;
+
+	ImGui::Begin("Video Player");
+	ImGui::Image(
+		(ImTextureID)(intptr_t)_gl_texture,
+		ImVec2{static_cast<float>(_width), static_cast<float>(_height)});
+	ImGui::End();
+}

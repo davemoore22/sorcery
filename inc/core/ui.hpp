@@ -51,6 +51,7 @@ class Render;
 class Resources;
 class Popup;
 class System;
+class Video;
 struct VertexArray;
 
 class UI {
@@ -135,6 +136,7 @@ class UI {
 		std::unique_ptr<Modal> modal_trade;
 		std::unique_ptr<Modal> modal_use;
 		std::unique_ptr<Modal> modal_invoke;
+		std::unique_ptr<Video> video;
 		unsigned int font_sz;
 		unsigned int grid_sz;
 		unsigned int frame_rd;

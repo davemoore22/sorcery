@@ -29,22 +29,31 @@
 namespace Sorcery {
 
 class Video {
-
 	public:
-		Video();
-		auto open(const char *filename) -> bool;
-		auto readFrame() -> bool;
-		auto cleanup() -> void;
+		// Constructor
+		explicit Video(const std::string &filename);
 
-		GLuint textureID;
-		int width, height;
-		AVFormatContext *fmt_ctx;
-		AVCodecContext *codec_ctx;
-		SwsContext *sws_ctx;
-		AVFrame *frame;
-		AVFrame *frameRGBA;
-		uint8_t *buffer;
-		int video_stream_index;
-		double fps;
+		// Destructor
+		~Video();
+
+		// Public Methods
+		auto update(double playback_time) -> void;
+		auto render() -> void;
+
+	private:
+		// Private Data
+		AVFormatContext *_format_ctx;
+		AVCodecContext *_codec_ctx;
+		AVFrame *_frame;
+		AVFrame *_rgb_frame;
+		AVPacket *_packet;
+		SwsContext *_sws_ctx;
+		GLuint _gl_texture;
+		int _width;
+		int _height;
+		double _time_base;
+		double _next_pts_sec;
+		bool _has_frame_ready;
+		int _video_stream_index;
 };
 };

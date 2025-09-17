@@ -25,7 +25,6 @@
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
-#include "core/video.hpp"
 #include "frontend/compendium.hpp"
 #include "frontend/license.hpp"
 #include "frontend/options.hpp"
@@ -62,19 +61,20 @@ auto Sorcery::MainMenu::start() -> int {
 	_system->animation->start_attract_th();
 
 	// Initialise main menu background vfx
-	try {
+	/* try {
 		auto bg_vfx_path{(*_system->files)[MAINMENU_VIDEO].string()};
-		const auto vfx_loaded{_bg_video.open(bg_vfx_path.c_str())};
+		const auto vfx_loaded{_bg_video.load_vfx_file(bg_vfx_path.c_str())};
 	} catch (std::exception &e) {
 
 		Error error{Enums::System::Error::VFX_ERROR, e,
 					"could not load main menu vfx!"};
 		std::cerr << error;
 		exit(EXIT_FAILURE);
-	}
+	} */
 
 	// Main loop
 	auto done{false};
+	auto lastFrameTime{std::chrono::steady_clock::now()};
 	while (!done) {
 
 		SDL_Event event;
@@ -90,6 +90,12 @@ auto Sorcery::MainMenu::start() -> int {
 		}
 
 		if (!done) {
+
+			// ImGui::Begin("Video Player");
+			// ImGui::Image((ImTextureID)(intptr_t)_bg_video.get_texture(),
+			//			 ImVec2((float)_bg_video.get_width(),
+			//					(float)_bg_video.get_height()));
+			// ImGui::End();
 
 			_ui->display("main_menu");
 
@@ -122,8 +128,6 @@ auto Sorcery::MainMenu::start() -> int {
 }
 
 auto Sorcery::MainMenu::stop() -> int {
-
-	_bg_video.cleanup();
 
 	return 0;
 }

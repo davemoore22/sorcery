@@ -129,6 +129,7 @@ namespace Enums::Window {
 		ICON,
 		DIALOG,
 		PARAGRAPH,
+		VIDEO,
 		UNKNOWN
 	};
 

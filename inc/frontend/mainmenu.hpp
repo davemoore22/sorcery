@@ -57,7 +57,6 @@ class MainMenu {
 		std::unique_ptr<Compendium> _compendium;
 		std::unique_ptr<License> _license;
 		std::unique_ptr<Options> _options;
-		Video _bg_video;
 };
 
 };

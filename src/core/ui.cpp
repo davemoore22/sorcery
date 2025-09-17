@@ -27,6 +27,7 @@
 #include "core/render.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
+#include "core/video.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
 #include "gui/input.hpp"
