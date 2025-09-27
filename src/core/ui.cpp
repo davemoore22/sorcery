@@ -27,7 +27,6 @@
 #include "core/render.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
-#include "core/video.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
 #include "gui/input.hpp"
@@ -35,6 +34,7 @@
 #include "gui/message.hpp"
 #include "gui/modal.hpp"
 #include "gui/popup.hpp"
+#include "gui/video.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/imagestore.hpp"
 #include "resources/itemstore.hpp"
@@ -58,7 +58,24 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 		std::make_unique<ComponentStore>((*_system->files)[LAYOUT_FILE]);
 	images = std::make_unique<ImageStore>(_system);
 
-	// Custom Components
+	// VFX and SFX players
+	vfx_player = std::make_unique<Video>();
+
+	// Initialise main menu background vfx
+	try {
+
+		auto bg_vfx_path{(*_system->files)[MAINMENU_VIDEO].string()};
+		vfx_player->load(bg_vfx_path.c_str());
+
+	} catch (std::exception &e) {
+
+		Error error{Enums::System::Error::VFX_ERROR, e,
+					"could not load main menu vfx!"};
+		std::cerr << error;
+		exit(EXIT_FAILURE);
+	}
+
+	// Custom components
 	dialog_exit = std::make_unique<Dialog>(
 		_system, this, (*components)["main_menu:dialog_exit"],
 		Enums::Layout::DialogType::CONFIRM);
@@ -125,7 +142,11 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 	frame_rd = std::stoi((*_system->config).get("Frame", "rounding"));
 	ui_rd = std::stoi((*_system->config).get("UI", "rounding"));
 
+	// Render window
 	_render = std::make_unique<Render>(_system, _display, this, _controller);
+
+	// Ticks
+	ticks = SDL_GetTicks();
 };
 
 Sorcery::UI::~UI() {}
@@ -3179,8 +3200,14 @@ auto Sorcery::UI::_draw_loading_progress() -> void {
 }
 
 auto Sorcery::UI::_display_main_menu() -> void {
+
 	_draw_components("main_menu");
 	_draw_attract_mode();
+
+	auto elapsed_sec{(SDL_GetTicks() - ticks) / 1000.0};
+	vfx_player->update(elapsed_sec);
+	vfx_player->render();
+
 	dialog_exit->display(_controller->get_flag_ref("want_exit_game"));
 	dialog_new->display(_controller->get_flag_ref("want_new_game"));
 	dialog_leave->display(_controller->get_flag_ref("want_leave_game"));

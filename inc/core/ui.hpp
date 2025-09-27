@@ -136,7 +136,7 @@ class UI {
 		std::unique_ptr<Modal> modal_trade;
 		std::unique_ptr<Modal> modal_use;
 		std::unique_ptr<Modal> modal_invoke;
-		std::unique_ptr<Video> video;
+		std::unique_ptr<Video> vfx_player;
 		unsigned int font_sz;
 		unsigned int grid_sz;
 		unsigned int frame_rd;
@@ -150,6 +150,7 @@ class UI {
 		std::map<std::string, bool> pressed;
 		std::array<bool, 21> ms_selected;
 		std::array<bool, 29> ps_selected;
+		Uint32 ticks;
 
 	private:
 		// Private Members

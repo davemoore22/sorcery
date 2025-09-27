@@ -20,64 +20,86 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/video.hpp"
+#include "gui/video.hpp"
 
-Sorcery::Video::Video(const std::string &filename) {
+Sorcery::Video::Video() {
 
-	if (avformat_open_input(&_format_ctx, filename.c_str(), nullptr, nullptr) <
-		0) {
-		throw std::runtime_error("Failed to open video file");
+	_gl_texture = 0;
+	_width = 0;
+	_height = 0;
+
+	_time_base = 0.0;
+	_next_pts_sec = 0.0;
+	_has_frame_ready = false;
+
+	loaded = false;
+}
+
+auto Sorcery::Video::load(const std::string &filename) -> bool {
+
+	try {
+
+		if (avformat_open_input(&_format_ctx, filename.c_str(), nullptr,
+								nullptr) < 0)
+			throw std::runtime_error("Failed to open video file");
+
+		if (avformat_find_stream_info(_format_ctx, nullptr) < 0)
+			throw std::runtime_error("Failed to get stream info");
+
+		const AVCodec *codec{nullptr};
+		auto video_stream_index{av_find_best_stream(
+			_format_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0)};
+		if (video_stream_index < 0)
+			throw std::runtime_error("Failed to find video stream");
+
+		_video_stream_index = av_find_best_stream(
+			_format_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
+		if (_video_stream_index < 0)
+			throw std::runtime_error("Failed to find video stream");
+
+		_codec_ctx = avcodec_alloc_context3(codec);
+		avcodec_parameters_to_context(
+			_codec_ctx, _format_ctx->streams[video_stream_index]->codecpar);
+
+		if (avcodec_open2(_codec_ctx, codec, nullptr) < 0)
+			throw std::runtime_error("Failed to open codec");
+
+		_width = _codec_ctx->width;
+		_height = _codec_ctx->height;
+
+		_frame = av_frame_alloc();
+		_rgb_frame = av_frame_alloc();
+		_packet = av_packet_alloc();
+
+		auto num_bytes{
+			av_image_get_buffer_size(AV_PIX_FMT_RGB24, _width, _height, 1)};
+		std::vector<uint8_t> buffer(static_cast<size_t>(num_bytes));
+		av_image_fill_arrays(_rgb_frame->data, _rgb_frame->linesize,
+							 buffer.data(), AV_PIX_FMT_RGB24, _width, _height,
+							 1);
+
+		_sws_ctx = sws_getContext(_width, _height, _codec_ctx->pix_fmt, _width,
+								  _height, AV_PIX_FMT_RGB24, SWS_BILINEAR,
+								  nullptr, nullptr, nullptr);
+
+		glGenTextures(1, &_gl_texture);
+		glBindTexture(GL_TEXTURE_2D, _gl_texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, _width, _height, 0, GL_RGB,
+					 GL_UNSIGNED_BYTE, nullptr);
+
+		_time_base =
+			av_q2d(_format_ctx->streams[video_stream_index]->time_base);
+
+		loaded = true;
+		return true;
+
+	} catch (const std::runtime_error &e) {
+
+		std::cerr << "Error loading video: " << e.what() << std::endl;
+		return false;
 	}
-	if (avformat_find_stream_info(_format_ctx, nullptr) < 0) {
-		throw std::runtime_error("Failed to get stream info");
-	}
-
-	const AVCodec *codec{nullptr};
-	auto video_stream_index{av_find_best_stream(_format_ctx, AVMEDIA_TYPE_VIDEO,
-												-1, -1, &codec, 0)};
-	if (video_stream_index < 0) {
-		throw std::runtime_error("Failed to find video stream");
-	}
-
-	_video_stream_index =
-		av_find_best_stream(_format_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
-	if (_video_stream_index < 0) {
-		throw std::runtime_error("Failed to find video stream");
-	}
-
-	_codec_ctx = avcodec_alloc_context3(codec);
-	avcodec_parameters_to_context(
-		_codec_ctx, _format_ctx->streams[video_stream_index]->codecpar);
-
-	if (avcodec_open2(_codec_ctx, codec, nullptr) < 0) {
-		throw std::runtime_error("Failed to open codec");
-	}
-
-	_width = _codec_ctx->width;
-	_height = _codec_ctx->height;
-
-	_frame = av_frame_alloc();
-	_rgb_frame = av_frame_alloc();
-	_packet = av_packet_alloc();
-
-	auto num_bytes{
-		av_image_get_buffer_size(AV_PIX_FMT_RGB24, _width, _height, 1)};
-	std::vector<uint8_t> buffer(static_cast<size_t>(num_bytes));
-	av_image_fill_arrays(_rgb_frame->data, _rgb_frame->linesize, buffer.data(),
-						 AV_PIX_FMT_RGB24, _width, _height, 1);
-
-	_sws_ctx = sws_getContext(_width, _height, _codec_ctx->pix_fmt, _width,
-							  _height, AV_PIX_FMT_RGB24, SWS_BILINEAR, nullptr,
-							  nullptr, nullptr);
-
-	glGenTextures(1, &_gl_texture);
-	glBindTexture(GL_TEXTURE_2D, _gl_texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB,
-				 GL_UNSIGNED_BYTE, nullptr);
-
-	_time_base = av_q2d(_format_ctx->streams[video_stream_index]->time_base);
 }
 
 Sorcery::Video::~Video() {

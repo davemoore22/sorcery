@@ -25,7 +25,6 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "core/video.hpp"
 #include "frontend/compendium.hpp"
 #include "frontend/license.hpp"
 #include "frontend/options.hpp"
@@ -36,7 +35,6 @@ class Display;
 class UI;
 class Controller;
 class System;
-class Video;
 
 class MainMenu {
 

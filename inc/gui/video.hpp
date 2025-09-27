@@ -31,14 +31,18 @@ namespace Sorcery {
 class Video {
 	public:
 		// Constructor
-		explicit Video(const std::string &filename);
+		Video();
 
 		// Destructor
 		~Video();
 
 		// Public Methods
+		auto load(const std::string &filename) -> bool;
 		auto update(double playback_time) -> void;
 		auto render() -> void;
+
+		// Publuic Members
+		bool loaded;
 
 	private:
 		// Private Data
