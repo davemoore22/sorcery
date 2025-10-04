@@ -3206,7 +3206,7 @@ auto Sorcery::UI::_display_main_menu() -> void {
 
 	auto elapsed_sec{(SDL_GetTicks() - ticks) / 1000.0};
 	vfx_player->update(elapsed_sec);
-	vfx_player->render();
+	vfx_player->render(WINDOW_LAYER_BG);
 
 	dialog_exit->display(_controller->get_flag_ref("want_exit_game"));
 	dialog_new->display(_controller->get_flag_ref("want_new_game"));

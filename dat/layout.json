@@ -1316,21 +1316,6 @@
 			"name": "main_menu",
 			"component": [
 				{
-					"name": "background_image",
-					"x": "0",
-					"y": "0",
-					"type": "image_bg",
-					"drawmode": "automatic",
-					"priority": "0",
-					"alpha": "1.0",
-					"data": [
-						{
-							"source": "background-mm.png",
-							"scale": "1.0"
-						}
-					]
-				},
-				{
 					"name": "attract_mode",
 					"x": "12",
 					"y": "14",

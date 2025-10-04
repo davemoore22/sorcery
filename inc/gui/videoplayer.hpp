@@ -30,17 +30,23 @@ namespace Sorcery {
 
 class VideoPlayer {
 	public:
+		// Standard Constructor
 		VideoPlayer();
+
+		// Standard Destructor
 		~VideoPlayer();
 
+		// Public Methods
 		auto load(const std::string &filename) -> void;
-
 		auto update(double playback_time) -> void;
-		auto render() -> void;
+		auto render(const char *window_name, ImVec2 position = {0, 0},
+					ImVec2 size = {0, 0}) -> void;
 
 	private:
+		// Private Methods
 		auto free_resources() -> void;
 
+		// Private Members
 		AVFormatContext *_format_ctx;
 		AVCodecContext *_codec_ctx;
 		AVFrame *_frame;
