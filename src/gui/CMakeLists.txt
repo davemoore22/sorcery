@@ -6,5 +6,5 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/menu.cpp
 	${CMAKE_CURRENT_LIST_DIR}/message.cpp
 	${CMAKE_CURRENT_LIST_DIR}/popup.cpp
-	${CMAKE_CURRENT_LIST_DIR}/video.cpp
+	${CMAKE_CURRENT_LIST_DIR}/videoplayer.cpp
 )

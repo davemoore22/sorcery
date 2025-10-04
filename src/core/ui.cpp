@@ -34,7 +34,7 @@
 #include "gui/message.hpp"
 #include "gui/modal.hpp"
 #include "gui/popup.hpp"
-#include "gui/video.hpp"
+#include "gui/videoplayer.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/imagestore.hpp"
 #include "resources/itemstore.hpp"
@@ -59,7 +59,7 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 	images = std::make_unique<ImageStore>(_system);
 
 	// VFX and SFX players
-	vfx_player = std::make_unique<Video>();
+	vfx_player = std::make_unique<VideoPlayer>();
 
 	// Initialise main menu background vfx
 	try {
