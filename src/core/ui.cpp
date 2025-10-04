@@ -2904,13 +2904,17 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 }
 
 auto Sorcery::UI::_display_bestiary() -> void {
+
 	_draw_components("bestiary");
+	_draw_bg_video();
 	_draw_monster_info();
 	_draw_cursor();
 }
 
 auto Sorcery::UI::_display_compendium() -> void {
+
 	_draw_components("compendium");
+	_draw_bg_video();
 	_draw_cursor();
 }
 
@@ -2979,19 +2983,25 @@ auto Sorcery::UI::_display_inspect(Game *game, const int mode) -> void {
 }
 
 auto Sorcery::UI::_display_spellbook() -> void {
+
 	_draw_components("spellbook");
+	_draw_bg_video();
 	_draw_spell_info();
 	_draw_cursor();
 }
 
 auto Sorcery::UI::_display_atlas() -> void {
+
 	_draw_components("atlas");
+	_draw_bg_video();
 	_draw_level_no_player();
 	_draw_cursor();
 }
 
 auto Sorcery::UI::_display_museum() -> void {
+
 	_draw_components("museum");
+	_draw_bg_video();
 	_draw_item_info();
 	_draw_cursor();
 }
@@ -3122,13 +3132,18 @@ auto Sorcery::UI::_display_add(Game *game) -> void {
 }
 
 auto Sorcery::UI::_display_options() -> void {
+
 	_draw_components("options");
+	_draw_bg_video();
 	_draw_options();
 	_draw_cursor();
 }
 
 auto Sorcery::UI::_display_license(const std::string &string) -> void {
+
 	_draw_components("license");
+	_draw_bg_video();
+
 	auto component{(*components)["license:license_info"]};
 	_draw_license(&component, string);
 	_draw_cursor();
@@ -3199,14 +3214,18 @@ auto Sorcery::UI::_draw_loading_progress() -> void {
 	}
 }
 
-auto Sorcery::UI::_display_main_menu() -> void {
-
-	_draw_components("main_menu");
-	_draw_attract_mode();
+auto Sorcery::UI::_draw_bg_video() -> void {
 
 	auto elapsed_sec{(SDL_GetTicks() - ticks) / 1000.0};
 	vfx_player->update(elapsed_sec);
 	vfx_player->render(WINDOW_LAYER_BG);
+}
+
+auto Sorcery::UI::_display_main_menu() -> void {
+
+	_draw_components("main_menu");
+	_draw_attract_mode();
+	_draw_bg_video();
 
 	dialog_exit->display(_controller->get_flag_ref("want_exit_game"));
 	dialog_new->display(_controller->get_flag_ref("want_new_game"));
@@ -3223,6 +3242,7 @@ auto Sorcery::UI::_display_main_menu() -> void {
 }
 
 auto Sorcery::UI::_draw_attract_mode() -> void {
+
 	// Get the Attract Data
 	const auto attract{(*components)["main_menu:attract_mode"]};
 	_attract_data = _system->animation->get_attract_data();

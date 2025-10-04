@@ -199,6 +199,8 @@ class UI {
 		auto _display_training_grounds(Game *game) -> void;
 		auto _draw_attract_mode() -> void;
 		auto _draw_bg_image(Component *component) -> void;
+		auto _draw_bg_video() -> void;
+
 		auto _draw_buffbar(Game *game) -> void;
 		auto _draw_button(Component *component,
 						  std::optional<bool *> is_clicked = std::nullopt)

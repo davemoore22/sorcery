@@ -612,21 +612,6 @@
 			"name": "bestiary",
 			"component": [
 				{
-					"name": "background_image",
-					"x": "0",
-					"y": "0",
-					"type": "image_bg",
-					"drawmode": "automatic",
-					"priority": "0",
-					"alpha": "1.0",
-					"data": [
-						{
-							"source": "background-mm.png",
-							"scale": "1.0"
-						}
-					]
-				},
-				{
 					"name": "main_frame",
 					"type": "frame",
 					"x": "centre",
@@ -762,21 +747,6 @@
 			"name": "museum",
 			"component": [
 				{
-					"name": "background_image",
-					"x": "0",
-					"y": "0",
-					"type": "image_bg",
-					"drawmode": "automatic",
-					"priority": "0",
-					"alpha": "1.0",
-					"data": [
-						{
-							"source": "background-mm.png",
-							"scale": "1.0"
-						}
-					]
-				},
-				{
 					"name": "main_frame",
 					"type": "frame",
 					"x": "centre",
@@ -896,21 +866,6 @@
 			"name": "spellbook",
 			"component": [
 				{
-					"name": "background_image",
-					"x": "0",
-					"y": "0",
-					"type": "image_bg",
-					"drawmode": "automatic",
-					"priority": "0",
-					"alpha": "1.0",
-					"data": [
-						{
-							"source": "background-mm.png",
-							"scale": "1.0"
-						}
-					]
-				},
-				{
 					"name": "main_frame",
 					"type": "frame",
 					"x": "centre",
@@ -997,21 +952,6 @@
 		{
 			"name": "atlas",
 			"component": [
-				{
-					"name": "background_image",
-					"x": "0",
-					"y": "0",
-					"type": "image_bg",
-					"drawmode": "automatic",
-					"priority": "0",
-					"alpha": "1.0",
-					"data": [
-						{
-							"source": "background-mm.png",
-							"scale": "1.0"
-						}
-					]
-				},
 				{
 					"name": "main_frame",
 					"type": "frame",
@@ -1106,21 +1046,6 @@
 			"name": "license",
 			"component": [
 				{
-					"name": "background_image",
-					"x": "0",
-					"y": "0",
-					"type": "image_bg",
-					"drawmode": "automatic",
-					"priority": "0",
-					"alpha": "1.0",
-					"data": [
-						{
-							"source": "background-mm.png",
-							"scale": "1.0"
-						}
-					]
-				},
-				{
 					"name": "outer_frame",
 					"type": "frame",
 					"x": "centre",
@@ -1181,21 +1106,6 @@
 			"name": "options",
 			"component": [
 				{
-					"name": "background_image",
-					"x": "0",
-					"y": "0",
-					"type": "image_bg",
-					"drawmode": "automatic",
-					"priority": "0",
-					"alpha": "1.0",
-					"data": [
-						{
-							"source": "background-mm.png",
-							"scale": "1.0"
-						}
-					]
-				},
-				{
 					"name": "outer_frame",
 					"type": "frame",
 					"x": "centre",
@@ -1240,21 +1150,6 @@
 		{
 			"name": "compendium",
 			"component": [
-				{
-					"name": "background_image",
-					"x": "0",
-					"y": "0",
-					"type": "image_bg",
-					"drawmode": "automatic",
-					"priority": "0",
-					"alpha": "1.0",
-					"data": [
-						{
-							"source": "background-mm.png",
-							"scale": "1.0"
-						}
-					]
-				},
 				{
 					"name": "outer_frame",
 					"type": "frame",
