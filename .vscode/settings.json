@@ -87,7 +87,7 @@
 	},
 	"cmake.debugConfig": {
 		"args": [
-			"--go-to-trainingd",
+			"--go-to-training",
 			"--ni"
 		]
 	},

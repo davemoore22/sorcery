@@ -468,6 +468,9 @@ auto Sorcery::UI::_setup_draw_modules() -> void {
 		std::bind(&UI::_display_temple, this, std::placeholders::_1);
 	_draw_modules["training_grounds"] =
 		std::bind(&UI::_display_training_grounds, this, std::placeholders::_1);
+	//_draw_modules["create"] =
+	//	std::bind(&UI::_display_create, this, std::placeholders::_1,
+	//			  std::placeholders::_2);
 }
 
 auto Sorcery::UI::display_engine(Game *game) -> void {
@@ -559,6 +562,11 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 			_display_roster(std::any_cast<Game *>(first),
 							std::any_cast<int>(second));
 	}
+	if (screen == "create") {
+		if (first.type() == typeid(Game *) && second.type() == typeid(int))
+			_display_create(std::any_cast<Game *>(first),
+							std::any_cast<int>(second));
+	}
 	if (screen == "heal") {
 		if (first.type() == typeid(Game *) && second.type() == typeid(int))
 			_display_heal(std::any_cast<Game *>(first),
@@ -566,10 +574,6 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 	} else if (screen == "choose") {
 		if (first.type() == typeid(Game *) && second.type() == typeid(int))
 			_display_choose(std::any_cast<Game *>(first),
-							std::any_cast<int>(second));
-	} else if (screen == "create") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_create(std::any_cast<Game *>(first),
 							std::any_cast<int>(second));
 	} else if (screen == "inspect") {
 		if (first.type() == typeid(Game *) && second.type() == typeid(int))
@@ -3095,6 +3099,7 @@ auto Sorcery::UI::_display_pay(Game *game) -> void {
 }
 
 auto Sorcery::UI::_display_temple(Game *game) -> void {
+
 	_draw_components("temple");
 	_draw_party_panel(game);
 	modal_inspect->display(_controller->get_flag_ref("want_inspect"));

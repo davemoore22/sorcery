@@ -45,6 +45,8 @@ Sorcery::Create::~Create() {};
 
 auto Sorcery::Create::_initialise() -> bool {
 
+	_stage = Enums::Character::Stage::ENTER_NAME;
+
 	return true;
 }
 
@@ -76,7 +78,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 			}
 		}
 
-		_ui->display("create", game);
+		_ui->display("create", game, unenum(_stage));
 
 		if (!_controller->has_flag("show_create") &&
 			_controller->has_flag("show_training_grounds")) {
