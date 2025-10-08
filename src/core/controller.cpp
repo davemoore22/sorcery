@@ -912,10 +912,19 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 			_game->save_game();
 		}
 
+	} else if (component == "method_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			move_screen("show_create", "show_training_grounds");
+		else {
+
+			// Which method of character creation do we want to do?
+		}
+
 	} else if (component == "roster_menu") {
 
-		// Roster has multiple entry points so need to rely upon
-		// calling screen to enable itself
+		// Roster has multiple entry points so need to rely uponcalling screen
+		// to enable itself
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["show_roster"] = false;
 			clear_character("inspect");
@@ -925,8 +934,8 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		}
 	} else if (component == "reorder_menu") {
 
-		// Reorder has multiple entry points so need to rely upon
-		// calling screen to enable itself
+		// Reorder has multiple entry points so need to rely upon calling screen
+		// to enable itself
 		if (selection == (static_cast<int>(items.size()) - 1))
 			_flags["show_reorder"] = false;
 

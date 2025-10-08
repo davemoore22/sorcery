@@ -105,6 +105,13 @@ auto Sorcery::Menu::_load_fixed_items() -> void {
 			_items.emplace_back(
 				std::format("{:^{}}", (*_system->strings)[source], _width));
 
+	} else if (_component->name == "method_menu") {
+		sources.insert(sources.end(), {"METHOD_FULL", "METHOD_QUICK",
+									   "METHOD_RANDOM", "METHOD_RETURN"});
+		for (const auto &source : sources)
+			_items.emplace_back(
+				std::format("{:^{}}", (*_system->strings)[source], _width));
+
 	} else if (_component->name == "modal_trade") {
 		sources.insert(sources.end(), {"TRADE_RETURN"});
 		for (const auto &source : sources)

@@ -2829,6 +2829,55 @@
 							"title": "CREATE_TITLE"
 						}
 					]
+				},
+				{
+					"name": "choose_method_subtitle",
+					"x": "centre",
+					"y": "14",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "METHOD_CHOOSE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "menu_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "13",
+					"w": "21",
+					"h": "9",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "method_menu",
+					"x": "centre",
+					"y": "16",
+					"w": "19",
+					"h": "4",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "automatic",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "19",
+							"height": "4",
+							"menu_name": "method_menu",
+							"highlight": "0x6060c8"
+						}
+					]
 				}
 			]
 		},
