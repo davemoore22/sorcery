@@ -272,6 +272,7 @@ class UI {
 		auto _setup_windows() -> void;
 
 		auto _draw_debug() -> void;
+		auto _draw_window_menu() -> void;
 };
 
 };

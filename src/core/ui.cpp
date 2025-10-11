@@ -343,6 +343,35 @@ auto Sorcery::UI::load_fonts() -> void {
 	fonts[DEFAULT] = _io.Fonts->AddFontDefault();
 }
 
+auto Sorcery::UI::_draw_window_menu() -> void {
+
+	ImGui::SetCurrentFont(fonts[Enums::Layout::Font::TEXT]);
+	if (ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("File")) {
+			if (ImGui::MenuItem("About", "")) {
+			}
+			ImGui::Separator();
+			if (ImGui::MenuItem("Exit", "")) {
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Font")) {
+			if (ImGui::MenuItem("Wiz 1-4/DOS", "")) {
+			}
+			if (ImGui::MenuItem("Wiz 5/DOS", "")) {
+			}
+			if (ImGui::MenuItem("Wiz 5/FMTowns", "")) {
+			}
+			ImGui::Separator();
+			if (ImGui::MenuItem("IBM PC CGA", "")) {
+			}
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMainMenuBar();
+	}
+}
+
 // Not an ideal function, really need to maintain a pointer status map instead
 auto Sorcery::UI::_get_popups() const -> std::string {
 
@@ -528,6 +557,7 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	ImGui::NewFrame();
 
 	_setup_windows();
+	_draw_window_menu();
 
 	// Background
 	_draw_components("engine_base_ui");
@@ -571,7 +601,7 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	_draw_debug();
 	_draw_cursor();
 
-	bool show = true;
+	bool show{true};
 	ImGui::SetCurrentFont(fonts[Enums::Layout::Font::DEFAULT]);
 	ImGui::ShowDemoWindow(&show);
 
@@ -596,6 +626,7 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 	ImGui::NewFrame();
 
 	_setup_windows();
+	_draw_window_menu();
 
 	if (first.type() == typeid(Game *) && second.type() != typeid(int)) {
 		if (auto it = _draw_modules.find(screen); it != _draw_modules.end())
@@ -614,6 +645,12 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 		if (auto it = _draw_frontend.find(screen); it != _draw_frontend.end())
 			it->second();
 	}
+
+	bool show{true};
+	ImGui::SetCurrentFont(fonts[Enums::Layout::Font::DEFAULT]);
+	ImGui::ShowDemoWindow(&show);
+
+	_draw_cursor();
 
 	// And finally clear and render everything
 	ImGui::Render();
