@@ -83,11 +83,12 @@
 		"print": "cpp",
 		"charconv": "cpp",
 		"format": "cpp",
-		"text_encoding": "cpp"
+		"text_encoding": "cpp",
+		"source_location": "cpp"
 	},
 	"cmake.debugConfig": {
 		"args": [
-			"--go-to-training",
+			"--go-to-teraining",
 			"--ni"
 		]
 	},

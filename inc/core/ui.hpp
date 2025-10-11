@@ -163,8 +163,11 @@ class UI {
 		std::vector<std::shared_ptr<Frame>> _frames;
 		std::vector<std::shared_ptr<Menu>> _menus;
 		std::vector<unsigned int> _attract_data;
-		std::map<std::string, std::function<void(Game *)>> _draw_modules;
-		std::map<std::string, std::function<void()>> _draw_frontend;
+
+		std::map<std::string, void (UI::*)(Game *)> _draw_modules;
+		std::map<std::string, void (UI::*)()> _draw_frontend;
+		std::map<std::string, void (UI::*)(Game *, int)> _draw_game_int;
+		std::map<std::string, void (UI::*)(const std::string &)> _draw_string;
 
 		// Private Methods
 		auto _display_add(Game *game) -> void;
@@ -262,8 +265,6 @@ class UI {
 		auto _get_status_color(Character *character) const -> ImVec4;
 		auto _get_popups() const -> std::string;
 		auto _setup_windows() -> void;
-		auto _setup_draw_frontend() -> void;
-		auto _setup_draw_modules() -> void;
 
 		auto _draw_debug() -> void;
 };

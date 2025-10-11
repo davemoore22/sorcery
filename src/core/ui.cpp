@@ -147,6 +147,49 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 
 	// Ticks
 	ticks = SDL_GetTicks();
+
+	// Initialise function tables
+	_draw_modules = {
+		{"add", &UI::_display_add},
+		{"castle", &UI::_display_castle},
+		{"edge_of_town", &UI::_display_edge_of_town},
+		{"inn", &UI::_display_inn},
+		{"pay", &UI::_display_pay},
+		{"remove", &UI::_display_remove},
+		{"restart", &UI::_display_restart},
+		{"shop", &UI::_display_shop},
+		{"stay", &UI::_display_stay},
+		{"tavern", &UI::_display_tavern},
+		{"temple", &UI::_display_temple},
+		{"training_grounds", &UI::_display_training_grounds},
+	};
+
+	_draw_frontend = {
+		{"atlas", &UI::_display_atlas},
+		{"bestiary", &UI::_display_bestiary},
+		{"compendium", &UI::_display_compendium},
+		{"main_menu", &UI::_display_main_menu},
+		{"museum", &UI::_display_museum},
+		{"options", &UI::_display_options},
+		{"spellbook", &UI::_display_spellbook},
+		{"splash", &UI::_display_splash},
+	};
+
+	_draw_game_int = {
+		{"roster", &UI::_display_roster},
+		{"create", &UI::_display_create},
+		{"heal", &UI::_display_heal},
+		{"choose", &UI::_display_choose},
+		{"inspect", &UI::_display_inspect},
+		{"reorder", &UI::_display_reorder},
+		{"recovery", &UI::_display_recovery},
+		{"nolevelup", &UI::_display_no_level_up},
+		{"levelup", &UI::_display_level_up},
+	};
+
+	_draw_string = {
+		{"license", &UI::_display_license},
+	};
 };
 
 Sorcery::UI::~UI() {}
@@ -402,9 +445,6 @@ auto Sorcery::UI::start() -> void {
 	message_tile->show = false;
 
 	_attract_data.clear();
-
-	_setup_draw_frontend();
-	_setup_draw_modules();
 }
 
 auto Sorcery::UI::io() -> ImGuiIO & {
@@ -426,51 +466,6 @@ auto Sorcery::UI::display_refresh(std::any first, std::any second) -> void {
 
 	// Refresh what we previously drew
 	display(_controller->last, first, second);
-}
-
-auto Sorcery::UI::_setup_draw_frontend() -> void {
-
-	_draw_frontend.clear();
-	_draw_frontend["atlas"] = std::bind(&UI::_display_atlas, this);
-	_draw_frontend["bestiary"] = std::bind(&UI::_display_bestiary, this);
-	_draw_frontend["compendium"] = std::bind(&UI::_display_compendium, this);
-	_draw_frontend["main_menu"] = std::bind(&UI::_display_main_menu, this);
-	_draw_frontend["museum"] = std::bind(&UI::_display_museum, this);
-	_draw_frontend["options"] = std::bind(&UI::_display_options, this);
-	_draw_frontend["spellbook"] = std::bind(&UI::_display_spellbook, this);
-	_draw_frontend["splash"] = std::bind(&UI::_display_splash, this);
-}
-
-auto Sorcery::UI::_setup_draw_modules() -> void {
-
-	_draw_modules.clear();
-	_draw_modules["add"] =
-		std::bind(&UI::_display_add, this, std::placeholders::_1);
-	_draw_modules["castle"] =
-		std::bind(&UI::_display_castle, this, std::placeholders::_1);
-	_draw_modules["edge_of_town"] =
-		std::bind(&UI::_display_edge_of_town, this, std::placeholders::_1);
-	_draw_modules["inn"] =
-		std::bind(&UI::_display_inn, this, std::placeholders::_1);
-	_draw_modules["pay"] =
-		std::bind(&UI::_display_pay, this, std::placeholders::_1);
-	_draw_modules["remove"] =
-		std::bind(&UI::_display_remove, this, std::placeholders::_1);
-	_draw_modules["restart"] =
-		std::bind(&UI::_display_restart, this, std::placeholders::_1);
-	_draw_modules["shop"] =
-		std::bind(&UI::_display_shop, this, std::placeholders::_1);
-	_draw_modules["stay"] =
-		std::bind(&UI::_display_stay, this, std::placeholders::_1);
-	_draw_modules["tavern"] =
-		std::bind(&UI::_display_tavern, this, std::placeholders::_1);
-	_draw_modules["temple"] =
-		std::bind(&UI::_display_temple, this, std::placeholders::_1);
-	_draw_modules["training_grounds"] =
-		std::bind(&UI::_display_training_grounds, this, std::placeholders::_1);
-	//_draw_modules["create"] =
-	//	std::bind(&UI::_display_create, this, std::placeholders::_1,
-	//			  std::placeholders::_2);
 }
 
 auto Sorcery::UI::display_engine(Game *game) -> void {
@@ -550,54 +545,19 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 
 	_setup_windows();
 
-	if (first.type() == typeid(Game *) && second.type() != typeid(int))
-		_draw_modules[screen](std::any_cast<Game *>(first));
-	else if (first.type() == typeid(Game *) && second.type() == typeid(int)) {
+	if (first.type() == typeid(Game *) && second.type() != typeid(int)) {
+		if (auto it = _draw_modules.find(screen); it != _draw_modules.end())
+			(this->*(it->second))(std::any_cast<Game *>(first));
+	} else if (first.type() == typeid(Game *) && second.type() == typeid(int)) {
+		if (auto it = _draw_game_int.find(screen); it != _draw_game_int.end())
+			(this->*(it->second))(std::any_cast<Game *>(first),
+								  std::any_cast<int>(second));
 	} else if (first.type() == typeid(std::string)) {
-	} else
-		_draw_frontend[screen]();
-
-	if (screen == "roster") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_roster(std::any_cast<Game *>(first),
-							std::any_cast<int>(second));
-	}
-	if (screen == "create") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_create(std::any_cast<Game *>(first),
-							std::any_cast<int>(second));
-	}
-	if (screen == "heal") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_heal(std::any_cast<Game *>(first),
-						  std::any_cast<int>(second));
-	} else if (screen == "choose") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_choose(std::any_cast<Game *>(first),
-							std::any_cast<int>(second));
-	} else if (screen == "inspect") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_inspect(std::any_cast<Game *>(first),
-							 std::any_cast<int>(second));
-	} else if (screen == "license") {
-		if (first.type() == typeid(std::string))
-			_display_license(std::any_cast<std::string>(first));
-	} else if (screen == "reorder") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_reorder(std::any_cast<Game *>(first),
-							 std::any_cast<int>(second));
-	} else if (screen == "recovery") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_recovery(std::any_cast<Game *>(first),
-							  std::any_cast<int>(second));
-	} else if (screen == "nolevelup") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_no_level_up(std::any_cast<Game *>(first),
-								 std::any_cast<int>(second));
-	} else if (screen == "levelup") {
-		if (first.type() == typeid(Game *) && second.type() == typeid(int))
-			_display_level_up(std::any_cast<Game *>(first),
-							  std::any_cast<int>(second));
+		if (auto it = _draw_string.find(screen); it != _draw_string.end())
+			(this->*(it->second))(std::any_cast<std::string>(first));
+	} else {
+		if (auto it = _draw_frontend.find(screen); it != _draw_frontend.end())
+			(this->*(it->second))();
 	}
 
 	// And finally clear and render everything
