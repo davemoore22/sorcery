@@ -164,42 +164,47 @@ class UI {
 		std::vector<std::shared_ptr<Menu>> _menus;
 		std::vector<unsigned int> _attract_data;
 
-		std::map<std::string, void (UI::*)(Game *)> _draw_modules;
-		std::map<std::string, void (UI::*)()> _draw_frontend;
-		std::map<std::string, void (UI::*)(Game *, int)> _draw_game_int;
-		std::map<std::string, void (UI::*)(const std::string &)> _draw_string;
+		std::map<std::string, std::function<void()>> _draw_frontend;
+		std::map<std::string, std::function<void(Game *)>> _draw_modules;
+		std::map<std::string, std::function<void(Game *, int)>> _draw_game_int;
+		std::map<std::string, std::function<void(const std::string &)>>
+			_draw_string;
 
 		// Private Methods
-		auto _display_add(Game *game) -> void;
 		auto _display_atlas() -> void;
 		auto _display_bestiary() -> void;
-		auto _display_castle(Game *game) -> void;
-		auto _display_choose(Game *game, const int mode) -> void;
-		auto _display_create(Game *game, const int stage) -> void;
 		auto _display_compendium() -> void;
-		auto _display_edge_of_town(Game *game) -> void;
-		auto _display_heal(Game *game, const int stage) -> void;
-		auto _display_inn(Game *game) -> void;
-		auto _display_license(const std::string &string) -> void;
 		auto _display_main_menu() -> void;
 		auto _display_museum() -> void;
-		auto _display_inspect(Game *game, const int mode) -> void;
-		auto _display_level_up(Game *game, const int mode) -> void;
-		auto _display_no_level_up(Game *game, const int mode) -> void;
-		auto _display_pay(Game *game) -> void;
-		auto _display_recovery(Game *game, const int mode) -> void;
-		auto _display_remove(Game *game) -> void;
-		auto _display_reorder(Game *game, const int mode) -> void;
-		auto _display_restart(Game *game) -> void;
-		auto _display_roster(Game *game, const int mode) -> void;
 		auto _display_options() -> void;
 		auto _display_spellbook() -> void;
+		auto _display_splash() -> void;
+
+		auto _display_add(Game *game) -> void;
+		auto _display_castle(Game *game) -> void;
+		auto _display_edge_of_town(Game *game) -> void;
+		auto _display_inn(Game *game) -> void;
+		auto _display_pay(Game *game) -> void;
+		auto _display_remove(Game *game) -> void;
+		auto _display_restart(Game *game) -> void;
 		auto _display_shop(Game *game) -> void;
 		auto _display_stay(Game *game) -> void;
-		auto _display_splash() -> void;
 		auto _display_tavern(Game *game) -> void;
 		auto _display_temple(Game *game) -> void;
 		auto _display_training_grounds(Game *game) -> void;
+
+		auto _display_choose(Game *game, const int mode) -> void;
+		auto _display_create(Game *game, const int stage) -> void;
+		auto _display_heal(Game *game, const int stage) -> void;
+		auto _display_inspect(Game *game, const int mode) -> void;
+		auto _display_level_up(Game *game, const int mode) -> void;
+		auto _display_no_level_up(Game *game, const int mode) -> void;
+		auto _display_recovery(Game *game, const int mode) -> void;
+		auto _display_reorder(Game *game, const int mode) -> void;
+		auto _display_roster(Game *game, const int mode) -> void;
+
+		auto _display_license(const std::string &string) -> void;
+
 		auto _draw_attract_mode() -> void;
 		auto _draw_bg_image(Component *component) -> void;
 		auto _draw_bg_video() -> void;
