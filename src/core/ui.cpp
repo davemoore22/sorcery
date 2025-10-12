@@ -36,6 +36,7 @@
 #include "gui/popup.hpp"
 #include "gui/videoplayer.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/fontstore.hpp"
 #include "resources/imagestore.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
@@ -57,6 +58,8 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 	components =
 		std::make_unique<ComponentStore>((*_system->files)[LAYOUT_FILE]);
 	images = std::make_unique<ImageStore>(_system);
+
+	// Can't create fontstore just yet as it needs IMGUI initialised
 
 	// VFX and SFX players
 	vfx_player = std::make_unique<VideoPlayer>();
@@ -473,7 +476,9 @@ auto Sorcery::UI::start() -> void {
 								 _display->get_GL_context());
 	ImGui_ImplOpenGL3_Init(_display->get_GLSL_version());
 
+	// Can create the fontstore now
 	load_fonts();
+	fontstore = std::make_unique<FontStore>(_system, _io);
 
 	// Set the styles
 	ImGuiStyle &style = ImGui::GetStyle();

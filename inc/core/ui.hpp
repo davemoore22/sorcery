@@ -41,6 +41,7 @@ class ComponentStore;
 class Controller;
 class Dialog;
 class Display;
+class FontStore;
 class Frame;
 class Game;
 class Input;
@@ -111,6 +112,7 @@ class UI {
 		std::map<Enums::Layout::Font, ImFont *> fonts;
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
+		std::unique_ptr<FontStore> fontstore;
 
 		std::unique_ptr<Dialog> dialog_exit;
 		std::unique_ptr<Dialog> dialog_new;

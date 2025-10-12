@@ -34,6 +34,13 @@ namespace Enums::Layout {
 		TEXT,
 		DEFAULT
 	};
+	enum class MonospaceVariant {
+		NO_MONO_VARIANT,
+		IBM_CGA,
+		WIZ1_4_DOS,
+		WIZ5_DOS,
+		WIZ5_FMTOWNS
+	};
 	enum class DialogType {
 		NO_DIALOG,
 		CONFIRM,

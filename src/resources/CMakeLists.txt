@@ -1,6 +1,7 @@
 list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/componentstore.cpp
 	${CMAKE_CURRENT_LIST_DIR}/filestore.cpp
+	${CMAKE_CURRENT_LIST_DIR}/fontstore.cpp
 	${CMAKE_CURRENT_LIST_DIR}/imagestore.cpp
 	${CMAKE_CURRENT_LIST_DIR}/itemstore.cpp
 	${CMAKE_CURRENT_LIST_DIR}/levelstore.cpp
