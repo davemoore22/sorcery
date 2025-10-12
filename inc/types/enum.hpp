@@ -36,11 +36,12 @@ namespace Enums::Layout {
 	};
 	enum class MonospaceVariant {
 		NO_MONO_VARIANT,
-		IBM_CGA,
 		WIZ1_4_DOS,
 		WIZ5_DOS,
 		WIZ5_FMTOWNS,
-		APPLE_II
+		APPLE_II,
+		AMSTRAD_CPC,
+		IBM_CGA
 	};
 	enum class DialogType {
 		NO_DIALOG,

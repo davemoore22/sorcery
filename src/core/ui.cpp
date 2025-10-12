@@ -359,34 +359,40 @@ auto Sorcery::UI::_draw_window_menu() -> void {
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Font")) {
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::WIZ1_4_DOS);
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			if (ImGui::MenuItem("W1-4/DOS", "")) {
-			}
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::WIZ5_DOS);
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			if (ImGui::MenuItem("W5/DOS", "")) {
-			}
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::WIZ5_FMTOWNS);
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			if (ImGui::MenuItem("W5/FMTowns", "")) {
-			}
 
-			ImGui::Separator();
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::AMSTRAD_CPC);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			if (ImGui::MenuItem("Amstrad CPC", "")) {
+			}
 			fontstore->set_monospace_variant(
 				Enums::Layout::MonospaceVariant::APPLE_II);
 			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			if (ImGui::MenuItem("APPLE II", "")) {
+			if (ImGui::MenuItem("Apple II", "")) {
 			}
-
 			fontstore->set_monospace_variant(
 				Enums::Layout::MonospaceVariant::IBM_CGA);
 			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			if (ImGui::MenuItem("IBM PC CGA", "")) {
 			}
+			ImGui::Separator();
+
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::WIZ1_4_DOS);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			if (ImGui::MenuItem("Wiz 1-4 (DOS)", "")) {
+			}
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::WIZ5_DOS);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			if (ImGui::MenuItem("Wiz 5 (DOS)", "")) {
+			}
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::WIZ5_FMTOWNS);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			if (ImGui::MenuItem("Wiz 5 (FMTowns)", "")) {
+			}
+
 			ImGui::EndMenu();
 		}
 

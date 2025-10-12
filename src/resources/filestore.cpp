@@ -43,6 +43,7 @@ Sorcery::FileStore::FileStore() {
 	_add_path(DATA_DIR, MONOSPACE_C_FONT_FILE);
 	_add_path(DATA_DIR, MONOSPACE_D_FONT_FILE);
 	_add_path(DATA_DIR, MONOSPACE_E_FONT_FILE);
+	_add_path(DATA_DIR, MONOSPACE_F_FONT_FILE);
 	_add_path(DATA_DIR, MONSTERS_FILE);
 	_add_path(DATA_DIR, PROPORTIONAL_FONT_FILE);
 	_add_path(DATA_DIR, STRINGS_FILE);
