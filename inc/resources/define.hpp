@@ -49,6 +49,7 @@ inline constexpr auto MONOSPACE_A_FONT_FILE{"monospace-a.ttf"sv};
 inline constexpr auto MONOSPACE_B_FONT_FILE{"monospace-b.ttf"sv};
 inline constexpr auto MONOSPACE_C_FONT_FILE{"monospace-c.ttf"sv};
 inline constexpr auto MONOSPACE_D_FONT_FILE{"monospace-d.ttf"sv};
+inline constexpr auto MONOSPACE_E_FONT_FILE{"monospace-e.ttf"sv};
 inline constexpr auto PROPORTIONAL_FONT_FILE{"proportional.ttf"sv};
 inline constexpr auto TEXT_FONT_FILE{"text.ttf"sv};
 

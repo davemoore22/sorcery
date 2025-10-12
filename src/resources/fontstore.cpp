@@ -49,6 +49,9 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 	_monospace_fonts[Enums::Layout::MonospaceVariant::WIZ5_FMTOWNS] =
 		_io.Fonts->AddFontFromFileTTF(
 			CSTR((*_system->files)[MONOSPACE_C_FONT_FILE]), font_size);
+	_monospace_fonts[Enums::Layout::MonospaceVariant::APPLE_II] =
+		_io.Fonts->AddFontFromFileTTF(
+			CSTR((*_system->files)[MONOSPACE_E_FONT_FILE]), font_size);
 
 	// Default selection
 	_current_font = _fonts[Enums::Layout::Font::DEFAULT];

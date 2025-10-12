@@ -39,7 +39,8 @@ namespace Enums::Layout {
 		IBM_CGA,
 		WIZ1_4_DOS,
 		WIZ5_DOS,
-		WIZ5_FMTOWNS
+		WIZ5_FMTOWNS,
+		APPLE_II
 	};
 	enum class DialogType {
 		NO_DIALOG,

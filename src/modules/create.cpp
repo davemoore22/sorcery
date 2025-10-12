@@ -91,7 +91,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Create::stop(Game *game) -> int {
+auto Sorcery::Create::stop([[maybe_unused]] Game *game) -> int {
 
 	_controller->unset_flag("show_create");
 

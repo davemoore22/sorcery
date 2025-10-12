@@ -359,13 +359,32 @@ auto Sorcery::UI::_draw_window_menu() -> void {
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Font")) {
-			if (ImGui::MenuItem("Wiz 1-4/DOS", "")) {
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::WIZ1_4_DOS);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			if (ImGui::MenuItem("W1-4/DOS", "")) {
 			}
-			if (ImGui::MenuItem("Wiz 5/DOS", "")) {
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::WIZ5_DOS);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			if (ImGui::MenuItem("W5/DOS", "")) {
 			}
-			if (ImGui::MenuItem("Wiz 5/FMTowns", "")) {
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::WIZ5_FMTOWNS);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			if (ImGui::MenuItem("W5/FMTowns", "")) {
 			}
+
 			ImGui::Separator();
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::APPLE_II);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			if (ImGui::MenuItem("APPLE II", "")) {
+			}
+
+			fontstore->set_monospace_variant(
+				Enums::Layout::MonospaceVariant::IBM_CGA);
+			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			if (ImGui::MenuItem("IBM PC CGA", "")) {
 			}
 			ImGui::EndMenu();
@@ -1756,7 +1775,8 @@ auto Sorcery::UI::_draw_choose(Game *game, const int mode) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_create(Game *game, const int stage) -> void {}
+auto Sorcery::UI::_draw_create([[maybe_unused]] Game *game,
+							   [[maybe_unused]] const int stage) -> void {}
 
 auto Sorcery::UI::_draw_level_up(Game *game, const int mode) -> void {
 
