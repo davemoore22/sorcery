@@ -37,6 +37,7 @@ namespace Enums::Layout {
 	enum class MonospaceVariant {
 		NO_MONO_VARIANT,
 		WIZ1_4_DOS,
+		WIZ1_C64,
 		WIZ5_DOS,
 		WIZ5_FMTOWNS,
 		APPLE_II,

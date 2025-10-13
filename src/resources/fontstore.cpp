@@ -37,30 +37,27 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 		CSTR((*_system->files)[TEXT_FONT_FILE]), font_size);
 
 	// Load monospace variants
-	_monospace_fonts[Enums::Layout::MonospaceVariant::IBM_CGA] =
-		_io.Fonts->AddFontFromFileTTF(
-			CSTR((*_system->files)[MONOSPACE_D_FONT_FILE]), font_size);
-	_monospace_fonts[Enums::Layout::MonospaceVariant::WIZ1_4_DOS] =
-		_io.Fonts->AddFontFromFileTTF(
-			CSTR((*_system->files)[MONOSPACE_A_FONT_FILE]), font_size);
-	_monospace_fonts[Enums::Layout::MonospaceVariant::WIZ5_DOS] =
-		_io.Fonts->AddFontFromFileTTF(
-			CSTR((*_system->files)[MONOSPACE_B_FONT_FILE]), font_size);
-	_monospace_fonts[Enums::Layout::MonospaceVariant::WIZ5_FMTOWNS] =
-		_io.Fonts->AddFontFromFileTTF(
-			CSTR((*_system->files)[MONOSPACE_C_FONT_FILE]), font_size);
-	_monospace_fonts[Enums::Layout::MonospaceVariant::APPLE_II] =
-		_io.Fonts->AddFontFromFileTTF(
-			CSTR((*_system->files)[MONOSPACE_E_FONT_FILE]), font_size);
-	_monospace_fonts[Enums::Layout::MonospaceVariant::AMSTRAD_CPC] =
-		_io.Fonts->AddFontFromFileTTF(
-			CSTR((*_system->files)[MONOSPACE_F_FONT_FILE]), font_size);
+	using enum Enums::Layout::MonospaceVariant;
+	_monospace_fonts[IBM_CGA] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[MONOSPACE_IBM_FILE]), font_size);
+	_monospace_fonts[WIZ1_4_DOS] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[MONOSPACE_1_DOS_FILE]), font_size);
+	_monospace_fonts[WIZ5_DOS] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[MONOSPACE_5_DOS_FILE]), font_size);
+	_monospace_fonts[WIZ5_FMTOWNS] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[MONOSPACE_5_FMTOWNS_FILE]), font_size);
+	_monospace_fonts[APPLE_II] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[MONOSPACE_1_APPLE2_FILE]), font_size);
+	_monospace_fonts[WIZ1_C64] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[MONOSPACE_1_C64_FILE]), font_size);
+	_monospace_fonts[AMSTRAD_CPC] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[MONOSPACE_CPC_FILE]), font_size);
 
 	// Default selection
 	_current_font = _fonts[Enums::Layout::Font::DEFAULT];
 
-	// Can't set current font here as its too early in the ImGui init process
-	// ImGui::SetCurrentFont(_current_font);
+	// Can't set current font here as its too early in the ImGui init
+	// process ImGui::SetCurrentFont(_current_font);
 }
 
 auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type) -> void {

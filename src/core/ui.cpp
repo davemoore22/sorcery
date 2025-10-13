@@ -328,13 +328,13 @@ auto Sorcery::UI::load_fonts() -> void {
 	std::string font_file{""};
 
 	if (font_name == "wiz1to4dos")
-		font_file = MONOSPACE_A_FONT_FILE;
+		font_file = MONOSPACE_1_DOS_FILE;
 	else if (font_name == "wiz5fmtowns")
-		font_file = MONOSPACE_C_FONT_FILE;
+		font_file = MONOSPACE_5_FMTOWNS_FILE;
 	else if (font_name == "wiz5dos")
-		font_file = MONOSPACE_B_FONT_FILE;
+		font_file = MONOSPACE_5_DOS_FILE;
 	else
-		font_file = MONOSPACE_D_FONT_FILE;
+		font_file = MONOSPACE_IBM_FILE;
 
 	using enum Enums::Layout::Font;
 	fonts[MONOSPACE] = _io.Fonts->AddFontFromFileTTF(
@@ -360,36 +360,30 @@ auto Sorcery::UI::_draw_window_menu() -> void {
 		}
 		if (ImGui::BeginMenu("Font")) {
 
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::AMSTRAD_CPC);
+			using enum Enums::Layout::MonospaceVariant;
 			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			fontstore->set_monospace_variant(AMSTRAD_CPC);
 			if (ImGui::MenuItem("Amstrad CPC", "")) {
 			}
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::APPLE_II);
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			if (ImGui::MenuItem("Apple II", "")) {
-			}
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::IBM_CGA);
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			fontstore->set_monospace_variant(IBM_CGA);
 			if (ImGui::MenuItem("IBM PC CGA", "")) {
 			}
+
 			ImGui::Separator();
 
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::WIZ1_4_DOS);
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			fontstore->set_monospace_variant(APPLE_II);
+			if (ImGui::MenuItem("Wiz 1 (Apple II)", "")) {
+			}
+			fontstore->set_monospace_variant(WIZ1_C64);
+			if (ImGui::MenuItem("Wiz 1-3 (C64)", "")) {
+			}
+			fontstore->set_monospace_variant(WIZ1_4_DOS);
 			if (ImGui::MenuItem("Wiz 1-4 (DOS)", "")) {
 			}
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::WIZ5_DOS);
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			fontstore->set_monospace_variant(WIZ5_DOS);
 			if (ImGui::MenuItem("Wiz 5 (DOS)", "")) {
 			}
-			fontstore->set_monospace_variant(
-				Enums::Layout::MonospaceVariant::WIZ5_FMTOWNS);
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
+			fontstore->set_monospace_variant(WIZ5_FMTOWNS);
 			if (ImGui::MenuItem("Wiz 5 (FMTowns)", "")) {
 			}
 
