@@ -48,6 +48,7 @@ inline constexpr auto STRINGS_FILE{"strings.json"sv};
 inline constexpr auto MONOSPACE_1_APPLE2_FILE{"font-1-apple2.ttf"sv};
 inline constexpr auto MONOSPACE_1_C64_FILE{"font-1-c64.ttf"sv};
 inline constexpr auto MONOSPACE_1_DOS_FILE{"font-1-dos.ttf"sv};
+inline constexpr auto MONOSPACE_1_MSX2_FILE{"font-1-msx2.ttf"sv};
 inline constexpr auto MONOSPACE_5_DOS_FILE{"font-5-dos.ttf"sv};
 inline constexpr auto MONOSPACE_5_FMTOWNS_FILE{"font-5-fmtowns.ttf"sv};
 inline constexpr auto MONOSPACE_CPC_FILE{"font-cpc.ttf"sv};

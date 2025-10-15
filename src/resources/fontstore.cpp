@@ -42,6 +42,8 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 		CSTR((*_system->files)[MONOSPACE_IBM_FILE]), font_size);
 	_monospace_fonts[WIZ1_4_DOS] = _io.Fonts->AddFontFromFileTTF(
 		CSTR((*_system->files)[MONOSPACE_1_DOS_FILE]), font_size);
+	_monospace_fonts[WIZ1_MSX2] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[MONOSPACE_1_MSX2_FILE]), font_size);
 	_monospace_fonts[WIZ5_DOS] = _io.Fonts->AddFontFromFileTTF(
 		CSTR((*_system->files)[MONOSPACE_5_DOS_FILE]), font_size);
 	_monospace_fonts[WIZ5_FMTOWNS] = _io.Fonts->AddFontFromFileTTF(

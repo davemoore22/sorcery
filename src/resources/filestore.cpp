@@ -41,6 +41,7 @@ Sorcery::FileStore::FileStore() {
 	_add_path(DATA_DIR, MONOSPACE_1_APPLE2_FILE);
 	_add_path(DATA_DIR, MONOSPACE_1_C64_FILE);
 	_add_path(DATA_DIR, MONOSPACE_1_DOS_FILE);
+	_add_path(DATA_DIR, MONOSPACE_1_MSX2_FILE);
 	_add_path(DATA_DIR, MONOSPACE_5_DOS_FILE);
 	_add_path(DATA_DIR, MONOSPACE_5_FMTOWNS_FILE);
 	_add_path(DATA_DIR, MONOSPACE_CPC_FILE);

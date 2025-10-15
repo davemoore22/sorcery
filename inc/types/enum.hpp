@@ -38,6 +38,7 @@ namespace Enums::Layout {
 		NO_MONO_VARIANT,
 		WIZ1_4_DOS,
 		WIZ1_C64,
+		WIZ1_MSX2,
 		WIZ5_DOS,
 		WIZ5_FMTOWNS,
 		APPLE_II,

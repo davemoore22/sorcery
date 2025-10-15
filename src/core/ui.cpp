@@ -374,6 +374,9 @@ auto Sorcery::UI::_draw_window_menu() -> void {
 			fontstore->set_monospace_variant(APPLE_II);
 			if (ImGui::MenuItem("Wiz 1 (Apple II)", "")) {
 			}
+			fontstore->set_monospace_variant(WIZ1_MSX2);
+			if (ImGui::MenuItem("Wiz 1 (MSX2)", "")) {
+			}
 			fontstore->set_monospace_variant(WIZ1_C64);
 			if (ImGui::MenuItem("Wiz 1-3 (C64)", "")) {
 			}
