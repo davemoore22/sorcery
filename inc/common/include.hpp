@@ -45,6 +45,7 @@
 #include "backends/imgui_impl_sdl2.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "misc/cpp/imgui_stdlib.h"
+#include "misc/freetype/imgui_freetype.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -77,6 +78,7 @@ extern "C" {
 #include "imgui_spinner/imspinner.h"
 #include "imgui_sugar/imgui_sugar.hpp"
 #include "imgui_toggle/imgui_toggle.h"
+
 #pragma GCC diagnostic pop
 
 // Standard Includes

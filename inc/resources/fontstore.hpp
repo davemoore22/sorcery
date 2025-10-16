@@ -53,7 +53,7 @@ class FontStore {
 		ImFont *_current_font{nullptr};
 		Enums::Layout::Font _current_font_type{Enums::Layout::Font::DEFAULT};
 		Enums::Layout::MonospaceVariant _current_mono_variant{
-			Enums::Layout::MonospaceVariant::IBM_CGA};
+			Enums::Layout::MonospaceVariant::DEFAULT_MONOSPACE};
 };
 
 } // namespace Sorcery

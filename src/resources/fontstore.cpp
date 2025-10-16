@@ -38,8 +38,8 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 
 	// Load monospace variants
 	using enum Enums::Layout::MonospaceVariant;
-	_monospace_fonts[IBM_CGA] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[MONOSPACE_IBM_FILE]), font_size);
+	_monospace_fonts[DEFAULT_MONOSPACE] = _io.Fonts->AddFontFromFileTTF(
+		CSTR((*_system->files)[DEFAULT_MONOSPACE_FONT_FILE]), font_size);
 	_monospace_fonts[WIZ1_4_DOS] = _io.Fonts->AddFontFromFileTTF(
 		CSTR((*_system->files)[MONOSPACE_1_DOS_FILE]), font_size);
 	_monospace_fonts[WIZ1_MSX2] = _io.Fonts->AddFontFromFileTTF(
@@ -48,12 +48,10 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 		CSTR((*_system->files)[MONOSPACE_5_DOS_FILE]), font_size);
 	_monospace_fonts[WIZ5_FMTOWNS] = _io.Fonts->AddFontFromFileTTF(
 		CSTR((*_system->files)[MONOSPACE_5_FMTOWNS_FILE]), font_size);
-	_monospace_fonts[APPLE_II] = _io.Fonts->AddFontFromFileTTF(
+	_monospace_fonts[WIZ1_APPLE_II] = _io.Fonts->AddFontFromFileTTF(
 		CSTR((*_system->files)[MONOSPACE_1_APPLE2_FILE]), font_size);
 	_monospace_fonts[WIZ1_C64] = _io.Fonts->AddFontFromFileTTF(
 		CSTR((*_system->files)[MONOSPACE_1_C64_FILE]), font_size);
-	_monospace_fonts[AMSTRAD_CPC] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[MONOSPACE_CPC_FILE]), font_size);
 
 	// Default selection
 	_current_font = _fonts[Enums::Layout::Font::DEFAULT];

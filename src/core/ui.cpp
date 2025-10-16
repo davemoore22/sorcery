@@ -334,7 +334,7 @@ auto Sorcery::UI::load_fonts() -> void {
 	else if (font_name == "wiz5dos")
 		font_file = MONOSPACE_5_DOS_FILE;
 	else
-		font_file = MONOSPACE_IBM_FILE;
+		font_file = DEFAULT_MONOSPACE_FONT_FILE;
 
 	using enum Enums::Layout::Font;
 	fonts[MONOSPACE] = _io.Fonts->AddFontFromFileTTF(
@@ -361,33 +361,45 @@ auto Sorcery::UI::_draw_window_menu() -> void {
 		if (ImGui::BeginMenu("Font")) {
 
 			using enum Enums::Layout::MonospaceVariant;
-			fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			fontstore->set_monospace_variant(AMSTRAD_CPC);
-			if (ImGui::MenuItem("Amstrad CPC", "")) {
-			}
-			fontstore->set_monospace_variant(IBM_CGA);
-			if (ImGui::MenuItem("IBM PC CGA", "")) {
+			fontstore->set_monospace_variant(DEFAULT_MONOSPACE);
+			if (ImGui::MenuItem("Default (IBM PC CGA)", "")) {
+				fontstore->set_monospace_variant(DEFAULT_MONOSPACE);
+				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			}
 
 			ImGui::Separator();
 
-			fontstore->set_monospace_variant(APPLE_II);
+			fontstore->set_monospace_variant(WIZ1_APPLE_II);
 			if (ImGui::MenuItem("Wiz 1 (Apple II)", "")) {
+				fontstore->set_monospace_variant(WIZ1_APPLE_II);
+				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			}
 			fontstore->set_monospace_variant(WIZ1_MSX2);
 			if (ImGui::MenuItem("Wiz 1 (MSX2)", "")) {
+				fontstore->set_monospace_variant(WIZ1_MSX2);
+				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			}
 			fontstore->set_monospace_variant(WIZ1_C64);
 			if (ImGui::MenuItem("Wiz 1-3 (C64)", "")) {
+				fontstore->set_monospace_variant(WIZ1_C64);
+				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			}
 			fontstore->set_monospace_variant(WIZ1_4_DOS);
 			if (ImGui::MenuItem("Wiz 1-4 (DOS)", "")) {
+				fontstore->set_monospace_variant(WIZ1_4_DOS);
+				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			}
 			fontstore->set_monospace_variant(WIZ5_DOS);
 			if (ImGui::MenuItem("Wiz 5 (DOS)", "")) {
+
+				fontstore->set_monospace_variant(WIZ5_DOS);
+				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			}
 			fontstore->set_monospace_variant(WIZ5_FMTOWNS);
 			if (ImGui::MenuItem("Wiz 5 (FMTowns)", "")) {
+
+				fontstore->set_monospace_variant(WIZ5_FMTOWNS);
+				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
 			}
 
 			ImGui::EndMenu();
@@ -584,7 +596,7 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	ImGui::NewFrame();
 
 	_setup_windows();
-	_draw_window_menu();
+	//_draw_window_menu();
 
 	// Background
 	_draw_components("engine_base_ui");
@@ -653,7 +665,7 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 	ImGui::NewFrame();
 
 	_setup_windows();
-	_draw_window_menu();
+	//_draw_window_menu();
 
 	if (first.type() == typeid(Game *) && second.type() != typeid(int)) {
 		if (auto it = _draw_modules.find(screen); it != _draw_modules.end())
@@ -672,10 +684,6 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 		if (auto it = _draw_frontend.find(screen); it != _draw_frontend.end())
 			it->second();
 	}
-
-	bool show{true};
-	ImGui::SetCurrentFont(fonts[Enums::Layout::Font::DEFAULT]);
-	ImGui::ShowDemoWindow(&show);
 
 	_draw_cursor();
 
@@ -2524,7 +2532,7 @@ auto Sorcery::UI::_draw_options() -> void {
 						++gameplay_idx;
 					}
 				}
-				tabname = "Graphics";
+				tabname = "Display";
 				with_TabItem(tabname) {
 
 					for (const auto &opt : graphics_opts) {
@@ -2543,7 +2551,39 @@ auto Sorcery::UI::_draw_options() -> void {
 						}
 						++graphics_idx;
 					}
+
+					std::vector<std::string> font_text{"",
+													   "Default",
+													   "Apple II (Wiz 1-3)",
+													   "DOS (Wiz 1-4)",
+													   "C64 (Wiz 1-3)",
+													   "MSX2 (Wiz 1-3)",
+													   "DOS (Wiz 5)",
+													   "FMTowns (Wiz 5)"};
+
+					ImGui::SeparatorText("Font");
+					using enum Enums::Layout::MonospaceVariant;
+					with_ListBox("##font_listbox",
+								 ImVec2{20 * font_sz, 9 * font_sz}) {
+						for (auto font_idx = unenum(DEFAULT_MONOSPACE);
+							 font_idx <= unenum(WIZ5_FMTOWNS); font_idx++) {
+							const bool is_selected{false};
+							fontstore->set_monospace_variant(
+								magic_enum::enum_cast<
+									Enums::Layout::MonospaceVariant>(font_idx)
+									.value());
+							fontstore->set_current_font(
+								Enums::Layout::Font::MONOSPACE);
+							std::string entry{std::format(
+								"{}##{}", font_text.at(font_idx), font_idx)};
+
+							if (ImGui::Selectable(entry.c_str(), is_selected)) {
+							}
+						}
+					}
 				}
+
+				set_Font(fonts.at(component.font));
 
 				// Save and Cancel Buttons
 				const auto centre{(tabs_width / 2)};
@@ -3235,8 +3275,8 @@ auto Sorcery::UI::_display_license(const std::string &string) -> void {
 }
 
 auto Sorcery::UI::_draw_level_no_player() -> void {
-	// Menu Selection for B1F to B10F is 0 to 0, thus convert it into -1 to
-	// -10 for depth
+	// Menu Selection for B1F to B10F is 0 to 0, thus convert it into -1
+	// to -10 for depth
 	if (_controller->selected["atlas_selected"] == 10)
 		return;
 

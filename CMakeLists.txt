@@ -57,6 +57,7 @@ target_include_directories(dear_imgui PRIVATE
 	${CMAKE_SOURCE_DIR}/ext/imgui/backends
 	${CMAKE_SOURCE_DIR}/ext/imgui_toggle
 	${CMAKE_SOURCE_DIR}/ext/imgui_sugar
+	${CMAKE_SOURCE_DIR}/ext/imgui/misc/freetype
 )
 
 target_compile_options(dear_imgui PRIVATE

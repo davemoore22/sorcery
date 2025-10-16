@@ -51,9 +51,8 @@ inline constexpr auto MONOSPACE_1_DOS_FILE{"font-1-dos.ttf"sv};
 inline constexpr auto MONOSPACE_1_MSX2_FILE{"font-1-msx2.ttf"sv};
 inline constexpr auto MONOSPACE_5_DOS_FILE{"font-5-dos.ttf"sv};
 inline constexpr auto MONOSPACE_5_FMTOWNS_FILE{"font-5-fmtowns.ttf"sv};
-inline constexpr auto MONOSPACE_CPC_FILE{"font-cpc.ttf"sv};
-inline constexpr auto MONOSPACE_IBM_FILE{"font-ibm.ttf"sv};
-inline constexpr auto PROPORTIONAL_FONT_FILE{"font-ibm.ttf"sv};
+inline constexpr auto DEFAULT_MONOSPACE_FONT_FILE{"monospace.ttf"sv};
+inline constexpr auto PROPORTIONAL_FONT_FILE{"proportional.ttf"sv};
 inline constexpr auto TEXT_FONT_FILE{"text.ttf"sv};
 
 inline constexpr auto BACKGROUND_MAIN_MENU_TEXTURE{"background-mm.png"sv};
