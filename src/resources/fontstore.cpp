@@ -65,11 +65,19 @@ auto Sorcery::FontStore::get_font_by_name(const std::string &name) const
 	return std::nullopt;
 }
 
+auto Sorcery::FontStore::get_default_font() const -> ImFont * {
+
+	return _default_font;
+}
+
 auto Sorcery::FontStore::scan_and_load(const std::string &directory,
 									   float font_size) -> void {
 
 	fonts.clear();
 	current_fonts.clear();
+
+	// Always load internal ImGui font
+	_default_font = _io.Fonts->AddFontDefault();
 
 	for (const auto &entry : std::filesystem::directory_iterator(directory)) {
 		if (!entry.is_regular_file())
@@ -84,8 +92,6 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory,
 			font_type = TEXT;
 		else if (stem == "proportional")
 			font_type = PROPORTIONAL;
-		else if (stem == "default")
-			font_type = DEFAULT;
 		else
 			font_type = MONOSPACE;
 
@@ -268,4 +274,16 @@ auto Sorcery::FontStore::get_all_fonts() const
 	-> const std::vector<FontInfo> & {
 
 	return fonts;
+}
+
+auto Sorcery::FontStore::get_all_monospace_fonts() const
+	-> const std::vector<FontInfo> {
+
+	std::vector<FontInfo> monospace_fonts;
+	for (const auto &font : fonts) {
+		if (font.is_monospace) {
+			monospace_fonts.push_back(font);
+		}
+	}
+	return monospace_fonts;
 }

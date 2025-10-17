@@ -23,6 +23,7 @@
 #include "gui/popup.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "resources/fontstore.hpp"
 #include "types/component.hpp"
 
 Sorcery::Popup::Popup(System *system, UI *ui, Component &component)
@@ -54,7 +55,7 @@ auto Sorcery::Popup::display() -> void {
 	const auto grid_sz{_ui->grid_sz};
 	const auto rounding{_ui->frame_rd};
 
-	set_Font(_ui->fonts.at(_component.font));
+	set_Font(_ui->fontstore->get_current_font(_component.font).value());
 	const auto width{ImGui::CalcTextSize(text.c_str()).x + (grid_sz * 4)};
 	const auto height{_component.h * grid_sz};
 
@@ -74,7 +75,7 @@ auto Sorcery::Popup::display() -> void {
 	set_StyleColor(ImGuiCol_Text,
 				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
 
-	set_Font(_ui->fonts.at(_component.font));
+	set_Font(_ui->fontstore->get_current_font(_component.font).value());
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 

@@ -91,7 +91,6 @@ class UI {
 		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo,
 						 const double percent) const -> ImVec4;
 		auto io() -> ImGuiIO &;
-		auto load_fonts() -> void;
 		auto load_dynamic_menu_items(Game *game, Controller *controller,
 									 std::string_view component,
 									 const unsigned int width,
@@ -109,7 +108,6 @@ class UI {
 		auto stop() -> void;
 
 		// Public Members
-		std::map<Enums::Layout::Font, ImFont *> fonts;
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
 		std::unique_ptr<FontStore> fontstore;

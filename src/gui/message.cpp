@@ -23,6 +23,7 @@
 #include "gui/message.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "resources/fontstore.hpp"
 #include "types/component.hpp"
 
 Sorcery::Message::Message(System *system, UI *ui, Component &component)
@@ -93,7 +94,7 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 	set_StyleColor(ImGuiCol_Text,
 				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
 
-	set_Font(_ui->fonts.at(_component.font));
+	set_Font(_ui->fontstore->get_current_font(_component.font).value());
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 

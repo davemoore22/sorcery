@@ -23,6 +23,7 @@
 #include "gui/dialog.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "resources/fontstore.hpp"
 #include "types/component.hpp"
 
 Sorcery::Dialog::Dialog(System *system, UI *ui, Component &component,
@@ -76,7 +77,7 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 	set_StyleColor(ImGuiCol_Text,
 				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
 
-	set_Font(_ui->fonts.at(_component.font));
+	set_Font(_ui->fontstore->get_current_font(_component.font).value());
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 

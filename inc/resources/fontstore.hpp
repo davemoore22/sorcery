@@ -54,6 +54,8 @@ class FontStore {
 			-> std::optional<ImFont *>;
 		auto get_current_monospace_font() const -> std::optional<ImFont *>;
 		auto get_all_fonts() const -> const std::vector<FontInfo> &;
+		auto get_default_font() const -> ImFont *;
+		auto get_all_monospace_fonts() const -> const std::vector<FontInfo>;
 
 	private:
 		System *_system;
@@ -61,6 +63,7 @@ class FontStore {
 		std::vector<FontInfo> fonts;
 		std::unordered_map<Enums::Layout::Font, ImFont *> current_fonts;
 		ImFont *_current_font{nullptr};
+		ImFont *_default_font{nullptr};
 
 		auto _is_valid_ttf(const std::string &path) const -> bool;
 		auto _is_monospace_ttf(const std::string &path) const -> bool;
