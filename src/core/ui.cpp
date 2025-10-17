@@ -346,68 +346,7 @@ auto Sorcery::UI::load_fonts() -> void {
 	fonts[DEFAULT] = _io.Fonts->AddFontDefault();
 }
 
-auto Sorcery::UI::_draw_window_menu() -> void {
-
-	ImGui::SetCurrentFont(fonts[Enums::Layout::Font::TEXT]);
-	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("File")) {
-			if (ImGui::MenuItem("About", "")) {
-			}
-			ImGui::Separator();
-			if (ImGui::MenuItem("Exit", "")) {
-			}
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Font")) {
-
-			using enum Enums::Layout::MonospaceVariant;
-			fontstore->set_monospace_variant(DEFAULT_MONOSPACE);
-			if (ImGui::MenuItem("Default (IBM PC CGA)", "")) {
-				fontstore->set_monospace_variant(DEFAULT_MONOSPACE);
-				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			}
-
-			ImGui::Separator();
-
-			fontstore->set_monospace_variant(WIZ1_APPLE_II);
-			if (ImGui::MenuItem("Wiz 1 (Apple II)", "")) {
-				fontstore->set_monospace_variant(WIZ1_APPLE_II);
-				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			}
-			fontstore->set_monospace_variant(WIZ1_MSX2);
-			if (ImGui::MenuItem("Wiz 1 (MSX2)", "")) {
-				fontstore->set_monospace_variant(WIZ1_MSX2);
-				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			}
-			fontstore->set_monospace_variant(WIZ1_C64);
-			if (ImGui::MenuItem("Wiz 1-3 (C64)", "")) {
-				fontstore->set_monospace_variant(WIZ1_C64);
-				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			}
-			fontstore->set_monospace_variant(WIZ1_4_DOS);
-			if (ImGui::MenuItem("Wiz 1-4 (DOS)", "")) {
-				fontstore->set_monospace_variant(WIZ1_4_DOS);
-				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			}
-			fontstore->set_monospace_variant(WIZ5_DOS);
-			if (ImGui::MenuItem("Wiz 5 (DOS)", "")) {
-
-				fontstore->set_monospace_variant(WIZ5_DOS);
-				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			}
-			fontstore->set_monospace_variant(WIZ5_FMTOWNS);
-			if (ImGui::MenuItem("Wiz 5 (FMTowns)", "")) {
-
-				fontstore->set_monospace_variant(WIZ5_FMTOWNS);
-				fontstore->set_current_font(Enums::Layout::Font::MONOSPACE);
-			}
-
-			ImGui::EndMenu();
-		}
-
-		ImGui::EndMainMenuBar();
-	}
-}
+auto Sorcery::UI::_draw_window_menu() -> void {}
 
 // Not an ideal function, really need to maintain a pointer status map instead
 auto Sorcery::UI::_get_popups() const -> std::string {
@@ -1063,6 +1002,14 @@ auto Sorcery::UI::_draw_debug() -> void {
 		ImGui::SetCursorPos(ImVec2{8, 700});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		ImGui::TextUnformatted(_controller->get_characters().c_str());
+
+		ImGui::SetCursorPos(ImVec2{1000, 8});
+		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
+		auto fonts{fontstore->get_all_fonts()};
+		for (const auto &font : fonts) {
+			ImGui::TextUnformatted(font.name.c_str());
+			ImGui::SetCursorPosX(1000);
+		}
 	}
 }
 
@@ -2552,6 +2499,7 @@ auto Sorcery::UI::_draw_options() -> void {
 						++graphics_idx;
 					}
 
+					/*
 					std::vector<std::string> font_text{"",
 													   "Default",
 													   "APPLE II (Wiz 1-3)",
@@ -2575,12 +2523,14 @@ auto Sorcery::UI::_draw_options() -> void {
 							fontstore->set_current_font(
 								Enums::Layout::Font::MONOSPACE);
 							std::string entry{std::format(
-								"{}##{}", font_text.at(font_idx), font_idx)};
+								"{}##{}", font_text.at(font_idx),
+					font_idx)};
 
-							if (ImGui::Selectable(entry.c_str(), is_selected)) {
+							if (ImGui::Selectable(entry.c_str(),
+					is_selected)) {
 							}
 						}
-					}
+					} */
 				}
 
 				set_Font(fonts.at(component.font));

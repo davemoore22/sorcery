@@ -31,32 +31,45 @@ namespace Sorcery {
 
 class System;
 
+struct FontInfo {
+		std::string name;
+		std::string path;
+		ImFont *font = nullptr;
+		bool is_monospace = false;
+		Enums::Layout::Font font_type = Enums::Layout::Font::NO_FONT;
+};
+
 class FontStore {
 	public:
 		FontStore(System *system, ImGuiIO &io);
 
-		auto set_current_font(Enums::Layout::Font type) -> void;
-		auto set_monospace_variant(Enums::Layout::MonospaceVariant variant)
+		auto scan_and_load(const std::string &directory,
+						   float font_size = 16.0f) -> void;
+		auto get_font_by_name(const std::string &name) const
+			-> std::optional<ImFont *>;
+		auto set_current_font(Enums::Layout::Font type, ImFont *font) -> void;
+		auto set_current_font(Enums::Layout::Font type, const std::string &name)
 			-> void;
-
-		auto get_current_font() const -> ImFont *;
-		auto get_current_font_type() const -> Enums::Layout::Font;
-		auto get_current_monospace_variant() const
-			-> Enums::Layout::MonospaceVariant;
-
-		auto is_valid_ttf(const std::string &path) const -> bool;
-		auto is_monospace_ttf(const std::string &path) const -> bool;
+		auto get_current_font(Enums::Layout::Font type) const
+			-> std::optional<ImFont *>;
+		auto get_current_monospace_font() const -> std::optional<ImFont *>;
+		auto get_all_fonts() const -> const std::vector<FontInfo> &;
 
 	private:
 		System *_system;
 		ImGuiIO &_io;
-		std::map<Enums::Layout::Font, ImFont *> _fonts;
-		std::map<Enums::Layout::MonospaceVariant, ImFont *> _monospace_fonts;
-
+		std::vector<FontInfo> fonts;
+		std::unordered_map<Enums::Layout::Font, ImFont *> current_fonts;
 		ImFont *_current_font{nullptr};
-		Enums::Layout::Font _current_font_type{Enums::Layout::Font::DEFAULT};
-		Enums::Layout::MonospaceVariant _current_mono_variant{
-			Enums::Layout::MonospaceVariant::DEFAULT_MONOSPACE};
-};
 
+		auto _is_valid_ttf(const std::string &path) const -> bool;
+		auto _is_monospace_ttf(const std::string &path) const -> bool;
+		auto _get_font_full_name(const std::vector<unsigned char> &buffer)
+			-> std::string;
+		auto _get_fonts() const -> const std::vector<FontInfo> &;
+		auto _load_font(const std::string &path, float size, bool is_monospace,
+						Enums::Layout::Font font_type) -> void;
+
+		std::map<Enums::Layout::Font, ImFont *> _fonts;
+};
 } // namespace Sorcery

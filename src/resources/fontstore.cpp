@@ -34,7 +34,14 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 	: _system(system),
 	  _io(io) {
 
+	// Get the Font Size from config
 	auto font_size{std::stof((*_system->config).get("Font", "size"))};
+
+	// Now scan the data directory for TTF fonts
+	const std::filesystem::path file_path{DATA_DIR};
+	scan_and_load(file_path.string(), font_size);
+
+	//
 
 	// Load main font categories
 	_fonts[Enums::Layout::Font::DEFAULT] = _io.Fonts->AddFontDefault();
@@ -42,33 +49,92 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 		CSTR((*_system->files)[PROPORTIONAL_FONT_FILE]), font_size);
 	_fonts[Enums::Layout::Font::TEXT] = _io.Fonts->AddFontFromFileTTF(
 		CSTR((*_system->files)[TEXT_FONT_FILE]), font_size);
+}
 
-	// Load monospace variants
-	using enum Enums::Layout::MonospaceVariant;
-	_monospace_fonts[DEFAULT_MONOSPACE] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[DEFAULT_MONOSPACE_FONT_FILE]), font_size);
-	_monospace_fonts[WIZ1_4_DOS] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[MONOSPACE_1_DOS_FILE]), font_size);
-	_monospace_fonts[WIZ1_MSX2] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[MONOSPACE_1_MSX2_FILE]), font_size);
-	_monospace_fonts[WIZ5_DOS] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[MONOSPACE_5_DOS_FILE]), font_size);
-	_monospace_fonts[WIZ5_FMTOWNS] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[MONOSPACE_5_FMTOWNS_FILE]), font_size);
-	_monospace_fonts[WIZ1_APPLE_II] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[MONOSPACE_1_APPLE2_FILE]), font_size);
-	_monospace_fonts[WIZ1_C64] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[MONOSPACE_1_C64_FILE]), font_size);
+auto Sorcery::FontStore::_get_fonts() const -> const std::vector<FontInfo> & {
 
-	// Default selection
-	_current_font = _fonts[Enums::Layout::Font::DEFAULT];
+	return fonts;
+}
 
-	// Can't set current font here as its too early in the ImGui init
-	// process ImGui::SetCurrentFont(_current_font);
+auto Sorcery::FontStore::get_font_by_name(const std::string &name) const
+	-> std::optional<ImFont *> {
+
+	for (const auto &f : fonts)
+		if (f.name == name)
+			return f.font;
+	return std::nullopt;
+}
+
+auto Sorcery::FontStore::scan_and_load(const std::string &directory,
+									   float font_size) -> void {
+
+	fonts.clear();
+	current_fonts.clear();
+
+	for (const auto &entry : std::filesystem::directory_iterator(directory)) {
+		if (!entry.is_regular_file())
+			continue;
+
+		auto ext{entry.path().extension().string()};
+		auto stem{entry.path().stem().string()};
+
+		using enum Enums::Layout::Font;
+		auto font_type{NO_FONT};
+		if (stem == "text")
+			font_type = TEXT;
+		else if (stem == "proportional")
+			font_type = PROPORTIONAL;
+		else if (stem == "default")
+			font_type = DEFAULT;
+		else
+			font_type = MONOSPACE;
+
+		if (ext == ".ttf" || ext == ".TTF") {
+			const auto font_path{entry.path().string()};
+			if (_is_valid_ttf(font_path)) {
+				auto mono{_is_monospace_ttf(font_path)};
+				_load_font(font_path, font_size, mono, font_type);
+			} else {
+				std::cerr << "Invalid font skipped: " << font_path << "\n";
+			}
+		}
+	}
+
+	ImGui::GetIO().Fonts->Build();
+}
+
+auto Sorcery::FontStore::_load_font(const std::string &path, float size,
+									bool is_monospace,
+									Enums::Layout::Font font_type) -> void {
+
+	std::ifstream file(path, std::ios::binary);
+	if (!file.is_open())
+		return;
+
+	std::vector<unsigned char> buffer((std::istreambuf_iterator<char>(file)),
+									  {});
+
+	std::string name = _get_font_full_name(buffer);
+	if (name.empty())
+		name = std::filesystem::path(path).stem().string();
+
+	ImFontConfig config;
+	config.OversampleH = 3;
+	config.OversampleV = 3;
+	config.PixelSnapH = false;
+
+	ImFont *font{_io.Fonts->AddFontFromFileTTF(path.c_str(), size, &config)};
+	if (!font) {
+
+		std::cerr << "Failed to load font: " << path << "\n";
+		return;
+	}
+
+	fonts.push_back({name, path, font, is_monospace, font_type});
 }
 
 // Attempt to validate a TTF font file by loading its header using stb_truetype
-auto Sorcery::FontStore::is_valid_ttf(const std::string &path) const -> bool {
+auto Sorcery::FontStore::_is_valid_ttf(const std::string &path) const -> bool {
 
 	std::ifstream file(path, std::ios::binary);
 	if (!file.is_open())
@@ -87,8 +153,46 @@ auto Sorcery::FontStore::is_valid_ttf(const std::string &path) const -> bool {
 	return stbtt_InitFont(&info, buffer.data(), offset) != 0;
 }
 
+auto Sorcery::FontStore::_get_font_full_name(
+	const std::vector<unsigned char> &buffer) -> std::string {
+
+	stbtt_fontinfo info;
+	int offset{stbtt_GetFontOffsetForIndex(buffer.data(), 0)};
+	if (offset < 0)
+		return "";
+	if (!stbtt_InitFont(&info, buffer.data(), offset))
+		return "";
+
+	const int NAME_ID_FULL_FONT_NAME{4};
+
+	// Windows platform, Unicode BMP, English
+	const int PLATFORM_ID{3};
+	const int ENCODING_ID{1};
+	const int LANGUAGE_ID{0x0409};
+
+	char *name_string{nullptr};
+	int name_length{0};
+	name_string = (char *)stbtt_GetFontNameString(
+		&info, &name_length, PLATFORM_ID, ENCODING_ID, LANGUAGE_ID,
+		NAME_ID_FULL_FONT_NAME);
+	if (!name_string || name_length <= 0)
+		return "";
+
+	// Some fonts store UTF-16BE strings
+	std::string result;
+	if (PLATFORM_ID == 3) { // Windows, UTF-16BE
+		result.reserve(name_length / 2);
+		for (int i = 0; i < name_length; i += 2)
+			result.push_back(name_string[i + 1]);
+	} else {
+		result.assign(name_string, name_length);
+	}
+
+	return result;
+}
+
 // Is a valid TTF font a monospace font?
-auto Sorcery::FontStore::is_monospace_ttf(const std::string &path) const
+auto Sorcery::FontStore::_is_monospace_ttf(const std::string &path) const
 	-> bool {
 
 	std::ifstream file(path, std::ios::binary);
@@ -124,45 +228,44 @@ auto Sorcery::FontStore::is_monospace_ttf(const std::string &path) const
 	return true;
 };
 
-auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type) -> void {
-	_current_font_type = type;
+auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,
+										  ImFont *font) -> void {
 
-	if (type == Enums::Layout::Font::MONOSPACE) {
-		auto mono = _monospace_fonts[_current_mono_variant];
-		_current_font = mono ? mono : _fonts[Enums::Layout::Font::DEFAULT];
-	} else if (auto it = _fonts.find(type); it != _fonts.end())
-		_current_font = it->second;
-	else
-		_current_font = _fonts[Enums::Layout::Font::DEFAULT];
+	if (!font)
+		return;
 
-	ImGui::SetCurrentFont(_current_font);
+	current_fonts[type] = font;
+
+	// Also set ImGui's default if Default font type
+	if (type == Enums::Layout::Font::DEFAULT)
+		_io.FontDefault = font;
 }
 
-auto Sorcery::FontStore::set_monospace_variant(
-	Enums::Layout::MonospaceVariant variant) -> void {
-	_current_mono_variant = variant;
+auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,
+										  const std::string &name) -> void {
 
-	// If currently using MONOSPACE, apply the change immediately
-	if (_current_font_type == Enums::Layout::Font::MONOSPACE) {
-		if (auto it = _monospace_fonts.find(variant);
-			it != _monospace_fonts.end())
-			_current_font = it->second;
-		else
-			_current_font = _fonts[Enums::Layout::Font::DEFAULT];
-
-		ImGui::SetCurrentFont(_current_font);
-	}
+	auto font{get_font_by_name(name)};
+	if (font)
+		set_current_font(type, font.value());
 }
 
-auto Sorcery::FontStore::get_current_font() const -> ImFont * {
-	return _current_font;
+auto Sorcery::FontStore::get_current_font(Enums::Layout::Font type) const
+	-> std::optional<ImFont *> {
+
+	if (auto it = current_fonts.find(type); it != current_fonts.end())
+		return it->second;
+
+	return std::nullopt;
 }
 
-auto Sorcery::FontStore::get_current_font_type() const -> Enums::Layout::Font {
-	return _current_font_type;
+auto Sorcery::FontStore::get_current_monospace_font() const
+	-> std::optional<ImFont *> {
+
+	return get_current_font(Enums::Layout::Font::MONOSPACE);
 }
 
-auto Sorcery::FontStore::get_current_monospace_variant() const
-	-> Enums::Layout::MonospaceVariant {
-	return _current_mono_variant;
+auto Sorcery::FontStore::get_all_fonts() const
+	-> const std::vector<FontInfo> & {
+
+	return fonts;
 }
