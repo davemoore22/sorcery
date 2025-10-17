@@ -2554,7 +2554,7 @@ auto Sorcery::UI::_draw_options() -> void {
 
 					std::vector<std::string> font_text{"",
 													   "Default",
-													   "Apple II (Wiz 1-3)",
+													   "APPLE II (Wiz 1-3)",
 													   "DOS (Wiz 1-4)",
 													   "C64 (Wiz 1-3)",
 													   "MSX2 (Wiz 1-3)",

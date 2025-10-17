@@ -26,7 +26,7 @@
 #include "common/types.hpp"
 #include "core/macro.hpp"
 #include "types/enum.hpp"
-// UI Generation Class (sits on top of, and heavil;y uses, ImGui)
+
 namespace Sorcery {
 
 class System;
@@ -43,6 +43,9 @@ class FontStore {
 		auto get_current_font_type() const -> Enums::Layout::Font;
 		auto get_current_monospace_variant() const
 			-> Enums::Layout::MonospaceVariant;
+
+		auto is_valid_ttf(const std::string &path) const -> bool;
+		auto is_monospace_ttf(const std::string &path) const -> bool;
 
 	private:
 		System *_system;

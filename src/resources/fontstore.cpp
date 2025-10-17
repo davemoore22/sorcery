@@ -23,6 +23,13 @@
 #include "resources/fontstore.hpp"
 #include "core/system.hpp"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-default"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#define STB_TRUETYPE_IMPLEMENTATION
+#include "stb/stb_truetype.h"
+#pragma GCC diagnostic pop
+
 Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 	: _system(system),
 	  _io(io) {
@@ -59,6 +66,63 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 	// Can't set current font here as its too early in the ImGui init
 	// process ImGui::SetCurrentFont(_current_font);
 }
+
+// Attempt to validate a TTF font file by loading its header using stb_truetype
+auto Sorcery::FontStore::is_valid_ttf(const std::string &path) const -> bool {
+
+	std::ifstream file(path, std::ios::binary);
+	if (!file.is_open())
+		return false;
+
+	std::vector<unsigned char> buffer((std::istreambuf_iterator<char>(file)),
+									  {});
+	if (buffer.empty())
+		return false;
+
+	stbtt_fontinfo info;
+	auto offset{stbtt_GetFontOffsetForIndex(buffer.data(), 0)};
+	if (offset < 0)
+		return false;
+
+	return stbtt_InitFont(&info, buffer.data(), offset) != 0;
+}
+
+// Is a valid TTF font a monospace font?
+auto Sorcery::FontStore::is_monospace_ttf(const std::string &path) const
+	-> bool {
+
+	std::ifstream file(path, std::ios::binary);
+	if (!file.is_open())
+		return false;
+
+	std::vector<unsigned char> buffer((std::istreambuf_iterator<char>(file)),
+									  {});
+	if (buffer.empty())
+		return false;
+
+	stbtt_fontinfo info;
+	auto offset{stbtt_GetFontOffsetForIndex(buffer.data(), 0)};
+	if (offset < 0)
+		return false;
+
+	if (!stbtt_InitFont(&info, buffer.data(), offset))
+		return false;
+
+	// Use a simple heuristic across key glyphs
+	const char *test_chars = "iIlLWMw1 0";
+	auto ref_advance{-1};
+
+	for (const char *c = test_chars; *c; ++c) {
+
+		int advance{}, lsb{};
+		stbtt_GetCodepointHMetrics(&info, *c, &advance, &lsb);
+		if (ref_advance == -1)
+			ref_advance = advance;
+		else if (advance != ref_advance)
+			return false;
+	}
+	return true;
+};
 
 auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type) -> void {
 	_current_font_type = type;
