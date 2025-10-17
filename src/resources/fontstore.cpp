@@ -262,6 +262,22 @@ auto Sorcery::FontStore::get_current_monospace_font() const
 	return get_current_font(Enums::Layout::Font::MONOSPACE);
 }
 
+auto Sorcery::FontStore::get_current_monospace_font_name() const
+	-> std::string {
+
+	ImFont *current_mono =
+		get_current_font(Enums::Layout::Font::MONOSPACE).value();
+	if (!current_mono)
+		return "";
+
+	for (const auto &font : fonts) {
+		if (font.font == current_mono)
+			return font.name;
+	}
+
+	return "";
+}
+
 auto Sorcery::FontStore::get_all_fonts() const
 	-> const std::vector<FontInfo> & {
 

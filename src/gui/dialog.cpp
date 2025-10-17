@@ -55,6 +55,7 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 	const auto ok_lbl{(*_system->strings)["DIALOG_OK"]};
 	const auto grid_sz{_ui->grid_sz};
 	const auto rounding{_ui->frame_rd};
+	set_Font(_ui->fontstore->get_current_font(_component.font).value());
 	const auto width{
 		ImGui::CalcTextSize((*_system->strings)[_component.string_key].c_str())
 			.x +
@@ -77,7 +78,6 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 	set_StyleColor(ImGuiCol_Text,
 				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
 
-	set_Font(_ui->fontstore->get_current_font(_component.font).value());
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 

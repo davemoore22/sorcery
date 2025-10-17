@@ -24,6 +24,7 @@
 #include "common/macro.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "resources/fontstore.hpp"
 #include "types/component.hpp"
 
 Sorcery::Frame::Frame(System *system, UI *ui, Component *component)
@@ -112,6 +113,9 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 		if (_title) {
 
+			set_Font(
+				_ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
+					.value());
 			const auto title_txt{(*_system->strings)[_title.value()]};
 			const auto title_sz{
 				Size{ImGui::CalcTextSize(title_txt.c_str()).x + (font_sz * 2),

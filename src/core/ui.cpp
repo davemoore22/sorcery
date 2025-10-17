@@ -2484,18 +2484,26 @@ auto Sorcery::UI::_draw_options() -> void {
 					// Font Selection dropdown
 					ImGui::Separator();
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + grid_sz);
+					const auto item_height{
+						ImGui::GetTextLineHeightWithSpacing()};
+					const auto max_visible_items{10};
+					ImGui::SetNextWindowSize(
+						ImVec2(0, item_height * max_visible_items));
 					with_Combo("##font_combobox", "Chooose Font...") {
 
-						const bool is_selected = false;
 						auto fonts{fontstore->get_all_monospace_fonts()};
 						auto font_idx{0u};
 						for (const auto &font : fonts) {
-
+							const bool is_selected{
+								font.name ==
+								fontstore->get_current_monospace_font_name()};
 							set_Font(font.font);
 							auto selectable_name{
 								std::format("{}##{}", font.name, font_idx)};
 							if (ImGui::Selectable(selectable_name.c_str(),
 												  is_selected)) {
+								fontstore->set_current_font(
+									Enums::Layout::Font::MONOSPACE, font.name);
 							}
 							++font_idx;
 						}

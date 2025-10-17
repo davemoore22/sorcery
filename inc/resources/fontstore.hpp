@@ -53,6 +53,7 @@ class FontStore {
 		auto get_current_font(Enums::Layout::Font type) const
 			-> std::optional<ImFont *>;
 		auto get_current_monospace_font() const -> std::optional<ImFont *>;
+		auto get_current_monospace_font_name() const -> std::string;
 		auto get_all_fonts() const -> const std::vector<FontInfo> &;
 		auto get_default_font() const -> ImFont *;
 		auto get_all_monospace_fonts() const -> const std::vector<FontInfo>;
