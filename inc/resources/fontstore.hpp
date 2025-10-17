@@ -72,7 +72,6 @@ class FontStore {
 		auto _get_fonts() const -> const std::vector<FontInfo> &;
 		auto _load_font(const std::string &path, float size, bool is_monospace,
 						Enums::Layout::Font font_type) -> void;
-
-		std::map<Enums::Layout::Font, ImFont *> _fonts;
+		auto _sort_fonts_by_name(bool case_insensitive = true) -> void;
 };
 } // namespace Sorcery

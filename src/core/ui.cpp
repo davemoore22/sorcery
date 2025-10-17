@@ -428,8 +428,11 @@ auto Sorcery::UI::start() -> void {
 	fontstore->set_current_font(TEXT, "ProggyVector");
 	fontstore->set_current_font(DEFAULT, fontstore->get_default_font());
 
+	grid_sz = std::stoi((*_system->config).get("Grid", "size"));
+	fontstore->set_current_font(MONOSPACE,
+								(*_system->config).get("Font", "name"));
 	// fontstore->set_current_font(MONOSPACE, "Wizardry 1 DOS Regular");
-	fontstore->set_current_font(MONOSPACE, "Wizardry 5 DOS Regular");
+	// fontstore->set_current_font(MONOSPACE, "Wizardry 5 DOS Regular");
 	fontstore->set_current_font(PROPORTIONAL, "Freeform 721 BT");
 
 	// Set the styles

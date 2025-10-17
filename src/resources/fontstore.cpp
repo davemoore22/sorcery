@@ -40,15 +40,7 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 	// Now scan the data directory for TTF fonts
 	const std::filesystem::path file_path{DATA_DIR};
 	scan_and_load(file_path.string(), font_size);
-
-	//
-
-	// Load main font categories
-	_fonts[Enums::Layout::Font::DEFAULT] = _io.Fonts->AddFontDefault();
-	_fonts[Enums::Layout::Font::PROPORTIONAL] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[PROPORTIONAL_FONT_FILE]), font_size);
-	_fonts[Enums::Layout::Font::TEXT] = _io.Fonts->AddFontFromFileTTF(
-		CSTR((*_system->files)[TEXT_FONT_FILE]), font_size);
+	_sort_fonts_by_name();
 }
 
 auto Sorcery::FontStore::_get_fonts() const -> const std::vector<FontInfo> & {
@@ -281,9 +273,32 @@ auto Sorcery::FontStore::get_all_monospace_fonts() const
 
 	std::vector<FontInfo> monospace_fonts;
 	for (const auto &font : fonts) {
-		if (font.is_monospace) {
+		if (font.is_monospace &&
+			font.font_type == Enums::Layout::Font::MONOSPACE) {
 			monospace_fonts.push_back(font);
 		}
 	}
 	return monospace_fonts;
+}
+
+auto Sorcery::FontStore::_sort_fonts_by_name(bool case_insensitive) -> void {
+
+	if (fonts.empty())
+		return;
+
+	if (case_insensitive) {
+		std::ranges::sort(fonts, [](const FontInfo &a, const FontInfo &b) {
+			auto toLower = [](std::string_view s) {
+				std::string result;
+				result.reserve(s.size());
+				for (unsigned char c : s)
+					result.push_back(static_cast<char>(std::tolower(c)));
+				return result;
+			};
+			return toLower(a.name) < toLower(b.name);
+		});
+	} else {
+		std::ranges::sort(fonts, {},
+						  &FontInfo::name); // sort by member directly
+	}
 }
