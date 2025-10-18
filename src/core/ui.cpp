@@ -153,7 +153,7 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 
 	// Initialise function tables for display methods
 	_draw_frontend["atlas"] = [this] {
-		_display_main_menu();
+		_display_atlas();
 	};
 	_draw_frontend["bestiary"] = [this] {
 		_display_bestiary();
@@ -254,6 +254,17 @@ auto Sorcery::UI::set_monochrome(const bool value) -> void {
 	_render->set_monochrome(value);
 }
 
+auto Sorcery::UI::set_fullscreen(const bool value) -> void {
+
+	/*
+	if (value)
+		SDL_SetWindowFullscreen(_display->get_SDL_window(),
+								SDL_WINDOW_FULLSCREEN);
+	else
+		SDL_SetWindowFullscreen(_display->get_SDL_window(), 0);
+	*/
+}
+
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for
 // example the Party Members); normally otherwise fixed Modals are created at
 // the beginning as part of the Form/Module create
@@ -314,6 +325,12 @@ auto Sorcery::UI::create_dynamic_modal(Game *game, const std::string name)
 		modal_invoke = std::make_unique<Modal>(
 			_system, this, _controller, (*components)["global:modal_invoke"]);
 		modal_invoke->regenerate(_controller, game);
+	} else if (name == "modal_camp") {
+		if (modal_camp.get())
+			modal_camp.reset();
+		modal_camp = std::make_unique<Modal>(
+			_system, this, _controller, (*components)["global:modal_camp"]);
+		modal_camp->regenerate(_controller, game);
 	}
 }
 
@@ -419,6 +436,11 @@ auto Sorcery::UI::start() -> void {
 	ImGui_ImplSDL2_InitForOpenGL(_display->get_SDL_window(),
 								 _display->get_GL_context());
 	ImGui_ImplOpenGL3_Init(_display->get_GLSL_version());
+
+	if ((*_system->config)[Enums::Config::FULLSCREEN])
+		set_fullscreen(true);
+	else
+		set_fullscreen(false);
 
 	// Can create the fontstore now which loads the fonts
 	fontstore = std::make_unique<FontStore>(_system, _io);
@@ -529,7 +551,7 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	popup_ouch->display();
 	message_tile->display(_controller->get_flag_ref("after_tile_message"));
 	if (modal_camp->show)
-		modal_camp->display(_controller->get_flag_ref("want_quit_expedition"));
+		modal_camp->display(_controller->get_flag_ref("want_camp"));
 	if (modal_inspect->show)
 		modal_inspect->display(_controller->get_flag_ref("want_inspect"));
 	if (modal_identify->show)
@@ -2379,7 +2401,8 @@ auto Sorcery::UI::_draw_options() -> void {
 		"OPT_CURABLE_DRAINING",		 "OPT_SHARED_INVENTORY",
 		"OPT_PROTECT_TELEPORT"};
 
-	std::vector<std::string> graphics_opts{"OPT_COLOURED_WIREFRAME"};
+	std::vector<std::string> graphics_opts{"OPT_COLOURED_WIREFRAME",
+										   "OPT_FULLSCREEN"};
 
 	const auto save_lbl{(*_system->strings)["DIALOG_SAVE"]};
 	const auto cancel_lbl{(*_system->strings)["DIALOG_CANCEL"]};
@@ -3575,7 +3598,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 			items.emplace_back(
 				std::format("{:^{}}", (*_system->strings)[source], width));
 
-	} else if (component == "camp_menu") {
+	} else if (component == "camp_menu" || component == "modal_camp") {
 		sources.insert(sources.end(),
 					   {"CAMP_INSPECT", "CAMP_REORDER", "CAMP_OPTIONS",
 						"CAMP_QUIT", "CAMP_LEAVE"});

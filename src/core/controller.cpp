@@ -71,8 +71,9 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	unset_flag("select_previous_character");
 	unset_flag("select_next_character");
 	unset_flag("want_abort");
-	unset_flag("want_continue_game");
+	unset_flag("want_camp");
 	unset_flag("want_cannot_donate");
+	unset_flag("want_continue_game");
 	unset_flag("want_divvy_gold");
 	unset_flag("want_donate");
 	unset_flag("want_donated_ok");

@@ -77,7 +77,7 @@ auto Sorcery::Config::_load() -> bool {
 	option = _settings->GetValue("Options", CSTR(OPT_AUTO_SAVE), off);
 	_options[AUTO_SAVE] = option.compare(on) == 0;
 	option = _settings->GetValue("Options", CSTR(OPT_DICE_ROLLS), off);
-	_options[COLOURED_WIREFRAME] = option.compare(on) == 0;
+	_options[DICE_ROLLS] = option.compare(on) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(OPT_MIXED_ALIGNMENT), off);
 	_options[MIXED_ALIGNMENT] = option.compare(on) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(OPT_LEVEL_STAT_LOSS), off);
@@ -105,8 +105,10 @@ auto Sorcery::Config::_load() -> bool {
 	_options[SHARED_INVENTORY] = option.compare(on) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(OPT_PROTECT_TELEPORT), off);
 	_options[PROTECT_TELEPORT] = option.compare(on) == 0;
-	_options[DICE_ROLLS] = option.compare(on) == 0;
 	option = _settings->GetValue("Graphics", CSTR(OPT_COLOURED_WIREFRAME), off);
+	_options[COLOURED_WIREFRAME] = option.compare(on) == 0;
+	option = _settings->GetValue("Graphics", CSTR(OPT_FULLSCREEN), off);
+	_options[FULLSCREEN] = option.compare(on) == 0;
 
 	return true;
 }
@@ -152,6 +154,8 @@ bool Sorcery::Config::save() {
 						BOOL2OPTIONCSTR(_options[PROTECT_TELEPORT]));
 	_settings->SetValue("Graphics", CSTR(OPT_COLOURED_WIREFRAME),
 						BOOL2OPTIONCSTR(_options[COLOURED_WIREFRAME]));
+	_settings->SetValue("Graphics", CSTR(OPT_FULLSCREEN),
+						BOOL2OPTIONCSTR(_options[FULLSCREEN]));
 
 	// Save current settings to ini file
 	SI_Error result{_settings->SaveFile(CSTR(_cfg_path))};

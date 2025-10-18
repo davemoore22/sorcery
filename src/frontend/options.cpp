@@ -53,6 +53,7 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 
 	// Main loop
 	auto done{false};
+	_fullscreen_before = (*_system->config)[Enums::Config::FULLSCREEN];
 	while (!done) {
 
 		SDL_Event event;
@@ -78,6 +79,14 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 }
 
 auto Sorcery::Options::stop() -> int {
+
+	auto fullscreen_after{(*_system->config)[Enums::Config::FULLSCREEN]};
+	if (_fullscreen_before != fullscreen_after) {
+		if ((*_system->config)[Enums::Config::FULLSCREEN])
+			_ui->set_fullscreen(true);
+		else
+			_ui->set_fullscreen(false);
+	}
 
 	if (_is_in_game)
 		_controller->move_screen("show_options", "show_engine");

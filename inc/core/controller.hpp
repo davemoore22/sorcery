@@ -100,7 +100,8 @@ class Controller {
 		bool show_party_panel;			// Show party panel
 		bool show_ui;					// Show UI
 		bool show_automap;				// Show automap
-		bool monochrome;				// Draw in Monochrome;
+		bool monochrome;				// Draw in monochrome;
+		bool fullscreen;				// Fullscreen mode
 
 		// Front-end Flags
 		std::vector<unsigned int> candidate_party; // Used for Reordering

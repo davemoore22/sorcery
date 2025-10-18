@@ -29,6 +29,7 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "gui/modal.hpp"
+#include "resources/fontstore.hpp"
 #include "types/component.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
@@ -79,7 +80,8 @@ auto Sorcery::Menu::_load_fixed_items() -> void {
 			_items.emplace_back(
 				std::format("{:^{}}", (*_system->strings)[source], _width));
 
-	} else if (_component->name == "camp_menu") {
+	} else if (_component->name == "camp_menu" ||
+			   _component->name == "modal_camp") {
 		sources.insert(sources.end(),
 					   {"CAMP_INSPECT", "CAMP_REORDER", "CAMP_OPTIONS",
 						"CAMP_QUIT", "CAMP_LEAVE"});
@@ -350,6 +352,9 @@ auto Sorcery::Menu::draw() -> void {
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
 		const auto col{_ui->get_hl_colour(_system->animation->lerp)};
+		set_Font(
+			_ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
+				.value());
 		const auto sz{
 			ImVec2{static_cast<float>(_width * _ui->font_sz),
 				   static_cast<float>(

@@ -33,13 +33,14 @@ inline constexpr auto OPT_ON{"on"};
 inline constexpr auto OPT_OFF{"off"};
 
 // Gameplay settings
-static const int NUM_GAME_SETTINGS{19};
+static const int NUM_GAME_SETTINGS{20};
 static const std::string OPT_RECOMMENDED_MODE{"recommended_mode"};
 static const std::string OPT_STRICT_MODE{"strict_mode"};
 static const std::string OPT_CHEAT_MODE{"cheat_mode"};
 static const std::string OPT_AUTO_SAVE{"autosave"};
 static const std::string OPT_DICE_ROLLS{"dice_rolls"};
 static const std::string OPT_COLOURED_WIREFRAME{"coloured_wireframe"};
+static const std::string OPT_FULLSCREEN{"fullscreen"};
 static const std::string OPT_MIXED_ALIGNMENT{"mixed_alignment"};
 static const std::string OPT_LEVEL_STAT_LOSS{"level_stat_loss"};
 static const std::string OPT_LEVEL_REROLL_HP{"level_reroll_hp"};

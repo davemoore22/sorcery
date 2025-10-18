@@ -104,6 +104,7 @@ class UI {
 		auto load_message(const Enums::Map::Event event)
 			-> std::vector<std::string>;
 		auto set_monochrome(const bool value) -> void;
+		auto set_fullscreen(const bool value) -> void;
 		auto start() -> void;
 		auto stop() -> void;
 

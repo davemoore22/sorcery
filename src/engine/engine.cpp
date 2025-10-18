@@ -243,9 +243,11 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	_controller->show_party_panel = true;
 	_controller->show_ui = true;
 	_controller->show_automap = true;
-	//_controller->monochrome = (*_system->config)[18]; // Coloured CGA
-	_controller->monochrome = false;
+	_controller->monochrome =
+		(*_system->config)[Enums::Config::COLOURED_WIREFRAME];
+
 	_ui->set_monochrome(_controller->monochrome);
+	_ui->set_fullscreen(_controller->fullscreen);
 
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
@@ -266,7 +268,10 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	} else {
 
 		// Start off in Camp
+		//_ui->modal_camp->regenerate(_controller, _game);
 		_ui->modal_camp->show = true;
+
+		// Hide any other modals that might be showing
 		_ui->modal_identify->show = false;
 		_ui->modal_drop->show = false;
 		_ui->modal_use->show = false;

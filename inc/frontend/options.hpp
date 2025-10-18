@@ -51,6 +51,7 @@ class Options {
 		UI *_ui;
 		Controller *_controller;
 		bool _is_in_game;
+		bool _fullscreen_before;
 };
 
 };
