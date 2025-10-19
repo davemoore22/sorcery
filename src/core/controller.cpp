@@ -753,9 +753,12 @@ auto Sorcery::Controller::check_for_resize(const SDL_Event event, UI *ui)
 		event.window.event == SDL_WINDOWEVENT_RESIZED) {
 
 		// Handle Resizing of Windows
-		auto sz{_display->get_SDL_window_size()};
-		ui->adj_grid_w = sz.w / ui->columns;
-		ui->adj_grid_h = sz.h / ui->rows;
+		int w = event.window.data1;
+		int h = event.window.data2;
+		ui->adj_grid_w = w / ui->columns;
+		ui->adj_grid_h = h / ui->rows;
+		glViewport(0, 0, w, h);
+		ImGui::GetIO().DisplaySize = ImVec2((float)w, (float)h);
 	};
 }
 

@@ -256,13 +256,11 @@ auto Sorcery::UI::set_monochrome(const bool value) -> void {
 
 auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 
-	/*
 	if (value)
 		SDL_SetWindowFullscreen(_display->get_SDL_window(),
-								SDL_WINDOW_FULLSCREEN);
+								SDL_WINDOW_FULLSCREEN_DESKTOP);
 	else
 		SDL_SetWindowFullscreen(_display->get_SDL_window(), 0);
-	*/
 }
 
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for
