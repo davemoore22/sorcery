@@ -146,6 +146,7 @@ class UI {
 		unsigned int rows;
 		unsigned int adj_grid_w;
 		unsigned int adj_grid_h;
+		ImVec4 ui_colour;
 		std::map<std::string, int> selected;
 		std::map<std::string, int> highlighted;
 		std::map<std::string, bool> pressed;

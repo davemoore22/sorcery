@@ -87,7 +87,8 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 								ImGui::GetWindowPos().y + height}};
 
 		_ui->draw_frame(p_min, p_max,
-						ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
+						ImVec4{_ui->ui_colour.x, _ui->ui_colour.y,
+							   _ui->ui_colour.z, _system->animation->fade},
 						rounding);
 
 #pragma GCC diagnostic push

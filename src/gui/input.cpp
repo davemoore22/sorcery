@@ -110,7 +110,8 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 							 static_cast<float>(_height * _ui->font_sz)}};
 
 		_ui->draw_frame(p_min, p_max,
-						ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
+						ImVec4{_ui->ui_colour.x, _ui->ui_colour.y,
+							   _ui->ui_colour.z, _system->animation->fade},
 						rounding);
 
 		const auto title{(*_system->strings)[_component.string_key]};

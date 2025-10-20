@@ -224,7 +224,7 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 		_display_heal(game, n);
 	};
 	_draw_game_int["inspect"] = [this](Game *game, int n) {
-		_display_heal(game, n);
+		_display_inspect(game, n);
 	};
 	_draw_game_int["level_up"] = [this](Game *game, int n) {
 		_display_level_up(game, n);
@@ -438,6 +438,10 @@ auto Sorcery::UI::start() -> void {
 
 	// Can create the fontstore now which loads the fonts
 	fontstore = std::make_unique<FontStore>(_system, _io);
+	ui_colour =
+		ImVec4{std::stof((*_system->config).get("Frame", "colour_red")),
+			   std::stof((*_system->config).get("Frame", "colour_green")),
+			   std::stof((*_system->config).get("Frame", "colour_blue")), 1.0};
 
 	// Set the Default Fonts
 	using enum Enums::Layout::Font;
@@ -1934,6 +1938,7 @@ auto Sorcery::UI::_draw_current_character(Game *game,
 			set_StyleColor(ImGuiCol_Tab,
 						   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
 			auto char_cmp{(*components)["inspect:character_tab_data"]};
+			set_Font(fontstore->get_current_font(cmp.font).value());
 			with_TabBar("character_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					_draw_character_summary(&char_cmp, game, &character);
@@ -2096,6 +2101,7 @@ auto Sorcery::UI::_draw_item_info() -> void {
 				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
 			set_StyleColor(ImGuiCol_Tab,
 						   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+			set_Font(fontstore->get_current_font(cmp.font).value());
 			with_TabBar("museum_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					{
@@ -2525,7 +2531,20 @@ auto Sorcery::UI::_draw_options() -> void {
 							++font_idx;
 						}
 					}
-				}
+
+					ImGui::NewLine();
+
+					// Color Pickers
+					ImGuiColorEditFlags flags{ImGuiColorEditFlags_NoAlpha |
+											  ImGuiColorEditFlags_NoInputs |
+											  ImGuiColorEditFlags_NoTooltip |
+											  ImGuiColorEditFlags_NoOptions};
+					auto frame_name{std::format("{}##1", "UI Colour")};
+					// ImGui::SetCursorPosY(ImGui::GetCursorPosY() + grid_sz);
+					ImGui::SetNextItemWidth(28.f);
+					ImGui::ColorEdit3(frame_name.c_str(), (float *)&ui_colour,
+									  flags);
+				};
 			}
 			set_Font(fontstore->get_current_font(component.font).value());
 
@@ -2555,7 +2574,6 @@ auto Sorcery::UI::_draw_options() -> void {
 		}
 	}
 }
-
 auto Sorcery::UI::_draw_buffbar(Game *game) -> void {
 	auto cmp{(*components)["engine_base_ui:buffbar"]};
 	auto frame_cmp{(*components)["engine_base_ui:buffbar_frame"]};
@@ -2852,6 +2870,7 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
 			set_StyleColor(ImGuiCol_Tab,
 						   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+			set_Font(fontstore->get_current_font(cmp.font).value());
 			ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 			with_TabBar("bestiary_tab_bar", tb_flags) {
 				with_TabItem("Info") {
@@ -3029,6 +3048,7 @@ auto Sorcery::UI::_display_create(Game *game, const int stage) -> void {
 }
 
 auto Sorcery::UI::_display_inspect(Game *game, const int mode) -> void {
+
 	_draw_components("inspect", game, mode);
 	_draw_current_character(game, mode);
 	if (modal_identify->show)

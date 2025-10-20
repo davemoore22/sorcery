@@ -109,7 +109,9 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 		_ui->draw_frame(
 			ImVec2{x, y},
 			ImVec2{x + (grid_sz * _size.w), y + (grid_sz * _size.h)},
-			ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}, rounding);
+			ImVec4{_ui->ui_colour.x, _ui->ui_colour.y, _ui->ui_colour.z,
+				   _system->animation->fade},
+			rounding);
 
 		if (_title) {
 
@@ -128,7 +130,9 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 			_ui->draw_frame(
 				title_pos,
 				ImVec2{title_pos.x + title_sz.w, title_pos.y + title_sz.h},
-				ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}, rounding);
+				ImVec4{_ui->ui_colour.x, _ui->ui_colour.y, _ui->ui_colour.z,
+					   _system->animation->fade},
+				rounding);
 			_ui->draw_text(title_txt,
 						   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
 						   text_pos, Enums::Layout::Font::MONOSPACE);

@@ -106,7 +106,8 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 				(_items.size() * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
 
 		_ui->draw_frame(p_min, p_max,
-						ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
+						ImVec4{_ui->ui_colour.x, _ui->ui_colour.y,
+							   _ui->ui_colour.z, _system->animation->fade},
 						rounding);
 		auto top{_has_title ? 3 : 1};
 		if (_has_title) {
