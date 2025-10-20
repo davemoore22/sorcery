@@ -80,6 +80,9 @@ auto Sorcery::Engine::start(Game *game, const int mode) -> int {
 			ImGui_ImplSDL2_ProcessEvent(&event);
 			done = _controller->check_for_abort(event);
 
+			if (_controller->has_flag("want_abort"))
+				return ABORT_GAME;
+
 			// Check for Window Resize
 			_controller->check_for_resize(event, _ui);
 
@@ -87,7 +90,6 @@ auto Sorcery::Engine::start(Game *game, const int mode) -> int {
 			_controller->check_for_back(event, _ui->modal_camp->show);
 
 			// Check for Debug
-			_controller->check_for_debug(event);
 
 			// Don't do anything else whilst a Dialog or Popup etc is up
 			auto in_popup{
@@ -247,7 +249,6 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		(*_system->config)[Enums::Config::COLOURED_WIREFRAME];
 
 	_ui->set_monochrome(_controller->monochrome);
-	_ui->set_fullscreen(_controller->fullscreen);
 
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());
@@ -265,10 +266,19 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
+		_ui->modal_camp->regenerate(_controller, _game);
+		_ui->modal_camp->show = true;
+
+		_ui->modal_identify->show = false;
+		_ui->modal_drop->show = false;
+		_ui->modal_use->show = false;
+		_ui->modal_invoke->show = false;
+		_ui->modal_trade->show = false;
+
 	} else {
 
 		// Start off in Camp
-		//_ui->modal_camp->regenerate(_controller, _game);
+		_ui->modal_camp->regenerate(_controller, _game);
 		_ui->modal_camp->show = true;
 
 		// Hide any other modals that might be showing

@@ -26,6 +26,7 @@
 #include "core/ui.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
+#include "resources/fontstore.hpp"
 #include "types/component.hpp"
 #include "types/game.hpp"
 
@@ -86,6 +87,7 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 	set_StyleVar(ImGuiStyleVar_WindowRounding, rounding);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
+	set_Font(_ui->fontstore->get_current_font(_component.font).value());
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));

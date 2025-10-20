@@ -323,13 +323,9 @@ auto Sorcery::UI::create_dynamic_modal(Game *game, const std::string name)
 		modal_invoke = std::make_unique<Modal>(
 			_system, this, _controller, (*components)["global:modal_invoke"]);
 		modal_invoke->regenerate(_controller, game);
-	} else if (name == "modal_camp") {
-		if (modal_camp.get())
-			modal_camp.reset();
-		modal_camp = std::make_unique<Modal>(
-			_system, this, _controller, (*components)["global:modal_camp"]);
-		modal_camp->regenerate(_controller, game);
 	}
+
+	// Note that modal_camp is not dynamic and thus isn't handled here
 }
 
 auto Sorcery::UI::_draw_window_menu() -> void {}
@@ -3579,6 +3575,8 @@ auto Sorcery::UI::load_dynamic_menu_items(
 	else if (component == "modal_invoke" && game != nullptr)
 		load_character_items(controller, _resources, game, items, data,
 							 MENU_INVOKE_ITEM);
+
+	// Note that modal_camp only has fixed items and thus isn't handled here
 }
 
 auto Sorcery::UI::load_fixed_items(std::string_view component,
