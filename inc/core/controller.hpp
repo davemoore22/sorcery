@@ -40,6 +40,13 @@ class Controller {
 		// Standard Constructor
 		Controller(System *system, Display *display, Resources *resources);
 
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(selected, busy, last, last_event, last_dir, can_undo,
+					show_party_panel, show_ui, show_automap, monochrome,
+					fullscreen, candidate_party, _screen, _characters, _flags,
+					_texts);
+		}
+
 		// Public Methods
 		auto check_for_abort(const SDL_Event event) -> bool;
 		auto check_for_back(const SDL_Event event) -> bool;
@@ -85,11 +92,7 @@ class Controller {
 		auto unset_text(const std::string &flag) -> void;
 
 		// Public Members
-		std::string screen; // Where we currently are
-
 		std::map<std::string, int> selected; // Menu Selections
-
-		int destination; // Where to go next
 		bool busy; // Currently busy (e.g. loading an asset or saving a game)
 		std::string last; // Last screen redrawn by the ui
 
@@ -113,6 +116,7 @@ class Controller {
 		Resources *_resources;
 		Game *_game;
 		bool _has_save;
+		std::string _screen;					   // Where we currently are
 		std::map<std::string, int> _characters;	   // Character Selections
 		std::map<std::string, bool> _flags;		   // Logic Flags
 		std::map<std::string, std::string> _texts; // "Global" Texts

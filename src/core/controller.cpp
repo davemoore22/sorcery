@@ -46,12 +46,11 @@ Sorcery::Controller::Controller(System *system, Display *display,
 
 auto Sorcery::Controller::initialise(std::string_view value) -> void {
 
-	screen = value;
+	_screen = value;
 	_flags.clear();
 	_texts.clear();
 	selected.clear();
 	_characters.clear();
-	destination = DEST_NONE;
 	busy = false;
 	last = value;
 	_has_save = _system->db->has_game();
@@ -180,13 +179,13 @@ auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {
 
 auto Sorcery::Controller::set(std::string_view value) -> void {
 
-	screen = value;
+	_screen = value;
 	last = value;
 }
 
 auto Sorcery::Controller::get() const -> std::string_view {
 
-	return screen;
+	return _screen;
 }
 
 // Special Handling for Disable or Enable Menu Items
@@ -453,15 +452,12 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			_flags["want_continue_game"] = true;
 			break;
 		case MAIN_MENU_OPTIONS:
-			destination = selection;
 			move_screen("show_main_menu", "show_options");
 			break;
 		case MAIN_MENU_COMPENDIUM:
-			destination = selection;
 			move_screen("show_main_menu", "show_compendium");
 			break;
 		case MAIN_MENU_LICENSE:
-			destination = selection;
 			move_screen("show_main_menu", "show_license");
 			break;
 		case MAIN_MENU_EXIT_GAME:
