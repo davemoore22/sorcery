@@ -70,9 +70,9 @@ class Controller {
 		auto initialise(std::string_view value) -> void;
 		auto is_menu_item_disabled(const std::string &component,
 								   const int selection, const int data) -> bool;
-		auto set(std::string_view value) -> void;
+		auto set_screen(std::string_view value) -> void;
 		auto set_game(Game *game) -> void;
-		auto get() const -> std::string_view;
+		auto get_screen() const -> std::string_view;
 		auto move_screen(const std::string &from_screen,
 						 const std::string &to_screen) -> void;
 		auto clear_character(const std::string &flag) -> void;
@@ -90,6 +90,10 @@ class Controller {
 		auto set_text(const std::string &flag, const std::string &text) -> void;
 		auto get_text(const std::string &flag) const -> const std::string;
 		auto unset_text(const std::string &flag) -> void;
+		auto has_selected(const std::string &flag) const -> bool;
+		auto set_selected(const std::string &flag, const int &value) -> void;
+		auto get_selected(const std::string &flag) const -> int;
+		auto unset_selected(const std::string &flag) -> void;
 
 		// Public Members
 		std::map<std::string, int> selected; // Menu Selections

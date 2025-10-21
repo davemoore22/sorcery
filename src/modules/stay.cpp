@@ -79,7 +79,7 @@ auto Sorcery::Stay::start(Game *game) -> int {
 				return BACK_TO_CASTLE;
 
 			// Check for Stay Selected (remember +1 to selection)
-			if (_controller->selected["stay_selected"] > 0) {
+			if (_controller->get_selected("stay_selected") > 0) {
 
 				// Get Age beforehand
 				auto &character{
@@ -87,7 +87,7 @@ auto Sorcery::Stay::start(Game *game) -> int {
 				const auto before_age{character.get_age() % 52};
 
 				// Remember in this case its +1 the usual offset
-				switch (_controller->selected["stay_selected"]) {
+				switch (_controller->get_selected("stay_selected")) {
 				case 1:
 					_recovery->start(game, RECOVERY_MODE_FREE);
 					_recovery->stop();

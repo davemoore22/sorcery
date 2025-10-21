@@ -85,7 +85,7 @@ auto Sorcery::Pay::start(Game *game) -> int {
 		if (!_controller->has_flag("show_pay") &&
 			_controller->has_flag("show_temple"))
 			return HEALED_NOT;
-		else if (_controller->selected["pay_selected"] != -1) {
+		else if (_controller->has_selected("pay_selected")) {
 			_heal->start(game);
 			_heal->stop();
 			return HEALED_OK;

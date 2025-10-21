@@ -229,7 +229,7 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 	_draw_game_int["level_up"] = [this](Game *game, int n) {
 		_display_level_up(game, n);
 	};
-	_draw_game_int["no_level_up"] = [this](Game *game, int n) {
+	_draw_game_int["nolevelup"] = [this](Game *game, int n) {
 		_display_no_level_up(game, n);
 	};
 	_draw_game_int["recovery"] = [this](Game *game, int n) {
@@ -2075,7 +2075,7 @@ auto Sorcery::UI::_display_splash() -> void {
 
 auto Sorcery::UI::_draw_item_info() -> void {
 	// Custom Rendering
-	const auto idx{_controller->selected["museum_selected"]};
+	const auto idx{_controller->get_selected("museum_selected")};
 	if (idx >= 100)
 		return;
 
@@ -2794,7 +2794,7 @@ auto Sorcery::UI::_get_status_color(Character *character) const -> ImVec4 {
 }
 
 auto Sorcery::UI::_draw_spell_info() -> void {
-	const auto idx{_controller->selected["spellbook_selected"]};
+	const auto idx{_controller->get_selected("spellbook_selected")};
 	if (idx == 50)
 		return;
 
@@ -2844,7 +2844,7 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 
 auto Sorcery::UI::_draw_monster_info() -> void {
 	// Custom Rendering
-	const auto idx{_controller->selected["bestiary_selected"]};
+	const auto idx{_controller->get_selected("bestiary_selected")};
 	const auto mon{(*_resources->monsters)[idx]};
 	const auto k_gfx{mon.get_known_gfx()};
 	const auto u_gfx{mon.get_unknown_gfx()};
@@ -3236,12 +3236,13 @@ auto Sorcery::UI::_display_license(const std::string &string) -> void {
 }
 
 auto Sorcery::UI::_draw_level_no_player() -> void {
-	// Menu Selection for B1F to B10F is 0 to 0, thus convert it into -1
-	// to -10 for depth
-	if (_controller->selected["atlas_selected"] == 10)
+
+	// Menu Selection for B1F to B10F is 0 to 0, thus convert it into -1 to -10
+	// for depth
+	if (_controller->get_selected("atlas_selected") == 10)
 		return;
 
-	const auto depth{-1 - _controller->selected["atlas_selected"]};
+	const auto depth{-1 - _controller->get_selected("atlas_selected")};
 	Level level{(*_resources->levels)[depth].value()};
 
 	// Work out where and how to draw the grid

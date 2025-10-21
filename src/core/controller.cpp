@@ -177,13 +177,13 @@ auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {
 		return MOVE_NONE;
 }
 
-auto Sorcery::Controller::set(std::string_view value) -> void {
+auto Sorcery::Controller::set_screen(std::string_view value) -> void {
 
 	_screen = value;
 	last = value;
 }
 
-auto Sorcery::Controller::get() const -> std::string_view {
+auto Sorcery::Controller::get_screen() const -> std::string_view {
 
 	return _screen;
 }
@@ -674,6 +674,32 @@ auto Sorcery::Controller::has_flag(const std::string &flag) const -> bool {
 		return _flags.at(flag) == true;
 
 	return false;
+}
+
+auto Sorcery::Controller::has_selected(const std::string &flag) const -> bool {
+
+	if (selected.contains(flag))
+		return selected.at(flag) != -1;
+
+	return false;
+}
+
+auto Sorcery::Controller::set_selected(const std::string &flag,
+									   const int &value) -> void {
+	selected[flag] = value;
+}
+
+auto Sorcery::Controller::get_selected(const std::string &flag) const -> int {
+
+	if (selected.contains(flag))
+		return selected.at(flag);
+	else
+		return -1;
+}
+
+auto Sorcery::Controller::unset_selected(const std::string &flag) -> void {
+
+	selected[flag] = -1;
 }
 
 auto Sorcery::Controller::has_text(const std::string &flag) const -> bool {
