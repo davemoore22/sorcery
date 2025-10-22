@@ -48,7 +48,7 @@ Sorcery::Stay::Stay(System *system, Display *display, UI *ui,
 
 auto Sorcery::Stay::_initialise() -> bool {
 
-	_controller->selected["stay_selected"] = 0;
+	_controller->set_selected("stay_selected", 0);
 
 	return true;
 }
@@ -148,7 +148,7 @@ auto Sorcery::Stay::start(Game *game) -> int {
 
 auto Sorcery::Stay::stop() -> int {
 
-	_controller->selected["stay_selected"] = 0;
+	_controller->set_selected("stay_selected", 0);
 	_controller->move_screen("show_stay", "show_inn");
 
 	return 0;

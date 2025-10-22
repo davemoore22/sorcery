@@ -46,7 +46,7 @@ Sorcery::Compendium::Compendium(System *system, Display *display, UI *ui,
 
 auto Sorcery::Compendium::_initialise() -> bool {
 
-	_controller->selected["compendium_selected"] = 0;
+	_controller->set_selected("compendium_selected", 0);
 
 	return true;
 }

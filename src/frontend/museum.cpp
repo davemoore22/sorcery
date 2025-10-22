@@ -41,8 +41,7 @@ Sorcery::Museum::Museum(System *system, Display *display, UI *ui,
 
 auto Sorcery::Museum::_initialise() -> bool {
 
-	_controller->selected["museum_selected"] =
-		unenum(Enums::Items::TypeID::LONG_SWORD);
+	_controller->set_selected("museum_selected", 1); // Long Sword
 
 	return true;
 }

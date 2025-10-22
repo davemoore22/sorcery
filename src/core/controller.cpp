@@ -49,7 +49,7 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	_screen = value;
 	_flags.clear();
 	_texts.clear();
-	selected.clear();
+	_selected.clear();
 	_characters.clear();
 	busy = false;
 	last = value;
@@ -98,6 +98,10 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	unset_flag("want_use");
 
 	unset_text("heal_results");
+
+	set_selected("bestiary_selected", 0);
+	set_selected("spellbook_selected", 0);
+	set_selected("museum_selected", 1);
 }
 
 auto Sorcery::Controller::get_flags() const -> std::string {
@@ -678,28 +682,29 @@ auto Sorcery::Controller::has_flag(const std::string &flag) const -> bool {
 
 auto Sorcery::Controller::has_selected(const std::string &flag) const -> bool {
 
-	if (selected.contains(flag))
-		return selected.at(flag) != -1;
+	if (_selected.contains(flag))
+		return _selected.at(flag) != -1;
 
 	return false;
 }
 
-auto Sorcery::Controller::set_selected(const std::string &flag,
-									   const int &value) -> void {
-	selected[flag] = value;
+auto Sorcery::Controller::set_selected(const std::string &flag, const int value)
+	-> void {
+
+	_selected[flag] = value;
 }
 
 auto Sorcery::Controller::get_selected(const std::string &flag) const -> int {
 
-	if (selected.contains(flag))
-		return selected.at(flag);
+	if (_selected.contains(flag))
+		return _selected.at(flag);
 	else
 		return -1;
 }
 
 auto Sorcery::Controller::unset_selected(const std::string &flag) -> void {
 
-	selected[flag] = -1;
+	_selected[flag] = -1;
 }
 
 auto Sorcery::Controller::has_text(const std::string &flag) const -> bool {
@@ -970,7 +975,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		if (selection == (static_cast<int>(items.size()) - 1))
 			_flags["show_pay"] = false;
 		else
-			selected["pay_selected"] = selection;
+			_selected["pay_selected"] = selection;
 
 	} else if (component == "shop_menu") {
 
@@ -996,25 +1001,25 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "bestiary_menu") {
 
 		// Bestiary
-		selected["bestiary_selected"] = selection;
+		_selected["bestiary_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
 			move_screen("show_bestiary", "show_compendium");
 	} else if (component == "museum_menu") {
 
 		// Museum
-		selected["museum_selected"] = selection;
+		_selected["museum_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
 			move_screen("show_museum", "show_compendium");
 	} else if (component == "atlas_menu") {
 
 		// Atlas
-		selected["atlas_selected"] = selection;
+		_selected["atlas_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
 			move_screen("show_atlas", "show_compendium");
 	} else if (component == "spellbook_menu") {
 
 		// Spellbook
-		selected["spellbook_selected"] = selection;
+		_selected["spellbook_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
 			move_screen("show_spellbook", "show_compendium");
 	} else if (component == "choose_menu") {
@@ -1028,7 +1033,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "rest_menu") {
 
 		// Resting
-		selected["stay_selected"] = selection + 1;
+		_selected["stay_selected"] = selection + 1;
 		if (selection == (static_cast<int>(items.size()) - 1 + 1))
 			move_screen("show_stay", "show_inn");
 		else

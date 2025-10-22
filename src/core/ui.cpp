@@ -2815,13 +2815,13 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 									  ? "Mage"
 									  : "Priest"};
 
-			std::string spell_category{
+			std::string spell_cat{
 				magic_enum::enum_name<Enums::Magic::SpellCategory>(
 					spell.category)};
-			std::transform(spell_category.begin(), spell_category.end(),
-						   spell_category.begin(), ::tolower);
+			std::transform(spell_cat.begin(), spell_cat.end(),
+						   spell_cat.begin(), ::tolower);
 			auto summary{std::format("Level {} {} {} spell", spell.level,
-									 spell_type, spell_category)};
+									 spell_type, spell_cat)};
 
 			{
 				set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 1.0f, 1.0f,

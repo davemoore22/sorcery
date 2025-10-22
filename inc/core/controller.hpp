@@ -41,7 +41,7 @@ class Controller {
 		Controller(System *system, Display *display, Resources *resources);
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(selected, busy, last, last_event, last_dir, can_undo,
+			archive(_selected, busy, last, last_event, last_dir, can_undo,
 					show_party_panel, show_ui, show_automap, monochrome,
 					fullscreen, candidate_party, _screen, _characters, _flags,
 					_texts);
@@ -91,12 +91,11 @@ class Controller {
 		auto get_text(const std::string &flag) const -> const std::string;
 		auto unset_text(const std::string &flag) -> void;
 		auto has_selected(const std::string &flag) const -> bool;
-		auto set_selected(const std::string &flag, const int &value) -> void;
+		auto set_selected(const std::string &flag, const int value) -> void;
 		auto get_selected(const std::string &flag) const -> int;
 		auto unset_selected(const std::string &flag) -> void;
 
 		// Public Members
-		std::map<std::string, int> selected; // Menu Selections
 		bool busy; // Currently busy (e.g. loading an asset or saving a game)
 		std::string last; // Last screen redrawn by the ui
 
@@ -124,6 +123,7 @@ class Controller {
 		std::map<std::string, int> _characters;	   // Character Selections
 		std::map<std::string, bool> _flags;		   // Logic Flags
 		std::map<std::string, std::string> _texts; // "Global" Texts
+		std::map<std::string, int> _selected;	   // Menu Selections
 };
 
 };

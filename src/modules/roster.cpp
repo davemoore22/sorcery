@@ -42,7 +42,7 @@ Sorcery::Roster::Roster(System *system, Display *display, UI *ui,
 
 auto Sorcery::Roster::_initialise() -> bool {
 
-	_controller->selected["roster_selected"] = 0;
+	_controller->set_selected("roster_selected", 0);
 
 	return true;
 }

@@ -41,8 +41,7 @@ Sorcery::Bestiary::Bestiary(System *system, Display *display, UI *ui,
 
 auto Sorcery::Bestiary::_initialise() -> bool {
 
-	_controller->selected["bestiary_selected"] =
-		unenum(Enums::Monsters::TypeID::BUBBLY_SLIME);
+	_controller->set_selected("bestiary_selected", 0); // Bubbly Slime
 
 	return true;
 }

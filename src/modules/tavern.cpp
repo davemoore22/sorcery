@@ -54,7 +54,7 @@ Sorcery::Tavern::Tavern(System *system, Display *display, UI *ui,
 
 auto Sorcery::Tavern::_initialise() -> bool {
 
-	_controller->selected["party_panel_selected"] = 0;
+	_controller->set_selected("party_panel_selected", 0);
 
 	return true;
 }

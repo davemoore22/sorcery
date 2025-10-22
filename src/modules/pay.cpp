@@ -46,7 +46,7 @@ Sorcery::Pay::Pay(System *system, Display *display, UI *ui,
 
 auto Sorcery::Pay::_initialise() -> bool {
 
-	_controller->selected["pay_selected"] = 0;
+	_controller->set_selected("pay_selected", 0);
 
 	return true;
 }
@@ -58,7 +58,7 @@ auto Sorcery::Pay::start(Game *game) -> int {
 
 	// Need this before accessing dynamic modals!
 	_controller->clear_character("pay");
-	_controller->selected["pay_selected"] = -1;
+	_controller->unset_selected("pay_selected");
 
 	// Main loop
 	auto done{false};

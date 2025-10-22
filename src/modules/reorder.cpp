@@ -42,7 +42,7 @@ Sorcery::Reorder::Reorder(System *system, Display *display, UI *ui,
 
 auto Sorcery::Reorder::_initialise() -> bool {
 
-	_controller->selected["reorder_selected"] = 0;
+	_controller->set_selected("reorder_selected", 0);
 
 	return true;
 }

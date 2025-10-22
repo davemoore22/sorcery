@@ -41,8 +41,8 @@ Sorcery::SpellBook::SpellBook(System *system, Display *display, UI *ui,
 
 auto Sorcery::SpellBook::_initialise() -> bool {
 
-	_controller->selected["spellbook_selected"] =
-		unenum(Enums::Magic::SpellID::DUMAPIC);
+	_controller->set_selected("spellbook_selected",
+							  unenum(Enums::Magic::SpellID::DUMAPIC));
 
 	return true;
 }

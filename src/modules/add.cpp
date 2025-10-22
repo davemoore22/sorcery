@@ -42,7 +42,7 @@ Sorcery::Add::Add(System *system, Display *display, UI *ui,
 
 auto Sorcery::Add::_initialise() -> bool {
 
-	_controller->selected["add_selected"] = 0;
+	_controller->set_selected("add_selected", 0);
 
 	return true;
 }

@@ -42,7 +42,7 @@ Sorcery::Remove::Remove(System *system, Display *display, UI *ui,
 
 auto Sorcery::Remove::_initialise() -> bool {
 
-	_controller->selected["remove_selected"] = 0;
+	_controller->set_selected("remove_selected", 0);
 
 	return true;
 }

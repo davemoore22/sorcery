@@ -42,7 +42,7 @@ Sorcery::Restart::Restart(System *system, Display *display, UI *ui,
 
 auto Sorcery::Restart::_initialise() -> bool {
 
-	_controller->selected["restart_selected"] = 0;
+	_controller->set_selected("restart_selected", 0);
 
 	return true;
 }

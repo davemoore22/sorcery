@@ -41,7 +41,7 @@ Sorcery::Atlas::Atlas(System *system, Display *display, UI *ui,
 
 auto Sorcery::Atlas::_initialise() -> bool {
 
-	_controller->selected["atlas_selected"] = 0;
+	_controller->set_selected("atlas_selected", 0);
 
 	return true;
 }
