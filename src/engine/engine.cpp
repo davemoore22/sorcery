@@ -242,13 +242,13 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	_controller->last_dir = Enums::Map::Direction::NO_DIRECTION;
 	_controller->last_event = Enums::Map::Event::NO_EVENT;
 	_controller->can_undo = false;
-	_controller->show_party_panel = true;
-	_controller->show_ui = true;
-	_controller->show_automap = true;
 	_controller->monochrome =
 		(*_system->config)[Enums::Config::COLOURED_WIREFRAME];
-
 	_ui->set_monochrome(_controller->monochrome);
+
+	_controller->set_flag("interface_automap");
+	_controller->set_flag("interface_party_panel");
+	_controller->set_flag("interface_ui");
 
 	if (!_tile_explored(_game->state->get_player_pos()))
 		_set_tile_explored(_game->state->get_player_pos());

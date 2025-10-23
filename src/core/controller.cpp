@@ -62,6 +62,7 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	clear_character("tithe");
 	clear_character("pay");
 	clear_character("help");
+
 	// Note that the show_* flags don't need to be preset
 	unset_flag("after_tile_message");
 	unset_flag("napping_finished");
@@ -96,6 +97,8 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	unset_flag("want_tithe");
 	unset_flag("want_trade");
 	unset_flag("want_use");
+
+	// Interface flags
 
 	unset_text("heal_results");
 
@@ -150,11 +153,11 @@ auto Sorcery::Controller::check_for_debug(const SDL_Event event) -> void {
 auto Sorcery::Controller::check_for_ui_toggle(const SDL_Event event) -> void {
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)
-		show_party_panel = !show_party_panel;
+		toggle_flag("interface_party_panel");
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_o)
-		show_ui = !show_ui;
+		toggle_flag("interface_ui");
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m)
-		show_automap = !show_automap;
+		toggle_flag("interface_automap");
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n)
 		monochrome = !monochrome;
 }
@@ -665,6 +668,14 @@ auto Sorcery::Controller::get_flag(const std::string &flag) const -> bool {
 auto Sorcery::Controller::set_flag(const std::string &flag) -> void {
 
 	_flags[flag] = true;
+}
+
+auto Sorcery::Controller::toggle_flag(const std::string &flag) -> void {
+
+	if (_flags.contains(flag))
+		_flags.at(flag) = !_flags.at(flag);
+	else
+		_flags[flag] = true;
 }
 
 auto Sorcery::Controller::unset_flag(const std::string &flag) -> void {

@@ -564,9 +564,10 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 		modal_invoke->display(_controller->get_flag_ref("want_invoke"));
 	if (notice_pool_gold->show)
 		notice_pool_gold->display(_controller->get_flag_ref("want_pool_gold"));
-	if (_controller->show_ui && _controller->show_party_panel)
+	if (_controller->get_flag("interface_ui") &&
+		_controller->get_flag("interface_party_panel"))
 		_draw_party_panel(game);
-	if (_controller->show_ui) {
+	if (_controller->get_flag("interface_ui")) {
 		_draw_compass(game);
 		_draw_buffbar(game);
 		_draw_icons(game);

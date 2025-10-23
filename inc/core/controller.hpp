@@ -42,9 +42,8 @@ class Controller {
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, busy, last, last_event, last_dir, can_undo,
-					show_party_panel, show_ui, show_automap, monochrome,
-					fullscreen, candidate_party, _screen, _characters, _flags,
-					_texts);
+					monochrome, fullscreen, candidate_party, _screen,
+					_characters, _flags, _texts);
 		}
 
 		// Public Methods
@@ -84,6 +83,7 @@ class Controller {
 		auto set_flag(const std::string &flag) -> void;
 		auto unset_flag(const std::string &flag) -> void;
 		auto has_flag(const std::string &flag) const -> bool;
+		auto toggle_flag(const std::string &flag) -> void;
 		auto get_flags() const -> std::string;
 		auto get_characters() const -> std::string;
 		auto has_text(const std::string &flag) const -> bool;
@@ -103,11 +103,9 @@ class Controller {
 		Enums::Map::Event last_event;	// Last event in dungeon
 		Enums::Map::Direction last_dir; // Last movement in dungeon
 		bool can_undo;					// Can "undo" a movement action
-		bool show_party_panel;			// Show party panel
-		bool show_ui;					// Show UI
-		bool show_automap;				// Show automap
-		bool monochrome;				// Draw in monochrome;
-		bool fullscreen;				// Fullscreen mode
+
+		bool monochrome; // Draw in monochrome;
+		bool fullscreen; // Fullscreen mode
 
 		// Front-end Flags
 		std::vector<unsigned int> candidate_party; // Used for Reordering
