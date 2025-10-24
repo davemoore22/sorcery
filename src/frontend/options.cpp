@@ -54,6 +54,7 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 	// Main loop
 	auto done{false};
 	_fullscreen_before = (*_system->config)[Enums::Config::FULLSCREEN];
+	_monochrome_before = (*_system->config)[Enums::Config::COLOURED_WIREFRAME];
 	while (!done) {
 
 		SDL_Event event;
@@ -81,11 +82,14 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 auto Sorcery::Options::stop() -> int {
 
 	auto fullscreen_after{(*_system->config)[Enums::Config::FULLSCREEN]};
-	if (_fullscreen_before != fullscreen_after) {
-		if ((*_system->config)[Enums::Config::FULLSCREEN])
-			_ui->set_fullscreen(true);
-		else
-			_ui->set_fullscreen(false);
+	if (_fullscreen_before != fullscreen_after)
+		_ui->set_fullscreen(fullscreen_after);
+
+	auto monochrome_after{
+		(*_system->config)[Enums::Config::COLOURED_WIREFRAME]};
+	if (_monochrome_before != monochrome_after) {
+		_controller->set_monochrome(monochrome_after);
+		_ui->set_monochrome(monochrome_after);
 	}
 
 	if (_is_in_game)

@@ -358,6 +358,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 				return std::format("{:>26}: {}\n", name, casted->show);
 			}
 		}
+
+		return "";
 	};
 
 	std::string output{};
@@ -546,6 +548,7 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	dialog_stairs_up->display(_controller->get_flag_ref("want_take_stairs_up"));
 	dialog_stairs_down->display(
 		_controller->get_flag_ref("want_take_stairs_down"));
+	// if (popup_ouch->show)
 	popup_ouch->display();
 	message_tile->display(_controller->get_flag_ref("after_tile_message"));
 	if (modal_camp->show)
@@ -2584,7 +2587,7 @@ auto Sorcery::UI::_draw_buffbar(Game *game) -> void {
 	const auto width{cmp.w * grid_sz};
 	const auto height{cmp.h * grid_sz};
 
-	auto tint{_controller->monochrome
+	auto tint{_controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
 				  : ImVec4{1.0f, 0.33f, 0.33f, _system->animation->fade}};
 
@@ -2615,7 +2618,7 @@ auto Sorcery::UI::_draw_icons([[maybe_unused]] Game *game) -> void {
 	const auto width{cmp.w * grid_sz};
 	const auto height{cmp.h * grid_sz};
 
-	auto tint{_controller->monochrome
+	auto tint{_controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
 				  : ImVec4{0.33f, 1.0f, 1.0f, _system->animation->fade}};
 
@@ -2642,7 +2645,7 @@ auto Sorcery::UI::_draw_save([[maybe_unused]] Game *game) -> void {
 	const auto width{cmp.w * grid_sz};
 	const auto height{cmp.h * grid_sz};
 
-	auto tint{_controller->monochrome
+	auto tint{_controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
 				  : ImVec4{0.33f, 1.0f, 1.0f, _system->animation->fade}};
 
@@ -2663,7 +2666,7 @@ auto Sorcery::UI::_draw_compass(Game *game) -> void {
 	auto cmp{(*components)["engine_base_ui:compass"]};
 	auto frame_cmp{(*components)["engine_base_ui:compass_frame"]};
 
-	auto tint{_controller->monochrome
+	auto tint{_controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
 				  : ImVec4{1.0f, 0.33f, 0.33f, _system->animation->fade}};
 

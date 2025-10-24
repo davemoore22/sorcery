@@ -310,6 +310,8 @@ auto Sorcery::Application::_do_town(const int mode) -> int {
 
 		return 0;
 	}
+
+	return 0;
 }
 
 auto Sorcery::Application::_load_existing_game() -> void {
@@ -424,7 +426,11 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 	_game->save_game();
 }
 
-auto Sorcery::Application::_continue_existing_game() -> int {}
+auto Sorcery::Application::_continue_existing_game() -> int {
+
+	// Placeholder
+	return 0;
+}
 
 // Stop the Game
 auto Sorcery::Application::stop() -> void {

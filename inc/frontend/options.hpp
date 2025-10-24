@@ -52,6 +52,7 @@ class Options {
 		Controller *_controller;
 		bool _is_in_game;
 		bool _fullscreen_before;
+		bool _monochrome_before;
 };
 
 };

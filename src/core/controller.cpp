@@ -98,8 +98,6 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	unset_flag("want_trade");
 	unset_flag("want_use");
 
-	// Interface flags
-
 	unset_text("heal_results");
 
 	set_selected("bestiary_selected", 0);
@@ -126,9 +124,24 @@ auto Sorcery::Controller::get_characters() const -> std::string {
 	return output;
 }
 
+auto Sorcery::Controller::set_monochrome(const bool value) -> void {
+
+	_monochrome = value;
+}
+auto Sorcery::Controller::get_monochrome() const -> bool {
+
+	return _monochrome;
+}
+
 auto Sorcery::Controller::has_saved_game() const -> bool {
 
 	return _has_save;
+}
+
+auto Sorcery::Controller::set_flag_value(const std::string &flag,
+										 const bool value) -> void {
+
+	_flags[flag] = value;
 }
 
 auto Sorcery::Controller::set_game(Game *game) -> void {
@@ -159,7 +172,7 @@ auto Sorcery::Controller::check_for_ui_toggle(const SDL_Event event) -> void {
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m)
 		toggle_flag("interface_automap");
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n)
-		monochrome = !monochrome;
+		_monochrome = !_monochrome;
 }
 
 auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {

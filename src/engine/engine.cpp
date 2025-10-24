@@ -101,7 +101,10 @@ auto Sorcery::Engine::start(Game *game, const int mode) -> int {
 			if (!in_popup) {
 
 				// Check for UI toggles
+				auto old_monochrome{_controller->get_monochrome()};
 				_controller->check_for_ui_toggle(event);
+				if (old_monochrome != _controller->get_monochrome())
+					_ui->set_monochrome(_controller->get_monochrome());
 
 				// Check for Movement
 				if (const auto movement{_controller->check_for_movement(event)};
@@ -242,9 +245,9 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	_controller->last_dir = Enums::Map::Direction::NO_DIRECTION;
 	_controller->last_event = Enums::Map::Event::NO_EVENT;
 	_controller->can_undo = false;
-	_controller->monochrome =
-		(*_system->config)[Enums::Config::COLOURED_WIREFRAME];
-	_ui->set_monochrome(_controller->monochrome);
+	_controller->set_monochrome(
+		(*_system->config)[Enums::Config::COLOURED_WIREFRAME]);
+	_ui->set_monochrome((*_system->config)[Enums::Config::COLOURED_WIREFRAME]);
 
 	_controller->set_flag("interface_automap");
 	_controller->set_flag("interface_party_panel");
@@ -385,6 +388,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		return true;
 	} else {
 		_start_popup_ouch();
+		return false;
 	}
 }
 

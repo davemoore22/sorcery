@@ -42,8 +42,8 @@ class Controller {
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, busy, last, last_event, last_dir, can_undo,
-					monochrome, fullscreen, candidate_party, _screen,
-					_characters, _flags, _texts);
+					fullscreen, candidate_party, _screen, _characters, _flags,
+					_texts, _monochrome);
 		}
 
 		// Public Methods
@@ -81,6 +81,7 @@ class Controller {
 		auto get_flag(const std::string &flag) const -> bool;
 		auto get_flag_ref(const std::string &flag) -> bool &;
 		auto set_flag(const std::string &flag) -> void;
+		auto set_flag_value(const std::string &flag, const bool value) -> void;
 		auto unset_flag(const std::string &flag) -> void;
 		auto has_flag(const std::string &flag) const -> bool;
 		auto toggle_flag(const std::string &flag) -> void;
@@ -94,6 +95,8 @@ class Controller {
 		auto set_selected(const std::string &flag, const int value) -> void;
 		auto get_selected(const std::string &flag) const -> int;
 		auto unset_selected(const std::string &flag) -> void;
+		auto set_monochrome(const bool value) -> void;
+		auto get_monochrome() const -> bool;
 
 		// Public Members
 		bool busy; // Currently busy (e.g. loading an asset or saving a game)
@@ -104,7 +107,6 @@ class Controller {
 		Enums::Map::Direction last_dir; // Last movement in dungeon
 		bool can_undo;					// Can "undo" a movement action
 
-		bool monochrome; // Draw in monochrome;
 		bool fullscreen; // Fullscreen mode
 
 		// Front-end Flags
@@ -117,6 +119,7 @@ class Controller {
 		Resources *_resources;
 		Game *_game;
 		bool _has_save;
+		bool _monochrome;						   // Monochrome mode
 		std::string _screen;					   // Where we currently are
 		std::map<std::string, int> _characters;	   // Character Selections
 		std::map<std::string, bool> _flags;		   // Logic Flags

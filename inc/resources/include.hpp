@@ -53,3 +53,4 @@
 #include "cereal/types/unordered_map.hpp"
 #include "cereal/types/vector.hpp"
 // clang-format on
+#pragma GCC diagnostic pop

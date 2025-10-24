@@ -70,6 +70,8 @@ auto Sorcery::LevelStore::operator=(const LevelStore other) -> LevelStore & {
 	_levels = other._levels;
 	_loaded = other._loaded;
 	_system = other._system;
+
+	return *this;
 }
 
 // Method called to simulate Normal Constructor with Cereal Constructor
