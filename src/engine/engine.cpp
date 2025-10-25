@@ -184,7 +184,7 @@ auto Sorcery::Engine::start(Game *game, const int mode) -> int {
 
 					// Do Event Handling
 					_controller->unset_flag("after_tile_message");
-					_controller->last_event = Enums::Map::Event::NO_EVENT;
+					_controller->set_last_event(Enums::Map::Event::NO_EVENT);
 				}
 
 				if (_controller->has_flag("want_quit_expedition") &&
@@ -199,9 +199,9 @@ auto Sorcery::Engine::start(Game *game, const int mode) -> int {
 								Enums::Character::Location::MAZE);
 						}
 					}
-					_controller->busy = true;
+					_controller->set_busy(true);
 					_game->save_game();
-					_controller->busy = false;
+					_controller->set_busy(false);
 					_game->state->clear_party();
 					return LEAVE_MAZE;
 				}
@@ -242,9 +242,9 @@ auto Sorcery::Engine::_go_to_location(const int depth, const Coordinate loc,
 
 auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
-	_controller->last_dir = Enums::Map::Direction::NO_DIRECTION;
-	_controller->last_event = Enums::Map::Event::NO_EVENT;
-	_controller->can_undo = false;
+	_controller->set_last_dir(Enums::Map::Direction::NO_DIRECTION);
+	_controller->set_last_event(Enums::Map::Event::NO_EVENT);
+	_controller->set_can_undo(false);
 	_controller->set_monochrome(
 		(*_system->config)[Enums::Config::COLOURED_WIREFRAME]);
 	_ui->set_monochrome((*_system->config)[Enums::Config::COLOURED_WIREFRAME]);
@@ -337,7 +337,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		_game->state->set_player_prev_depth(_game->state->get_depth());
 		_game->state->set_depth(_game->state->get_depth());
 		_game->state->set_player_pos(next_loc);
-		_controller->can_undo = true;
+		_controller->set_can_undo(true);
 
 		// Check for Darkness
 		using enum Enums::Tile::Properties;
@@ -376,14 +376,13 @@ auto Sorcery::Engine::_move_forward() -> bool {
 				_ui->message_tile->set(_ui->load_message(event_type),
 									   event_type);
 				_controller->set_flag("after_tile_message");
-				_controller->last_event = event_type;
+				_controller->set_last_event(event_type);
 				_ui->message_tile->show = true;
 			}
 		}
 
-		// Remember this is COMPASS direction (i.e. on screen), not Map
-		// direction!
-		_controller->last_dir = Enums::Map::Direction::NORTH;
+		// Remember this is COMPASS (on screen) direction, not map direction!
+		_controller->set_last_dir(Enums::Map::Direction::NORTH);
 
 		return true;
 	} else {
@@ -407,9 +406,9 @@ auto Sorcery::Engine::_start_popup_ouch() -> void {
 
 auto Sorcery::Engine::_go_back_to_town() -> int {
 
-	_controller->busy = true;
+	_controller->set_busy(true);
 	_game->save_game();
-	_controller->busy = false;
+	_controller->set_busy(false);
 
 	return RETURN_TO_TOWN;
 }
@@ -525,7 +524,7 @@ auto Sorcery::Engine::_move_backward() -> bool {
 		_game->state->set_player_prev_depth(_game->state->get_depth());
 		_game->state->set_depth(_game->state->get_depth());
 		_game->state->set_player_pos(next_loc);
-		_controller->can_undo = true;
+		_controller->set_can_undo(true);
 
 		if (!_tile_explored(_game->state->get_player_pos()))
 			_set_tile_explored(_game->state->get_player_pos());
@@ -561,12 +560,12 @@ auto Sorcery::Engine::_move_backward() -> bool {
 				_ui->message_tile->set(_ui->load_message(event_type),
 									   event_type);
 				_controller->set_flag("after_tile_message");
-				_controller->last_event = event_type;
+				_controller->set_last_event(event_type);
 				_ui->message_tile->show = true;
 			}
 		}
 
-		_controller->last_dir = Enums::Map::Direction::SOUTH;
+		_controller->set_last_dir(Enums::Map::Direction::SOUTH);
 
 		return true;
 	} else
@@ -593,8 +592,8 @@ auto Sorcery::Engine::_turn_left() -> void {
 		break;
 	}
 
-	_controller->last_dir = Enums::Map::Direction::WEST;
-	_controller->can_undo = false;
+	_controller->set_last_dir(Enums::Map::Direction::WEST);
+	_controller->set_can_undo(false);
 }
 
 auto Sorcery::Engine::_turn_right() -> void {
@@ -617,8 +616,8 @@ auto Sorcery::Engine::_turn_right() -> void {
 		break;
 	}
 
-	_controller->last_dir = Enums::Map::Direction::EAST;
-	_controller->can_undo = false;
+	_controller->set_last_dir(Enums::Map::Direction::EAST);
+	_controller->set_can_undo(false);
 }
 
 auto Sorcery::Engine::_turn_around() -> void {
@@ -641,6 +640,6 @@ auto Sorcery::Engine::_turn_around() -> void {
 		break;
 	}
 
-	_controller->last_dir = Enums::Map::Direction::SOUTH;
-	_controller->can_undo = false;
+	_controller->set_last_dir(Enums::Map::Direction::SOUTH);
+	_controller->set_can_undo(false);
 }

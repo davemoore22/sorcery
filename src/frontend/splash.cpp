@@ -49,7 +49,7 @@ auto Sorcery::Splash::start() -> int {
 	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 
 	_controller->initialise("splash");
-	_controller->busy = true;
+	_controller->set_busy(true);
 
 	// Main loop
 	auto done{false};
@@ -64,7 +64,7 @@ auto Sorcery::Splash::start() -> int {
 		done = true;
 	}
 
-	_controller->busy = false;
+	_controller->set_busy(false);
 
 	return 0;
 }

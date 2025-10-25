@@ -41,9 +41,9 @@ class Controller {
 		Controller(System *system, Display *display, Resources *resources);
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_selected, busy, last, last_event, last_dir, can_undo,
-					fullscreen, candidate_party, _screen, _characters, _flags,
-					_texts, _monochrome);
+			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
+					_can_undo, _fullscreen, candidate_party, _screen,
+					_characters, _flags, _texts, _monochrome);
 		}
 
 		// Public Methods
@@ -95,19 +95,24 @@ class Controller {
 		auto set_selected(const std::string &flag, const int value) -> void;
 		auto get_selected(const std::string &flag) const -> int;
 		auto unset_selected(const std::string &flag) -> void;
+
 		auto set_monochrome(const bool value) -> void;
 		auto get_monochrome() const -> bool;
-
+		auto set_fullscreen(const bool value) -> void;
+		auto get_fullscreen() const -> bool;
+		auto set_busy(const bool value) -> void;
+		auto get_busy() const -> bool;
+		auto set_can_undo(const bool value) -> void;
+		auto get_can_undo() const -> bool;
+		auto get_last_screen() const -> std::string;
+		auto set_last_screen(const std::string &value) -> void;
+		auto get_last_event() const -> Enums::Map::Event;
+		auto set_last_event(const Enums::Map::Event value) -> void;
+		auto get_last_dir() const -> Enums::Map::Direction;
+		auto set_last_dir(const Enums::Map::Direction value) -> void;
 		// Public Members
-		bool busy; // Currently busy (e.g. loading an asset or saving a game)
-		std::string last; // Last screen redrawn by the ui
 
 		// In-Dungeon Flags
-		Enums::Map::Event last_event;	// Last event in dungeon
-		Enums::Map::Direction last_dir; // Last movement in dungeon
-		bool can_undo;					// Can "undo" a movement action
-
-		bool fullscreen; // Fullscreen mode
 
 		// Front-end Flags
 		std::vector<unsigned int> candidate_party; // Used for Reordering
@@ -118,11 +123,17 @@ class Controller {
 		Display *_display;
 		Resources *_resources;
 		Game *_game;
-		bool _has_save;
-		bool _monochrome;						   // Monochrome mode
-		std::string _screen;					   // Where we currently are
-		std::map<std::string, int> _characters;	   // Character Selections
-		std::map<std::string, bool> _flags;		   // Logic Flags
+		bool _busy;		  // Currently busy (e.g. loading an asset etc)
+		bool _has_save;	  // Is there a saved game present
+		bool _monochrome; // Monochrome wireframe mode active
+		bool _fullscreen; // Fullscreen mode active
+		bool _can_undo;	  // Can "undo" a movement action
+		Enums::Map::Event _last_event;			// Last event in dungeon
+		Enums::Map::Direction _last_dir;		// Last movement in dungeon
+		std::string _last_screen;				// Last screen redrawn by the ui
+		std::string _screen;					// Where we currently are
+		std::map<std::string, int> _characters; // Character Selections
+		std::map<std::string, bool> _flags;		// Logic Flags
 		std::map<std::string, std::string> _texts; // "Global" Texts
 		std::map<std::string, int> _selected;	   // Menu Selections
 };

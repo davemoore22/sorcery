@@ -47,13 +47,15 @@ Sorcery::Controller::Controller(System *system, Display *display,
 auto Sorcery::Controller::initialise(std::string_view value) -> void {
 
 	_screen = value;
+	_busy = false;
+	_last_screen = value;
+	_has_save = _system->db->has_game();
+
+	// TODO: are these needed?
 	_flags.clear();
 	_texts.clear();
 	_selected.clear();
 	_characters.clear();
-	busy = false;
-	last = value;
-	_has_save = _system->db->has_game();
 
 	// Set default state (these must all be present and set to false/-1)
 	clear_character("inspect");
@@ -105,6 +107,28 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	set_selected("museum_selected", 1);
 }
 
+auto Sorcery::Controller::get_last_event() const -> Enums::Map::Event {
+
+	return _last_event;
+}
+
+auto Sorcery::Controller::set_last_event(const Enums::Map::Event value)
+	-> void {
+
+	_last_event = value;
+}
+
+auto Sorcery::Controller::get_last_dir() const -> Enums::Map::Direction {
+
+	return _last_dir;
+}
+
+auto Sorcery::Controller::set_last_dir(const Enums::Map::Direction value)
+	-> void {
+
+	_last_dir = value;
+}
+
 auto Sorcery::Controller::get_flags() const -> std::string {
 
 	std::string output{};
@@ -131,6 +155,24 @@ auto Sorcery::Controller::set_monochrome(const bool value) -> void {
 auto Sorcery::Controller::get_monochrome() const -> bool {
 
 	return _monochrome;
+}
+
+auto Sorcery::Controller::set_busy(const bool value) -> void {
+
+	_busy = value;
+}
+auto Sorcery::Controller::get_busy() const -> bool {
+
+	return _busy;
+}
+
+auto Sorcery::Controller::set_fullscreen(const bool value) -> void {
+
+	_fullscreen = value;
+}
+auto Sorcery::Controller::get_fullscreen() const -> bool {
+
+	return _fullscreen;
 }
 
 auto Sorcery::Controller::has_saved_game() const -> bool {
@@ -200,7 +242,7 @@ auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {
 auto Sorcery::Controller::set_screen(std::string_view value) -> void {
 
 	_screen = value;
-	last = value;
+	_last_screen = value;
 }
 
 auto Sorcery::Controller::get_screen() const -> std::string_view {
@@ -451,6 +493,24 @@ auto Sorcery::Controller::handle_toggle(const std::string &component,
 	}
 }
 
+auto Sorcery::Controller::set_can_undo(const bool value) -> void {
+
+	_can_undo = value;
+}
+auto Sorcery::Controller::get_can_undo() const -> bool {
+
+	return _can_undo;
+}
+
+auto Sorcery::Controller::get_last_screen() const -> std::string {
+
+	return _last_screen;
+}
+auto Sorcery::Controller::set_last_screen(const std::string &value) -> void {
+
+	_last_screen = value;
+}
+
 // Menu Setting but with Flags (used with a temporary vector of references)
 // - note that we need to use this instead of the normal handle_menu method
 // for any menus that has an option for a confirm/notice from it
@@ -468,7 +528,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			in_flags.at(0).get() = true;
 			break;
 		case MAIN_MENU_CONTINUE_GAME:
-			busy = true;
+			_busy = true;
 			_flags["want_continue_game"] = true;
 			break;
 		case MAIN_MENU_OPTIONS:

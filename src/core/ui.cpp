@@ -261,6 +261,8 @@ auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 								SDL_WINDOW_FULLSCREEN_DESKTOP);
 	else
 		SDL_SetWindowFullscreen(_display->get_SDL_window(), 0);
+
+	_controller->set_fullscreen(value);
 }
 
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for
@@ -528,7 +530,7 @@ auto Sorcery::UI::stop() -> void {
 auto Sorcery::UI::display_refresh(std::any first, std::any second) -> void {
 
 	// Refresh what we previously drew
-	display(_controller->last, first, second);
+	display(_controller->get_last_screen(), first, second);
 }
 
 auto Sorcery::UI::display_engine(Game *game) -> void {
@@ -601,8 +603,8 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 auto Sorcery::UI::display(const std::string screen, std::any first,
 						  std::any second) -> void {
 
-	// Store what we want to draw
-	_controller->last = screen;
+	// Store what we want to draw for next refresh
+	_controller->set_last_screen(screen);
 
 	// Start a new Rendering Frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -921,7 +923,7 @@ auto Sorcery::UI::_draw_bg_image(Component *component) -> void {
 
 auto Sorcery::UI::draw_cursor(const bool value) -> void {
 
-	_controller->busy = value;
+	_controller->set_busy(value);
 	_draw_cursor();
 }
 
@@ -949,8 +951,9 @@ auto Sorcery::UI::_draw_cursor() -> void {
 		const auto icon_sz{src_image.width / ICONS_TILE_ROW_COUNT};
 		const auto texture_sz{ImVec2{src_image.width, src_image.height}};
 		const auto dest_sz{ImVec2{32, 32}};
-		const auto cursor_idx{_controller->busy ? ICON_HOURGLASS : ICON_CURSOR};
-		const auto cursor_col{_controller->busy
+		const auto cursor_idx{_controller->get_busy() ? ICON_HOURGLASS
+													  : ICON_CURSOR};
+		const auto cursor_col{_controller->get_busy()
 								  ? lerp_colour(ImVec4{1.0f, 0.0f, 0.0f, 1.0f},
 												ImVec4{1.0f, 0.8f, 0.8f, 1.0f},
 												_system->animation->lerp)

@@ -316,21 +316,21 @@ auto Sorcery::Application::_do_town(const int mode) -> int {
 
 auto Sorcery::Application::_load_existing_game() -> void {
 
-	_controller->busy = true;
+	_controller->set_busy(true);
 	_ui->display_refresh();
 	_game->load_game();
-	_controller->busy = false;
+	_controller->set_busy(false);
 	_controller->set_game(_game.get());
 }
 
 auto Sorcery::Application::_start_new_game(const bool quickstart) -> void {
 
-	_controller->busy = true;
+	_controller->set_busy(true);
 	_ui->display_refresh();
 	_game->wipe_data();
 	_game->create_game();
 	_game->save_game();
-	_controller->busy = false;
+	_controller->set_busy(false);
 	_controller->set_game(_game.get());
 
 	if (quickstart)
