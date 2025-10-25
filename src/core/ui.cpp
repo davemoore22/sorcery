@@ -3409,7 +3409,7 @@ auto Sorcery::UI::load_dynamic_menu_items(
 							std::format("{:^21}", character.get_name()));
 					data.emplace_back(id);
 					if (reorder)
-						controller->candidate_party.emplace_back(id);
+						controller->add_to_candidate_party(id);
 					++pos;
 				}
 			}
@@ -3937,9 +3937,9 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 								std::swap(data.at(i), data.at(payload_i));
 								std::swap(items.at(i), items.at(payload_i));
 
-								_controller->candidate_party.clear();
+								_controller->clear_candidate_party();
 								for (auto char_id : data)
-									_controller->candidate_party.emplace_back(
+									_controller->add_to_candidate_party(
 										char_id);
 								_controller->set_flag("party_order_changed");
 							}

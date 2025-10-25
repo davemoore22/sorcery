@@ -105,6 +105,27 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	set_selected("bestiary_selected", 0);
 	set_selected("spellbook_selected", 0);
 	set_selected("museum_selected", 1);
+
+	// need to set ui flags too, argh
+}
+
+auto Sorcery::Controller::add_to_candidate_party(unsigned int value) -> void {
+
+	_candidate_party.emplace_back(value);
+}
+
+auto Sorcery::Controller::clear_candidate_party() -> void {
+
+	_candidate_party.clear();
+}
+auto Sorcery::Controller::get_candidate_party() -> std::vector<unsigned int> & {
+
+	return _candidate_party;
+}
+auto Sorcery::Controller::get_candidate_party() const
+	-> const std::vector<unsigned int> & {
+
+	return _candidate_party;
 }
 
 auto Sorcery::Controller::get_last_event() const -> Enums::Map::Event {

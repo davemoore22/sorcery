@@ -42,7 +42,7 @@ class Controller {
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
-					_can_undo, _fullscreen, candidate_party, _screen,
+					_can_undo, _fullscreen, _candidate_party, _screen,
 					_characters, _flags, _texts, _monochrome);
 		}
 
@@ -110,12 +110,12 @@ class Controller {
 		auto set_last_event(const Enums::Map::Event value) -> void;
 		auto get_last_dir() const -> Enums::Map::Direction;
 		auto set_last_dir(const Enums::Map::Direction value) -> void;
+		auto add_to_candidate_party(unsigned int value) -> void;
+		auto clear_candidate_party() -> void;
+		auto get_candidate_party() -> std::vector<unsigned int> &;
+		auto get_candidate_party() const -> const std::vector<unsigned int> &;
+
 		// Public Members
-
-		// In-Dungeon Flags
-
-		// Front-end Flags
-		std::vector<unsigned int> candidate_party; // Used for Reordering
 
 	private:
 		// Private Members
@@ -128,8 +128,9 @@ class Controller {
 		bool _monochrome; // Monochrome wireframe mode active
 		bool _fullscreen; // Fullscreen mode active
 		bool _can_undo;	  // Can "undo" a movement action
-		Enums::Map::Event _last_event;			// Last event in dungeon
-		Enums::Map::Direction _last_dir;		// Last movement in dungeon
+		std::vector<unsigned int> _candidate_party; // Used for Reordering
+		Enums::Map::Event _last_event;				// Last event in dungeon
+		Enums::Map::Direction _last_dir;			// Last movement in dungeon
 		std::string _last_screen;				// Last screen redrawn by the ui
 		std::string _screen;					// Where we currently are
 		std::map<std::string, int> _characters; // Character Selections

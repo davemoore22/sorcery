@@ -367,9 +367,9 @@ auto Sorcery::Menu::draw() -> void {
 		// Handle SpecialEvents such as Reordering Party Menu
 		if (_controller->has_flag("party_order_changed")) {
 
-			_game->state->reorder_party(_controller->candidate_party);
+			_game->state->reorder_party(_controller->get_candidate_party());
 			_load_dynamic_items();
-			_controller->candidate_party.clear();
+			_controller->clear_candidate_party();
 			_controller->unset_flag("party_order_changed");
 		}
 	}
@@ -414,7 +414,7 @@ auto Sorcery::Menu::_load_party_characters(const int flags) -> void {
 						std::format("{:^21}", character.get_name()));
 				_data.emplace_back(id);
 				if (_reorder)
-					_controller->candidate_party.emplace_back(id);
+					_controller->add_to_candidate_party(id);
 				++pos;
 			}
 		}
