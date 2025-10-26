@@ -85,6 +85,11 @@ auto Sorcery::Engine::start(Game *game, const int mode) -> int {
 			if (_controller->has_flag("want_abort"))
 				return ABORT_GAME;
 
+			if (_controller->check_for_save(event)) {
+				const auto state{_application->get_state()};
+				_application->save_state(state, "quicksave.sav");
+			}
+
 			// Check for Window Resize
 			_controller->check_for_resize(event, _ui);
 

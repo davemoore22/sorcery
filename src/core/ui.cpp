@@ -996,6 +996,9 @@ auto Sorcery::UI::_draw_menu(Component *component, Game *game) -> void {
 
 auto Sorcery::UI::_draw_debug() -> void {
 
+	if (!_controller->get_flag("debug_ui"))
+		return;
+
 	with_Window(WINDOW_LAYER_MENUS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 

@@ -100,6 +100,8 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	unset_flag("want_trade");
 	unset_flag("want_use");
 
+	unset_flag("debug_ui");
+
 	unset_text("heal_results");
 
 	set_selected("bestiary_selected", 0);
@@ -232,6 +234,16 @@ auto Sorcery::Controller::check_for_debug(const SDL_Event event) -> void {
 		for (auto const &[key, val] : _flags)
 			std::println("{}", std::format("{:>32}: {}", key, val));
 	}
+}
+
+auto Sorcery::Controller::check_for_save(const SDL_Event event) -> bool {
+
+	if (event.type == SDL_KEYDOWN &&
+		event.key.keysym.sym == SDLK_F9) {
+
+		return true;
+	} else
+		return false;
 }
 
 auto Sorcery::Controller::check_for_ui_toggle(const SDL_Event event) -> void {

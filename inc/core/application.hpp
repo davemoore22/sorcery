@@ -57,8 +57,11 @@ class Application {
 		// Public Methods
 		auto start() -> int;
 		auto stop() -> void;
-		auto save_state() -> std::string;
-		auto load_state(const std::string &state) -> void;
+		auto get_state() -> std::string;
+		auto set_state(const std::string &state) -> void;
+		auto save_state(const std::string &encoded_data,
+						const std::string &filename) -> bool;
+		auto load_state(const std::string &filename) -> std::string;
 
 	private:
 		// Private Methods

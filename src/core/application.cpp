@@ -94,7 +94,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 									   _ui.get(), _controller.get());
 }
 
-auto Sorcery::Application::save_state() -> std::string {
+auto Sorcery::Application::get_state() -> std::string {
 
 	std::stringstream ss(std::ios::binary | std::ios::in | std::ios::out);
 	{
@@ -108,7 +108,7 @@ auto Sorcery::Application::save_state() -> std::string {
 	return _encode_base64(buffer);
 }
 
-auto Sorcery::Application::load_state(const std::string &state) -> void {
+auto Sorcery::Application::set_state(const std::string &state) -> void {
 
 	auto buf{_decode_base64(state)};
 	std::stringstream in(std::string(buf.begin(), buf.end()));
@@ -118,6 +118,73 @@ auto Sorcery::Application::load_state(const std::string &state) -> void {
 	_game->post_construct(_system.get(), _resources.get());
 	_controller->post_construct(_system.get(), _display.get(),
 								_resources.get());
+}
+
+auto Sorcery::Application::save_state(const std::string &encoded_data,
+									  const std::string &filename) -> bool {
+
+	try {
+		std::filesystem::path file_path{std::filesystem::current_path() /
+										filename};
+		std::ofstream file(file_path, std::ios::out | std::ios::trunc);
+
+		if (!file.is_open()) {
+			std::cerr << "Error: Could not open file for writing: " << file_path
+					  << "\n";
+			return false;
+		}
+
+		file << encoded_data;
+		file.close();
+
+		if (!file) {
+			std::cerr << "Error: Write failed for: " << file_path << "\n";
+			return false;
+		}
+
+		std::cout << "✅ Saved encoded data to: " << file_path << "\n";
+		return true;
+
+	} catch (const std::exception &e) {
+
+		std::cerr << "Exception while writing file: " << e.what() << "\n";
+		return false;
+	}
+}
+auto Sorcery::Application::load_state(const std::string &filename)
+	-> std::string {
+
+	try {
+
+		std::filesystem::path file_path{std::filesystem::current_path() /
+										filename};
+
+		if (!std::filesystem::exists(file_path)) {
+			std::cerr << "Error: File does not exist: " << file_path << "\n";
+			return {};
+		}
+
+		std::ifstream file(file_path, std::ios::in);
+		if (!file.is_open()) {
+			std::cerr << "Error: Could not open file for reading: " << file_path
+					  << "\n";
+			return {};
+		}
+
+		std::string contents;
+		file.seekg(0, std::ios::end);
+		contents.reserve(static_cast<size_t>(file.tellg()));
+		file.seekg(0, std::ios::beg);
+
+		contents.assign((std::istreambuf_iterator<char>(file)),
+						std::istreambuf_iterator<char>());
+
+		std::cout << "✅ Loaded encoded data from: " << file_path << "\n";
+		return contents;
+	} catch (const std::exception &e) {
+		std::cerr << "Exception while reading file: " << e.what() << "\n";
+		return {};
+	}
 }
 
 // Default Destructor
