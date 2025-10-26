@@ -390,6 +390,12 @@ struct DungeonEvent {
 			num = -1;
 			count = -1;
 		}
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(event, component_key, search_after, combat_after,
+					go_back_after, go_town_after, enabled, num, count);
+		}
 };
 
 };

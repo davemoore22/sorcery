@@ -39,6 +39,7 @@ class Controller {
 	public:
 		// Standard Constructor
 		Controller(System *system, Display *display, Resources *resources);
+		Controller() = default;
 
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
@@ -47,6 +48,9 @@ class Controller {
 		}
 
 		// Public Methods
+		auto post_construct(System *system, Display *display,
+							Resources *resources) -> void;
+
 		auto check_for_abort(const SDL_Event event) -> bool;
 		auto check_for_back(const SDL_Event event) -> bool;
 		auto check_for_back(const SDL_Event event, bool &flag) -> void;

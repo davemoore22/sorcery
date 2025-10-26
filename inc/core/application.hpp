@@ -57,6 +57,8 @@ class Application {
 		// Public Methods
 		auto start() -> int;
 		auto stop() -> void;
+		auto save_state() -> std::string;
+		auto load_state(const std::string &state) -> void;
 
 	private:
 		// Private Methods
@@ -70,6 +72,9 @@ class Application {
 		auto _do_restart_expedition(const int mode) -> int;
 		auto _do_town(const int mode) -> int;
 		auto _do_edge(const int mode) -> int;
+
+		auto _decode_base64(const std::string &s) -> std::vector<uint8_t>;
+		auto _encode_base64(const std::vector<uint8_t> &data) -> std::string;
 
 		// Private Members
 		std::vector<std::string> _args;

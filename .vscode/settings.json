@@ -102,5 +102,6 @@
 		80
 	],
 	"editor.formatOnSave": true,
-	"editor.allowVariableFonts": false
+	"editor.allowVariableFonts": false,
+	"output.smartScroll.enabled": false
 }

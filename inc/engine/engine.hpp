@@ -33,6 +33,7 @@
 namespace Sorcery {
 
 // Forward Declarations
+class Application;
 class Character;
 class Controller;
 class Display;
@@ -44,8 +45,8 @@ class Engine {
 
 	public:
 		// Standard Constructor
-		Engine(System *system, Display *display, UI *ui,
-			   Controller *controller);
+		Engine(Application *application, System *system, Display *display,
+			   UI *ui, Controller *controller);
 		Engine() = delete;
 
 		// Standard Destructor
@@ -77,6 +78,7 @@ class Engine {
 		auto _turn_right() -> void;
 
 		// Private Members
+		Application *_application;
 		System *_system;
 		Display *_display;
 		UI *_ui;

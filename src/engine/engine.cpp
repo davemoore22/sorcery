@@ -22,6 +22,7 @@
 
 #include "engine/engine.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -36,9 +37,10 @@
 #include "types/game.hpp"
 #include "types/state.hpp"
 
-Sorcery::Engine::Engine(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
+Sorcery::Engine::Engine(Application *application, System *system,
+						Display *display, UI *ui, Controller *controller)
+	: _application{application},
+	  _system{system},
 	  _display{display},
 	  _ui{ui},
 	  _controller{controller} {

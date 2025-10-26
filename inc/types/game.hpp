@@ -38,10 +38,17 @@ class Game {
 	public:
 		// Constructor
 		Game(System *system, Resources *resources);
+		Game() = default;
 
 		// Overloaded Operator
 		auto friend operator<<(std::ostream &out_stream, const Game &game)
 			-> std::ostream &;
+
+		// Serialisation
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(characters, state, _start_time, _last_time, _key, _id,
+					_status, _char_ids, _show_console, _events);
+		}
 
 		// Public Members
 		std::map<unsigned int, Character> characters;
@@ -49,6 +56,8 @@ class Game {
 		std::unique_ptr<LevelStore> levels;
 
 		// Public Methods
+		auto post_construct(System *system, Resources *resources) -> void;
+
 		auto wipe_data() -> void;
 		auto get_id() const -> unsigned int;
 		auto create_game() -> void;

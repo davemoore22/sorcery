@@ -42,6 +42,13 @@ Sorcery::Game::Game(System *system, Resources *resources)
 	_set_up_debug_keys();
 }
 
+auto Sorcery::Game::post_construct(System *system, Resources *resources)
+	-> void {
+
+	_system = system;
+	_resources = resources;
+}
+
 auto Sorcery::Game::_set_up_debug_keys() -> void {
 
 	_debug.clear();

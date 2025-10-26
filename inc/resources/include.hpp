@@ -43,6 +43,7 @@
 // clang-format off
 #include "cereal/cereal.hpp"
 #include "cereal/archives/xml.hpp"
+#include "cereal/archives/binary.hpp"
 #include "cereal/types/array.hpp"
 #include "cereal/types/bitset.hpp"
 #include "cereal/types/chrono.hpp"

@@ -109,6 +109,14 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	// need to set ui flags too, argh
 }
 
+auto Sorcery::Controller::post_construct(System *system, Display *display,
+										 Resources *resources) -> void {
+
+	_system = system;
+	_display = display;
+	_resources = resources;
+}
+
 auto Sorcery::Controller::add_to_candidate_party(unsigned int value) -> void {
 
 	_candidate_party.emplace_back(value);
