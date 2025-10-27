@@ -124,6 +124,17 @@ auto Sorcery::Application::save_state(const std::string &encoded_data,
 									  const std::string &filename) -> bool {
 
 	try {
+
+		// Lambda for generating current UTC timestamp in ISO 8601 format
+		auto make_timestamp_iso8601 = []() -> std::string {
+			const auto now{std::chrono::system_clock::now()};
+			const std::time_t t{std::chrono::system_clock::to_time_t(now)};
+			const std::tm tm{*std::gmtime(&t)};
+			std::ostringstream oss;
+			oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
+			return oss.str();
+		};
+
 		std::filesystem::path file_path{std::filesystem::current_path() /
 										filename};
 		std::ofstream file(file_path, std::ios::out | std::ios::trunc);
@@ -134,6 +145,10 @@ auto Sorcery::Application::save_state(const std::string &encoded_data,
 			return false;
 		}
 
+		file << "# Sorcery Save File\n";
+		file << "version=" << SAVE_STATE_VERSION << '\n';
+		file << "timestamp=" << make_timestamp_iso8601() << '\n';
+		file << "---\n";
 		file << encoded_data;
 		file.close();
 
@@ -144,7 +159,6 @@ auto Sorcery::Application::save_state(const std::string &encoded_data,
 
 		std::cout << "✅ Saved encoded data to: " << file_path << "\n";
 		return true;
-
 	} catch (const std::exception &e) {
 
 		std::cerr << "Exception while writing file: " << e.what() << "\n";
@@ -152,7 +166,7 @@ auto Sorcery::Application::save_state(const std::string &encoded_data,
 	}
 }
 auto Sorcery::Application::load_state(const std::string &filename)
-	-> std::string {
+	-> std::pair<SaveHeader, std::string> {
 
 	try {
 
@@ -171,16 +185,27 @@ auto Sorcery::Application::load_state(const std::string &filename)
 			return {};
 		}
 
-		std::string contents;
-		file.seekg(0, std::ios::end);
-		contents.reserve(static_cast<size_t>(file.tellg()));
-		file.seekg(0, std::ios::beg);
+		SaveHeader header{};
+		std::string line;
+		std::ostringstream data;
 
-		contents.assign((std::istreambuf_iterator<char>(file)),
-						std::istreambuf_iterator<char>());
+		// Parse header
+		while (std::getline(file, line)) {
+			if (line == "---")
+				break;
+			if (line.starts_with("version="))
+				header.version = std::stoi(line.substr(8));
+			else if (line.starts_with("timestamp="))
+				header.timestamp = line.substr(10);
+		}
 
-		std::cout << "✅ Loaded encoded data from: " << file_path << "\n";
-		return contents;
+		// Read Base64 data
+		data << file.rdbuf();
+
+		std::cout << "✅ Loaded encoded data from: " << file_path << '\n';
+
+		return {header, data.str()};
+
 	} catch (const std::exception &e) {
 		std::cerr << "Exception while reading file: " << e.what() << "\n";
 		return {};
@@ -342,8 +367,8 @@ auto Sorcery::Application::_do_edge(const int mode) -> int {
 	auto done{false};
 	while (!done) {
 
-		// Limited selection here of choices here (for now) to cover just the
-		// additional command line parameters used for shortcuts
+		// Limited selection here of choices here (for now) to cover just
+		// the additional command line parameters used for shortcuts
 		auto edge_what{_edge_of_town->start(_game.get(), mode)};
 		_edge_of_town->stop();
 

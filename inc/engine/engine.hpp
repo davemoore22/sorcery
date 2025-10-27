@@ -25,7 +25,7 @@
 #include "common/include.hpp"
 #include "common/types.hpp"
 #include "engine/enum.hpp"
-#include "engine/type.hpp"
+#include "engine/types.hpp"
 #include "frontend/options.hpp"
 #include "modules/inspect.hpp"
 #include "modules/reorder.hpp"

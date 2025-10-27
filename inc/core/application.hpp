@@ -25,6 +25,7 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
+#include "core/types.hpp"
 
 namespace Sorcery {
 
@@ -61,7 +62,8 @@ class Application {
 		auto set_state(const std::string &state) -> void;
 		auto save_state(const std::string &encoded_data,
 						const std::string &filename) -> bool;
-		auto load_state(const std::string &filename) -> std::string;
+		auto load_state(const std::string &filename)
+			-> std::pair<SaveHeader, std::string>;
 
 	private:
 		// Private Methods

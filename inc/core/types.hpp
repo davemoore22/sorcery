@@ -27,83 +27,10 @@
 
 namespace Sorcery {
 
-struct Coordinate3 {
+struct SaveHeader {
 
-		Coordinate3()
-			: x{0},
-			  y{0},
-			  z{0} {};
-		Coordinate3(int x_, int y_, int z_)
-			: x{x_},
-			  y{y_},
-			  z{z_} {};
-		Coordinate3(int x_, int z_)
-			: x{x_},
-			  y{0},
-			  z{z_} {};
-
-		auto operator==(const Coordinate3 &a) const -> bool {
-			return (x == a.x && y == a.y && z == a.z);
-		}
-
-		auto operator<(const Coordinate3 &a) const -> bool {
-			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
-		};
-
-		friend std::ostream &operator<<(std::ostream &os,
-										Coordinate3 const &a) {
-			return os << std::format("[{}/{}/{}]", a.x, a.y, a.z) << std::endl;
-		}
-
-		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(x, y, z);
-		}
-
-		int x;
-		int y;
-		int z;
+		int version = 0;
+		std::string timestamp;
 };
 
-struct Vertex {
-		ImVec2 position;
-		ImVec4 colour;
-		ImVec2 tex_coord;
-};
-
-struct VertexArray {
-
-		std::array<Vertex, 4> data;
-
-		VertexArray() = default;
-
-		auto operator[](int index) -> Vertex & {
-
-			return data[index];
-		};
-};
-
-struct TileView {
-
-		Coordinate3 offset;
-		VertexArray floor;
-		VertexArray ceiling;
-		VertexArray up;
-		VertexArray down;
-		VertexArray darkness;
-		VertexArray side_darkness;
-		VertexArray back_wall;
-		VertexArray back_door;
-		VertexArray left_side_wall;
-		VertexArray left_side_door;
-		VertexArray right_side_wall;
-		VertexArray right_side_door;
-
-		TileView() {
-
-			offset = Coordinate3{0, 0, 0};
-		};
-
-		TileView(Coordinate3 offset_)
-			: offset{offset_} {};
-};
 }

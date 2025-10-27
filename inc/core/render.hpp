@@ -24,6 +24,7 @@
 
 #include "common/include.hpp"
 #include "core/types.hpp"
+#include "engine/types.hpp"
 #include "types/tile.hpp"
 
 // Class to handles rendering Wireframe

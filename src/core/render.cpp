@@ -25,6 +25,7 @@
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "engine/types.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
 
