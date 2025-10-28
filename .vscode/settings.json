@@ -94,7 +94,7 @@
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
 	"editor.fontSize": 12,
-	"editor.fontFamily": "fira code, monospace",
+	"editor.fontFamily": "proggyvector, monaco, fira code, monospace",
 	"sonarlint.output.showVerboseLogs": true,
 	"editor.tabSize": 4,
 	"editor.insertSpaces": false,

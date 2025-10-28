@@ -29,6 +29,7 @@ namespace Sorcery {
 
 struct SaveHeader {
 
+		std::string screen;
 		int version = 0;
 		std::string timestamp;
 };

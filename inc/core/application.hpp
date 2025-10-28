@@ -60,7 +60,8 @@ class Application {
 		auto stop() -> void;
 		auto get_state() -> std::string;
 		auto set_state(const std::string &state) -> void;
-		auto save_state(const std::string &encoded_data,
+		auto save_state(const std::string &screen,
+						const std::string &encoded_data,
 						const std::string &filename) -> bool;
 		auto load_state(const std::string &filename)
 			-> std::pair<SaveHeader, std::string>;

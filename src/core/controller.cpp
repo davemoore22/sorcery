@@ -236,14 +236,14 @@ auto Sorcery::Controller::check_for_debug(const SDL_Event event) -> void {
 	}
 }
 
-auto Sorcery::Controller::check_for_save(const SDL_Event event) -> bool {
+auto Sorcery::Controller::check_for_quicksave(const SDL_Event event) -> bool {
 
-	if (event.type == SDL_KEYDOWN &&
-		event.key.keysym.sym == SDLK_F9) {
+	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F9);
+}
 
-		return true;
-	} else
-		return false;
+auto Sorcery::Controller::check_for_quickload(const SDL_Event event) -> bool {
+
+	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F10);
 }
 
 auto Sorcery::Controller::check_for_ui_toggle(const SDL_Event event) -> void {

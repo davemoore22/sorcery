@@ -120,7 +120,8 @@ auto Sorcery::Application::set_state(const std::string &state) -> void {
 								_resources.get());
 }
 
-auto Sorcery::Application::save_state(const std::string &encoded_data,
+auto Sorcery::Application::save_state(const std::string &screen,
+									  const std::string &encoded_data,
 									  const std::string &filename) -> bool {
 
 	try {
@@ -146,6 +147,7 @@ auto Sorcery::Application::save_state(const std::string &encoded_data,
 		}
 
 		file << "# Sorcery Save File\n";
+		file << "screen=" << screen << '\n';
 		file << "version=" << SAVE_STATE_VERSION << '\n';
 		file << "timestamp=" << make_timestamp_iso8601() << '\n';
 		file << "---\n";
@@ -195,6 +197,8 @@ auto Sorcery::Application::load_state(const std::string &filename)
 				break;
 			if (line.starts_with("version="))
 				header.version = std::stoi(line.substr(8));
+			else if (line.starts_with("screen="))
+				header.screen = line.substr(7);
 			else if (line.starts_with("timestamp="))
 				header.timestamp = line.substr(10);
 		}

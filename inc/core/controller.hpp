@@ -56,8 +56,9 @@ class Controller {
 		auto check_for_back(const SDL_Event event, bool &flag) -> void;
 		auto check_for_debug(const SDL_Event event) -> void;
 		auto check_for_movement(const SDL_Event event) -> int;
+		auto check_for_quickload(const SDL_Event event) -> bool;
+		auto check_for_quicksave(const SDL_Event event) -> bool;
 		auto check_for_resize(const SDL_Event event, UI *ui) -> void;
-		auto check_for_save(const SDL_Event event) -> bool;
 		auto check_for_ui_toggle(const SDL_Event event) -> void;
 		auto handle_button_click(const std::string &component, UI *ui,
 								 const int data) -> void;
