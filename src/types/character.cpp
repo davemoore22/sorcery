@@ -1329,6 +1329,12 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 	return extra_hp;
 }
 
+auto Sorcery::Character::post_construct(System *system, Resources *resources) -> void
+{
+	_system = system;
+	_resources = resources;
+}
+
 // Add hit points on level gain (but note the strict mode limitation mentioned
 // below)
 auto Sorcery::Character::_update_hp_for_level() -> int {

@@ -160,6 +160,11 @@ auto Sorcery::State::_restart_expedition() -> void {
 	_lit = false;
 }
 
+auto Sorcery::State::post_construct(System *system) -> void {
+
+	_system = system;
+}
+
 // Method called to simulate Normal Constructor with Cereal Constructor
 auto Sorcery::State::set(System *system) -> void {
 

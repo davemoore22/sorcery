@@ -62,6 +62,7 @@ class Character {
 		}
 
 		// Public Methods
+		auto post_construct(System *system, Resources *resources) -> void;
 		auto reset(const Enums::Character::Stage stage) -> void;
 		auto get_stage() const -> Enums::Character::Stage;
 		auto set_stage(const Enums::Character::Stage stage) -> void;

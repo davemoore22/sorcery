@@ -1,7 +1,7 @@
 {
 	"TITLE_AND_VERSION_INFO": "Sorcery v0.1",
 	"SPLASH_TITLE": "Sorcery (c) Dave Moore 2025",
-	"SPLASH_SUBTITLE": "Dungeon Adventures inspired by the Wizardy Series by Andrew Greenberg and Robert Woodhead",
+	"SPLASH_SUBTITLE": "Dungeon Adventures inspired by the Wizardry Series by Andrew Greenberg and Robert Woodhead",
 	"SPLASH_LICENSE": "THIS IS A WORK IN PROGRESS. This is free software. This program comes with ABSOLUTELY NO WARRANTY and you are welcome to redistribute it under certain conditions; for details see the LICENSE option in the main menu. Source code is available at http://github.com//davemoore22/sorcery/",
 	"MAIN_MENU_TITLE": "Welcome to the World of Sorcery!",
 	"MAIN_MENU_OPTION_START": "Start New Game",

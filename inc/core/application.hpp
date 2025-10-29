@@ -58,13 +58,10 @@ class Application {
 		// Public Methods
 		auto start() -> int;
 		auto stop() -> void;
-		auto get_state() -> std::string;
-		auto set_state(const std::string &state) -> void;
-		auto save_state(const std::string &screen,
-						const std::string &encoded_data,
-						const std::string &filename) -> bool;
-		auto load_state(const std::string &filename)
-			-> std::pair<SaveHeader, std::string>;
+		auto save_state_to_xml(const std::string &filename) -> bool;
+		auto load_state_from_xml(const std::string &filename) -> bool;
+		auto save_state_to_binary(const std::string &filename) -> bool;
+		auto load_state_from_binary(const std::string &filename) -> bool;
 
 	private:
 		// Private Methods

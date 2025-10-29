@@ -94,126 +94,85 @@ Sorcery::Application::Application(int argc, char **argv) {
 									   _ui.get(), _controller.get());
 }
 
-auto Sorcery::Application::get_state() -> std::string {
+auto Sorcery::Application::save_state_to_xml(const std::string &filename)
+	-> bool {
 
-	std::stringstream ss(std::ios::binary | std::ios::in | std::ios::out);
-	{
-		cereal::BinaryOutputArchive out_archive(ss);
-		out_archive(_game, _controller);
-	}
-
-	std::string bin{ss.str()};
-	std::vector<uint8_t> buffer(bin.begin(), bin.end());
-
-	return _encode_base64(buffer);
-}
-
-auto Sorcery::Application::set_state(const std::string &state) -> void {
-
-	auto buf{_decode_base64(state)};
-	std::stringstream in(std::string(buf.begin(), buf.end()));
-	cereal::BinaryInputArchive in_archive(in);
-	in_archive(_game, _controller);
-
-	_game->post_construct(_system.get(), _resources.get());
-	_controller->post_construct(_system.get(), _display.get(),
-								_resources.get());
-}
-
-auto Sorcery::Application::save_state(const std::string &screen,
-									  const std::string &encoded_data,
-									  const std::string &filename) -> bool {
-
-	try {
-
-		// Lambda for generating current UTC timestamp in ISO 8601 format
-		auto make_timestamp_iso8601 = []() -> std::string {
-			const auto now{std::chrono::system_clock::now()};
-			const std::time_t t{std::chrono::system_clock::to_time_t(now)};
-			const std::tm tm{*std::gmtime(&t)};
-			std::ostringstream oss;
-			oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
-			return oss.str();
-		};
-
-		std::filesystem::path file_path{std::filesystem::current_path() /
-										filename};
-		std::ofstream file(file_path, std::ios::out | std::ios::trunc);
-
-		if (!file.is_open()) {
-			std::cerr << "Error: Could not open file for writing: " << file_path
-					  << "\n";
-			return false;
-		}
-
-		file << "# Sorcery Save File\n";
-		file << "screen=" << screen << '\n';
-		file << "version=" << SAVE_STATE_VERSION << '\n';
-		file << "timestamp=" << make_timestamp_iso8601() << '\n';
-		file << "---\n";
-		file << encoded_data;
-		file.close();
-
-		if (!file) {
-			std::cerr << "Error: Write failed for: " << file_path << "\n";
-			return false;
-		}
-
-		std::cout << "✅ Saved encoded data to: " << file_path << "\n";
-		return true;
-	} catch (const std::exception &e) {
-
-		std::cerr << "Exception while writing file: " << e.what() << "\n";
+	std::ofstream file(filename, std::ios::out | std::ios::trunc);
+	if (!file.is_open()) {
+		std::cerr << "Error: could not open " << filename << " for writing.\n";
 		return false;
 	}
+
+	cereal::XMLOutputArchive archive(file);
+	archive(_game, _controller);
+
+	std::cout << "✅ State saved to " << filename << "\n";
+	return true;
 }
-auto Sorcery::Application::load_state(const std::string &filename)
-	-> std::pair<SaveHeader, std::string> {
 
-	try {
+auto Sorcery::Application::load_state_from_xml(const std::string &filename)
+	-> bool {
 
-		std::filesystem::path file_path{std::filesystem::current_path() /
-										filename};
-
-		if (!std::filesystem::exists(file_path)) {
-			std::cerr << "Error: File does not exist: " << file_path << "\n";
-			return {};
-		}
-
-		std::ifstream file(file_path, std::ios::in);
-		if (!file.is_open()) {
-			std::cerr << "Error: Could not open file for reading: " << file_path
-					  << "\n";
-			return {};
-		}
-
-		SaveHeader header{};
-		std::string line;
-		std::ostringstream data;
-
-		// Parse header
-		while (std::getline(file, line)) {
-			if (line == "---")
-				break;
-			if (line.starts_with("version="))
-				header.version = std::stoi(line.substr(8));
-			else if (line.starts_with("screen="))
-				header.screen = line.substr(7);
-			else if (line.starts_with("timestamp="))
-				header.timestamp = line.substr(10);
-		}
-
-		// Read Base64 data
-		data << file.rdbuf();
-
-		std::cout << "✅ Loaded encoded data from: " << file_path << '\n';
-
-		return {header, data.str()};
-
-	} catch (const std::exception &e) {
-		std::cerr << "Exception while reading file: " << e.what() << "\n";
-		return {};
+	std::ifstream file(filename, std::ios::in);
+	if (!file.is_open()) {
+		std::cerr << "Error: could not open " << filename << " for reading.\n";
+		return false;
 	}
+
+	cereal::XMLInputArchive archive(file);
+	archive(_game, _controller);
+
+	// Post-cereal reconstruction steps
+	_game->post_construct(_system.get(), _resources.get());
+	_game->state->post_construct(_system.get());
+	for (auto &[id, character] : _game->characters)
+		character.post_construct(_system.get(), _resources.get());
+	_controller->post_construct(_system.get(), _display.get(),
+								_resources.get());
+
+	std::cout << "✅ State loaded from " << filename << "\n";
+	return true;
+}
+
+auto Sorcery::Application::save_state_to_binary(const std::string &filename)
+	-> bool {
+
+	std::ofstream file(filename, std::ios::binary | std::ios::trunc);
+	if (!file.is_open()) {
+		std::cerr << "Error: could not open " << filename << " for writing.\n";
+		return false;
+	}
+
+	cereal::BinaryOutputArchive archive(file);
+	archive(_game, _controller); // NVP not needed for binary
+
+	std::cout << "✅ State saved to " << filename << "\n";
+	return true;
+}
+
+auto Sorcery::Application::load_state_from_binary(const std::string &filename)
+	-> bool {
+
+	std::ifstream file(filename, std::ios::binary);
+	if (!file.is_open()) {
+		std::cerr << "Error: could not open " << filename << " for reading.\n";
+		return false;
+	}
+
+	cereal::BinaryInputArchive archive(file);
+	archive(_game, _controller);
+
+	// Restore dependency-injected raw pointers
+	_game->post_construct(_system.get(), _resources.get());
+	if (_game->state)
+		_game->state->post_construct(_system.get());
+	for (auto &[id, character] : _game->characters)
+		character.post_construct(_system.get(), _resources.get());
+	_controller->post_construct(_system.get(), _display.get(),
+								_resources.get());
+
+	std::cout << "✅ State loaded from " << filename << "\n";
+	return true;
 }
 
 // Default Destructor
@@ -616,7 +575,7 @@ auto Sorcery::Application::_get_exe_path() const -> std::string_view {
 auto Sorcery::Application::_encode_base64(const std::vector<uint8_t> &data)
 	-> std::string {
 
-	const char base64_chars[]{
+	static const char base64_chars[]{
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		"abcdefghijklmnopqrstuvwxyz"
 		"0123456789+/"};
@@ -642,7 +601,7 @@ auto Sorcery::Application::_encode_base64(const std::vector<uint8_t> &data)
 auto Sorcery::Application::_decode_base64(const std::string &s)
 	-> std::vector<uint8_t> {
 
-	const char base64_chars[]{
+	static const char base64_chars[]{
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		"abcdefghijklmnopqrstuvwxyz"
 		"0123456789+/"};
@@ -653,15 +612,21 @@ auto Sorcery::Application::_decode_base64(const std::string &s)
 
 	std::vector<uint8_t> out;
 	int val{0}, valb{-8};
-	for (uint8_t c : s) {
-		if (T[c] == -1)
-			break;
-		val = (val << 6) + T[c];
+	for (unsigned char c : s) {
+		if (c == '=' || std::isspace(c))
+			continue; // skip padding and whitespace
+
+		int t{T[c]};
+		if (t == -1)
+			continue; // skip any non-base64 chars safely
+
+		val = (val << 6) + t;
 		valb += 6;
 		if (valb >= 0) {
-			out.push_back(uint8_t((val >> valb) & 0xFF));
+			out.push_back(static_cast<uint8_t>((val >> valb) & 0xFF));
 			valb -= 8;
 		}
 	}
+
 	return out;
 }

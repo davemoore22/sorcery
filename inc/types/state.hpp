@@ -58,6 +58,7 @@ class State {
 		std::array<bool, 8> quest_item_flags;
 
 		// Public Methods
+		auto post_construct(System *system) -> void;
 		auto reset_shop(ItemStore *itemstore) -> void;
 		auto add_character_to_party(unsigned int char_id) -> bool;
 		auto check_character_in_party(unsigned int char_id) -> bool;
