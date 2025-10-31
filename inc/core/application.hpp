@@ -58,8 +58,6 @@ class Application {
 		// Public Methods
 		auto start() -> int;
 		auto stop() -> void;
-		auto save_state_to_xml(const std::string &filename) -> bool;
-		auto load_state_from_xml(const std::string &filename) -> bool;
 		auto save_state_to_binary(const std::string &filename) -> bool;
 		auto load_state_from_binary(const std::string &filename) -> bool;
 
@@ -75,9 +73,6 @@ class Application {
 		auto _do_restart_expedition(const int mode) -> int;
 		auto _do_town(const int mode) -> int;
 		auto _do_edge(const int mode) -> int;
-
-		auto _decode_base64(const std::string &s) -> std::vector<uint8_t>;
-		auto _encode_base64(const std::vector<uint8_t> &data) -> std::string;
 
 		// Private Members
 		std::vector<std::string> _args;

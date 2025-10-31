@@ -94,46 +94,6 @@ Sorcery::Application::Application(int argc, char **argv) {
 									   _ui.get(), _controller.get());
 }
 
-auto Sorcery::Application::save_state_to_xml(const std::string &filename)
-	-> bool {
-
-	std::ofstream file(filename, std::ios::out | std::ios::trunc);
-	if (!file.is_open()) {
-		std::cerr << "Error: could not open " << filename << " for writing.\n";
-		return false;
-	}
-
-	cereal::XMLOutputArchive archive(file);
-	archive(_game, _controller);
-
-	std::cout << "✅ State saved to " << filename << "\n";
-	return true;
-}
-
-auto Sorcery::Application::load_state_from_xml(const std::string &filename)
-	-> bool {
-
-	std::ifstream file(filename, std::ios::in);
-	if (!file.is_open()) {
-		std::cerr << "Error: could not open " << filename << " for reading.\n";
-		return false;
-	}
-
-	cereal::XMLInputArchive archive(file);
-	archive(_game, _controller);
-
-	// Post-cereal reconstruction steps
-	_game->post_construct(_system.get(), _resources.get());
-	_game->state->post_construct(_system.get());
-	for (auto &[id, character] : _game->characters)
-		character.post_construct(_system.get(), _resources.get());
-	_controller->post_construct(_system.get(), _display.get(),
-								_resources.get());
-
-	std::cout << "✅ State loaded from " << filename << "\n";
-	return true;
-}
-
 auto Sorcery::Application::save_state_to_binary(const std::string &filename)
 	-> bool {
 
@@ -143,12 +103,9 @@ auto Sorcery::Application::save_state_to_binary(const std::string &filename)
 		return false;
 	}
 
+	// Note we serialize FROM existing objects thus no need to reinject after
 	cereal::BinaryOutputArchive archive(os);
-	archive(_game, _controller);
-
-	std::cout << "✅ State saved to " << filename << "\n";
-
-	std::cout << *_controller << '\n';
+	archive(*_game, *_controller);
 
 	return true;
 }
@@ -162,22 +119,9 @@ auto Sorcery::Application::load_state_from_binary(const std::string &filename)
 		return false;
 	}
 
+	// Note we serialize INTO existing objects thus no need to reinject
 	cereal::BinaryInputArchive archive(is);
-	archive(_game, _controller);
-
-	// Restore dependency-injected raw pointers
-	_game->post_construct(_system.get(), _resources.get());
-	if (_game->state)
-		_game->state->post_construct(_system.get());
-	for (auto &[id, character] : _game->characters)
-		character.post_construct(_system.get(), _resources.get());
-	_controller->post_construct(_system.get(), _display.get(),
-								_resources.get());
-
-	std::cout << "✅ State loaded from " << filename << "\n";
-
-	// TODO: replace with a std::formatter
-	std::cout << *_controller << '\n';
+	archive(*_game, *_controller);
 
 	return true;
 }
@@ -577,63 +521,4 @@ auto Sorcery::Application::_get_exe_path() const -> std::string_view {
 		return base_path;
 	}
 #endif
-}
-
-auto Sorcery::Application::_encode_base64(const std::vector<uint8_t> &data)
-	-> std::string {
-
-	static const char base64_chars[]{
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		"abcdefghijklmnopqrstuvwxyz"
-		"0123456789+/"};
-
-	std::string out;
-	int val{0};
-	int valb{-6};
-	for (uint8_t c : data) {
-		val = (val << 8) + c;
-		valb += 8;
-		while (valb >= 0) {
-			out.push_back(base64_chars[(val >> valb) & 0x3F]);
-			valb -= 6;
-		}
-	}
-	if (valb > -6)
-		out.push_back(base64_chars[((val << 8) >> (valb + 8)) & 0x3F]);
-	while (out.size() % 4)
-		out.push_back('=');
-	return out;
-}
-
-auto Sorcery::Application::_decode_base64(const std::string &s)
-	-> std::vector<uint8_t> {
-
-	static const char base64_chars[]{
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		"abcdefghijklmnopqrstuvwxyz"
-		"0123456789+/"};
-
-	std::vector<int> T(256, -1);
-	for (int i = 0; i < 64; i++)
-		T[base64_chars[i]] = i;
-
-	std::vector<uint8_t> out;
-	int val{0}, valb{-8};
-	for (unsigned char c : s) {
-		if (c == '=' || std::isspace(c))
-			continue; // skip padding and whitespace
-
-		int t{T[c]};
-		if (t == -1)
-			continue; // skip any non-base64 chars safely
-
-		val = (val << 6) + t;
-		valb += 6;
-		if (valb >= 0) {
-			out.push_back(static_cast<uint8_t>((val >> valb) & 0xFF));
-			valb -= 8;
-		}
-	}
-
-	return out;
 }
