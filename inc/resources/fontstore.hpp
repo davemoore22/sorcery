@@ -62,7 +62,7 @@ class FontStore {
 		System *_system;
 		ImGuiIO &_io;
 		std::vector<FontInfo> fonts;
-		std::unordered_map<Enums::Layout::Font, ImFont *> current_fonts;
+		std::map<Enums::Layout::Font, ImFont *> current_fonts;
 		ImFont *_current_font{nullptr};
 		ImFont *_default_font{nullptr};
 

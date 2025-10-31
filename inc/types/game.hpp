@@ -23,6 +23,7 @@
 #pragma once
 
 #include "types/character.hpp"
+#include "core/include.hpp"
 
 namespace Sorcery {
 

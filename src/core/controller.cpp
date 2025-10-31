@@ -768,9 +768,6 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 auto Sorcery::Controller::get_flag_ref(const std::string &flag) -> bool & {
 
-	std::cout << "Getting flag ref for: " << flag << std::endl;
-	for (const auto &f : _flags)
-		std::cout << "  Flag: " << f.first << " = " << f.second << std::endl;
 	if (!_flags.contains(flag))
 		_flags[flag] = false;
 
@@ -1179,3 +1176,15 @@ auto Sorcery::Controller::move_screen(const std::string &from_screen,
 	_flags[to_screen] = true;
 	_flags[from_screen] = false;
 }
+
+namespace Sorcery {
+
+auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
+	-> std::ostream & {
+
+	for (const auto &f : controller._flags)
+		out_stream << "  Flag: " << f.first << " = " << f.second << std::endl;
+
+	return out_stream << std::endl;
+}
+} // namespace Sorcery

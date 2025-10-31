@@ -51,7 +51,6 @@
 #include "cereal/types/memory.hpp"
 #include "cereal/types/optional.hpp"
 #include "cereal/types/string.hpp"
-#include "cereal/types/unordered_map.hpp"
 #include "cereal/types/vector.hpp"
 // clang-format on
 #pragma GCC diagnostic pop

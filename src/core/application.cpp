@@ -137,29 +137,32 @@ auto Sorcery::Application::load_state_from_xml(const std::string &filename)
 auto Sorcery::Application::save_state_to_binary(const std::string &filename)
 	-> bool {
 
-	std::ofstream file(filename, std::ios::binary | std::ios::trunc);
-	if (!file.is_open()) {
+	std::ofstream os(filename, std::ios::binary);
+	if (!os.is_open()) {
 		std::cerr << "Error: could not open " << filename << " for writing.\n";
 		return false;
 	}
 
-	cereal::BinaryOutputArchive archive(file);
-	archive(_game, _controller); // NVP not needed for binary
+	cereal::BinaryOutputArchive archive(os);
+	archive(_game, _controller);
 
 	std::cout << "✅ State saved to " << filename << "\n";
+
+	std::cout << *_controller << '\n';
+
 	return true;
 }
 
 auto Sorcery::Application::load_state_from_binary(const std::string &filename)
 	-> bool {
 
-	std::ifstream file(filename, std::ios::binary);
-	if (!file.is_open()) {
+	std::ifstream is(filename, std::ios::binary);
+	if (!is.is_open()) {
 		std::cerr << "Error: could not open " << filename << " for reading.\n";
 		return false;
 	}
 
-	cereal::BinaryInputArchive archive(file);
+	cereal::BinaryInputArchive archive(is);
 	archive(_game, _controller);
 
 	// Restore dependency-injected raw pointers
@@ -172,6 +175,10 @@ auto Sorcery::Application::load_state_from_binary(const std::string &filename)
 								_resources.get());
 
 	std::cout << "✅ State loaded from " << filename << "\n";
+
+	// TODO: replace with a std::formatter
+	std::cout << *_controller << '\n';
+
 	return true;
 }
 

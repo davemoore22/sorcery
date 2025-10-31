@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/include.hpp"
+#include "core/include.hpp"
 
 namespace Sorcery {
 
@@ -41,11 +42,16 @@ class Controller {
 		Controller(System *system, Display *display, Resources *resources);
 		Controller() = default;
 
+		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
 					_can_undo, _fullscreen, _candidate_party, _screen,
 					_characters, _flags, _texts, _monochrome);
 		}
+
+		// Overloaded Operator
+		auto friend operator<<(std::ostream &out_stream,
+							   const Controller &controller) -> std::ostream &;
 
 		// Public Methods
 		auto post_construct(System *system, Display *display,

@@ -1431,7 +1431,7 @@
 				{
 					"name": "splash_title",
 					"x": "centre",
-					"y": "27",
+					"y": "26",
 					"font": "monospace",
 					"colour": "0xffffffff",
 					"size": "32",
