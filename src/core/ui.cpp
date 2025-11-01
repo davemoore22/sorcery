@@ -221,6 +221,10 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 		_display_roster(game, n);
 	};
 
+	_draw_game_int["create"] = [this](Game *game, int n) {
+		_display_create(game, n);
+	};
+
 	_draw_game_int["heal"] = [this](Game *game, int n) {
 		_display_heal(game, n);
 	};
@@ -1733,6 +1737,15 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 		ImGui::TextUnformatted(line.c_str());
 		++slot;
 	}
+}
+
+auto Sorcery::UI::_draw_create(Game *game, const int mode) -> void {}
+
+auto Sorcery::UI::_display_create(Game *game, const int mode) -> void {
+
+	_draw_components("create", game, mode);
+	_draw_create(game, mode);
+	_draw_cursor();
 }
 
 auto Sorcery::UI::_draw_choose(Game *game, const int mode) -> void {

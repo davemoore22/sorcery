@@ -1078,6 +1078,17 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		else {
 
 			// Which method of character creation do we want to do?
+
+			if (selection == METHOD_FULL) {
+				_method = Enums::Character::Method::FULL;
+				move_screen("show_method", "show_create");
+			} else if (selection == METHOD_QUICK) {
+				_method = Enums::Character::Method::QUICK;
+				move_screen("show_method", "show_create");
+			} else if (selection == METHOD_RANDOM) {
+				_method = Enums::Character::Method::RANDOM;
+				move_screen("show_method", "show_create");
+			}
 		}
 
 	} else if (component == "roster_menu") {
@@ -1175,6 +1186,17 @@ auto Sorcery::Controller::move_screen(const std::string &from_screen,
 
 	_flags[to_screen] = true;
 	_flags[from_screen] = false;
+}
+
+auto Sorcery::Controller::set_method(const Enums::Character::Method method)
+	-> void {
+
+	_method = method;
+}
+
+auto Sorcery::Controller::get_method() const -> Enums::Character::Method {
+
+	return _method;
 }
 
 namespace Sorcery {

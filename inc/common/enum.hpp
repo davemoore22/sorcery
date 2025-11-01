@@ -315,6 +315,13 @@ namespace Enums::Manage {
 
 namespace Enums::Character {
 
+	enum class Method {
+		NO_METHOD = -1,
+		FULL = 0,
+		QUICK = 1,
+		RANDOM = 2
+	};
+
 	enum class Location {
 		NO_LOCATION = -1,
 		PARTY = 0,

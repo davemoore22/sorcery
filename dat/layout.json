@@ -2882,6 +2882,45 @@
 			]
 		},
 		{
+			"name": "create",
+			"component": [
+				{
+					"name": "background_image",
+					"x": "0",
+					"y": "0",
+					"type": "image_bg",
+					"drawmode": "automatic",
+					"priority": "0",
+					"alpha": "1.0",
+					"data": [
+						{
+							"source": "background-mm.png",
+							"scale": "1.0"
+						}
+					]
+				},
+				{
+					"name": "outer_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "2",
+					"w": "38",
+					"h": "31",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"title": "CREATE_TITLE"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "restart",
 			"component": [
 				{

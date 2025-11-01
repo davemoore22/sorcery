@@ -26,6 +26,7 @@
 #include "common/types.hpp"
 #include "engine/define.hpp"
 #include "engine/enum.hpp"
+#include "modules/create.hpp"
 
 namespace Sorcery {
 
@@ -64,6 +65,7 @@ class Method {
 		Display *_display;
 		UI *_ui;
 		Controller *_controller;
+		std::unique_ptr<Create> _create;
 };
 
 }

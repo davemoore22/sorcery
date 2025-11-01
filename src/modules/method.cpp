@@ -38,6 +38,8 @@ Sorcery::Method::Method(System *system, Display *display, UI *ui,
 	  _ui{ui},
 	  _controller{controller} {
 
+	_create = std::make_unique<Create>(_system, _display, _ui, _controller);
+
 	_initialise();
 };
 
@@ -83,6 +85,10 @@ auto Sorcery::Method::start(Game *game) -> int {
 		if (!_controller->has_flag("show_method") &&
 			_controller->has_flag("show_training_grounds")) {
 			game->save_game();
+			return BACK_TO_TRAINING_GROUNDS;
+		} else if (_controller->has_flag("show_create")) {
+			_create->start(game);
+			_create->stop(game);
 			return BACK_TO_TRAINING_GROUNDS;
 		}
 	}
