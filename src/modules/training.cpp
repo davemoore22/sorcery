@@ -28,7 +28,7 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
-#include "modules/create.hpp"
+#include "modules/method.hpp"
 #include "types/game.hpp"
 
 Sorcery::Training::Training(System *system, Display *display, UI *ui,
@@ -40,7 +40,7 @@ Sorcery::Training::Training(System *system, Display *display, UI *ui,
 
 	_initialise();
 
-	_create = std::make_unique<Create>(_system, _display, _ui, _controller);
+	_method = std::make_unique<Method>(_system, _display, _ui, _controller);
 };
 
 auto Sorcery::Training::_initialise() -> bool {
@@ -49,6 +49,9 @@ auto Sorcery::Training::_initialise() -> bool {
 }
 
 auto Sorcery::Training::start(Game *game) -> int {
+
+	_method->start(game);
+	_method->stop(game);
 
 	_controller->initialise("training_grounds");
 	_controller->set_flag("show_training_grounds");
@@ -72,9 +75,9 @@ auto Sorcery::Training::start(Game *game) -> int {
 				return BACK_TO_EDGE_OF_TOWN;
 			}
 
-			if (_controller->has_flag("show_create")) {
-				_create->start(game);
-				_create->stop(game);
+			if (_controller->has_flag("show_method")) {
+				_method->start(game);
+				_method->stop(game);
 			}
 		}
 

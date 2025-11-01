@@ -1431,8 +1431,8 @@
 				{
 					"name": "splash_title",
 					"x": "centre",
-					"y": "26",
-					"font": "monospace",
+					"y": "27",
+					"font": "proportional",
 					"colour": "0xffffffff",
 					"size": "32",
 					"string": "SPLASH_TITLE",
@@ -1446,7 +1446,7 @@
 					"x": "centre",
 					"y": "28",
 					"font": "proportional",
-					"colour": "0xffffffff",
+					"colour": "0x888888ff",
 					"size": "32",
 					"string": "SPLASH_SUBTITLE",
 					"justification": "centre",
@@ -2794,7 +2794,7 @@
 			]
 		},
 		{
-			"name": "create",
+			"name": "method",
 			"component": [
 				{
 					"name": "background_image",

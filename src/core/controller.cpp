@@ -1074,7 +1074,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "method_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_create", "show_training_grounds");
+			move_screen("show_method", "show_training_grounds");
 		else {
 
 			// Which method of character creation do we want to do?
@@ -1123,7 +1123,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Training Grounds
 		if (selection == TRAINING_CREATE)
-			move_screen("show_training_grounds", "show_create");
+			move_screen("show_training_grounds", "show_method");
 		else if (selection == (static_cast<int>(items.size()) - 1))
 			move_screen("show_training_grounds", "show_edge_of_town");
 	} else if (component == "bestiary_menu") {

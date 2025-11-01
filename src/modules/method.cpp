@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/create.hpp"
+#include "modules/method.hpp"
 #include "common/macro.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -31,7 +31,7 @@
 #include "gui/input.hpp"
 #include "types/game.hpp"
 
-Sorcery::Create::Create(System *system, Display *display, UI *ui,
+Sorcery::Method::Method(System *system, Display *display, UI *ui,
 						Controller *controller)
 	: _system{system},
 	  _display{display},
@@ -41,22 +41,22 @@ Sorcery::Create::Create(System *system, Display *display, UI *ui,
 	_initialise();
 };
 
-Sorcery::Create::~Create() {};
+Sorcery::Method::~Method() {};
 
-auto Sorcery::Create::_initialise() -> bool {
+auto Sorcery::Method::_initialise() -> bool {
 
-	_stage = Enums::Character::Stage::ENTER_NAME;
+	//_stage = Enums::Character::Stage::ENTER_NAME;
 
 	return true;
 }
 
-auto Sorcery::Create::start(Game *game) -> int {
+auto Sorcery::Method::start(Game *game) -> int {
 
-	_controller->initialise("create");
-	_controller->set_flag("show_create");
+	_controller->initialise("method");
+	_controller->set_flag("show_method");
 
-	_ui->input_name->show = false;
-	_ui->input_name->initialise(game);
+	//_ui->input_name->show = false;
+	//_ui->input_name->initialise(game);
 
 	// Main loop
 	auto done{false};
@@ -78,9 +78,9 @@ auto Sorcery::Create::start(Game *game) -> int {
 			}
 		}
 
-		_ui->display("create", game, unenum(_stage));
+		_ui->display("method", game);
 
-		if (!_controller->has_flag("show_create") &&
+		if (!_controller->has_flag("show_method") &&
 			_controller->has_flag("show_training_grounds")) {
 			game->save_game();
 			return BACK_TO_TRAINING_GROUNDS;
@@ -91,9 +91,9 @@ auto Sorcery::Create::start(Game *game) -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Create::stop([[maybe_unused]] Game *game) -> int {
+auto Sorcery::Method::stop([[maybe_unused]] Game *game) -> int {
 
-	_controller->unset_flag("show_create");
+	_controller->unset_flag("show_method");
 
 	return 0;
 }

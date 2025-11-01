@@ -186,6 +186,7 @@ class UI {
 		auto _display_castle(Game *game) -> void;
 		auto _display_edge_of_town(Game *game) -> void;
 		auto _display_inn(Game *game) -> void;
+		auto _display_method(Game *game) -> void;
 		auto _display_pay(Game *game) -> void;
 		auto _display_remove(Game *game) -> void;
 		auto _display_restart(Game *game) -> void;
@@ -196,7 +197,6 @@ class UI {
 		auto _display_training_grounds(Game *game) -> void;
 
 		auto _display_choose(Game *game, const int mode) -> void;
-		auto _display_create(Game *game, const int stage) -> void;
 		auto _display_heal(Game *game, const int stage) -> void;
 		auto _display_inspect(Game *game, const int mode) -> void;
 		auto _display_level_up(Game *game, const int mode) -> void;
@@ -229,7 +229,6 @@ class UI {
 										   Character *character) -> void;
 		auto _draw_choose(Game *game, const int mode) -> void;
 		auto _draw_compass(Game *game) -> void;
-		auto _draw_create(Game *game, const int stage) -> void;
 		auto _draw_components(std::string_view screen, Game *game = nullptr,
 							  const int mode = -1) -> void;
 		auto _draw_current_character(Game *game, const int mode) -> void;

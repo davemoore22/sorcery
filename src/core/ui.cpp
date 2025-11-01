@@ -213,13 +213,14 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 	_draw_modules["training_grounds"] = [this](Game *game) {
 		_display_training_grounds(game);
 	};
+	_draw_modules["method"] = [this](Game *game) {
+		_display_method(game);
+	};
 
 	_draw_game_int["roster"] = [this](Game *game, int n) {
 		_display_roster(game, n);
 	};
-	_draw_game_int["create"] = [this](Game *game, int n) {
-		_display_create(game, n);
-	};
+
 	_draw_game_int["heal"] = [this](Game *game, int n) {
 		_display_heal(game, n);
 	};
@@ -1744,9 +1745,6 @@ auto Sorcery::UI::_draw_choose(Game *game, const int mode) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_create([[maybe_unused]] Game *game,
-							   [[maybe_unused]] const int stage) -> void {}
-
 auto Sorcery::UI::_draw_level_up(Game *game, const int mode) -> void {
 
 	auto &character{game->characters.at(_controller->get_character("restart"))};
@@ -3048,11 +3046,10 @@ auto Sorcery::UI::_display_choose(Game *game, const int mode) -> void {
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_create(Game *game, const int stage) -> void {
+auto Sorcery::UI::_display_method(Game *game) -> void {
 
-	_draw_components("create", game, stage);
-	_draw_create(game, stage);
-	input_name->display(_controller->get_flag_ref("want_name"));
+	_draw_components("method", game);
+	// input_name->display(_controller->get_flag_ref("want_name"));
 	_draw_cursor();
 }
 
