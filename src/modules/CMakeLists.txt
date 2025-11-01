@@ -2,6 +2,7 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/add.cpp
 	${CMAKE_CURRENT_LIST_DIR}/castle.cpp
 	${CMAKE_CURRENT_LIST_DIR}/choose.cpp
+	${CMAKE_CURRENT_LIST_DIR}/create.cpp
 	${CMAKE_CURRENT_LIST_DIR}/edgeoftown.cpp
 	${CMAKE_CURRENT_LIST_DIR}/heal.cpp
 	${CMAKE_CURRENT_LIST_DIR}/inn.cpp

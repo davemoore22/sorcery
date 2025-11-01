@@ -54,4 +54,3 @@ cmake_install.cmake
 CPackConfig.cmake
 CPackSourceConfig.cmake
 sorcery
-inc/modules
