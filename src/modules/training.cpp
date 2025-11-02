@@ -22,6 +22,7 @@
 
 #include "modules/training.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -31,16 +32,18 @@
 #include "modules/method.hpp"
 #include "types/game.hpp"
 
-Sorcery::Training::Training(System *system, Display *display, UI *ui,
-							Controller *controller)
-	: _system{system},
+Sorcery::Training::Training(Application *application, System *system,
+							Display *display, UI *ui, Controller *controller)
+	: _application{application},
+	  _system{system},
 	  _display{display},
 	  _ui{ui},
 	  _controller{controller} {
 
 	_initialise();
 
-	_method = std::make_unique<Method>(_system, _display, _ui, _controller);
+	_method = std::make_unique<Method>(_application, _system, _display, _ui,
+									   _controller);
 };
 
 auto Sorcery::Training::_initialise() -> bool {

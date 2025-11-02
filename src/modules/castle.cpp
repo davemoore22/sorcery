@@ -39,9 +39,10 @@
 #include "modules/tavern.hpp"
 #include "types/game.hpp"
 
-Sorcery::Castle::Castle(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
+Sorcery::Castle::Castle(Application *application, System *system,
+						Display *display, UI *ui, Controller *controller)
+	: _application{application},
+	  _system{system},
 	  _display{display},
 	  _ui{ui},
 	  _controller{controller} {

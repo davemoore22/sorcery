@@ -60,6 +60,7 @@ class Application {
 		auto stop() -> void;
 		auto save_state_to_binary(const std::string &filename) -> bool;
 		auto load_state_from_binary(const std::string &filename) -> bool;
+		auto get_resources() const -> Resources *;
 
 	private:
 		// Private Methods

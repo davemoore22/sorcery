@@ -22,6 +22,7 @@
 
 #include "modules/edgeoftown.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -32,17 +33,19 @@
 #include "modules/training.hpp"
 #include "types/game.hpp"
 
-Sorcery::EdgeOfTown::EdgeOfTown(System *system, Display *display, UI *ui,
+Sorcery::EdgeOfTown::EdgeOfTown(Application *application, System *system,
+								Display *display, UI *ui,
 								Controller *controller)
-	: _system{system},
+	: _application{application},
+	  _system{system},
 	  _display{display},
 	  _ui{ui},
 	  _controller{controller} {
 
 	_initialise();
 
-	_training_grounds =
-		std::make_unique<Training>(_system, _display, _ui, _controller);
+	_training_grounds = std::make_unique<Training>(_application, _system,
+												   _display, _ui, _controller);
 	_restart = std::make_unique<Restart>(_system, _display, _ui, _controller);
 };
 

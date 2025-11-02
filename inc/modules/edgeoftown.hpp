@@ -37,13 +37,14 @@ class Display;
 class Game;
 class System;
 class UI;
+class Application;
 
 class EdgeOfTown {
 
 	public:
 		// Standard Constructor
-		EdgeOfTown(System *system, Display *display, UI *ui,
-				   Controller *controller);
+		EdgeOfTown(Application *application, System *system, Display *display,
+				   UI *ui, Controller *controller);
 
 		// Public Methods
 		auto start(Game *game, const int mode) -> int;
@@ -54,6 +55,7 @@ class EdgeOfTown {
 		auto _initialise() -> bool;
 
 		// Private Members
+		Application *_application;
 		System *_system;
 		Display *_display;
 		UI *_ui;

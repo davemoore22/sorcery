@@ -2826,7 +2826,7 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "CREATE_TITLE"
+							"title": "METHOD_TITLE"
 						}
 					]
 				},
@@ -2904,7 +2904,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "2",
-					"w": "38",
+					"w": "44",
 					"h": "31",
 					"string": "",
 					"drawmode": "automatic",
@@ -2917,6 +2917,81 @@
 							"title": "CREATE_TITLE"
 						}
 					]
+				},
+				{
+					"name": "inner_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "5",
+					"w": "38",
+					"h": "26",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "summary_frame",
+					"w": "40",
+					"h": "3",
+					"x": "centre",
+					"y": "5",
+					"alpha": "255",
+					"type": "frame",
+					"priority": "2",
+					"background": " 0x000000ff"
+				},
+				{
+					"name": "summary_text",
+					"x": "centre",
+					"y": "6",
+					"alpha": "255",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "NONE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "3",
+					"drawmode": "manual"
+				},
+				{
+					"name": "stage_frame",
+					"w": "40",
+					"h": "3",
+					"x": "centre",
+					"y": "28",
+					"alpha": "255",
+					"type": "frame",
+					"priority": "2",
+					"drawmode": "automatic",
+					"background": " 0x000000ff"
+				},
+				{
+					"name": "stage_text",
+					"x": "centre",
+					"y": "29",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "CREATE_STAGE_1",
+					"justification": "centre",
+					"type": "text",
+					"priority": "3",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "name_frame",
+					"w": "40",
+					"h": "5",
+					"x": "centre",
+					"y": "15",
+					"alpha": "255",
+					"type": "frame",
+					"priority": "2",
+					"background": " 0x000000ff"
 				}
 			]
 		},

@@ -31,6 +31,7 @@
 namespace Sorcery {
 
 // Forward Declarations
+class Application;
 class Character;
 class Controller;
 class Display;
@@ -43,8 +44,8 @@ class Method {
 
 	public:
 		// Standard Constructor
-		Method(System *system, Display *display, UI *ui,
-			   Controller *controller);
+		Method(Application *application, System *system, Display *display,
+			   UI *ui, Controller *controller);
 		Method() = delete;
 
 		// Standard Destructor
@@ -61,6 +62,7 @@ class Method {
 		auto _initialise() -> bool;
 
 		// Private Members
+		Application *_application;
 		System *_system;
 		Display *_display;
 		UI *_ui;

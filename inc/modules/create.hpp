@@ -26,11 +26,12 @@
 #include "common/types.hpp"
 #include "engine/define.hpp"
 #include "engine/enum.hpp"
+#include "types/character.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
-class Character;
+class Application;
 class Controller;
 class Display;
 class Game;
@@ -42,8 +43,8 @@ class Create {
 
 	public:
 		// Standard Constructor
-		Create(System *system, Display *display, UI *ui,
-			   Controller *controller);
+		Create(Application *application, System *system, Display *display,
+			   UI *ui, Controller *controller);
 		Create() = delete;
 
 		// Standard Destructor
@@ -60,11 +61,14 @@ class Create {
 		auto _initialise() -> bool;
 
 		// Private Members
+		Application *_application;
 		System *_system;
 		Display *_display;
 		UI *_ui;
 		Controller *_controller;
 		Enums::Character::Stage _stage;
+		Character _candidate;
+		std::vector<Character> _stages;
 };
 
 }

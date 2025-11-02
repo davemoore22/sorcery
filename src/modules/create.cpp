@@ -22,6 +22,7 @@
 
 #include "modules/create.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -31,9 +32,10 @@
 #include "gui/input.hpp"
 #include "types/game.hpp"
 
-Sorcery::Create::Create(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
+Sorcery::Create::Create(Application *application, System *system,
+						Display *display, UI *ui, Controller *controller)
+	: _application{application},
+	  _system{system},
 	  _display{display},
 	  _ui{ui},
 	  _controller{controller} {
@@ -55,6 +57,8 @@ auto Sorcery::Create::start(Game *game) -> int {
 	_controller->initialise("create");
 	_controller->set_flag("show_create");
 	_controller->set_method(Enums::Character::Method::NO_METHOD);
+
+	_candidate = Character(_system, _application->get_resources());
 
 	//_ui->input_name->show = false;
 	//_ui->input_name->initialise(game);

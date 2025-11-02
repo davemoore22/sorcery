@@ -22,6 +22,7 @@
 
 #include "modules/method.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -31,14 +32,16 @@
 #include "gui/input.hpp"
 #include "types/game.hpp"
 
-Sorcery::Method::Method(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
+Sorcery::Method::Method(Application *application, System *system,
+						Display *display, UI *ui, Controller *controller)
+	: _application{application},
+	  _system{system},
 	  _display{display},
 	  _ui{ui},
 	  _controller{controller} {
 
-	_create = std::make_unique<Create>(_system, _display, _ui, _controller);
+	_create = std::make_unique<Create>(_application, _system, _display, _ui,
+									   _controller);
 
 	_initialise();
 };

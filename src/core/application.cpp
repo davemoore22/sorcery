@@ -84,10 +84,10 @@ Sorcery::Application::Application(int argc, char **argv) {
 									   _controller.get());
 
 	// Castle/Town/etc Modules
-	_castle = std::make_unique<Castle>(_system.get(), _display.get(), _ui.get(),
-									   _controller.get());
-	_edge_of_town = std::make_unique<EdgeOfTown>(_system.get(), _display.get(),
-												 _ui.get(), _controller.get());
+	_castle = std::make_unique<Castle>(this, _system.get(), _display.get(),
+									   _ui.get(), _controller.get());
+	_edge_of_town = std::make_unique<EdgeOfTown>(
+		this, _system.get(), _display.get(), _ui.get(), _controller.get());
 
 	// Game Engine
 	_engine = std::make_unique<Engine>(this, _system.get(), _display.get(),
@@ -128,6 +128,11 @@ auto Sorcery::Application::load_state_from_binary(const std::string &filename)
 
 // Default Destructor
 Sorcery::Application::~Application() {}
+
+auto Sorcery::Application::get_resources() const -> Resources * {
+
+	return _resources.get();
+}
 
 // Start the Game
 auto Sorcery::Application::start() -> int {

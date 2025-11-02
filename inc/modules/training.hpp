@@ -31,6 +31,7 @@
 namespace Sorcery {
 
 // Forward Declarations
+class Application;
 class Controller;
 class Display;
 class Game;
@@ -41,8 +42,8 @@ class Training {
 
 	public:
 		// Standard Constructor
-		Training(System *system, Display *display, UI *ui,
-				 Controller *controller);
+		Training(Application *application, System *system, Display *display,
+				 UI *ui, Controller *controller);
 
 		// Public Methods
 		auto start(Game *game) -> int;
@@ -53,6 +54,7 @@ class Training {
 		auto _initialise() -> bool;
 
 		// Private Members
+		Application *_application;
 		System *_system;
 		Display *_display;
 		UI *_ui;

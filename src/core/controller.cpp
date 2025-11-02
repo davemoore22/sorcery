@@ -1207,6 +1207,14 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
 	for (const auto &f : controller._flags)
 		out_stream << "  Flag: " << f.first << " = " << f.second << std::endl;
 
+	for (const auto &s : controller._selected)
+		out_stream << "  Selected: " << s.first << " = " << s.second
+				   << std::endl;
+
+	for (const auto &t : controller._characters)
+		out_stream << "  Character: " << t.first << " = " << t.second
+				   << std::endl;
+
 	return out_stream << std::endl;
 }
 } // namespace Sorcery
