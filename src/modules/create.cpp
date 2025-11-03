@@ -59,6 +59,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 	_controller->set_method(Enums::Character::Method::NO_METHOD);
 
 	_candidate = Character(_system, _application->get_resources());
+	_controller->set_create_character(&_candidate);
 
 	//_ui->input_name->show = false;
 	//_ui->input_name->initialise(game);

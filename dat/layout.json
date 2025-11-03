@@ -2992,6 +2992,19 @@
 					"type": "frame",
 					"priority": "2",
 					"background": " 0x000000ff"
+				},
+				{
+					"name": "name_input",
+					"w": "16",
+					"h": "1",
+					"x": "21",
+					"y": "17",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"alpha": "255",
+					"type": "other",
+					"priority": "2",
+					"background": " 0x000000ff"
 				}
 			]
 		},

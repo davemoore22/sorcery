@@ -164,6 +164,11 @@ auto Sorcery::Character::set_stage(const Enums::Character::Stage stage)
 	}
 }
 
+auto Sorcery::Character::get_name_ref() -> std::string * {
+
+	return &_name;
+}
+
 auto Sorcery::Character::get_name() const -> std::string {
 
 	return _name;
@@ -1329,8 +1334,8 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 	return extra_hp;
 }
 
-auto Sorcery::Character::post_construct(System *system, Resources *resources) -> void
-{
+auto Sorcery::Character::post_construct(System *system, Resources *resources)
+	-> void {
 	_system = system;
 	_resources = resources;
 }

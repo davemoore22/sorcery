@@ -248,6 +248,7 @@ class UI {
 		auto _draw_frame(Component *component) -> void;
 		auto _draw_heal(Game *game, const int stage) -> void;
 		auto _draw_icons(Game *game) -> void;
+		auto _draw_input(Component *component, std::string *input) -> void;
 		auto _draw_item_info() -> void;
 		auto _draw_license(Component *component, const std::string &string)
 			-> void;

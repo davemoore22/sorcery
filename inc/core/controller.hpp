@@ -33,6 +33,7 @@ class Display;
 class Game;
 class Resources;
 class UI;
+class Character;
 
 // UI Interaction Logic Controller
 class Controller {
@@ -128,6 +129,8 @@ class Controller {
 		auto clear_candidate_party() -> void;
 		auto get_candidate_party() -> std::vector<unsigned int> &;
 		auto get_candidate_party() const -> const std::vector<unsigned int> &;
+		auto get_create_character() -> Character *;
+		auto set_create_character(Character *candidate) -> void;
 
 		// Public Members
 
@@ -152,6 +155,7 @@ class Controller {
 		std::map<std::string, bool> _flags;		// Logic Flags
 		std::map<std::string, std::string> _texts; // "Global" Texts
 		std::map<std::string, int> _selected;	   // Menu Selections
+		Character *_create; // Candidate Character for Creation
 };
 
 };

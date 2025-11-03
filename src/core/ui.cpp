@@ -1739,7 +1739,15 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 	}
 }
 
-auto Sorcery::UI::_draw_create(Game *game, const int mode) -> void {}
+auto Sorcery::UI::_draw_create(Game *game, const int mode) -> void {
+
+	auto cmp_summary{(*components)["create:summary_text"]};
+	auto summary_text{_controller->get_create_character()->summary_text()};
+	_draw_text(&cmp_summary, summary_text);
+
+	auto cmp_name{(*components)["create:name_input"]};
+	_draw_input(&cmp_name, _controller->get_create_character()->get_name_ref());
+}
 
 auto Sorcery::UI::_display_create(Game *game, const int mode) -> void {
 
@@ -1980,8 +1988,45 @@ auto Sorcery::UI::_draw_current_character(Game *game,
 	}
 }
 
+auto Sorcery::UI::_draw_input(Component *component, std::string *input)
+	-> void {
+
+	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
+
+		ImVec2 pos{component->x * adj_grid_w, component->y * adj_grid_h};
+		ImGui::SetCursorPos(pos);
+
+		set_Font(fontstore->get_current_font(component->font).value());
+
+		ImGuiInputTextFlags flags{ImGuiInputTextFlags_AutoSelectAll |
+								  ImGuiInputTextFlags_CharsNoBlank |
+								  ImGuiInputTextFlags_EnterReturnsTrue};
+
+		ImGui::SetNextItemWidth(ImGui::GetFontSize() * 17);
+		ImGui::InputText("##input_text", input->data(), 17, flags);
+
+		ImGui::SameLine();
+		const auto col{get_hl_colour(_system->animation->lerp)};
+		set_StyleColor(ImGuiCol_Text,
+					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+		set_StyleColor(ImGuiCol_Button,
+					   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
+
+		with_ID("##input_ok") {
+			if (ImGui::Button(">")) {
+
+				// Handle buttons being used to switch on AND off the flag
+				// flag = !reverse;
+				_controller->handle_button_click("input_ok", this, -1);
+			}
+		}
+	}
+}
+
 auto Sorcery::UI::_draw_text(Component *component, const std::string &string)
 	-> void {
+
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
@@ -2560,7 +2605,8 @@ auto Sorcery::UI::_draw_options() -> void {
 											  ImGuiColorEditFlags_NoTooltip |
 											  ImGuiColorEditFlags_NoOptions};
 					auto frame_name{std::format("{}##1", "UI Colour")};
-					// ImGui::SetCursorPosY(ImGui::GetCursorPosY() + grid_sz);
+					// ImGui::SetCursorPosY(ImGui::GetCursorPosY() +
+					// grid_sz);
 					ImGui::SetNextItemWidth(28.f);
 					ImGui::ColorEdit3(frame_name.c_str(), (float *)&ui_colour,
 									  flags);
@@ -3256,8 +3302,8 @@ auto Sorcery::UI::_display_license(const std::string &string) -> void {
 
 auto Sorcery::UI::_draw_level_no_player() -> void {
 
-	// Menu Selection for B1F to B10F is 0 to 0, thus convert it into -1 to -10
-	// for depth
+	// Menu Selection for B1F to B10F is 0 to 0, thus convert it into -1 to
+	// -10 for depth
 	if (_controller->get_selected("atlas_selected") == 10)
 		return;
 

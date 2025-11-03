@@ -89,7 +89,7 @@
 	"cmake.debugConfig": {
 		"args": [
 			"--go-to-training",
-			"--nhi"
+			"--ni"
 		]
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",

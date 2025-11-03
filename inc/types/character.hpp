@@ -83,6 +83,7 @@ class Character {
 									const Enums::Character::Align alignment)
 			-> void;
 		auto set_start_attr() -> void;
+		auto get_name_ref() -> std::string *;
 		auto get_name() const -> std::string;
 		auto get_name_and_loc() const -> std::string;
 		auto get_name_and_status() const -> std::string;

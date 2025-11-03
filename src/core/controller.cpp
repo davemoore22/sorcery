@@ -1199,6 +1199,17 @@ auto Sorcery::Controller::get_method() const -> Enums::Character::Method {
 	return _method;
 }
 
+// Not const in case we want to modify the character
+auto Sorcery::Controller::get_create_character() -> Character * {
+
+	return _create;
+}
+
+auto Sorcery::Controller::set_create_character(Character *candidate) -> void {
+
+	_create = candidate;
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
