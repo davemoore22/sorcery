@@ -49,6 +49,11 @@ Sorcery::Character::Character(System *system, Resources *resources)
 	inventory.clear();
 }
 
+auto Sorcery::Character::reset(const Enums::Character::Stage stage) -> void {
+
+	set_stage(stage);
+}
+
 // Overloaded Operator
 auto Sorcery::Character::operator[](const Enums::Character::Ability &key)
 	-> int & {

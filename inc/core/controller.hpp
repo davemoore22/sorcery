@@ -69,6 +69,8 @@ class Controller {
 		auto check_for_ui_toggle(const SDL_Event event) -> void;
 		auto handle_button_click(const std::string &component, UI *ui,
 								 const int data) -> void;
+		auto handle_input_button_click(const std::string &component, UI *ui,
+									   std::string *data) -> void;
 		auto handle_menu(const std::string &component,
 						 const std::vector<std::string> &items, const int data,
 						 const int selection) -> void;
@@ -129,8 +131,8 @@ class Controller {
 		auto clear_candidate_party() -> void;
 		auto get_candidate_party() -> std::vector<unsigned int> &;
 		auto get_candidate_party() const -> const std::vector<unsigned int> &;
-		auto get_create_character() -> Character *;
-		auto set_create_character(Character *candidate) -> void;
+		auto inject_character(std::shared_ptr<Character> character) -> void;
+		auto get_character() const -> Character *;
 
 		// Public Members
 
@@ -155,7 +157,7 @@ class Controller {
 		std::map<std::string, bool> _flags;		// Logic Flags
 		std::map<std::string, std::string> _texts; // "Global" Texts
 		std::map<std::string, int> _selected;	   // Menu Selections
-		Character *_create; // Candidate Character for Creation
+		std::shared_ptr<Character> _create; // Candidate Character for Creation
 };
 
 };

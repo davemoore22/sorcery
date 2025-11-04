@@ -950,6 +950,22 @@ auto Sorcery::Controller::check_for_abort(const SDL_Event event) -> bool {
 	return false;
 }
 
+auto Sorcery::Controller::handle_input_button_click(
+	const std::string &component, UI *ui, std::string *data) -> void {
+
+	if (component == "name_input_ok") {
+
+		if (data->length() > 0) {
+
+			_create->set_name(*data);
+			_create->set_stage(Enums::Character::Stage::CHOOSE_RACE);
+
+			// Finished entering name
+			unset_flag("want_enter_name");
+		}
+	}
+}
+
 auto Sorcery::Controller::handle_button_click(const std::string &component,
 											  UI *ui,
 											  [[maybe_unused]] const int data)
@@ -1093,8 +1109,8 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 	} else if (component == "roster_menu") {
 
-		// Roster has multiple entry points so need to rely uponcalling screen
-		// to enable itself
+		// Roster has multiple entry points so need to rely uponcalling
+		// screen to enable itself
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["show_roster"] = false;
 			clear_character("inspect");
@@ -1104,8 +1120,8 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		}
 	} else if (component == "reorder_menu") {
 
-		// Reorder has multiple entry points so need to rely upon calling screen
-		// to enable itself
+		// Reorder has multiple entry points so need to rely upon calling
+		// screen to enable itself
 		if (selection == (static_cast<int>(items.size()) - 1))
 			_flags["show_reorder"] = false;
 
@@ -1199,15 +1215,15 @@ auto Sorcery::Controller::get_method() const -> Enums::Character::Method {
 	return _method;
 }
 
-// Not const in case we want to modify the character
-auto Sorcery::Controller::get_create_character() -> Character * {
+auto Sorcery::Controller::inject_character(std::shared_ptr<Character> character)
+	-> void {
 
-	return _create;
+	_create = character;
 }
 
-auto Sorcery::Controller::set_create_character(Character *candidate) -> void {
+auto Sorcery::Controller::get_character() const -> Character * {
 
-	_create = candidate;
+	return _create.get();
 }
 
 namespace Sorcery {

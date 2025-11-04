@@ -1742,11 +1742,11 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 auto Sorcery::UI::_draw_create(Game *game, const int mode) -> void {
 
 	auto cmp_summary{(*components)["create:summary_text"]};
-	auto summary_text{_controller->get_create_character()->summary_text()};
+	auto summary_text{_controller->get_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 
 	auto cmp_name{(*components)["create:name_input"]};
-	_draw_input(&cmp_name, _controller->get_create_character()->get_name_ref());
+	_draw_input(&cmp_name, _controller->get_character()->get_name_ref());
 }
 
 auto Sorcery::UI::_display_create(Game *game, const int mode) -> void {
@@ -1999,11 +1999,18 @@ auto Sorcery::UI::_draw_input(Component *component, std::string *input)
 		set_Font(fontstore->get_current_font(component->font).value());
 
 		ImGuiInputTextFlags flags{ImGuiInputTextFlags_AutoSelectAll |
-								  ImGuiInputTextFlags_CharsNoBlank |
 								  ImGuiInputTextFlags_EnterReturnsTrue};
 
-		ImGui::SetNextItemWidth(ImGui::GetFontSize() * 17);
-		ImGui::InputText("##input_text", input->data(), 17, flags);
+		const auto input_name{std::format("##{}", component->name)};
+		const auto input_button_name{std::format("##{}_ok", component->name)};
+		const auto input_button_id{std::format("{}_ok", component->name)};
+		ImGui::SetNextItemWidth(ImGui::GetFontSize() * component->w);
+		if (ImGui::InputText(input_name.c_str(), input->data(),
+							 std::stoi((*component)["capacity"].value()),
+							 flags)) {
+			_controller->handle_input_button_click(input_button_id, this,
+												   input);
+		}
 
 		ImGui::SameLine();
 		const auto col{get_hl_colour(_system->animation->lerp)};
@@ -2013,12 +2020,13 @@ auto Sorcery::UI::_draw_input(Component *component, std::string *input)
 					   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 
-		with_ID("##input_ok") {
+		with_ID(input_button_name.c_str()) {
 			if (ImGui::Button(">")) {
 
 				// Handle buttons being used to switch on AND off the flag
 				// flag = !reverse;
-				_controller->handle_button_click("input_ok", this, -1);
+				_controller->handle_input_button_click(input_button_id, this,
+													   input);
 			}
 		}
 	}

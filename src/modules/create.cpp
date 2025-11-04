@@ -30,6 +30,7 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "gui/input.hpp"
+#include "types/character.hpp"
 #include "types/game.hpp"
 
 Sorcery::Create::Create(Application *application, System *system,
@@ -56,13 +57,14 @@ auto Sorcery::Create::start(Game *game) -> int {
 
 	_controller->initialise("create");
 	_controller->set_flag("show_create");
+	_controller->set_flag("want_enter_name");
 	_controller->set_method(Enums::Character::Method::NO_METHOD);
 
-	_candidate = Character(_system, _application->get_resources());
-	_controller->set_create_character(&_candidate);
+	std::shared_ptr<Character> candidate =
+		std::make_shared<Character>(_system, _application->get_resources());
 
-	//_ui->input_name->show = false;
-	//_ui->input_name->initialise(game);
+	_controller->inject_character(candidate);
+	candidate->reset(Enums::Character::Stage::ENTER_NAME);
 
 	// Main loop
 	auto done{false};
@@ -92,6 +94,13 @@ auto Sorcery::Create::start(Game *game) -> int {
 		} else if (!_controller->has_flag("show_create") &&
 				   _controller->has_flag("show_training_grounds")) {
 			return BACK_TO_TRAINING_GROUNDS;
+		}
+
+		// Check to see if we have finished entering the name
+		if (!_controller->has_flag("want_enter_name") &&
+			candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
+
+			// done = true;
 		}
 	}
 

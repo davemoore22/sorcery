@@ -3004,7 +3004,12 @@
 					"alpha": "255",
 					"type": "other",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"background": " 0x000000ff",
+					"data": [
+						{
+							"capacity": "17"
+						}
+					]
 				}
 			]
 		},

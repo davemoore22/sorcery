@@ -67,7 +67,6 @@ class Create {
 		UI *_ui;
 		Controller *_controller;
 		Enums::Character::Stage _stage;
-		Character _candidate;
 		std::vector<Character> _stages;
 };
 
