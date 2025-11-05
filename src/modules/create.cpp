@@ -100,7 +100,9 @@ auto Sorcery::Create::start(Game *game) -> int {
 		if (!_controller->has_flag("want_enter_name") &&
 			candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
 
-			// done = true;
+			_controller->get_character()->set_name(
+				_controller->get_input_buffer());
+			done = true;
 		}
 	}
 

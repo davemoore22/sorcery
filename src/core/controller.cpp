@@ -950,6 +950,15 @@ auto Sorcery::Controller::check_for_abort(const SDL_Event event) -> bool {
 	return false;
 }
 
+auto Sorcery::Controller::get_input_buffer() -> std::string & {
+
+	return _input_buffer;
+}
+auto Sorcery::Controller::set_input_buffer(const std::string &value) -> void {
+
+	_input_buffer = value;
+}
+
 auto Sorcery::Controller::handle_input_button_click(
 	const std::string &component, UI *ui, std::string *data) -> void {
 

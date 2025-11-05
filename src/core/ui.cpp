@@ -1746,7 +1746,7 @@ auto Sorcery::UI::_draw_create(Game *game, const int mode) -> void {
 	_draw_text(&cmp_summary, summary_text);
 
 	auto cmp_name{(*components)["create:name_input"]};
-	_draw_input(&cmp_name, _controller->get_character()->get_name_ref());
+	_draw_input(&cmp_name, &_controller->get_input_buffer());
 }
 
 auto Sorcery::UI::_display_create(Game *game, const int mode) -> void {
@@ -2005,9 +2005,7 @@ auto Sorcery::UI::_draw_input(Component *component, std::string *input)
 		const auto input_button_name{std::format("##{}_ok", component->name)};
 		const auto input_button_id{std::format("{}_ok", component->name)};
 		ImGui::SetNextItemWidth(ImGui::GetFontSize() * component->w);
-		if (ImGui::InputText(input_name.c_str(), input->data(),
-							 std::stoi((*component)["capacity"].value()),
-							 flags)) {
+		if (ImGui::InputText(input_name.c_str(), input, flags)) {
 			_controller->handle_input_button_click(input_button_id, this,
 												   input);
 		}
