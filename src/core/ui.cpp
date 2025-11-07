@@ -229,6 +229,10 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 		_display_create_race(game, n);
 	};
 
+	_draw_game_int["create_alignment"] = [this](Game *game, int n) {
+		_display_create_alignment(game, n);
+	};
+
 	_draw_game_int["heal"] = [this](Game *game, int n) {
 		_display_heal(game, n);
 	};
@@ -1743,6 +1747,13 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 	}
 }
 
+auto Sorcery::UI::_draw_create_alignment(Game *game, const int mode) -> void {
+
+	auto cmp_summary{(*components)["create_alignment:summary_text"]};
+	auto summary_text{_controller->get_character()->summary_text()};
+	_draw_text(&cmp_summary, summary_text);
+}
+
 auto Sorcery::UI::_draw_create_race(Game *game, const int mode) -> void {
 
 	auto cmp_summary{(*components)["create_race:summary_text"]};
@@ -1764,6 +1775,14 @@ auto Sorcery::UI::_draw_create_name(Game *game, const int mode) -> void {
 
 	auto cmp_name{(*components)["create_name:name_input"]};
 	_draw_input(&cmp_name, &_controller->get_input_buffer());
+}
+
+auto Sorcery::UI::_display_create_alignment(Game *game, const int mode)
+	-> void {
+
+	_draw_components("create_alignment", game, mode);
+	_draw_create_alignment(game, mode);
+	_draw_cursor();
 }
 
 auto Sorcery::UI::_display_create_race(Game *game, const int mode) -> void {

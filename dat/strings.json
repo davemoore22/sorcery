@@ -503,7 +503,7 @@
 	"PAY_RETURN": "<Return>",
 	"CREATE_STAGE_1": "Enter a name for your character:",
 	"CREATE_STAGE_2": "Choose Race:",
-	"CHARACTER_CREATION_STAGE3": "Choose Alignment:",
+	"CREATE_STAGE_3": "Choose Alignment:",
 	"CHARACTER_CREATION_STAGE4": "Allocate Attributes:",
 	"CHARACTER_CREATION_STAGE5": "Choose Class:",
 	"CHARACTER_CREATION_STAGE6": "Review And Confirm:",

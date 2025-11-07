@@ -1102,6 +1102,12 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		if (selection == (static_cast<int>(items.size()) - 1))
 			move_screen("show_create", "show_method");
 		else {
+			_create->set_race(
+				magic_enum::enum_cast<Enums::Character::Race>(selection)
+					.value());
+			_create->set_stage(Enums::Character::Stage::CHOOSE_ALIGNMENT);
+			unset_flag("want_choose_race");
+			set_flag("want_choose_alignment");
 		}
 
 	} else if (component == "method_menu") {
