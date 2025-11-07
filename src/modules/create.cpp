@@ -58,6 +58,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 	_controller->initialise("create");
 	_controller->set_flag("show_create");
 	_controller->set_flag("want_enter_name");
+	_controller->unset_flag("want_choose_race");
 	_controller->set_method(Enums::Character::Method::NO_METHOD);
 
 	std::shared_ptr<Character> candidate =
@@ -66,11 +67,13 @@ auto Sorcery::Create::start(Game *game) -> int {
 	_controller->inject_character(candidate);
 	candidate->reset(Enums::Character::Stage::ENTER_NAME);
 
+	_ui->first_frame = true;
+
 	// Main loop
 	auto done{false};
+	SDL_Event event;
 	while (!done) {
 
-		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
 			// Check for Quit Events
@@ -86,7 +89,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 			}
 		}
 
-		_ui->display("create", game, static_cast<int>(_stage));
+		_ui->display("create_name", game, static_cast<int>(_stage));
 
 		if (!_controller->has_flag("show_create") &&
 			_controller->has_flag("show_method")) {
@@ -96,13 +99,41 @@ auto Sorcery::Create::start(Game *game) -> int {
 			return BACK_TO_TRAINING_GROUNDS;
 		}
 
-		// Check to see if we have finished entering the name
+		// Check to see if we have finished entering the name (the stage and
+		// name are set in controller->handle_input_button_click())
 		if (!_controller->has_flag("want_enter_name") &&
 			candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
 
-			_controller->get_character()->set_name(
-				_controller->get_input_buffer());
-			done = true;
+			while (!done) {
+
+				// Move to the next stage
+				while (SDL_PollEvent(&event)) {
+
+					// Check for Quit Events
+					ImGui_ImplSDL2_ProcessEvent(&event);
+					done = _controller->check_for_abort(event);
+
+					// Check for Window Resize
+					_controller->check_for_resize(event, _ui);
+
+					// Check for Back Event
+					if (_controller->check_for_back(event)) {
+						return BACK_TO_CHOOSE_METHOD;
+					}
+				}
+
+				_ui->display("create_race", game, static_cast<int>(_stage));
+
+				if (!_controller->has_flag("show_create") &&
+					_controller->has_flag("show_method")) {
+					return BACK_TO_CHOOSE_METHOD;
+				} else if (!_controller->has_flag("show_create") &&
+						   _controller->has_flag("show_training_grounds")) {
+					return BACK_TO_TRAINING_GROUNDS;
+				}
+			}
+
+			// done = true;
 		}
 	}
 

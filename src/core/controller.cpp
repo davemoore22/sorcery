@@ -971,6 +971,7 @@ auto Sorcery::Controller::handle_input_button_click(
 
 			// Finished entering name
 			unset_flag("want_enter_name");
+			set_flag("want_choose_race");
 		}
 	}
 }
@@ -1094,6 +1095,13 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 			character.set_location(Enums::Character::Location::PARTY);
 			_game->state->add_character_to_party(data);
 			_game->save_game();
+		}
+
+	} else if (component == "race_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			move_screen("show_create", "show_method");
+		else {
 		}
 
 	} else if (component == "method_menu") {

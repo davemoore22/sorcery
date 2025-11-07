@@ -153,6 +153,7 @@ class UI {
 		std::array<bool, 21> ms_selected;
 		std::array<bool, 29> ps_selected;
 		Uint32 ticks;
+		bool first_frame;
 
 	private:
 		// Private Members
@@ -197,7 +198,8 @@ class UI {
 		auto _display_training_grounds(Game *game) -> void;
 
 		auto _display_choose(Game *game, const int mode) -> void;
-		auto _display_create(Game *game, const int stage) -> void;
+		auto _display_create_name(Game *game, const int stage) -> void;
+		auto _display_create_race(Game *game, const int stage) -> void;
 		auto _display_heal(Game *game, const int stage) -> void;
 		auto _display_inspect(Game *game, const int mode) -> void;
 		auto _display_level_up(Game *game, const int mode) -> void;
@@ -229,7 +231,8 @@ class UI {
 		auto _draw_character_priest_spells(Component *component, Game *game,
 										   Character *character) -> void;
 		auto _draw_choose(Game *game, const int mode) -> void;
-		auto _draw_create(Game *game, const int mode) -> void;
+		auto _draw_create_name(Game *game, const int mode) -> void;
+		auto _draw_create_race(Game *game, const int mode) -> void;
 		auto _draw_compass(Game *game) -> void;
 		auto _draw_components(std::string_view screen, Game *game = nullptr,
 							  const int mode = -1) -> void;
