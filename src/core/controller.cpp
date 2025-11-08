@@ -1110,6 +1110,24 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 			set_flag("want_choose_alignment");
 		}
 
+	} else if (component == "alignment_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			move_screen("show_create", "show_method");
+		else {
+			_create->set_alignment(
+				magic_enum::enum_cast<Enums::Character::Align>(selection)
+					.value());
+			_create->set_stage(Enums::Character::Stage::CHOOSE_CLASS);
+			set_flag("want_choose_class");
+			unset_flag("want_choose_alignment");
+		}
+	} else if (component == "class_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			move_screen("show_create", "show_method");
+		else {
+		};
 	} else if (component == "method_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
@@ -1129,7 +1147,6 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 				move_screen("show_method", "show_create");
 			}
 		}
-
 	} else if (component == "roster_menu") {
 
 		// Roster has multiple entry points so need to rely uponcalling
@@ -1147,14 +1164,12 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		// screen to enable itself
 		if (selection == (static_cast<int>(items.size()) - 1))
 			_flags["show_reorder"] = false;
-
 	} else if (component == "pay_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
 			_flags["show_pay"] = false;
 		else
 			_selected["pay_selected"] = selection;
-
 	} else if (component == "shop_menu") {
 
 		// Shop

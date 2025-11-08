@@ -232,6 +232,17 @@ auto Sorcery::Menu::_load_fixed_items() -> void {
 			_items.emplace_back(
 				std::format("{:^{}}", (*_system->strings)[source], _width));
 
+	} else if (_component->name == "class_menu") {
+		sources.insert(sources.end(),
+					   {"CHARACTER_CLASS_FIGHTER", "CHARACTER_CLASS_MAGE",
+						"CHARACTER_CLASS_PRIEST", "CHARACTER_CLASS_THIEF",
+						"CHARACTER_CLASS_BISHOP", "CHARACTER_CLASS_SAMURAI",
+						"CHARACTER_CLASS_LORD", "CHARACTER_CLASS_NINJA",
+						"CHARACTER_CLASS_RETURN"});
+		for (const auto &source : sources)
+			_items.emplace_back(
+				std::format("{:^{}}", (*_system->strings)[source], _width));
+
 	} else if (_component->name == "alignment_menu") {
 		sources.insert(sources.end(), {"CHARACTER_ALIGNMENT_GOOD",
 									   "CHARACTER_ALIGNMENT_NEUTRAL",
