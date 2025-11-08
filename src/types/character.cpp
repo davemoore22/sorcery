@@ -258,6 +258,12 @@ auto Sorcery::Character::get_start_points() const -> unsigned int {
 	return _st_points;
 }
 
+auto Sorcery::Character::get_attr_ptr(Enums::Character::Attribute attribute)
+	-> int * {
+
+	return &_cur_attr.at(attribute);
+}
+
 auto Sorcery::Character::set_start_points(const unsigned int &value) -> void {
 
 	_st_points = value;

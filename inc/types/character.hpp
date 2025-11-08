@@ -99,6 +99,7 @@ class Character {
 		auto get_alignment() const -> Enums::Character::Align;
 		auto set_alignment(const Enums::Character::Align &value) -> void;
 		auto get_cur_attr() const -> std::map<Enums::Character::Attribute, int>;
+		auto get_attr_ptr(Enums::Character::Attribute attribute) -> int *;
 		auto get_pos_class() const -> std::map<Enums::Character::Class, bool>;
 		auto get_start_attr() const
 			-> std::map<Enums::Character::Attribute, int>;

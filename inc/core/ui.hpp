@@ -275,6 +275,8 @@ class UI {
 		auto _draw_save(Game *game) -> void;
 		auto _draw_stay(Game *game) -> void;
 		auto _draw_spell_info() -> void;
+		auto _draw_stepper(Component *component, const std::string &name,
+						   int *value) -> void;
 		auto _draw_text(Component *component) -> void;
 		auto _draw_text(Component *component, const std::string &string)
 			-> void;

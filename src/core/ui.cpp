@@ -1763,6 +1763,22 @@ auto Sorcery::UI::_draw_create_class(Game *game, const int mode) -> void {
 	auto cmp_summary{(*components)["create_class:summary_text"]};
 	auto summary_text{_controller->get_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
+
+	auto cmp_points_left{(*components)["create_class:points_left_text"]};
+	const auto points_left_text{
+		std::format("{:>2}", _controller->get_character()->get_points_left())};
+	_draw_text(&cmp_points_left, points_left_text);
+
+	// Now draw the class buttons
+	using enum Enums::Character::Attribute;
+	auto cmp_attribute{(*components)["create_class:current_stats"]};
+	for (auto i = unenum(STRENGTH); i <= unenum(LUCK); ++i) {
+		auto attribute{_controller->get_character()->get_attr_ptr(
+			magic_enum::enum_cast<Enums::Character::Attribute>(i).value())};
+		auto cmp_name{std::format("stepper_{}", i)};
+		_draw_stepper(&cmp_attribute, cmp_name, attribute);
+		++cmp_attribute.y;
+	}
 }
 
 auto Sorcery::UI::_draw_create_race(Game *game, const int mode) -> void {
@@ -2044,6 +2060,54 @@ auto Sorcery::UI::_draw_current_character(Game *game,
 				with_TabItem("Divine") {
 					_draw_character_priest_spells(&char_cmp, game, &character);
 				}
+			}
+		}
+	}
+}
+
+auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
+								int *value) -> void {
+
+	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
+
+		ImVec2 pos{component->x * adj_grid_w, component->y * adj_grid_h};
+		ImGui::SetCursorPos(pos);
+
+		set_Font(fontstore->get_current_font(component->font).value());
+
+		const auto stepper_name{std::format("##{}", name)};
+		const auto stepper_minus{std::format("##{}_minus", name)};
+		const auto stepper_plus{std::format("##{}_plus", name)};
+
+		const auto col{get_hl_colour(_system->animation->lerp)};
+		set_StyleColor(ImGuiCol_Text,
+					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+		set_StyleColor(ImGuiCol_Button,
+					   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
+
+		with_ID(stepper_minus.c_str()) {
+			if (ImGui::Button("-")) {
+				_controller->handle_stepper_button_click(stepper_minus, this,
+														 false, value);
+			}
+		}
+
+		pos.x += 1 * adj_grid_w;
+
+		ImVec4 alpha_col{ImGui::ColorConvertU32ToFloat4(component->colour)};
+		alpha_col.w = _system->animation->fade;
+
+		set_StyleColor(ImGuiCol_Text, alpha_col);
+		ImGui::SetCursorPos(pos);
+		ImGui::TextUnformatted(std::format("{:>2}", *value).c_str());
+
+		pos.x += 2 * adj_grid_w;
+		ImGui::SetCursorPos(pos);
+		with_ID(stepper_plus.c_str()) {
+			if (ImGui::Button("+")) {
+				_controller->handle_stepper_button_click(stepper_minus, this,
+														 true, value);
 			}
 		}
 	}

@@ -3528,6 +3528,34 @@
 					"type": "text",
 					"priority": "1",
 					"drawmode": "automatic"
+				},
+				{
+					"name": "current_stats",
+					"x": "25",
+					"y": "14",
+					"alpha": "255",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "NONE",
+					"justification": "centre",
+					"type": "other",
+					"priority": "1",
+					"drawmode": "manual"
+				},
+				{
+					"name": "points_left_text",
+					"x": "26",
+					"y": "22",
+					"alpha": "255",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "NONE",
+					"justification": "centre",
+					"type": "other",
+					"priority": "1",
+					"drawmode": "manual"
 				}
 			]
 		},

@@ -78,6 +78,9 @@ class Controller {
 			const std::string &component, const std::vector<std::string> &items,
 			const int data, const int selection,
 			std::vector<std::reference_wrapper<bool>> in_flags) -> void;
+		auto handle_stepper_button_click(const std::string &component, UI *ui,
+										 const bool positive, int *data)
+			-> void;
 		auto handle_toggle(const std::string &component, const std::string &tab,
 						   const int selection) -> void;
 		auto has_saved_game() const -> bool;
