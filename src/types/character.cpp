@@ -322,7 +322,7 @@ auto Sorcery::Character::set_start_attr() -> void {
 		break;
 	case HOBBIT:
 		_start_attr = {{STRENGTH, 5}, {IQ, 7},		 {PIETY, 7},
-					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
+					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
 		break;
 	default:
 		break;
@@ -644,7 +644,7 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 		break;
 	case HOBBIT:
 		minimum_attr = {{STRENGTH, 5}, {IQ, 7},		  {PIETY, 7},
-						{VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
+						{VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
 		break;
 	default:
 		break;
@@ -1908,7 +1908,7 @@ auto Sorcery::Character::create_class_alignment(
 		break;
 	case HOBBIT:
 		_start_attr = {{STRENGTH, 5}, {IQ, 7},		 {PIETY, 7},
-					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
+					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
 		break;
 	default:
 		break;
@@ -2013,7 +2013,7 @@ auto Sorcery::Character::create_quick() -> void {
 		break;
 	case HOBBIT:
 		_start_attr = {{STRENGTH, 5}, {IQ, 7},		 {PIETY, 7},
-					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 12}};
+					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
 		break;
 	default:
 		break;

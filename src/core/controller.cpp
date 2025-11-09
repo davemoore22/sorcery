@@ -107,6 +107,7 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	set_selected("bestiary_selected", 0);
 	set_selected("spellbook_selected", 0);
 	set_selected("museum_selected", 1);
+	set_selected("class_selected", 8);
 
 	// need to set ui flags too, argh
 }
@@ -486,6 +487,15 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			} else
 				return false;
 #pragma GCC diagnostic pop
+		} else
+			return false;
+	} else if (component == "class_menu") {
+
+		const auto classes{_create->get_pos_class()};
+		if (selection >= 0 && selection < 8) {
+			return !classes.at(
+				magic_enum::enum_cast<Enums::Character::Class>(selection + 1)
+					.value());
 		} else
 			return false;
 	}
@@ -1109,9 +1119,10 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 			move_screen("show_create", "show_method");
 		else {
 			_create->set_race(
-				magic_enum::enum_cast<Enums::Character::Race>(selection)
+				magic_enum::enum_cast<Enums::Character::Race>(selection + 1)
 					.value());
 			_create->set_stage(Enums::Character::Stage::CHOOSE_ALIGNMENT);
+			_create->set_start_attr();
 			unset_flag("want_choose_race");
 			set_flag("want_choose_alignment");
 		}
@@ -1122,10 +1133,11 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 			move_screen("show_create", "show_method");
 		else {
 			_create->set_alignment(
-				magic_enum::enum_cast<Enums::Character::Align>(selection)
+				magic_enum::enum_cast<Enums::Character::Align>(selection + 1)
 					.value());
 			_create->set_stage(Enums::Character::Stage::CHOOSE_CLASS);
 			_create->set_start_attr();
+			_create->set_pos_class();
 			set_flag("want_choose_class");
 			unset_flag("want_choose_alignment");
 		}

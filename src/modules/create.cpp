@@ -62,6 +62,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 	_controller->unset_flag("want_choose_alignment");
 	_controller->unset_flag("want_choose_class");
 	_controller->set_method(Enums::Character::Method::NO_METHOD);
+	_controller->set_selected("class_selected", 8);
 
 	std::shared_ptr<Character> candidate =
 		std::make_shared<Character>(_system, _application->get_resources());

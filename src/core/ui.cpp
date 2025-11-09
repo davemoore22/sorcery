@@ -500,6 +500,8 @@ auto Sorcery::UI::start() -> void {
 	highlighted["spellbook"] = 0;
 	selected["atlas"] = 0;
 	highlighted["atlas"] = 0;
+	selected["class_menu"] = 8;
+	highlighted["class_menu"] = 8;
 
 	ms_selected.fill(false);
 	ps_selected.fill(false);
@@ -1775,7 +1777,7 @@ auto Sorcery::UI::_draw_create_class(Game *game, const int mode) -> void {
 	for (auto i = unenum(STRENGTH); i <= unenum(LUCK); ++i) {
 		auto attribute{_controller->get_character()->get_attr_ptr(
 			magic_enum::enum_cast<Enums::Character::Attribute>(i).value())};
-		auto cmp_name{std::format("stepper_{}", i)};
+		auto cmp_name{std::format("stepper_attribute_{}", i)};
 		_draw_stepper(&cmp_attribute, cmp_name, attribute);
 		++cmp_attribute.y;
 	}
@@ -2068,6 +2070,8 @@ auto Sorcery::UI::_draw_current_character(Game *game,
 auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 								int *value) -> void {
 
+	bool disabled{false};
+
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 		ImVec2 pos{component->x * adj_grid_w, component->y * adj_grid_h};
@@ -2086,12 +2090,36 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 					   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 
+		if (component->name == "current_stats") {
+			using enum Enums::Character::Attribute;
+			const auto mins{_controller->get_character()->get_start_attr()};
+			if (name == "stepper_attribute_1")
+				disabled = !(*value > mins.at(STRENGTH));
+			else if (name == "stepper_attribute_2")
+				disabled = !(*value > mins.at(IQ));
+			else if (name == "stepper_attribute_3")
+				disabled = !(*value > mins.at(PIETY));
+			else if (name == "stepper_attribute_4")
+				disabled = !(*value > mins.at(VITALITY));
+			else if (name == "stepper_attribute_5")
+				disabled = !(*value > mins.at(AGILITY));
+			else if (name == "stepper_attribute_6")
+				disabled = !(*value > mins.at(LUCK));
+		};
+
 		with_ID(stepper_minus.c_str()) {
-			if (ImGui::Button("-")) {
+
+			if (disabled)
+				ImGui::BeginDisabled();
+			if (ImGui::Button("<")) {
 				_controller->handle_stepper_button_click(stepper_minus, this,
 														 false, value);
 			}
+			if (disabled)
+				ImGui::EndDisabled();
 		}
+
+		// const auto classes{_controller->get_character()->get_pos_class()};
 
 		pos.x += 1 * adj_grid_w;
 
@@ -2105,7 +2133,7 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 		pos.x += 2 * adj_grid_w;
 		ImGui::SetCursorPos(pos);
 		with_ID(stepper_plus.c_str()) {
-			if (ImGui::Button("+")) {
+			if (ImGui::Button(">")) {
 				_controller->handle_stepper_button_click(stepper_minus, this,
 														 true, value);
 			}
