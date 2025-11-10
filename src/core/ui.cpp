@@ -2112,7 +2112,7 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 			if (disabled)
 				ImGui::BeginDisabled();
 			if (ImGui::Button("<")) {
-				_controller->handle_stepper_button_click(stepper_minus, this,
+				_controller->handle_stepper_button_click(stepper_plus, this,
 														 false, value);
 			}
 			if (disabled)
@@ -2130,13 +2130,24 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 		ImGui::SetCursorPos(pos);
 		ImGui::TextUnformatted(std::format("{:>2}", *value).c_str());
 
+		disabled = false;
+		if (component->name == "current_stats") {
+			if ((*value >= 18) ||
+				(_controller->get_character()->get_points_left() == 0))
+				disabled = true;
+		};
+
 		pos.x += 2 * adj_grid_w;
 		ImGui::SetCursorPos(pos);
 		with_ID(stepper_plus.c_str()) {
+			if (disabled)
+				ImGui::BeginDisabled();
 			if (ImGui::Button(">")) {
 				_controller->handle_stepper_button_click(stepper_minus, this,
 														 true, value);
 			}
+			if (disabled)
+				ImGui::EndDisabled();
 		}
 	}
 }

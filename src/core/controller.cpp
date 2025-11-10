@@ -973,7 +973,77 @@ auto Sorcery::Controller::handle_stepper_button_click(
 	const std::string &component, UI *ui, const bool positive, int *data)
 	-> void {
 
+	if (component.starts_with("##stepper_attribute_")) {
+
+		if (positive) {
+
+			// Up: If we have points left and the value is less than 18
+			if ((_create->get_points_left() > 0) && (*data <= 17)) {
+
+				(*data)++;
+				_create->set_points_left(_create->get_points_left() - 1);
+				_create->set_pos_class();
+			}
+
+		} else {
+
+			if (_create->get_points_left() < _create->get_start_points()) {
+
+				// Down: If we are above staring points
+				using enum Enums::Character::Attribute;
+				if (component == "##stepper_attribute_1") {
+					if (_create->get_cur_attr(STRENGTH) >
+						_create->get_start_attr(STRENGTH)) {
+						(*data)--;
+						_create->set_points_left(_create->get_points_left() +
+												 1);
+						_create->set_pos_class();
+					}
+				} else if (component == "##stepper_attribute_2") {
+					if (_create->get_cur_attr(IQ) >
+						_create->get_start_attr(IQ)) {
+						(*data)--;
+						_create->set_points_left(_create->get_points_left() +
+												 1);
+						_create->set_pos_class();
+					}
+				} else if (component == "##stepper_attribute_3") {
+					if (_create->get_cur_attr(PIETY) >
+						_create->get_start_attr(PIETY)) {
+						(*data)--;
+						_create->set_points_left(_create->get_points_left() +
+												 1);
+						_create->set_pos_class();
+					}
+				} else if (component == "##stepper_attribute_4") {
+					if (_create->get_cur_attr(VITALITY) >
+						_create->get_start_attr(VITALITY)) {
+						(*data)--;
+						_create->set_points_left(_create->get_points_left() +
+												 1);
+						_create->set_pos_class();
+					}
+				} else if (component == "##stepper_attribute_5") {
+					if (_create->get_cur_attr(AGILITY) >
+						_create->get_start_attr(AGILITY)) {
+						(*data)--;
+						_create->set_points_left(_create->get_points_left() +
+												 1);
+						_create->set_pos_class();
+					}
+				} else if (component == "##stepper_attribute_6") {
+					if (_create->get_cur_attr(LUCK) >
+						_create->get_start_attr(LUCK)) {
+						(*data)--;
+						_create->set_points_left(_create->get_points_left() +
+												 1);
+						_create->set_pos_class();
+					}
+				}
+			}
+		}
 	};
+};
 
 auto Sorcery::Controller::handle_input_button_click(
 	const std::string &component, UI *ui, std::string *data) -> void {
