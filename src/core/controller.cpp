@@ -991,7 +991,7 @@ auto Sorcery::Controller::handle_stepper_button_click(
 
 				// Down: If we are above staring points
 				using enum Enums::Character::Attribute;
-				if (component == "##stepper_attribute_1") {
+				if (component.starts_with("##stepper_attribute_1")) {
 					if (_create->get_cur_attr(STRENGTH) >
 						_create->get_start_attr(STRENGTH)) {
 						(*data)--;
@@ -999,7 +999,7 @@ auto Sorcery::Controller::handle_stepper_button_click(
 												 1);
 						_create->set_pos_class();
 					}
-				} else if (component == "##stepper_attribute_2") {
+				} else if (component.starts_with("##stepper_attribute_2")) {
 					if (_create->get_cur_attr(IQ) >
 						_create->get_start_attr(IQ)) {
 						(*data)--;
@@ -1007,7 +1007,7 @@ auto Sorcery::Controller::handle_stepper_button_click(
 												 1);
 						_create->set_pos_class();
 					}
-				} else if (component == "##stepper_attribute_3") {
+				} else if (component.starts_with("##stepper_attribute_3")) {
 					if (_create->get_cur_attr(PIETY) >
 						_create->get_start_attr(PIETY)) {
 						(*data)--;
@@ -1015,7 +1015,7 @@ auto Sorcery::Controller::handle_stepper_button_click(
 												 1);
 						_create->set_pos_class();
 					}
-				} else if (component == "##stepper_attribute_4") {
+				} else if (component.starts_with("##stepper_attribute_4")) {
 					if (_create->get_cur_attr(VITALITY) >
 						_create->get_start_attr(VITALITY)) {
 						(*data)--;
@@ -1023,7 +1023,7 @@ auto Sorcery::Controller::handle_stepper_button_click(
 												 1);
 						_create->set_pos_class();
 					}
-				} else if (component == "##stepper_attribute_5") {
+				} else if (component.starts_with("##stepper_attribute_5")) {
 					if (_create->get_cur_attr(AGILITY) >
 						_create->get_start_attr(AGILITY)) {
 						(*data)--;
@@ -1031,7 +1031,7 @@ auto Sorcery::Controller::handle_stepper_button_click(
 												 1);
 						_create->set_pos_class();
 					}
-				} else if (component == "##stepper_attribute_6") {
+				} else if (component.starts_with("##stepper_attribute_6")) {
 					if (_create->get_cur_attr(LUCK) >
 						_create->get_start_attr(LUCK)) {
 						(*data)--;
@@ -1216,6 +1216,56 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		if (selection == (static_cast<int>(items.size()) - 1))
 			move_screen("show_create", "show_method");
 		else {
+			if (_create->get_points_left() == 0) {
+
+				_create->set_class(
+					magic_enum::enum_cast<Enums::Character::Class>(selection +
+																   1)
+						.value());
+				_create->set_stage(Enums::Character::Stage::REVIEW_AND_CONFIRM);
+				_create->finalise();
+
+				// TODO: refactor this
+				_create->inventory.clear();
+
+				switch (
+					_create->get_class()) { // NOLINT(clang-diagnostic-switch)
+					using enum Enums::Character::Class;
+					using enum Enums::Items::TypeID;
+				case FIGHTER:
+				case LORD:
+				case SAMURAI:
+					_create->inventory.add_type(
+						(*_resources->items)[LEATHER_ARMOR], true);
+					_create->inventory.add_type(
+						(*_resources->items)[LONG_SWORD], true);
+					break;
+				case MAGE:
+					_create->inventory.add_type((*_resources->items)[ROBES],
+												true);
+					_create->inventory.add_type((*_resources->items)[DAGGER],
+												true);
+					break;
+				case PRIEST:
+				case BISHOP:
+					_create->inventory.add_type((*_resources->items)[ROBES],
+												true);
+					_create->inventory.add_type((*_resources->items)[STAFF],
+												true);
+					break;
+				case THIEF:
+				case NINJA:
+					_create->inventory.add_type(
+						(*_resources->items)[LEATHER_ARMOR], true);
+					_create->inventory.add_type(
+						(*_resources->items)[SHORT_SWORD], true);
+				default:
+					break;
+				}
+
+				set_flag("want_choose_confirm");
+				unset_flag("want_choose_class");
+			}
 		};
 	} else if (component == "method_menu") {
 

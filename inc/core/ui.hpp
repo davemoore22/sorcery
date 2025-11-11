@@ -202,6 +202,7 @@ class UI {
 		auto _display_create_race(Game *game, const int stage) -> void;
 		auto _display_create_alignment(Game *game, const int stage) -> void;
 		auto _display_create_class(Game *game, const int stage) -> void;
+		auto _display_create_confirm(Game *game, const int stage) -> void;
 		auto _display_heal(Game *game, const int stage) -> void;
 		auto _display_inspect(Game *game, const int mode) -> void;
 		auto _display_level_up(Game *game, const int mode) -> void;
@@ -237,6 +238,7 @@ class UI {
 		auto _draw_create_race(Game *game, const int mode) -> void;
 		auto _draw_create_alignment(Game *game, const int mode) -> void;
 		auto _draw_create_class(Game *game, const int mode) -> void;
+		auto _draw_create_confirm(Game *game, const int mode) -> void;
 		auto _draw_compass(Game *game) -> void;
 		auto _draw_components(std::string_view screen, Game *game = nullptr,
 							  const int mode = -1) -> void;

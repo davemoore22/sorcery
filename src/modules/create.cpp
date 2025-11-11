@@ -61,6 +61,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 	_controller->unset_flag("want_choose_race");
 	_controller->unset_flag("want_choose_alignment");
 	_controller->unset_flag("want_choose_class");
+	_controller->unset_flag("want_choose_confirm");
 	_controller->set_method(Enums::Character::Method::NO_METHOD);
 	_controller->set_selected("class_selected", 8);
 
@@ -200,6 +201,52 @@ auto Sorcery::Create::start(Game *game) -> int {
 										   _controller->has_flag(
 											   "show_training_grounds")) {
 									return BACK_TO_TRAINING_GROUNDS;
+								}
+
+								if (!_controller->has_flag(
+										"want_choose_class") &&
+									_controller->has_flag(
+										"want_choose_confirm")) {
+
+									while (!done) {
+
+										// Move to the next stage
+										while (SDL_PollEvent(&event)) {
+
+											// Check for Quit Events
+											ImGui_ImplSDL2_ProcessEvent(&event);
+											done = _controller->check_for_abort(
+												event);
+
+											// Check for Window Resize
+											_controller->check_for_resize(event,
+																		  _ui);
+
+											// Check for Back Event
+											if (_controller->check_for_back(
+													event)) {
+												return BACK_TO_CHOOSE_METHOD;
+											}
+										}
+
+										_ui->display("create_confirm", game,
+													 static_cast<int>(_stage));
+
+										if (!_controller->has_flag(
+												"show_create") &&
+											_controller->has_flag(
+												"show_method")) {
+											return BACK_TO_CHOOSE_METHOD;
+										} else if (!_controller->has_flag(
+													   "show_create") &&
+												   _controller->has_flag(
+													   "show_training_"
+													   "grounds")) {
+											return BACK_TO_TRAINING_GROUNDS;
+										}
+
+										// Final if here
+									}
 								}
 							}
 						}

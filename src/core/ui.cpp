@@ -233,6 +233,10 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 		_display_create_alignment(game, n);
 	};
 
+	_draw_game_int["create_confirm"] = [this](Game *game, int n) {
+		_display_create_confirm(game, n);
+	};
+
 	_draw_game_int["create_class"] = [this](Game *game, int n) {
 		_display_create_class(game, n);
 	};
@@ -1760,6 +1764,20 @@ auto Sorcery::UI::_draw_create_alignment(Game *game, const int mode) -> void {
 	_draw_text(&cmp_summary, summary_text);
 }
 
+auto Sorcery::UI::_draw_create_confirm(Game *game, const int mode) -> void {
+
+	auto cmp_summary{(*components)["create_confirm:summary_text"]};
+	auto summary_text{_controller->get_character()->summary_text()};
+	_draw_text(&cmp_summary, summary_text);
+
+	auto cmp_char{(*components)["create_confirm:character_data"]};
+	with_Window(WINDOW_LAYER_TEXTS, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+		set_Font(fontstore->get_current_font(cmp_char.font).value());
+		_draw_character_summary(&cmp_char, game, _controller->get_character());
+	}
+}
+
 auto Sorcery::UI::_draw_create_class(Game *game, const int mode) -> void {
 
 	auto cmp_summary{(*components)["create_class:summary_text"]};
@@ -1811,6 +1829,13 @@ auto Sorcery::UI::_display_create_alignment(Game *game, const int mode)
 
 	_draw_components("create_alignment", game, mode);
 	_draw_create_alignment(game, mode);
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_create_confirm(Game *game, const int mode) -> void {
+
+	_draw_components("create_confirm", game, mode);
+	_draw_create_confirm(game, mode);
 	_draw_cursor();
 }
 

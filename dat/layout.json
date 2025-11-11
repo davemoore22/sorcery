@@ -1446,7 +1446,7 @@
 					"x": "centre",
 					"y": "28",
 					"font": "proportional",
-					"colour": "0x888888ff",
+					"colour": "0xffffffff",
 					"size": "32",
 					"string": "SPLASH_SUBTITLE",
 					"justification": "centre",
@@ -3008,6 +3008,178 @@
 					"data": [
 						{
 							"capacity": "17"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "create_confirm",
+			"component": [
+				{
+					"name": "background_image",
+					"x": "0",
+					"y": "0",
+					"type": "image_bg",
+					"drawmode": "automatic",
+					"priority": "0",
+					"alpha": "1.0",
+					"data": [
+						{
+							"source": "background-mm.png",
+							"scale": "1.0"
+						}
+					]
+				},
+				{
+					"name": "character_data",
+					"type": "other",
+					"x": "11",
+					"y": "12",
+					"w": "30",
+					"h": "17",
+					"string": "",
+					"font": "monospace",
+					"drawmode": "manual",
+					"priority": "3",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "outer_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "2",
+					"w": "44",
+					"h": "31",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"title": "CREATE_TITLE"
+						}
+					]
+				},
+				{
+					"name": "inner_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "5",
+					"w": "38",
+					"h": "26",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "character_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "10",
+					"w": "40",
+					"h": "16",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "3",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "summary_frame",
+					"w": "40",
+					"h": "3",
+					"x": "centre",
+					"y": "5",
+					"alpha": "255",
+					"type": "frame",
+					"priority": "2",
+					"background": " 0x000000ff"
+				},
+				{
+					"name": "summary_text",
+					"x": "centre",
+					"y": "6",
+					"alpha": "255",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "NONE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "3",
+					"drawmode": "manual"
+				},
+				{
+					"name": "stage_frame",
+					"w": "40",
+					"h": "3",
+					"x": "centre",
+					"y": "28",
+					"alpha": "255",
+					"type": "frame",
+					"priority": "2",
+					"drawmode": "automatic",
+					"background": " 0x000000ff"
+				},
+				{
+					"name": "stage_text",
+					"x": "16",
+					"y": "29",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "CREATE_STAGE_5",
+					"justification": "centre",
+					"type": "text",
+					"priority": "3",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "button_keep_yes",
+					"type": "button",
+					"x": "38",
+					"y": "29",
+					"w": "3",
+					"h": "1",
+					"font": "monospace",
+					"string": "DIALOG_YES",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"adjust_y": "-4"
+						}
+					]
+				},
+				{
+					"name": "button_keep_no",
+					"type": "button",
+					"x": "42",
+					"y": "29",
+					"w": "3",
+					"h": "1",
+					"font": "monospace",
+					"string": "DIALOG_NO",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"adjust_y": "-4"
 						}
 					]
 				}
