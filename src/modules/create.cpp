@@ -99,7 +99,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 			_controller->has_flag("show_method")) {
 			return BACK_TO_CHOOSE_METHOD;
 		} else if (!_controller->has_flag("show_create") &&
-				   _controller->has_flag("show_training_grounds")) {
+				   _controller->has_flag("show_training")) {
 			return BACK_TO_TRAINING_GROUNDS;
 		}
 
@@ -132,7 +132,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 					_controller->has_flag("show_method")) {
 					return BACK_TO_CHOOSE_METHOD;
 				} else if (!_controller->has_flag("show_create") &&
-						   _controller->has_flag("show_training_grounds")) {
+						   _controller->has_flag("show_training")) {
 					return BACK_TO_TRAINING_GROUNDS;
 				}
 
@@ -164,8 +164,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 							_controller->has_flag("show_method")) {
 							return BACK_TO_CHOOSE_METHOD;
 						} else if (!_controller->has_flag("show_create") &&
-								   _controller->has_flag(
-									   "show_training_grounds")) {
+								   _controller->has_flag("show_training")) {
 							return BACK_TO_TRAINING_GROUNDS;
 						}
 
@@ -199,7 +198,7 @@ auto Sorcery::Create::start(Game *game) -> int {
 								} else if (!_controller->has_flag(
 											   "show_create") &&
 										   _controller->has_flag(
-											   "show_training_grounds")) {
+											   "show_training")) {
 									return BACK_TO_TRAINING_GROUNDS;
 								}
 
@@ -229,9 +228,6 @@ auto Sorcery::Create::start(Game *game) -> int {
 											}
 										}
 
-										_ui->display("create_confirm", game,
-													 static_cast<int>(_stage));
-
 										if (!_controller->has_flag(
 												"show_create") &&
 											_controller->has_flag(
@@ -240,12 +236,12 @@ auto Sorcery::Create::start(Game *game) -> int {
 										} else if (!_controller->has_flag(
 													   "show_create") &&
 												   _controller->has_flag(
-													   "show_training_"
-													   "grounds")) {
+													   "show_training")) {
 											return BACK_TO_TRAINING_GROUNDS;
 										}
 
-										// Final if here
+										_ui->display("create_confirm", game,
+													 static_cast<int>(_stage));
 									}
 								}
 							}

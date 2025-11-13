@@ -86,7 +86,7 @@ auto Sorcery::Method::start(Game *game) -> int {
 		_ui->display("method", game);
 
 		if (!_controller->has_flag("show_method") &&
-			_controller->has_flag("show_training_grounds")) {
+			_controller->has_flag("show_training")) {
 			game->save_game();
 			return BACK_TO_TRAINING_GROUNDS;
 		} else if (_controller->has_flag("show_create")) {

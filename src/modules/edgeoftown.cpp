@@ -83,7 +83,7 @@ auto Sorcery::EdgeOfTown::start(Game *game, const int mode) -> int {
 
 		// Handle shortcuts
 		if (mode == GO_TO_TRAINING)
-			_controller->set_flag("show_training_grounds");
+			_controller->set_flag("show_training");
 
 		if (_controller->has_flag("want_leave_game")) {
 			game->move_party_to_tavern();
@@ -97,7 +97,7 @@ auto Sorcery::EdgeOfTown::start(Game *game, const int mode) -> int {
 			return EDGE_OF_TOWN_GO_TO_CASTLE;
 
 		// Check for the results of something being selected from a menu
-		if (_controller->has_flag("show_training_grounds")) {
+		if (_controller->has_flag("show_training")) {
 			game->move_party_to_tavern();
 			game->save_game();
 			_training_grounds->start(game);

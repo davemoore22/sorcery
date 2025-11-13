@@ -57,7 +57,7 @@ auto Sorcery::Training::start(Game *game) -> int {
 	_method->stop(game);
 
 	_controller->initialise("training_grounds");
-	_controller->set_flag("show_training_grounds");
+	_controller->set_flag("show_training");
 
 	// Main loop
 	auto done{false};
@@ -86,7 +86,7 @@ auto Sorcery::Training::start(Game *game) -> int {
 
 		_ui->display("training_grounds", game);
 
-		if (!_controller->has_flag("show_training_grounds") &&
+		if (!_controller->has_flag("show_training") &&
 			_controller->has_flag("show_edge_of_town")) {
 			game->save_game();
 			return BACK_TO_EDGE_OF_TOWN;
@@ -99,7 +99,7 @@ auto Sorcery::Training::start(Game *game) -> int {
 
 auto Sorcery::Training::stop() -> int {
 
-	_controller->unset_flag("show_training_grounds");
+	_controller->unset_flag("show_training");
 
 	return 0;
 }

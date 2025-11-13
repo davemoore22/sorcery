@@ -30,6 +30,7 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "gui/modal.hpp"
+#include "types/character.hpp"
 #include "types/game.hpp"
 #include "types/item.hpp"
 #include "types/state.hpp"
@@ -605,7 +606,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			move_screen("show_edge_of_town", "show_castle");
 			break;
 		case EDGE_OF_TOWN_GO_TO_TRAINING:
-			move_screen("show_edge_of_town", "show_training_grounds");
+			move_screen("show_edge_of_town", "show_training");
 			break;
 		case EDGE_OF_TOWN_RESTART:
 			move_screen("show_edge_of_town", "show_restart");
@@ -1109,6 +1110,27 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		ui->modal_invoke->regenerate(this, _game);
 		ui->modal_invoke->show = true;
 		set_flag("want_invoke");
+	} else if (component == "button_keep_yes") {
+
+		// Save Character
+		_create->set_stage(Enums::Character::Stage::COMPLETED);
+		_create->set_location(Enums::Character::Location::TAVERN);
+
+		Character pc{*_create};
+		auto char_id{_game->save_character(pc)};
+		_game->characters[char_id] = pc;
+		_game->save_game();
+		_create->reset(Enums::Character::Stage::CHOOSE_METHOD);
+		unset_flag("create_confirm");
+		unset_flag("show_create");
+		set_flag("show_training");
+
+	} else if (component == "button_keep_no") {
+
+		_create->reset(Enums::Character::Stage::CHOOSE_METHOD);
+		unset_flag("create_confirm");
+		unset_flag("show_create");
+		set_flag("show_training");
 	}
 }
 
@@ -1270,7 +1292,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "method_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_method", "show_training_grounds");
+			move_screen("show_method", "show_training");
 		else {
 
 			// Which method of character creation do we want to do?
@@ -1327,9 +1349,9 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Training Grounds
 		if (selection == TRAINING_CREATE)
-			move_screen("show_training_grounds", "show_method");
+			move_screen("show_training", "show_method");
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_training_grounds", "show_edge_of_town");
+			move_screen("show_training", "show_edge_of_town");
 	} else if (component == "bestiary_menu") {
 
 		// Bestiary
