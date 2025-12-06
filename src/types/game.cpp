@@ -285,17 +285,11 @@ auto Sorcery::Game::delete_character(unsigned int char_id) -> void {
 auto Sorcery::Game::_clear() -> void {
 
 	// Clear existing data!
-	if (state.get()) {
-		state.release();
-		state.reset();
-	}
-	if (levels.get()) {
-		levels.release();
-		levels.reset();
-	}
-
+	state.reset();
+	levels.reset();
 	characters.clear();
 	_char_ids.clear();
+
 	state = std::make_unique<State>(_system);
 	levels =
 		std::make_unique<LevelStore>(_system, (*_system->files)[MAPS_FILE]);

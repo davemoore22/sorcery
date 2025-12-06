@@ -99,11 +99,15 @@ auto Sorcery::Component::operator[](std::string_view key) const
 auto Sorcery::Component::set(std::string_view key, std::string_view value)
 	-> void {
 
-	auto it{std::ranges::find_if(_data.begin(), _data.end(), [&key](auto item) {
-		return item.first == key;
-	})};
+	auto it{std::ranges::find_if(_data.begin(), _data.end(),
+								 [&key](const auto &item) {
+									 return item.first == key;
+								 })};
+
 	if (it == _data.end())
-		_data.emplace_back(key, value);
+		_data.emplace_back(std::string{key}, std::string{value});
+	else
+		it->second = std::string{value};
 }
 
 auto Sorcery::Component::set_enabled(bool value) -> void {
@@ -129,11 +133,13 @@ auto Sorcery::Component::get_visible() const -> bool {
 auto Sorcery::Component::get(std::string_view key) const
 	-> std::optional<std::string> {
 
-	if (_data.capacity() == 0)
+	if (_data.empty())
 		return std::nullopt;
-	auto it{std::ranges::find_if(_data.begin(), _data.end(), [&key](auto item) {
-		return item.first == std::string{key};
-	})};
+
+	auto it{std::ranges::find_if(_data.begin(), _data.end(),
+								 [&key](const auto &item) {
+									 return item.first == key;
+								 })};
 
 	if (it != _data.end())
 		return it->second;

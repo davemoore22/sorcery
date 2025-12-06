@@ -69,10 +69,8 @@ auto Sorcery::State::print() -> void {
 auto Sorcery::State::_clear() -> void {
 
 	_party.clear();
-	if (level.get()) {
-		level.release();
-		level.reset();
-	}
+
+	level.reset();
 	level = std::make_unique<Level>();
 	_clear_explored();
 	_version = 1;
@@ -102,11 +100,7 @@ auto Sorcery::State::_clear_explored() -> void {
 
 auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
 
-	if (_party.size() < 6) {
-		_party.push_back(char_id);
-		return true;
-	} else
-		return false;
+	return add_character_to_party(char_id);
 }
 
 auto Sorcery::State::reorder_party(std::vector<unsigned int> &new_order)
@@ -211,7 +205,7 @@ auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
 	if (_party.size() > 0) {
 		const auto found{
 			std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
-				return id = char_id;
+				return id == char_id;
 			})};
 		return found != std::end(_party);
 	} else
@@ -295,22 +289,26 @@ auto Sorcery::State::get_next_party_character(unsigned int character_id)
 	-> std::optional<unsigned int> {
 
 	auto index{get_char_slot(character_id)};
-	if (index) {
-		auto val{index.value()};
-		return val == _party.size() ? 1 : val++;
-	} else
-		return character_id;
+	if (!index)
+		return std::nullopt;
+
+	auto slot{index.value()}; // 1-based
+	auto next_slot{slot == _party.size() ? 1u : slot + 1u};
+
+	return _party.at(next_slot - 1); // return character ID
 }
 
 auto Sorcery::State::get_previous_party_character(unsigned int character_id)
 	-> std::optional<unsigned int> {
 
 	auto index{get_char_slot(character_id)};
-	if (index) {
-		auto val{index.value()};
-		return val == 1 ? _party.size() : val--;
-	} else
-		return character_id;
+	if (!index)
+		return std::nullopt;
+
+	auto slot{index.value()}; // 1-based
+	auto prev_slot{slot == 1u ? _party.size() : slot - 1u};
+
+	return _party.at(prev_slot - 1); // return character ID
 }
 
 auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
