@@ -714,30 +714,6 @@ src/engine/engine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/engine/engine.cpp.s
 .PHONY : src/engine/engine.cpp.s
 
-src/ext/backward.o: src/ext/backward.cpp.o
-.PHONY : src/ext/backward.o
-
-# target to build an object file
-src/ext/backward.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/ext/backward.cpp.o
-.PHONY : src/ext/backward.cpp.o
-
-src/ext/backward.i: src/ext/backward.cpp.i
-.PHONY : src/ext/backward.i
-
-# target to preprocess a source file
-src/ext/backward.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/ext/backward.cpp.i
-.PHONY : src/ext/backward.cpp.i
-
-src/ext/backward.s: src/ext/backward.cpp.s
-.PHONY : src/ext/backward.s
-
-# target to generate assembly for a file
-src/ext/backward.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/ext/backward.cpp.s
-.PHONY : src/ext/backward.cpp.s
-
 src/frontend/atlas.o: src/frontend/atlas.cpp.o
 .PHONY : src/frontend/atlas.o
 
@@ -1122,6 +1098,30 @@ src/gui/popup.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/popup.cpp.s
 .PHONY : src/gui/popup.cpp.s
 
+src/gui/videoplayer.o: src/gui/videoplayer.cpp.o
+.PHONY : src/gui/videoplayer.o
+
+# target to build an object file
+src/gui/videoplayer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/videoplayer.cpp.o
+.PHONY : src/gui/videoplayer.cpp.o
+
+src/gui/videoplayer.i: src/gui/videoplayer.cpp.i
+.PHONY : src/gui/videoplayer.i
+
+# target to preprocess a source file
+src/gui/videoplayer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/videoplayer.cpp.i
+.PHONY : src/gui/videoplayer.cpp.i
+
+src/gui/videoplayer.s: src/gui/videoplayer.cpp.s
+.PHONY : src/gui/videoplayer.s
+
+# target to generate assembly for a file
+src/gui/videoplayer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/videoplayer.cpp.s
+.PHONY : src/gui/videoplayer.cpp.s
+
 src/modules/add.o: src/modules/add.cpp.o
 .PHONY : src/modules/add.o
 
@@ -1193,6 +1193,30 @@ src/modules/choose.s: src/modules/choose.cpp.s
 src/modules/choose.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/choose.cpp.s
 .PHONY : src/modules/choose.cpp.s
+
+src/modules/create.o: src/modules/create.cpp.o
+.PHONY : src/modules/create.o
+
+# target to build an object file
+src/modules/create.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/create.cpp.o
+.PHONY : src/modules/create.cpp.o
+
+src/modules/create.i: src/modules/create.cpp.i
+.PHONY : src/modules/create.i
+
+# target to preprocess a source file
+src/modules/create.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/create.cpp.i
+.PHONY : src/modules/create.cpp.i
+
+src/modules/create.s: src/modules/create.cpp.s
+.PHONY : src/modules/create.s
+
+# target to generate assembly for a file
+src/modules/create.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/create.cpp.s
+.PHONY : src/modules/create.cpp.s
 
 src/modules/edgeoftown.o: src/modules/edgeoftown.cpp.o
 .PHONY : src/modules/edgeoftown.o
@@ -1313,6 +1337,30 @@ src/modules/levelup.s: src/modules/levelup.cpp.s
 src/modules/levelup.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/levelup.cpp.s
 .PHONY : src/modules/levelup.cpp.s
+
+src/modules/method.o: src/modules/method.cpp.o
+.PHONY : src/modules/method.o
+
+# target to build an object file
+src/modules/method.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/method.cpp.o
+.PHONY : src/modules/method.cpp.o
+
+src/modules/method.i: src/modules/method.cpp.i
+.PHONY : src/modules/method.i
+
+# target to preprocess a source file
+src/modules/method.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/method.cpp.i
+.PHONY : src/modules/method.cpp.i
+
+src/modules/method.s: src/modules/method.cpp.s
+.PHONY : src/modules/method.s
+
+# target to generate assembly for a file
+src/modules/method.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/method.cpp.s
+.PHONY : src/modules/method.cpp.s
 
 src/modules/nolevelup.o: src/modules/nolevelup.cpp.o
 .PHONY : src/modules/nolevelup.o
@@ -1649,6 +1697,30 @@ src/resources/filestore.s: src/resources/filestore.cpp.s
 src/resources/filestore.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/filestore.cpp.s
 .PHONY : src/resources/filestore.cpp.s
+
+src/resources/fontstore.o: src/resources/fontstore.cpp.o
+.PHONY : src/resources/fontstore.o
+
+# target to build an object file
+src/resources/fontstore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/fontstore.cpp.o
+.PHONY : src/resources/fontstore.cpp.o
+
+src/resources/fontstore.i: src/resources/fontstore.cpp.i
+.PHONY : src/resources/fontstore.i
+
+# target to preprocess a source file
+src/resources/fontstore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/fontstore.cpp.i
+.PHONY : src/resources/fontstore.cpp.i
+
+src/resources/fontstore.s: src/resources/fontstore.cpp.s
+.PHONY : src/resources/fontstore.s
+
+# target to generate assembly for a file
+src/resources/fontstore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/fontstore.cpp.s
+.PHONY : src/resources/fontstore.cpp.s
 
 src/resources/imagestore.o: src/resources/imagestore.cpp.o
 .PHONY : src/resources/imagestore.o
@@ -2283,9 +2355,6 @@ help:
 	@echo "... src/engine/engine.o"
 	@echo "... src/engine/engine.i"
 	@echo "... src/engine/engine.s"
-	@echo "... src/ext/backward.o"
-	@echo "... src/ext/backward.i"
-	@echo "... src/ext/backward.s"
 	@echo "... src/frontend/atlas.o"
 	@echo "... src/frontend/atlas.i"
 	@echo "... src/frontend/atlas.s"
@@ -2334,6 +2403,9 @@ help:
 	@echo "... src/gui/popup.o"
 	@echo "... src/gui/popup.i"
 	@echo "... src/gui/popup.s"
+	@echo "... src/gui/videoplayer.o"
+	@echo "... src/gui/videoplayer.i"
+	@echo "... src/gui/videoplayer.s"
 	@echo "... src/modules/add.o"
 	@echo "... src/modules/add.i"
 	@echo "... src/modules/add.s"
@@ -2343,6 +2415,9 @@ help:
 	@echo "... src/modules/choose.o"
 	@echo "... src/modules/choose.i"
 	@echo "... src/modules/choose.s"
+	@echo "... src/modules/create.o"
+	@echo "... src/modules/create.i"
+	@echo "... src/modules/create.s"
 	@echo "... src/modules/edgeoftown.o"
 	@echo "... src/modules/edgeoftown.i"
 	@echo "... src/modules/edgeoftown.s"
@@ -2358,6 +2433,9 @@ help:
 	@echo "... src/modules/levelup.o"
 	@echo "... src/modules/levelup.i"
 	@echo "... src/modules/levelup.s"
+	@echo "... src/modules/method.o"
+	@echo "... src/modules/method.i"
+	@echo "... src/modules/method.s"
 	@echo "... src/modules/nolevelup.o"
 	@echo "... src/modules/nolevelup.i"
 	@echo "... src/modules/nolevelup.s"
@@ -2400,6 +2478,9 @@ help:
 	@echo "... src/resources/filestore.o"
 	@echo "... src/resources/filestore.i"
 	@echo "... src/resources/filestore.s"
+	@echo "... src/resources/fontstore.o"
+	@echo "... src/resources/fontstore.i"
+	@echo "... src/resources/fontstore.s"
 	@echo "... src/resources/imagestore.o"
 	@echo "... src/resources/imagestore.i"
 	@echo "... src/resources/imagestore.s"
