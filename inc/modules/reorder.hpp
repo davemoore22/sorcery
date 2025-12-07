@@ -30,32 +30,25 @@
 namespace Sorcery {
 
 // Forward Declarations
-class Controller;
-class Display;
+struct Context;
 class Game;
-class System;
-class UI;
 
 class Reorder {
 
 	public:
 		// Standard Constructor
-		Reorder(System *system, Display *display, UI *ui,
-				Controller *controller);
+		Reorder(Context &ctx);
 
 		// Public Methods
-		auto start(Game *game, const int mode) -> int;
-		auto stop(Game *game, const int mode) -> int;
+		auto start(const int mode) -> int;
+		auto stop(const int mode) -> int;
 
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 };
 
 };

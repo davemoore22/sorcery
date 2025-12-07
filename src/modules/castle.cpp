@@ -22,6 +22,7 @@
 
 #include "modules/castle.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -39,33 +40,31 @@
 #include "modules/tavern.hpp"
 #include "types/game.hpp"
 
-Sorcery::Castle::Castle(Application *application, System *system,
-						Display *display, UI *ui, Controller *controller)
-	: _application{application},
-	  _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Castle::Castle(Context &ctx)
+	: _ctx{ctx} {
 
-	_tavern = std::make_unique<Tavern>(_system, _display, _ui, _controller);
-	_inn = std::make_unique<Inn>(_system, _display, _ui, _controller);
-	_shop = std::make_unique<Shop>(_system, _display, _ui, _controller);
-	_temple = std::make_unique<Temple>(_system, _display, _ui, _controller);
+	_tavern = std::make_unique<Tavern>(_ctx);
+	_inn = std::make_unique<Inn>(_ctx.system, _ctx.display, _ctx.ui,
+								 _ctx.controller);
+	_shop = std::make_unique<Shop>(_ctx.system, _ctx.display, _ctx.ui,
+								   _ctx.controller);
+	_temple = std::make_unique<Temple>(_ctx.system, _ctx.display, _ctx.ui,
+									   _ctx.controller);
 
 	_initialise();
 };
 
 auto Sorcery::Castle::_initialise() -> bool {
 
-	_controller->set_selected("party_panel_selected", 0);
+	_ctx.controller->set_selected("party_panel_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Castle::start(Game *game) -> int {
+auto Sorcery::Castle::start() -> int {
 
-	_controller->initialise("castle");
-	_controller->set_flag("show_castle");
+	_ctx.controller->initialise("castle");
+	_ctx.controller->set_flag("show_castle");
 
 	// Main loop
 	auto done{false};
@@ -76,43 +75,43 @@ auto Sorcery::Castle::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			_controller->check_for_back(event, _ui->dialog_leave->show);
+			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
 
 			// Check for Debug
-			_controller->check_for_debug(event);
+			_ctx.controller->check_for_debug(event);
 		}
 
-		_ui->display("castle", game);
+		_ctx.ui->display("castle", _ctx.game);
 
-		if (_controller->has_flag("want_leave_game")) {
-			game->move_party_to_tavern();
-			game->save_game();
-			_controller->set_game(nullptr);
+		if (_ctx.controller->has_flag("want_leave_game")) {
+			_ctx.game->move_party_to_tavern();
+			_ctx.game->save_game();
+			_ctx.controller->set_game(nullptr);
 			return LEAVE_GAME;
-		} else if (_controller->has_flag("want_abort"))
+		} else if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_controller->has_flag("show_castle") &&
-				 _controller->has_flag("show_edge_of_town"))
+		else if (!_ctx.controller->has_flag("show_castle") &&
+				 _ctx.controller->has_flag("show_edge_of_town"))
 			return CASTLE_GO_TO_EDGE_OF_TOWN;
 
 		// Check for the results of something being selected from a menu
-		if (_controller->has_flag("show_tavern")) {
-			_tavern->start(game);
+		if (_ctx.controller->has_flag("show_tavern")) {
+			_tavern->start();
 			_tavern->stop();
-		} else if (_controller->has_flag("show_inn")) {
-			_inn->start(game);
+		} else if (_ctx.controller->has_flag("show_inn")) {
+			_inn->start(_ctx.game);
 			_inn->stop();
-		} else if (_controller->has_flag("show_shop")) {
-			_shop->start(game);
+		} else if (_ctx.controller->has_flag("show_shop")) {
+			_shop->start(_ctx.game);
 			_shop->stop();
-		} else if (_controller->has_flag("show_temple")) {
-			_temple->start(game);
+		} else if (_ctx.controller->has_flag("show_temple")) {
+			_temple->start(_ctx.game);
 			_temple->stop();
 		}
 	}
@@ -123,7 +122,7 @@ auto Sorcery::Castle::start(Game *game) -> int {
 
 auto Sorcery::Castle::stop() -> int {
 
-	_controller->unset_flag("show_castle");
+	_ctx.controller->unset_flag("show_castle");
 
 	return 0;
 }

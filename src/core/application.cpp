@@ -77,21 +77,35 @@ Sorcery::Application::Application(int argc, char **argv) {
 							   _controller.get());
 	_game = std::make_unique<Game>(_system.get(), _resources.get());
 
+	// And the Context for DI
+	ctx = Context{};
+	ctx.application = this;
+	ctx.system = _system.get();
+	ctx.resources = _resources.get();
+	ctx.ui = _ui.get();
+	ctx.controller = _controller.get();
+	ctx.display = _display.get();
+	ctx.game = _game.get();
+	ctx.animation = _system->animation.get();
+	ctx.config = _system->config.get();
+	ctx.database = _system->db.get();
+	ctx.files = _system->files.get();
+	ctx.random = _system->random.get();
+	ctx.strings = _system->strings.get();
+	ctx.components = _ui->components.get();
+	ctx.images = _ui->images.get();
+	ctx.fonts = _ui->fontstore.get();
+
 	// Frontend Game Modules
-	_main_menu = std::make_unique<MainMenu>(_system.get(), _display.get(),
-											_ui.get(), _controller.get());
-	_splash = std::make_unique<Splash>(_system.get(), _display.get(), _ui.get(),
-									   _controller.get());
+	_main_menu = std::make_unique<MainMenu>(ctx);
+	_splash = std::make_unique<Splash>(ctx);
 
 	// Castle/Town/etc Modules
-	_castle = std::make_unique<Castle>(this, _system.get(), _display.get(),
-									   _ui.get(), _controller.get());
-	_edge_of_town = std::make_unique<EdgeOfTown>(
-		this, _system.get(), _display.get(), _ui.get(), _controller.get());
+	_castle = std::make_unique<Castle>(ctx);
+	_edge_of_town = std::make_unique<EdgeOfTown>(ctx);
 
 	// Game Engine
-	_engine = std::make_unique<Engine>(this, _system.get(), _display.get(),
-									   _ui.get(), _controller.get());
+	_engine = std::make_unique<Engine>(ctx);
 }
 
 auto Sorcery::Application::save_state_to_binary(const std::string &filename)
@@ -131,23 +145,23 @@ Sorcery::Application::~Application() {}
 
 auto Sorcery::Application::get_resources() const -> Resources * {
 
-	return _resources.get();
+	return ctx.resources;
 }
 
 // Start the Game
 auto Sorcery::Application::start() -> int {
 
-	_ui->start();
+	ctx.ui->start();
 
 	// Display Splash Screen (this will start loading resources)
 	_splash->start();
 	_splash->stop();
 
 	// Start relevant animation worker threads
-	_system->animation->refresh_colcyc();
-	_system->animation->start_colcycl_th();
-	_system->animation->refresh_wp();
-	_system->animation->start_wp_th();
+	ctx.system->animation->refresh_colcyc();
+	ctx.system->animation->start_colcycl_th();
+	ctx.system->animation->refresh_wp();
+	ctx.system->animation->start_wp_th();
 
 	// Now check for any command line parameters
 	auto done{false};
@@ -155,9 +169,9 @@ auto Sorcery::Application::start() -> int {
 
 	// Optionally skip images for speed to avoid loading them
 	if (_check_param(NO_IMAGES_PARAM))
-		_ui->images->show_images = false;
+		ctx.ui->images->show_images = false;
 
-	if (_check_param(CONTINUE_GAME_PARAM) && _controller->has_saved_game()) {
+	if (_check_param(CONTINUE_GAME_PARAM) && ctx.controller->has_saved_game()) {
 
 		// _game is set by this
 		_load_existing_game();
@@ -257,14 +271,15 @@ auto Sorcery::Application::start() -> int {
 		}
 	}
 
-	_ui->stop();
+	ctx.ui->stop();
 	return 0;
 };
 
 auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 
-	_game->restart_maze(_controller->get_character("restart"));
-	auto what{_engine->start(_game.get(), mode)};
+	ctx.game->restart_maze(ctx.controller->get_character("restart"));
+	ctx.game = _game.get();
+	auto what{_engine->start(mode)};
 	_engine->stop();
 
 	return what;
@@ -273,8 +288,8 @@ auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 // Do Maze
 auto Sorcery::Application::_do_start_expedition(const int mode) -> int {
 
-	_game->enter_maze();
-	auto what{_engine->start(_game.get(), mode)};
+	ctx.game->enter_maze();
+	auto what{_engine->start(mode)};
 	_engine->stop();
 
 	return what;
@@ -288,14 +303,14 @@ auto Sorcery::Application::_do_edge(const int mode) -> int {
 
 		// Limited selection here of choices here (for now) to cover just
 		// the additional command line parameters used for shortcuts
-		auto edge_what{_edge_of_town->start(_game.get(), mode)};
+		auto edge_what{_edge_of_town->start(mode)};
 		_edge_of_town->stop();
 
 		if (edge_what == EDGE_OF_TOWN_GO_TO_TRAINING)
 			return EDGE_OF_TOWN_GO_TO_TRAINING;
-		else if (_controller->has_flag("want_leave_game")) {
-			_game->save_game();
-			_controller->set_game(nullptr);
+		else if (ctx.controller->has_flag("want_leave_game")) {
+			ctx.game->save_game();
+			ctx.controller->set_game(nullptr);
 			return LEAVE_GAME;
 		} else if (edge_what == RETURN_TO_TOWN) {
 			continue;
@@ -312,12 +327,12 @@ auto Sorcery::Application::_do_town(const int mode) -> int {
 	auto done{false};
 	while (!done) {
 
-		auto castle_what{_castle->start(_game.get())};
+		auto castle_what{_castle->start()};
 		_castle->stop();
 
 		if (castle_what == CASTLE_GO_TO_EDGE_OF_TOWN) {
 
-			auto edge_what{_edge_of_town->start(_game.get(), mode)};
+			auto edge_what{_edge_of_town->start(mode)};
 			_edge_of_town->stop();
 
 			if (edge_what == EDGE_OF_TOWN_GO_TO_CASTLE)
@@ -331,8 +346,8 @@ auto Sorcery::Application::_do_town(const int mode) -> int {
 			else if (edge_what == EDGE_OF_TOWN_GO_TO_TRAINING)
 				return EDGE_OF_TOWN_GO_TO_TRAINING;
 			else if (_controller->has_flag("want_leave_game")) {
-				_game->save_game();
-				_controller->set_game(nullptr);
+				ctx.game->save_game();
+				ctx.controller->set_game(nullptr);
 				return LEAVE_GAME;
 			} else if (edge_what == RETURN_TO_TOWN) {
 				continue;
@@ -340,7 +355,7 @@ auto Sorcery::Application::_do_town(const int mode) -> int {
 
 		} else if (castle_what == ABORT_GAME)
 			return ABORT_GAME;
-		else if (_controller->has_flag("want_leave_game")) {
+		else if (ctx.controller->has_flag("want_leave_game")) {
 			_game->save_game();
 			return LEAVE_GAME;
 		}
@@ -353,22 +368,22 @@ auto Sorcery::Application::_do_town(const int mode) -> int {
 
 auto Sorcery::Application::_load_existing_game() -> void {
 
-	_controller->set_busy(true);
-	_ui->display_refresh();
-	_game->load_game();
-	_controller->set_busy(false);
-	_controller->set_game(_game.get());
+	ctx.controller->set_busy(true);
+	ctx.ui->display_refresh();
+	ctx.game->load_game();
+	ctx.controller->set_busy(false);
+	ctx.controller->set_game(ctx.game);
 }
 
 auto Sorcery::Application::_start_new_game(const bool quickstart) -> void {
 
-	_controller->set_busy(true);
-	_ui->display_refresh();
-	_game->wipe_data();
-	_game->create_game();
-	_game->save_game();
-	_controller->set_busy(false);
-	_controller->set_game(_game.get());
+	ctx.controller->set_busy(true);
+	ctx.ui->display_refresh();
+	ctx.game->wipe_data();
+	ctx.game->create_game();
+	ctx.game->save_game();
+	ctx.controller->set_busy(false);
+	ctx.controller->set_game(ctx.game);
 
 	if (quickstart)
 		_add_quickstart_party();
@@ -376,12 +391,12 @@ auto Sorcery::Application::_start_new_game(const bool quickstart) -> void {
 
 auto Sorcery::Application::_add_quickstart_party() -> void {
 
-	_game->state->clear_party();
+	ctx.game->state->clear_party();
 
 	// Create a new random party of a random alignment
 	using enum Enums::Character::Align;
 	auto first{NO_ALIGN}, second{NO_ALIGN}, align{NO_ALIGN};
-	if ((*_system->random)[Enums::System::Random::D2] == 1) {
+	if ((*ctx.random)[Enums::System::Random::D2] == 1) {
 		first = GOOD;
 		second = EVIL;
 	} else {
@@ -390,7 +405,7 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 	}
 
 	for (int i = 0; i < 12; i++) {
-		auto pc{Character(_system.get(), _resources.get())};
+		auto pc{Character(ctx.system, ctx.resources)};
 		align = i > 5 ? first : second;
 
 		switch (i % 6) {
@@ -428,23 +443,24 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 		case FIGHTER:
 		case LORD:
 		case SAMURAI:
-			pc.inventory.add_type((*_resources->items)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*_resources->items)[LONG_SWORD], true);
+			pc.inventory.add_type((*ctx.resources->items)[LEATHER_ARMOR], true);
+			pc.inventory.add_type((*ctx.resources->items)[LONG_SWORD], true);
 			break;
 		case MAGE:
-			pc.inventory.add_type((*_resources->items)[ROBES], true);
-			pc.inventory.add_type((*_resources->items)[DAGGER], true);
+			pc.inventory.add_type((*ctx.resources->items)[ROBES], true);
+			pc.inventory.add_type((*ctx.resources->items)[DAGGER], true);
 			break;
 		case PRIEST:
 		case BISHOP:
-			pc.inventory.add_type((*_resources->items)[ROBES], true);
-			pc.inventory.add_type((*_resources->items)[STAFF], true);
-			pc.inventory.add_type((*_resources->items)[AMULET_OF_WERDNA], true);
+			pc.inventory.add_type((*ctx.resources->items)[ROBES], true);
+			pc.inventory.add_type((*ctx.resources->items)[STAFF], true);
+			pc.inventory.add_type((*ctx.resources->items)[AMULET_OF_WERDNA],
+								  true);
 			break;
 		case THIEF:
 		case NINJA:
-			pc.inventory.add_type((*_resources->items)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*_resources->items)[SHORT_SWORD], true);
+			pc.inventory.add_type((*ctx.resources->items)[LEATHER_ARMOR], true);
+			pc.inventory.add_type((*ctx.resources->items)[SHORT_SWORD], true);
 		default:
 			break;
 		}
@@ -453,14 +469,14 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 			pc.set_location(Enums::Character::Location::PARTY);
 		else
 			pc.set_location(Enums::Character::Location::TAVERN);
-		auto char_id{_game->save_character(pc)};
+		auto char_id{ctx.game->save_character(pc)};
 
-		_game->characters[char_id] = pc;
+		ctx.game->characters[char_id] = pc;
 		if (i < 6)
-			_game->state->add_character_to_party(char_id);
+			ctx.game->state->add_character_to_party(char_id);
 	}
 
-	_game->save_game();
+	ctx.game->save_game();
 }
 
 auto Sorcery::Application::_continue_existing_game() -> int {
@@ -473,8 +489,8 @@ auto Sorcery::Application::_continue_existing_game() -> int {
 auto Sorcery::Application::stop() -> void {
 
 	// Stop relevant animation worker threads
-	_system->animation->stop_colcyc_th();
-	_system->animation->stop_wp_th();
+	ctx.animation->stop_colcyc_th();
+	ctx.animation->stop_wp_th();
 };
 
 // Check for a command line parameter

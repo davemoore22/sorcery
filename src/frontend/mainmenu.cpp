@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "frontend/mainmenu.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -31,17 +32,14 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 
-Sorcery::MainMenu::MainMenu(System *system, Display *display, UI *ui,
-							Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::MainMenu::MainMenu(Context &ctx)
+	: _ctx{ctx} {
 
-	_options = std::make_unique<Options>(_system, _display, _ui, _controller);
-	_license = std::make_unique<License>(_system, _display, _ui, _controller);
-	_compendium =
-		std::make_unique<Compendium>(_system, _display, _ui, _controller);
+	_options = std::make_unique<Options>(_ctx);
+	_license = std::make_unique<License>(_ctx.system, _ctx.display, _ctx.ui,
+										 _ctx.controller);
+	_compendium = std::make_unique<Compendium>(_ctx.system, _ctx.display,
+											   _ctx.ui, _ctx.controller);
 
 	_initialise();
 };
@@ -54,11 +52,11 @@ auto Sorcery::MainMenu::_initialise() -> bool {
 auto Sorcery::MainMenu::start() -> int {
 
 	// Clear all controller and flow flags
-	_controller->initialise("main_menu");
+	_ctx.controller->initialise("main_menu");
 
 	// Start relevant animation worker threads
-	_system->animation->refresh_attract();
-	_system->animation->start_attract_th();
+	_ctx.animation->refresh_attract();
+	_ctx.animation->start_attract_th();
 
 	// Main loop
 	auto done{false};
@@ -70,35 +68,35 @@ auto Sorcery::MainMenu::start() -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Back Event
-			_controller->check_for_resize(event, _ui);
-			_controller->check_for_back(event, _ui->dialog_exit->show);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
+			_ctx.controller->check_for_back(event, _ctx.ui->dialog_exit->show);
 		}
 
 		if (!done) {
 
-			_ui->display("main_menu");
+			_ctx.ui->display("main_menu");
 
 			// Check for the results of a Popup Dialog
-			if (_controller->has_flag("want_exit_game"))
+			if (_ctx.controller->has_flag("want_exit_game"))
 				return MAIN_MENU_EXIT_GAME;
-			else if (_controller->has_flag("want_new_game"))
+			else if (_ctx.controller->has_flag("want_new_game"))
 				return MAIN_MENU_NEW_GAME;
-			else if (_controller->has_flag("want_abort"))
+			else if (_ctx.controller->has_flag("want_abort"))
 				return ABORT_GAME;
-			else if (_controller->has_flag("want_continue_game"))
+			else if (_ctx.controller->has_flag("want_continue_game"))
 				return MAIN_MENU_CONTINUE_GAME;
 
 			// Check for the results of something being selected from a menu
-			if (_controller->has_flag("show_compendium")) {
+			if (_ctx.controller->has_flag("show_compendium")) {
 				_compendium->start();
 				_compendium->stop();
-			} else if (_controller->has_flag("show_options")) {
+			} else if (_ctx.controller->has_flag("show_options")) {
 				_options->start(false);
 				_options->stop();
-			} else if (_controller->has_flag("show_license")) {
+			} else if (_ctx.controller->has_flag("show_license")) {
 				_license->start();
 				_license->stop();
 			}

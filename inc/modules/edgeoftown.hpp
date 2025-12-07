@@ -32,22 +32,16 @@
 namespace Sorcery {
 
 // Forward Declarations
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
-class Application;
+struct Context;
 
 class EdgeOfTown {
 
 	public:
 		// Standard Constructor
-		EdgeOfTown(Application *application, System *system, Display *display,
-				   UI *ui, Controller *controller);
+		EdgeOfTown(Context &ctx);
 
 		// Public Methods
-		auto start(Game *game, const int mode) -> int;
+		auto start(const int mode) -> int;
 		auto stop() -> int;
 
 	private:
@@ -55,11 +49,8 @@ class EdgeOfTown {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Application *_application;
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
+
 		std::unique_ptr<Training> _training_grounds;
 		std::unique_ptr<Restart> _restart;
 };

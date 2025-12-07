@@ -26,27 +26,20 @@
 #include "common/types.hpp"
 #include "engine/enum.hpp"
 #include "engine/types.hpp"
-#include "frontend/options.hpp"
-#include "modules/inspect.hpp"
-#include "modules/reorder.hpp"
 
 namespace Sorcery {
 
-// Forward Declarations
+struct Context;
+class Options;
+class Inspect;
+class Reorder;
 class Application;
-class Character;
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
 
 class Engine {
 
 	public:
 		// Standard Constructor
-		Engine(Application *application, System *system, Display *display,
-			   UI *ui, Controller *controller);
+		Engine(Context &ctx);
 		Engine() = delete;
 
 		// Standard Destructor
@@ -55,7 +48,7 @@ class Engine {
 		// Public Members
 
 		// Public Methods
-		auto start(Game *game, const int mode) -> int;
+		auto start(const int mode) -> int;
 		auto stop() -> void;
 
 	private:
@@ -79,11 +72,9 @@ class Engine {
 
 		// Private Members
 		Application *_application;
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
-		Game *_game;
+
+		Context &_ctx;
+
 		std::unique_ptr<Options> _options;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;

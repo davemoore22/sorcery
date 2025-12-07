@@ -29,16 +29,12 @@
 
 namespace Sorcery {
 
-class Display;
-class UI;
-class Controller;
-class System;
+struct Context;
 
 class Options {
 
 	public:
-		Options(System *system, Display *display, UI *ui,
-				Controller *controller);
+		Options(Context &ctx);
 
 		auto start(const bool is_in_game) -> int;
 		auto stop() -> int;
@@ -46,10 +42,7 @@ class Options {
 	private:
 		auto _initialise() -> bool;
 
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		bool _is_in_game;
 		bool _fullscreen_before;
 		bool _monochrome_before;

@@ -21,8 +21,6 @@
 // the resulting work.
 
 #include "common/include.hpp"
-#include "core/system.hpp"
-#include "core/ui.hpp"
 
 #pragma once
 
@@ -40,62 +38,30 @@ class ImageStore;
 class ComponentStore;
 class Animation;
 class StringStore;
+class Random;
+class System;
+class UI;
+class Application;
 
 // Context struct for simplying DI
 struct Context {
 
+		Application *application = nullptr;
 		System *system = nullptr;
 		Resources *resources = nullptr;
 		UI *ui = nullptr;
 		Controller *controller = nullptr;
 		Display *display = nullptr;
 		Game *game = nullptr;
-
-		// Convenience helpers
-		auto animation() const {
-
-			return system->animation.get();
-		}
-
-		auto config() const -> Config * {
-
-			return system->config.get();
-		}
-
-		auto database() const -> Database * {
-
-			return system->db.get();
-		}
-
-		auto files() const -> FileStore * {
-
-			return system->files.get();
-		}
-
-		auto random() const {
-
-			return system->random.get();
-		}
-
-		auto strings() const {
-
-			return system->strings.get();
-		}
-
-		auto components() const -> ComponentStore * {
-
-			return ui->components.get();
-		}
-
-		auto fonts() const -> FontStore * {
-
-			return ui->fontstore.get();
-		}
-
-		auto images() const -> ImageStore * {
-
-			return ui->images.get();
-		}
+		Animation *animation = nullptr;
+		Config *config = nullptr;
+		Database *database = nullptr;
+		FileStore *files = nullptr;
+		Random *random = nullptr;
+		StringStore *strings = nullptr;
+		ComponentStore *components = nullptr;
+		FontStore *fonts = nullptr;
+		ImageStore *images = nullptr;
 };
 
 }

@@ -23,6 +23,7 @@
 #include "modules/edgeoftown.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -33,33 +34,28 @@
 #include "modules/training.hpp"
 #include "types/game.hpp"
 
-Sorcery::EdgeOfTown::EdgeOfTown(Application *application, System *system,
-								Display *display, UI *ui,
-								Controller *controller)
-	: _application{application},
-	  _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::EdgeOfTown::EdgeOfTown(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 
-	_training_grounds = std::make_unique<Training>(_application, _system,
-												   _display, _ui, _controller);
-	_restart = std::make_unique<Restart>(_system, _display, _ui, _controller);
+	_training_grounds = std::make_unique<Training>(
+		_ctx.application, _ctx.system, _ctx.display, _ctx.ui, _ctx.controller);
+	_restart = std::make_unique<Restart>(_ctx.system, _ctx.display, _ctx.ui,
+										 _ctx.controller);
 };
 
 auto Sorcery::EdgeOfTown::_initialise() -> bool {
 
-	_controller->set_selected("party_panel_selected", 0);
+	_ctx.controller->set_selected("party_panel_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::EdgeOfTown::start(Game *game, const int mode) -> int {
+auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 
-	_controller->initialise("edge_of_town");
-	_controller->set_flag("show_edge_of_town");
+	_ctx.controller->initialise("edge_of_town");
+	_ctx.controller->set_flag("show_edge_of_town");
 
 	// Main loop
 	auto done{false};
@@ -70,45 +66,45 @@ auto Sorcery::EdgeOfTown::start(Game *game, const int mode) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			_controller->check_for_back(event, _ui->dialog_leave->show);
+			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
 		}
 
-		_ui->display("edge_of_town", game);
+		_ctx.ui->display("edge_of_town", _ctx.game);
 
 		// Handle shortcuts
 		if (mode == GO_TO_TRAINING)
-			_controller->set_flag("show_training");
+			_ctx.controller->set_flag("show_training");
 
-		if (_controller->has_flag("want_leave_game")) {
-			game->move_party_to_tavern();
-			game->save_game();
-			_controller->set_game(nullptr);
+		if (_ctx.controller->has_flag("want_leave_game")) {
+			_ctx.game->move_party_to_tavern();
+			_ctx.game->save_game();
+			_ctx.controller->set_game(nullptr);
 			return LEAVE_GAME;
-		} else if (_controller->has_flag("want_abort"))
+		} else if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_controller->has_flag("show_edge_of_town") &&
-				 _controller->has_flag("show_castle"))
+		else if (!_ctx.controller->has_flag("show_edge_of_town") &&
+				 _ctx.controller->has_flag("show_castle"))
 			return EDGE_OF_TOWN_GO_TO_CASTLE;
 
 		// Check for the results of something being selected from a menu
-		if (_controller->has_flag("show_training")) {
-			game->move_party_to_tavern();
-			game->save_game();
-			_training_grounds->start(game);
+		if (_ctx.controller->has_flag("show_training")) {
+			_ctx.game->move_party_to_tavern();
+			_ctx.game->save_game();
+			_training_grounds->start(_ctx.game);
 			_training_grounds->stop();
-		} else if (_controller->has_flag("show_restart")) {
-			_restart->start(game);
-			_restart->stop(game);
-			if (_controller->has_flag("want_restart_expedition"))
+		} else if (_ctx.controller->has_flag("show_restart")) {
+			_restart->start(_ctx.game);
+			_restart->stop(_ctx.game);
+			if (_ctx.controller->has_flag("want_restart_expedition"))
 				return RESTART_MAZE;
 
-		} else if (_controller->has_flag("want_enter_maze"))
+		} else if (_ctx.controller->has_flag("want_enter_maze"))
 			return GO_TO_MAZE;
 	}
 
@@ -118,7 +114,7 @@ auto Sorcery::EdgeOfTown::start(Game *game, const int mode) -> int {
 
 auto Sorcery::EdgeOfTown::stop() -> int {
 
-	_controller->unset_flag("show_edge_of_town");
+	_ctx.controller->unset_flag("show_edge_of_town");
 
 	return 0;
 }

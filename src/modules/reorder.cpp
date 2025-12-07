@@ -22,6 +22,7 @@
 
 #include "modules/reorder.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -30,27 +31,23 @@
 #include "gui/dialog.hpp"
 #include "types/game.hpp"
 
-Sorcery::Reorder::Reorder(System *system, Display *display, UI *ui,
-						  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Reorder::Reorder(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::Reorder::_initialise() -> bool {
 
-	_controller->set_selected("reorder_selected", 0);
+	_ctx.controller->set_selected("reorder_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Reorder::start(Game *game, const int mode) -> int {
+auto Sorcery::Reorder::start(const int mode) -> int {
 
-	_controller->initialise("reorder");
-	_controller->set_flag("show_reorder");
+	_ctx.controller->initialise("reorder");
+	_ctx.controller->set_flag("show_reorder");
 
 	// Main loop
 	auto done{false};
@@ -61,19 +58,19 @@ auto Sorcery::Reorder::start(Game *game, const int mode) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_FROM_ROSTER;
 		}
 
-		_ui->display("reorder", game, mode);
+		_ctx.ui->display("reorder", _ctx.game, mode);
 
-		if (!_controller->has_flag("show_reorder"))
+		if (!_ctx.controller->has_flag("show_reorder"))
 			return BACK_FROM_REORDER;
 	}
 
@@ -81,13 +78,13 @@ auto Sorcery::Reorder::start(Game *game, const int mode) -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Reorder::stop(Game *game, const int mode) -> int {
+auto Sorcery::Reorder::stop(const int mode) -> int {
 
-	game->save_game();
+	_ctx.game->save_game();
 	if (mode == REORDER_MODE_CAMP)
-		_controller->move_screen("show_reorder", "show_engine");
+		_ctx.controller->move_screen("show_reorder", "show_engine");
 	else
-		_controller->move_screen("show_reorder", "show_tavern");
+		_ctx.controller->move_screen("show_reorder", "show_tavern");
 
 	return 0;
 }

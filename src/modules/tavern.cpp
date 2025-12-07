@@ -22,6 +22,7 @@
 
 #include "modules/tavern.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -37,47 +38,46 @@
 #include "types/game.hpp"
 #include "types/state.hpp"
 
-Sorcery::Tavern::Tavern(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Tavern::Tavern(Context &ctx)
+	: _ctx{ctx} {
 
-	_add = std::make_unique<Add>(_system, _display, _ui, _controller);
-	_remove = std::make_unique<Remove>(_system, _display, _ui, _controller);
-	_reorder = std::make_unique<Reorder>(_system, _display, _ui, _controller);
-	_inspect = std::make_unique<Inspect>(_system, _display, _ui, _controller);
+	_add = std::make_unique<Add>(_ctx.system, _ctx.display, _ctx.ui,
+								 _ctx.controller);
+	_remove = std::make_unique<Remove>(_ctx.system, _ctx.display, _ctx.ui,
+									   _ctx.controller);
+	_reorder = std::make_unique<Reorder>(_ctx);
+	_inspect = std::make_unique<Inspect>(_ctx.system, _ctx.display, _ctx.ui,
+										 _ctx.controller);
 
 	_initialise();
 };
 
 auto Sorcery::Tavern::_initialise() -> bool {
 
-	_controller->set_selected("party_panel_selected", 0);
+	_ctx.controller->set_selected("party_panel_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Tavern::start(Game *game) -> int {
+auto Sorcery::Tavern::start() -> int {
 
-	_controller->initialise("tavern");
-	_controller->set_flag("show_tavern");
+	_ctx.controller->initialise("tavern");
+	_ctx.controller->set_flag("show_tavern");
 
 	// Need this before accessing modal_inspect!
-	_ui->create_dynamic_modal(game, "modal_inspect");
-	_ui->create_dynamic_modal(game, "modal_identify");
-	_ui->create_dynamic_modal(game, "modal_drop");
-	_ui->create_dynamic_modal(game, "modal_trade");
-	_ui->create_dynamic_modal(game, "modal_use");
-	_ui->create_dynamic_modal(game, "modal_invoke");
-	_ui->modal_inspect->show = false;
-	_ui->modal_drop->show = false;
-	_ui->modal_trade->show = false;
-	_ui->modal_use->show = false;
-	_ui->modal_trade->show = false;
-	_ui->modal_invoke->show = false;
-	_controller->clear_character("inspect");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_inspect");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_identify");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_drop");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_trade");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_use");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_invoke");
+	_ctx.ui->modal_inspect->show = false;
+	_ctx.ui->modal_drop->show = false;
+	_ctx.ui->modal_trade->show = false;
+	_ctx.ui->modal_use->show = false;
+	_ctx.ui->modal_trade->show = false;
+	_ctx.ui->modal_invoke->show = false;
+	_ctx.controller->clear_character("inspect");
 
 	// Main loop
 	auto done{false};
@@ -88,41 +88,41 @@ auto Sorcery::Tavern::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;
 		}
 
-		_ui->display("tavern", game);
+		_ctx.ui->display("tavern", _ctx.game);
 
-		if (!_controller->has_flag("show_tavern") &&
-			_controller->has_flag("show_castle"))
+		if (!_ctx.controller->has_flag("show_tavern") &&
+			_ctx.controller->has_flag("show_castle"))
 			return BACK_TO_CASTLE;
 
 		// Check for the results of something being selected from a menu
-		if (_controller->has_flag("show_remove")) {
-			_remove->start(game);
-			_remove->stop(game);
-			_controller->set_flag("show_tavern");
-		} else if (_controller->has_flag("show_add")) {
-			_add->start(game);
-			_add->stop(game);
-			_controller->set_flag("show_tavern");
-		} else if (_controller->has_flag("show_reorder")) {
-			_reorder->start(game, REORDER_MODE_TAVERN);
-			_reorder->stop(game, REORDER_MODE_TAVERN);
-			_controller->set_flag("show_tavern");
-		} else if (_controller->has_character("inspect")) {
-			_inspect->start(game, INSPECT_MODE_TAVERN,
-							_controller->get_character("inspect"));
-			_inspect->stop(game, INSPECT_MODE_TAVERN);
-			_controller->set_flag("show_tavern");
-			_controller->clear_character("inspect");
+		if (_ctx.controller->has_flag("show_remove")) {
+			_remove->start(_ctx.game);
+			_remove->stop(_ctx.game);
+			_ctx.controller->set_flag("show_tavern");
+		} else if (_ctx.controller->has_flag("show_add")) {
+			_add->start(_ctx.game);
+			_add->stop(_ctx.game);
+			_ctx.controller->set_flag("show_tavern");
+		} else if (_ctx.controller->has_flag("show_reorder")) {
+			_reorder->start(REORDER_MODE_TAVERN);
+			_reorder->stop(REORDER_MODE_TAVERN);
+			_ctx.controller->set_flag("show_tavern");
+		} else if (_ctx.controller->has_character("inspect")) {
+			_inspect->start(_ctx.game, INSPECT_MODE_TAVERN,
+							_ctx.controller->get_character("inspect"));
+			_inspect->stop(_ctx.game, INSPECT_MODE_TAVERN);
+			_ctx.controller->set_flag("show_tavern");
+			_ctx.controller->clear_character("inspect");
 		}
 	}
 
@@ -132,7 +132,7 @@ auto Sorcery::Tavern::start(Game *game) -> int {
 
 auto Sorcery::Tavern::stop() -> int {
 
-	_controller->unset_flag("show_tavern");
+	_ctx.controller->unset_flag("show_tavern");
 
 	return 0;
 }

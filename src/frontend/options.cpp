@@ -22,18 +22,15 @@
 
 #include "frontend/options.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 
-Sorcery::Options::Options(System *system, Display *display, UI *ui,
-						  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Options::Options(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
@@ -48,13 +45,13 @@ auto Sorcery::Options::_initialise() -> bool {
 auto Sorcery::Options::start(const bool is_in_game) -> int {
 
 	_is_in_game = is_in_game;
-	_controller->initialise("options");
-	_controller->set_flag("show_options");
+	_ctx.controller->initialise("options");
+	_ctx.controller->set_flag("show_options");
 
 	// Main loop
 	auto done{false};
-	_fullscreen_before = (*_system->config)[Enums::Config::FULLSCREEN];
-	_monochrome_before = (*_system->config)[Enums::Config::COLOURED_WIREFRAME];
+	_fullscreen_before = (*_ctx.config)[Enums::Config::FULLSCREEN];
+	_monochrome_before = (*_ctx.config)[Enums::Config::COLOURED_WIREFRAME];
 	while (!done) {
 
 		SDL_Event event;
@@ -62,16 +59,16 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 
 			// Check for Quit or Back Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			_controller->check_for_resize(event, _ui);
-			done = _controller->check_for_abort(event);
-			if (_controller->check_for_back(event))
+			_ctx.controller->check_for_resize(event, _ctx.ui);
+			done = _ctx.controller->check_for_abort(event);
+			if (_ctx.controller->check_for_back(event))
 				return GO_TO_FRONT_END; // Or back to the Game
 		}
 
-		_ui->display("options");
-		if (_controller->has_flag("want_abort"))
+		_ctx.ui->display("options");
+		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_controller->has_flag("show_options"))
+		else if (!_ctx.controller->has_flag("show_options"))
 			return GO_TO_FRONT_END;
 	}
 
@@ -81,21 +78,20 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 
 auto Sorcery::Options::stop() -> int {
 
-	auto fullscreen_after{(*_system->config)[Enums::Config::FULLSCREEN]};
+	auto fullscreen_after{(*_ctx.config)[Enums::Config::FULLSCREEN]};
 	if (_fullscreen_before != fullscreen_after)
-		_ui->set_fullscreen(fullscreen_after);
+		_ctx.ui->set_fullscreen(fullscreen_after);
 
-	auto monochrome_after{
-		(*_system->config)[Enums::Config::COLOURED_WIREFRAME]};
+	auto monochrome_after{(*_ctx.config)[Enums::Config::COLOURED_WIREFRAME]};
 	if (_monochrome_before != monochrome_after) {
-		_controller->set_monochrome(monochrome_after);
-		_ui->set_monochrome(monochrome_after);
+		_ctx.controller->set_monochrome(monochrome_after);
+		_ctx.ui->set_monochrome(monochrome_after);
 	}
 
 	if (_is_in_game)
-		_controller->move_screen("show_options", "show_engine");
+		_ctx.controller->move_screen("show_options", "show_engine");
 	else
-		_controller->move_screen("show_options", "show_main_menu");
+		_ctx.controller->move_screen("show_options", "show_main_menu");
 
 	return 0;
 }

@@ -21,17 +21,14 @@
 // the resulting work.
 
 #include "frontend/splash.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 
-Sorcery::Splash::Splash(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Splash::Splash(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
@@ -39,7 +36,7 @@ Sorcery::Splash::Splash(System *system, Display *display, UI *ui,
 auto Sorcery::Splash::_initialise() -> bool {
 
 	// Load initial textures so that they are immediately available
-	_ui->images->load_image(std::string{BANNER_TEXTURE});
+	_ctx.images->load_image(std::string{BANNER_TEXTURE});
 
 	return true;
 }
@@ -48,8 +45,8 @@ auto Sorcery::Splash::start() -> int {
 
 	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 
-	_controller->initialise("splash");
-	_controller->set_busy(true);
+	_ctx.controller->initialise("splash");
+	_ctx.controller->set_busy(true);
 
 	// Main loop
 	auto done{false};
@@ -59,12 +56,12 @@ auto Sorcery::Splash::start() -> int {
 		while (SDL_PollEvent(&event)) {
 		}
 
-		_ui->display("splash");
+		_ctx.ui->display("splash");
 		// done = _ui->images->load_next();
 		done = true;
 	}
 
-	_controller->set_busy(false);
+	_ctx.controller->set_busy(false);
 
 	return 0;
 }

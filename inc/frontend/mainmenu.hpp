@@ -31,16 +31,12 @@
 
 namespace Sorcery {
 
-class Display;
-class UI;
-class Controller;
-class System;
+struct Context;
 
 class MainMenu {
 
 	public:
-		MainMenu(System *system, Display *display, UI *ui,
-				 Controller *controller);
+		MainMenu(Context &ctx);
 
 		auto start() -> int;
 		auto stop() -> int;
@@ -48,10 +44,8 @@ class MainMenu {
 	private:
 		auto _initialise() -> bool;
 
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
+
 		std::unique_ptr<Compendium> _compendium;
 		std::unique_ptr<License> _license;
 		std::unique_ptr<Options> _options;

@@ -63,6 +63,8 @@ class Application {
 		auto load_state_from_binary(const std::string &filename) -> bool;
 		auto get_resources() const -> Resources *;
 
+		Context ctx;
+
 	private:
 		// Private Methods
 		auto _add_quickstart_party() -> void;

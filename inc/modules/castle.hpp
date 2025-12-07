@@ -34,22 +34,16 @@
 namespace Sorcery {
 
 // Forward Declarations
-class Application;
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
+struct Context;
 
 class Castle {
 
 	public:
 		// Standard Constructor
-		Castle(Application *application, System *system, Display *display,
-			   UI *ui, Controller *controller);
+		Castle(Context &ctx);
 
 		// Public Methods
-		auto start(Game *game) -> int;
+		auto start() -> int;
 		auto stop() -> int;
 
 	private:
@@ -57,11 +51,7 @@ class Castle {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Application *_application;
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		std::unique_ptr<Inn> _inn;
 		std::unique_ptr<Shop> _shop;
 		std::unique_ptr<Tavern> _tavern;
