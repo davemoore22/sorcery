@@ -109,6 +109,7 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	set_selected("spellbook_selected", 0);
 	set_selected("museum_selected", 1);
 	set_selected("class_selected", 8);
+	set_selected("atlas_selected", 8);
 
 	// need to set ui flags too, argh
 }

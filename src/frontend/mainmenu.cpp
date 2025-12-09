@@ -36,13 +36,13 @@ Sorcery::MainMenu::MainMenu(Context &ctx)
 	: _ctx{ctx} {
 
 	_options = std::make_unique<Options>(_ctx);
-	_license = std::make_unique<License>(_ctx.system, _ctx.display, _ctx.ui,
-										 _ctx.controller);
-	_compendium = std::make_unique<Compendium>(_ctx.system, _ctx.display,
-											   _ctx.ui, _ctx.controller);
+	_license = std::make_unique<License>(_ctx);
+	_compendium = std::make_unique<Compendium>(_ctx);
 
 	_initialise();
 };
+
+Sorcery::MainMenu::~MainMenu() = default;
 
 auto Sorcery::MainMenu::_initialise() -> bool {
 

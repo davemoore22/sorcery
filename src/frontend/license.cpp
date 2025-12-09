@@ -22,25 +22,22 @@
 
 #include "frontend/license.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 
-Sorcery::License::License(System *system, Display *display, UI *ui,
-						  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::License::License(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::License::_initialise() -> bool {
 
-	auto file_path{(*_system->files)[LICENSE_FILE].string()};
+	auto file_path{(*_ctx.system->files)[LICENSE_FILE].string()};
 
 	if (std::ifstream file{(file_path.c_str()), std::ifstream::in};
 		file.good()) {
@@ -54,8 +51,8 @@ auto Sorcery::License::_initialise() -> bool {
 
 auto Sorcery::License::start() -> int {
 
-	_controller->initialise("license");
-	_controller->set_flag("show_license");
+	_ctx.controller->initialise("license");
+	_ctx.controller->set_flag("show_license");
 
 	// Main loop
 	auto done{false};
@@ -66,20 +63,20 @@ auto Sorcery::License::start() -> int {
 
 			// Check for Quit or Back Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			_controller->check_for_resize(event, _ui);
-			done = _controller->check_for_abort(event);
-			if (_controller->check_for_back(event))
+			_ctx.controller->check_for_resize(event, _ctx.ui);
+			done = _ctx.controller->check_for_abort(event);
+			if (_ctx.controller->check_for_back(event))
 				return GO_TO_FRONT_END;
 		}
 
-		_ui->display("license", _license_text);
+		_ctx.ui->display("license", _license_text);
 
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
-		if (_controller->has_flag("want_abort"))
+		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_controller->has_flag("show_license"))
+		else if (!_ctx.controller->has_flag("show_license"))
 			return GO_TO_FRONT_END;
 	}
 
@@ -89,7 +86,7 @@ auto Sorcery::License::start() -> int {
 
 auto Sorcery::License::stop() -> int {
 
-	_controller->move_screen("show_license", "show_main_menu");
+	_ctx.controller->move_screen("show_license", "show_main_menu");
 
 	return 0;
 }

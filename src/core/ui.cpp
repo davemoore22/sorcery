@@ -3055,6 +3055,7 @@ auto Sorcery::UI::_get_status_color(Character *character) const -> ImVec4 {
 }
 
 auto Sorcery::UI::_draw_spell_info() -> void {
+
 	const auto idx{_controller->get_selected("spellbook_selected")};
 	if (idx == 50)
 		return;
@@ -3087,12 +3088,14 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 			{
 				set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 1.0f, 1.0f,
 													 _system->animation->fade});
+				set_Font(fontstore->get_current_font(cmp.font).value());
 				ImGui::TextUnformatted(spell_name.c_str());
 				ImGui::NewLine();
 				ImGui::TextUnformatted(summary.c_str());
 				ImGui::NewLine();
 			}
 
+			set_Font(fontstore->get_current_font(cmp.font).value());
 			set_StyleColor(ImGuiCol_Text,
 						   ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
 #pragma GCC diagnostic push

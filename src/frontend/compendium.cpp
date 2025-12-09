@@ -22,39 +22,42 @@
 
 #include "frontend/compendium.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "frontend/atlas.hpp"
+#include "frontend/bestiary.hpp"
+#include "frontend/license.hpp"
+#include "frontend/museum.hpp"
+#include "frontend/spellbook.hpp"
 #include "gui/define.hpp"
 
-Sorcery::Compendium::Compendium(System *system, Display *display, UI *ui,
-								Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Compendium::Compendium(Context &ctx)
+	: _ctx{ctx} {
 
-	_bestiary = std::make_unique<Bestiary>(_system, _display, _ui, _controller);
-	_museum = std::make_unique<Museum>(_system, _display, _ui, _controller);
-	_atlas = std::make_unique<Atlas>(_system, _display, _ui, _controller);
-	_spellbook =
-		std::make_unique<SpellBook>(_system, _display, _ui, _controller);
+	_bestiary = std::make_unique<Bestiary>(_ctx);
+	_museum = std::make_unique<Museum>(_ctx);
+	_atlas = std::make_unique<Atlas>(_ctx);
+	_spellbook = std::make_unique<SpellBook>(_ctx);
 
 	_initialise();
 };
 
+Sorcery::Compendium::~Compendium() {}
+
 auto Sorcery::Compendium::_initialise() -> bool {
 
-	_controller->set_selected("compendium_selected", 0);
+	_ctx.controller->set_selected("compendium_selected", 0);
 
 	return true;
 }
 
 auto Sorcery::Compendium::start() -> int {
 
-	_controller->initialise("compendium");
-	_controller->set_flag("show_compendium");
+	_ctx.controller->initialise("compendium");
+	_ctx.controller->set_flag("show_compendium");
 
 	// Main loop
 	auto done{false};
@@ -65,34 +68,34 @@ auto Sorcery::Compendium::start() -> int {
 
 			// Check for Quit or Back Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			_controller->check_for_resize(event, _ui);
-			done = _controller->check_for_abort(event);
-			if (_controller->check_for_back(event))
+			_ctx.controller->check_for_resize(event, _ctx.ui);
+			done = _ctx.controller->check_for_abort(event);
+			if (_ctx.controller->check_for_back(event))
 				return GO_TO_FRONT_END;
 		}
 
-		_ui->display("compendium");
+		_ctx.ui->display("compendium");
 
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
-		if (_controller->has_flag("show_bestiary")) {
+		if (_ctx.controller->has_flag("show_bestiary")) {
 			_bestiary->start();
 			_bestiary->stop();
-		} else if (_controller->has_flag("show_museum")) {
+		} else if (_ctx.controller->has_flag("show_museum")) {
 			_museum->start();
 			_museum->stop();
-		} else if (_controller->has_flag("show_atlas")) {
+		} else if (_ctx.controller->has_flag("show_atlas")) {
 			_atlas->start();
 			_atlas->stop();
-		} else if (_controller->has_flag("show_spellbook")) {
+		} else if (_ctx.controller->has_flag("show_spellbook")) {
 			_spellbook->start();
 			_spellbook->stop();
 		}
 
-		if (_controller->has_flag("want_abort"))
+		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_controller->has_flag("show_compendium"))
+		else if (!_ctx.controller->has_flag("show_compendium"))
 			return GO_TO_FRONT_END;
 	}
 
@@ -102,7 +105,7 @@ auto Sorcery::Compendium::start() -> int {
 
 auto Sorcery::Compendium::stop() -> int {
 
-	_controller->move_screen("show_compendium", "show_main_menu");
+	_ctx.controller->move_screen("show_compendium", "show_main_menu");
 
 	return 0;
 }

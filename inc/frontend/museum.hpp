@@ -25,21 +25,16 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "resources/itemstore.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
-class Display;
-class UI;
-class Controller;
-class System;
+struct Context;
 
 class Museum {
 
 	public:
-		Museum(System *system, Display *display, UI *ui,
-			   Controller *controller);
+		Museum(Context &ctx);
 
 		auto start() -> int;
 		auto stop() -> int;
@@ -47,10 +42,7 @@ class Museum {
 	private:
 		auto _initialise() -> bool;
 
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 };
 
 };

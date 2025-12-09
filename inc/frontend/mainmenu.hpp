@@ -25,18 +25,19 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "frontend/compendium.hpp"
-#include "frontend/license.hpp"
-#include "frontend/options.hpp"
 
 namespace Sorcery {
 
 struct Context;
+class Compendium;
+class License;
+class Options;
 
 class MainMenu {
 
 	public:
 		MainMenu(Context &ctx);
+		~MainMenu();
 
 		auto start() -> int;
 		auto stop() -> int;

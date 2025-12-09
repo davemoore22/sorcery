@@ -22,34 +22,30 @@
 
 #include "frontend/museum.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
-#include "resources/itemstore.hpp"
 
-Sorcery::Museum::Museum(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Museum::Museum(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::Museum::_initialise() -> bool {
 
-	_controller->set_selected("museum_selected", 1); // Long Sword
+	_ctx.controller->set_selected("museum_selected", 1); // Long Sword
 
 	return true;
 }
 
 auto Sorcery::Museum::start() -> int {
 
-	_controller->initialise("museum");
-	_controller->set_flag("show_museum");
+	_ctx.controller->initialise("museum");
+	_ctx.controller->set_flag("show_museum");
 
 	// Main loop
 	auto done{false};
@@ -60,20 +56,20 @@ auto Sorcery::Museum::start() -> int {
 
 			// Check for Quit or Back Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			_controller->check_for_resize(event, _ui);
-			done = _controller->check_for_abort(event);
-			if (_controller->check_for_back(event))
+			_ctx.controller->check_for_resize(event, _ctx.ui);
+			done = _ctx.controller->check_for_abort(event);
+			if (_ctx.controller->check_for_back(event))
 				return GO_TO_COMPENDIUM;
 		}
 
-		_ui->display("museum");
+		_ctx.ui->display("museum");
 
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
-		if (_controller->has_flag("want_abort"))
+		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_controller->has_flag("show_museum"))
+		else if (!_ctx.controller->has_flag("show_museum"))
 			return GO_TO_COMPENDIUM;
 	}
 
@@ -83,7 +79,7 @@ auto Sorcery::Museum::start() -> int {
 
 auto Sorcery::Museum::stop() -> int {
 
-	_controller->move_screen("show_museum", "show_compendium");
+	_ctx.controller->move_screen("show_museum", "show_compendium");
 
 	return 0;
 }

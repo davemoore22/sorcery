@@ -22,35 +22,31 @@
 
 #include "frontend/spellbook.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
-#include "resources/spellstore.hpp"
 
-Sorcery::SpellBook::SpellBook(System *system, Display *display, UI *ui,
-							  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::SpellBook::SpellBook(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::SpellBook::_initialise() -> bool {
 
-	_controller->set_selected("spellbook_selected",
-							  unenum(Enums::Magic::SpellID::DUMAPIC));
+	_ctx.controller->set_selected("spellbook_selected",
+								  unenum(Enums::Magic::SpellID::DUMAPIC));
 
 	return true;
 }
 
 auto Sorcery::SpellBook::start() -> int {
 
-	_controller->initialise("spellbook");
-	_controller->set_flag("show_spellbook");
+	_ctx.controller->initialise("spellbook");
+	_ctx.controller->set_flag("show_spellbook");
 
 	// Main loop
 	auto done{false};
@@ -61,20 +57,20 @@ auto Sorcery::SpellBook::start() -> int {
 
 			// Check for Quit or Back Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			_controller->check_for_resize(event, _ui);
-			done = _controller->check_for_abort(event);
-			if (_controller->check_for_back(event))
+			_ctx.controller->check_for_resize(event, _ctx.ui);
+			done = _ctx.controller->check_for_abort(event);
+			if (_ctx.controller->check_for_back(event))
 				return GO_TO_COMPENDIUM;
 		}
 
-		_ui->display("spellbook");
+		_ctx.ui->display("spellbook");
 
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
-		if (_controller->has_flag("want_abort"))
+		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_controller->has_flag("show_spellbook"))
+		else if (!_ctx.controller->has_flag("show_spellbook"))
 			return GO_TO_FRONT_END;
 	}
 
@@ -84,7 +80,7 @@ auto Sorcery::SpellBook::start() -> int {
 
 auto Sorcery::SpellBook::stop() -> int {
 
-	_controller->move_screen("show_spellbook", "show_compendium");
+	_ctx.controller->move_screen("show_spellbook", "show_compendium");
 
 	return 0;
 }

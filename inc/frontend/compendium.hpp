@@ -25,24 +25,21 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "frontend/atlas.hpp"
-#include "frontend/bestiary.hpp"
-#include "frontend/license.hpp"
-#include "frontend/museum.hpp"
-#include "frontend/spellbook.hpp"
 
 namespace Sorcery {
 
-class Display;
-class UI;
-class Controller;
-class System;
+struct Context;
+class Atlas;
+class License;
+class Bestiary;
+class SpellBook;
+class Museum;
 
 class Compendium {
 
 	public:
-		Compendium(System *system, Display *display, UI *ui,
-				   Controller *controller);
+		Compendium(Context &ctx);
+		~Compendium();
 
 		auto start() -> int;
 		auto stop() -> int;
@@ -50,10 +47,7 @@ class Compendium {
 	private:
 		auto _initialise() -> bool;
 
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		std::unique_ptr<Atlas> _atlas;
 		std::unique_ptr<Bestiary> _bestiary;
 		std::unique_ptr<License> _license;

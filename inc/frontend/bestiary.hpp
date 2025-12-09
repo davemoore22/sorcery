@@ -25,21 +25,16 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "resources/monsterstore.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
-class Display;
-class UI;
-class Controller;
-class System;
+struct Context;
 
 class Bestiary {
 
 	public:
-		Bestiary(System *system, Display *display, UI *ui,
-				 Controller *controller);
+		Bestiary(Context &ctx);
 
 		auto start() -> int;
 		auto stop() -> int;
@@ -47,10 +42,7 @@ class Bestiary {
 	private:
 		auto _initialise() -> bool;
 
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 };
 
 };

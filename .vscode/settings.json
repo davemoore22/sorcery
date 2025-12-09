@@ -88,7 +88,7 @@
 	},
 	"cmake.debugConfig": {
 		"args": [
-			"--go-to-maze",
+			"--cxgo-to-maze",
 			"--fni"
 		]
 	},

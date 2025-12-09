@@ -739,7 +739,8 @@
 					"priority": "3",
 					"colour": "0xffffffff",
 					"bg_colour": "0x000000",
-					"alpha": "1.0"
+					"alpha": "1.0",
+					"font": "monospace"
 				}
 			]
 		},
@@ -858,7 +859,8 @@
 					"priority": "3",
 					"colour": "0xffffffff",
 					"bg_colour": "0x000000",
-					"alpha": "1.0"
+					"alpha": "1.0",
+					"font": "monospace"
 				}
 			]
 		},

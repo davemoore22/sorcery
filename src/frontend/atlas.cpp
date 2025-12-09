@@ -22,34 +22,30 @@
 
 #include "frontend/atlas.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
-#include "resources/levelstore.hpp"
 
-Sorcery::Atlas::Atlas(System *system, Display *display, UI *ui,
-					  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Atlas::Atlas(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::Atlas::_initialise() -> bool {
 
-	_controller->set_selected("atlas_selected", 0);
+	_ctx.controller->set_selected("atlas_selected", 0);
 
 	return true;
 }
 
 auto Sorcery::Atlas::start() -> int {
 
-	_controller->initialise("atlas");
-	_controller->set_flag("show_atlas");
+	_ctx.controller->initialise("atlas");
+	_ctx.controller->set_flag("show_atlas");
 
 	// Main loop
 	auto done{false};
@@ -60,18 +56,18 @@ auto Sorcery::Atlas::start() -> int {
 
 			// Check for Quit or Back Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			_controller->check_for_resize(event, _ui);
-			done = _controller->check_for_abort(event);
-			if (_controller->check_for_back(event))
+			_ctx.controller->check_for_resize(event, _ctx.ui);
+			done = _ctx.controller->check_for_abort(event);
+			if (_ctx.controller->check_for_back(event))
 				return GO_TO_COMPENDIUM;
 		}
 
-		if (_controller->has_flag("want_abort"))
+		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_controller->has_flag("show_atlas"))
+		else if (!_ctx.controller->has_flag("show_atlas"))
 			return GO_TO_COMPENDIUM;
 
-		_ui->display("atlas");
+		_ctx.ui->display("atlas");
 	}
 
 	// Exit if we get to here having broken out of the loop
@@ -80,7 +76,7 @@ auto Sorcery::Atlas::start() -> int {
 
 auto Sorcery::Atlas::stop() -> int {
 
-	_controller->move_screen("show_atlas", "show_compendium");
+	_ctx.controller->move_screen("show_atlas", "show_compendium");
 
 	return 0;
 }
