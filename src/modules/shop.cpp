@@ -22,6 +22,7 @@
 
 #include "modules/shop.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -31,29 +32,25 @@
 #include "modules/roster.hpp"
 #include "types/game.hpp"
 
-Sorcery::Shop::Shop(System *system, Display *display, UI *ui,
-					Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Shop::Shop(Context &ctx)
+	: _ctx{ctx} {
 
-	_roster = std::make_unique<Roster>(_system, _display, _ui, _controller);
+	_roster = std::make_unique<Roster>(_ctx);
 
 	_initialise();
 };
 
 auto Sorcery::Shop::_initialise() -> bool {
 
-	_controller->set_selected("party_panel_selected", 0);
+	_ctx.controller->set_selected("party_panel_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Shop::start(Game *game) -> int {
+auto Sorcery::Shop::start() -> int {
 
-	_controller->initialise("shop");
-	_controller->set_flag("show_shop");
+	_ctx.controller->initialise("shop");
+	_ctx.controller->set_flag("show_shop");
 
 	// Main loop
 	auto done{false};
@@ -64,26 +61,26 @@ auto Sorcery::Shop::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;
 		}
 
-		_ui->display("shop", game);
+		_ctx.ui->display("shop", _ctx.game);
 
-		if (!_controller->has_flag("show_shop") &&
-			_controller->has_flag("show_castle"))
+		if (!_ctx.controller->has_flag("show_shop") &&
+			_ctx.controller->has_flag("show_castle"))
 			return BACK_TO_CASTLE;
 
-		if (_controller->has_flag("show_roster")) {
-			_roster->start(game, ROSTER_MODE_SHOP);
+		if (_ctx.controller->has_flag("show_roster")) {
+			_roster->start(ROSTER_MODE_SHOP);
 			_roster->stop();
-			_controller->set_flag("show_shop");
+			_ctx.controller->set_flag("show_shop");
 		}
 	}
 
@@ -93,7 +90,7 @@ auto Sorcery::Shop::start(Game *game) -> int {
 
 auto Sorcery::Shop::stop() -> int {
 
-	_controller->unset_flag("show_shop");
+	_ctx.controller->unset_flag("show_shop");
 
 	return 0;
 }

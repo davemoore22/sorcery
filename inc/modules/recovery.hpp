@@ -30,22 +30,17 @@
 namespace Sorcery {
 
 // Forward Declarations
+struct Context;
 class Character;
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
 
 class Recovery {
 
 	public:
 		// Standard Constructor
-		Recovery(System *system, Display *display, UI *ui,
-				 Controller *controller);
+		Recovery(Context &ctx);
 
 		// Public Methods
-		auto start(Game *game, const int mode) -> int;
+		auto start(const int mode) -> int;
 		auto stop() -> int;
 
 	private:
@@ -55,10 +50,7 @@ class Recovery {
 		static auto _callback_recuperating(Uint32, void *param) -> Uint32;
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		SDL_TimerID _rest_tick;
 		Character *_character;
 };

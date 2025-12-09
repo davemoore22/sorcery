@@ -46,8 +46,7 @@ Sorcery::Engine::Engine(Context &ctx)
 
 	_options = std::make_unique<Options>(_ctx);
 	_reorder = std::make_unique<Reorder>(_ctx);
-	_inspect = std::make_unique<Inspect>(_ctx.system, _ctx.display, _ctx.ui,
-										 _ctx.controller);
+	_inspect = std::make_unique<Inspect>(_ctx);
 
 	_initialise();
 };
@@ -176,9 +175,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					_reorder->stop(REORDER_MODE_CAMP);
 				} else if (_ctx.controller->has_flag("show_inspect")) {
 					_inspect->start(
-						_ctx.game, INSPECT_MODE_CAMP,
+						INSPECT_MODE_CAMP,
 						_ctx.game->state->get_party_char(1).value());
-					_inspect->stop(_ctx.game, INSPECT_MODE_CAMP);
+					_inspect->stop(INSPECT_MODE_CAMP);
 				}
 
 				if (_ctx.controller->has_flag("want_take_stairs_up")) {

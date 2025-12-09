@@ -23,6 +23,7 @@
 #include "modules/method.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -30,18 +31,13 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "gui/input.hpp"
+#include "modules/create.hpp"
 #include "types/game.hpp"
 
-Sorcery::Method::Method(Application *application, System *system,
-						Display *display, UI *ui, Controller *controller)
-	: _application{application},
-	  _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Method::Method(Context &ctx)
+	: _ctx{ctx} {
 
-	_create = std::make_unique<Create>(_application, _system, _display, _ui,
-									   _controller);
+	_create = std::make_unique<Create>(_ctx);
 
 	_initialise();
 };
@@ -55,10 +51,10 @@ auto Sorcery::Method::_initialise() -> bool {
 	return true;
 }
 
-auto Sorcery::Method::start(Game *game) -> int {
+auto Sorcery::Method::start() -> int {
 
-	_controller->initialise("method");
-	_controller->set_flag("show_method");
+	_ctx.controller->initialise("method");
+	_ctx.controller->set_flag("show_method");
 
 	//_ui->input_name->show = false;
 	//_ui->input_name->initialise(game);
@@ -72,26 +68,26 @@ auto Sorcery::Method::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event)) {
+			if (_ctx.controller->check_for_back(event)) {
 				return BACK_TO_TRAINING_GROUNDS;
 			}
 		}
 
-		_ui->display("method", game);
+		_ctx.ui->display("method", _ctx.game);
 
-		if (!_controller->has_flag("show_method") &&
-			_controller->has_flag("show_training")) {
-			game->save_game();
+		if (!_ctx.controller->has_flag("show_method") &&
+			_ctx.controller->has_flag("show_training")) {
+			_ctx.game->save_game();
 			return BACK_TO_TRAINING_GROUNDS;
-		} else if (_controller->has_flag("show_create")) {
-			_create->start(game);
-			_create->stop(game);
+		} else if (_ctx.controller->has_flag("show_create")) {
+			_create->start();
+			_create->stop();
 			return BACK_TO_TRAINING_GROUNDS;
 		}
 	}
@@ -100,9 +96,9 @@ auto Sorcery::Method::start(Game *game) -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Method::stop([[maybe_unused]] Game *game) -> int {
+auto Sorcery::Method::stop() -> int {
 
-	_controller->unset_flag("show_method");
+	_ctx.controller->unset_flag("show_method");
 
 	return 0;
 }

@@ -39,11 +39,11 @@ Sorcery::EdgeOfTown::EdgeOfTown(Context &ctx)
 
 	_initialise();
 
-	_training_grounds = std::make_unique<Training>(
-		_ctx.application, _ctx.system, _ctx.display, _ctx.ui, _ctx.controller);
-	_restart = std::make_unique<Restart>(_ctx.system, _ctx.display, _ctx.ui,
-										 _ctx.controller);
+	_training_grounds = std::make_unique<Training>(_ctx);
+	_restart = std::make_unique<Restart>(_ctx);
 };
+
+Sorcery::EdgeOfTown::~EdgeOfTown() {}
 
 auto Sorcery::EdgeOfTown::_initialise() -> bool {
 
@@ -96,11 +96,11 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 		if (_ctx.controller->has_flag("show_training")) {
 			_ctx.game->move_party_to_tavern();
 			_ctx.game->save_game();
-			_training_grounds->start(_ctx.game);
+			_training_grounds->start();
 			_training_grounds->stop();
 		} else if (_ctx.controller->has_flag("show_restart")) {
-			_restart->start(_ctx.game);
-			_restart->stop(_ctx.game);
+			_restart->start();
+			_restart->stop();
 			if (_ctx.controller->has_flag("want_restart_expedition"))
 				return RESTART_MAZE;
 

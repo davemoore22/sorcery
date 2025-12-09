@@ -25,28 +25,24 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "modules/method.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
-class Application;
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
+struct Context;
+class Method;
 
 class Training {
 
 	public:
 		// Standard Constructor
-		Training(Application *application, System *system, Display *display,
-				 UI *ui, Controller *controller);
+		Training(Context &ctx);
+
+		~Training();
 
 		// Public Methods
-		auto start(Game *game) -> int;
+		auto start() -> int;
 		auto stop() -> int;
 
 	private:
@@ -54,11 +50,7 @@ class Training {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Application *_application;
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		std::unique_ptr<Method> _method;
 };
 

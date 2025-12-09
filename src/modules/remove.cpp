@@ -22,6 +22,7 @@
 
 #include "modules/remove.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -30,27 +31,23 @@
 #include "gui/dialog.hpp"
 #include "types/game.hpp"
 
-Sorcery::Remove::Remove(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Remove::Remove(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::Remove::_initialise() -> bool {
 
-	_controller->set_selected("remove_selected", 0);
+	_ctx.controller->set_selected("remove_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Remove::start(Game *game) -> int {
+auto Sorcery::Remove::start() -> int {
 
-	_controller->initialise("remove");
-	_controller->set_flag("show_remove");
+	_ctx.controller->initialise("remove");
+	_ctx.controller->set_flag("show_remove");
 
 	// Main loop
 	auto done{false};
@@ -61,20 +58,20 @@ auto Sorcery::Remove::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_FROM_ROSTER;
 		}
 
-		_ui->display("remove", game);
+		_ctx.ui->display("remove", _ctx.game);
 
-		if (!_controller->has_flag("show_remove") &&
-			_controller->has_flag("show_tavern"))
+		if (!_ctx.controller->has_flag("show_remove") &&
+			_ctx.controller->has_flag("show_tavern"))
 			return BACK_TO_TAVERN;
 	}
 
@@ -82,10 +79,10 @@ auto Sorcery::Remove::start(Game *game) -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Remove::stop(Game *game) -> int {
+auto Sorcery::Remove::stop() -> int {
 
-	game->save_game();
-	_controller->unset_flag("show_remove");
+	_ctx.game->save_game();
+	_ctx.controller->unset_flag("show_remove");
 
 	return 0;
 }

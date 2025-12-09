@@ -26,26 +26,18 @@
 #include "common/types.hpp"
 #include "engine/define.hpp"
 #include "engine/enum.hpp"
-#include "modules/create.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
-class Application;
-class Character;
-class Controller;
-class Display;
-class Game;
-class Input;
-class System;
-class UI;
+struct Context;
+class Create;
 
 class Method {
 
 	public:
 		// Standard Constructor
-		Method(Application *application, System *system, Display *display,
-			   UI *ui, Controller *controller);
+		Method(Context &ctx);
 		Method() = delete;
 
 		// Standard Destructor
@@ -54,19 +46,15 @@ class Method {
 		// Public Members
 
 		// Public Methods
-		auto start(Game *game) -> int;
-		auto stop(Game *game) -> int;
+		auto start() -> int;
+		auto stop() -> int;
 
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
 
 		// Private Members
-		Application *_application;
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		std::unique_ptr<Create> _create;
 };
 

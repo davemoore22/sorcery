@@ -30,32 +30,23 @@
 namespace Sorcery {
 
 // Forward Declarations
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
-
+struct Context;
 class Remove {
 
 	public:
 		// Standard Constructor
-		Remove(System *system, Display *display, UI *ui,
-			   Controller *controller);
+		Remove(Context &ctx);
 
 		// Public Methods
-		auto start(Game *game) -> int;
-		auto stop(Game *game) -> int;
+		auto start() -> int;
+		auto stop() -> int;
 
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 };
 
 };

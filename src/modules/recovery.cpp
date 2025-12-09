@@ -22,6 +22,7 @@
 
 #include "modules/recovery.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -31,20 +32,16 @@
 #include "types/character.hpp"
 #include "types/game.hpp"
 
-Sorcery::Recovery::Recovery(System *system, Display *display, UI *ui,
-							Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Recovery::Recovery(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::Recovery::_initialise() -> bool {
 
-	_controller->unset_flag("napping_finished");
-	_controller->unset_flag("recuperating_finished");
+	_ctx.controller->unset_flag("napping_finished");
+	_ctx.controller->unset_flag("recuperating_finished");
 
 	return true;
 }
@@ -52,7 +49,7 @@ auto Sorcery::Recovery::_initialise() -> bool {
 // Napping timer only ever runs once, thus 0 is returned which cancels it
 auto Sorcery::Recovery::_callback_napping(Uint32, void *param) -> Uint32 {
 
-	((Recovery *)param)->_controller->set_flag("napping_finished");
+	((Recovery *)param)->_ctx.controller->set_flag("napping_finished");
 
 	return 0;
 }
@@ -112,13 +109,14 @@ auto Sorcery::Recovery::_callback_recuperating(Uint32, void *param) -> Uint32 {
 	return 1000;
 }
 
-auto Sorcery::Recovery::start(Game *game, const int mode) -> int {
+auto Sorcery::Recovery::start(const int mode) -> int {
 
-	_controller->move_screen("show_stay", "show_recovery");
-	_controller->unset_flag("napping_finished");
-	_controller->unset_flag("recuperating_finished");
+	_ctx.controller->move_screen("show_stay", "show_recovery");
+	_ctx.controller->unset_flag("napping_finished");
+	_ctx.controller->unset_flag("recuperating_finished");
 
-	_character = &game->characters.at(_controller->get_character("stay"));
+	_character =
+		&_ctx.game->characters.at(_ctx.controller->get_character("stay"));
 	_character->mode = mode;
 	if (mode & RECOVERY_MODE_FREE)
 		_rest_tick = SDL_AddTimer(1000, &Recovery::_callback_napping, this);
@@ -135,25 +133,25 @@ auto Sorcery::Recovery::start(Game *game, const int mode) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_STAY;
 		}
 
-		_ui->display("recovery", game, mode);
+		_ctx.ui->display("recovery", _ctx.game, mode);
 
 		if (_character->mode == -1)
-			_controller->set_flag("recuperating_finished");
-		if (!_controller->has_flag("show_recovery"))
+			_ctx.controller->set_flag("recuperating_finished");
+		if (!_ctx.controller->has_flag("show_recovery"))
 			return CHECK_FOR_LEVEL_GAIN;
-		if (_controller->has_flag("napping_finished"))
+		if (_ctx.controller->has_flag("napping_finished"))
 			return CHECK_FOR_LEVEL_GAIN;
-		if (_controller->has_flag("recuperating_finished"))
+		if (_ctx.controller->has_flag("recuperating_finished"))
 			return CHECK_FOR_LEVEL_GAIN;
 	}
 
@@ -165,7 +163,7 @@ auto Sorcery::Recovery::stop() -> int {
 
 	SDL_RemoveTimer(_rest_tick);
 
-	_controller->move_screen("show_recovery", "show_stay");
+	_ctx.controller->move_screen("show_recovery", "show_stay");
 
 	return 0;
 }

@@ -25,17 +25,16 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "modules/add.hpp"
-#include "modules/inspect.hpp"
-#include "modules/remove.hpp"
-#include "modules/reorder.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Game;
+class Add;
+class Inspect;
+class Remove;
+class Reorder;
 
 class Tavern {
 
@@ -51,9 +50,8 @@ class Tavern {
 		// Private Methods
 		auto _initialise() -> bool;
 
-		Context &_ctx;
-
 		// Private Members
+		Context &_ctx;
 		std::unique_ptr<Add> _add;
 		std::unique_ptr<Remove> _remove;
 		std::unique_ptr<Reorder> _reorder;

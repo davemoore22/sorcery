@@ -31,20 +31,13 @@
 namespace Sorcery {
 
 // Forward Declarations
-class Character;
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
+struct Context;
 
 class Inspect {
 
 	public:
 		// Standard Constructor
-		Inspect(System *system, Display *display, UI *ui,
-				Controller *controller);
-		Inspect() = delete;
+		Inspect(Context &ctx);
 
 		// Standard Destructor
 		~Inspect();
@@ -53,18 +46,15 @@ class Inspect {
 
 		// Public Methods
 		auto set(const int char_id) -> void;
-		auto start(Game *game, const int mode, const int start_char) -> int;
-		auto stop(Game *game, const int mode) -> void;
+		auto start(const int mode, const int start_char) -> int;
+		auto stop(const int mode) -> void;
 
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 };
 
 }

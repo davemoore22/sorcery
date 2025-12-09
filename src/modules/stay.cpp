@@ -22,43 +22,43 @@
 
 #include "modules/stay.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
+#include "modules/levelup.hpp"
+#include "modules/nolevelup.hpp"
 #include "modules/recovery.hpp"
 #include "types/game.hpp"
 
-Sorcery::Stay::Stay(System *system, Display *display, UI *ui,
-					Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Stay::Stay(Context &ctx)
+	: _ctx{ctx} {
 
-	_recovery = std::make_unique<Recovery>(_system, _display, _ui, _controller);
-	_no_level_up =
-		std::make_unique<NoLevelUp>(_system, _display, _ui, _controller);
-	_level_up = std::make_unique<LevelUp>(_system, _display, _ui, _controller);
+	_recovery = std::make_unique<Recovery>(_ctx);
+	_no_level_up = std::make_unique<NoLevelUp>(_ctx);
+	_level_up = std::make_unique<LevelUp>(_ctx);
 
 	_initialise();
 };
 
+Sorcery::Stay::~Stay() {}
+
 auto Sorcery::Stay::_initialise() -> bool {
 
-	_controller->set_selected("stay_selected", 0);
+	_ctx.controller->set_selected("stay_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Stay::start(Game *game) -> int {
+auto Sorcery::Stay::start() -> int {
 
 	// Unlike what happens in the start() methods in other modules, we don't
 	// call controller->initialise() here, as this module requires we know what
 	// character we have selected to stay at the inn!
-	_controller->move_screen("show_inn", "show_stay");
+	_ctx.controller->move_screen("show_inn", "show_stay");
 
 	// Main loop
 	auto done{false};
@@ -69,43 +69,43 @@ auto Sorcery::Stay::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;
 
 			// Check for Stay Selected (remember +1 to selection)
-			if (_controller->get_selected("stay_selected") > 0) {
+			if (_ctx.controller->get_selected("stay_selected") > 0) {
 
 				// Get Age beforehand
-				auto &character{
-					game->characters.at(_controller->get_character("stay"))};
+				auto &character{_ctx.game->characters.at(
+					_ctx.controller->get_character("stay"))};
 				const auto before_age{character.get_age() % 52};
 
 				// Remember in this case its +1 the usual offset
-				switch (_controller->get_selected("stay_selected")) {
+				switch (_ctx.controller->get_selected("stay_selected")) {
 				case 1:
-					_recovery->start(game, RECOVERY_MODE_FREE);
+					_recovery->start(RECOVERY_MODE_FREE);
 					_recovery->stop();
 					break;
 				case 2:
-					_recovery->start(game, RECOVERY_MODE_COST_10);
+					_recovery->start(RECOVERY_MODE_COST_10);
 					_recovery->stop();
 					break;
 				case 3:
-					_recovery->start(game, RECOVERY_MODE_COST_50);
+					_recovery->start(RECOVERY_MODE_COST_50);
 					_recovery->stop();
 					break;
 				case 4:
-					_recovery->start(game, RECOVERY_MODE_COST_200);
+					_recovery->start(RECOVERY_MODE_COST_200);
 					_recovery->stop();
 					break;
 				case 5:
-					_recovery->start(game, RECOVERY_MODE_COST_500);
+					_recovery->start(RECOVERY_MODE_COST_500);
 					_recovery->stop();
 					break;
 				default:
@@ -120,14 +120,14 @@ auto Sorcery::Stay::start(Game *game) -> int {
 
 					// No Level Up!
 					_no_level_up->start(
-						game, after_age > before_age ? RECOVERY_BIRTHDAY : 0);
+						after_age > before_age ? RECOVERY_BIRTHDAY : 0);
 					_no_level_up->stop();
 				} else {
 
 					// Level Up!
 					character.level_up();
-					_level_up->start(
-						game, after_age > before_age ? RECOVERY_BIRTHDAY : 0);
+					_level_up->start(after_age > before_age ? RECOVERY_BIRTHDAY
+															: 0);
 					_level_up->stop();
 				}
 
@@ -135,10 +135,10 @@ auto Sorcery::Stay::start(Game *game) -> int {
 			}
 		}
 
-		_ui->display("stay", game);
+		_ctx.ui->display("stay", _ctx.game);
 
-		if (!_controller->has_flag("show_stay") &&
-			_controller->has_flag("show_inn"))
+		if (!_ctx.controller->has_flag("show_stay") &&
+			_ctx.controller->has_flag("show_inn"))
 			return BACK_TO_INN;
 	}
 
@@ -148,8 +148,8 @@ auto Sorcery::Stay::start(Game *game) -> int {
 
 auto Sorcery::Stay::stop() -> int {
 
-	_controller->set_selected("stay_selected", 0);
-	_controller->move_screen("show_stay", "show_inn");
+	_ctx.controller->set_selected("stay_selected", 0);
+	_ctx.controller->move_screen("show_stay", "show_inn");
 
 	return 0;
 }

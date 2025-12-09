@@ -22,6 +22,7 @@
 
 #include "modules/inspect.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -35,12 +36,8 @@
 #include "types/game.hpp"
 #include "types/state.hpp"
 
-Sorcery::Inspect::Inspect(System *system, Display *display, UI *ui,
-						  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Inspect::Inspect(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
@@ -54,15 +51,14 @@ auto Sorcery::Inspect::_initialise() -> bool {
 
 auto Sorcery::Inspect::set(const int char_id) -> void {
 
-	_controller->set_character("inspect", char_id);
+	_ctx.controller->set_character("inspect", char_id);
 }
 
-auto Sorcery::Inspect::start(Game *game, const int mode, const int start_char)
-	-> int {
+auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 
-	_controller->initialise("inspect");
-	_controller->set_flag("show_inspect");
-	_controller->set_character("inspect", start_char);
+	_ctx.controller->initialise("inspect");
+	_ctx.controller->set_flag("show_inspect");
+	_ctx.controller->set_character("inspect", start_char);
 
 	// Main loop
 	auto done{false};
@@ -73,71 +69,71 @@ auto Sorcery::Inspect::start(Game *game, const int mode, const int start_char)
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event)) {
+			if (_ctx.controller->check_for_back(event)) {
 
-				if (_ui->modal_identify->show) {
-					_ui->modal_identify->show = false;
-					_controller->unset_flag("want_identify");
+				if (_ctx.ui->modal_identify->show) {
+					_ctx.ui->modal_identify->show = false;
+					_ctx.controller->unset_flag("want_identify");
 				}
-				if (_ui->modal_drop->show) {
-					_ui->modal_drop->show = false;
-					_controller->unset_flag("want_drop");
+				if (_ctx.ui->modal_drop->show) {
+					_ctx.ui->modal_drop->show = false;
+					_ctx.controller->unset_flag("want_drop");
 				}
-				if (_ui->modal_use->show) {
-					_ui->modal_use->show = false;
-					_controller->unset_flag("want_use");
+				if (_ctx.ui->modal_use->show) {
+					_ctx.ui->modal_use->show = false;
+					_ctx.controller->unset_flag("want_use");
 				}
-				if (_ui->modal_invoke->show) {
-					_ui->modal_invoke->show = false;
-					_controller->unset_flag("want_invoke");
+				if (_ctx.ui->modal_invoke->show) {
+					_ctx.ui->modal_invoke->show = false;
+					_ctx.controller->unset_flag("want_invoke");
 				}
-				if (_ui->modal_trade->show) {
-					_ui->modal_trade->show = false;
-					_controller->unset_flag("want_trade");
+				if (_ctx.ui->modal_trade->show) {
+					_ctx.ui->modal_trade->show = false;
+					_ctx.controller->unset_flag("want_trade");
 				}
-				if (_ui->notice_pool_gold->show) {
-					_ui->notice_pool_gold->show = false;
-					_controller->unset_flag("want_pool_gold");
+				if (_ctx.ui->notice_pool_gold->show) {
+					_ctx.ui->notice_pool_gold->show = false;
+					_ctx.controller->unset_flag("want_pool_gold");
 				} else
 					return BACK_FROM_INSPECT;
 			}
 		}
 
-		if (!_controller->has_flag("show_inspect"))
+		if (!_ctx.controller->has_flag("show_inspect"))
 			return BACK_FROM_INSPECT;
 
-		_ui->display("inspect", game, mode);
+		_ctx.ui->display("inspect", _ctx.game, mode);
 
-		if (_controller->has_flag("select_previous_character")) {
+		if (_ctx.controller->has_flag("select_previous_character")) {
 
-			const auto p_size{game->state->get_party_size()};
-			const int char_id{_controller->get_character("inspect")};
-			int pos{game->state->get_char_slot(char_id).value()};
+			const auto p_size{_ctx.game->state->get_party_size()};
+			const int char_id{_ctx.controller->get_character("inspect")};
+			int pos{_ctx.game->state->get_char_slot(char_id).value()};
 			if (pos > 1)
 				--pos;
 			else
 				pos = static_cast<int>(p_size);
-			_controller->set_character(
-				"inspect", game->state->get_party_char(pos).value());
-			_controller->unset_flag("select_previous_character");
-		} else if (_controller->has_flag("select_next_character")) {
+			_ctx.controller->set_character(
+				"inspect", _ctx.game->state->get_party_char(pos).value());
+			_ctx.controller->unset_flag("select_previous_character");
+		} else if (_ctx.controller->has_flag("select_next_character")) {
 
-			const auto p_size{game->state->get_party_size()};
-			const int char_id{_controller->get_character("inspect")};
-			int pos{game->state->get_char_slot(char_id).value()};
+			const auto p_size{_ctx.game->state->get_party_size()};
+			const int char_id{_ctx.controller->get_character("inspect")};
+			int pos{_ctx.game->state->get_char_slot(char_id).value()};
 			if (pos == static_cast<int>(p_size))
 				pos = 1;
 			else
 				++pos;
-			_controller->set_character(
-				"inspect", game->state->get_party_char(pos).value());
-			_controller->unset_flag("select_next_character");
+			_ctx.controller->set_character(
+				"inspect", _ctx.game->state->get_party_char(pos).value());
+			_ctx.controller->unset_flag("select_next_character");
 		}
 	}
 
@@ -145,16 +141,15 @@ auto Sorcery::Inspect::start(Game *game, const int mode, const int start_char)
 	return ABORT_GAME;
 }
 
-auto Sorcery::Inspect::stop([[maybe_unused]] Game *game, const int mode)
-	-> void {
+auto Sorcery::Inspect::stop(const int mode) -> void {
 
-	_controller->clear_character("inspect");
+	_ctx.controller->clear_character("inspect");
 	if (mode & INSPECT_MODE_CAMP)
-		_controller->move_screen("show_inspect", "show_engine");
+		_ctx.controller->move_screen("show_inspect", "show_engine");
 	else if (mode & INSPECT_MODE_TAVERN)
-		_controller->move_screen("show_inspect", "show_tavern");
+		_ctx.controller->move_screen("show_inspect", "show_tavern");
 	else if (mode & INSPECT_MODE_INN)
-		_controller->move_screen("show_inspect", "show_inn");
+		_ctx.controller->move_screen("show_inspect", "show_inn");
 	else if (mode & INSPECT_MODE_TEMPLE)
-		_controller->move_screen("show_inspect", "show_temple");
+		_ctx.controller->move_screen("show_inspect", "show_temple");
 }

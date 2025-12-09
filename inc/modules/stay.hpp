@@ -25,28 +25,26 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "modules/levelup.hpp"
-#include "modules/nolevelup.hpp"
-#include "modules/recovery.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
+struct Context;
+class Recovery;
+class NoLevelUp;
+class LevelUp;
 
 class Stay {
 
 	public:
 		// Standard Constructor
-		Stay(System *system, Display *display, UI *ui, Controller *controller);
+		Stay(Context &ctx);
+
+		~Stay();
 
 		// Public Methods
-		auto start(Game *game) -> int;
+		auto start() -> int;
 		auto stop() -> int;
 
 	private:
@@ -54,10 +52,7 @@ class Stay {
 		auto _initialise() -> bool;
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		std::unique_ptr<Recovery> _recovery;
 		std::unique_ptr<NoLevelUp> _no_level_up;
 		std::unique_ptr<LevelUp> _level_up;

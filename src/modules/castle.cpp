@@ -31,28 +31,30 @@
 #include "gui/dialog.hpp"
 #include "modules/add.hpp"
 #include "modules/choose.hpp"
+#include "modules/inn.hpp"
 #include "modules/inspect.hpp"
 #include "modules/recovery.hpp"
 #include "modules/remove.hpp"
 #include "modules/reorder.hpp"
 #include "modules/roster.hpp"
+#include "modules/shop.hpp"
 #include "modules/stay.hpp"
 #include "modules/tavern.hpp"
+#include "modules/temple.hpp"
 #include "types/game.hpp"
 
 Sorcery::Castle::Castle(Context &ctx)
 	: _ctx{ctx} {
 
 	_tavern = std::make_unique<Tavern>(_ctx);
-	_inn = std::make_unique<Inn>(_ctx.system, _ctx.display, _ctx.ui,
-								 _ctx.controller);
-	_shop = std::make_unique<Shop>(_ctx.system, _ctx.display, _ctx.ui,
-								   _ctx.controller);
-	_temple = std::make_unique<Temple>(_ctx.system, _ctx.display, _ctx.ui,
-									   _ctx.controller);
+	_inn = std::make_unique<Inn>(_ctx);
+	_shop = std::make_unique<Shop>(_ctx);
+	_temple = std::make_unique<Temple>(_ctx);
 
 	_initialise();
 };
+
+Sorcery::Castle::~Castle() {}
 
 auto Sorcery::Castle::_initialise() -> bool {
 
@@ -105,13 +107,13 @@ auto Sorcery::Castle::start() -> int {
 			_tavern->start();
 			_tavern->stop();
 		} else if (_ctx.controller->has_flag("show_inn")) {
-			_inn->start(_ctx.game);
+			_inn->start();
 			_inn->stop();
 		} else if (_ctx.controller->has_flag("show_shop")) {
-			_shop->start(_ctx.game);
+			_shop->start();
 			_shop->stop();
 		} else if (_ctx.controller->has_flag("show_temple")) {
-			_temple->start(_ctx.game);
+			_temple->start();
 			_temple->stop();
 		}
 	}

@@ -278,7 +278,6 @@ auto Sorcery::Application::start() -> int {
 auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 
 	ctx.game->restart_maze(ctx.controller->get_character("restart"));
-	ctx.game = _game.get();
 	auto what{_engine->start(mode)};
 	_engine->stop();
 

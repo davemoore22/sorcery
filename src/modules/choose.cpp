@@ -22,6 +22,7 @@
 
 #include "modules/choose.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -30,27 +31,23 @@
 #include "gui/dialog.hpp"
 #include "types/game.hpp"
 
-Sorcery::Choose::Choose(System *system, Display *display, UI *ui,
-						Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Choose::Choose(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::Choose::_initialise() -> bool {
 
-	_controller->clear_character("choose");
+	_ctx.controller->clear_character("choose");
 
 	return true;
 }
 
-auto Sorcery::Choose::start(Game *game, const int mode) -> int {
+auto Sorcery::Choose::start(const int mode) -> int {
 
-	_controller->initialise("choose");
-	_controller->set_flag("show_choose");
+	_ctx.controller->initialise("choose");
+	_ctx.controller->set_flag("show_choose");
 
 	// Main loop
 	auto done{false};
@@ -61,21 +58,21 @@ auto Sorcery::Choose::start(Game *game, const int mode) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_FROM_CHOOSE;
 		}
 
-		_ui->display("choose", game, mode);
+		_ctx.ui->display("choose", _ctx.game, mode);
 
-		if (!_controller->has_flag("show_choose"))
+		if (!_ctx.controller->has_flag("show_choose"))
 			return BACK_FROM_CHOOSE;
-		if (_controller->get_character("choose"))
+		if (_ctx.controller->get_character("choose"))
 			return BACK_FROM_CHOOSE;
 	}
 
@@ -85,7 +82,7 @@ auto Sorcery::Choose::start(Game *game, const int mode) -> int {
 
 auto Sorcery::Choose::stop() -> int {
 
-	_controller->unset_flag("show_choose");
+	_ctx.controller->unset_flag("show_choose");
 
 	return 0;
 }

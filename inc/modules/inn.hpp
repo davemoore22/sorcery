@@ -25,30 +25,25 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "modules/choose.hpp"
-#include "modules/inspect.hpp"
-#include "modules/roster.hpp"
-#include "modules/stay.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
-class Controller;
-class Display;
-class Game;
-class Modal;
-class System;
-class UI;
+struct Context;
+class Inspect;
+class Stay;
 
 class Inn {
 
 	public:
 		// Standard Constructor
-		Inn(System *system, Display *display, UI *ui, Controller *controller);
+		Inn(Context &ctx);
+
+		~Inn();
 
 		// Public Methods
-		auto start(Game *game) -> int;
+		auto start() -> int;
 		auto stop() -> int;
 
 	private:
@@ -56,10 +51,7 @@ class Inn {
 		auto _initialise() -> bool;
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Stay> _stay;
 };

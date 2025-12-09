@@ -22,6 +22,7 @@
 
 #include "modules/inn.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -34,49 +35,47 @@
 #include "types/game.hpp"
 #include "types/state.hpp"
 
-Sorcery::Inn::Inn(System *system, Display *display, UI *ui,
-				  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Inn::Inn(Context &ctx)
+	: _ctx{ctx} {
 
-	_inspect = std::make_unique<Inspect>(_system, _display, _ui, _controller);
-	_stay = std::make_unique<Stay>(_system, _display, _ui, _controller);
+	_inspect = std::make_unique<Inspect>(_ctx);
+	_stay = std::make_unique<Stay>(_ctx);
 
 	_initialise();
 };
 
+Sorcery::Inn::~Inn() {}
+
 auto Sorcery::Inn::_initialise() -> bool {
 
-	_controller->set_selected("party_panel_selected", 0);
+	_ctx.controller->set_selected("party_panel_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Inn::start(Game *game) -> int {
+auto Sorcery::Inn::start() -> int {
 
-	_controller->initialise("inn");
-	_controller->move_screen("show_castle", "show_inn");
+	_ctx.controller->initialise("inn");
+	_ctx.controller->move_screen("show_castle", "show_inn");
 
 	// Need this before accessing modal_inspect!
-	_ui->create_dynamic_modal(game, "modal_inspect");
-	_ui->create_dynamic_modal(game, "modal_stay");
-	_ui->create_dynamic_modal(game, "modal_identify");
-	_ui->create_dynamic_modal(game, "modal_drop");
-	_ui->create_dynamic_modal(game, "modal_trade");
-	_ui->create_dynamic_modal(game, "modal_use");
-	_ui->create_dynamic_modal(game, "modal_invoke");
-	_ui->modal_inspect->show = false;
-	_ui->modal_stay->show = false;
-	_ui->modal_identify->show = false;
-	_ui->modal_drop->show = false;
-	_ui->modal_trade->show = false;
-	_ui->modal_use->show = false;
-	_ui->modal_invoke->show = false;
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_inspect");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_stay");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_identify");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_drop");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_trade");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_use");
+	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_invoke");
+	_ctx.ui->modal_inspect->show = false;
+	_ctx.ui->modal_stay->show = false;
+	_ctx.ui->modal_identify->show = false;
+	_ctx.ui->modal_drop->show = false;
+	_ctx.ui->modal_trade->show = false;
+	_ctx.ui->modal_use->show = false;
+	_ctx.ui->modal_invoke->show = false;
 
-	_controller->clear_character("inspect");
-	_controller->clear_character("stay");
+	_ctx.controller->clear_character("inspect");
+	_ctx.controller->clear_character("stay");
 
 	// Main loop
 	auto done{false};
@@ -87,31 +86,31 @@ auto Sorcery::Inn::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;
 		}
 
-		_ui->display("inn", game);
+		_ctx.ui->display("inn", _ctx.game);
 
-		if (!_controller->has_flag("show_inn") &&
-			_controller->has_flag("show_castle"))
+		if (!_ctx.controller->has_flag("show_inn") &&
+			_ctx.controller->has_flag("show_castle"))
 			return BACK_TO_CASTLE;
 
-		if (_controller->has_character("inspect")) {
-			_inspect->start(game, INSPECT_MODE_INN,
-							_controller->get_character("inspect"));
-			_inspect->stop(game, INSPECT_MODE_INN);
-			_controller->clear_character("inspect");
-		} else if (_controller->has_character("stay")) {
-			_stay->start(game);
+		if (_ctx.controller->has_character("inspect")) {
+			_inspect->start(INSPECT_MODE_INN,
+							_ctx.controller->get_character("inspect"));
+			_inspect->stop(INSPECT_MODE_INN);
+			_ctx.controller->clear_character("inspect");
+		} else if (_ctx.controller->has_character("stay")) {
+			_stay->start();
 			_stay->stop();
-			_controller->clear_character("stay");
+			_ctx.controller->clear_character("stay");
 		}
 	}
 
@@ -121,9 +120,9 @@ auto Sorcery::Inn::start(Game *game) -> int {
 
 auto Sorcery::Inn::stop() -> int {
 
-	_controller->move_screen("show_inn", "show_castle");
-	_controller->clear_character("inspect");
-	_controller->clear_character("stay");
+	_ctx.controller->move_screen("show_inn", "show_castle");
+	_ctx.controller->clear_character("inspect");
+	_ctx.controller->clear_character("stay");
 
 	return 0;
 }

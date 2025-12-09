@@ -23,6 +23,7 @@
 #include "modules/create.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -33,13 +34,8 @@
 #include "types/character.hpp"
 #include "types/game.hpp"
 
-Sorcery::Create::Create(Application *application, System *system,
-						Display *display, UI *ui, Controller *controller)
-	: _application{application},
-	  _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Create::Create(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
@@ -53,25 +49,25 @@ auto Sorcery::Create::_initialise() -> bool {
 	return true;
 }
 
-auto Sorcery::Create::start(Game *game) -> int {
+auto Sorcery::Create::start() -> int {
 
-	_controller->initialise("create");
-	_controller->set_flag("show_create");
-	_controller->set_flag("want_enter_name");
-	_controller->unset_flag("want_choose_race");
-	_controller->unset_flag("want_choose_alignment");
-	_controller->unset_flag("want_choose_class");
-	_controller->unset_flag("want_choose_confirm");
-	_controller->set_method(Enums::Character::Method::NO_METHOD);
-	_controller->set_selected("class_selected", 8);
+	_ctx.controller->initialise("create");
+	_ctx.controller->set_flag("show_create");
+	_ctx.controller->set_flag("want_enter_name");
+	_ctx.controller->unset_flag("want_choose_race");
+	_ctx.controller->unset_flag("want_choose_alignment");
+	_ctx.controller->unset_flag("want_choose_class");
+	_ctx.controller->unset_flag("want_choose_confirm");
+	_ctx.controller->set_method(Enums::Character::Method::NO_METHOD);
+	_ctx.controller->set_selected("class_selected", 8);
 
-	std::shared_ptr<Character> candidate =
-		std::make_shared<Character>(_system, _application->get_resources());
+	std::shared_ptr<Character> candidate = std::make_shared<Character>(
+		_ctx.system, _ctx.application->get_resources());
 
-	_controller->inject_character(candidate);
+	_ctx.controller->inject_character(candidate);
 	candidate->reset(Enums::Character::Stage::ENTER_NAME);
 
-	_ui->first_frame = true;
+	_ctx.ui->first_frame = true;
 
 	// Main loop
 	auto done{false};
@@ -82,30 +78,30 @@ auto Sorcery::Create::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event)) {
+			if (_ctx.controller->check_for_back(event)) {
 				return BACK_TO_CHOOSE_METHOD;
 			}
 		}
 
-		_ui->display("create_name", game, static_cast<int>(_stage));
+		_ctx.ui->display("create_name", _ctx.game, static_cast<int>(_stage));
 
-		if (!_controller->has_flag("show_create") &&
-			_controller->has_flag("show_method")) {
+		if (!_ctx.controller->has_flag("show_create") &&
+			_ctx.controller->has_flag("show_method")) {
 			return BACK_TO_CHOOSE_METHOD;
-		} else if (!_controller->has_flag("show_create") &&
-				   _controller->has_flag("show_training")) {
+		} else if (!_ctx.controller->has_flag("show_create") &&
+				   _ctx.controller->has_flag("show_training")) {
 			return BACK_TO_TRAINING_GROUNDS;
 		}
 
 		// Check to see if we have finished entering the name (the stage and
 		// name are set in controller->handle_input_button_click())
-		if (!_controller->has_flag("want_enter_name") &&
+		if (!_ctx.controller->has_flag("want_enter_name") &&
 			candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
 
 			while (!done) {
@@ -115,29 +111,30 @@ auto Sorcery::Create::start(Game *game) -> int {
 
 					// Check for Quit Events
 					ImGui_ImplSDL2_ProcessEvent(&event);
-					done = _controller->check_for_abort(event);
+					done = _ctx.controller->check_for_abort(event);
 
 					// Check for Window Resize
-					_controller->check_for_resize(event, _ui);
+					_ctx.controller->check_for_resize(event, _ctx.ui);
 
 					// Check for Back Event
-					if (_controller->check_for_back(event)) {
+					if (_ctx.controller->check_for_back(event)) {
 						return BACK_TO_CHOOSE_METHOD;
 					}
 				}
 
-				_ui->display("create_race", game, static_cast<int>(_stage));
+				_ctx.ui->display("create_race", _ctx.game,
+								 static_cast<int>(_stage));
 
-				if (!_controller->has_flag("show_create") &&
-					_controller->has_flag("show_method")) {
+				if (!_ctx.controller->has_flag("show_create") &&
+					_ctx.controller->has_flag("show_method")) {
 					return BACK_TO_CHOOSE_METHOD;
-				} else if (!_controller->has_flag("show_create") &&
-						   _controller->has_flag("show_training")) {
+				} else if (!_ctx.controller->has_flag("show_create") &&
+						   _ctx.controller->has_flag("show_training")) {
 					return BACK_TO_TRAINING_GROUNDS;
 				}
 
-				if (!_controller->has_flag("want_choose_race") &&
-					_controller->has_flag("want_choose_alignment")) {
+				if (!_ctx.controller->has_flag("want_choose_race") &&
+					_ctx.controller->has_flag("want_choose_alignment")) {
 
 					while (!done) {
 
@@ -146,30 +143,31 @@ auto Sorcery::Create::start(Game *game) -> int {
 
 							// Check for Quit Events
 							ImGui_ImplSDL2_ProcessEvent(&event);
-							done = _controller->check_for_abort(event);
+							done = _ctx.controller->check_for_abort(event);
 
 							// Check for Window Resize
-							_controller->check_for_resize(event, _ui);
+							_ctx.controller->check_for_resize(event, _ctx.ui);
 
 							// Check for Back Event
-							if (_controller->check_for_back(event)) {
+							if (_ctx.controller->check_for_back(event)) {
 								return BACK_TO_CHOOSE_METHOD;
 							}
 						}
 
-						_ui->display("create_alignment", game,
-									 static_cast<int>(_stage));
+						_ctx.ui->display("create_alignment", _ctx.game,
+										 static_cast<int>(_stage));
 
-						if (!_controller->has_flag("show_create") &&
-							_controller->has_flag("show_method")) {
+						if (!_ctx.controller->has_flag("show_create") &&
+							_ctx.controller->has_flag("show_method")) {
 							return BACK_TO_CHOOSE_METHOD;
-						} else if (!_controller->has_flag("show_create") &&
-								   _controller->has_flag("show_training")) {
+						} else if (!_ctx.controller->has_flag("show_create") &&
+								   _ctx.controller->has_flag("show_training")) {
 							return BACK_TO_TRAINING_GROUNDS;
 						}
 
-						if (!_controller->has_flag("want_choose_alignment") &&
-							_controller->has_flag("want_choose_class")) {
+						if (!_ctx.controller->has_flag(
+								"want_choose_alignment") &&
+							_ctx.controller->has_flag("want_choose_class")) {
 
 							while (!done) {
 
@@ -178,33 +176,36 @@ auto Sorcery::Create::start(Game *game) -> int {
 
 									// Check for Quit Events
 									ImGui_ImplSDL2_ProcessEvent(&event);
-									done = _controller->check_for_abort(event);
+									done =
+										_ctx.controller->check_for_abort(event);
 
 									// Check for Window Resize
-									_controller->check_for_resize(event, _ui);
+									_ctx.controller->check_for_resize(event,
+																	  _ctx.ui);
 
 									// Check for Back Event
-									if (_controller->check_for_back(event)) {
+									if (_ctx.controller->check_for_back(
+											event)) {
 										return BACK_TO_CHOOSE_METHOD;
 									}
 								}
 
-								_ui->display("create_class", game,
-											 static_cast<int>(_stage));
+								_ctx.ui->display("create_class", _ctx.game,
+												 static_cast<int>(_stage));
 
-								if (!_controller->has_flag("show_create") &&
-									_controller->has_flag("show_method")) {
+								if (!_ctx.controller->has_flag("show_create") &&
+									_ctx.controller->has_flag("show_method")) {
 									return BACK_TO_CHOOSE_METHOD;
-								} else if (!_controller->has_flag(
+								} else if (!_ctx.controller->has_flag(
 											   "show_create") &&
-										   _controller->has_flag(
+										   _ctx.controller->has_flag(
 											   "show_training")) {
 									return BACK_TO_TRAINING_GROUNDS;
 								}
 
-								if (!_controller->has_flag(
+								if (!_ctx.controller->has_flag(
 										"want_choose_class") &&
-									_controller->has_flag(
+									_ctx.controller->has_flag(
 										"want_choose_confirm")) {
 
 									while (!done) {
@@ -214,34 +215,35 @@ auto Sorcery::Create::start(Game *game) -> int {
 
 											// Check for Quit Events
 											ImGui_ImplSDL2_ProcessEvent(&event);
-											done = _controller->check_for_abort(
-												event);
+											done = _ctx.controller
+													   ->check_for_abort(event);
 
 											// Check for Window Resize
-											_controller->check_for_resize(event,
-																		  _ui);
+											_ctx.controller->check_for_resize(
+												event, _ctx.ui);
 
 											// Check for Back Event
-											if (_controller->check_for_back(
+											if (_ctx.controller->check_for_back(
 													event)) {
 												return BACK_TO_CHOOSE_METHOD;
 											}
 										}
 
-										if (!_controller->has_flag(
+										if (!_ctx.controller->has_flag(
 												"show_create") &&
-											_controller->has_flag(
+											_ctx.controller->has_flag(
 												"show_method")) {
 											return BACK_TO_CHOOSE_METHOD;
-										} else if (!_controller->has_flag(
+										} else if (!_ctx.controller->has_flag(
 													   "show_create") &&
-												   _controller->has_flag(
+												   _ctx.controller->has_flag(
 													   "show_training")) {
 											return BACK_TO_TRAINING_GROUNDS;
 										}
 
-										_ui->display("create_confirm", game,
-													 static_cast<int>(_stage));
+										_ctx.ui->display(
+											"create_confirm", _ctx.game,
+											static_cast<int>(_stage));
 									}
 								}
 							}
@@ -258,9 +260,9 @@ auto Sorcery::Create::start(Game *game) -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Create::stop([[maybe_unused]] Game *game) -> int {
+auto Sorcery::Create::stop() -> int {
 
-	_controller->unset_flag("show_create");
+	_ctx.controller->unset_flag("show_create");
 	_stage = Enums::Character::Stage::ENTER_NAME;
 
 	return 0;

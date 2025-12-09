@@ -41,13 +41,10 @@
 Sorcery::Tavern::Tavern(Context &ctx)
 	: _ctx{ctx} {
 
-	_add = std::make_unique<Add>(_ctx.system, _ctx.display, _ctx.ui,
-								 _ctx.controller);
-	_remove = std::make_unique<Remove>(_ctx.system, _ctx.display, _ctx.ui,
-									   _ctx.controller);
+	_add = std::make_unique<Add>(_ctx);
+	_remove = std::make_unique<Remove>(_ctx);
 	_reorder = std::make_unique<Reorder>(_ctx);
-	_inspect = std::make_unique<Inspect>(_ctx.system, _ctx.display, _ctx.ui,
-										 _ctx.controller);
+	_inspect = std::make_unique<Inspect>(_ctx);
 
 	_initialise();
 };
@@ -106,21 +103,21 @@ auto Sorcery::Tavern::start() -> int {
 
 		// Check for the results of something being selected from a menu
 		if (_ctx.controller->has_flag("show_remove")) {
-			_remove->start(_ctx.game);
-			_remove->stop(_ctx.game);
+			_remove->start();
+			_remove->stop();
 			_ctx.controller->set_flag("show_tavern");
 		} else if (_ctx.controller->has_flag("show_add")) {
-			_add->start(_ctx.game);
-			_add->stop(_ctx.game);
+			_add->start();
+			_add->stop();
 			_ctx.controller->set_flag("show_tavern");
 		} else if (_ctx.controller->has_flag("show_reorder")) {
 			_reorder->start(REORDER_MODE_TAVERN);
 			_reorder->stop(REORDER_MODE_TAVERN);
 			_ctx.controller->set_flag("show_tavern");
 		} else if (_ctx.controller->has_character("inspect")) {
-			_inspect->start(_ctx.game, INSPECT_MODE_TAVERN,
+			_inspect->start(INSPECT_MODE_TAVERN,
 							_ctx.controller->get_character("inspect"));
-			_inspect->stop(_ctx.game, INSPECT_MODE_TAVERN);
+			_inspect->stop(INSPECT_MODE_TAVERN);
 			_ctx.controller->set_flag("show_tavern");
 			_ctx.controller->clear_character("inspect");
 		}

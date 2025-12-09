@@ -51,7 +51,6 @@ class Application {
 	public:
 		// Standard Constructor
 		Application(int argc, char **argv);
-		Application() = delete;
 
 		// Standard Destructor
 		~Application();

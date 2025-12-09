@@ -22,6 +22,7 @@
 
 #include "modules/pay.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -30,35 +31,34 @@
 #include "gui/dialog.hpp"
 #include "gui/input.hpp"
 #include "gui/modal.hpp"
+#include "modules/heal.hpp"
 #include "types/game.hpp"
 
-Sorcery::Pay::Pay(System *system, Display *display, UI *ui,
-				  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Pay::Pay(Context &ctx)
+	: _ctx{ctx} {
 
-	_heal = std::make_unique<Heal>(_system, _display, _ui, _controller);
+	_heal = std::make_unique<Heal>(_ctx);
 
 	_initialise();
 };
 
+Sorcery::Pay::~Pay() {}
+
 auto Sorcery::Pay::_initialise() -> bool {
 
-	_controller->set_selected("pay_selected", 0);
+	_ctx.controller->set_selected("pay_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Pay::start(Game *game) -> int {
+auto Sorcery::Pay::start() -> int {
 
 	// Don't initialise here
-	_controller->move_screen("show_temple", "show_pay");
+	_ctx.controller->move_screen("show_temple", "show_pay");
 
 	// Need this before accessing dynamic modals!
-	_controller->clear_character("pay");
-	_controller->unset_selected("pay_selected");
+	_ctx.controller->clear_character("pay");
+	_ctx.controller->unset_selected("pay_selected");
 
 	// Main loop
 	auto done{false};
@@ -69,24 +69,24 @@ auto Sorcery::Pay::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event (close a Modal if present, else return to
 			// the Castle)
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return HEALED_NOT;
 		}
 
-		_ui->display("pay", game);
+		_ctx.ui->display("pay", _ctx.game);
 
-		if (!_controller->has_flag("show_pay") &&
-			_controller->has_flag("show_temple"))
+		if (!_ctx.controller->has_flag("show_pay") &&
+			_ctx.controller->has_flag("show_temple"))
 			return HEALED_NOT;
-		else if (_controller->has_selected("pay_selected")) {
-			_heal->start(game);
+		else if (_ctx.controller->has_selected("pay_selected")) {
+			_heal->start();
 			_heal->stop();
 			return HEALED_OK;
 		}
@@ -99,11 +99,11 @@ auto Sorcery::Pay::start(Game *game) -> int {
 auto Sorcery::Pay::stop(const bool paid) -> int {
 
 	if (paid) {
-		_controller->move_screen("show_pay", "show_results");
-		_controller->clear_character("pay");
+		_ctx.controller->move_screen("show_pay", "show_results");
+		_ctx.controller->clear_character("pay");
 	} else {
-		_controller->move_screen("show_pay", "show_temple");
-		_controller->clear_character("pay");
+		_ctx.controller->move_screen("show_pay", "show_temple");
+		_ctx.controller->clear_character("pay");
 	}
 
 	return 0;

@@ -22,6 +22,7 @@
 
 #include "modules/levelup.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -30,24 +31,17 @@
 #include "gui/dialog.hpp"
 #include "types/game.hpp"
 
-Sorcery::LevelUp::LevelUp(System *system, Display *display, UI *ui,
-						  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
-
+Sorcery::LevelUp::LevelUp(Context &ctx)
+	: _ctx{ctx} {
 	_initialise();
 };
 
 auto Sorcery::LevelUp::_initialise() -> bool {
-
 	return true;
 }
 
-auto Sorcery::LevelUp::start(Game *game, const int mode) -> int {
-
-	_controller->move_screen("show_stay", "show_levelup");
+auto Sorcery::LevelUp::start(const int mode) -> int {
+	_ctx.controller->move_screen("show_stay", "show_levelup");
 
 	// Main loop
 	auto done{false};
@@ -58,19 +52,19 @@ auto Sorcery::LevelUp::start(Game *game, const int mode) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_STAY;
 		}
 
-		_ui->display("levelup", game, mode);
+		_ctx.ui->display("levelup", _ctx.game, mode);
 
-		if (!_controller->has_flag("show_levelup"))
+		if (!_ctx.controller->has_flag("show_levelup"))
 			return BACK_TO_STAY;
 	}
 
@@ -79,8 +73,7 @@ auto Sorcery::LevelUp::start(Game *game, const int mode) -> int {
 }
 
 auto Sorcery::LevelUp::stop() -> int {
-
-	_controller->move_screen("show_levelup", "show_stay");
+	_ctx.controller->move_screen("show_levelup", "show_stay");
 
 	return 0;
 }

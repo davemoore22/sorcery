@@ -25,20 +25,22 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "modules/restart.hpp"
-#include "modules/training.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
 struct Context;
+class Restart;
+class Training;
 
 class EdgeOfTown {
 
 	public:
 		// Standard Constructor
 		EdgeOfTown(Context &ctx);
+
+		~EdgeOfTown();
 
 		// Public Methods
 		auto start(const int mode) -> int;
@@ -50,7 +52,6 @@ class EdgeOfTown {
 
 		// Private Members
 		Context &_ctx;
-
 		std::unique_ptr<Training> _training_grounds;
 		std::unique_ptr<Restart> _restart;
 };

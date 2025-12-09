@@ -25,26 +25,24 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "modules/heal.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
+struct Context;
+class Heal;
 
 class Pay {
 
 	public:
 		// Standard Constructor
-		Pay(System *system, Display *display, UI *ui, Controller *controller);
+		Pay(Context &ctx);
+
+		~Pay();
 
 		// Public Methods
-		auto start(Game *game) -> int;
+		auto start() -> int;
 		auto stop(const bool paid) -> int;
 
 	private:
@@ -52,10 +50,7 @@ class Pay {
 		auto _initialise() -> bool;
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		std::unique_ptr<Heal> _heal;
 };
 

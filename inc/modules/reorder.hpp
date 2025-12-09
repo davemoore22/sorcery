@@ -31,7 +31,6 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Game;
 
 class Reorder {
 

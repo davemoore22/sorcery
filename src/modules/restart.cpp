@@ -22,6 +22,7 @@
 
 #include "modules/restart.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -30,27 +31,23 @@
 #include "gui/dialog.hpp"
 #include "types/game.hpp"
 
-Sorcery::Restart::Restart(System *system, Display *display, UI *ui,
-						  Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Restart::Restart(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::Restart::_initialise() -> bool {
 
-	_controller->set_selected("restart_selected", 0);
+	_ctx.controller->set_selected("restart_selected", 0);
 
 	return true;
 }
 
-auto Sorcery::Restart::start(Game *game) -> int {
+auto Sorcery::Restart::start() -> int {
 
-	_controller->initialise("restart");
-	_controller->set_flag("show_restart");
+	_ctx.controller->initialise("restart");
+	_ctx.controller->set_flag("show_restart");
 
 	// Main loop
 	auto done{false};
@@ -61,22 +58,22 @@ auto Sorcery::Restart::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_FROM_ROSTER;
 		}
 
-		_ui->display("restart", game);
+		_ctx.ui->display("restart", _ctx.game);
 
-		if (_controller->has_flag("want_restart_expedition")) {
+		if (_ctx.controller->has_flag("want_restart_expedition")) {
 			return RESTART_MAZE;
-		} else if (!_controller->has_flag("show_restart") &&
-				   _controller->has_flag("show_edge_of_town"))
+		} else if (!_ctx.controller->has_flag("show_restart") &&
+				   _ctx.controller->has_flag("show_edge_of_town"))
 			return BACK_TO_EDGE_OF_TOWN;
 	}
 
@@ -84,10 +81,10 @@ auto Sorcery::Restart::start(Game *game) -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Restart::stop(Game *game) -> int {
+auto Sorcery::Restart::stop() -> int {
 
-	game->save_game();
-	_controller->move_screen("show_restart", "show_edge_of_town");
+	_ctx.game->save_game();
+	_ctx.controller->move_screen("show_restart", "show_edge_of_town");
 
 	return 0;
 }

@@ -25,22 +25,24 @@
 #include "common/define.hpp"
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "modules/inn.hpp"
-#include "modules/shop.hpp"
-#include "modules/tavern.hpp"
-#include "modules/temple.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
 struct Context;
+class Shop;
+class Tavern;
+class Temple;
+class Inn;
 
 class Castle {
 
 	public:
 		// Standard Constructor
 		Castle(Context &ctx);
+
+		~Castle();
 
 		// Public Methods
 		auto start() -> int;

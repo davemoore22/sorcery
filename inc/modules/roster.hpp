@@ -30,21 +30,16 @@
 namespace Sorcery {
 
 // Forward Declarations
-class Controller;
-class Display;
-class Game;
-class System;
-class UI;
+struct Context;
 
 class Roster {
 
 	public:
 		// Standard Constructor
-		Roster(System *system, Display *display, UI *ui,
-			   Controller *controller);
+		Roster(Context &ctx);
 
 		// Public Methods
-		auto start(Game *game, const int mode) -> int;
+		auto start(const int mode) -> int;
 		auto stop() -> int;
 
 	private:
@@ -52,10 +47,7 @@ class Roster {
 		auto _initialise() -> bool;
 
 		// Private Members
-		System *_system;
-		Display *_display;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 };
 
 };

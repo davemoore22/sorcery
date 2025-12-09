@@ -23,6 +23,7 @@
 #include "modules/training.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -32,32 +33,28 @@
 #include "modules/method.hpp"
 #include "types/game.hpp"
 
-Sorcery::Training::Training(Application *application, System *system,
-							Display *display, UI *ui, Controller *controller)
-	: _application{application},
-	  _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Training::Training(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 
-	_method = std::make_unique<Method>(_application, _system, _display, _ui,
-									   _controller);
+	_method = std::make_unique<Method>(_ctx);
 };
+
+Sorcery::Training::~Training() {}
 
 auto Sorcery::Training::_initialise() -> bool {
 
 	return true;
 }
 
-auto Sorcery::Training::start(Game *game) -> int {
+auto Sorcery::Training::start() -> int {
 
-	_method->start(game);
-	_method->stop(game);
+	_method->start();
+	_method->stop();
 
-	_controller->initialise("training_grounds");
-	_controller->set_flag("show_training");
+	_ctx.controller->initialise("training_grounds");
+	_ctx.controller->set_flag("show_training");
 
 	// Main loop
 	auto done{false};
@@ -68,27 +65,27 @@ auto Sorcery::Training::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event)) {
+			if (_ctx.controller->check_for_back(event)) {
 				return BACK_TO_EDGE_OF_TOWN;
 			}
 
-			if (_controller->has_flag("show_method")) {
-				_method->start(game);
-				_method->stop(game);
+			if (_ctx.controller->has_flag("show_method")) {
+				_method->start();
+				_method->stop();
 			}
 		}
 
-		_ui->display("training_grounds", game);
+		_ctx.ui->display("training_grounds", _ctx.game);
 
-		if (!_controller->has_flag("show_training") &&
-			_controller->has_flag("show_edge_of_town")) {
-			game->save_game();
+		if (!_ctx.controller->has_flag("show_training") &&
+			_ctx.controller->has_flag("show_edge_of_town")) {
+			_ctx.game->save_game();
 			return BACK_TO_EDGE_OF_TOWN;
 		}
 	}
@@ -99,7 +96,7 @@ auto Sorcery::Training::start(Game *game) -> int {
 
 auto Sorcery::Training::stop() -> int {
 
-	_controller->unset_flag("show_training");
+	_ctx.controller->unset_flag("show_training");
 
 	return 0;
 }

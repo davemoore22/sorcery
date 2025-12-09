@@ -22,6 +22,7 @@
 
 #include "modules/heal.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -30,19 +31,15 @@
 #include "types/character.hpp"
 #include "types/game.hpp"
 
-Sorcery::Heal::Heal(System *system, Display *display, UI *ui,
-					Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _ui{ui},
-	  _controller{controller} {
+Sorcery::Heal::Heal(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 };
 
 auto Sorcery::Heal::_initialise() -> bool {
 
-	_controller->unset_flag("heal_finished");
+	_ctx.controller->unset_flag("heal_finished");
 	_stage = 5;
 	_results = "";
 
@@ -61,14 +58,15 @@ auto Sorcery::Heal::_callback_heal_tick(Uint32, void *param) -> Uint32 {
 		return 2000;
 }
 
-auto Sorcery::Heal::start(Game *game) -> int {
+auto Sorcery::Heal::start() -> int {
 
-	_controller->move_screen("show_pay", "show_heal");
-	_controller->unset_flag("heal_finished");
+	_ctx.controller->move_screen("show_pay", "show_heal");
+	_ctx.controller->unset_flag("heal_finished");
 
 	_heal_tick = SDL_AddTimer(2000, &Heal::_callback_heal_tick, this);
 
-	_character = &game->characters.at(_controller->get_character("help"));
+	_character =
+		&_ctx.game->characters.at(_ctx.controller->get_character("help"));
 
 	// Main loop
 	auto done{false};
@@ -79,27 +77,27 @@ auto Sorcery::Heal::start(Game *game) -> int {
 
 			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _controller->check_for_abort(event);
+			done = _ctx.controller->check_for_abort(event);
 
 			// Check for Window Resize
-			_controller->check_for_resize(event, _ui);
+			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			if (_controller->check_for_back(event))
+			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_TEMPLE;
 		}
 
-		_ui->display("heal", game, _stage);
+		_ctx.ui->display("heal", _ctx.game, _stage);
 
 		if (_stage <= 0) {
 
 			// Handle Healing
-			_try_heal(game, _controller->get_character("help"),
-					  _controller->get_character("pay"));
-			_controller->set_flag("heal_finished");
+			_try_heal(_ctx.controller->get_character("help"),
+					  _ctx.controller->get_character("pay"));
+			_ctx.controller->set_flag("heal_finished");
 		}
 
-		if (!_controller->has_flag("show_heal"))
+		if (!_ctx.controller->has_flag("show_heal"))
 			return BACK_TO_TEMPLE;
 	}
 
@@ -108,11 +106,10 @@ auto Sorcery::Heal::start(Game *game) -> int {
 }
 
 // If we get here we can afford to heal
-auto Sorcery::Heal::_try_heal(Game *game, int heal_char_id, int pay_char_id)
-	-> bool {
+auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 
-	auto &pay_char{game->characters[pay_char_id]};
-	auto &heal_char{game->characters[heal_char_id]};
+	auto &pay_char{_ctx.game->characters[pay_char_id]};
+	auto &heal_char{_ctx.game->characters[heal_char_id]};
 
 	auto results{""s};
 
@@ -126,28 +123,28 @@ auto Sorcery::Heal::_try_heal(Game *game, int heal_char_id, int pay_char_id)
 	if (heal_char.get_status() == DEAD) {
 
 		const auto chance{heal_char.get_ress_chance(false)};
-		const auto roll((*_system->random)[D100]);
+		const auto roll((*_ctx.system->random)[D100]);
 
 		if (roll < chance) {
 
-			results = std::format("{} {} {}",
-								  (*_system->strings)["TEMPLE_HEALED_PREFIX"],
-								  heal_char.get_name(),
-								  (*_system->strings)["TEMPLE_HEALED_SUFFIX"]);
+			results = std::format(
+				"{} {} {}", (*_ctx.system->strings)["TEMPLE_HEALED_PREFIX"],
+				heal_char.get_name(),
+				(*_ctx.system->strings)["TEMPLE_HEALED_SUFFIX"]);
 			heal_char.set_status(OK);
 			heal_char.set_current_hp(1);
 			heal_char.set_location(TAVERN);
-			_controller->set_text("heal_results", results);
+			_ctx.controller->set_text("heal_results", results);
 
 			return true;
 		} else {
 
 			results = std::format(
-				"{} {} {}", (*_system->strings)["TEMPLE_OOPS_DEAD_PREFIX"],
+				"{} {} {}", (*_ctx.system->strings)["TEMPLE_OOPS_DEAD_PREFIX"],
 				heal_char.get_name(),
-				(*_system->strings)["TEMPLE_OOPS_DEAD_SUFFIX"]);
+				(*_ctx.system->strings)["TEMPLE_OOPS_DEAD_SUFFIX"]);
 			heal_char.set_status(ASHES);
-			_controller->set_text("heal_results", results);
+			_ctx.controller->set_text("heal_results", results);
 
 			return false;
 		}
@@ -155,42 +152,43 @@ auto Sorcery::Heal::_try_heal(Game *game, int heal_char_id, int pay_char_id)
 	} else if (heal_char.get_status() == ASHES) {
 
 		const auto chance{heal_char.get_ress_chance(false)};
-		const auto roll((*_system->random)[D100]);
+		const auto roll((*_ctx.system->random)[D100]);
 
 		if (roll < chance) {
 
-			results = std::format("{} {} {}",
-								  (*_system->strings)["TEMPLE_HEALED_PREFIX"],
-								  heal_char.get_name(),
-								  (*_system->strings)["TEMPLE_HEALED_SUFFIX"]);
+			results = std::format(
+				"{} {} {}", (*_ctx.system->strings)["TEMPLE_HEALED_PREFIX"],
+				heal_char.get_name(),
+				(*_ctx.system->strings)["TEMPLE_HEALED_SUFFIX"]);
 			heal_char.set_status(OK);
 			heal_char.set_current_hp(1);
 			heal_char.set_location(TAVERN);
-			_controller->set_text("heal_results", results);
+			_ctx.controller->set_text("heal_results", results);
 
 			return true;
 
 		} else {
 
 			results = std::format(
-				"{} {} {}", (*_system->strings)["TEMPLE_OOPS_ASHES_PREFIX"],
+				"{} {} {}", (*_ctx.system->strings)["TEMPLE_OOPS_ASHES_PREFIX"],
 				heal_char.get_name(),
-				(*_system->strings)["TEMPLE_OOPS_ASHES_SUFFIX"]);
+				(*_ctx.system->strings)["TEMPLE_OOPS_ASHES_SUFFIX"]);
 			heal_char.set_status(LOST);
 			heal_char.set_location(TRAINING);
 			heal_char.set_current_hp(0);
-			_controller->set_text("heal_results", results);
+			_ctx.controller->set_text("heal_results", results);
 
 			return false;
 		}
 
 	} else {
 
-		results = std::format(
-			"{} {} {}", (*_system->strings)["TEMPLE_HEALED_PREFIX"],
-			heal_char.get_name(), (*_system->strings)["TEMPLE_HEALED_SUFFIX"]);
+		results = std::format("{} {} {}",
+							  (*_ctx.system->strings)["TEMPLE_HEALED_PREFIX"],
+							  heal_char.get_name(),
+							  (*_ctx.system->strings)["TEMPLE_HEALED_SUFFIX"]);
 		heal_char.set_status(OK);
-		_controller->set_text("heal_results", results);
+		_ctx.controller->set_text("heal_results", results);
 
 		return true;
 	};
@@ -200,7 +198,7 @@ auto Sorcery::Heal::stop() -> int {
 
 	SDL_RemoveTimer(_heal_tick);
 
-	_controller->move_screen("show_heal", "show_title");
+	_ctx.controller->move_screen("show_heal", "show_title");
 
 	return 0;
 }
