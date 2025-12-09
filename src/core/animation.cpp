@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "core/animation.hpp"
+#include "core/random.hpp"
 #include "core/system.hpp"
 
 // Standard Constructor
@@ -198,7 +199,7 @@ auto Sorcery::Animation::_do_wp() -> void {
 
 	std::scoped_lock<std::mutex> scoped_lock(_wp_mutex);
 
-	wp_idx = (*_random)[Enums::System::Random::D165];
+	wp_idx = _random->get(Enums::System::Random::D165);
 	_last_wp = std::chrono::system_clock::now();
 }
 
@@ -206,11 +207,11 @@ auto Sorcery::Animation::_do_attract() -> void {
 
 	std::scoped_lock<std::mutex> scoped_lock(_attract_mutex);
 	auto index{0u};
-	const auto num{(*_random)[Enums::System::Random::D4]};
+	const auto num{_random->get(Enums::System::Random::D4)};
 	_attract_mode.clear();
 	for (auto i = 0u; i < num; i++) {
 		do {
-			index = (*_random)[Enums::System::Random::ZERO_TO_399];
+			index = _random->get(Enums::System::Random::ZERO_TO_399);
 		} while (std::ranges::find(_attract_mode.begin(), _attract_mode.end(),
 								   index) != _attract_mode.end());
 		_attract_mode.push_back(index);

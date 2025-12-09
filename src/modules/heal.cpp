@@ -123,7 +123,7 @@ auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 	if (heal_char.get_status() == DEAD) {
 
 		const auto chance{heal_char.get_ress_chance(false)};
-		const auto roll((*_ctx.system->random)[D100]);
+		const auto roll(_ctx.get_random(D100));
 
 		if (roll < chance) {
 
@@ -152,7 +152,7 @@ auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 	} else if (heal_char.get_status() == ASHES) {
 
 		const auto chance{heal_char.get_ress_chance(false)};
-		const auto roll((*_ctx.system->random)[D100]);
+		const auto roll(_ctx.get_random(D100));
 
 		if (roll < chance) {
 

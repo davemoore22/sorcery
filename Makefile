@@ -498,6 +498,30 @@ src/core/application.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/application.cpp.s
 .PHONY : src/core/application.cpp.s
 
+src/core/context.o: src/core/context.cpp.o
+.PHONY : src/core/context.o
+
+# target to build an object file
+src/core/context.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/context.cpp.o
+.PHONY : src/core/context.cpp.o
+
+src/core/context.i: src/core/context.cpp.i
+.PHONY : src/core/context.i
+
+# target to preprocess a source file
+src/core/context.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/context.cpp.i
+.PHONY : src/core/context.cpp.i
+
+src/core/context.s: src/core/context.cpp.s
+.PHONY : src/core/context.s
+
+# target to generate assembly for a file
+src/core/context.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/context.cpp.s
+.PHONY : src/core/context.cpp.s
+
 src/core/controller.o: src/core/controller.cpp.o
 .PHONY : src/core/controller.o
 
@@ -2328,6 +2352,9 @@ help:
 	@echo "... src/core/application.o"
 	@echo "... src/core/application.i"
 	@echo "... src/core/application.s"
+	@echo "... src/core/context.o"
+	@echo "... src/core/context.i"
+	@echo "... src/core/context.s"
 	@echo "... src/core/controller.o"
 	@echo "... src/core/controller.i"
 	@echo "... src/core/controller.s"

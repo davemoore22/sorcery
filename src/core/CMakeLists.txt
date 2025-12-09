@@ -2,6 +2,7 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/animation.cpp
 	${CMAKE_CURRENT_LIST_DIR}/application.cpp
 	${CMAKE_CURRENT_LIST_DIR}/controller.cpp
+	${CMAKE_CURRENT_LIST_DIR}/context.cpp
 	${CMAKE_CURRENT_LIST_DIR}/database.cpp
 	${CMAKE_CURRENT_LIST_DIR}/display.cpp
 	${CMAKE_CURRENT_LIST_DIR}/random.cpp

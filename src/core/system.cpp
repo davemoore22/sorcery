@@ -23,7 +23,13 @@
 #include "core/system.hpp"
 #include "common/define.hpp"
 #include "common/enum.hpp"
+#include "core/animation.hpp"
+#include "core/database.hpp"
 #include "core/macro.hpp"
+#include "core/random.hpp"
+#include "resources/filestore.hpp"
+#include "resources/stringstore.hpp"
+#include "types/config.hpp"
 
 Sorcery::System::System(int argc __attribute__((unused)),
 						char **argv __attribute__((unused))) {

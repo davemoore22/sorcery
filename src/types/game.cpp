@@ -22,6 +22,7 @@
 
 #include "types/game.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
 #include "types/state.hpp"
@@ -567,7 +568,7 @@ auto Sorcery::Game::_debug_harm_party_to_min() -> void {
 
 	for (const auto party{state->get_party_characters()}; auto idx : party) {
 		auto &cur_char{characters.at(idx)};
-		const auto hp{(*_system->random)[Enums::System::Random::D4]};
+		const auto hp{_system->ctx->get_random(Enums::System::Random::D4)};
 		cur_char.set_current_hp(hp);
 	}
 }
@@ -582,7 +583,7 @@ auto Sorcery::Game::_debug_give_party_random_status() -> void {
 
 		cur_char.set_status(
 			magic_enum::enum_cast<Enums::Character::Status>(
-				(*_system->random)[Enums::System::Random::ZERO_TO_8])
+				_system->ctx->get_random(Enums::System::Random::ZERO_TO_8))
 				.value());
 		using enum Enums::Character::Status;
 		if ((cur_char.get_status() == DEAD) ||
@@ -660,7 +661,7 @@ auto Sorcery::Game::_debug_create_random_party() -> void {
 	PRINT("debug_create_random_party");
 
 	// Create a new random party of a random alignment
-	const auto align{(*_system->random)[Enums::System::Random::D2] == 1
+	const auto align{_system->ctx->get_random(Enums::System::Random::D2) == 1
 						 ? Enums::Character::Align::GOOD
 						 : Enums::Character::Align::EVIL};
 	for (int i = 0; i < 6; i++) {

@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "core/application.hpp"
+#include "core/animation.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/resources.hpp"
@@ -33,6 +34,7 @@
 #include "gui/define.hpp"
 #include "modules/castle.hpp"
 #include "modules/edgeoftown.hpp"
+#include "types/config.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
 
@@ -67,7 +69,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 		_args.push_back(arg);
 	}
 
-	// Set up all the Core Modules
+	// Set up all the Core Modules (we will inject context in them later)
 	_system = std::make_unique<System>(argc, argv);
 	_display = std::make_unique<Display>(_system.get());
 	_resources = std::make_unique<Resources>(_system.get());
@@ -77,7 +79,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 							   _controller.get());
 	_game = std::make_unique<Game>(_system.get(), _resources.get());
 
-	// And the Context for DI
+	// And the Context object used for DI
 	ctx = Context{};
 	ctx.application = this;
 	ctx.system = _system.get();
@@ -95,6 +97,10 @@ Sorcery::Application::Application(int argc, char **argv) {
 	ctx.components = _ui->components.get();
 	ctx.images = _ui->images.get();
 	ctx.fonts = _ui->fontstore.get();
+
+	// Install context into system, as then everything like ui, controller, etc
+	// will all have access to it
+	_system->ctx = &ctx;
 
 	// Frontend Game Modules
 	_main_menu = std::make_unique<MainMenu>(ctx);
@@ -395,7 +401,7 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 	// Create a new random party of a random alignment
 	using enum Enums::Character::Align;
 	auto first{NO_ALIGN}, second{NO_ALIGN}, align{NO_ALIGN};
-	if ((*ctx.random)[Enums::System::Random::D2] == 1) {
+	if (ctx.get_random(Enums::System::Random::D2) == 1) {
 		first = GOOD;
 		second = EVIL;
 	} else {

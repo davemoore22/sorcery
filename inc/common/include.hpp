@@ -100,6 +100,7 @@ extern "C" {
 #include <ios>
 #include <iostream>
 #include <iterator>
+#include <libgen.h>
 #include <locale>
 #include <memory>
 #include <mutex>

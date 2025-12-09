@@ -31,11 +31,6 @@ Sorcery::StringStore::StringStore(const std::string &filename)
 	_loaded = _load();
 }
 
-auto Sorcery::StringStore::operator[](std::string_view key) -> std::string & {
-
-	return _loaded ? _strings[std::string{key}] : _strings["NONE"];
-}
-
 auto Sorcery::StringStore::reload() -> void {
 
 	_loaded = _load();
@@ -86,7 +81,7 @@ auto Sorcery::StringStore::_load() -> bool {
 	return true;
 }
 
-auto Sorcery::StringStore::get(std::string_view key) -> std::string {
+auto Sorcery::StringStore::get(std::string_view key) const -> std::string {
 
 	if (_loaded)
 		return _strings.contains(std::string{key})

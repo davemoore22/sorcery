@@ -31,9 +31,7 @@ class StringStore {
 		explicit StringStore(const std::string &filename);
 		StringStore() = delete;
 
-		auto operator[](std::string_view key) -> std::string &;
-
-		auto get(std::string_view key) -> std::string;
+		auto get(std::string_view key) const -> std::string;
 		auto reload() -> void;
 
 	private:

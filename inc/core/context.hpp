@@ -62,6 +62,12 @@ struct Context {
 		ComponentStore *components = nullptr;
 		FontStore *fonts = nullptr;
 		ImageStore *images = nullptr;
+
+		// Helpers
+		auto get_random(const Enums::System::Random random_type)
+			-> unsigned int;
+		auto Sorcery::Context::get_string(std::string_view key)
+			-> std::string &;
 };
 
 }

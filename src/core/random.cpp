@@ -88,10 +88,9 @@ Sorcery::Random::Random() {
 			"wan",	 "win",	 "wyn",	 "wyr",	 "wyr",	 "wyth"};
 }
 
-auto Sorcery::Random::operator[](const Enums::System::Random random_type)
+auto Sorcery::Random::get(const Enums::System::Random random_type)
 	-> unsigned int {
 
-	// Initialise ImGUI to use SDL2/OpenGL
 	return _get(random_type);
 }
 

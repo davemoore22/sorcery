@@ -20,44 +20,17 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#pragma once
+#include "core/context.hpp"
+#include "core/random.hpp"
+#include "resources/stringstore.hpp"
 
-#include "common/include.hpp"
-#include "core/include.hpp"
+auto Sorcery::Context::get_random(const Enums::System::Random random_type)
+	-> unsigned int {
 
-namespace Sorcery {
+	return random->get(random_type);
+}
 
-struct Context;
-class Animation;
-class Config;
-class Database;
-class FileStore;
-class StringStore;
-class Random;
+auto Sorcery::Context::get_string(std::string_view key) -> std::string & {
 
-class System {
-
-	public:
-		System(int argc, char **argv);
-
-		auto convert_tp_to_str(
-			const std::chrono::time_point<std::chrono::system_clock> tp) const
-			-> std::string;
-		auto dice_roll_to_str(const std::string &message, const int dice,
-							  const int roll, const int needed) const
-			-> std::string;
-
-		Context *ctx = nullptr;
-
-		std::unique_ptr<Animation> animation;
-		std::unique_ptr<Config> config;
-		std::unique_ptr<Database> db;
-		std::unique_ptr<FileStore> files;
-		std::unique_ptr<StringStore> strings;
-		std::unique_ptr<Random> random;
-
-	private:
-		std::unique_ptr<CSimpleIniA> _settings;
-};
-
+	return strings->get(key);
 }

@@ -31,13 +31,11 @@ class Random {
 	public:
 		Random();
 
-		auto operator[](const Enums::System::Random random_type)
-			-> unsigned int;
-
 		auto get_random_name() -> std::string;
 		auto get_type(const int num) const -> Enums::System::Random;
 		auto get(const unsigned int min, const unsigned int max)
 			-> unsigned int;
+		auto get(const Enums::System::Random random_type) -> unsigned int;
 
 	private:
 		std::random_device _device;

@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "core/controller.hpp"
+#include "core/database.hpp"
 #include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/resources.hpp"
