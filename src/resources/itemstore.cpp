@@ -303,14 +303,13 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 		return false;
 }
 
-auto Sorcery::ItemStore::operator[](Enums::Items::TypeID item_type_id) const
+auto Sorcery::ItemStore::get(Enums::Items::TypeID item_type_id) const
 	-> ItemType {
 
 	return _items.at(item_type_id);
 }
 
-auto Sorcery::ItemStore::operator[](unsigned int item_type_id) const
-	-> ItemType {
+auto Sorcery::ItemStore::get(unsigned int item_type_id) const -> ItemType {
 
 	return _items.at(
 		magic_enum::enum_cast<Enums::Items::TypeID>(item_type_id).value());
@@ -322,7 +321,7 @@ auto Sorcery::ItemStore::get_item_type(
 	return _items.at(item_type_id);
 }
 
-auto Sorcery::ItemStore::operator[](std::string name) const -> ItemType {
+auto Sorcery::ItemStore::get(std::string name) const -> ItemType {
 
 	auto it{std::ranges::find_if(
 		_items.begin(), _items.end(), [&](const auto &item_type) {
@@ -331,7 +330,7 @@ auto Sorcery::ItemStore::operator[](std::string name) const -> ItemType {
 	return (*it).second;
 }
 
-auto Sorcery::ItemStore::operator()(const Enums::Items::Category category) const
+auto Sorcery::ItemStore::get(const Enums::Items::Category category) const
 	-> std::vector<ItemType> {
 
 	std::vector<ItemType> items;

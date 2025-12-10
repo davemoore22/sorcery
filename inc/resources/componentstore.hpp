@@ -33,7 +33,6 @@ class ComponentStore {
 	public:
 		explicit ComponentStore(const std::filesystem::path filename);
 
-		auto operator[](std::string_view combined_key) -> Component &;
 		auto operator()(std::string_view screen)
 			-> std::optional<std::vector<Component>>;
 

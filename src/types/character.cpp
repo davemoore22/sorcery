@@ -2521,9 +2521,9 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 
 	for (const auto &item : inventory.items()) {
 		if (item.get_equipped() && item.get_cursed())
-			ac = ac + (*_resources->items)[item.get_type_id()].get_ac_mod();
+			ac = ac + _resources->items->get(item.get_type_id()).get_ac_mod();
 		else if (item.get_equipped())
-			ac = ac - (*_resources->items)[item.get_type_id()].get_ac_mod();
+			ac = ac - _resources->items->get(item.get_type_id()).get_ac_mod();
 	}
 
 	return ac;
@@ -2534,8 +2534,8 @@ auto Sorcery::Character::get_cur_to_hit() const -> int {
 	auto to_hit{_abilities.at(Enums::Character::Ability::HIT_PROBABILITY)};
 
 	for (const auto &item : inventory.items())
-		to_hit =
-			to_hit + (*_resources->items)[item.get_type_id()].get_to_hit_mod();
+		to_hit = to_hit +
+				 _resources->items->get(item.get_type_id()).get_to_hit_mod();
 
 	return to_hit;
 }
@@ -2548,7 +2548,7 @@ auto Sorcery::Character::get_cur_num_attacks() const -> int {
 
 	for (const auto &item : inventory.items())
 		extra_attacks = extra_attacks +
-						(*_resources->items)[item.get_type_id()].get_swings();
+						_resources->items->get(item.get_type_id()).get_swings();
 
 	return extra_attacks > base_attacks ? extra_attacks : base_attacks;
 }

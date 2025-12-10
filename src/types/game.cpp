@@ -704,22 +704,22 @@ auto Sorcery::Game::_debug_create_random_party() -> void {
 		case FIGHTER:
 		case LORD:
 		case SAMURAI:
-			pc.inventory.add_type((*_resources->items)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*_resources->items)[LONG_SWORD], true);
+			pc.inventory.add_type(_resources->items->get(LEATHER_ARMOR), true);
+			pc.inventory.add_type(_resources->items->get(LONG_SWORD), true);
 			break;
 		case MAGE:
-			pc.inventory.add_type((*_resources->items)[ROBES], true);
-			pc.inventory.add_type((*_resources->items)[DAGGER], true);
+			pc.inventory.add_type(_resources->items->get(ROBES), true);
+			pc.inventory.add_type(_resources->items->get(DAGGER), true);
 			break;
 		case PRIEST:
 		case BISHOP:
-			pc.inventory.add_type((*_resources->items)[ROBES], true);
-			pc.inventory.add_type((*_resources->items)[STAFF], true);
+			pc.inventory.add_type(_resources->items->get(ROBES), true);
+			pc.inventory.add_type(_resources->items->get(STAFF), true);
 			break;
 		case THIEF:
 		case NINJA:
-			pc.inventory.add_type((*_resources->items)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*_resources->items)[SHORT_SWORD], true);
+			pc.inventory.add_type(_resources->items->get(LEATHER_ARMOR), true);
+			pc.inventory.add_type(_resources->items->get(SHORT_SWORD), true);
 		default:
 			break;
 		}

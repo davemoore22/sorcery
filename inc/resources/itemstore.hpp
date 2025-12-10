@@ -37,11 +37,11 @@ class ItemStore {
 		ItemStore(System *system, const std::filesystem::path filename);
 		ItemStore() = delete;
 
-		auto operator[](Enums::Items::TypeID item_type_id) const -> ItemType;
-		auto operator[](unsigned int item_type_id) const -> ItemType;
-		auto operator()(Enums::Items::Category category) const
+		auto get(Enums::Items::TypeID item_type_id) const -> ItemType;
+		auto get(unsigned int item_type_id) const -> ItemType;
+		auto get(Enums::Items::Category category) const
 			-> std::vector<ItemType>;
-		auto operator[](std::string name) const -> ItemType;
+		auto get(std::string name) const -> ItemType;
 
 		auto get_item_type(const Enums::Items::TypeID item_type_id) const
 			-> ItemType;

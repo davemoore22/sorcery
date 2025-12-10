@@ -77,13 +77,6 @@ auto Sorcery::ComponentStore::get(std::string_view combined_key)
 	}
 }
 
-// Overload [] Operator
-auto Sorcery::ComponentStore::operator[](std::string_view combined_key)
-	-> Component & {
-
-	return get(combined_key);
-}
-
 // Overload () Operator
 auto Sorcery::ComponentStore::operator()(std::string_view screen)
 	-> std::optional<std::vector<Component>> {

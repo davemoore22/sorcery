@@ -1264,29 +1264,29 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 				case LORD:
 				case SAMURAI:
 					_create->inventory.add_type(
-						(*_resources->items)[LEATHER_ARMOR], true);
+						_resources->items->get(LEATHER_ARMOR), true);
 					_create->inventory.add_type(
-						(*_resources->items)[LONG_SWORD], true);
+						_resources->items->get(LONG_SWORD), true);
 					break;
 				case MAGE:
-					_create->inventory.add_type((*_resources->items)[ROBES],
+					_create->inventory.add_type(_resources->items->get(ROBES),
 												true);
-					_create->inventory.add_type((*_resources->items)[DAGGER],
+					_create->inventory.add_type(_resources->items->get(DAGGER),
 												true);
 					break;
 				case PRIEST:
 				case BISHOP:
-					_create->inventory.add_type((*_resources->items)[ROBES],
+					_create->inventory.add_type(_resources->items->get(ROBES),
 												true);
-					_create->inventory.add_type((*_resources->items)[STAFF],
+					_create->inventory.add_type(_resources->items->get(STAFF),
 												true);
 					break;
 				case THIEF:
 				case NINJA:
 					_create->inventory.add_type(
-						(*_resources->items)[LEATHER_ARMOR], true);
+						_resources->items->get(LEATHER_ARMOR), true);
 					_create->inventory.add_type(
-						(*_resources->items)[SHORT_SWORD], true);
+						_resources->items->get(SHORT_SWORD), true);
 				default:
 					break;
 				}

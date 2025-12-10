@@ -38,9 +38,8 @@ Sorcery::State::State(System *system)
 auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
 
 	for (int id = 0; id < 101; id++) {
-		const auto item_type{
-			(*itemstore)[magic_enum::enum_cast<Enums::Items::TypeID>(id)
-							 .value()]};
+		const auto item_type{itemstore->get(
+			magic_enum::enum_cast<Enums::Items::TypeID>(id).value())};
 		_shop[id] = {item_type.get_shop_inital_stock(),
 					 item_type.get_shop_inital_stock(), item_type.get_buy(),
 					 item_type.get_sell()};
@@ -383,7 +382,7 @@ auto Sorcery::State::sell_to_shop(ItemStore *itemstore,
 
 	if (_shop[unenum(item_type)].current_stock != -1) {
 		++_shop[unenum(item_type)].current_stock;
-		return (*itemstore)[item_type].get_value() / 2;
+		return itemstore->get(item_type).get_value() / 2;
 	} else
 		return 0;
 }
@@ -394,7 +393,7 @@ auto Sorcery::State::buy_from_shop(ItemStore *itemstore,
 
 	if (_shop[unenum(item_type)].current_stock > 0) {
 		--_shop[unenum(item_type)].current_stock;
-		return 0 - (*itemstore)[item_type].get_value();
+		return 0 - itemstore->get(item_type).get_value();
 	} else
 		return 0;
 }
@@ -403,7 +402,7 @@ auto Sorcery::State::get_shop_display(ItemStore *itemstore,
 									  const Enums::Items::TypeID item_type)
 	-> std::string {
 
-	const auto item{(*itemstore)[item_type]};
+	const auto item{itemstore->get(item_type)};
 	const std::string flag{std::invoke([&] {
 		if (_shop[unenum(item_type)].current_stock == -1)
 			return std::string{"(*)"};

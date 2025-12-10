@@ -449,24 +449,24 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 		case FIGHTER:
 		case LORD:
 		case SAMURAI:
-			pc.inventory.add_type((*ctx.resources->items)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*ctx.resources->items)[LONG_SWORD], true);
+			pc.inventory.add_type(ctx.resources->items->get(LEATHER_ARMOR),
+								  true);
+			pc.inventory.add_type(ctx.resources->items->get(LONG_SWORD), true);
 			break;
 		case MAGE:
-			pc.inventory.add_type((*ctx.resources->items)[ROBES], true);
-			pc.inventory.add_type((*ctx.resources->items)[DAGGER], true);
+			pc.inventory.add_type(ctx.resources->items->get(ROBES), true);
+			pc.inventory.add_type(ctx.resources->items->get(DAGGER), true);
 			break;
 		case PRIEST:
 		case BISHOP:
-			pc.inventory.add_type((*ctx.resources->items)[ROBES], true);
-			pc.inventory.add_type((*ctx.resources->items)[STAFF], true);
-			pc.inventory.add_type((*ctx.resources->items)[AMULET_OF_WERDNA],
-								  true);
+			pc.inventory.add_type(ctx.resources->items->get(ROBES), true);
+			pc.inventory.add_type(ctx.resources->items->get(STAFF), true);
 			break;
 		case THIEF:
 		case NINJA:
-			pc.inventory.add_type((*ctx.resources->items)[LEATHER_ARMOR], true);
-			pc.inventory.add_type((*ctx.resources->items)[SHORT_SWORD], true);
+			pc.inventory.add_type(ctx.resources->items->get(LEATHER_ARMOR),
+								  true);
+			pc.inventory.add_type(ctx.resources->items->get(SHORT_SWORD), true);
 		default:
 			break;
 		}

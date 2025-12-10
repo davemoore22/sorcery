@@ -22,8 +22,10 @@
 
 #include "core/context.hpp"
 #include "core/random.hpp"
+#include "resources/componentstore.hpp"
 #include "resources/filestore.hpp"
 #include "resources/stringstore.hpp"
+#include "types/component.hpp"
 #include "types/config.hpp"
 
 auto Sorcery::Context::get_random(const Enums::System::Random random_type)
@@ -46,4 +48,10 @@ auto Sorcery::Context::get_file(std::string_view key) const
 	-> std::filesystem::path {
 
 	return files->get(key);
+}
+
+auto Sorcery::Context::get_component(std::string_view combined_key)
+	-> Component & {
+
+	return components->get(combined_key);
 }
