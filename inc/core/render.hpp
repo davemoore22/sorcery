@@ -31,26 +31,30 @@
 namespace Sorcery {
 
 // Forward Declarations
-
 struct Context;
 class Component;
 class Tile;
 class TileView;
+class Game;
+class UI;
+class System;
+
 class Render {
 
 	public:
 		// Constructors
-		Render(Context &ctx);
+		Render(System *system, UI *ui);
 		~Render();
 
 		// Public Methods
 		auto get_monochrome() const -> bool;
 		auto set_monochrome(bool value) -> void;
-		auto draw(Component *component) -> void;
+		auto draw(Game *game, Component *component) -> void;
 
 	private:
 		// Private Members
-		Context &_ctx;
+		System *_system;
+		UI *_ui;
 		bool _loaded;
 		unsigned int _depth;
 		unsigned int _width;
@@ -74,7 +78,7 @@ class Render {
 		auto _has_wall(const Tile &tile,
 					   const Enums::Map::Direction direction) const -> bool;
 		auto _load_tile_views() -> void;
-		auto _render_wireframe(Component *component) -> void;
+		auto _render_wireframe(Game *game, Component *component) -> void;
 		auto _set_texture_coordinates(TileView &tileview) -> void;
 		auto _set_vertex_array(VertexArray &array, ImVec2 p1, ImVec2 p2,
 							   ImVec2 p3, ImVec2 p4) -> void;

@@ -22,6 +22,7 @@
 
 #include "resources/fontstore.hpp"
 #include "core/system.hpp"
+#include "types/config.hpp"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-default"
@@ -35,7 +36,7 @@ Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
 	  _io(io) {
 
 	// Get the Font Size from config
-	auto font_size{std::stof((*_system->config).get("Font", "size"))};
+	auto font_size{std::stof(_system->config->get("Font", "size"))};
 
 	// Now scan the data directory for TTF fonts
 	const std::filesystem::path file_path{DATA_DIR};

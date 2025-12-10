@@ -21,9 +21,12 @@
 // the resulting work.
 
 #include "gui/message.hpp"
+#include "core/animation.hpp"
+#include "core/define.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "resources/fontstore.hpp"
+#include "resources/stringstore.hpp"
 #include "types/component.hpp"
 
 Sorcery::Message::Message(System *system, UI *ui, Component &component)
@@ -57,7 +60,7 @@ auto Sorcery::Message::name() const -> std::string {
 auto Sorcery::Message::display(bool &is_yes) -> void {
 
 	_id = _component.name + "##outer";
-	const auto continue_lbl{(*_system->strings)["MESSAGE_CONTINUE"]};
+	const auto continue_lbl{_system->strings->get("MESSAGE_CONTINUE")};
 	const auto grid_sz{_ui->grid_sz};
 	const auto rounding{_ui->frame_rd};
 	const auto width{grid_sz * _component.w};

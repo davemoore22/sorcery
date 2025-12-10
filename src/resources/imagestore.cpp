@@ -22,6 +22,8 @@
 
 #include "resources/imagestore.hpp"
 #include "core/system.hpp"
+#include "resources/define.hpp"
+#include "resources/filestore.hpp"
 #include "types/image.hpp"
 
 #pragma GCC diagnostic push
@@ -97,8 +99,8 @@ auto Sorcery::ImageStore::_load_image(const std::string file) -> bool {
 
 		// If not loaded, load the image
 		Image image{};
-		_load_texture_from_disc((*_system->files)[file].c_str(), &image.texture,
-								&image.width, &image.height);
+		_load_texture_from_disc(_system->files->get(file).c_str(),
+								&image.texture, &image.width, &image.height);
 		_images.try_emplace(file, image);
 		_loaded[file] = true;
 		++progress;

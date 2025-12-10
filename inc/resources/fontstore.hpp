@@ -25,6 +25,7 @@
 #include "common/include.hpp"
 #include "common/types.hpp"
 #include "core/macro.hpp"
+#include "resources/define.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {

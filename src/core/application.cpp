@@ -72,8 +72,8 @@ Sorcery::Application::Application(int argc, char **argv) {
 
 	// Set up all the Core Modules (we will inject context in them later)
 	_system = std::make_unique<System>(argc, argv);
-	_display = std::make_unique<Display>(_system.get());
 	_resources = std::make_unique<Resources>(_system.get());
+	_display = std::make_unique<Display>(_system.get());
 	_controller = std::make_unique<Controller>(_system.get(), _display.get(),
 											   _resources.get());
 	_ui = std::make_unique<UI>(_system.get(), _display.get(), _resources.get(),

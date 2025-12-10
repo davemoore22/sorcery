@@ -21,9 +21,11 @@
 // the resulting work.
 
 #include "gui/popup.hpp"
+#include "core/animation.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "resources/fontstore.hpp"
+#include "resources/stringstore.hpp"
 #include "types/component.hpp"
 
 Sorcery::Popup::Popup(System *system, UI *ui, Component &component)
@@ -51,7 +53,7 @@ auto Sorcery::Popup::display() -> void {
 		return;
 
 	_id = _component.name + "##outer";
-	const auto text{(*_system->strings)[_component.string_key]};
+	const auto text{_system->strings->get(_component.string_key)};
 	const auto grid_sz{_ui->grid_sz};
 	const auto rounding{_ui->frame_rd};
 

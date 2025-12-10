@@ -23,16 +23,16 @@
 #include "core/resources.hpp"
 #include "core/context.hpp"
 #include "core/system.hpp"
+#include "resources/filestore.hpp"
 
 Sorcery::Resources::Resources(System *system)
 	: _system{system} {
 
 	monsters = std::make_unique<MonsterStore>(
-		_system, _system->ctx->get_file(MONSTERS_FILE));
-
-	items = std::make_unique<ItemStore>(_system,
-										_system->ctx->get_file(ITEMS_FILE));
-	levels = std::make_unique<LevelStore>(_system,
-										  _system->ctx->get_file(MAPS_FILE));
+		_system, _system->files->get(MONSTERS_FILE));
+	items =
+		std::make_unique<ItemStore>(_system, _system->files->get(ITEMS_FILE));
+	levels =
+		std::make_unique<LevelStore>(_system, _system->files->get(MAPS_FILE));
 	spells = std::make_unique<SpellStore>(_system);
 }

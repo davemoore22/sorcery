@@ -22,7 +22,6 @@
 
 #include "core/render.hpp"
 #include "core/animation.hpp"
-#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -33,8 +32,9 @@
 #include "types/tile.hpp"
 
 // Standard Constructor
-Sorcery::Render::Render(Context &ctx)
-	: _ctx{ctx} {
+Sorcery::Render::Render(System *system, UI *ui)
+	: _system{system},
+	  _ui{ui} {
 
 	_monochrome = false;
 	_source_size = ImVec2{912.0f * 4, 880.0f * 4};
@@ -137,7 +137,7 @@ auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1,
 										ImVec2 p2, ImVec2 p3, ImVec2 p4)
 	-> void {
 
-	ImVec4 colour{1.0f, 1.0f, 1.0f, _ctx.animation->fade};
+	ImVec4 colour{1.0f, 1.0f, 1.0f, _system->animation->fade};
 
 	// As we resized up the view, we resize it here too
 	auto scale{4};
@@ -157,7 +157,7 @@ auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1,
 										ImVec2 p2, ImVec2 p3, ImVec2 p4,
 										const ImVec4 colour) -> void {
 
-	auto col{_monochrome ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+	auto col{_monochrome ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
 						 : colour};
 
 	// As we resized up the view, we resize it here too
@@ -182,12 +182,12 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		}
 	}
 
-	ImVec4 monochrome_colour{1.0f, 1.0f, 1.0f, _ctx.animation->fade};
-	ImVec4 floor_colour{0.33f, 1.0f, 1.0f, _ctx.animation->fade};
-	ImVec4 ceiling_colour{1.0f, 0.33f, 0.33f, _ctx.animation->fade};
-	ImVec4 stairs_colour{1.0f, 0.33f, 0.33f, _ctx.animation->fade};
-	ImVec4 elevator_colour{1.0f, 0.33f, 0.33f, _ctx.animation->fade};
-	ImVec4 darkness_colour{0.33f, 1.0f, 1.0f, _ctx.animation->fade};
+	ImVec4 monochrome_colour{1.0f, 1.0f, 1.0f, _system->animation->fade};
+	ImVec4 floor_colour{0.33f, 1.0f, 1.0f, _system->animation->fade};
+	ImVec4 ceiling_colour{1.0f, 0.33f, 0.33f, _system->animation->fade};
+	ImVec4 stairs_colour{1.0f, 0.33f, 0.33f, _system->animation->fade};
+	ImVec4 elevator_colour{1.0f, 0.33f, 0.33f, _system->animation->fade};
+	ImVec4 darkness_colour{0.33f, 1.0f, 1.0f, _system->animation->fade};
 
 	//  FLOORS/CEILINGS				SIDE DARKNESS			SIDE DOORS
 	//	FRONT DARKNESS				SIDE WALLS				FRONT DOORS z =
@@ -606,15 +606,16 @@ auto Sorcery::Render::_has_wall(
 	return ((tile.has(direction, WALL)) || (tile.has(direction, ONE_WAY_WALL)));
 }
 
-auto Sorcery::Render::draw(Component *component) -> void {
+auto Sorcery::Render::draw(Game *game, Component *component) -> void {
 
-	_render_wireframe(component);
+	_render_wireframe(game, component);
 }
 
-auto Sorcery::Render::_render_wireframe(Component *component) -> void {
+auto Sorcery::Render::_render_wireframe(Game *game, Component *component)
+	-> void {
 
-	const auto player_pos{_ctx.game->state->get_player_pos()};
-	const auto player_facing{_ctx.game->state->get_player_facing()};
+	const auto player_pos{game->state->get_player_pos()};
+	const auto player_facing{game->state->get_player_facing()};
 	// const auto scale{std::stof((*component)["scale"].value())};
 	const auto scale{1.0f};
 	const auto width{scale * _pane_size.x};
@@ -636,54 +637,39 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 	const ImVec2 pos{x, y};
 
 	// TODO - change level at to use z- into the screen
-	const auto tl0{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 0)};
+	const auto tl0{game->state->level->at(player_pos, player_facing, -1, 0)};
 	auto vl0{_tileviews.at(Coordinate3{-1, 0, 0})};
-	const auto tm0{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 0)};
+	const auto tm0{game->state->level->at(player_pos, player_facing, 0, 0)};
 	auto vm0{_tileviews.at(Coordinate3{0, 0, 0})};
-	const auto tr0{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 0)};
+	const auto tr0{game->state->level->at(player_pos, player_facing, 1, 0)};
 	auto vr0{_tileviews.at(Coordinate3{1, 0, 0})};
 
-	const auto tl1{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 1)};
+	const auto tl1{game->state->level->at(player_pos, player_facing, -1, 1)};
 	auto vl1{_tileviews.at(Coordinate3{-1, 0, -1})};
-	const auto tm1{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 1)};
+	const auto tm1{game->state->level->at(player_pos, player_facing, 0, 1)};
 	auto vm1{_tileviews.at(Coordinate3{0, 0, -1})};
-	const auto tr1{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 1)};
+	const auto tr1{game->state->level->at(player_pos, player_facing, 1, 1)};
 	auto vr1{_tileviews.at(Coordinate3{1, 0, -1})};
 
-	const auto tl2{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 2)};
+	const auto tl2{game->state->level->at(player_pos, player_facing, -1, 2)};
 	auto vl2{_tileviews.at(Coordinate3{-1, 0, -2})};
-	const auto tm2{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 2)};
+	const auto tm2{game->state->level->at(player_pos, player_facing, 0, 2)};
 	auto vm2{_tileviews.at(Coordinate3{0, 0, -2})};
-	const auto tr2{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 2)};
+	const auto tr2{game->state->level->at(player_pos, player_facing, 1, 2)};
 	auto vr2{_tileviews.at(Coordinate3{1, 0, -2})};
 
-	const auto tl3{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 3)};
+	const auto tl3{game->state->level->at(player_pos, player_facing, -1, 3)};
 	auto vl3{_tileviews.at(Coordinate3{-1, 0, -3})};
-	const auto tm3{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 3)};
+	const auto tm3{game->state->level->at(player_pos, player_facing, 0, 3)};
 	auto vm3{_tileviews.at(Coordinate3{0, 0, -3})};
-	const auto tr3{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 3)};
+	const auto tr3{game->state->level->at(player_pos, player_facing, 1, 3)};
 	auto vr3{_tileviews.at(Coordinate3{1, 0, -3})};
 
-	const auto tl4{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 4)};
+	const auto tl4{game->state->level->at(player_pos, player_facing, -1, 4)};
 	auto vl4{_tileviews.at(Coordinate3{-1, 0, -4})};
-	const auto tm4{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 4)};
+	const auto tm4{game->state->level->at(player_pos, player_facing, 0, 4)};
 	auto vm4{_tileviews.at(Coordinate3{0, 0, -4})};
-	const auto tr4{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 4)};
+	const auto tr4{game->state->level->at(player_pos, player_facing, 1, 4)};
 	auto vr4{_tileviews.at(Coordinate3{1, 0, -4})};
 
 	// If we are in darkness, only draw that!
@@ -692,7 +678,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 	} else {
 
 		using enum Enums::Tile::Properties;
-		if (_ctx.game->state->get_lit()) {
+		if (game->state->get_lit()) {
 
 			// Row 4
 			if (tl4.is(DARKNESS))
@@ -716,7 +702,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 					}
 					if (_has_secret_door(tl3, player_facing)) {
 						_draw_vertex_array(vl3.back_wall, scale, pos);
-						if (_ctx.game->state->get_lit())
+						if (game->state->get_lit())
 							_draw_vertex_array(vl3.back_door, scale, pos);
 					}
 				}
@@ -734,7 +720,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 					}
 					if (_has_secret_door(tr3, player_facing)) {
 						_draw_vertex_array(vr3.back_wall, scale, pos);
-						if (_ctx.game->state->get_lit())
+						if (game->state->get_lit())
 							_draw_vertex_array(vr3.back_door, scale, pos);
 					}
 				}
@@ -750,7 +736,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 				}
 				if (_has_secret_door(tm3, player_facing)) {
 					_draw_vertex_array(vm3.back_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vm3.back_door, scale, pos);
 				}
 			}
@@ -764,7 +750,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 				}
 				if (_has_secret_door(tm3, _get_left_side(player_facing))) {
 					_draw_vertex_array(vm3.left_side_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vm3.left_side_door, scale, pos);
 				}
 
@@ -772,12 +758,12 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 					_draw_vertex_array(vm3.right_side_wall, scale, pos);
 				if (_has_normal_door(tm3, _get_right_side(player_facing))) {
 					_draw_vertex_array(vm3.right_side_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vm3.right_side_door, scale, pos);
 				}
 				if (_has_secret_door(tm3, _get_right_side(player_facing))) {
 					_draw_vertex_array(vm3.right_side_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vm3.right_side_door, scale, pos);
 				}
 			}
@@ -795,7 +781,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 				}
 				if (_has_secret_door(tl2, player_facing)) {
 					_draw_vertex_array(vl2.back_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vl2.back_door, scale, pos);
 				}
 			}
@@ -811,7 +797,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 				}
 				if (_has_secret_door(tr2, player_facing)) {
 					_draw_vertex_array(vr2.back_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vr2.back_door, scale, pos);
 				}
 			}
@@ -826,7 +812,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 				}
 				if (_has_secret_door(tm2, player_facing)) {
 					_draw_vertex_array(vm2.back_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vm2.back_door, scale, pos);
 				}
 			}
@@ -840,7 +826,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 				}
 				if (_has_secret_door(tm2, _get_left_side(player_facing))) {
 					_draw_vertex_array(vm2.left_side_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vm2.left_side_door, scale, pos);
 				}
 
@@ -852,7 +838,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 				}
 				if (_has_secret_door(tm2, _get_right_side(player_facing))) {
 					_draw_vertex_array(vm2.right_side_wall, scale, pos);
-					if (_ctx.game->state->get_lit())
+					if (game->state->get_lit())
 						_draw_vertex_array(vm2.right_side_door, scale, pos);
 				}
 			}
@@ -880,7 +866,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tl1, player_facing)) {
 				_draw_vertex_array(vl1.back_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vl1.back_door, scale, pos);
 			}
 
@@ -906,7 +892,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tr1, player_facing)) {
 				_draw_vertex_array(vr1.back_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vr1.back_door, scale, pos);
 			}
 			if (tr1.has(MESSAGE) || tr1.has(NOTICE))
@@ -929,7 +915,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tm1, player_facing)) {
 				_draw_vertex_array(vm1.back_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vm1.back_door, scale, pos);
 			}
 
@@ -952,7 +938,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tm1, _get_left_side(player_facing))) {
 				_draw_vertex_array(vm1.left_side_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vm1.left_side_door, scale, pos);
 			}
 
@@ -964,7 +950,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tm1, _get_right_side(player_facing))) {
 				_draw_vertex_array(vm1.right_side_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vm1.right_side_door, scale, pos);
 			}
 		}
@@ -982,7 +968,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tl0, player_facing)) {
 				_draw_vertex_array(vl0.back_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vl0.back_door, scale, pos);
 			}
 
@@ -1005,7 +991,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 		}
 		if (_has_secret_door(tm0, player_facing)) {
 			_draw_vertex_array(vm0.back_wall, scale, pos);
-			if (_ctx.game->state->get_lit())
+			if (game->state->get_lit())
 				_draw_vertex_array(vm0.back_door, scale, pos);
 		}
 
@@ -1029,7 +1015,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tr0, player_facing)) {
 				_draw_vertex_array(vr0.back_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vr0.back_door, scale, pos);
 			}
 
@@ -1052,7 +1038,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tm0, _get_left_side(player_facing))) {
 				_draw_vertex_array(vm0.left_side_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vm0.left_side_door, scale, pos);
 			}
 
@@ -1064,7 +1050,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (_has_secret_door(tm0, _get_right_side(player_facing))) {
 				_draw_vertex_array(vm0.right_side_wall, scale, pos);
-				if (_ctx.game->state->get_lit())
+				if (game->state->get_lit())
 					_draw_vertex_array(vm0.right_side_door, scale, pos);
 			}
 		}
@@ -1108,5 +1094,5 @@ auto Sorcery::Render::_draw_vertex_array(const VertexArray &array,
 	adjusted.data[1].colour = array.data[1].colour;
 	adjusted.data[2].colour = array.data[2].colour;
 	adjusted.data[3].colour = array.data[3].colour;
-	_ctx.ui->draw_view_image(WIREFRAME_TEXTURE, adjusted);
+	_ui->draw_view_image(WIREFRAME_TEXTURE, adjusted);
 }

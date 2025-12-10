@@ -128,9 +128,8 @@ auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 		if (roll < chance) {
 
 			results = std::format(
-				"{} {} {}", (*_ctx.system->strings)["TEMPLE_HEALED_PREFIX"],
-				heal_char.get_name(),
-				(*_ctx.system->strings)["TEMPLE_HEALED_SUFFIX"]);
+				"{} {} {}", _ctx.get_string("TEMPLE_HEALED_PREFIX"),
+				heal_char.get_name(), _ctx.get_string("TEMPLE_HEALED_SUFFIX"));
 			heal_char.set_status(OK);
 			heal_char.set_current_hp(1);
 			heal_char.set_location(TAVERN);
@@ -139,10 +138,10 @@ auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 			return true;
 		} else {
 
-			results = std::format(
-				"{} {} {}", (*_ctx.system->strings)["TEMPLE_OOPS_DEAD_PREFIX"],
-				heal_char.get_name(),
-				(*_ctx.system->strings)["TEMPLE_OOPS_DEAD_SUFFIX"]);
+			results = std::format("{} {} {}",
+								  _ctx.get_string("TEMPLE_OOPS_DEAD_PREFIX"),
+								  heal_char.get_name(),
+								  _ctx.get_string("TEMPLE_OOPS_DEAD_SUFFIX"));
 			heal_char.set_status(ASHES);
 			_ctx.controller->set_text("heal_results", results);
 
@@ -157,9 +156,8 @@ auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 		if (roll < chance) {
 
 			results = std::format(
-				"{} {} {}", (*_ctx.system->strings)["TEMPLE_HEALED_PREFIX"],
-				heal_char.get_name(),
-				(*_ctx.system->strings)["TEMPLE_HEALED_SUFFIX"]);
+				"{} {} {}", _ctx.get_string("TEMPLE_HEALED_PREFIX"),
+				heal_char.get_name(), _ctx.get_string("TEMPLE_HEALED_SUFFIX"));
 			heal_char.set_status(OK);
 			heal_char.set_current_hp(1);
 			heal_char.set_location(TAVERN);
@@ -169,10 +167,10 @@ auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 
 		} else {
 
-			results = std::format(
-				"{} {} {}", (*_ctx.system->strings)["TEMPLE_OOPS_ASHES_PREFIX"],
-				heal_char.get_name(),
-				(*_ctx.system->strings)["TEMPLE_OOPS_ASHES_SUFFIX"]);
+			results = std::format("{} {} {}",
+								  _ctx.get_string("TEMPLE_OOPS_ASHES_PREFIX"),
+								  heal_char.get_name(),
+								  _ctx.get_string("TEMPLE_OOPS_ASHES_SUFFIX"));
 			heal_char.set_status(LOST);
 			heal_char.set_location(TRAINING);
 			heal_char.set_current_hp(0);
@@ -183,10 +181,9 @@ auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 
 	} else {
 
-		results = std::format("{} {} {}",
-							  (*_ctx.system->strings)["TEMPLE_HEALED_PREFIX"],
-							  heal_char.get_name(),
-							  (*_ctx.system->strings)["TEMPLE_HEALED_SUFFIX"]);
+		results = std::format(
+			"{} {} {}", _ctx.get_string("TEMPLE_HEALED_PREFIX"),
+			heal_char.get_name(), _ctx.get_string("TEMPLE_HEALED_SUFFIX"));
 		heal_char.set_status(OK);
 		_ctx.controller->set_text("heal_results", results);
 

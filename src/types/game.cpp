@@ -23,8 +23,10 @@
 #include "types/game.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
+#include "core/database.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
+#include "resources/filestore.hpp"
 #include "types/state.hpp"
 
 Sorcery::Game::Game(System *system, Resources *resources)
@@ -293,7 +295,7 @@ auto Sorcery::Game::_clear() -> void {
 
 	state = std::make_unique<State>(_system);
 	levels =
-		std::make_unique<LevelStore>(_system, (*_system->files)[MAPS_FILE]);
+		std::make_unique<LevelStore>(_system, _system->files->get(MAPS_FILE));
 
 	state->clear_log_messages();
 	state->reset_shop(_resources->items.get());
@@ -327,7 +329,7 @@ auto Sorcery::Game::_load_game() -> void {
 	_last_time = last_time;
 	state = std::make_unique<State>();
 	levels =
-		std::make_unique<LevelStore>(_system, (*_system->files)[MAPS_FILE]);
+		std::make_unique<LevelStore>(_system, _system->files->get(MAPS_FILE));
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);

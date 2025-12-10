@@ -151,7 +151,7 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 	ui_rd = std::stoi(_system->config->get("UI", "rounding"));
 
 	// Render window
-	_render = std::make_unique<Render>(*_system->ctx);
+	_render = std::make_unique<Render>(_system, this);
 
 	// Ticks
 	ticks = SDL_GetTicks();
@@ -608,7 +608,7 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 
 	// Dungeon View
 	auto component{(*components)["engine_base_ui:wire_frame_view"]};
-	_render->draw(&component);
+	_render->draw(game, &component);
 
 	// And Cursor on Top
 	_draw_debug();
