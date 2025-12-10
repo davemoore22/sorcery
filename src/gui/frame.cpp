@@ -41,17 +41,17 @@ Sorcery::Frame::Frame(System *system, UI *ui, Component *component)
 	_bg_colour = _component->background;
 	_name = _component->name;
 
-	if ((*component)["background"])
-		_bg_image = (*component)["background"].value();
+	if (_component->get("background"))
+		_bg_image = _component->get("background").value();
 	else
 		_bg_image = std::nullopt;
-	if ((*component)["title"])
-		_title = (*component)["title"];
+	if (_component->get("title"))
+		_title = _component->get("title");
 	else
 		_title = std::nullopt;
 
-	if ((*component)["foreground"]) {
-		if ((*component)["foreground"].value() == "yes")
+	if (_component->get("foreground")) {
+		if (_component->get("foreground").value() == "yes")
 			_draw(true);
 		else
 			_draw(false);

@@ -41,12 +41,12 @@ Sorcery::Modal::Modal(System *system, UI *ui, Controller *controller,
 
 	show = false;
 
-	_menu_name = _component["menu_name"].value();
+	_menu_name = component.get("menu_name").value();
 	_width = _component.w;
 	_height = _component.h;
 	_colour = _component.colour;
 	_bg_colour = _component.background;
-	_hi_colour = std::stof(_component["highlight"].value());
+	_hi_colour = std::stof(component.get("highlight").value());
 	_font = _component.font;
 	_has_title = _system->strings->get(_component.string_key).length() > 0;
 	_name = _component.name;

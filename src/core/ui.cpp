@@ -872,9 +872,9 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 		return;
 	}
 
-	if ((*component)["source"]) {
-		const auto source{(*component)["source"].value()};
-		const auto scale{std::stof((*component)["scale"].value())};
+	if (component->get("source")) {
+		const auto source{component->get("source").value()};
+		const auto scale{std::stof(component->get("scale").value())};
 
 		// Load the image if necessary
 		if (!images->has_loaded(source))
@@ -929,10 +929,10 @@ auto Sorcery::UI::_draw_bg_image(Component *component) -> void {
 		}
 	}
 
-	if ((*component)["source"]) {
+	if (component->get("source")) {
 
 		// Load the image if necessary
-		const auto source{(*component)["source"].value()};
+		const auto source{component->get("source").value()};
 		if (!images->has_loaded(source))
 			images->load_image(source);
 
@@ -1062,7 +1062,7 @@ auto Sorcery::UI::_draw_paragraph(Component *component) -> void {
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(fontstore->get_current_font(component->font).value());
-		const auto wrap{std::stof((*component)["width"].value()) * font_sz};
+		const auto wrap{std::stof(component->get("width").value()) * font_sz};
 		auto p_min{
 			ImVec2{component->x * adj_grid_w, component->y * adj_grid_h}};
 
@@ -1130,10 +1130,10 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 			return static_cast<float>(adj_grid_h * component->y);
 	})};
 
-	if ((*component)["adjust_x"])
-		x += std::stof((*component)["adjust_x"].value());
-	if ((*component)["adjust_y"])
-		y += std::stof((*component)["adjust_y"].value());
+	if (component->get("adjust_x"))
+		x += std::stof(component->get("adjust_x").value());
+	if (component->get("adjust_y"))
+		y += std::stof(component->get("adjust_y").value());
 
 	set_StyleColor(ImGuiCol_Text,
 				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
@@ -1179,10 +1179,10 @@ auto Sorcery::UI::_draw_button(Component *component,
 			} else
 				return static_cast<float>(adj_grid_h * component->y);
 		})};
-		if ((*component)["adjust_x"])
-			x += std::stof((*component)["adjust_x"].value());
-		if ((*component)["adjust_y"])
-			y += std::stof((*component)["adjust_y"].value());
+		if (component->get("adjust_x"))
+			x += std::stof(component->get("adjust_x").value());
+		if (component->get("adjust_y"))
+			y += std::stof(component->get("adjust_y").value());
 
 		set_StyleColor(ImGuiCol_Text,
 					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
@@ -2349,9 +2349,10 @@ auto Sorcery::UI::_draw_item_info() -> void {
 	const auto item{_resources->items->get(idx + 1)};
 	auto item_c{components->get("museum:item_graphic")};
 	auto item_pos{ImVec2{item_c.x * adj_grid_w, item_c.y * adj_grid_h}};
-	_draw_fg_image_with_idx(ITEMS_TEXTURE, idx, item_pos,
-							ImVec2{std::stof(item_c["tile_width"].value()),
-								   std::stof(item_c["tile_width"].value())});
+	_draw_fg_image_with_idx(
+		ITEMS_TEXTURE, idx, item_pos,
+		ImVec2{std::stof(item_c.get("tile_width").value()),
+			   std::stof(item_c.get("tile_width").value())});
 
 	auto cmp{components->get("museum:item_data")};
 	ImVec2 pos{cmp.x * adj_grid_w, cmp.y * adj_grid_h};
@@ -2484,7 +2485,7 @@ auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
 		// To adjust for Window Resizing etc
 		const auto x{std::invoke([&] {
 			const auto width{grid_sz *
-							 std::stof((*component)["grid_width"].value())};
+							 std::stof(component->get("grid_width").value())};
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		})};
@@ -2680,7 +2681,7 @@ auto Sorcery::UI::_draw_options() -> void {
 		// To adjust for Window Resizing etc
 		const auto x{std::invoke([&] {
 			const auto width{grid_sz *
-							 std::stof((component)["grid_width"].value())};
+							 std::stof(component.get("grid_width").value())};
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		})};
@@ -2818,7 +2819,7 @@ auto Sorcery::UI::_draw_options() -> void {
 
 			// Save and Cancel Buttons
 			const auto centre{(tabs_width / 2)};
-			const auto button_y{std::stoi(component["button_y"].value())};
+			const auto button_y{std::stoi(component.get("button_y").value())};
 			ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
 
 			set_StyleColor(ImGuiCol_Text,
@@ -3122,12 +3123,14 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 	auto u_mg_c{components->get("bestiary:unknown_monster_graphic")};
 	auto k_mg_pos{ImVec2{k_mg_c.x * adj_grid_w, k_mg_c.y * adj_grid_h}};
 	auto u_mg_pos{ImVec2{u_mg_c.x * adj_grid_w, u_mg_c.y * adj_grid_h}};
-	_draw_fg_image_with_idx(KNOWN_CREATURES_TEXTURE, k_gfx, k_mg_pos,
-							ImVec2{std::stof(k_mg_c["tile_width"].value()),
-								   std::stof(k_mg_c["tile_width"].value())});
-	_draw_fg_image_with_idx(UNKNOWN_CREATURES_TEXTURE, u_gfx, u_mg_pos,
-							ImVec2{std::stof(u_mg_c["tile_width"].value()),
-								   std::stof(u_mg_c["tile_width"].value())});
+	_draw_fg_image_with_idx(
+		KNOWN_CREATURES_TEXTURE, k_gfx, k_mg_pos,
+		ImVec2{std::stof(k_mg_c.get("tile_width").value()),
+			   std::stof(k_mg_c.get("tile_width").value())});
+	_draw_fg_image_with_idx(
+		UNKNOWN_CREATURES_TEXTURE, u_gfx, u_mg_pos,
+		ImVec2{std::stof(u_mg_c.get("tile_width").value()),
+			   std::stof(u_mg_c.get("tile_width").value())});
 
 	auto cmp{components->get("bestiary:monster_data")};
 	ImVec2 pos{cmp.x * adj_grid_w, cmp.y * adj_grid_h};
@@ -3518,9 +3521,9 @@ auto Sorcery::UI::_draw_level_no_player() -> void {
 	auto tc{20};
 	const auto map_c{components->get("atlas:map_graphic")};
 	ImVec2 top_left_pos{map_c.x * adj_grid_w, map_c.y * adj_grid_h};
-	const auto spacing{std::stoi(map_c["tile_spacing"].value())};
-	ImVec2 tile_sz{std::stoi(map_c["tile_size"].value()),
-				   std::stoi(map_c["tile_size"].value())};
+	const auto spacing{std::stoi(map_c.get("tile_spacing").value())};
+	ImVec2 tile_sz{std::stoi(map_c.get("tile_size").value()),
+				   std::stoi(map_c.get("tile_size").value())};
 
 	// Remember to flip in Y-direction as (0,0) is at bottom left of map
 	const auto reverse_y{(tile_sz.x * tc) + ((tc - 1) * spacing) + 2};
@@ -3606,9 +3609,9 @@ auto Sorcery::UI::_draw_attract_mode() -> void {
 
 	// Work out the size and this where to draw it- (as its centred)!
 	auto am_size{_attract_data.size() *
-				 std::stoi(attract["tile_width"].value())};
-	am_size +=
-		(_attract_data.size() - 1) * std::stoi(attract["tile_spacing"].value());
+				 std::stoi(attract.get("tile_width").value())};
+	am_size += (_attract_data.size() - 1) *
+			   std::stoi(attract.get("tile_spacing").value());
 	const auto viewport{ImGui::GetMainViewport()};
 	auto tile_pos{
 		ImVec2{(viewport->Size.x - am_size) / 2, attract.y * adj_grid_h}};
@@ -3618,10 +3621,10 @@ auto Sorcery::UI::_draw_attract_mode() -> void {
 
 		_draw_fg_image_with_idx(
 			KNOWN_CREATURES_TEXTURE, idx, tile_pos,
-			ImVec2{std::stof(attract["tile_width"].value()),
-				   std::stof(attract["tile_width"].value())});
-		tile_pos.x += (std::stoi(attract["tile_width"].value()) +
-					   (std::stoi(attract["tile_spacing"].value())));
+			ImVec2{std::stof(attract.get("tile_width").value()),
+				   std::stof(attract.get("tile_width").value())});
+		tile_pos.x += (std::stoi(attract.get("tile_width").value()) +
+					   (std::stoi(attract.get("tile_spacing").value())));
 	}
 }
 

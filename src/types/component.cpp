@@ -84,16 +84,16 @@ Sorcery::Component::Component(
 }
 
 // Overload the [] operator
-auto Sorcery::Component::operator[](std::string_view key)
+auto Sorcery::Component::get(std::string_view key)
 	-> std::optional<std::string> {
 
-	return get(key);
+	return _get(key);
 }
 
-auto Sorcery::Component::operator[](std::string_view key) const
+auto Sorcery::Component::get(std::string_view key) const
 	-> std::optional<std::string> {
 
-	return get(key);
+	return _get(key);
 }
 
 auto Sorcery::Component::set(std::string_view key, std::string_view value)
@@ -130,7 +130,7 @@ auto Sorcery::Component::get_visible() const -> bool {
 	return _visible;
 }
 
-auto Sorcery::Component::get(std::string_view key) const
+auto Sorcery::Component::_get(std::string_view key) const
 	-> std::optional<std::string> {
 
 	if (_data.empty())

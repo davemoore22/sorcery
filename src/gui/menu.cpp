@@ -48,18 +48,18 @@ Sorcery::Menu::Menu(System *system, Resources *resources, UI *ui,
 
 	_name = _component->name;
 	_pos = ImVec2{_component->x, _component->y};
-	_width = std::stoi((*_component)["width"].value());
-	_height = std::stoi((*_component)["height"].value());
+	_width = std::stoi(_component->get("width").value());
+	_height = std::stoi(_component->get("height").value());
 	_colour = _component->colour;
 	_bg_colour = _component->background;
-	_hi_colour = std::stof((*_component)["highlight"].value());
+	_hi_colour = std::stof(_component->get("highlight").value());
 	_font = _component->font;
-	if ((*_component)["reorder"])
-		_reorder = (*_component)["reorder"].value() == "yes";
+	if (component->get("reorder"))
+		_reorder = component->get("reorder").value() == "yes";
 	else
 		_reorder = false;
-	if ((*_component)["across"])
-		_across = (*_component)["across"].value() == "yes";
+	if (component->get("across"))
+		_across = component->get("across").value() == "yes";
 	else
 		_across = false;
 }

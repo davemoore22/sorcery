@@ -46,9 +46,8 @@ class Component {
 				  const Enums::Layout::DrawMode drawmode_);
 		Component();
 
-		auto operator[](std::string_view key) -> std::optional<std::string>;
-		auto operator[](std::string_view key) const
-			-> std::optional<std::string>;
+		auto get(std::string_view key) -> std::optional<std::string>;
+		auto get(std::string_view key) const -> std::optional<std::string>;
 
 		auto set(std::string_view key, std::string_view value) -> void;
 		auto set_enabled(bool value) -> void;
@@ -76,7 +75,7 @@ class Component {
 		std::string unique_key;
 
 	private:
-		auto get(std::string_view key) const -> std::optional<std::string>;
+		auto _get(std::string_view key) const -> std::optional<std::string>;
 
 		bool _enabled;
 		bool _visible;
