@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "frontend/mainmenu.hpp"
+#include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"

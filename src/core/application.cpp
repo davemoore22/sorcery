@@ -34,6 +34,7 @@
 #include "gui/define.hpp"
 #include "modules/castle.hpp"
 #include "modules/edgeoftown.hpp"
+#include "resources/imagestore.hpp"
 #include "types/config.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
@@ -175,7 +176,7 @@ auto Sorcery::Application::start() -> int {
 
 	// Optionally skip images for speed to avoid loading them
 	if (_check_param(NO_IMAGES_PARAM))
-		ctx.ui->images->show_images = false;
+		ctx.images->show_images = false;
 
 	if (_check_param(CONTINUE_GAME_PARAM) && ctx.controller->has_saved_game()) {
 

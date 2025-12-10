@@ -21,12 +21,14 @@
 // the resulting work.
 
 #include "gui/modal.hpp"
+#include "core/animation.hpp"
 #include "core/controller.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "resources/fontstore.hpp"
+#include "resources/stringstore.hpp"
 #include "types/component.hpp"
 #include "types/game.hpp"
 
@@ -46,7 +48,7 @@ Sorcery::Modal::Modal(System *system, UI *ui, Controller *controller,
 	_bg_colour = _component.background;
 	_hi_colour = std::stof(_component["highlight"].value());
 	_font = _component.font;
-	_has_title = (*_system->strings)[_component.string_key].length() > 0;
+	_has_title = _system->strings->get(_component.string_key).length() > 0;
 	_name = _component.name;
 }
 
@@ -111,10 +113,10 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 						rounding);
 		auto top{_has_title ? 3 : 1};
 		if (_has_title) {
-			const auto title{(*_system->strings)[_component.string_key]};
+			const auto title{_system->strings->get(_component.string_key)};
 			auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) *
 						  grid_sz};
-			_ui->draw_text((*_system->strings)[_component.string_key],
+			_ui->draw_text(_system->strings->get(_component.string_key),
 						   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
 						   ImVec2{centre_x, grid_sz}, _font);
 		}

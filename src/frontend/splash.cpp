@@ -26,6 +26,8 @@
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "resources/define.hpp"
+#include "resources/imagestore.hpp"
 
 Sorcery::Splash::Splash(Context &ctx)
 	: _ctx{ctx} {

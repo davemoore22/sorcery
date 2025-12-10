@@ -22,8 +22,8 @@
 
 // Internal Includes
 #include "common/include.hpp"
+#include "common/types.hpp"
 #include "core/include.hpp"
-#include "resources/stringstore.hpp"
 
 namespace Sorcery {
 

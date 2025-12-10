@@ -1234,7 +1234,7 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 		using enum Enums::Character::Class;
 		using enum Enums::Config::Options;
 	case PRIEST:
-		_priest_max_sp[1] = (*_system->config)[STRICT_MODE]
+		_priest_max_sp[1] = _system->ctx->get_config(STRICT_MODE)
 								? 2
 								: 2 + _abilities[BONUS_PRIEST_SPELLS];
 		break;
@@ -1242,7 +1242,7 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 		_mage_max_sp[1] = 2;
 		break;
 	case MAGE:
-		_mage_max_sp[1] = (*_system->config)[STRICT_MODE]
+		_mage_max_sp[1] = _system->ctx->get_config(STRICT_MODE)
 							  ? 2
 							  : 2 + _abilities[BONUS_MAGE_SPELLS];
 		break;
@@ -1361,7 +1361,7 @@ auto Sorcery::Character::_update_hp_for_level() -> int {
 	// MaxLevel achieved when in strict mode
 	using enum Enums::Character::Ability;
 	auto hp_gained{0};
-	if ((*_system->config)[Enums::Config::LEVEL_REROLL_HP]) {
+	if (_system->ctx->get_config(Enums::Config::LEVEL_REROLL_HP)) {
 		auto hp_total{0};
 		for (auto level = 1; level < _abilities[CURRENT_LEVEL]; level++)
 			hp_total += _get_hp_per_level();

@@ -62,7 +62,7 @@ Sorcery::FileStore::FileStore() {
 	_add_path(VFX_DIR, MAINMENU_VIDEO);
 }
 
-auto Sorcery::FileStore::operator[](std::string_view key) const
+auto Sorcery::FileStore::get(std::string_view key) const
 	-> std::filesystem::path {
 
 	return _file_paths.contains(key) ? _file_paths.at(key)

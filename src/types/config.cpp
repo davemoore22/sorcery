@@ -33,7 +33,7 @@ Sorcery::Config::Config(CSimpleIniA *settings,
 	_load();
 }
 
-auto Sorcery::Config::operator[](const unsigned int i) -> bool & {
+auto Sorcery::Config::get(const unsigned int i) -> bool & {
 
 	return _options.at(i);
 }

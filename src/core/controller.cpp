@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "core/controller.hpp"
+#include "core/context.hpp"
 #include "core/database.hpp"
 #include "core/define.hpp"
 #include "core/display.hpp"
@@ -32,6 +33,7 @@
 #include "gui/dialog.hpp"
 #include "gui/modal.hpp"
 #include "types/character.hpp"
+#include "types/config.hpp"
 #include "types/game.hpp"
 #include "types/item.hpp"
 #include "types/state.hpp"
@@ -518,31 +520,33 @@ auto Sorcery::Controller::handle_toggle(const std::string &component,
 
 			// This happens after the corresponding data is changed
 			if (selection == static_cast<int>(RECOMMENDED_MODE) &&
-				(*_system->config)[RECOMMENDED_MODE])
-				_system->config->set_rec_mode();
+				_system->ctx->get_config(RECOMMENDED_MODE))
+				_system->ctx->config->set_rec_mode();
 			else if (selection == static_cast<int>(STRICT_MODE) &&
-					 (*_system->config)[STRICT_MODE])
-				_system->config->set_strict_mode();
+					 _system->ctx->get_config(STRICT_MODE))
+				_system->ctx->config->set_strict_mode();
 			else {
-				if (_system->config->is_strict_mode())
-					_system->config->set_strict_mode();
-				else if (_system->config->is_rec_mode())
-					_system->config->set_rec_mode();
+				if (_system->ctx->config->is_strict_mode())
+					_system->ctx->config->set_strict_mode();
+				else if (_system->ctx->config->is_rec_mode())
+					_system->ctx->config->set_rec_mode();
 			}
 
 		} else if (tab == "Gameplay") {
 
 			// Only need to check if strict and reommended modes are on
-			(*_system->config)[RECOMMENDED_MODE] =
-				_system->config->is_rec_mode();
-			(*_system->config)[STRICT_MODE] = _system->config->is_strict_mode();
+			_system->ctx->get_config(RECOMMENDED_MODE) =
+				_system->ctx->config->is_rec_mode();
+			_system->ctx->get_config(STRICT_MODE) =
+				_system->ctx->config->is_strict_mode();
 
 		} else if (tab == "Graphics") {
 
 			// Only need to check if strict and reommended modes are on
-			(*_system->config)[RECOMMENDED_MODE] =
-				_system->config->is_rec_mode();
-			(*_system->config)[STRICT_MODE] = _system->config->is_strict_mode();
+			_system->ctx->get_config(RECOMMENDED_MODE) =
+				_system->ctx->config->is_rec_mode();
+			_system->ctx->get_config(STRICT_MODE) =
+				_system->ctx->config->is_strict_mode();
 		}
 	}
 }

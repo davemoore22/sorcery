@@ -21,11 +21,13 @@
 // the resulting work.
 
 #include "gui/input.hpp"
+#include "core/animation.hpp"
 #include "core/controller.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
+#include "resources/stringstore.hpp"
 #include "types/component.hpp"
 #include "types/game.hpp"
 
@@ -44,7 +46,7 @@ Sorcery::Input::Input(System *system, UI *ui, Controller *controller,
 	_bg_colour = _component.background;
 	_hi_colour = std::stof(_component["highlight"].value());
 	_font = _component.font;
-	_title = (*_system->strings)[_component.string_key];
+	_title = _system->strings->get(_component.string_key);
 	_input = "";
 	_input_width = std::stoi(_component["input_width"].value());
 	_game = nullptr;
@@ -114,9 +116,9 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 							   _ui->ui_colour.z, _system->animation->fade},
 						rounding);
 
-		const auto title{(*_system->strings)[_component.string_key]};
+		const auto title{_system->strings->get(_component.string_key)};
 		auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) * grid_sz};
-		_ui->draw_text((*_system->strings)[_component.string_key],
+		_ui->draw_text(_system->strings->get(_component.string_key),
 					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
 					   ImVec2{centre_x, grid_sz}, _font);
 
@@ -131,7 +133,7 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 		ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
 		const auto centre{(width / 2)};
 
-		const auto ok_lbl{(*_system->strings)["INPUT_OK"]};
+		const auto ok_lbl{_system->strings->get("INPUT_OK")};
 		ImGui::SetCursorPos(ImVec2{centre - (btn_size.x / 2), grid_sz * 5});
 		if (ImGui::Button(ok_lbl.c_str(), btn_size)) {
 			is_yes = true;

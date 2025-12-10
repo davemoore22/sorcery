@@ -28,6 +28,7 @@
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
+#include "resources/define.hpp"
 
 Sorcery::License::License(Context &ctx)
 	: _ctx{ctx} {
@@ -37,7 +38,7 @@ Sorcery::License::License(Context &ctx)
 
 auto Sorcery::License::_initialise() -> bool {
 
-	auto file_path{(*_ctx.system->files)[LICENSE_FILE].string()};
+	auto file_path{_ctx.get_file(LICENSE_FILE).string()};
 
 	if (std::ifstream file{(file_path.c_str()), std::ifstream::in};
 		file.good()) {

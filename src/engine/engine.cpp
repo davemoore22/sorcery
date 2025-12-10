@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
@@ -38,6 +39,7 @@
 #include "modules/inspect.hpp"
 #include "modules/reorder.hpp"
 #include "resources/levelstore.hpp"
+#include "types/config.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
 
@@ -256,8 +258,9 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 	_ctx.controller->set_can_undo(false);
 	_ctx.controller->set_monochrome(
-		(*_ctx.config)[Enums::Config::COLOURED_WIREFRAME]);
-	_ctx.ui->set_monochrome((*_ctx.config)[Enums::Config::COLOURED_WIREFRAME]);
+		_ctx.config->get(Enums::Config::COLOURED_WIREFRAME));
+	_ctx.ui->set_monochrome(
+		_ctx.config->get(Enums::Config::COLOURED_WIREFRAME));
 
 	_ctx.controller->set_flag("interface_automap");
 	_ctx.controller->set_flag("interface_party_panel");
@@ -267,15 +270,14 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_set_tile_explored(_ctx.game->state->get_player_pos());
 
 	if (mode & EXPEDITION_GOTO) {
-
 		// Check we have an override to go to a specific placein the maze
 		const auto goto_depth{
-			std::stoi((*_ctx.config).get("Debug", "quick_start_depth"))};
-		const auto goto_loc{Coordinate{
-			std::stoi((*_ctx.config).get("Debug", "quick_start_x")),
-			std::stoi((*_ctx.config).get("Debug", "quick_start_y"))}};
+			std::stoi(_ctx.config->get("Debug", "quick_start_depth"))};
+		const auto goto_loc{
+			Coordinate{std::stoi(_ctx.config->get("Debug", "quick_start_x")),
+					   std::stoi(_ctx.config->get("Debug", "quick_start_y"))}};
 		const auto goto_dir{static_cast<Enums::Map::Direction>(
-			std::stoi((*_ctx.config).get("Debug", "quick_start_dir")))};
+			std::stoi(_ctx.config->get("Debug", "quick_start_dir")))};
 
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
@@ -289,7 +291,6 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->modal_trade->show = false;
 
 	} else {
-
 		// Start off in Camp
 		_ctx.ui->modal_camp->regenerate(_ctx.controller, _ctx.game);
 		_ctx.ui->modal_camp->show = true;

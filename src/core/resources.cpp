@@ -21,15 +21,18 @@
 // the resulting work.
 
 #include "core/resources.hpp"
+#include "core/context.hpp"
 #include "core/system.hpp"
 
 Sorcery::Resources::Resources(System *system)
 	: _system{system} {
 
-	monsters = std::make_unique<MonsterStore>(_system,
-											  (*_system->files)[MONSTERS_FILE]);
-	items = std::make_unique<ItemStore>(_system, (*_system->files)[ITEMS_FILE]);
-	levels =
-		std::make_unique<LevelStore>(_system, (*_system->files)[MAPS_FILE]);
+	monsters = std::make_unique<MonsterStore>(
+		_system, _system->ctx->get_file(MONSTERS_FILE));
+
+	items = std::make_unique<ItemStore>(_system,
+										_system->ctx->get_file(ITEMS_FILE));
+	levels = std::make_unique<LevelStore>(_system,
+										  _system->ctx->get_file(MAPS_FILE));
 	spells = std::make_unique<SpellStore>(_system);
 }

@@ -36,17 +36,19 @@ Sorcery::System::System(int argc __attribute__((unused)),
 
 	// Modules
 	files = std::make_unique<FileStore>();
-	strings = std::make_unique<StringStore>((*files)[STRINGS_FILE]);
+	strings = std::make_unique<StringStore>(files->get(STRINGS_FILE));
 
 	_settings = std::make_unique<CSimpleIniA>();
 	_settings->SetUnicode();
-	_settings->LoadFile(CSTR((*files)[CONFIG_FILE]));
+	_settings->LoadFile(CSTR(files->get(CONFIG_FILE)));
 
-	config = std::make_unique<Config>(_settings.get(), (*files)[CONFIG_FILE]);
+	config = std::make_unique<Config>(_settings.get(), files->get(CONFIG_FILE));
 	random = std::make_unique<Random>();
 	animation = std::make_unique<Animation>(random.get());
-	db = std::make_unique<Database>(CSTR((*files)[DATABASE_FILE]));
+	db = std::make_unique<Database>(CSTR(files->get(DATABASE_FILE)));
 }
+
+Sorcery::System::~System() {}
 
 // Diceroll to String
 auto Sorcery::System::dice_roll_to_str(const std::string &message,

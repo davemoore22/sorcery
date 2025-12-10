@@ -22,6 +22,8 @@
 
 #include "core/ui.hpp"
 #include "common/macro.hpp"
+#include "core/animation.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/render.hpp"
@@ -36,13 +38,16 @@
 #include "gui/popup.hpp"
 #include "gui/videoplayer.hpp"
 #include "resources/componentstore.hpp"
+#include "resources/filestore.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/imagestore.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
 #include "resources/monsterstore.hpp"
 #include "resources/spellstore.hpp"
+#include "resources/stringstore.hpp"
 #include "types/component.hpp"
+#include "types/config.hpp"
 #include "types/enum.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
@@ -56,7 +61,7 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 
 	// Storage
 	components =
-		std::make_unique<ComponentStore>((*_system->files)[LAYOUT_FILE]);
+		std::make_unique<ComponentStore>(_system->files->get(LAYOUT_FILE));
 	images = std::make_unique<ImageStore>(_system);
 
 	// Can't create fontstore just yet as it needs IMGUI initialised
@@ -67,7 +72,7 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 	// Initialise main menu background vfx
 	try {
 
-		auto bg_vfx_path{(*_system->files)[MAINMENU_VIDEO].string()};
+		auto bg_vfx_path{_system->files->get(MAINMENU_VIDEO).string()};
 		vfx_player->load(bg_vfx_path.c_str());
 
 	} catch (std::exception &e) {
@@ -136,17 +141,17 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 		_system, this, (*components)["engine_base_ui:message_tile"]);
 
 	// Window and Display Settings
-	font_sz = std::stoi((*_system->config).get("Font", "size"));
-	grid_sz = std::stoi((*_system->config).get("Grid", "size"));
-	columns = std::stoi((*_system->config).get("Grid", "columns"));
-	rows = std::stoi((*_system->config).get("Grid", "rows"));
+	font_sz = std::stoi(_system->config->get("Font", "size"));
+	grid_sz = std::stoi(_system->config->get("Grid", "size"));
+	columns = std::stoi(_system->config->get("Grid", "columns"));
+	rows = std::stoi(_system->config->get("Grid", "rows"));
 	adj_grid_w = grid_sz;
 	adj_grid_h = grid_sz;
-	frame_rd = std::stoi((*_system->config).get("Frame", "rounding"));
-	ui_rd = std::stoi((*_system->config).get("UI", "rounding"));
+	frame_rd = std::stoi(_system->config->get("Frame", "rounding"));
+	ui_rd = std::stoi(_system->config->get("UI", "rounding"));
 
 	// Render window
-	_render = std::make_unique<Render>(_system, _display, this, _controller);
+	_render = std::make_unique<Render>(*_system->ctx);
 
 	// Ticks
 	ticks = SDL_GetTicks();
@@ -450,13 +455,13 @@ auto Sorcery::UI::start() -> void {
 	// Initialise ImGUI to use SDL2/OpenGL
 	ImGui::CreateContext();
 	_io = ImGui::GetIO();
-	_io.IniFilename = CSTR((*_system->files)[CONFIG_FILE]);
+	_io.IniFilename = CSTR(_system->files->get(CONFIG_FILE));
 	ImGui::StyleColorsClassic();
 	ImGui_ImplSDL2_InitForOpenGL(_display->get_SDL_window(),
 								 _display->get_GL_context());
 	ImGui_ImplOpenGL3_Init(_display->get_GLSL_version());
 
-	if ((*_system->config)[Enums::Config::FULLSCREEN])
+	if (_system->config->get(Enums::Config::FULLSCREEN))
 		set_fullscreen(true);
 	else
 		set_fullscreen(false);
@@ -464,20 +469,20 @@ auto Sorcery::UI::start() -> void {
 	// Can create the fontstore now which loads the fonts
 	fontstore = std::make_unique<FontStore>(_system, _io);
 	ui_colour =
-		ImVec4{std::stof((*_system->config).get("Frame", "colour_red")),
-			   std::stof((*_system->config).get("Frame", "colour_green")),
-			   std::stof((*_system->config).get("Frame", "colour_blue")), 1.0};
+		ImVec4{std::stof(_system->config->get("Frame", "colour_red")),
+			   std::stof(_system->config->get("Frame", "colour_green")),
+			   std::stof(_system->config->get("Frame", "colour_blue")), 1.0};
 
 	// Set the Default Fonts
 	using enum Enums::Layout::Font;
-	fontstore->set_current_font(TEXT, (*_system->config).get("Font", "text"));
+	fontstore->set_current_font(TEXT, _system->config->get("Font", "text"));
 	fontstore->set_current_font(DEFAULT, fontstore->get_default_font());
 	fontstore->set_current_font(MONOSPACE,
-								(*_system->config).get("Font", "monospace"));
+								_system->config->get("Font", "monospace"));
 	fontstore->set_current_font(PROPORTIONAL,
-								(*_system->config).get("Font", "proportional"));
+								_system->config->get("Font", "proportional"));
 
-	grid_sz = std::stoi((*_system->config).get("Grid", "size"));
+	grid_sz = std::stoi(_system->config->get("Grid", "size"));
 
 	// Set the styles
 	ImGuiStyle &style = ImGui::GetStyle();
@@ -603,7 +608,7 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 
 	// Dungeon View
 	auto component{(*components)["engine_base_ui:wire_frame_view"]};
-	_render->draw(game, &component);
+	_render->draw(&component);
 
 	// And Cursor on Top
 	_draw_debug();
@@ -1062,7 +1067,7 @@ auto Sorcery::UI::_draw_paragraph(Component *component) -> void {
 		with_TextWrapPos(p_min.x + wrap) {
 			set_StyleColor(ImGuiCol_Text, component->colour);
 			ImGui::TextUnformatted(
-				(*_system->strings)[component->string_key].c_str());
+				_system->strings->get(component->string_key).c_str());
 		}
 	}
 }
@@ -1107,7 +1112,7 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 		if (component->x == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
 			const auto width{ImGui::CalcTextSize(
-				CSTR((*_system->strings)[component->string_key]))};
+				CSTR(_system->strings->get(component->string_key)))};
 			return (viewport->Size.x - width.x) / 2;
 		} else
 			return static_cast<float>(adj_grid_w * component->x);
@@ -1116,7 +1121,7 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 		if (component->y == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
 			const auto height{ImGui::CalcTextSize(
-				CSTR((*_system->strings)[component->string_key]))};
+				CSTR(_system->strings->get(component->string_key)))};
 			return (viewport->Size.y - height.y) / 2;
 		} else
 			return static_cast<float>(adj_grid_h * component->y);
@@ -1134,8 +1139,7 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 	ImGui::SetCursorPos(ImVec2{x, y});
 	with_ID(name.c_str()) {
-		if (ImGui::Button(CSTR((*_system->strings)[component->string_key]))) {
-
+		if (ImGui::Button(CSTR(_system->strings->get(component->string_key)))) {
 			// Handle buttons being used to switch on AND off the flag
 			flag = !reverse;
 			_controller->handle_button_click(component->name, this, -1);
@@ -1158,7 +1162,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 			if (component->x == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				const auto width{ImGui::CalcTextSize(
-					CSTR((*_system->strings)[component->string_key]))};
+					CSTR(_system->strings->get(component->string_key)))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
 				return static_cast<float>(adj_grid_w * component->x);
@@ -1167,7 +1171,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 			if (component->y == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				const auto height{ImGui::CalcTextSize(
-					CSTR((*_system->strings)[component->string_key]))};
+					CSTR(_system->strings->get(component->string_key)))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
 				return static_cast<float>(adj_grid_h * component->y);
@@ -1186,7 +1190,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 		ImGui::SetCursorPos(ImVec2{x, y});
 		with_ID(name.c_str()) {
 			if (ImGui::Button(
-					CSTR((*_system->strings)[component->string_key]))) {
+					CSTR(_system->strings->get(component->string_key)))) {
 				if (is_clicked)
 					*is_clicked.value() = true;
 
@@ -1876,7 +1880,7 @@ auto Sorcery::UI::_draw_level_up(Game *game, const int mode) -> void {
 
 	if (mode & RECOVERY_BIRTHDAY) {
 
-		const auto birth_text{(*_system->strings)["REST_BIRTHDAY_YOU"]};
+		const auto birth_text{_system->strings->get("REST_BIRTHDAY_YOU")};
 		auto cmp{(*components)["levelup:levelup_birthday"]};
 		_draw_text(&cmp, birth_text);
 		cmp = (*components)["levelup:levelup_results"];
@@ -1907,8 +1911,8 @@ auto Sorcery::UI::_draw_pay_info(Game *game) -> void {
 		game->characters.at(_controller->get_character("help"))};
 	const auto cost(character.get_cure_cost());
 	const auto cost_text{
-		std::format("{} {} {}", (*_system->strings)["PAY_COST_PREFIX"], cost,
-					(*_system->strings)["PAY_COST_SUFFIX"])};
+		std::format("{} {} {}", _system->strings->get("PAY_COST_PREFIX"), cost,
+					_system->strings->get("PAY_COST_SUFFIX"))};
 	auto cmp{(*components)["pay:pay_cost"]};
 	_draw_text(&cmp, cost_text);
 }
@@ -1917,12 +1921,12 @@ auto Sorcery::UI::_draw_no_level_up(Game *game, const int mode) -> void {
 
 	const auto character{
 		game->characters.at(_controller->get_character("stay"))};
-	const auto birth_text{(*_system->strings)["REST_BIRTHDAY_YOU"]};
+	const auto birth_text{_system->strings->get("REST_BIRTHDAY_YOU")};
 	const auto needed{character.get_next_xp() - character.get_cur_xp()};
 	const auto need_text{
-		std::format("{}{}{}", (*_system->strings)["REST_NEED_1_P"], needed,
-					(*_system->strings)["REST_NEED_1_S"])};
-	const auto make_text{(*_system->strings)["REST_NEED_2"]};
+		std::format("{}{}{}", _system->strings->get("REST_NEED_1_P"), needed,
+					_system->strings->get("REST_NEED_1_S"))};
+	const auto make_text{_system->strings->get("REST_NEED_2")};
 
 	if (mode & RECOVERY_BIRTHDAY) {
 
@@ -1953,19 +1957,19 @@ auto Sorcery::UI::_draw_heal([[maybe_unused]] Game *game, int stage) -> void {
 	auto text{""s};
 	switch (stage) {
 	case 4:
-		text = (*_system->strings)["TEMPLE_HEAL_1"];
+		text = _system->strings->get("TEMPLE_HEAL_1");
 		break;
 	case 3:
-		text = (*_system->strings)["TEMPLE_HEAL_2"];
+		text = _system->strings->get("TEMPLE_HEAL_2");
 		break;
 	case 2:
-		text = (*_system->strings)["TEMPLE_HEAL_3"];
+		text = _system->strings->get("TEMPLE_HEAL_3");
 		break;
 	case 1:
-		text = (*_system->strings)["TEMPLE_HEAL_4"];
+		text = _system->strings->get("TEMPLE_HEAL_4");
 		break;
 	case 0:
-		text = (*_system->strings)["TEMPLE_HEAL_4"];
+		text = _system->strings->get("TEMPLE_HEAL_4");
 		break;
 	default:
 		break;
@@ -1997,23 +2001,23 @@ auto Sorcery::UI::_draw_recovery(Game *game, const int mode) -> void {
 
 		auto cmp{(*components)["recovery:recovery_napping"]};
 		auto text{std::format("{}{}", character.get_name(),
-							  (*_system->strings)["RECOVERY_NAPPING"])};
+							  _system->strings->get("RECOVERY_NAPPING"))};
 		_draw_text(&cmp, text);
 
 	} else {
 
 		auto cmp{(*components)["recovery:recovery_recuperating"]};
 		auto text{std::format("{} {}", character.get_name(),
-							  (*_system->strings)["REST_RECUPERATING"])};
+							  _system->strings->get("REST_RECUPERATING"))};
 		_draw_text(&cmp, text);
 
 		cmp = (*components)["recovery:recovery_recuperating_hp"];
-		text = std::format("{} ({:>5}/{:>5})", (*_system->strings)["REST_HP"],
+		text = std::format("{} ({:>5}/{:>5})", _system->strings->get("REST_HP"),
 						   character.get_current_hp(), character.get_max_hp());
 		_draw_text(&cmp, text);
 
 		cmp = (*components)["recovery:recovery_recuperating_gold"];
-		text = std::format("{} {:>7}", (*_system->strings)["REST_GOLD"],
+		text = std::format("{} {:>7}", _system->strings->get("REST_GOLD"),
 						   character.get_gold());
 		_draw_text(&cmp, text);
 
@@ -2032,14 +2036,14 @@ auto Sorcery::UI::_draw_stay(Game *game) -> void {
 
 	auto cmp_welcome{(*components)["stay:stay_welcome"]};
 	auto welcome_text{std::format(
-		"{}{}{}", (*_system->strings)["STAY_WELCOME_P"], character.get_name(),
-		(*_system->strings)["STAY_WELCOME_S"])};
+		"{}{}{}", _system->strings->get("STAY_WELCOME_P"), character.get_name(),
+		_system->strings->get("STAY_WELCOME_S"))};
 	_draw_text(&cmp_welcome, welcome_text);
 
 	auto cmp_gold{(*components)["stay:stay_gold"]};
-	auto gold_text{std::format("{}{}{}", (*_system->strings)["STAY_GOLD_P"],
+	auto gold_text{std::format("{}{}{}", _system->strings->get("STAY_GOLD_P"),
 							   character.get_gold(),
-							   (*_system->strings)["STAY_GOLD_S"])};
+							   _system->strings->get("STAY_GOLD_S"))};
 	_draw_text(&cmp_gold, gold_text);
 }
 
@@ -2269,7 +2273,7 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 			if (component->x == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				const auto width{ImGui::CalcTextSize(
-					CSTR((*_system->strings)[component->string_key]))};
+					CSTR(_system->strings->get(component->string_key)))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
 				return static_cast<float>(adj_grid_w * component->x);
@@ -2278,7 +2282,7 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 			if (component->y == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				const auto height{ImGui::CalcTextSize(
-					CSTR((*_system->strings)[component->string_key]))};
+					CSTR(_system->strings->get(component->string_key)))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
 				return static_cast<float>(adj_grid_h * component->y);
@@ -2291,7 +2295,7 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 		set_StyleColor(ImGuiCol_Text, alpha_col);
 		ImGui::SetCursorPos(ImVec2{x, y});
 		ImGui::TextUnformatted(
-			(*_system->strings)[component->string_key].c_str());
+			_system->strings->get(component->string_key).c_str());
 	}
 }
 
@@ -2664,8 +2668,8 @@ auto Sorcery::UI::_draw_options() -> void {
 	std::vector<std::string> graphics_opts{"OPT_COLOURED_WIREFRAME",
 										   "OPT_FULLSCREEN"};
 
-	const auto save_lbl{(*_system->strings)["DIALOG_SAVE"]};
-	const auto cancel_lbl{(*_system->strings)["DIALOG_CANCEL"]};
+	const auto save_lbl{_system->strings->get("DIALOG_SAVE")};
+	const auto cancel_lbl{_system->strings->get("DIALOG_CANCEL")};
 	set_Font(fontstore->get_current_font(component.font).value());
 	const auto col{get_hl_colour(_system->animation->lerp)};
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
@@ -2711,10 +2715,10 @@ auto Sorcery::UI::_draw_options() -> void {
 					for (const auto &opt : summary_opts) {
 						if (opt.length() > 0) {
 							const auto text{
-								std::format(" {}", (*_system->strings)[opt])};
+								std::format(" {}", _system->strings->get(opt))};
 							if (ImGui::Toggle(
 									text.c_str(),
-									&(*_system->config)[summary_idx])) {
+									&_system->config->get(summary_idx))) {
 
 								// Do additonal handling such as switching
 								// on strict mode etc inside the controller
@@ -2730,10 +2734,10 @@ auto Sorcery::UI::_draw_options() -> void {
 					for (const auto &opt : gameplay_opts) {
 						if (opt.length() > 0) {
 							const auto text{
-								std::format(" {}", (*_system->strings)[opt])};
+								std::format(" {}", _system->strings->get(opt))};
 							if (ImGui::Toggle(
 									text.c_str(),
-									&(*_system->config)[gameplay_idx])) {
+									&_system->config->get(gameplay_idx))) {
 
 								// Do additonal handling such as switching
 								// on strict mode etc
@@ -2750,10 +2754,10 @@ auto Sorcery::UI::_draw_options() -> void {
 					for (const auto &opt : graphics_opts) {
 						if (opt.length() > 0) {
 							const auto text{
-								std::format(" {}", (*_system->strings)[opt])};
+								std::format(" {}", _system->strings->get(opt))};
 							if (ImGui::Toggle(
 									text.c_str(),
-									&(*_system->config)[graphics_idx])) {
+									&_system->config->get(graphics_idx))) {
 
 								// Do additonal handling such as switching
 								// on strict mode etc
@@ -2988,7 +2992,7 @@ auto Sorcery::UI::_draw_party_panel(Game *game) -> void {
 			set_StyleColor(ImGuiCol_Text,
 						   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
 			ImGui::TextUnformatted(
-				(*_system->strings)["PARTY_PANEL_LEGEND"].c_str());
+				_system->strings->get("PARTY_PANEL_LEGEND").c_str());
 			if (game->state->get_party_size() > 0) {
 				auto position{1u};
 				for (const auto party{game->state->get_party_characters()};
@@ -3876,7 +3880,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"COMPENDIUM_SPELLBOOK", "COMPENDIUM_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "camp_menu" || component == "modal_camp") {
 		sources.insert(sources.end(),
@@ -3884,103 +3888,103 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"CAMP_QUIT", "CAMP_LEAVE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "roster_menu") {
 		sources.insert(sources.end(), {"ROSTER_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "inspect_menu" || component == "modal_inspect") {
 		sources.insert(sources.end(), {"INSPECT_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "stay_menu" || component == "modal_stay") {
 		sources.insert(sources.end(), {"STAY_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "help_menu" || component == "modal_help") {
 		sources.insert(sources.end(), {"HELP_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "tithe_menu" || component == "modal_tithe") {
 		sources.insert(sources.end(), {"TITHE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "pay_menu") {
 		sources.insert(sources.end(), {"PAY_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "choose_menu") {
 		sources.insert(sources.end(), {"CHOOSE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "remove_menu") {
 		sources.insert(sources.end(), {"REMOVE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "add_menu") {
 		sources.insert(sources.end(), {"ADD_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "restart_menu") {
 		sources.insert(sources.end(), {"RESTART_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "modal_identify") {
 		sources.insert(sources.end(), {"IDENTIFY_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "modal_drop") {
 		sources.insert(sources.end(), {"DROP_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "modal_trade") {
 		sources.insert(sources.end(), {"TRADE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "modal_use") {
 		sources.insert(sources.end(), {"USE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "modal_invoke") {
 		sources.insert(sources.end(), {"INVOKE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "reorder_menu") {
 		sources.insert(sources.end(), {"REORDER_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "castle_menu") {
 		sources.insert(sources.end(),
@@ -3988,14 +3992,14 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"CASTLE_TEMPLE", "CASTLE_EDGE_OF_TOWN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "rest_menu") {
 		sources.insert(sources.end(), {"STAY_1", "STAY_2", "STAY_3", "STAY_4",
 									   "STAY_5", "STAY_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 	} else if (component == "tavern_menu") {
 		sources.insert(sources.end(),
 					   {"TAVERN_ADD_TO_PARTY", "TAVERN_REMOVE_FROM_PARTY",
@@ -4003,28 +4007,28 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"TAVERN_DIVVY_GOLD", "TAVERN_CASTLE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "inn_menu") {
 		sources.insert(sources.end(),
 					   {"INN_STAY", "INN_INSPECT", "INN_CASTLE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "temple_menu") {
 		sources.insert(sources.end(), {"TEMPLE_HELP", "TEMPLE_INSPECT",
 									   "TEMPLE_TITHE", "TEMPLE_CASTLE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "shop_menu") {
 		sources.insert(sources.end(),
 					   {"SHOP_ENTER", "SHOP_INSPECT", "SHOP_CASTLE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "edge_menu") {
 		sources.insert(sources.end(),
@@ -4033,7 +4037,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"EDGE_OF_TOWN_LEAVE_GAME"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "atlas_menu") {
 		sources.insert(sources.end(),
@@ -4043,7 +4047,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"ATLAS_MENU_B10F", "ATLAS_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "training_menu") {
 		sources.insert(sources.end(),
@@ -4052,7 +4056,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"TRAINING_GROUNDS_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "main_menu") {
 		sources.insert(sources.end(),
@@ -4062,7 +4066,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"MAIN_MENU_OPTION_LICENSE", "MAIN_MENU_OPTION_EXIT"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", (*_system->strings)[source], width));
+				std::format("{:^{}}", _system->strings->get(source), width));
 
 	} else if (component == "bestiary_menu") {
 		for (const auto monster_types{_resources->monsters->get_all_types()};
@@ -4076,7 +4080,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 			items.emplace_back(std::format("{}", menu_item));
 		}
 		items.emplace_back(std::format(
-			"{:^{}}", (*_system->strings)["BESTIARY_RETURN"], width));
+			"{:^{}}", _system->strings->get("BESTIARY_RETURN"), width));
 
 	} else if (component == "spellbook_menu") {
 		for (const auto spells{_resources->spells->get_all()};
@@ -4086,7 +4090,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 			items.emplace_back(std::format("{}", padded));
 		}
 		items.emplace_back(std::format(
-			"{:^{}}", (*_system->strings)["SPELLBOOK_RETURN"], width));
+			"{:^{}}", _system->strings->get("SPELLBOOK_RETURN"), width));
 	} else if (component == "museum_menu") {
 		for (const auto item_types{_resources->items->get_all_types()};
 			 auto &item_type : item_types) {
@@ -4098,8 +4102,8 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 				items.emplace_back(std::format("{}", menu_item));
 			}
 		}
-		items.emplace_back(
-			std::format("{:^{}}", (*_system->strings)["MUSEUM_RETURN"], width));
+		items.emplace_back(std::format(
+			"{:^{}}", _system->strings->get("MUSEUM_RETURN"), width));
 	}
 }
 

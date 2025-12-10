@@ -22,7 +22,9 @@
 
 #include "core/context.hpp"
 #include "core/random.hpp"
+#include "resources/filestore.hpp"
 #include "resources/stringstore.hpp"
+#include "types/config.hpp"
 
 auto Sorcery::Context::get_random(const Enums::System::Random random_type)
 	-> unsigned int {
@@ -30,7 +32,18 @@ auto Sorcery::Context::get_random(const Enums::System::Random random_type)
 	return random->get(random_type);
 }
 
-auto Sorcery::Context::get_string(std::string_view key) -> std::string & {
+auto Sorcery::Context::get_string(std::string_view key) -> std::string {
 
 	return strings->get(key);
+}
+
+auto Sorcery::Context::get_config(const unsigned int i) -> bool & {
+
+	return config->get(i);
+}
+
+auto Sorcery::Context::get_file(std::string_view key) const
+	-> std::filesystem::path {
+
+	return files->get(key);
 }

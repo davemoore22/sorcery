@@ -25,7 +25,6 @@
 #include "common/include.hpp"
 #include "common/types.hpp"
 #include "core/macro.hpp"
-#include "resources/imagestore.hpp"
 #include "types/component.hpp"
 #include "types/enum.hpp"
 #include "types/image.hpp"
@@ -44,6 +43,7 @@ class Display;
 class FontStore;
 class Frame;
 class Game;
+class ImageStore;
 class Input;
 class Message;
 class Menu;

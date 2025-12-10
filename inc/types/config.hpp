@@ -35,8 +35,7 @@ class Config {
 		Config(CSimpleIniA *settings, const std::filesystem::path cfg_path);
 		Config() = delete;
 
-		auto operator[](const unsigned int i) -> bool &;
-
+		auto get(const unsigned int i) -> bool &;
 		auto get(std::string_view section, std::string_view value) const
 			-> std::string;
 		auto has_changed() -> bool;

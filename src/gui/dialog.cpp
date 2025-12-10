@@ -21,9 +21,11 @@
 // the resulting work.
 
 #include "gui/dialog.hpp"
+#include "core/animation.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "resources/fontstore.hpp"
+#include "resources/stringstore.hpp"
 #include "types/component.hpp"
 
 Sorcery::Dialog::Dialog(System *system, UI *ui, Component &component,
@@ -50,16 +52,16 @@ auto Sorcery::Dialog::name() const -> std::string {
 auto Sorcery::Dialog::display(bool &is_yes) -> void {
 
 	_id = _component.name + "##outer";
-	const auto yes_lbl{(*_system->strings)["DIALOG_YES"]};
-	const auto no_lbl{(*_system->strings)["DIALOG_NO"]};
-	const auto ok_lbl{(*_system->strings)["DIALOG_OK"]};
+	const auto yes_lbl{_system->strings->get("DIALOG_YES")};
+	const auto no_lbl{_system->strings->get("DIALOG_NO")};
+	const auto ok_lbl{_system->strings->get("DIALOG_OK")};
 	const auto grid_sz{_ui->grid_sz};
 	const auto rounding{_ui->frame_rd};
 	set_Font(_ui->fontstore->get_current_font(_component.font).value());
-	const auto width{
-		ImGui::CalcTextSize((*_system->strings)[_component.string_key].c_str())
-			.x +
-		(grid_sz * 4)};
+	const auto width{ImGui::CalcTextSize(
+						 _system->strings->get(_component.string_key).c_str())
+						 .x +
+					 (grid_sz * 4)};
 	const auto height{_component.h * grid_sz};
 
 	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
@@ -94,7 +96,8 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
 		ImGui::SetCursorPos(ImVec2{grid_sz * 2, grid_sz * 2});
-		ImGui::TextWrapped((*_system->strings)[_component.string_key].c_str());
+		ImGui::TextWrapped(
+			_system->strings->get(_component.string_key).c_str());
 #pragma GCC diagnostic pop
 
 		ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
@@ -102,7 +105,6 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 
 		using enum Enums::Layout::DialogType;
 		if (_type == CONFIRM) {
-
 			ImGui::SetCursorPos(
 				ImVec2{centre - (btn_size.x + grid_sz), grid_sz * 4});
 			if (ImGui::Button(yes_lbl.c_str(), btn_size)) {
@@ -116,7 +118,6 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 				ImGui::CloseCurrentPopup();
 			}
 		} else if (_type == OK) {
-
 			ImGui::SetCursorPos(ImVec2{centre - (btn_size.x / 2), grid_sz * 4});
 			if (ImGui::Button(ok_lbl.c_str(), btn_size)) {
 				is_yes = true;

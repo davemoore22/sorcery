@@ -35,7 +35,7 @@ class FileStore {
 	public:
 		FileStore();
 
-		auto operator[](std::string_view key) const -> std::filesystem::path;
+		auto get(std::string_view key) const -> std::filesystem::path;
 
 		auto get_path(std::string_view key) const -> std::string;
 		auto get_base_path() const -> std::filesystem::path;

@@ -21,7 +21,9 @@
 // the resulting work.
 
 #include "core/display.hpp"
+#include "core/context.hpp"
 #include "core/system.hpp"
+#include "types/config.hpp"
 
 Sorcery::Display::Display(System *system)
 	: _system{system} {
@@ -46,10 +48,11 @@ auto Sorcery::Display::initialise_SDL() -> int {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
 	// Create SDL Window with an Open GL Graphics Context
-	auto window_title{(*_system->strings)["WINDOW_TITLE"]};
-	auto window_w{std::stoi((*_system->config).get("Window", "width"))};
-	auto window_h{std::stoi((*_system->config).get("Window", "height"))};
-	auto min_window_w{std::stoi((*_system->config).get("Window", "min_width"))};
+	auto window_title{_system->ctx->get_string("WINDOW_TITLE")};
+	auto window_w{(std::stoi(_system->ctx->config->get("Window", "width")))};
+	auto window_h{std::stoi(_system->ctx->config->get("Window", "height"))};
+	auto min_window_w{
+		std::stoi(_system->ctx->config->get("Window", "min_width"))};
 	auto min_window_h{
 		std::stoi((*_system->config).get("Window", "min_height"))};
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);

@@ -39,6 +39,7 @@ class System {
 
 	public:
 		System(int argc, char **argv);
+		~System();
 
 		auto convert_tp_to_str(
 			const std::chrono::time_point<std::chrono::system_clock> tp) const
