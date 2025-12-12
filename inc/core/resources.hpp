@@ -24,19 +24,19 @@
 
 #include "common/include.hpp"
 #include "core/include.hpp"
-#include "resources/itemstore.hpp"
-#include "resources/levelstore.hpp"
-#include "resources/monsterstore.hpp"
-#include "resources/spellstore.hpp"
 
 namespace Sorcery {
 
-class System;
-
+struct Context;
+class ItemStore;
+class LevelStore;
+class MonsterStore;
+class SpellStore;
 class Resources {
 
 	public:
-		Resources(System *system);
+		Resources(Context &ctx);
+		~Resources();
 
 		std::unique_ptr<ItemStore> items;
 		std::unique_ptr<LevelStore> levels;
@@ -44,6 +44,6 @@ class Resources {
 		std::unique_ptr<SpellStore> spells;
 
 	private:
-		System *_system;
+		Context &_ctx;
 };
 };

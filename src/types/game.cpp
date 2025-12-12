@@ -27,6 +27,8 @@
 #include "core/resources.hpp"
 #include "core/system.hpp"
 #include "resources/filestore.hpp"
+#include "resources/itemstore.hpp"
+#include "resources/levelstore.hpp"
 #include "types/state.hpp"
 
 Sorcery::Game::Game(System *system, Resources *resources)
@@ -250,7 +252,8 @@ auto Sorcery::Game::save_game() -> void {
 
 auto Sorcery::Game::enter_maze() -> void {
 
-	Level level{((*levels)[-1]).value()};
+	Level level{levels->get(-1).value()};
+
 	state->set_current_level(&level);
 	state->restart_expedition();
 }
@@ -276,7 +279,7 @@ auto Sorcery::Game::restart_maze(unsigned int char_id) -> void {
 	state->set_depth(to_depth);
 	state->set_player_prev_depth(state->get_depth());
 	state->set_player_pos(to_loc);
-	Level level{((*levels)[to_depth]).value()};
+	Level level{levels->get(to_depth).value()};
 	state->set_current_level(&level);
 }
 

@@ -49,14 +49,6 @@ Sorcery::LevelStore::LevelStore(System *system,
 	_loaded = _load(filename);
 }
 
-// Overload [] Operator
-auto Sorcery::LevelStore::operator[](const int depth) const
-	-> std::optional<Level> {
-
-	auto level{_get(depth)};
-	return level;
-}
-
 auto Sorcery::LevelStore::get(const int depth) const -> std::optional<Level> {
 
 	auto level{_get(depth)};

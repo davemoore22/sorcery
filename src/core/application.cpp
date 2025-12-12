@@ -34,7 +34,11 @@
 #include "gui/define.hpp"
 #include "modules/castle.hpp"
 #include "modules/edgeoftown.hpp"
+#include "resources/filestore.hpp"
 #include "resources/imagestore.hpp"
+#include "resources/itemstore.hpp"
+#include "resources/levelstore.hpp"
+#include "resources/monsterstore.hpp"
 #include "types/config.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
@@ -70,9 +74,15 @@ Sorcery::Application::Application(int argc, char **argv) {
 		_args.push_back(arg);
 	}
 
-	// Set up all the Core Modules (we will inject context in them later)
+	// And the Context object used for DI
+	ctx = Context{};
+	ctx.application = this;
+
+	// Set up all the Core Modules
 	_system = std::make_unique<System>(argc, argv);
-	_resources = std::make_unique<Resources>(_system.get());
+	ctx.system = _system.get();
+
+	_resources = std::make_unique<Resources>(ctx);
 	_display = std::make_unique<Display>(_system.get());
 	_controller = std::make_unique<Controller>(_system.get(), _display.get(),
 											   _resources.get());
@@ -80,10 +90,6 @@ Sorcery::Application::Application(int argc, char **argv) {
 							   _controller.get());
 	_game = std::make_unique<Game>(_system.get(), _resources.get());
 
-	// And the Context object used for DI
-	ctx = Context{};
-	ctx.application = this;
-	ctx.system = _system.get();
 	ctx.resources = _resources.get();
 	ctx.ui = _ui.get();
 	ctx.controller = _controller.get();

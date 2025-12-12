@@ -32,6 +32,7 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "gui/modal.hpp"
+#include "resources/itemstore.hpp"
 #include "types/character.hpp"
 #include "types/config.hpp"
 #include "types/game.hpp"

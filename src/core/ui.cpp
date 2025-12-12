@@ -3515,7 +3515,7 @@ auto Sorcery::UI::_draw_level_no_player() -> void {
 		return;
 
 	const auto depth{-1 - _controller->get_selected("atlas_selected")};
-	Level level{(*_resources->levels)[depth].value()};
+	Level level{_resources->levels->get(depth).value()};
 
 	// Work out where and how to draw the grid
 	auto tc{20};

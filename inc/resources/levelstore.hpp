@@ -46,7 +46,6 @@ class LevelStore {
 		}
 
 		// Overload operators
-		auto operator[](const int depth) const -> std::optional<Level>;
 		auto operator=(const LevelStore other) -> LevelStore &;
 
 		// Public Methods

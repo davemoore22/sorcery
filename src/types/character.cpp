@@ -26,6 +26,8 @@
 #include "core/random.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
+#include "resources/itemstore.hpp"
+#include "resources/spellstore.hpp"
 
 Sorcery::Character::Character() {}
 
