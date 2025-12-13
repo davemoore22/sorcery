@@ -36,15 +36,13 @@ class System;
 class MonsterStore {
 
 	public:
-		MonsterStore(System *system, const std::filesystem::path filename);
+		MonsterStore(const std::filesystem::path filename);
 		MonsterStore() = delete;
 
-		// Overload operators
-		auto operator[](Enums::Monsters::TypeID monster_type_id) const
-			-> MonsterType;
-		auto operator[](int monster_type_id) const -> MonsterType;
+		auto get(Enums::Monsters::TypeID monster_type_id) const -> MonsterType;
+		auto get(int monster_type_id) const -> MonsterType;
 		// auto operator()(ITC category) const -> std::vector<ItemType>;
-		auto operator[](std::string name) const -> MonsterType;
+		auto get(std::string name) const -> MonsterType;
 
 		// Public methods
 		// auto get_a_monster(const MTI monster_type_id) const -> Monster;

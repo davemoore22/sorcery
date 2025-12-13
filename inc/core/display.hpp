@@ -27,13 +27,13 @@
 
 namespace Sorcery {
 
-class System;
+struct Context;
 class Size;
 
 class Display {
 
 	public:
-		explicit Display(System *system);
+		Display(Context &ctx);
 
 		auto get_SDL_window() -> SDL_Window *;
 		auto get_SDL_window_size() -> Size;
@@ -43,7 +43,7 @@ class Display {
 	private:
 		auto initialise_SDL() -> int;
 
-		System *_system;
+		Context &_ctx;
 		SDL_Window *_SDL_window;
 		SDL_GLContext _GL_context;
 		std::string _GLSL_version;

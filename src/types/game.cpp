@@ -31,8 +31,9 @@
 #include "resources/levelstore.hpp"
 #include "types/state.hpp"
 
-Sorcery::Game::Game(System *system, Resources *resources)
-	: _system{system},
+Sorcery::Game::Game(Context &ctx, System *system, Resources *resources)
+	: _ctx{ctx},
+	  _system{system},
 	  _resources{resources} {
 
 	if (_system->db->has_game()) {
@@ -47,9 +48,10 @@ Sorcery::Game::Game(System *system, Resources *resources)
 	_set_up_debug_keys();
 }
 
-auto Sorcery::Game::post_construct(System *system, Resources *resources)
-	-> void {
+auto Sorcery::Game::post_construct(Context &ctx, System *system,
+								   Resources *resources) -> void {
 
+	_ctx = ctx;
 	_system = system;
 	_resources = resources;
 }
@@ -297,8 +299,7 @@ auto Sorcery::Game::_clear() -> void {
 	_char_ids.clear();
 
 	state = std::make_unique<State>(_system);
-	levels =
-		std::make_unique<LevelStore>(_system, _system->files->get(MAPS_FILE));
+	levels = std::make_unique<LevelStore>(_system->files->get(MAPS_FILE));
 
 	state->clear_log_messages();
 	state->reset_shop(_resources->items.get());
@@ -331,8 +332,7 @@ auto Sorcery::Game::_load_game() -> void {
 	_start_time = start_time;
 	_last_time = last_time;
 	state = std::make_unique<State>();
-	levels =
-		std::make_unique<LevelStore>(_system, _system->files->get(MAPS_FILE));
+	levels = std::make_unique<LevelStore>(_system->files->get(MAPS_FILE));
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);

@@ -3073,10 +3073,8 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 		with_Child("spell_child", ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
 
-			auto spell{(
-				*_resources
-					 ->spells)[magic_enum::enum_cast<Enums::Magic::SpellID>(idx)
-								   .value()]};
+			auto spell{_resources->spells->get(
+				magic_enum::enum_cast<Enums::Magic::SpellID>(idx).value())};
 
 			const auto spell_name{
 				std::format("{} \"{}\"", spell.name, spell.translated_name)};
@@ -3116,7 +3114,7 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 auto Sorcery::UI::_draw_monster_info() -> void {
 	// Custom Rendering
 	const auto idx{_controller->get_selected("bestiary_selected")};
-	const auto mon{(*_resources->monsters)[idx]};
+	const auto mon{_resources->monsters->get(idx)};
 	const auto k_gfx{mon.get_known_gfx()};
 	const auto u_gfx{mon.get_unknown_gfx()};
 	auto k_mg_c{components->get("bestiary:known_monster_graphic")};

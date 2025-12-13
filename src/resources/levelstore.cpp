@@ -24,23 +24,14 @@
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 #include "core/random.hpp"
-#include "core/system.hpp"
 
 Sorcery::LevelStore::LevelStore() {
-	_levels.clear();
-}
 
-Sorcery::LevelStore::LevelStore(System *system)
-	: _system{system} {
-
-	// Prepare the level store
 	_levels.clear();
 }
 
 // Standard Constructor
-Sorcery::LevelStore::LevelStore(System *system,
-								const std::filesystem::path filename)
-	: _system{system} {
+Sorcery::LevelStore::LevelStore(const std::filesystem::path filename) {
 
 	// Prepare the level store
 	_levels.clear();
@@ -61,15 +52,8 @@ auto Sorcery::LevelStore::operator=(const LevelStore other) -> LevelStore & {
 	_levels.clear();
 	_levels = other._levels;
 	_loaded = other._loaded;
-	_system = other._system;
 
 	return *this;
-}
-
-// Method called to simulate Normal Constructor with Cereal Constructor
-auto Sorcery::LevelStore::set(System *system) -> void {
-
-	_system = system;
 }
 
 auto Sorcery::LevelStore::_get(const int depth) const -> std::optional<Level> {

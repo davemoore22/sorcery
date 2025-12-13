@@ -23,13 +23,13 @@
 #include "resources/itemstore.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
+#include "core/context.hpp"
 #include "core/random.hpp"
-#include "core/system.hpp"
 
 // Standard Constructor
-Sorcery::ItemStore::ItemStore(System *system,
+Sorcery::ItemStore::ItemStore(Context &ctx,
 							  const std::filesystem::path filename)
-	: _system{system} {
+	: _ctx{ctx} {
 
 	_items.clear();
 
@@ -385,8 +385,8 @@ auto Sorcery::ItemStore::get_random_item(
 	const Enums::Items::TypeID min_item_type_id,
 	const Enums::Items::TypeID max_item_type_id) const -> Item {
 
-	auto item_type_id{_system->random->get(unenum(min_item_type_id),
-										   unenum(max_item_type_id))};
+	auto item_type_id{
+		_ctx.random->get(unenum(min_item_type_id), unenum(max_item_type_id))};
 
 	return Item{_items.at(
 		magic_enum::enum_cast<Enums::Items::TypeID>(item_type_id).value())};

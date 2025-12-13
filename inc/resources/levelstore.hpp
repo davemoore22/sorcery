@@ -29,16 +29,12 @@
 
 namespace Sorcery {
 
-// Forward Declaration
-class System;
-
 class LevelStore {
 
 	public:
 		// Constructors
 		LevelStore();
-		LevelStore(System *system);
-		LevelStore(System *system, const std::filesystem::path filename);
+		LevelStore(const std::filesystem::path filename);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -49,12 +45,10 @@ class LevelStore {
 		auto operator=(const LevelStore other) -> LevelStore &;
 
 		// Public Methods
-		auto set(System *system) -> void;
 		auto get(const int depth) const -> std::optional<Level>;
 
 	private:
 		// Private Members
-		System *_system;
 		bool _loaded;
 
 		std::map<int, Level> _levels;

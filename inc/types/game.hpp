@@ -22,12 +22,13 @@
 
 #pragma once
 
-#include "types/character.hpp"
 #include "core/include.hpp"
+#include "types/character.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
+struct Context;
 class LevelStore;
 class System;
 class State;
@@ -38,7 +39,7 @@ class Game {
 
 	public:
 		// Constructor
-		Game(System *system, Resources *resources);
+		Game(Context &ctx, System *system, Resources *resources);
 		Game() = default;
 
 		// Overloaded Operator
@@ -57,7 +58,8 @@ class Game {
 		std::unique_ptr<LevelStore> levels;
 
 		// Public Methods
-		auto post_construct(System *system, Resources *resources) -> void;
+		auto post_construct(Context &ctx, System *system, Resources *resources)
+			-> void;
 
 		auto wipe_data() -> void;
 		auto get_id() const -> unsigned int;
@@ -116,6 +118,7 @@ class Game {
 		auto _debug_toggle_light() -> void;
 
 		// Private Members
+		Context &_ctx;
 		System *_system;
 		Resources *_resources;
 		std::chrono::time_point<std::chrono::system_clock> _start_time;

@@ -29,26 +29,25 @@
 namespace Sorcery {
 
 // Forward Declaration
-class System;
+struct Context;
 
 class SpellStore {
 
 	public:
 		// Constructor
-		SpellStore(System *system);
+		SpellStore(Context &ctx);
 
-		// Overload [] operator
-		auto operator[](Enums::Magic::SpellID spell_id) const -> Spell;
-		auto operator()(Enums::Magic::SpellCategory category) const
+		auto get(Enums::Magic::SpellID spell_id) const -> Spell;
+		auto get(Enums::Magic::SpellCategory category) const
 			-> std::vector<Spell>;
-		auto operator[](std::string name) const -> Spell;
+		auto get(std::string name) const -> Spell;
 
 		// Public Methods
 		auto get_all() -> std::vector<Spell>;
 
 	private:
 		// Private Members
-		System *_system;
+		Context &_ctx;
 		bool _loaded;
 		std::vector<Spell> _spells;
 

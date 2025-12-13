@@ -24,15 +24,12 @@
 #include "common/enum.hpp"
 #include "common/include.hpp"
 #include "common/macro.hpp"
-#include "core/system.hpp"
 #include "resources/define.hpp"
 #include "resources/include.hpp"
 #include "types/monstertype.hpp"
 
 // Standard Constructor
-Sorcery::MonsterStore::MonsterStore(System *system,
-									const std::filesystem::path filename)
-	: _system{system} {
+Sorcery::MonsterStore::MonsterStore(const std::filesystem::path filename) {
 
 	_items.clear();
 
@@ -227,14 +224,13 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
 		return false;
 }
 
-auto Sorcery::MonsterStore::operator[](
-	Enums::Monsters::TypeID monster_type_id) const -> MonsterType {
+auto Sorcery::MonsterStore::get(Enums::Monsters::TypeID monster_type_id) const
+	-> MonsterType {
 
 	return _items.at(monster_type_id);
 }
 
-auto Sorcery::MonsterStore::operator[](int monster_type_id) const
-	-> MonsterType {
+auto Sorcery::MonsterStore::get(int monster_type_id) const -> MonsterType {
 
 	return _items.at(
 		magic_enum::enum_cast<Enums::Monsters::TypeID>(monster_type_id)

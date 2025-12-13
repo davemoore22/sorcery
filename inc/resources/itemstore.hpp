@@ -29,12 +29,12 @@
 
 namespace Sorcery {
 
-class System;
+struct Context;
 
 class ItemStore {
 
 	public:
-		ItemStore(System *system, const std::filesystem::path filename);
+		ItemStore(Context &ctx, const std::filesystem::path filename);
 		ItemStore() = delete;
 
 		auto get(Enums::Items::TypeID item_type_id) const -> ItemType;
@@ -62,7 +62,7 @@ class ItemStore {
 			-> unsigned int;
 
 	private:
-		System *_system;
+		Context &_ctx;
 		std::map<Enums::Items::TypeID, ItemType> _items;
 		bool _loaded;
 

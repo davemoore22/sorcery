@@ -26,8 +26,8 @@
 #include "resources/stringstore.hpp"
 #include "types/config.hpp"
 
-Sorcery::Display::Display(System *system)
-	: _system{system} {
+Sorcery::Display::Display(Context &ctx)
+	: _ctx{ctx} {
 
 	initialise_SDL();
 };
@@ -49,11 +49,11 @@ auto Sorcery::Display::initialise_SDL() -> int {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
 	// Create SDL Window with an Open GL Graphics Context
-	auto window_title{_system->strings->get("WINDOW_TITLE")};
-	auto window_w{(std::stoi(_system->config->get("Window", "width")))};
-	auto window_h{std::stoi(_system->config->get("Window", "height"))};
-	auto min_window_w{std::stoi(_system->config->get("Window", "min_width"))};
-	auto min_window_h{std::stoi(_system->config->get("Window", "min_height"))};
+	auto window_title{_ctx.get_string("WINDOW_TITLE")};
+	auto window_w{(std::stoi(_ctx.config->get("Window", "width")))};
+	auto window_h{std::stoi(_ctx.config->get("Window", "height"))};
+	auto min_window_w{std::stoi(_ctx.config->get("Window", "min_width"))};
+	auto min_window_h{std::stoi(_ctx.config->get("Window", "min_height"))};
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);

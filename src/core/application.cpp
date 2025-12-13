@@ -78,29 +78,29 @@ Sorcery::Application::Application(int argc, char **argv) {
 	ctx = Context{};
 	ctx.application = this;
 
-	// Set up all the Core Modules
+	// Set up all the Core Modules (and populate the DI helper as we go)
 	_system = std::make_unique<System>(argc, argv);
 	ctx.system = _system.get();
-
-	_resources = std::make_unique<Resources>(ctx);
-	_display = std::make_unique<Display>(_system.get());
-	_controller = std::make_unique<Controller>(_system.get(), _display.get(),
-											   _resources.get());
-	_ui = std::make_unique<UI>(_system.get(), _display.get(), _resources.get(),
-							   _controller.get());
-	_game = std::make_unique<Game>(_system.get(), _resources.get());
-
-	ctx.resources = _resources.get();
-	ctx.ui = _ui.get();
-	ctx.controller = _controller.get();
-	ctx.display = _display.get();
-	ctx.game = _game.get();
 	ctx.animation = _system->animation.get();
 	ctx.config = _system->config.get();
 	ctx.database = _system->db.get();
 	ctx.files = _system->files.get();
 	ctx.random = _system->random.get();
 	ctx.strings = _system->strings.get();
+	_resources = std::make_unique<Resources>(ctx);
+	ctx.resources = _resources.get();
+	_display = std::make_unique<Display>(ctx);
+	ctx.display = _display.get();
+	_controller = std::make_unique<Controller>(_system.get(), _display.get(),
+											   _resources.get());
+	_ui = std::make_unique<UI>(_system.get(), _display.get(), _resources.get(),
+							   _controller.get());
+	_game = std::make_unique<Game>(ctx, _system.get(), _resources.get());
+
+	ctx.ui = _ui.get();
+	ctx.controller = _controller.get();
+
+	ctx.game = _game.get();
 	ctx.components = _ui->components.get();
 	ctx.images = _ui->images.get();
 	ctx.fonts = _ui->fontstore.get();
