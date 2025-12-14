@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "core/context.hpp"
+#include "core/controller.hpp"
 #include "core/random.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/filestore.hpp"
@@ -54,4 +55,19 @@ auto Sorcery::Context::get_component(std::string_view combined_key)
 	-> Component & {
 
 	return components->get(combined_key);
+}
+
+auto Sorcery::Context::get_flag_ref(const std::string &flag) -> bool & {
+
+	return controller->get_flag_ref(flag);
+}
+
+auto Sorcery::Context::get_flag(const std::string &flag) -> bool {
+
+	return controller->get_flag(flag);
+}
+
+auto Sorcery::Context::get_selected(const std::string &flag) const -> int {
+
+	return controller->get_selected(flag);
 }

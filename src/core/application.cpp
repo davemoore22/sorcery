@@ -91,23 +91,16 @@ Sorcery::Application::Application(int argc, char **argv) {
 	ctx.resources = _resources.get();
 	_display = std::make_unique<Display>(ctx);
 	ctx.display = _display.get();
-	_controller = std::make_unique<Controller>(_system.get(), _display.get(),
-											   _resources.get());
-	_ui = std::make_unique<UI>(_system.get(), _display.get(), _resources.get(),
-							   _controller.get());
-	_game = std::make_unique<Game>(ctx, _system.get(), _resources.get());
-
-	ctx.ui = _ui.get();
+	_controller = std::make_unique<Controller>(ctx);
 	ctx.controller = _controller.get();
-
-	ctx.game = _game.get();
+	_ui = std::make_unique<UI>(ctx);
+	ctx.ui = _ui.get();
 	ctx.components = _ui->components.get();
 	ctx.images = _ui->images.get();
 	ctx.fonts = _ui->fontstore.get();
 
-	// Install context into system, as then everything like ui, controller, etc
-	// will all have access to it
-	_system->ctx = &ctx;
+	_game = std::make_unique<Game>(ctx, _system.get(), _resources.get());
+	ctx.game = _game.get();
 
 	// Frontend Game Modules
 	_main_menu = std::make_unique<MainMenu>(ctx);

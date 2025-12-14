@@ -39,11 +39,8 @@
 #include "types/item.hpp"
 #include "types/state.hpp"
 
-Sorcery::Controller::Controller(System *system, Display *display,
-								Resources *resources)
-	: _system{system},
-	  _display{display},
-	  _resources{resources} {
+Sorcery::Controller::Controller(Context &ctx)
+	: _ctx{ctx} {
 
 	initialise("");
 	_game = nullptr;
@@ -54,7 +51,7 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	_screen = value;
 	_busy = false;
 	_last_screen = value;
-	_has_save = _system->db->has_game();
+	_has_save = _ctx.database->has_game();
 
 	// TODO: are these needed?
 	_flags.clear();
@@ -116,14 +113,6 @@ auto Sorcery::Controller::initialise(std::string_view value) -> void {
 	set_selected("atlas_selected", 8);
 
 	// need to set ui flags too, argh
-}
-
-auto Sorcery::Controller::post_construct(System *system, Display *display,
-										 Resources *resources) -> void {
-
-	_system = system;
-	_display = display;
-	_resources = resources;
 }
 
 auto Sorcery::Controller::add_to_candidate_party(unsigned int value) -> void {
@@ -471,7 +460,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			if (selection < who.inventory.items().size()) {
 				const auto item{who.inventory.items().at(selection)};
 				const auto item_type{
-					_resources->items->get_item_type(item.get_type_id())};
+					_ctx.resources->items->get_item_type(item.get_type_id())};
 				return !(item_type.has_usable() && item.get_known());
 			} else
 				return false;
@@ -488,7 +477,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			if (selection < who.inventory.items().size()) {
 				const auto item{who.inventory.items().at(selection)};
 				const auto item_type{
-					_resources->items->get_item_type(item.get_type_id())};
+					_ctx.resources->items->get_item_type(item.get_type_id())};
 				return !(item_type.has_invokable() && item.get_known());
 			} else
 				return false;
@@ -521,33 +510,29 @@ auto Sorcery::Controller::handle_toggle(const std::string &component,
 
 			// This happens after the corresponding data is changed
 			if (selection == static_cast<int>(RECOMMENDED_MODE) &&
-				_system->ctx->get_config(RECOMMENDED_MODE))
-				_system->ctx->config->set_rec_mode();
+				_ctx.get_config(RECOMMENDED_MODE))
+				_ctx.config->set_rec_mode();
 			else if (selection == static_cast<int>(STRICT_MODE) &&
-					 _system->ctx->get_config(STRICT_MODE))
-				_system->ctx->config->set_strict_mode();
+					 _ctx.get_config(STRICT_MODE))
+				_ctx.config->set_strict_mode();
 			else {
-				if (_system->ctx->config->is_strict_mode())
-					_system->ctx->config->set_strict_mode();
-				else if (_system->ctx->config->is_rec_mode())
-					_system->ctx->config->set_rec_mode();
+				if (_ctx.config->is_strict_mode())
+					_ctx.config->set_strict_mode();
+				else if (_ctx.config->is_rec_mode())
+					_ctx.config->set_rec_mode();
 			}
 
 		} else if (tab == "Gameplay") {
 
 			// Only need to check if strict and reommended modes are on
-			_system->ctx->get_config(RECOMMENDED_MODE) =
-				_system->ctx->config->is_rec_mode();
-			_system->ctx->get_config(STRICT_MODE) =
-				_system->ctx->config->is_strict_mode();
+			_ctx.get_config(RECOMMENDED_MODE) = _ctx.config->is_rec_mode();
+			_ctx.get_config(STRICT_MODE) = _ctx.config->is_strict_mode();
 
 		} else if (tab == "Graphics") {
 
 			// Only need to check if strict and reommended modes are on
-			_system->ctx->get_config(RECOMMENDED_MODE) =
-				_system->ctx->config->is_rec_mode();
-			_system->ctx->get_config(STRICT_MODE) =
-				_system->ctx->config->is_strict_mode();
+			_ctx.get_config(RECOMMENDED_MODE) = _ctx.config->is_rec_mode();
+			_ctx.get_config(STRICT_MODE) = _ctx.config->is_strict_mode();
 		}
 	}
 }
@@ -960,7 +945,8 @@ auto Sorcery::Controller::check_for_abort(const SDL_Event event) -> bool {
 	// Window Close event
 	if (event.type == SDL_WINDOWEVENT &&
 		event.window.event == SDL_WINDOWEVENT_CLOSE &&
-		event.window.windowID == SDL_GetWindowID(_display->get_SDL_window())) {
+		event.window.windowID ==
+			SDL_GetWindowID(_ctx.display->get_SDL_window())) {
 		_flags["want_abort"] = true;
 		return true;
 	}
@@ -1265,29 +1251,29 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 				case LORD:
 				case SAMURAI:
 					_create->inventory.add_type(
-						_resources->items->get(LEATHER_ARMOR), true);
+						_ctx.resources->items->get(LEATHER_ARMOR), true);
 					_create->inventory.add_type(
-						_resources->items->get(LONG_SWORD), true);
+						_ctx.resources->items->get(LONG_SWORD), true);
 					break;
 				case MAGE:
-					_create->inventory.add_type(_resources->items->get(ROBES),
-												true);
-					_create->inventory.add_type(_resources->items->get(DAGGER),
-												true);
+					_create->inventory.add_type(
+						_ctx.resources->items->get(ROBES), true);
+					_create->inventory.add_type(
+						_ctx.resources->items->get(DAGGER), true);
 					break;
 				case PRIEST:
 				case BISHOP:
-					_create->inventory.add_type(_resources->items->get(ROBES),
-												true);
-					_create->inventory.add_type(_resources->items->get(STAFF),
-												true);
+					_create->inventory.add_type(
+						_ctx.resources->items->get(ROBES), true);
+					_create->inventory.add_type(
+						_ctx.resources->items->get(STAFF), true);
 					break;
 				case THIEF:
 				case NINJA:
 					_create->inventory.add_type(
-						_resources->items->get(LEATHER_ARMOR), true);
+						_ctx.resources->items->get(LEATHER_ARMOR), true);
 					_create->inventory.add_type(
-						_resources->items->get(SHORT_SWORD), true);
+						_ctx.resources->items->get(SHORT_SWORD), true);
 				default:
 					break;
 				}

@@ -28,10 +28,8 @@
 namespace Sorcery {
 
 // Forward Declarations
-class System;
-class Display;
+struct Context;
 class Game;
-class Resources;
 class UI;
 class Character;
 
@@ -40,7 +38,7 @@ class Controller {
 
 	public:
 		// Standard Constructor
-		Controller(System *system, Display *display, Resources *resources);
+		Controller(Context &ctx);
 		Controller() = default;
 
 		// Serialisation
@@ -55,9 +53,6 @@ class Controller {
 							   const Controller &controller) -> std::ostream &;
 
 		// Public Methods
-		auto post_construct(System *system, Display *display,
-							Resources *resources) -> void;
-
 		auto check_for_abort(const SDL_Event event) -> bool;
 		auto check_for_back(const SDL_Event event) -> bool;
 		auto check_for_back(const SDL_Event event, bool &flag) -> void;
@@ -143,9 +138,8 @@ class Controller {
 
 	private:
 		// Private Members
-		System *_system;
-		Display *_display;
-		Resources *_resources;
+		Context &_ctx;
+
 		Game *_game;
 		bool _busy;		  // Currently busy (e.g. loading an asset etc)
 		bool _has_save;	  // Is there a saved game present

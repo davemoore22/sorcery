@@ -52,17 +52,12 @@
 #include "types/game.hpp"
 #include "types/state.hpp"
 
-Sorcery::UI::UI(System *system, Display *display, Resources *resources,
-				Controller *controller)
-	: _system{system},
-	  _display{display},
-	  _resources{resources},
-	  _controller{controller} {
+Sorcery::UI::UI(Context &ctx)
+	: _ctx{ctx} {
 
 	// Storage
-	components =
-		std::make_unique<ComponentStore>(_system->files->get(LAYOUT_FILE));
-	images = std::make_unique<ImageStore>(_system);
+	components = std::make_unique<ComponentStore>(_ctx.get_file(LAYOUT_FILE));
+	images = std::make_unique<ImageStore>(_ctx.system);
 
 	// Can't create fontstore just yet as it needs IMGUI initialised
 
@@ -72,7 +67,7 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 	// Initialise main menu background vfx
 	try {
 
-		auto bg_vfx_path{_system->files->get(MAINMENU_VIDEO).string()};
+		auto bg_vfx_path{_ctx.get_file(MAINMENU_VIDEO).string()};
 		vfx_player->load(bg_vfx_path.c_str());
 
 	} catch (std::exception &e) {
@@ -85,74 +80,79 @@ Sorcery::UI::UI(System *system, Display *display, Resources *resources,
 
 	// Custom components
 	dialog_exit = std::make_unique<Dialog>(
-		_system, this, components->get("main_menu:dialog_exit"),
+		_ctx.system, this, components->get("main_menu:dialog_exit"),
 		Enums::Layout::DialogType::CONFIRM);
 	dialog_new = std::make_unique<Dialog>(
-		_system, this, components->get("main_menu:dialog_new"),
+		_ctx.system, this, components->get("main_menu:dialog_new"),
 		Enums::Layout::DialogType::CONFIRM);
 	dialog_leave = std::make_unique<Dialog>(
-		_system, this, components->get("main_menu:dialog_leave"),
+		_ctx.system, this, components->get("main_menu:dialog_leave"),
 		Enums::Layout::DialogType::CONFIRM);
 	notice_divvy = std::make_unique<Dialog>(
-		_system, this, components->get("global:notice_divvy"),
+		_ctx.system, this, components->get("global:notice_divvy"),
 		Enums::Layout::DialogType::OK);
 	notice_pool_gold = std::make_unique<Dialog>(
-		_system, this, components->get("global:notice_pool_gold"),
+		_ctx.system, this, components->get("global:notice_pool_gold"),
 		Enums::Layout::DialogType::OK);
 	notice_cannot_donate = std::make_unique<Dialog>(
-		_system, this, components->get("global:notice_cannot_donate"),
+		_ctx.system, this, components->get("global:notice_cannot_donate"),
 		Enums::Layout::DialogType::OK);
 	notice_donated_ok = std::make_unique<Dialog>(
-		_system, this, components->get("global:notice_donated_ok"),
+		_ctx.system, this, components->get("global:notice_donated_ok"),
 		Enums::Layout::DialogType::OK);
 	notice_not_enough_gold = std::make_unique<Dialog>(
-		_system, this, components->get("global:notice_not_enough_gold"),
+		_ctx.system, this, components->get("global:notice_not_enough_gold"),
 		Enums::Layout::DialogType::OK);
 	popup_ouch = std::make_unique<Popup>(
-		_system, this, components->get("engine_base_ui:popup_ouch"));
+		_ctx.system, this, components->get("engine_base_ui:popup_ouch"));
 	modal_camp =
-		std::make_unique<Modal>(_system, this, _controller,
+		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
 								components->get("engine_base_ui:modal_camp"));
-	modal_drop = std::make_unique<Modal>(_system, this, _controller,
+	modal_drop = std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
 										 components->get("global:modal_drop"));
-	modal_inspect = std::make_unique<Modal>(
-		_system, this, _controller, components->get("global:modal_inspect"));
-	modal_identify = std::make_unique<Modal>(
-		_system, this, _controller, components->get("global:modal_identify"));
-	modal_trade = std::make_unique<Modal>(
-		_system, this, _controller, components->get("global:modal_trade"));
-	modal_use = std::make_unique<Modal>(_system, this, _controller,
+	modal_inspect =
+		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+								components->get("global:modal_inspect"));
+	modal_identify =
+		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+								components->get("global:modal_identify"));
+	modal_trade =
+		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+								components->get("global:modal_trade"));
+	modal_use = std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
 										components->get("global:modal_use"));
-	modal_invoke = std::make_unique<Modal>(
-		_system, this, _controller, components->get("global:modal_invoke"));
+	modal_invoke =
+		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+								components->get("global:modal_invoke"));
 
-	input_donate = std::make_unique<Input>(
-		_system, this, _controller, components->get("global:input_donate"));
-	input_name = std::make_unique<Input>(_system, this, _controller,
+	input_donate =
+		std::make_unique<Input>(_ctx.system, this, _ctx.controller,
+								components->get("global:input_donate"));
+	input_name = std::make_unique<Input>(_ctx.system, this, _ctx.controller,
 										 components->get("global:input_name"));
 
 	dialog_stairs_up = std::make_unique<Dialog>(
-		_system, this, components->get("engine_base_ui:dialog_stairs_up"),
+		_ctx.system, this, components->get("engine_base_ui:dialog_stairs_up"),
 		Enums::Layout::DialogType::CONFIRM);
 	dialog_stairs_down = std::make_unique<Dialog>(
-		_system, this, components->get("engine_base_ui:dialog_stairs_down"),
+		_ctx.system, this, components->get("engine_base_ui:dialog_stairs_down"),
 		Enums::Layout::DialogType::CONFIRM);
 
 	message_tile = std::make_unique<Message>(
-		_system, this, components->get("engine_base_ui:message_tile"));
+		_ctx.system, this, components->get("engine_base_ui:message_tile"));
 
 	// Window and Display Settings
-	font_sz = std::stoi(_system->config->get("Font", "size"));
-	grid_sz = std::stoi(_system->config->get("Grid", "size"));
-	columns = std::stoi(_system->config->get("Grid", "columns"));
-	rows = std::stoi(_system->config->get("Grid", "rows"));
+	font_sz = std::stoi(_ctx.config->get("Font", "size"));
+	grid_sz = std::stoi(_ctx.config->get("Grid", "size"));
+	columns = std::stoi(_ctx.config->get("Grid", "columns"));
+	rows = std::stoi(_ctx.config->get("Grid", "rows"));
 	adj_grid_w = grid_sz;
 	adj_grid_h = grid_sz;
-	frame_rd = std::stoi(_system->config->get("Frame", "rounding"));
-	ui_rd = std::stoi(_system->config->get("UI", "rounding"));
+	frame_rd = std::stoi(_ctx.config->get("Frame", "rounding"));
+	ui_rd = std::stoi(_ctx.config->get("UI", "rounding"));
 
 	// Render window
-	_render = std::make_unique<Render>(_system, this);
+	_render = std::make_unique<Render>(_ctx.system, this);
 
 	// Ticks
 	ticks = SDL_GetTicks();
@@ -284,12 +284,12 @@ auto Sorcery::UI::set_monochrome(const bool value) -> void {
 auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 
 	if (value)
-		SDL_SetWindowFullscreen(_display->get_SDL_window(),
+		SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(),
 								SDL_WINDOW_FULLSCREEN_DESKTOP);
 	else
-		SDL_SetWindowFullscreen(_display->get_SDL_window(), 0);
+		SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), 0);
 
-	_controller->set_fullscreen(value);
+	_ctx.controller->set_fullscreen(value);
 }
 
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for
@@ -302,58 +302,65 @@ auto Sorcery::UI::create_dynamic_modal(Game *game, const std::string name)
 		if (modal_inspect.get())
 			modal_inspect.reset();
 		modal_inspect =
-			std::make_unique<Modal>(_system, this, _controller,
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
 									components->get("global:modal_inspect"));
-		modal_inspect->regenerate(_controller, game);
+		modal_inspect->regenerate(_ctx.controller, game);
 	} else if (name == "modal_stay") {
 		if (modal_stay.get())
 			modal_stay.reset();
-		modal_stay = std::make_unique<Modal>(
-			_system, this, _controller, components->get("global:modal_stay"));
-		modal_stay->regenerate(_controller, game);
+		modal_stay =
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+									components->get("global:modal_stay"));
+		modal_stay->regenerate(_ctx.controller, game);
 	} else if (name == "modal_help") {
 		if (modal_help.get())
 			modal_help.reset();
-		modal_help = std::make_unique<Modal>(
-			_system, this, _controller, components->get("global:modal_help"));
-		modal_help->regenerate(_controller, game);
+		modal_help =
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+									components->get("global:modal_help"));
+		modal_help->regenerate(_ctx.controller, game);
 	} else if (name == "modal_tithe") {
 		if (modal_tithe.get())
 			modal_tithe.reset();
-		modal_tithe = std::make_unique<Modal>(
-			_system, this, _controller, components->get("global:modal_tithe"));
-		modal_tithe->regenerate(_controller, game);
+		modal_tithe =
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+									components->get("global:modal_tithe"));
+		modal_tithe->regenerate(_ctx.controller, game);
 	} else if (name == "modal_identify") {
 		if (modal_identify.get())
 			modal_identify.reset();
 		modal_identify =
-			std::make_unique<Modal>(_system, this, _controller,
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
 									components->get("global:modal_identify"));
-		modal_identify->regenerate(_controller, game);
+		modal_identify->regenerate(_ctx.controller, game);
 	} else if (name == "modal_drop") {
 		if (modal_drop.get())
 			modal_drop.reset();
-		modal_drop = std::make_unique<Modal>(
-			_system, this, _controller, components->get("global:modal_drop"));
-		modal_drop->regenerate(_controller, game);
+		modal_drop =
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+									components->get("global:modal_drop"));
+		modal_drop->regenerate(_ctx.controller, game);
 	} else if (name == "modal_trade") {
 		if (modal_trade.get())
 			modal_trade.reset();
-		modal_trade = std::make_unique<Modal>(
-			_system, this, _controller, components->get("global:modal_trade"));
-		modal_trade->regenerate(_controller, game);
+		modal_trade =
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+									components->get("global:modal_trade"));
+		modal_trade->regenerate(_ctx.controller, game);
 	} else if (name == "modal_use") {
 		if (modal_use.get())
 			modal_use.reset();
-		modal_use = std::make_unique<Modal>(
-			_system, this, _controller, components->get("global:modal_use"));
-		modal_use->regenerate(_controller, game);
+		modal_use =
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+									components->get("global:modal_use"));
+		modal_use->regenerate(_ctx.controller, game);
 	} else if (name == "modal_invoke") {
 		if (modal_invoke.get())
 			modal_invoke.reset();
-		modal_invoke = std::make_unique<Modal>(
-			_system, this, _controller, components->get("global:modal_invoke"));
-		modal_invoke->regenerate(_controller, game);
+		modal_invoke =
+			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
+									components->get("global:modal_invoke"));
+		modal_invoke->regenerate(_ctx.controller, game);
 	}
 
 	// Note that modal_camp is not dynamic and thus isn't handled here
@@ -458,34 +465,34 @@ auto Sorcery::UI::start() -> void {
 	// Initialise ImGUI to use SDL2/OpenGL
 	ImGui::CreateContext();
 	_io = ImGui::GetIO();
-	_io.IniFilename = CSTR(_system->files->get(CONFIG_FILE));
+	_io.IniFilename = CSTR(_ctx.get_file(CONFIG_FILE));
 	ImGui::StyleColorsClassic();
-	ImGui_ImplSDL2_InitForOpenGL(_display->get_SDL_window(),
-								 _display->get_GL_context());
-	ImGui_ImplOpenGL3_Init(_display->get_GLSL_version());
+	ImGui_ImplSDL2_InitForOpenGL(_ctx.display->get_SDL_window(),
+								 _ctx.display->get_GL_context());
+	ImGui_ImplOpenGL3_Init(_ctx.display->get_GLSL_version());
 
-	if (_system->config->get(Enums::Config::FULLSCREEN))
+	if (_ctx.get_config(Enums::Config::FULLSCREEN))
 		set_fullscreen(true);
 	else
 		set_fullscreen(false);
 
 	// Can create the fontstore now which loads the fonts
-	fontstore = std::make_unique<FontStore>(_system, _io);
+	fontstore = std::make_unique<FontStore>(_ctx.system, _io);
 	ui_colour =
-		ImVec4{std::stof(_system->config->get("Frame", "colour_red")),
-			   std::stof(_system->config->get("Frame", "colour_green")),
-			   std::stof(_system->config->get("Frame", "colour_blue")), 1.0};
+		ImVec4{std::stof(_ctx.config->get("Frame", "colour_red")),
+			   std::stof(_ctx.config->get("Frame", "colour_green")),
+			   std::stof(_ctx.config->get("Frame", "colour_blue")), 1.0};
 
 	// Set the Default Fonts
 	using enum Enums::Layout::Font;
-	fontstore->set_current_font(TEXT, _system->config->get("Font", "text"));
+	fontstore->set_current_font(TEXT, _ctx.config->get("Font", "text"));
 	fontstore->set_current_font(DEFAULT, fontstore->get_default_font());
 	fontstore->set_current_font(MONOSPACE,
-								_system->config->get("Font", "monospace"));
+								_ctx.config->get("Font", "monospace"));
 	fontstore->set_current_font(PROPORTIONAL,
-								_system->config->get("Font", "proportional"));
+								_ctx.config->get("Font", "proportional"));
 
-	grid_sz = std::stoi(_system->config->get("Grid", "size"));
+	grid_sz = std::stoi(_ctx.config->get("Grid", "size"));
 
 	// Set the styles
 	ImGuiStyle &style = ImGui::GetStyle();
@@ -552,15 +559,15 @@ auto Sorcery::UI::stop() -> void {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-	SDL_GL_DeleteContext(_display->get_GL_context());
-	SDL_DestroyWindow(_display->get_SDL_window());
+	SDL_GL_DeleteContext(_ctx.display->get_GL_context());
+	SDL_DestroyWindow(_ctx.display->get_SDL_window());
 	SDL_Quit();
 }
 
 auto Sorcery::UI::display_refresh(std::any first, std::any second) -> void {
 
 	// Refresh what we previously drew
-	display(_controller->get_last_screen(), first, second);
+	display(_ctx.controller->get_last_screen(), first, second);
 }
 
 auto Sorcery::UI::display_engine(Game *game) -> void {
@@ -576,33 +583,31 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	// Background
 	_draw_components("engine_base_ui");
 
-	dialog_leave->display(_controller->get_flag_ref("want_leave_game"));
-	dialog_stairs_up->display(_controller->get_flag_ref("want_take_stairs_up"));
-	dialog_stairs_down->display(
-		_controller->get_flag_ref("want_take_stairs_down"));
+	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
+	dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
+	dialog_stairs_down->display(_ctx.get_flag_ref("want_take_stairs_down"));
 	// if (popup_ouch->show)
 	popup_ouch->display();
-	message_tile->display(_controller->get_flag_ref("after_tile_message"));
+	message_tile->display(_ctx.get_flag_ref("after_tile_message"));
 	if (modal_camp->show)
-		modal_camp->display(_controller->get_flag_ref("want_camp"));
+		modal_camp->display(_ctx.get_flag_ref("want_camp"));
 	if (modal_inspect->show)
-		modal_inspect->display(_controller->get_flag_ref("want_inspect"));
+		modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	if (modal_identify->show)
-		modal_identify->display(_controller->get_flag_ref("want_identify"));
+		modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	if (modal_drop->show)
-		modal_drop->display(_controller->get_flag_ref("want_drop"));
+		modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	if (modal_trade->show)
-		modal_trade->display(_controller->get_flag_ref("want_trade"));
+		modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	if (modal_use->show)
-		modal_use->display(_controller->get_flag_ref("want_use"));
+		modal_use->display(_ctx.get_flag_ref("want_use"));
 	if (modal_invoke->show)
-		modal_invoke->display(_controller->get_flag_ref("want_invoke"));
+		modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	if (notice_pool_gold->show)
-		notice_pool_gold->display(_controller->get_flag_ref("want_pool_gold"));
-	if (_controller->get_flag("interface_ui") &&
-		_controller->get_flag("interface_party_panel"))
+		notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
 		_draw_party_panel(game);
-	if (_controller->get_flag("interface_ui")) {
+	if (_ctx.get_flag("interface_ui")) {
 		_draw_compass(game);
 		_draw_buffbar(game);
 		_draw_icons(game);
@@ -627,14 +632,14 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	glClearColor(0, 0, 0, 255);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	SDL_GL_SwapWindow(_display->get_SDL_window());
+	SDL_GL_SwapWindow(_ctx.display->get_SDL_window());
 }
 
 auto Sorcery::UI::display(const std::string screen, std::any first,
 						  std::any second) -> void {
 
 	// Store what we want to draw for next refresh
-	_controller->set_last_screen(screen);
+	_ctx.controller->set_last_screen(screen);
 
 	// Start a new Rendering Frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -670,7 +675,7 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 	glClearColor(0, 0, 0, 255);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	SDL_GL_SwapWindow(_display->get_SDL_window());
+	SDL_GL_SwapWindow(_ctx.display->get_SDL_window());
 }
 
 // Preset all the (transparent) windows we will need (this should be called
@@ -702,8 +707,8 @@ auto Sorcery::UI::_setup_windows() -> void {
 // Colour Gradient Helper function
 auto Sorcery::UI::get_hl_colour(const double percent) const -> ImColor {
 
-	const auto first{ImVec4{0xbf, 0xbf, 0xff, _system->animation->fade}};
-	const auto second{ImVec4{0x00, 0x00, 0x3f, _system->animation->fade}};
+	const auto first{ImVec4{0xbf, 0xbf, 0xff, _ctx.animation->fade}};
+	const auto second{ImVec4{0x00, 0x00, 0x3f, _ctx.animation->fade}};
 
 	const auto red{static_cast<int>(first.x + percent * (second.x - first.x))};
 	const auto green{
@@ -718,9 +723,9 @@ auto Sorcery::UI::lerp_colour(const ImVec4 col_from, const ImVec4 col_to,
 							  const double percent) const -> ImVec4 {
 
 	const auto first{
-		ImVec4{col_from.x, col_from.y, col_from.z, _system->animation->fade}};
+		ImVec4{col_from.x, col_from.y, col_from.z, _ctx.animation->fade}};
 	const auto second{
-		ImVec4{col_to.x, col_to.y, col_to.z, _system->animation->fade}};
+		ImVec4{col_to.x, col_to.y, col_to.z, _ctx.animation->fade}};
 
 	const auto red{static_cast<int>(first.x + percent * (second.x - first.x))};
 	const auto green{
@@ -780,7 +785,7 @@ auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view layer,
 			ImGui::SetCursorPos(p_min);
 			ImGui::GetWindowDrawList()->AddRectFilled(
 				p_min, ImVec2(p_min.x + p_sz.x, p_min.y + p_sz.y),
-				ImColor{ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade}});
+				ImColor{ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade}});
 		}
 
 		return;
@@ -825,8 +830,7 @@ auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view layer,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		ImGui::SetCursorPos(ImVec2{p_min});
 		auto src_image{images->get(std::string{source})};
-		ImVec4 tint_col{
-			ImVec4(tint.x, tint.y, tint.z, _system->animation->fade)};
+		ImVec4 tint_col{ImVec4(tint.x, tint.y, tint.z, _ctx.animation->fade)};
 		ImGui::Image((intptr_t)src_image.texture, p_sz, uv_0, uv_1, tint_col);
 	}
 }
@@ -866,7 +870,7 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 			ImGui::SetCursorPos(ImVec2{x, y});
 			ImGui::GetWindowDrawList()->AddRectFilled(
 				ImVec2{x, y}, ImVec2(x + 200, y + 200),
-				ImColor{ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade}});
+				ImColor{ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade}});
 		}
 
 		return;
@@ -905,7 +909,7 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 		with_Window(WINDOW_LAYER_IMAGES, nullptr,
 					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 			ImGui::SetCursorPos(ImVec2{x, y});
-			ImVec4 tint_col{ImVec4(1.0f, 1.0f, 1.0f, _system->animation->fade)};
+			ImVec4 tint_col{ImVec4(1.0f, 1.0f, 1.0f, _ctx.animation->fade)};
 			ImGui::Image(src_image.texture,
 						 ImVec2{static_cast<float>(resized.w),
 								static_cast<float>(resized.h)},
@@ -925,7 +929,7 @@ auto Sorcery::UI::_draw_bg_image(Component *component) -> void {
 			ImGui::SetCursorPos(ImVec2{0, 0});
 			ImGui::GetWindowDrawList()->AddRectFilled(
 				ImVec2{0, 0}, viewport->Size,
-				ImColor{ImVec4{0.2f, 0.2f, 0.2f, _system->animation->fade}});
+				ImColor{ImVec4{0.2f, 0.2f, 0.2f, _ctx.animation->fade}});
 		}
 	}
 
@@ -953,7 +957,7 @@ auto Sorcery::UI::_draw_bg_image(Component *component) -> void {
 
 auto Sorcery::UI::draw_cursor(const bool value) -> void {
 
-	_controller->set_busy(value);
+	_ctx.controller->set_busy(value);
 	_draw_cursor();
 }
 
@@ -981,15 +985,15 @@ auto Sorcery::UI::_draw_cursor() -> void {
 		const auto icon_sz{src_image.width / ICONS_TILE_ROW_COUNT};
 		const auto texture_sz{ImVec2{src_image.width, src_image.height}};
 		const auto dest_sz{ImVec2{32, 32}};
-		const auto cursor_idx{_controller->get_busy() ? ICON_HOURGLASS
-													  : ICON_CURSOR};
-		const auto cursor_col{_controller->get_busy()
+		const auto cursor_idx{_ctx.controller->get_busy() ? ICON_HOURGLASS
+														  : ICON_CURSOR};
+		const auto cursor_col{_ctx.controller->get_busy()
 								  ? lerp_colour(ImVec4{1.0f, 0.0f, 0.0f, 1.0f},
 												ImVec4{1.0f, 0.8f, 0.8f, 1.0f},
-												_system->animation->lerp)
+												_ctx.animation->lerp)
 								  : lerp_colour(ImVec4{0.0f, 1.0f, 0.0f, 1.0f},
 												ImVec4{0.8f, 1.0f, 0.8f, 1.0f},
-												_system->animation->lerp)};
+												_ctx.animation->lerp)};
 
 		// Work out the source rect to copy (normalise to 0.0f - 1.0f)
 		const auto from{ImVec4{icon_sz * (cursor_idx % ICONS_TILE_ROW_COUNT),
@@ -1010,15 +1014,15 @@ auto Sorcery::UI::_draw_cursor() -> void {
 auto Sorcery::UI::_draw_frame(Component *component) -> void {
 
 	// Note the Frame class calls Gui::->draw_frame() below
-	auto frame{std::make_shared<Frame>(_system, this, component)};
+	auto frame{std::make_shared<Frame>(_ctx.system, this, component)};
 	_frames.emplace_back(std::move(frame));
 }
 
 // Draw a Menu
 auto Sorcery::UI::_draw_menu(Component *component, Game *game) -> void {
 
-	auto menu{std::make_shared<Menu>(_system, _resources, this,
-									 this->_controller, component, game)};
+	auto menu{std::make_shared<Menu>(_ctx.system, _ctx.resources, this,
+									 this->_ctx.controller, component, game)};
 	menu->regenerate();
 	menu->draw();
 	_menus.emplace_back(std::move(menu));
@@ -1026,7 +1030,7 @@ auto Sorcery::UI::_draw_menu(Component *component, Game *game) -> void {
 
 auto Sorcery::UI::_draw_debug() -> void {
 
-	if (!_controller->get_flag("debug_ui"))
+	if (!_ctx.controller->get_flag("debug_ui"))
 		return;
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr,
@@ -1035,7 +1039,7 @@ auto Sorcery::UI::_draw_debug() -> void {
 		set_Font(_io.FontDefault);
 		ImGui::SetCursorPos(ImVec2{8, 8});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
-		ImGui::TextUnformatted(_controller->get_flags().c_str());
+		ImGui::TextUnformatted(_ctx.controller->get_flags().c_str());
 
 		ImGui::SetCursorPos(ImVec2{8, 400});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
@@ -1043,7 +1047,7 @@ auto Sorcery::UI::_draw_debug() -> void {
 
 		ImGui::SetCursorPos(ImVec2{8, 700});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
-		ImGui::TextUnformatted(_controller->get_characters().c_str());
+		ImGui::TextUnformatted(_ctx.controller->get_characters().c_str());
 
 		ImGui::SetCursorPos(ImVec2{1000, 8});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
@@ -1070,7 +1074,7 @@ auto Sorcery::UI::_draw_paragraph(Component *component) -> void {
 		with_TextWrapPos(p_min.x + wrap) {
 			set_StyleColor(ImGuiCol_Text, component->colour);
 			ImGui::TextUnformatted(
-				_system->strings->get(component->string_key).c_str());
+				_ctx.get_string(component->string_key).c_str());
 		}
 	}
 }
@@ -1110,12 +1114,12 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 	// assume monospace font size!
 	set_Font(fontstore->get_current_font(component->font).value());
 	const auto name{component->name};
-	const auto col{get_hl_colour(_system->animation->lerp)};
+	const auto col{get_hl_colour(_ctx.animation->lerp)};
 	auto x{std::invoke([&] {
 		if (component->x == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
 			const auto width{ImGui::CalcTextSize(
-				CSTR(_system->strings->get(component->string_key)))};
+				CSTR(_ctx.get_string(component->string_key)))};
 			return (viewport->Size.x - width.x) / 2;
 		} else
 			return static_cast<float>(adj_grid_w * component->x);
@@ -1124,7 +1128,7 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 		if (component->y == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
 			const auto height{ImGui::CalcTextSize(
-				CSTR(_system->strings->get(component->string_key)))};
+				CSTR(_ctx.get_string(component->string_key)))};
 			return (viewport->Size.y - height.y) / 2;
 		} else
 			return static_cast<float>(adj_grid_h * component->y);
@@ -1136,16 +1140,16 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 		y += std::stof(component->get("adjust_y").value());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	set_StyleColor(ImGuiCol_Button,
-				   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+				   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 	ImGui::SetCursorPos(ImVec2{x, y});
 	with_ID(name.c_str()) {
-		if (ImGui::Button(CSTR(_system->strings->get(component->string_key)))) {
+		if (ImGui::Button(CSTR(_ctx.get_string(component->string_key)))) {
 			// Handle buttons being used to switch on AND off the flag
 			flag = !reverse;
-			_controller->handle_button_click(component->name, this, -1);
+			_ctx.controller->handle_button_click(component->name, this, -1);
 		}
 	}
 }
@@ -1160,12 +1164,12 @@ auto Sorcery::UI::_draw_button(Component *component,
 		// assume monospace font size!
 		set_Font(fontstore->get_current_font(component->font).value());
 		const auto name{component->name};
-		const auto col{get_hl_colour(_system->animation->lerp)};
+		const auto col{get_hl_colour(_ctx.animation->lerp)};
 		auto x{std::invoke([&] {
 			if (component->x == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				const auto width{ImGui::CalcTextSize(
-					CSTR(_system->strings->get(component->string_key)))};
+					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
 				return static_cast<float>(adj_grid_w * component->x);
@@ -1174,7 +1178,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 			if (component->y == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				const auto height{ImGui::CalcTextSize(
-					CSTR(_system->strings->get(component->string_key)))};
+					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
 				return static_cast<float>(adj_grid_h * component->y);
@@ -1185,19 +1189,18 @@ auto Sorcery::UI::_draw_button(Component *component,
 			y += std::stof(component->get("adjust_y").value());
 
 		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_Button,
-					   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+					   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 		set_StyleColor(ImGuiCol_ButtonActive, (ImVec4)col);
 		ImGui::SetCursorPos(ImVec2{x, y});
 		with_ID(name.c_str()) {
-			if (ImGui::Button(
-					CSTR(_system->strings->get(component->string_key)))) {
+			if (ImGui::Button(CSTR(_ctx.get_string(component->string_key)))) {
 				if (is_clicked)
 					*is_clicked.value() = true;
 
-				_controller->handle_button_click(component->name, this, -1);
+				_ctx.controller->handle_button_click(component->name, this, -1);
 
 				if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNone)) {
 				}
@@ -1216,7 +1219,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	ImVec2 pos{};
 	pos = ImVec2{left_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
@@ -1225,7 +1228,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 							   .c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1257,7 +1260,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 			.c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	pos.y += (adj_grid_h * 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>14} {:>2}", "Vitality",
@@ -1265,7 +1268,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 							   .c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1300,13 +1303,13 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 	pos = ImVec2{right_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "I.Q.", character->get_cur_attr(IQ))
 			.c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1332,7 +1335,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 							   .c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	pos.y += (adj_grid_h * 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1340,7 +1343,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 			.c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1387,9 +1390,9 @@ auto Sorcery::UI::_draw_character_mage_spells(Component *component,
 	with_Table("mage_spells_1", 3, ImGuiTableFlags_NoSavedSettings) {
 
 		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_TextDisabled,
-					   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+					   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 
 		// Row order since we need to do via rows not columns
 		auto comp_id{""s};
@@ -1441,9 +1444,9 @@ auto Sorcery::UI::_draw_character_priest_spells(Component *component,
 	with_Table("priest_spells_1", 3, ImGuiTableFlags_NoSavedSettings) {
 
 		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_TextDisabled,
-					   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+					   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 
 		// Row order since we need to do via rows not columns
 		auto comp_id{""s};
@@ -1497,7 +1500,7 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	ImVec2 pos{left_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1505,7 +1508,7 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 			.c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1525,14 +1528,14 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 							   .c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	pos.y += (adj_grid_h * 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Luck", character->get_cur_attr(LUCK))
 			.c_str());
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1549,11 +1552,11 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 	pos = ImVec2{right_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	ImGui::TextUnformatted(std::format("{:>14}", "Resistances").c_str());
 
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1767,40 +1770,41 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 auto Sorcery::UI::_draw_create_alignment(Game *game, const int mode) -> void {
 
 	auto cmp_summary{components->get("create_alignment:summary_text")};
-	auto summary_text{_controller->get_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 }
 
 auto Sorcery::UI::_draw_create_confirm(Game *game, const int mode) -> void {
 
 	auto cmp_summary{components->get("create_confirm:summary_text")};
-	auto summary_text{_controller->get_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 
 	auto cmp_char{components->get("create_confirm:character_data")};
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		set_Font(fontstore->get_current_font(cmp_char.font).value());
-		_draw_character_summary(&cmp_char, game, _controller->get_character());
+		_draw_character_summary(&cmp_char, game,
+								_ctx.controller->get_character());
 	}
 }
 
 auto Sorcery::UI::_draw_create_class(Game *game, const int mode) -> void {
 
 	auto cmp_summary{components->get("create_class:summary_text")};
-	auto summary_text{_controller->get_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 
 	auto cmp_points_left{components->get("create_class:points_left_text")};
-	const auto points_left_text{
-		std::format("{:>2}", _controller->get_character()->get_points_left())};
+	const auto points_left_text{std::format(
+		"{:>2}", _ctx.controller->get_character()->get_points_left())};
 	_draw_text(&cmp_points_left, points_left_text);
 
 	// Now draw the class buttons
 	using enum Enums::Character::Attribute;
 	auto cmp_attribute{components->get("create_class:current_stats")};
 	for (auto i = unenum(STRENGTH); i <= unenum(LUCK); ++i) {
-		auto attribute{_controller->get_character()->get_attr_ptr(
+		auto attribute{_ctx.controller->get_character()->get_attr_ptr(
 			magic_enum::enum_cast<Enums::Character::Attribute>(i).value())};
 		auto cmp_name{std::format("stepper_attribute_{}", i)};
 		_draw_stepper(&cmp_attribute, cmp_name, attribute);
@@ -1811,14 +1815,14 @@ auto Sorcery::UI::_draw_create_class(Game *game, const int mode) -> void {
 auto Sorcery::UI::_draw_create_race(Game *game, const int mode) -> void {
 
 	auto cmp_summary{components->get("create_race:summary_text")};
-	auto summary_text{_controller->get_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 }
 
 auto Sorcery::UI::_draw_create_name(Game *game, const int mode) -> void {
 
 	auto cmp_summary{components->get("create_name:summary_text")};
-	auto summary_text{_controller->get_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 
 	// As next custom component is a text box, focus on that initially
@@ -1828,7 +1832,7 @@ auto Sorcery::UI::_draw_create_name(Game *game, const int mode) -> void {
 	}
 
 	auto cmp_name{components->get("create_name:name_input")};
-	_draw_input(&cmp_name, &_controller->get_input_buffer());
+	_draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
 }
 
 auto Sorcery::UI::_display_create_alignment(Game *game, const int mode)
@@ -1879,11 +1883,12 @@ auto Sorcery::UI::_draw_choose(Game *game, const int mode) -> void {
 
 auto Sorcery::UI::_draw_level_up(Game *game, const int mode) -> void {
 
-	auto &character{game->characters.at(_controller->get_character("restart"))};
+	auto &character{
+		game->characters.at(_ctx.controller->get_character("restart"))};
 
 	if (mode & RECOVERY_BIRTHDAY) {
 
-		const auto birth_text{_system->strings->get("REST_BIRTHDAY_YOU")};
+		const auto birth_text{_ctx.get_string("REST_BIRTHDAY_YOU")};
 		auto cmp{components->get("levelup:levelup_birthday")};
 		_draw_text(&cmp, birth_text);
 		cmp = components->get("levelup:levelup_results");
@@ -1902,8 +1907,7 @@ auto Sorcery::UI::_draw_level_up(Game *game, const int mode) -> void {
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto leave{components->get("levelup:levelup_leave")};
-		_draw_button_click(&leave, _controller->get_flag_ref("show_levelup"),
-						   true);
+		_draw_button_click(&leave, _ctx.get_flag_ref("show_levelup"), true);
 	}
 }
 
@@ -1911,11 +1915,11 @@ auto Sorcery::UI::_draw_pay_info(Game *game) -> void {
 
 	// Work out healing cost
 	const auto character{
-		game->characters.at(_controller->get_character("help"))};
+		game->characters.at(_ctx.controller->get_character("help"))};
 	const auto cost(character.get_cure_cost());
-	const auto cost_text{
-		std::format("{} {} {}", _system->strings->get("PAY_COST_PREFIX"), cost,
-					_system->strings->get("PAY_COST_SUFFIX"))};
+	const auto cost_text{std::format("{} {} {}",
+									 _ctx.get_string("PAY_COST_PREFIX"), cost,
+									 _ctx.get_string("PAY_COST_SUFFIX"))};
 	auto cmp{components->get("pay:pay_cost")};
 	_draw_text(&cmp, cost_text);
 }
@@ -1923,13 +1927,12 @@ auto Sorcery::UI::_draw_pay_info(Game *game) -> void {
 auto Sorcery::UI::_draw_no_level_up(Game *game, const int mode) -> void {
 
 	const auto character{
-		game->characters.at(_controller->get_character("stay"))};
-	const auto birth_text{_system->strings->get("REST_BIRTHDAY_YOU")};
+		game->characters.at(_ctx.controller->get_character("stay"))};
+	const auto birth_text{_ctx.get_string("REST_BIRTHDAY_YOU")};
 	const auto needed{character.get_next_xp() - character.get_cur_xp()};
-	const auto need_text{
-		std::format("{}{}{}", _system->strings->get("REST_NEED_1_P"), needed,
-					_system->strings->get("REST_NEED_1_S"))};
-	const auto make_text{_system->strings->get("REST_NEED_2")};
+	const auto need_text{std::format("{}{}{}", _ctx.get_string("REST_NEED_1_P"),
+									 needed, _ctx.get_string("REST_NEED_1_S"))};
+	const auto make_text{_ctx.get_string("REST_NEED_2")};
 
 	if (mode & RECOVERY_BIRTHDAY) {
 
@@ -1949,8 +1952,7 @@ auto Sorcery::UI::_draw_no_level_up(Game *game, const int mode) -> void {
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto leave{components->get("nolevelup:nolevelup_leave")};
-		_draw_button_click(&leave, _controller->get_flag_ref("show_nolevelup"),
-						   true);
+		_draw_button_click(&leave, _ctx.get_flag_ref("show_nolevelup"), true);
 	}
 }
 
@@ -1960,37 +1962,37 @@ auto Sorcery::UI::_draw_heal([[maybe_unused]] Game *game, int stage) -> void {
 	auto text{""s};
 	switch (stage) {
 	case 4:
-		text = _system->strings->get("TEMPLE_HEAL_1");
+		text = _ctx.get_string("TEMPLE_HEAL_1");
 		break;
 	case 3:
-		text = _system->strings->get("TEMPLE_HEAL_2");
+		text = _ctx.get_string("TEMPLE_HEAL_2");
 		break;
 	case 2:
-		text = _system->strings->get("TEMPLE_HEAL_3");
+		text = _ctx.get_string("TEMPLE_HEAL_3");
 		break;
 	case 1:
-		text = _system->strings->get("TEMPLE_HEAL_4");
+		text = _ctx.get_string("TEMPLE_HEAL_4");
 		break;
 	case 0:
-		text = _system->strings->get("TEMPLE_HEAL_4");
+		text = _ctx.get_string("TEMPLE_HEAL_4");
 		break;
 	default:
 		break;
 	}
 	_draw_text(&cmp, text);
 
-	if (_controller->has_flag("heal_finished")) {
+	if (_ctx.controller->has_flag("heal_finished")) {
 
-		if (_controller->has_text("heal_results")) {
+		if (_ctx.controller->has_text("heal_results")) {
 			auto summary{components->get("heal:heal_results")};
-			auto results{_controller->get_text("heal_results")};
+			auto results{_ctx.controller->get_text("heal_results")};
 			_draw_text(&summary, results);
 
 			with_Window(WINDOW_LAYER_MENUS, nullptr,
 						ImGuiWindowFlags_NoTitleBar) {
 				auto leave{components->get("heal:heal_return")};
-				_draw_button_click(
-					&leave, _controller->get_flag_ref("show_heal"), true);
+				_draw_button_click(&leave, _ctx.get_flag_ref("show_heal"),
+								   true);
 			}
 		}
 	}
@@ -1999,35 +2001,34 @@ auto Sorcery::UI::_draw_heal([[maybe_unused]] Game *game, int stage) -> void {
 auto Sorcery::UI::_draw_recovery(Game *game, const int mode) -> void {
 
 	const auto character{
-		game->characters.at(_controller->get_character("stay"))};
+		game->characters.at(_ctx.controller->get_character("stay"))};
 	if (mode & RECOVERY_MODE_FREE) {
 
 		auto cmp{components->get("recovery:recovery_napping")};
 		auto text{std::format("{}{}", character.get_name(),
-							  _system->strings->get("RECOVERY_NAPPING"))};
+							  _ctx.get_string("RECOVERY_NAPPING"))};
 		_draw_text(&cmp, text);
 
 	} else {
 
 		auto cmp{components->get("recovery:recovery_recuperating")};
 		auto text{std::format("{} {}", character.get_name(),
-							  _system->strings->get("REST_RECUPERATING"))};
+							  _ctx.get_string("REST_RECUPERATING"))};
 		_draw_text(&cmp, text);
 
 		cmp = components->get("recovery:recovery_recuperating_hp");
-		text = std::format("{} ({:>5}/{:>5})", _system->strings->get("REST_HP"),
+		text = std::format("{} ({:>5}/{:>5})", _ctx.get_string("REST_HP"),
 						   character.get_current_hp(), character.get_max_hp());
 		_draw_text(&cmp, text);
 
 		cmp = components->get("recovery:recovery_recuperating_gold");
-		text = std::format("{} {:>7}", _system->strings->get("REST_GOLD"),
+		text = std::format("{} {:>7}", _ctx.get_string("REST_GOLD"),
 						   character.get_gold());
 		_draw_text(&cmp, text);
 
 		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 			auto stop{components->get("recovery:recovery_stop")};
-			_draw_button_click(
-				&stop, _controller->get_flag_ref("show_recovery"), true);
+			_draw_button_click(&stop, _ctx.get_flag_ref("show_recovery"), true);
 		}
 	}
 }
@@ -2035,18 +2036,18 @@ auto Sorcery::UI::_draw_recovery(Game *game, const int mode) -> void {
 auto Sorcery::UI::_draw_stay(Game *game) -> void {
 
 	const auto character{
-		game->characters.at(_controller->get_character("stay"))};
+		game->characters.at(_ctx.controller->get_character("stay"))};
 
 	auto cmp_welcome{components->get("stay:stay_welcome")};
-	auto welcome_text{std::format(
-		"{}{}{}", _system->strings->get("STAY_WELCOME_P"), character.get_name(),
-		_system->strings->get("STAY_WELCOME_S"))};
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STAY_WELCOME_P"),
+								  character.get_name(),
+								  _ctx.get_string("STAY_WELCOME_S"))};
 	_draw_text(&cmp_welcome, welcome_text);
 
 	auto cmp_gold{components->get("stay:stay_gold")};
-	auto gold_text{std::format("{}{}{}", _system->strings->get("STAY_GOLD_P"),
+	auto gold_text{std::format("{}{}{}", _ctx.get_string("STAY_GOLD_P"),
 							   character.get_gold(),
-							   _system->strings->get("STAY_GOLD_S"))};
+							   _ctx.get_string("STAY_GOLD_S"))};
 	_draw_text(&cmp_gold, gold_text);
 }
 
@@ -2054,18 +2055,18 @@ auto Sorcery::UI::_draw_current_character(Game *game,
 										  [[maybe_unused]] const int mode)
 	-> void {
 
-	auto character{game->characters.at(_controller->get_character("inspect"))};
+	auto character{
+		game->characters.at(_ctx.controller->get_character("inspect"))};
 
 	auto title{components->get("inspect:character_title")};
 	_draw_text(&title, character.summary_text());
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto prev{components->get("inspect:character_previous")};
-		_draw_button_click(
-			&prev, _controller->get_flag_ref("select_previous_character"));
+		_draw_button_click(&prev,
+						   _ctx.get_flag_ref("select_previous_character"));
 		auto next{components->get("inspect:character_next")};
-		_draw_button_click(&next,
-						   _controller->get_flag_ref("select_next_character"));
+		_draw_button_click(&next, _ctx.get_flag_ref("select_next_character"));
 
 		auto cmp{components->get("inspect:character_data")};
 		ImVec2 pos{cmp.x * adj_grid_w, cmp.y * adj_grid_h};
@@ -2075,7 +2076,7 @@ auto Sorcery::UI::_draw_current_character(Game *game,
 		with_Child("character_tab_bar_child",
 				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
 			set_StyleColor(ImGuiCol_Tab,
-						   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+						   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 			auto char_cmp{components->get("inspect:character_tab_data")};
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			with_TabBar("character_tab_bar", tb_flags) {
@@ -2115,16 +2116,16 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 		const auto stepper_minus{std::format("##{}_minus", name)};
 		const auto stepper_plus{std::format("##{}_plus", name)};
 
-		const auto col{get_hl_colour(_system->animation->lerp)};
+		const auto col{get_hl_colour(_ctx.animation->lerp)};
 		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_Button,
-					   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+					   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 
 		if (component->name == "current_stats") {
 			using enum Enums::Character::Attribute;
-			const auto mins{_controller->get_character()->get_start_attr()};
+			const auto mins{_ctx.controller->get_character()->get_start_attr()};
 			if (name == "stepper_attribute_1")
 				disabled = !(*value > mins.at(STRENGTH));
 			else if (name == "stepper_attribute_2")
@@ -2144,19 +2145,20 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 			if (disabled)
 				ImGui::BeginDisabled();
 			if (ImGui::Button("<")) {
-				_controller->handle_stepper_button_click(stepper_plus, this,
-														 false, value);
+				_ctx.controller->handle_stepper_button_click(stepper_plus, this,
+															 false, value);
 			}
 			if (disabled)
 				ImGui::EndDisabled();
 		}
 
-		// const auto classes{_controller->get_character()->get_pos_class()};
+		// const auto
+		// classes{_ctx.controller->get_character()->get_pos_class()};
 
 		pos.x += 1 * adj_grid_w;
 
 		ImVec4 alpha_col{ImGui::ColorConvertU32ToFloat4(component->colour)};
-		alpha_col.w = _system->animation->fade;
+		alpha_col.w = _ctx.animation->fade;
 
 		set_StyleColor(ImGuiCol_Text, alpha_col);
 		ImGui::SetCursorPos(pos);
@@ -2165,7 +2167,7 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 		disabled = false;
 		if (component->name == "current_stats") {
 			if ((*value >= 18) ||
-				(_controller->get_character()->get_points_left() == 0))
+				(_ctx.controller->get_character()->get_points_left() == 0))
 				disabled = true;
 		};
 
@@ -2175,8 +2177,8 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 			if (disabled)
 				ImGui::BeginDisabled();
 			if (ImGui::Button(">")) {
-				_controller->handle_stepper_button_click(stepper_minus, this,
-														 true, value);
+				_ctx.controller->handle_stepper_button_click(stepper_minus,
+															 this, true, value);
 			}
 			if (disabled)
 				ImGui::EndDisabled();
@@ -2202,16 +2204,16 @@ auto Sorcery::UI::_draw_input(Component *component, std::string *input)
 		const auto input_button_id{std::format("{}_ok", component->name)};
 		ImGui::SetNextItemWidth(ImGui::GetFontSize() * component->w);
 		if (ImGui::InputText(input_name.c_str(), input, flags)) {
-			_controller->handle_input_button_click(input_button_id, this,
-												   input);
+			_ctx.controller->handle_input_button_click(input_button_id, this,
+													   input);
 		}
 
 		ImGui::SameLine();
-		const auto col{get_hl_colour(_system->animation->lerp)};
+		const auto col{get_hl_colour(_ctx.animation->lerp)};
 		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_Button,
-					   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+					   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 
 		with_ID(input_button_name.c_str()) {
@@ -2219,8 +2221,8 @@ auto Sorcery::UI::_draw_input(Component *component, std::string *input)
 
 				// Handle buttons being used to switch on AND off the flag
 				// flag = !reverse;
-				_controller->handle_input_button_click(input_button_id, this,
-													   input);
+				_ctx.controller->handle_input_button_click(input_button_id,
+														   this, input);
 			}
 		}
 	}
@@ -2255,7 +2257,7 @@ auto Sorcery::UI::_draw_text(Component *component, const std::string &string)
 
 		// Adjust Alpha of Text
 		ImVec4 alpha_col{ImGui::ColorConvertU32ToFloat4(component->colour)};
-		alpha_col.w = _system->animation->fade;
+		alpha_col.w = _ctx.animation->fade;
 
 		set_StyleColor(ImGuiCol_Text, alpha_col);
 		ImGui::SetCursorPos(ImVec2{x, y});
@@ -2276,7 +2278,7 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 			if (component->x == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				const auto width{ImGui::CalcTextSize(
-					CSTR(_system->strings->get(component->string_key)))};
+					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
 				return static_cast<float>(adj_grid_w * component->x);
@@ -2285,7 +2287,7 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 			if (component->y == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				const auto height{ImGui::CalcTextSize(
-					CSTR(_system->strings->get(component->string_key)))};
+					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
 				return static_cast<float>(adj_grid_h * component->y);
@@ -2293,12 +2295,11 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 
 		// Adjust Alpha of Text
 		ImVec4 alpha_col{ImGui::ColorConvertU32ToFloat4(component->colour)};
-		alpha_col.w = _system->animation->fade;
+		alpha_col.w = _ctx.animation->fade;
 
 		set_StyleColor(ImGuiCol_Text, alpha_col);
 		ImGui::SetCursorPos(ImVec2{x, y});
-		ImGui::TextUnformatted(
-			_system->strings->get(component->string_key).c_str());
+		ImGui::TextUnformatted(_ctx.get_string(component->string_key).c_str());
 	}
 }
 
@@ -2342,11 +2343,11 @@ auto Sorcery::UI::_display_splash() -> void {
 
 auto Sorcery::UI::_draw_item_info() -> void {
 	// Custom Rendering
-	const auto idx{_controller->get_selected("museum_selected")};
+	const auto idx{_ctx.get_selected("museum_selected")};
 	if (idx >= 100)
 		return;
 
-	const auto item{_resources->items->get(idx + 1)};
+	const auto item{_ctx.resources->items->get(idx + 1)};
 	auto item_c{components->get("museum:item_graphic")};
 	auto item_pos{ImVec2{item_c.x * adj_grid_w, item_c.y * adj_grid_h}};
 	_draw_fg_image_with_idx(
@@ -2368,20 +2369,19 @@ auto Sorcery::UI::_draw_item_info() -> void {
 		with_Child("museum_tab_bar_child",
 				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
 			set_StyleColor(ImGuiCol_Tab,
-						   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+						   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			with_TabBar("museum_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					{
 						set_StyleColor(
 							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(
-						ImGuiCol_Text,
-						ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
+														 _ctx.animation->fade});
 					std::string item_category{
 						magic_enum::enum_name(item.get_category())};
 					if (item_category == "SPECIAL_ITEM")
@@ -2404,13 +2404,12 @@ auto Sorcery::UI::_draw_item_info() -> void {
 					{
 						set_StyleColor(
 							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(
-						ImGuiCol_Text,
-						ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
+														 _ctx.animation->fade});
 					const auto ac{std::format(
 						"   AC:{}", std::to_string(item.get_ac_mod()))};
 					auto value{std::format("{:+d}", item.get_to_hit_mod())};
@@ -2429,13 +2428,12 @@ auto Sorcery::UI::_draw_item_info() -> void {
 					{
 						set_StyleColor(
 							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(
-						ImGuiCol_Text,
-						ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
+														 _ctx.animation->fade});
 					auto effects{item.get_effects()};
 					if (effects.length() > 0) {
 						std::vector<std::string> strings;
@@ -2458,12 +2456,11 @@ auto Sorcery::UI::_draw_item_info() -> void {
 					{
 						set_StyleColor(
 							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 						ImGui::TextUnformatted(name.c_str());
 					}
-					set_StyleColor(
-						ImGuiCol_Text,
-						ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
+														 _ctx.animation->fade});
 
 					const auto invokage{item.get_invokage()};
 					const auto usage{item.get_usage()};
@@ -2498,7 +2495,7 @@ auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
 				   ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
 			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+						   ImVec4{0.8f, 0.8f, 0.8f, _ctx.animation->fade});
 			set_Font(fontstore->get_current_font(component->font).value());
 			with_TextWrapPos(ImGui::GetFontSize() * component->w) {
 				ImGui::TextUnformatted(string.c_str());
@@ -2507,8 +2504,7 @@ auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
 
 		// Special Handling for Return Button
 		Component cmp{components->get("license:license_return")};
-		_draw_button_click(&cmp, _controller->get_flag_ref("show_license"),
-						   true);
+		_draw_button_click(&cmp, _ctx.get_flag_ref("show_license"), true);
 	}
 }
 
@@ -2672,10 +2668,10 @@ auto Sorcery::UI::_draw_options() -> void {
 	std::vector<std::string> graphics_opts{"OPT_COLOURED_WIREFRAME",
 										   "OPT_FULLSCREEN"};
 
-	const auto save_lbl{_system->strings->get("DIALOG_SAVE")};
-	const auto cancel_lbl{_system->strings->get("DIALOG_CANCEL")};
+	const auto save_lbl{_ctx.get_string("DIALOG_SAVE")};
+	const auto cancel_lbl{_ctx.get_string("DIALOG_CANCEL")};
 	set_Font(fontstore->get_current_font(component.font).value());
-	const auto col{get_hl_colour(_system->animation->lerp)};
+	const auto col{get_hl_colour(_ctx.animation->lerp)};
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		// To adjust for Window Resizing etc
@@ -2691,9 +2687,9 @@ auto Sorcery::UI::_draw_options() -> void {
 
 		// Now draw tab bar
 		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_Button,
-					   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+					   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 		const auto tabs_width{component.w * grid_sz};
 		const auto tabs_height{component.h * grid_sz};
@@ -2705,12 +2701,12 @@ auto Sorcery::UI::_draw_options() -> void {
 			auto gameplay_idx(5u);
 			auto graphics_idx(18u);
 
-			set_StyleColor(ImGuiCol_Button, ImVec4{0.16f, 0.66f, 0.45f,
-												   _system->animation->fade});
+			set_StyleColor(ImGuiCol_Button,
+						   ImVec4{0.16f, 0.66f, 0.45f, _ctx.animation->fade});
 			set_StyleColor(ImGuiCol_ButtonHovered,
-						   ImVec4{0.0f, 1.0f, 0.57f, _system->animation->fade});
+						   ImVec4{0.0f, 1.0f, 0.57f, _ctx.animation->fade});
 			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 
 			// now draw tabs
 			with_TabBar("options_tab_bar", tb_flags) {
@@ -2719,14 +2715,13 @@ auto Sorcery::UI::_draw_options() -> void {
 					for (const auto &opt : summary_opts) {
 						if (opt.length() > 0) {
 							const auto text{
-								std::format(" {}", _system->strings->get(opt))};
-							if (ImGui::Toggle(
-									text.c_str(),
-									&_system->config->get(summary_idx))) {
+								std::format(" {}", _ctx.get_string(opt))};
+							if (ImGui::Toggle(text.c_str(),
+											  &_ctx.get_config(summary_idx))) {
 
 								// Do additonal handling such as switching
 								// on strict mode etc inside the controller
-								_controller->handle_toggle(
+								_ctx.controller->handle_toggle(
 									component.name, tabname, summary_idx);
 							};
 						}
@@ -2738,14 +2733,13 @@ auto Sorcery::UI::_draw_options() -> void {
 					for (const auto &opt : gameplay_opts) {
 						if (opt.length() > 0) {
 							const auto text{
-								std::format(" {}", _system->strings->get(opt))};
-							if (ImGui::Toggle(
-									text.c_str(),
-									&_system->config->get(gameplay_idx))) {
+								std::format(" {}", _ctx.get_string(opt))};
+							if (ImGui::Toggle(text.c_str(),
+											  &_ctx.get_config(gameplay_idx))) {
 
 								// Do additonal handling such as switching
 								// on strict mode etc
-								_controller->handle_toggle(
+								_ctx.controller->handle_toggle(
 									component.name, tabname, gameplay_idx);
 							};
 						}
@@ -2758,14 +2752,13 @@ auto Sorcery::UI::_draw_options() -> void {
 					for (const auto &opt : graphics_opts) {
 						if (opt.length() > 0) {
 							const auto text{
-								std::format(" {}", _system->strings->get(opt))};
-							if (ImGui::Toggle(
-									text.c_str(),
-									&_system->config->get(graphics_idx))) {
+								std::format(" {}", _ctx.get_string(opt))};
+							if (ImGui::Toggle(text.c_str(),
+											  &_ctx.get_config(graphics_idx))) {
 
 								// Do additonal handling such as switching
 								// on strict mode etc
-								_controller->handle_toggle(
+								_ctx.controller->handle_toggle(
 									component.name, tabname, graphics_idx);
 							};
 						}
@@ -2823,22 +2816,22 @@ auto Sorcery::UI::_draw_options() -> void {
 			ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
 
 			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 			set_StyleColor(ImGuiCol_Button,
-						   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+						   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 			set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{col});
 			set_StyleColor(ImGuiCol_ButtonActive, (ImVec4)col);
 
 			ImGui::SetCursorPos(
 				ImVec2{centre - (btn_size.x + grid_sz), button_y * grid_sz});
 			if (ImGui::Button(save_lbl.c_str(), btn_size)) {
-				_system->config->save();
-				_controller->unset_flag("show_options");
+				_ctx.system->config->save();
+				_ctx.controller->unset_flag("show_options");
 			}
 			ImGui::SetCursorPos(ImVec2{centre + grid_sz, button_y * grid_sz});
 			if (ImGui::Button(cancel_lbl.c_str(), btn_size)) {
-				_system->config->load();
-				_controller->unset_flag("show_options");
+				_ctx.system->config->load();
+				_ctx.controller->unset_flag("show_options");
 			}
 		}
 	}
@@ -2852,9 +2845,9 @@ auto Sorcery::UI::_draw_buffbar(Game *game) -> void {
 	const auto width{cmp.w * grid_sz};
 	const auto height{cmp.h * grid_sz};
 
-	auto tint{_controller->get_monochrome()
-				  ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
-				  : ImVec4{1.0f, 0.33f, 0.33f, _system->animation->fade}};
+	auto tint{_ctx.controller->get_monochrome()
+				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+				  : ImVec4{1.0f, 0.33f, 0.33f, _ctx.animation->fade}};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -2883,9 +2876,9 @@ auto Sorcery::UI::_draw_icons([[maybe_unused]] Game *game) -> void {
 	const auto width{cmp.w * grid_sz};
 	const auto height{cmp.h * grid_sz};
 
-	auto tint{_controller->get_monochrome()
-				  ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
-				  : ImVec4{0.33f, 1.0f, 1.0f, _system->animation->fade}};
+	auto tint{_ctx.controller->get_monochrome()
+				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+				  : ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 		_draw_frame(&frame_cmp);
@@ -2909,9 +2902,9 @@ auto Sorcery::UI::_draw_save([[maybe_unused]] Game *game) -> void {
 	const auto width{cmp.w * grid_sz};
 	const auto height{cmp.h * grid_sz};
 
-	auto tint{_controller->get_monochrome()
-				  ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
-				  : ImVec4{0.33f, 1.0f, 1.0f, _system->animation->fade}};
+	auto tint{_ctx.controller->get_monochrome()
+				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+				  : ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -2930,9 +2923,9 @@ auto Sorcery::UI::_draw_compass(Game *game) -> void {
 	auto cmp{components->get("engine_base_ui:compass")};
 	auto frame_cmp{components->get("engine_base_ui:compass_frame")};
 
-	auto tint{_controller->get_monochrome()
-				  ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
-				  : ImVec4{1.0f, 0.33f, 0.33f, _system->animation->fade}};
+	auto tint{_ctx.controller->get_monochrome()
+				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+				  : ImVec4{1.0f, 0.33f, 0.33f, _ctx.animation->fade}};
 
 	const auto x{static_cast<float>(adj_grid_w * cmp.x)};
 	const auto y{static_cast<float>(adj_grid_h * cmp.y)};
@@ -2991,11 +2984,11 @@ auto Sorcery::UI::_draw_party_panel(Game *game) -> void {
 		ImGui::SetCursorPos(ImVec2{x, y});
 		with_Child("party_panel_child", ImVec2(width, height)) {
 			set_Font(fontstore->get_current_font(cmp.font).value());
-			const auto hl_col{get_hl_colour(_system->animation->lerp)};
+			const auto hl_col{get_hl_colour(_ctx.animation->lerp)};
 			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 			ImGui::TextUnformatted(
-				_system->strings->get("PARTY_PANEL_LEGEND").c_str());
+				_ctx.get_string("PARTY_PANEL_LEGEND").c_str());
 			if (game->state->get_party_size() > 0) {
 				auto position{1u};
 				for (const auto party{game->state->get_party_characters()};
@@ -3020,13 +3013,13 @@ auto Sorcery::UI::_get_status_color(Character *character) const -> ImVec4 {
 		using enum Enums::Character::Status;
 	case OK:
 		if (character->get_poisoned_rate() > 0)
-			return ImVec4{0.0f, 1.0f, 0.0f, _system->animation->fade};
+			return ImVec4{0.0f, 1.0f, 0.0f, _ctx.animation->fade};
 		else if (character->get_max_hp() / character->get_current_hp() > 10)
-			return ImVec4{1.0f, 0.0f, 0.0f, _system->animation->fade};
+			return ImVec4{1.0f, 0.0f, 0.0f, _ctx.animation->fade};
 		else if (character->get_max_hp() / character->get_current_hp() > 5)
-			return ImVec4{1.0f, 1.0f, 0.0f, _system->animation->fade};
+			return ImVec4{1.0f, 1.0f, 0.0f, _ctx.animation->fade};
 		else
-			return ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade};
+			return ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade};
 		break;
 	case AFRAID:
 		[[fallthrough]];
@@ -3034,36 +3027,36 @@ auto Sorcery::UI::_get_status_color(Character *character) const -> ImVec4 {
 		[[fallthrough]];
 	case ASLEEP:
 		if (character->get_max_hp() / character->get_current_hp() > 10)
-			return ImVec4{1.0f, 0.0f, 0.0f, _system->animation->fade};
+			return ImVec4{1.0f, 0.0f, 0.0f, _ctx.animation->fade};
 		else if (character->get_max_hp() / character->get_current_hp() > 5)
-			return ImVec4{1.0f, 1.0f, 0.0f, _system->animation->fade};
+			return ImVec4{1.0f, 1.0f, 0.0f, _ctx.animation->fade};
 		else
-			return ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade};
+			return ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade};
 		break;
 	case ASHES:
-		return ImVec4{1.0f, 0.0f, 0.0f, _system->animation->fade};
+		return ImVec4{1.0f, 0.0f, 0.0f, _ctx.animation->fade};
 		break;
 	case DEAD:
-		return ImVec4{1.0f, 0.0f, 0.0f, _system->animation->fade};
+		return ImVec4{1.0f, 0.0f, 0.0f, _ctx.animation->fade};
 		break;
 	case HELD:
-		return ImVec4{0.5f, 0.0f, 0.5f, _system->animation->fade};
+		return ImVec4{0.5f, 0.0f, 0.5f, _ctx.animation->fade};
 		break;
 	case LOST:
-		return ImVec4{1.0f, 0.0f, 0.0f, _system->animation->fade};
+		return ImVec4{1.0f, 0.0f, 0.0f, _ctx.animation->fade};
 		break;
 	case STONED:
-		return ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade};
+		return ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade};
 		break;
 	default:
-		return ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade};
+		return ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade};
 		break;
 	}
 }
 
 auto Sorcery::UI::_draw_spell_info() -> void {
 
-	const auto idx{_controller->get_selected("spellbook_selected")};
+	const auto idx{_ctx.get_selected("spellbook_selected")};
 	if (idx == 50)
 		return;
 
@@ -3073,7 +3066,7 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 		with_Child("spell_child", ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
 
-			auto spell{_resources->spells->get(
+			auto spell{_ctx.resources->spells->get(
 				magic_enum::enum_cast<Enums::Magic::SpellID>(idx).value())};
 
 			const auto spell_name{
@@ -3091,8 +3084,8 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 									 spell_type, spell_cat)};
 
 			{
-				set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 1.0f, 1.0f,
-													 _system->animation->fade});
+				set_StyleColor(ImGuiCol_Text,
+							   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 				set_Font(fontstore->get_current_font(cmp.font).value());
 				ImGui::TextUnformatted(spell_name.c_str());
 				ImGui::NewLine();
@@ -3102,7 +3095,7 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+						   ImVec4{0.8f, 0.8f, 0.8f, _ctx.animation->fade});
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
 			ImGui::TextWrapped(spell.details.c_str());
@@ -3113,8 +3106,8 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 
 auto Sorcery::UI::_draw_monster_info() -> void {
 	// Custom Rendering
-	const auto idx{_controller->get_selected("bestiary_selected")};
-	const auto mon{_resources->monsters->get(idx)};
+	const auto idx{_ctx.get_selected("bestiary_selected")};
+	const auto mon{_ctx.resources->monsters->get(idx)};
 	const auto k_gfx{mon.get_known_gfx()};
 	const auto u_gfx{mon.get_unknown_gfx()};
 	auto k_mg_c{components->get("bestiary:known_monster_graphic")};
@@ -3140,7 +3133,7 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 		with_Child("bestiary_tab_bar_child",
 				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
 			set_StyleColor(ImGuiCol_Tab,
-						   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+						   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 			with_TabBar("bestiary_tab_bar", tb_flags) {
@@ -3148,13 +3141,12 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 					{
 						set_StyleColor(
 							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(
-						ImGuiCol_Text,
-						ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
+														 _ctx.animation->fade});
 
 					const std::string mon_type{
 						magic_enum::enum_name(mon.get_category())};
@@ -3183,13 +3175,12 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 					{
 						set_StyleColor(
 							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(
-						ImGuiCol_Text,
-						ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
+														 _ctx.animation->fade});
 
 					const auto atks{
 						std::format(" Atks:{}", mon.get_attacks_str())};
@@ -3209,13 +3200,12 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 					{
 						set_StyleColor(
 							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(
-						ImGuiCol_Text,
-						ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
+														 _ctx.animation->fade});
 
 					auto traits{mon.get_traits()};
 					if (traits.length() > 0) {
@@ -3242,13 +3232,12 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 					{
 						set_StyleColor(
 							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(
-						ImGuiCol_Text,
-						ImVec4{0.8f, 0.8f, 0.8f, _system->animation->fade});
+					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
+														 _ctx.animation->fade});
 
 					auto weaknesses{mon.get_weaknesses()};
 					ImGui::TextUnformatted(weaknesses.c_str());
@@ -3275,7 +3264,7 @@ auto Sorcery::UI::_display_compendium() -> void {
 
 auto Sorcery::UI::_display_edge_of_town(Game *game) -> void {
 	_draw_components("edge_of_town");
-	dialog_leave->display(_controller->get_flag_ref("want_leave_game"));
+	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
 	_draw_party_panel(game);
 	_draw_debug();
 	_draw_cursor();
@@ -3283,7 +3272,7 @@ auto Sorcery::UI::_display_edge_of_town(Game *game) -> void {
 
 auto Sorcery::UI::_display_castle(Game *game) -> void {
 	_draw_components("castle");
-	dialog_leave->display(_controller->get_flag_ref("want_leave_game"));
+	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
 	_draw_party_panel(game);
 	_draw_debug();
 	_draw_cursor();
@@ -3313,7 +3302,7 @@ auto Sorcery::UI::_display_choose(Game *game, const int mode) -> void {
 auto Sorcery::UI::_display_method(Game *game) -> void {
 
 	_draw_components("method", game);
-	// input_name->display(_controller->get_flag_ref("want_name"));
+	// input_name->display(_ctx.get_flag_ref("want_name"));
 	_draw_cursor();
 }
 
@@ -3322,17 +3311,17 @@ auto Sorcery::UI::_display_inspect(Game *game, const int mode) -> void {
 	_draw_components("inspect", game, mode);
 	_draw_current_character(game, mode);
 	if (modal_identify->show)
-		modal_identify->display(_controller->get_flag_ref("want_identify"));
+		modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	if (modal_drop->show)
-		modal_drop->display(_controller->get_flag_ref("want_drop"));
+		modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	if (modal_trade->show)
-		modal_trade->display(_controller->get_flag_ref("want_trade"));
+		modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	if (modal_use->show)
-		modal_use->display(_controller->get_flag_ref("want_use"));
+		modal_use->display(_ctx.get_flag_ref("want_use"));
 	if (modal_invoke->show)
-		modal_invoke->display(_controller->get_flag_ref("want_invoke"));
+		modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	if (notice_pool_gold->show)
-		notice_pool_gold->display(_controller->get_flag_ref("want_pool_gold"));
+		notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	_draw_debug();
 	_draw_cursor();
 }
@@ -3364,14 +3353,14 @@ auto Sorcery::UI::_display_museum() -> void {
 auto Sorcery::UI::_display_inn(Game *game) -> void {
 	_draw_components("inn");
 	_draw_party_panel(game);
-	modal_inspect->display(_controller->get_flag_ref("want_inspect"));
-	modal_stay->display(_controller->get_flag_ref("want_stay"));
-	modal_identify->display(_controller->get_flag_ref("want_identify"));
-	modal_drop->display(_controller->get_flag_ref("want_drop"));
-	modal_trade->display(_controller->get_flag_ref("want_trade"));
-	modal_use->display(_controller->get_flag_ref("want_use"));
-	modal_invoke->display(_controller->get_flag_ref("want_invoke"));
-	notice_pool_gold->display(_controller->get_flag_ref("want_pool_gold"));
+	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+	modal_stay->display(_ctx.get_flag_ref("want_stay"));
+	modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	modal_use->display(_ctx.get_flag_ref("want_use"));
+	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
+	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	_draw_debug();
 	_draw_cursor();
 }
@@ -3427,14 +3416,14 @@ auto Sorcery::UI::_display_level_up(Game *game, const int mode) -> void {
 auto Sorcery::UI::_display_tavern(Game *game) -> void {
 
 	_draw_components("tavern");
-	notice_divvy->display(_controller->get_flag_ref("want_divvy_gold"));
-	notice_pool_gold->display(_controller->get_flag_ref("want_pool_gold"));
-	modal_inspect->display(_controller->get_flag_ref("want_inspect"));
-	modal_identify->display(_controller->get_flag_ref("want_identify"));
-	modal_drop->display(_controller->get_flag_ref("want_drop"));
-	modal_use->display(_controller->get_flag_ref("want_use"));
-	modal_trade->display(_controller->get_flag_ref("want_trade"));
-	modal_invoke->display(_controller->get_flag_ref("want_invoke"));
+	notice_divvy->display(_ctx.get_flag_ref("want_divvy_gold"));
+	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+	modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	modal_use->display(_ctx.get_flag_ref("want_use"));
+	modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	_draw_party_panel(game);
 	_draw_debug();
 	_draw_cursor();
@@ -3453,21 +3442,19 @@ auto Sorcery::UI::_display_temple(Game *game) -> void {
 
 	_draw_components("temple");
 	_draw_party_panel(game);
-	modal_inspect->display(_controller->get_flag_ref("want_inspect"));
-	modal_help->display(_controller->get_flag_ref("want_help"));
-	modal_tithe->display(_controller->get_flag_ref("want_tithe"));
-	modal_identify->display(_controller->get_flag_ref("want_identify"));
-	modal_drop->display(_controller->get_flag_ref("want_drop"));
-	modal_trade->display(_controller->get_flag_ref("want_trade"));
-	modal_use->display(_controller->get_flag_ref("want_use"));
-	modal_invoke->display(_controller->get_flag_ref("want_invoke"));
-	input_donate->display(_controller->get_flag_ref("want_donate"));
-	notice_donated_ok->display(_controller->get_flag_ref("want_donated_ok"));
-	notice_cannot_donate->display(
-		_controller->get_flag_ref("want_cannot_donate"));
-	notice_not_enough_gold->display(
-		_controller->get_flag_ref("want_not_enough_gold"));
-	notice_pool_gold->display(_controller->get_flag_ref("want_pool_gold"));
+	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+	modal_help->display(_ctx.get_flag_ref("want_help"));
+	modal_tithe->display(_ctx.get_flag_ref("want_tithe"));
+	modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	modal_use->display(_ctx.get_flag_ref("want_use"));
+	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
+	input_donate->display(_ctx.get_flag_ref("want_donate"));
+	notice_donated_ok->display(_ctx.get_flag_ref("want_donated_ok"));
+	notice_cannot_donate->display(_ctx.get_flag_ref("want_cannot_donate"));
+	notice_not_enough_gold->display(_ctx.get_flag_ref("want_not_enough_gold"));
+	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	_draw_debug();
 	_draw_cursor();
 }
@@ -3509,11 +3496,11 @@ auto Sorcery::UI::_draw_level_no_player() -> void {
 
 	// Menu Selection for B1F to B10F is 0 to 0, thus convert it into -1 to
 	// -10 for depth
-	if (_controller->get_selected("atlas_selected") == 10)
+	if (_ctx.get_selected("atlas_selected") == 10)
 		return;
 
-	const auto depth{-1 - _controller->get_selected("atlas_selected")};
-	Level level{_resources->levels->get(depth).value()};
+	const auto depth{-1 - _ctx.get_selected("atlas_selected")};
+	Level level{_ctx.resources->levels->get(depth).value()};
 
 	// Work out where and how to draw the grid
 	auto tc{20};
@@ -3585,9 +3572,9 @@ auto Sorcery::UI::_display_main_menu() -> void {
 	_draw_attract_mode();
 	_draw_bg_video();
 
-	dialog_exit->display(_controller->get_flag_ref("want_exit_game"));
-	dialog_new->display(_controller->get_flag_ref("want_new_game"));
-	dialog_leave->display(_controller->get_flag_ref("want_leave_game"));
+	dialog_exit->display(_ctx.get_flag_ref("want_exit_game"));
+	dialog_new->display(_ctx.get_flag_ref("want_new_game"));
+	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
 
 	_draw_cursor();
 
@@ -3603,7 +3590,7 @@ auto Sorcery::UI::_draw_attract_mode() -> void {
 
 	// Get the Attract Data
 	const auto attract{components->get("main_menu:attract_mode")};
-	_attract_data = _system->animation->get_attract_data();
+	_attract_data = _ctx.animation->get_attract_data();
 
 	// Work out the size and this where to draw it- (as its centred)!
 	auto am_size{_attract_data.size() *
@@ -3634,7 +3621,7 @@ auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 	const auto fr_min{ImVec2{p_min.x + adj, p_min.y + adj}};
 	const auto fr_max{ImVec2{p_max.x - adj, p_max.y - adj}};
 	const ImU32 col{ImColor{colour}};
-	const ImU32 bg{ImColor{ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade}}};
+	const ImU32 bg{ImColor{ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade}}};
 
 	// Black Background and Colour Foreground
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg);
@@ -3852,19 +3839,19 @@ auto Sorcery::UI::load_dynamic_menu_items(
 	else if (component == "modal_stay" && game != nullptr)
 		load_party_characters(controller, game, items, data, NO_FLAGS, reorder);
 	else if (component == "modal_identify" && game != nullptr)
-		load_character_items(controller, _resources, game, items, data,
+		load_character_items(controller, _ctx.resources, game, items, data,
 							 MENU_IDENTIFY_ITEM);
 	else if (component == "modal_drop" && game != nullptr)
-		load_character_items(controller, _resources, game, items, data,
+		load_character_items(controller, _ctx.resources, game, items, data,
 							 MENU_DROP_ITEM);
 	else if (component == "modal_trade" && game != nullptr)
-		load_character_items(controller, _resources, game, items, data,
+		load_character_items(controller, _ctx.resources, game, items, data,
 							 MENU_TRADE_ITEM);
 	else if (component == "modal_use" && game != nullptr)
-		load_character_items(controller, _resources, game, items, data,
+		load_character_items(controller, _ctx.resources, game, items, data,
 							 MENU_USE_ITEM);
 	else if (component == "modal_invoke" && game != nullptr)
-		load_character_items(controller, _resources, game, items, data,
+		load_character_items(controller, _ctx.resources, game, items, data,
 							 MENU_INVOKE_ITEM);
 
 	// Note that modal_camp only has fixed items and thus isn't handled here
@@ -3883,7 +3870,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"COMPENDIUM_SPELLBOOK", "COMPENDIUM_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "camp_menu" || component == "modal_camp") {
 		sources.insert(sources.end(),
@@ -3891,103 +3878,103 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"CAMP_QUIT", "CAMP_LEAVE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "roster_menu") {
 		sources.insert(sources.end(), {"ROSTER_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "inspect_menu" || component == "modal_inspect") {
 		sources.insert(sources.end(), {"INSPECT_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "stay_menu" || component == "modal_stay") {
 		sources.insert(sources.end(), {"STAY_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "help_menu" || component == "modal_help") {
 		sources.insert(sources.end(), {"HELP_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "tithe_menu" || component == "modal_tithe") {
 		sources.insert(sources.end(), {"TITHE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "pay_menu") {
 		sources.insert(sources.end(), {"PAY_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "choose_menu") {
 		sources.insert(sources.end(), {"CHOOSE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "remove_menu") {
 		sources.insert(sources.end(), {"REMOVE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "add_menu") {
 		sources.insert(sources.end(), {"ADD_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "restart_menu") {
 		sources.insert(sources.end(), {"RESTART_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "modal_identify") {
 		sources.insert(sources.end(), {"IDENTIFY_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "modal_drop") {
 		sources.insert(sources.end(), {"DROP_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "modal_trade") {
 		sources.insert(sources.end(), {"TRADE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "modal_use") {
 		sources.insert(sources.end(), {"USE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "modal_invoke") {
 		sources.insert(sources.end(), {"INVOKE_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "reorder_menu") {
 		sources.insert(sources.end(), {"REORDER_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "castle_menu") {
 		sources.insert(sources.end(),
@@ -3995,14 +3982,14 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"CASTLE_TEMPLE", "CASTLE_EDGE_OF_TOWN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "rest_menu") {
 		sources.insert(sources.end(), {"STAY_1", "STAY_2", "STAY_3", "STAY_4",
 									   "STAY_5", "STAY_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 	} else if (component == "tavern_menu") {
 		sources.insert(sources.end(),
 					   {"TAVERN_ADD_TO_PARTY", "TAVERN_REMOVE_FROM_PARTY",
@@ -4010,28 +3997,28 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"TAVERN_DIVVY_GOLD", "TAVERN_CASTLE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "inn_menu") {
 		sources.insert(sources.end(),
 					   {"INN_STAY", "INN_INSPECT", "INN_CASTLE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "temple_menu") {
 		sources.insert(sources.end(), {"TEMPLE_HELP", "TEMPLE_INSPECT",
 									   "TEMPLE_TITHE", "TEMPLE_CASTLE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "shop_menu") {
 		sources.insert(sources.end(),
 					   {"SHOP_ENTER", "SHOP_INSPECT", "SHOP_CASTLE"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "edge_menu") {
 		sources.insert(sources.end(),
@@ -4040,7 +4027,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"EDGE_OF_TOWN_LEAVE_GAME"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "atlas_menu") {
 		sources.insert(sources.end(),
@@ -4050,7 +4037,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"ATLAS_MENU_B10F", "ATLAS_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "training_menu") {
 		sources.insert(sources.end(),
@@ -4059,7 +4046,7 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"TRAINING_GROUNDS_RETURN"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "main_menu") {
 		sources.insert(sources.end(),
@@ -4069,10 +4056,11 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 						"MAIN_MENU_OPTION_LICENSE", "MAIN_MENU_OPTION_EXIT"});
 		for (const auto &source : sources)
 			items.emplace_back(
-				std::format("{:^{}}", _system->strings->get(source), width));
+				std::format("{:^{}}", _ctx.get_string(source), width));
 
 	} else if (component == "bestiary_menu") {
-		for (const auto monster_types{_resources->monsters->get_all_types()};
+		for (const auto monster_types{
+				 _ctx.resources->monsters->get_all_types()};
 			 auto &monster : monster_types) {
 			if (monster.get_type_id() > Enums::Monsters::TypeID::WERDNA)
 				continue;
@@ -4082,20 +4070,20 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 			auto menu_item{std::format("{}##{}", padded, mid)};
 			items.emplace_back(std::format("{}", menu_item));
 		}
-		items.emplace_back(std::format(
-			"{:^{}}", _system->strings->get("BESTIARY_RETURN"), width));
+		items.emplace_back(
+			std::format("{:^{}}", _ctx.get_string("BESTIARY_RETURN"), width));
 
 	} else if (component == "spellbook_menu") {
-		for (const auto spells{_resources->spells->get_all()};
+		for (const auto spells{_ctx.resources->spells->get_all()};
 			 auto &spell : spells) {
 			auto sname{spell.name};
 			auto padded{std::format("{:^{}}", sname, width)};
 			items.emplace_back(std::format("{}", padded));
 		}
-		items.emplace_back(std::format(
-			"{:^{}}", _system->strings->get("SPELLBOOK_RETURN"), width));
+		items.emplace_back(
+			std::format("{:^{}}", _ctx.get_string("SPELLBOOK_RETURN"), width));
 	} else if (component == "museum_menu") {
-		for (const auto item_types{_resources->items->get_all_types()};
+		for (const auto item_types{_ctx.resources->items->get_all_types()};
 			 auto &item_type : item_types) {
 			if (item_type.get_type_id() != Enums::Items::TypeID::BROKEN_ITEM) {
 				auto iname{item_type.get_known_name()};
@@ -4105,8 +4093,8 @@ auto Sorcery::UI::load_fixed_items(std::string_view component,
 				items.emplace_back(std::format("{}", menu_item));
 			}
 		}
-		items.emplace_back(std::format(
-			"{:^{}}", _system->strings->get("MUSEUM_RETURN"), width));
+		items.emplace_back(
+			std::format("{:^{}}", _ctx.get_string("MUSEUM_RETURN"), width));
 	}
 }
 
@@ -4135,13 +4123,13 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 	})};
 
 	set_StyleColor(ImGuiCol_FrameBg,
-				   ImVec4{0.0f, 0.0f, 0.0f, 1.0f - _system->animation->fade});
+				   ImVec4{0.0f, 0.0f, 0.0f, 1.0f - _ctx.animation->fade});
 	set_StyleColor(ImGuiCol_HeaderActive, (ImVec4)sel_color);
 	set_StyleColor(ImGuiCol_HeaderHovered, (ImVec4)sel_color);
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 	set_StyleColor(ImGuiCol_TextDisabled,
-				   ImVec4{0.5f, 0.5f, 0.5f, _system->animation->fade});
+				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
 
 	set_Font(fontstore->get_current_font(font).value());
 	ImGui::SetCursorPos(ImVec2{x, y});
@@ -4162,14 +4150,14 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 			const auto data_item{data.size() > i ? data.at(i) : -1};
 #pragma GCC diagnostic pop
 			auto disabled{
-				_controller->is_menu_item_disabled(name, i, data_item)};
+				_ctx.controller->is_menu_item_disabled(name, i, data_item)};
 			if (disabled)
 				ImGui::BeginDisabled();
 
 			if (reorder) {
 
 				if (ImGui::Selectable(items[i].c_str(), is_selected, flags)) {
-					_controller->handle_menu(name, items, data_item, i);
+					_ctx.controller->handle_menu(name, items, data_item, i);
 				}
 
 				if (ImGui::IsItemHovered()) {
@@ -4200,11 +4188,12 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 								std::swap(data.at(i), data.at(payload_i));
 								std::swap(items.at(i), items.at(payload_i));
 
-								_controller->clear_candidate_party();
+								_ctx.controller->clear_candidate_party();
 								for (auto char_id : data)
-									_controller->add_to_candidate_party(
+									_ctx.controller->add_to_candidate_party(
 										char_id);
-								_controller->set_flag("party_order_changed");
+								_ctx.controller->set_flag(
+									"party_order_changed");
 							}
 						}
 					}
@@ -4217,82 +4206,82 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(dialog_new->show),
 							 std::ref(dialog_exit->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "edge_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(dialog_leave->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "tavern_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(notice_divvy->show),
 							 std::ref(modal_inspect->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "inn_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_inspect->show),
 							 std::ref(modal_stay->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "temple_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_inspect->show),
 							 std::ref(modal_help->show),
 							 std::ref(modal_tithe->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "camp_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_camp->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "inspect_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_inspect->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "stay_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_stay->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "help_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_help->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "tithe_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_tithe->show),
 							 std::ref(input_donate->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "identify_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_identify->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "drop_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_drop->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "use_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_use->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else if (name == "invoke_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
 							{std::ref(modal_invoke->show)}};
-						_controller->handle_menu_with_flags(
+						_ctx.controller->handle_menu_with_flags(
 							name, items, data_item, i, out_flags);
 					} else
 
 						// Any other menus
-						_controller->handle_menu(name, items, data_item, i);
+						_ctx.controller->handle_menu(name, items, data_item, i);
 				}
 
 				if (ImGui::IsItemHovered()) {

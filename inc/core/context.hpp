@@ -71,6 +71,9 @@ struct Context {
 		auto get_config(const unsigned int i) -> bool &;
 		auto get_file(std::string_view key) const -> std::filesystem::path;
 		auto get_component(std::string_view combined_key) -> Component &;
+		auto get_flag_ref(const std::string &flag) -> bool &;
+		auto get_flag(const std::string &flag) -> bool;
+		auto get_selected(const std::string &flag) const -> int;
 };
 
 }

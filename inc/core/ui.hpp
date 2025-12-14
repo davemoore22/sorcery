@@ -34,10 +34,11 @@
 namespace Sorcery {
 
 // Forward Declaration
+struct Context;
 class Character;
+class Controller;
 class Component;
 class ComponentStore;
-class Controller;
 class Dialog;
 class Display;
 class FontStore;
@@ -49,9 +50,7 @@ class Message;
 class Menu;
 class Modal;
 class Render;
-class Resources;
 class Popup;
-class System;
 class VideoPlayer;
 struct VertexArray;
 
@@ -59,8 +58,7 @@ class UI {
 
 	public:
 		// Standard Constructor
-		UI(System *system, Display *display, Resources *resources,
-		   Controller *controller);
+		UI(Context &ctx);
 
 		// standard Destructor
 		~UI();
@@ -157,10 +155,7 @@ class UI {
 
 	private:
 		// Private Members
-		System *_system;
-		Display *_display;
-		Resources *_resources;
-		Controller *_controller;
+		Context &_ctx;
 		ImGuiIO _io;
 		std::unique_ptr<Render> _render;
 		std::vector<std::shared_ptr<Frame>> _frames;
