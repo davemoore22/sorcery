@@ -65,7 +65,7 @@ auto Sorcery::NoLevelUp::start(const int mode) -> int {
 				return BACK_TO_STAY;
 		}
 
-		_ctx.ui->display("nolevelup", _ctx.game, mode);
+		_ctx.ui->display("nolevelup", mode);
 
 		if (!_ctx.controller->has_flag("show_nolevelup"))
 			return BACK_TO_STAY;

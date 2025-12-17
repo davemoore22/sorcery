@@ -30,9 +30,6 @@
 
 namespace Sorcery {
 
-// Forward Declaration
-class System;
-
 class MonsterStore {
 
 	public:
@@ -53,7 +50,6 @@ class MonsterStore {
 
 	private:
 		// Private members
-		System *_system;
 		std::map<Enums::Monsters::TypeID, MonsterType> _items;
 		bool _loaded;
 

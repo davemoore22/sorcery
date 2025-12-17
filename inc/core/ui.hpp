@@ -64,12 +64,11 @@ class UI {
 		~UI();
 
 		// Public Methods
-		auto create_dynamic_modal(Game *game, const std::string name) -> void;
-		auto display(const std::string screen, std::any first = nullptr,
-					 std::any second = nullptr) -> void;
-		auto display_engine(Game *game) -> void;
-		auto display_refresh(std::any first = nullptr,
-							 std::any second = nullptr) -> void;
+		auto create_dynamic_modal(const std::string name) -> void;
+		auto display(const std::string screen, std::any param = nullptr)
+			-> void;
+		auto display_engine() -> void;
+		auto display_refresh(std::any payload = nullptr) -> void;
 		auto draw_cursor(const bool value) -> void;
 		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 						const ImVec4 colour, const int rounding) -> void;
@@ -89,8 +88,7 @@ class UI {
 		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo,
 						 const double percent) const -> ImVec4;
 		auto io() -> ImGuiIO &;
-		auto load_dynamic_menu_items(Game *game, Controller *controller,
-									 std::string_view component,
+		auto load_dynamic_menu_items(std::string_view component,
 									 const unsigned int width,
 									 std::vector<std::string> &items,
 									 std::vector<int> &data, const bool reorder)
@@ -162,11 +160,10 @@ class UI {
 		std::vector<std::shared_ptr<Menu>> _menus;
 		std::vector<unsigned int> _attract_data;
 
-		std::map<std::string, std::function<void()>> _draw_frontend;
-		std::map<std::string, std::function<void(Game *)>> _draw_modules;
-		std::map<std::string, std::function<void(Game *, int)>> _draw_game_int;
+		std::map<std::string, std::function<void()>> _draw_modules;
+		std::map<std::string, std::function<void(int)>> _draw_modules_with_int;
 		std::map<std::string, std::function<void(const std::string &)>>
-			_draw_string;
+			_draw_modules_with_string;
 
 		// Private Methods
 		auto _display_atlas() -> void;
@@ -178,33 +175,33 @@ class UI {
 		auto _display_spellbook() -> void;
 		auto _display_splash() -> void;
 
-		auto _display_add(Game *game) -> void;
-		auto _display_castle(Game *game) -> void;
-		auto _display_edge_of_town(Game *game) -> void;
-		auto _display_inn(Game *game) -> void;
-		auto _display_method(Game *game) -> void;
-		auto _display_pay(Game *game) -> void;
-		auto _display_remove(Game *game) -> void;
-		auto _display_restart(Game *game) -> void;
-		auto _display_shop(Game *game) -> void;
-		auto _display_stay(Game *game) -> void;
-		auto _display_tavern(Game *game) -> void;
-		auto _display_temple(Game *game) -> void;
-		auto _display_training_grounds(Game *game) -> void;
+		auto _display_add() -> void;
+		auto _display_castle() -> void;
+		auto _display_edge_of_town() -> void;
+		auto _display_inn() -> void;
+		auto _display_method() -> void;
+		auto _display_pay() -> void;
+		auto _display_remove() -> void;
+		auto _display_restart() -> void;
+		auto _display_shop() -> void;
+		auto _display_stay() -> void;
+		auto _display_tavern() -> void;
+		auto _display_temple() -> void;
+		auto _display_training_grounds() -> void;
 
-		auto _display_choose(Game *game, const int mode) -> void;
-		auto _display_create_name(Game *game, const int stage) -> void;
-		auto _display_create_race(Game *game, const int stage) -> void;
-		auto _display_create_alignment(Game *game, const int stage) -> void;
-		auto _display_create_class(Game *game, const int stage) -> void;
-		auto _display_create_confirm(Game *game, const int stage) -> void;
-		auto _display_heal(Game *game, const int stage) -> void;
-		auto _display_inspect(Game *game, const int mode) -> void;
-		auto _display_level_up(Game *game, const int mode) -> void;
-		auto _display_no_level_up(Game *game, const int mode) -> void;
-		auto _display_recovery(Game *game, const int mode) -> void;
-		auto _display_reorder(Game *game, const int mode) -> void;
-		auto _display_roster(Game *game, const int mode) -> void;
+		auto _display_choose(const int mode) -> void;
+		auto _display_create_name(const int stage) -> void;
+		auto _display_create_race(const int stage) -> void;
+		auto _display_create_alignment(const int stage) -> void;
+		auto _display_create_class(const int stage) -> void;
+		auto _display_create_confirm(const int stage) -> void;
+		auto _display_heal(const int stage) -> void;
+		auto _display_inspect(const int mode) -> void;
+		auto _display_level_up(const int mode) -> void;
+		auto _display_no_level_up(const int mode) -> void;
+		auto _display_recovery(const int mode) -> void;
+		auto _display_reorder(const int mode) -> void;
+		auto _display_roster(const int mode) -> void;
 
 		auto _display_license(const std::string &string) -> void;
 
@@ -212,32 +209,32 @@ class UI {
 		auto _draw_bg_image(Component *component) -> void;
 		auto _draw_bg_video() -> void;
 
-		auto _draw_buffbar(Game *game) -> void;
+		auto _draw_buffbar() -> void;
 		auto _draw_button(Component *component,
 						  std::optional<bool *> is_clicked = std::nullopt)
 			-> void;
 		auto _draw_button_click(Component *component, bool &is_clicked,
 								const bool reverse = false) -> void;
-		auto _draw_character_summary(Component *component, Game *game,
-									 Character *character) -> void;
-		auto _draw_character_detailed(Component *component, Game *game,
+		auto _draw_character_summary(Component *component, Character *character)
+			-> void;
+		auto _draw_character_detailed(Component *component,
 									  Character *character) -> void;
-		auto _draw_character_detailed_again(Component *component, Game *game,
+		auto _draw_character_detailed_again(Component *component,
 											Character *character) -> void;
-		auto _draw_character_mage_spells(Component *component, Game *game,
+		auto _draw_character_mage_spells(Component *component,
 										 Character *character) -> void;
-		auto _draw_character_priest_spells(Component *component, Game *game,
+		auto _draw_character_priest_spells(Component *component,
 										   Character *character) -> void;
-		auto _draw_choose(Game *game, const int mode) -> void;
-		auto _draw_create_name(Game *game, const int mode) -> void;
-		auto _draw_create_race(Game *game, const int mode) -> void;
-		auto _draw_create_alignment(Game *game, const int mode) -> void;
-		auto _draw_create_class(Game *game, const int mode) -> void;
-		auto _draw_create_confirm(Game *game, const int mode) -> void;
-		auto _draw_compass(Game *game) -> void;
-		auto _draw_components(std::string_view screen, Game *game = nullptr,
-							  const int mode = -1) -> void;
-		auto _draw_current_character(Game *game, const int mode) -> void;
+		auto _draw_choose(const int mode) -> void;
+		auto _draw_create_name(const int mode) -> void;
+		auto _draw_create_race(const int mode) -> void;
+		auto _draw_create_alignment(const int mode) -> void;
+		auto _draw_create_class(const int mode) -> void;
+		auto _draw_create_confirm(const int mode) -> void;
+		auto _draw_compass() -> void;
+		auto _draw_components(std::string_view screen, const int mode = -1)
+			-> void;
+		auto _draw_current_character(const int mode) -> void;
 		auto _draw_cursor() -> void;
 		auto _draw_fg_image(Component *component) -> void;
 		auto _draw_fg_image_with_idx(std::string_view source, const int idx,
@@ -250,27 +247,27 @@ class UI {
 									 const ImVec4 tint = ImVec4{
 										 1.0f, 1.0f, 1.0f, 1.0f}) -> void;
 		auto _draw_frame(Component *component) -> void;
-		auto _draw_heal(Game *game, const int stage) -> void;
-		auto _draw_icons(Game *game) -> void;
+		auto _draw_heal(const int stage) -> void;
+		auto _draw_icons() -> void;
 		auto _draw_input(Component *component, std::string *input) -> void;
 		auto _draw_item_info() -> void;
 		auto _draw_license(Component *component, const std::string &string)
 			-> void;
 		auto _draw_loading_progress() -> void;
 		auto _draw_level_no_player() -> void;
-		auto _draw_level_up(Game *game, const int mode) -> void;
+		auto _draw_level_up(const int mode) -> void;
 		auto _draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz)
 			-> void;
-		auto _draw_menu(Component *component, Game *game = nullptr) -> void;
+		auto _draw_menu(Component *component) -> void;
 		auto _draw_monster_info() -> void;
-		auto _draw_no_level_up(Game *game, const int mode) -> void;
+		auto _draw_no_level_up(const int mode) -> void;
 		auto _draw_paragraph(Component *component) -> void;
-		auto _draw_party_panel(Game *game) -> void;
-		auto _draw_pay_info(Game *game) -> void;
+		auto _draw_party_panel() -> void;
+		auto _draw_pay_info() -> void;
 		auto _draw_options() -> void;
-		auto _draw_recovery(Game *game, const int mode) -> void;
-		auto _draw_save(Game *game) -> void;
-		auto _draw_stay(Game *game) -> void;
+		auto _draw_recovery(const int mode) -> void;
+		auto _draw_save() -> void;
+		auto _draw_stay() -> void;
 		auto _draw_spell_info() -> void;
 		auto _draw_stepper(Component *component, const std::string &name,
 						   int *value) -> void;

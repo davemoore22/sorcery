@@ -108,7 +108,7 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 		if (!_ctx.controller->has_flag("show_inspect"))
 			return BACK_FROM_INSPECT;
 
-		_ctx.ui->display("inspect", _ctx.game, mode);
+		_ctx.ui->display("inspect", mode);
 
 		if (_ctx.controller->has_flag("select_previous_character")) {
 

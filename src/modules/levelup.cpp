@@ -62,7 +62,7 @@ auto Sorcery::LevelUp::start(const int mode) -> int {
 				return BACK_TO_STAY;
 		}
 
-		_ctx.ui->display("levelup", _ctx.game, mode);
+		_ctx.ui->display("levelup", mode);
 
 		if (!_ctx.controller->has_flag("show_levelup"))
 			return BACK_TO_STAY;

@@ -62,12 +62,12 @@ auto Sorcery::Tavern::start() -> int {
 	_ctx.controller->set_flag("show_tavern");
 
 	// Need this before accessing modal_inspect!
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_inspect");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_identify");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_drop");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_trade");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_use");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_invoke");
+	_ctx.ui->create_dynamic_modal("modal_inspect");
+	_ctx.ui->create_dynamic_modal("modal_identify");
+	_ctx.ui->create_dynamic_modal("modal_drop");
+	_ctx.ui->create_dynamic_modal("modal_trade");
+	_ctx.ui->create_dynamic_modal("modal_use");
+	_ctx.ui->create_dynamic_modal("modal_invoke");
 	_ctx.ui->modal_inspect->show = false;
 	_ctx.ui->modal_drop->show = false;
 	_ctx.ui->modal_trade->show = false;

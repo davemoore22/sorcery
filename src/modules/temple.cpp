@@ -67,14 +67,14 @@ auto Sorcery::Temple::start() -> int {
 	_ctx.controller->move_screen("show_castle", "show_temple");
 
 	// Need this before accessing dynamic modals!
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_inspect");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_identify");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_drop");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_help");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_tithe");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_trade");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_use");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_invoke");
+	_ctx.ui->create_dynamic_modal("modal_inspect");
+	_ctx.ui->create_dynamic_modal("modal_identify");
+	_ctx.ui->create_dynamic_modal("modal_drop");
+	_ctx.ui->create_dynamic_modal("modal_help");
+	_ctx.ui->create_dynamic_modal("modal_tithe");
+	_ctx.ui->create_dynamic_modal("modal_trade");
+	_ctx.ui->create_dynamic_modal("modal_use");
+	_ctx.ui->create_dynamic_modal("modal_invoke");
 	_ctx.ui->modal_inspect->show = false;
 	_ctx.ui->modal_help->show = false;
 	_ctx.ui->modal_tithe->show = false;

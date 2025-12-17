@@ -221,7 +221,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				// check for light, elevator etc
 			}
 		}
-		_ctx.ui->display_engine(_ctx.game);
+		_ctx.ui->display_engine();
 	}
 
 	// Exit if we get to here having broken out of the loop

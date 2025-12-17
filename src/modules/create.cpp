@@ -88,7 +88,7 @@ auto Sorcery::Create::start() -> int {
 			}
 		}
 
-		_ctx.ui->display("create_name", _ctx.game, static_cast<int>(_stage));
+		_ctx.ui->display("create_name", static_cast<int>(_stage));
 
 		if (!_ctx.controller->has_flag("show_create") &&
 			_ctx.controller->has_flag("show_method")) {
@@ -121,8 +121,7 @@ auto Sorcery::Create::start() -> int {
 					}
 				}
 
-				_ctx.ui->display("create_race", _ctx.game,
-								 static_cast<int>(_stage));
+				_ctx.ui->display("create_race", static_cast<int>(_stage));
 
 				if (!_ctx.controller->has_flag("show_create") &&
 					_ctx.controller->has_flag("show_method")) {
@@ -153,7 +152,7 @@ auto Sorcery::Create::start() -> int {
 							}
 						}
 
-						_ctx.ui->display("create_alignment", _ctx.game,
+						_ctx.ui->display("create_alignment",
 										 static_cast<int>(_stage));
 
 						if (!_ctx.controller->has_flag("show_create") &&
@@ -189,7 +188,7 @@ auto Sorcery::Create::start() -> int {
 									}
 								}
 
-								_ctx.ui->display("create_class", _ctx.game,
+								_ctx.ui->display("create_class",
 												 static_cast<int>(_stage));
 
 								if (!_ctx.controller->has_flag("show_create") &&
@@ -241,7 +240,7 @@ auto Sorcery::Create::start() -> int {
 										}
 
 										_ctx.ui->display(
-											"create_confirm", _ctx.game,
+											"create_confirm",
 											static_cast<int>(_stage));
 									}
 								}

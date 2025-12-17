@@ -87,7 +87,7 @@ auto Sorcery::Heal::start() -> int {
 				return BACK_TO_TEMPLE;
 		}
 
-		_ctx.ui->display("heal", _ctx.game, _stage);
+		_ctx.ui->display("heal", _stage);
 
 		if (_stage <= 0) {
 

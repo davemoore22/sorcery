@@ -68,7 +68,7 @@ auto Sorcery::Reorder::start(const int mode) -> int {
 				return BACK_FROM_ROSTER;
 		}
 
-		_ctx.ui->display("reorder", _ctx.game, mode);
+		_ctx.ui->display("reorder", mode);
 
 		if (!_ctx.controller->has_flag("show_reorder"))
 			return BACK_FROM_REORDER;

@@ -59,8 +59,7 @@ auto Sorcery::Modal::regenerate() -> void {
 
 	_items.clear();
 	_data.clear();
-	_ctx.ui->load_dynamic_menu_items(_ctx.game, _ctx.controller,
-									 _component.name, _width, _items, _data,
+	_ctx.ui->load_dynamic_menu_items(_component.name, _width, _items, _data,
 									 false);
 	_ctx.ui->load_fixed_items(_component.name, _width, _items, false);
 }

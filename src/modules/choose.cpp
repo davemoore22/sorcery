@@ -68,7 +68,7 @@ auto Sorcery::Choose::start(const int mode) -> int {
 				return BACK_FROM_CHOOSE;
 		}
 
-		_ctx.ui->display("choose", _ctx.game, mode);
+		_ctx.ui->display("choose", mode);
 
 		if (!_ctx.controller->has_flag("show_choose"))
 			return BACK_FROM_CHOOSE;

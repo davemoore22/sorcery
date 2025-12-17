@@ -152,118 +152,118 @@ Sorcery::UI::UI(Context &ctx)
 	ticks = SDL_GetTicks();
 
 	// Initialise function tables for display methods
-	_draw_frontend["atlas"] = [this] {
+	_draw_modules["atlas"] = [this] {
 		_display_atlas();
 	};
-	_draw_frontend["bestiary"] = [this] {
+	_draw_modules["bestiary"] = [this] {
 		_display_bestiary();
 	};
-	_draw_frontend["compendium"] = [this] {
+	_draw_modules["compendium"] = [this] {
 		_display_compendium();
 	};
-	_draw_frontend["main_menu"] = [this] {
+	_draw_modules["main_menu"] = [this] {
 		_display_main_menu();
 	};
-	_draw_frontend["museum"] = [this] {
+	_draw_modules["museum"] = [this] {
 		_display_museum();
 	};
-	_draw_frontend["options"] = [this] {
+	_draw_modules["options"] = [this] {
 		_display_options();
 	};
-	_draw_frontend["spellbook"] = [this] {
+	_draw_modules["spellbook"] = [this] {
 		_display_spellbook();
 	};
-	_draw_frontend["splash"] = [this] {
+	_draw_modules["splash"] = [this] {
 		_display_splash();
 	};
 
-	_draw_modules["add"] = [this](Game *game) {
-		_display_add(game);
+	_draw_modules["add"] = [this]() {
+		_display_add();
 	};
-	_draw_modules["castle"] = [this](Game *game) {
-		_display_castle(game);
+	_draw_modules["castle"] = [this]() {
+		_display_castle();
 	};
-	_draw_modules["edge_of_town"] = [this](Game *game) {
-		_display_edge_of_town(game);
+	_draw_modules["edge_of_town"] = [this]() {
+		_display_edge_of_town();
 	};
-	_draw_modules["inn"] = [this](Game *game) {
-		_display_inn(game);
+	_draw_modules["inn"] = [this]() {
+		_display_inn();
 	};
-	_draw_modules["pay"] = [this](Game *game) {
-		_display_pay(game);
+	_draw_modules["pay"] = [this]() {
+		_display_pay();
 	};
-	_draw_modules["remove"] = [this](Game *game) {
-		_display_remove(game);
+	_draw_modules["remove"] = [this]() {
+		_display_remove();
 	};
-	_draw_modules["restart"] = [this](Game *game) {
-		_display_restart(game);
+	_draw_modules["restart"] = [this]() {
+		_display_restart();
 	};
-	_draw_modules["shop"] = [this](Game *game) {
-		_display_shop(game);
+	_draw_modules["shop"] = [this]() {
+		_display_shop();
 	};
-	_draw_modules["stay"] = [this](Game *game) {
-		_display_stay(game);
+	_draw_modules["stay"] = [this]() {
+		_display_stay();
 	};
-	_draw_modules["tavern"] = [this](Game *game) {
-		_display_tavern(game);
+	_draw_modules["tavern"] = [this]() {
+		_display_tavern();
 	};
-	_draw_modules["temple"] = [this](Game *game) {
-		_display_temple(game);
+	_draw_modules["temple"] = [this]() {
+		_display_temple();
 	};
-	_draw_modules["training_grounds"] = [this](Game *game) {
-		_display_training_grounds(game);
+	_draw_modules["training_grounds"] = [this]() {
+		_display_training_grounds();
 	};
-	_draw_modules["method"] = [this](Game *game) {
-		_display_method(game);
-	};
-
-	_draw_game_int["roster"] = [this](Game *game, int n) {
-		_display_roster(game, n);
+	_draw_modules["method"] = [this]() {
+		_display_method();
 	};
 
-	_draw_game_int["create_name"] = [this](Game *game, int n) {
-		_display_create_name(game, n);
+	_draw_modules_with_int["roster"] = [this](int n) {
+		_display_roster(n);
 	};
 
-	_draw_game_int["create_race"] = [this](Game *game, int n) {
-		_display_create_race(game, n);
+	_draw_modules_with_int["create_name"] = [this](int n) {
+		_display_create_name(n);
 	};
 
-	_draw_game_int["create_alignment"] = [this](Game *game, int n) {
-		_display_create_alignment(game, n);
+	_draw_modules_with_int["create_race"] = [this](int n) {
+		_display_create_race(n);
 	};
 
-	_draw_game_int["create_confirm"] = [this](Game *game, int n) {
-		_display_create_confirm(game, n);
+	_draw_modules_with_int["create_alignment"] = [this](int n) {
+		_display_create_alignment(n);
 	};
 
-	_draw_game_int["create_class"] = [this](Game *game, int n) {
-		_display_create_class(game, n);
+	_draw_modules_with_int["create_confirm"] = [this](int n) {
+		_display_create_confirm(n);
 	};
 
-	_draw_game_int["heal"] = [this](Game *game, int n) {
-		_display_heal(game, n);
-	};
-	_draw_game_int["inspect"] = [this](Game *game, int n) {
-		_display_inspect(game, n);
-	};
-	_draw_game_int["level_up"] = [this](Game *game, int n) {
-		_display_level_up(game, n);
-	};
-	_draw_game_int["nolevelup"] = [this](Game *game, int n) {
-		_display_no_level_up(game, n);
-	};
-	_draw_game_int["recovery"] = [this](Game *game, int n) {
-		_display_recovery(game, n);
-	};
-	_draw_game_int["reorder"] = [this](Game *game, int n) {
-		_display_reorder(game, n);
-	};
-	_draw_game_int["roster"] = [this](Game *game, int n) {
-		_display_roster(game, n);
+	_draw_modules_with_int["create_class"] = [this](int n) {
+		_display_create_class(n);
 	};
 
-	_draw_string["license"] = [this](const std::string &string) {
+	_draw_modules_with_int["heal"] = [this](int n) {
+		_display_heal(n);
+	};
+	_draw_modules_with_int["inspect"] = [this](int n) {
+		_display_inspect(n);
+	};
+	_draw_modules_with_int["level_up"] = [this](int n) {
+		_display_level_up(n);
+	};
+	_draw_modules_with_int["nolevelup"] = [this](int n) {
+		_display_no_level_up(n);
+	};
+	_draw_modules_with_int["recovery"] = [this](int n) {
+		_display_recovery(n);
+	};
+	_draw_modules_with_int["reorder"] = [this](int n) {
+		_display_reorder(n);
+	};
+	_draw_modules_with_int["roster"] = [this](int n) {
+		_display_roster(n);
+	};
+
+	_draw_modules_with_string["license"] = [this](const std::string &string) {
 		_display_license(string);
 	};
 };
@@ -289,8 +289,7 @@ auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for
 // example the Party Members); normally otherwise fixed Modals are created at
 // the beginning as part of the Form/Module create
-auto Sorcery::UI::create_dynamic_modal([[maybe_unused]] Game *game,
-									   const std::string name) -> void {
+auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
 
 	if (name == "modal_inspect") {
 		if (modal_inspect.get())
@@ -548,13 +547,13 @@ auto Sorcery::UI::stop() -> void {
 	SDL_Quit();
 }
 
-auto Sorcery::UI::display_refresh(std::any first, std::any second) -> void {
+auto Sorcery::UI::display_refresh(std::any payload) -> void {
 
 	// Refresh what we previously drew
-	display(_ctx.controller->get_last_screen(), first, second);
+	display(_ctx.controller->get_last_screen(), payload);
 }
 
-auto Sorcery::UI::display_engine(Game *game) -> void {
+auto Sorcery::UI::display_engine() -> void {
 
 	// Start a new Rendering Frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -590,17 +589,17 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	if (notice_pool_gold->show)
 		notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
-		_draw_party_panel(game);
+		_draw_party_panel();
 	if (_ctx.get_flag("interface_ui")) {
-		_draw_compass(game);
-		_draw_buffbar(game);
-		_draw_icons(game);
-		_draw_save(game);
+		_draw_compass();
+		_draw_buffbar();
+		_draw_icons();
+		_draw_save();
 	}
 
 	// Dungeon View
 	auto component{components->get("engine_base_ui:wire_frame_view")};
-	_render->draw(game, &component);
+	_render->draw(&component);
 
 	// And Cursor on Top
 	_draw_debug();
@@ -619,8 +618,7 @@ auto Sorcery::UI::display_engine(Game *game) -> void {
 	SDL_GL_SwapWindow(_ctx.display->get_SDL_window());
 }
 
-auto Sorcery::UI::display(const std::string screen, std::any first,
-						  std::any second) -> void {
+auto Sorcery::UI::display(const std::string screen, std::any payload) -> void {
 
 	// Store what we want to draw for next refresh
 	_ctx.controller->set_last_screen(screen);
@@ -633,21 +631,16 @@ auto Sorcery::UI::display(const std::string screen, std::any first,
 	_setup_windows();
 	//_draw_window_menu();
 
-	if (first.type() == typeid(Game *) && second.type() != typeid(int)) {
-		if (auto it = _draw_modules.find(screen); it != _draw_modules.end())
-			it->second(std::any_cast<Game *>(first));
-
-	} else if (first.type() == typeid(Game *) && second.type() == typeid(int)) {
-		if (auto it = _draw_game_int.find(screen); it != _draw_game_int.end())
-			it->second(std::any_cast<Game *>(first),
-					   std::any_cast<int>(second));
-
-	} else if (first.type() == typeid(std::string)) {
-		if (auto it = _draw_string.find(screen); it != _draw_string.end())
-			it->second(std::any_cast<std::string>(first));
-
+	if (payload.type() == typeid(std::string)) {
+		if (auto it = _draw_modules_with_string.find(screen);
+			it != _draw_modules_with_string.end())
+			it->second(std::any_cast<std::string>(payload));
+	} else if (payload.type() == typeid(int)) {
+		if (auto it = _draw_modules_with_int.find(screen);
+			it != _draw_modules_with_int.end())
+			it->second(std::any_cast<int>(payload));
 	} else {
-		if (auto it = _draw_frontend.find(screen); it != _draw_frontend.end())
+		if (auto it = _draw_modules.find(screen); it != _draw_modules.end())
 			it->second();
 	}
 
@@ -959,10 +952,10 @@ auto Sorcery::UI::_draw_cursor() -> void {
 	const auto pos{ImVec2{io.MousePos.x, io.MousePos.y}};
 	if (ImGui::IsMousePosValid()) {
 
-		// Grab and extract the image manually and add to the foreground list
-		// (we don't use _draw_fg_image_with_idx() since that draws to one of
-		// the standard layers, whereas we want the cursor to be always visible
-		// no matter what)
+		// Grab and extract the image manually and add to the foreground
+		// list (we don't use _draw_fg_image_with_idx() since that draws to
+		// one of the standard layers, whereas we want the cursor to be
+		// always visible no matter what)
 
 		// Work out what cursor to draw
 		auto src_image{images->get(std::string{ICONS_TEXTURE})};
@@ -1003,9 +996,9 @@ auto Sorcery::UI::_draw_frame(Component *component) -> void {
 }
 
 // Draw a Menu
-auto Sorcery::UI::_draw_menu(Component *component, Game *game) -> void {
+auto Sorcery::UI::_draw_menu(Component *component) -> void {
 
-	auto menu{std::make_shared<Menu>(_ctx, component, game)};
+	auto menu{std::make_shared<Menu>(_ctx, component, _ctx.game)};
 	menu->regenerate();
 	menu->draw();
 	_menus.emplace_back(std::move(menu));
@@ -1193,7 +1186,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_detailed(Component *component,
-										   [[maybe_unused]] Game *game,
+
 										   Character *character) -> void {
 
 	const auto left_col{component->x + 0};
@@ -1365,7 +1358,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_mage_spells(Component *component,
-											  [[maybe_unused]] Game *game,
+
 											  Character *character) -> void {
 
 	ImVec2 pos{component->x * adj_grid_w, component->y * adj_grid_h};
@@ -1419,7 +1412,7 @@ auto Sorcery::UI::_draw_character_mage_spells(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_priest_spells(Component *component,
-												[[maybe_unused]] Game *game,
+
 												Character *character) -> void {
 
 	ImVec2 pos{component->x * adj_grid_w, component->y * adj_grid_h};
@@ -1474,7 +1467,7 @@ auto Sorcery::UI::_draw_character_priest_spells(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_detailed_again(Component *component,
-												 [[maybe_unused]] Game *game,
+
 												 Character *character) -> void {
 
 	const auto left_col{component->x + 0};
@@ -1619,7 +1612,7 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_summary(Component *component,
-										  [[maybe_unused]] Game *game,
+
 										  Character *character) -> void {
 
 	const auto left_col{component->x};
@@ -1750,8 +1743,7 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 	}
 }
 
-auto Sorcery::UI::_draw_create_alignment([[maybe_unused]] Game *game,
-										 [[maybe_unused]] const int mode)
+auto Sorcery::UI::_draw_create_alignment([[maybe_unused]] const int mode)
 	-> void {
 
 	auto cmp_summary{components->get("create_alignment:summary_text")};
@@ -1759,8 +1751,7 @@ auto Sorcery::UI::_draw_create_alignment([[maybe_unused]] Game *game,
 	_draw_text(&cmp_summary, summary_text);
 }
 
-auto Sorcery::UI::_draw_create_confirm([[maybe_unused]] Game *game,
-									   [[maybe_unused]] const int mode)
+auto Sorcery::UI::_draw_create_confirm([[maybe_unused]] const int mode)
 	-> void {
 
 	auto cmp_summary{components->get("create_confirm:summary_text")};
@@ -1771,13 +1762,11 @@ auto Sorcery::UI::_draw_create_confirm([[maybe_unused]] Game *game,
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		set_Font(fontstore->get_current_font(cmp_char.font).value());
-		_draw_character_summary(&cmp_char, game,
-								_ctx.controller->get_character());
+		_draw_character_summary(&cmp_char, _ctx.controller->get_character());
 	}
 }
 
-auto Sorcery::UI::_draw_create_class([[maybe_unused]] Game *game,
-									 [[maybe_unused]] const int mode) -> void {
+auto Sorcery::UI::_draw_create_class([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{components->get("create_class:summary_text")};
 	auto summary_text{_ctx.controller->get_character()->summary_text()};
@@ -1800,16 +1789,14 @@ auto Sorcery::UI::_draw_create_class([[maybe_unused]] Game *game,
 	}
 }
 
-auto Sorcery::UI::_draw_create_race([[maybe_unused]] Game *game,
-									[[maybe_unused]] const int mode) -> void {
+auto Sorcery::UI::_draw_create_race([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{components->get("create_race:summary_text")};
 	auto summary_text{_ctx.controller->get_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 }
 
-auto Sorcery::UI::_draw_create_name([[maybe_unused]] Game *game,
-									[[maybe_unused]] const int mode) -> void {
+auto Sorcery::UI::_draw_create_name([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{components->get("create_name:summary_text")};
 	auto summary_text{_ctx.controller->get_character()->summary_text()};
@@ -1825,56 +1812,55 @@ auto Sorcery::UI::_draw_create_name([[maybe_unused]] Game *game,
 	_draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
 }
 
-auto Sorcery::UI::_display_create_alignment(Game *game, const int mode)
-	-> void {
+auto Sorcery::UI::_display_create_alignment(const int mode) -> void {
 
-	_draw_components("create_alignment", game, mode);
-	_draw_create_alignment(game, mode);
+	_draw_components("create_alignment", mode);
+	_draw_create_alignment(mode);
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_create_confirm(Game *game, const int mode) -> void {
+auto Sorcery::UI::_display_create_confirm(const int mode) -> void {
 
-	_draw_components("create_confirm", game, mode);
-	_draw_create_confirm(game, mode);
+	_draw_components("create_confirm", mode);
+	_draw_create_confirm(mode);
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_create_class(Game *game, const int mode) -> void {
+auto Sorcery::UI::_display_create_class(const int mode) -> void {
 
-	_draw_components("create_class", game, mode);
-	_draw_create_class(game, mode);
+	_draw_components("create_class", mode);
+	_draw_create_class(mode);
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_create_race(Game *game, const int mode) -> void {
+auto Sorcery::UI::_display_create_race(const int mode) -> void {
 
-	_draw_components("create_race", game, mode);
-	_draw_create_race(game, mode);
+	_draw_components("create_race", mode);
+	_draw_create_race(mode);
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_create_name(Game *game, const int mode) -> void {
+auto Sorcery::UI::_display_create_name(const int mode) -> void {
 
-	_draw_components("create_name", game, mode);
-	_draw_create_name(game, mode);
+	_draw_components("create_name", mode);
+	_draw_create_name(mode);
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_draw_choose(Game *game, const int mode) -> void {
+auto Sorcery::UI::_draw_choose(const int mode) -> void {
 
 	if (mode & CHOOSE_MODE_STAY) {
 
 		auto cmp{components->get("choose:choose_stay")};
 		_draw_text(&cmp);
-		_draw_party_panel(game);
+		_draw_party_panel();
 	}
 }
 
-auto Sorcery::UI::_draw_level_up(Game *game, const int mode) -> void {
+auto Sorcery::UI::_draw_level_up(const int mode) -> void {
 
 	auto &character{
-		game->characters.at(_ctx.controller->get_character("restart"))};
+		_ctx.game->characters.at(_ctx.controller->get_character("restart"))};
 
 	if (mode & RECOVERY_BIRTHDAY) {
 
@@ -1901,11 +1887,11 @@ auto Sorcery::UI::_draw_level_up(Game *game, const int mode) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_pay_info(Game *game) -> void {
+auto Sorcery::UI::_draw_pay_info() -> void {
 
 	// Work out healing cost
 	const auto character{
-		game->characters.at(_ctx.controller->get_character("help"))};
+		_ctx.game->characters.at(_ctx.controller->get_character("help"))};
 	const auto cost(character.get_cure_cost());
 	const auto cost_text{std::format("{} {} {}",
 									 _ctx.get_string("PAY_COST_PREFIX"), cost,
@@ -1914,10 +1900,10 @@ auto Sorcery::UI::_draw_pay_info(Game *game) -> void {
 	_draw_text(&cmp, cost_text);
 }
 
-auto Sorcery::UI::_draw_no_level_up(Game *game, const int mode) -> void {
+auto Sorcery::UI::_draw_no_level_up(const int mode) -> void {
 
 	const auto character{
-		game->characters.at(_ctx.controller->get_character("stay"))};
+		_ctx.game->characters.at(_ctx.controller->get_character("stay"))};
 	const auto birth_text{_ctx.get_string("REST_BIRTHDAY_YOU")};
 	const auto needed{character.get_next_xp() - character.get_cur_xp()};
 	const auto need_text{std::format("{}{}{}", _ctx.get_string("REST_NEED_1_P"),
@@ -1946,7 +1932,7 @@ auto Sorcery::UI::_draw_no_level_up(Game *game, const int mode) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_heal([[maybe_unused]] Game *game, int stage) -> void {
+auto Sorcery::UI::_draw_heal(int stage) -> void {
 
 	auto cmp{components->get("heal:heal_status")};
 	auto text{""s};
@@ -1988,10 +1974,10 @@ auto Sorcery::UI::_draw_heal([[maybe_unused]] Game *game, int stage) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_recovery(Game *game, const int mode) -> void {
+auto Sorcery::UI::_draw_recovery(const int mode) -> void {
 
 	const auto character{
-		game->characters.at(_ctx.controller->get_character("stay"))};
+		_ctx.game->characters.at(_ctx.controller->get_character("stay"))};
 	if (mode & RECOVERY_MODE_FREE) {
 
 		auto cmp{components->get("recovery:recovery_napping")};
@@ -2023,10 +2009,10 @@ auto Sorcery::UI::_draw_recovery(Game *game, const int mode) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_stay(Game *game) -> void {
+auto Sorcery::UI::_draw_stay() -> void {
 
 	const auto character{
-		game->characters.at(_ctx.controller->get_character("stay"))};
+		_ctx.game->characters.at(_ctx.controller->get_character("stay"))};
 
 	auto cmp_welcome{components->get("stay:stay_welcome")};
 	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STAY_WELCOME_P"),
@@ -2041,12 +2027,11 @@ auto Sorcery::UI::_draw_stay(Game *game) -> void {
 	_draw_text(&cmp_gold, gold_text);
 }
 
-auto Sorcery::UI::_draw_current_character(Game *game,
-										  [[maybe_unused]] const int mode)
+auto Sorcery::UI::_draw_current_character([[maybe_unused]] const int mode)
 	-> void {
 
 	auto character{
-		game->characters.at(_ctx.controller->get_character("inspect"))};
+		_ctx.game->characters.at(_ctx.controller->get_character("inspect"))};
 
 	auto title{components->get("inspect:character_title")};
 	_draw_text(&title, character.summary_text());
@@ -2071,19 +2056,19 @@ auto Sorcery::UI::_draw_current_character(Game *game,
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			with_TabBar("character_tab_bar", tb_flags) {
 				with_TabItem("Info") {
-					_draw_character_summary(&char_cmp, game, &character);
+					_draw_character_summary(&char_cmp, &character);
 				}
 				with_TabItem("Stats##1") {
-					_draw_character_detailed(&char_cmp, game, &character);
+					_draw_character_detailed(&char_cmp, &character);
 				}
 				with_TabItem("Stats##2") {
-					_draw_character_detailed_again(&char_cmp, game, &character);
+					_draw_character_detailed_again(&char_cmp, &character);
 				}
 				with_TabItem("Arcane") {
-					_draw_character_mage_spells(&char_cmp, game, &character);
+					_draw_character_mage_spells(&char_cmp, &character);
 				}
 				with_TabItem("Divine") {
-					_draw_character_priest_spells(&char_cmp, game, &character);
+					_draw_character_priest_spells(&char_cmp, &character);
 				}
 			}
 		}
@@ -2293,7 +2278,7 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_components(std::string_view screen, Game *game,
+auto Sorcery::UI::_draw_components(std::string_view screen,
 								   [[maybe_unused]] const int mode) -> void {
 
 	_frames.clear();
@@ -2315,7 +2300,7 @@ auto Sorcery::UI::_draw_components(std::string_view screen, Game *game,
 		else if (c.type == PARAGRAPH)
 			_draw_paragraph(&c);
 		else if (c.type == MENU)
-			_draw_menu(&c, game);
+			_draw_menu(&c);
 	}
 }
 
@@ -2823,7 +2808,7 @@ auto Sorcery::UI::_draw_options() -> void {
 		}
 	}
 }
-auto Sorcery::UI::_draw_buffbar(Game *game) -> void {
+auto Sorcery::UI::_draw_buffbar() -> void {
 	auto cmp{components->get("engine_base_ui:buffbar")};
 	auto frame_cmp{components->get("engine_base_ui:buffbar_frame")};
 
@@ -2840,8 +2825,8 @@ auto Sorcery::UI::_draw_buffbar(Game *game) -> void {
 
 		_draw_frame(&frame_cmp);
 		ImGui::SetCursorPos(ImVec2{x, y});
-		const auto light_idx{game->state->get_lit() ? ICON_BUFF_EXTRA_LIGHT
-													: ICON_BUFF_LIGHT};
+		const auto light_idx{_ctx.game->state->get_lit() ? ICON_BUFF_EXTRA_LIGHT
+														 : ICON_BUFF_LIGHT};
 		_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, light_idx,
 								ImVec2{x, y}, ImVec2{width, height}, tint);
 
@@ -2851,7 +2836,7 @@ auto Sorcery::UI::_draw_buffbar(Game *game) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_icons([[maybe_unused]] Game *game) -> void {
+auto Sorcery::UI::_draw_icons() -> void {
 	auto cmp{components->get("engine_base_ui:icons")};
 	auto frame_cmp{components->get("engine_base_ui:icons_frame")};
 
@@ -2879,7 +2864,7 @@ auto Sorcery::UI::_draw_icons([[maybe_unused]] Game *game) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_save([[maybe_unused]] Game *game) -> void {
+auto Sorcery::UI::_draw_save() -> void {
 
 	auto cmp{components->get("engine_base_ui:save")};
 	auto frame_cmp{components->get("engine_base_ui:save_frame")};
@@ -2905,7 +2890,7 @@ auto Sorcery::UI::_draw_save([[maybe_unused]] Game *game) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_compass(Game *game) -> void {
+auto Sorcery::UI::_draw_compass() -> void {
 
 	auto cmp{components->get("engine_base_ui:compass")};
 	auto frame_cmp{components->get("engine_base_ui:compass_frame")};
@@ -2925,7 +2910,7 @@ auto Sorcery::UI::_draw_compass(Game *game) -> void {
 		ImGui::SetCursorPos(ImVec2{x, y});
 		with_Child("compass_child", ImVec2(width, height)) {
 			auto icon_idx{ICON_COMPASS_NORTH};
-			switch (game->state->get_player_facing()) {
+			switch (_ctx.game->state->get_player_facing()) {
 				using enum Enums::Map::Direction;
 			case NORTH:
 				icon_idx = ICON_COMPASS_NORTH;
@@ -2950,7 +2935,7 @@ auto Sorcery::UI::_draw_compass(Game *game) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_party_panel(Game *game) -> void {
+auto Sorcery::UI::_draw_party_panel() -> void {
 
 	auto cmp{components->get("global:party_panel")};
 	auto frame_cmp{components->get("engine_base_ui:party_frame")};
@@ -2976,12 +2961,12 @@ auto Sorcery::UI::_draw_party_panel(Game *game) -> void {
 						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 			ImGui::TextUnformatted(
 				_ctx.get_string("PARTY_PANEL_LEGEND").c_str());
-			if (game->state->get_party_size() > 0) {
+			if (_ctx.game->state->get_party_size() > 0) {
 				auto position{1u};
-				for (const auto party{game->state->get_party_characters()};
+				for (const auto party{_ctx.game->state->get_party_characters()};
 					 auto char_id : party) {
 					auto p_y{0 + (position * grid_sz)};
-					auto character{game->characters.at(char_id)};
+					auto character{_ctx.game->characters.at(char_id)};
 					auto colour{_get_status_color(&character)};
 					auto summary{character.get_party_panel_text(position)};
 					set_StyleColor(ImGuiCol_Text, colour);
@@ -3247,54 +3232,54 @@ auto Sorcery::UI::_display_compendium() -> void {
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_edge_of_town(Game *game) -> void {
+auto Sorcery::UI::_display_edge_of_town() -> void {
 	_draw_components("edge_of_town");
 	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
-	_draw_party_panel(game);
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_castle(Game *game) -> void {
+auto Sorcery::UI::_display_castle() -> void {
 	_draw_components("castle");
 	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
-	_draw_party_panel(game);
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_training_grounds(Game *game) -> void {
-	_draw_components("training_grounds", game);
+auto Sorcery::UI::_display_training_grounds() -> void {
+	_draw_components("training_grounds");
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_reorder(Game *game, const int mode) -> void {
-	_draw_components("reorder", game, mode);
+auto Sorcery::UI::_display_reorder(const int mode) -> void {
+	_draw_components("reorder", mode);
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_roster(Game *game, const int mode) -> void {
-	_draw_components("roster", game, mode);
+auto Sorcery::UI::_display_roster(const int mode) -> void {
+	_draw_components("roster", mode);
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_choose(Game *game, const int mode) -> void {
-	_draw_components("choose", game, mode);
-	_draw_choose(game, mode);
+auto Sorcery::UI::_display_choose(const int mode) -> void {
+	_draw_components("choose", mode);
+	_draw_choose(mode);
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_method(Game *game) -> void {
+auto Sorcery::UI::_display_method() -> void {
 
-	_draw_components("method", game);
+	_draw_components("method");
 	// input_name->display(_ctx.get_flag_ref("want_name"));
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_inspect(Game *game, const int mode) -> void {
+auto Sorcery::UI::_display_inspect(const int mode) -> void {
 
-	_draw_components("inspect", game, mode);
-	_draw_current_character(game, mode);
+	_draw_components("inspect", mode);
+	_draw_current_character(mode);
 	if (modal_identify->show)
 		modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	if (modal_drop->show)
@@ -3335,9 +3320,9 @@ auto Sorcery::UI::_display_museum() -> void {
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_inn(Game *game) -> void {
+auto Sorcery::UI::_display_inn() -> void {
 	_draw_components("inn");
-	_draw_party_panel(game);
+	_draw_party_panel();
 	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	modal_stay->display(_ctx.get_flag_ref("want_stay"));
 	modal_identify->display(_ctx.get_flag_ref("want_identify"));
@@ -3350,55 +3335,55 @@ auto Sorcery::UI::_display_inn(Game *game) -> void {
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_shop(Game *game) -> void {
+auto Sorcery::UI::_display_shop() -> void {
 	_draw_components("shop");
-	_draw_party_panel(game);
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_stay(Game *game) -> void {
+auto Sorcery::UI::_display_stay() -> void {
 	_draw_components("stay");
-	_draw_stay(game);
-	_draw_party_panel(game);
+	_draw_stay();
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_recovery(Game *game, const int mode) -> void {
+auto Sorcery::UI::_display_recovery(const int mode) -> void {
 	_draw_components("recovery");
-	_draw_recovery(game, mode);
-	_draw_party_panel(game);
+	_draw_recovery(mode);
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_heal(Game *game, int stage) -> void {
-	_draw_components("heal", game);
-	_draw_heal(game, stage);
-	_draw_party_panel(game);
+auto Sorcery::UI::_display_heal(int stage) -> void {
+	_draw_components("heal");
+	_draw_heal(stage);
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_no_level_up(Game *game, const int mode) -> void {
+auto Sorcery::UI::_display_no_level_up(const int mode) -> void {
 	_draw_components("nolevelup");
-	_draw_no_level_up(game, mode);
-	_draw_party_panel(game);
+	_draw_no_level_up(mode);
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_level_up(Game *game, const int mode) -> void {
+auto Sorcery::UI::_display_level_up(const int mode) -> void {
 
 	_draw_components("levelup");
-	_draw_level_up(game, mode);
-	_draw_party_panel(game);
+	_draw_level_up(mode);
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_tavern(Game *game) -> void {
+auto Sorcery::UI::_display_tavern() -> void {
 
 	_draw_components("tavern");
 	notice_divvy->display(_ctx.get_flag_ref("want_divvy_gold"));
@@ -3409,24 +3394,24 @@ auto Sorcery::UI::_display_tavern(Game *game) -> void {
 	modal_use->display(_ctx.get_flag_ref("want_use"));
 	modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
-	_draw_party_panel(game);
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_pay(Game *game) -> void {
+auto Sorcery::UI::_display_pay() -> void {
 
-	_draw_components("pay", game);
-	_draw_pay_info(game);
-	_draw_party_panel(game);
+	_draw_components("pay");
+	_draw_pay_info();
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_temple(Game *game) -> void {
+auto Sorcery::UI::_display_temple() -> void {
 
 	_draw_components("temple");
-	_draw_party_panel(game);
+	_draw_party_panel();
 	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	modal_help->display(_ctx.get_flag_ref("want_help"));
 	modal_tithe->display(_ctx.get_flag_ref("want_tithe"));
@@ -3444,18 +3429,18 @@ auto Sorcery::UI::_display_temple(Game *game) -> void {
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_remove(Game *game) -> void {
-	_draw_components("remove", game);
+auto Sorcery::UI::_display_remove() -> void {
+	_draw_components("remove");
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_restart(Game *game) -> void {
-	_draw_components("restart", game);
+auto Sorcery::UI::_display_restart() -> void {
+	_draw_components("restart");
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_add(Game *game) -> void {
-	_draw_components("add", game);
+auto Sorcery::UI::_display_add() -> void {
+	_draw_components("add");
 	_draw_cursor();
 }
 
@@ -3614,19 +3599,19 @@ auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 
 // Used by Modal (Popup) Menus
 auto Sorcery::UI::load_dynamic_menu_items(
-	Game *game, Controller *controller, std::string_view component,
-	[[maybe_unused]] const unsigned int width, std::vector<std::string> &items,
-	std::vector<int> &data, const bool reorder) -> void {
+	std::string_view component, [[maybe_unused]] const unsigned int width,
+	std::vector<std::string> &items, std::vector<int> &data, const bool reorder)
+	-> void {
 
-	auto load_party_characters = [](Controller *controller, Game *game,
+	auto load_party_characters = [](Context &ctx,
 									std::vector<std::string> &items,
 									std::vector<int> &data, const int flags,
 									const bool reorder) -> void {
-		const auto party{game->state->get_party_characters()};
+		const auto party{ctx.game->state->get_party_characters()};
 		if (!party.empty()) {
 			auto pos{1};
 			for (const auto &id : party) {
-				const auto &character{game->characters.at(id)};
+				const auto &character{ctx.game->characters.at(id)};
 				if (character.get_location() ==
 					Enums::Character::Location::PARTY) {
 					if (flags & MENU_SHOW_POSITION)
@@ -3642,19 +3627,18 @@ auto Sorcery::UI::load_dynamic_menu_items(
 							std::format("{:^21}", character.get_name()));
 					data.emplace_back(id);
 					if (reorder)
-						controller->add_to_candidate_party(id);
+						ctx.controller->add_to_candidate_party(id);
 					++pos;
 				}
 			}
 		}
 	};
 	auto load_maze_characters =
-		[]([[maybe_unused]] Controller *controller, Game *game,
-		   std::vector<std::string> &items, std::vector<int> &data,
-		   [[maybe_unused]] const int flags,
+		[]([[maybe_unused]] Context &ctx, std::vector<std::string> &items,
+		   std::vector<int> &data, [[maybe_unused]] const int flags,
 		   [[maybe_unused]] const bool reorder) -> void {
-		if (!game->characters.empty()) {
-			for (auto &[id, character] : game->characters) {
+		if (!ctx.game->characters.empty()) {
+			for (auto &[id, character] : ctx.game->characters) {
 				if (character.get_location() ==
 						Enums::Character::Location::MAZE &&
 					character.get_status() == Enums::Character::Status::OK) {
@@ -3666,12 +3650,11 @@ auto Sorcery::UI::load_dynamic_menu_items(
 		}
 	};
 	auto load_tavern_characters =
-		[]([[maybe_unused]] Controller *controller, Game *game,
-		   std::vector<std::string> &items, std::vector<int> &data,
-		   [[maybe_unused]] const int flags,
+		[]([[maybe_unused]] Context &ctx, std::vector<std::string> &items,
+		   std::vector<int> &data, [[maybe_unused]] const int flags,
 		   [[maybe_unused]] const bool reorder) -> void {
-		if (!game->characters.empty()) {
-			for (auto &[id, character] : game->characters) {
+		if (!ctx.game->characters.empty()) {
+			for (auto &[id, character] : ctx.game->characters) {
 				if (character.get_location() ==
 					Enums::Character::Location::TAVERN) {
 					items.emplace_back(
@@ -3682,12 +3665,11 @@ auto Sorcery::UI::load_dynamic_menu_items(
 		}
 	};
 	auto load_sick_characters =
-		[]([[maybe_unused]] Controller *controller, Game *game,
-		   std::vector<std::string> &items, std::vector<int> &data,
-		   [[maybe_unused]] const int flags,
+		[]([[maybe_unused]] Context &ctx, std::vector<std::string> &items,
+		   std::vector<int> &data, [[maybe_unused]] const int flags,
 		   [[maybe_unused]] const bool reorder) -> void {
-		if (!game->characters.empty()) {
-			for (auto &[id, character] : game->characters) {
+		if (!ctx.game->characters.empty()) {
+			for (auto &[id, character] : ctx.game->characters) {
 				using enum Enums::Character::Status;
 				if (character.get_status() == ASHES ||
 					character.get_status() == DEAD ||
@@ -3702,13 +3684,12 @@ auto Sorcery::UI::load_dynamic_menu_items(
 		}
 	};
 	auto load_character_items =
-		[]([[maybe_unused]] Controller *controller, Resources *resources,
-		   Game *game, std::vector<std::string> &items, std::vector<int> &data,
-		   [[maybe_unused]] const int flags) -> void {
-		if (!game->characters.empty()) {
-			if (controller->has_character("inspect")) {
-				auto character{
-					game->characters.at(controller->get_character("inspect"))};
+		[]([[maybe_unused]] Context &ctx, std::vector<std::string> &items,
+		   std::vector<int> &data, [[maybe_unused]] const int flags) -> void {
+		if (!ctx.game->characters.empty()) {
+			if (ctx.controller->has_character("inspect")) {
+				auto character{ctx.game->characters.at(
+					ctx.controller->get_character("inspect"))};
 				auto chance{character.abilities().at(
 					Enums::Character::Ability::IDENTIFY_ITEMS)};
 				auto slot{1u};
@@ -3739,7 +3720,7 @@ auto Sorcery::UI::load_dynamic_menu_items(
 						}
 					} else if (flags & MENU_USE_ITEM) {
 						if (item.get_known() && item.get_usable()) {
-							auto usage{resources->items
+							auto usage{ctx.resources->items
 										   ->get_item_type(item.get_type_id())
 										   .get_usage()};
 							if (usage.length() > 0)
@@ -3758,7 +3739,7 @@ auto Sorcery::UI::load_dynamic_menu_items(
 					} else if (flags & MENU_INVOKE_ITEM) {
 						if (item.get_known() && item.get_usable()) {
 							auto invokage{
-								resources->items
+								ctx.resources->items
 									->get_item_type(item.get_type_id())
 									.get_invokage()};
 							if (invokage.length() > 0)
@@ -3792,50 +3773,41 @@ auto Sorcery::UI::load_dynamic_menu_items(
 	// Handle special menu items (including those in Modals)
 	items.clear();
 	data.clear();
-	if (component == "roster_menu" && game != nullptr)
-		load_party_characters(controller, game, items, data, NO_FLAGS, reorder);
-	else if (component == "choose_menu" && game != nullptr)
-		load_party_characters(controller, game, items, data, NO_FLAGS, reorder);
-	else if (component == "inspect_menu" && game != nullptr)
-		load_party_characters(controller, game, items, data, NO_FLAGS, reorder);
-	else if (component == "remove_menu" && game != nullptr)
-		load_party_characters(controller, game, items, data, NO_FLAGS, reorder);
-	else if (component == "add_menu" && game != nullptr)
-		load_tavern_characters(controller, game, items, data, NO_FLAGS,
-							   reorder);
-	else if (component == "restart_menu" && game != nullptr)
-		load_maze_characters(controller, game, items, data, NO_FLAGS, reorder);
-	else if (component == "reorder_menu" && game != nullptr)
-		load_party_characters(controller, game, items, data, MENU_SHOW_POSITION,
-							  reorder);
-	else if (component == "modal_help" && game != nullptr)
-		load_sick_characters(controller, game, items, data, NO_FLAGS, reorder);
+	if (component == "roster_menu")
+		load_party_characters(_ctx, items, data, NO_FLAGS, reorder);
+	else if (component == "choose_menu")
+		load_party_characters(_ctx, items, data, NO_FLAGS, reorder);
+	else if (component == "inspect_menu")
+		load_party_characters(_ctx, items, data, NO_FLAGS, reorder);
+	else if (component == "remove_menu")
+		load_party_characters(_ctx, items, data, NO_FLAGS, reorder);
+	else if (component == "add_menu")
+		load_tavern_characters(_ctx, items, data, NO_FLAGS, reorder);
+	else if (component == "restart_menu")
+		load_maze_characters(_ctx, items, data, NO_FLAGS, reorder);
+	else if (component == "reorder_menu")
+		load_party_characters(_ctx, items, data, MENU_SHOW_POSITION, reorder);
+	else if (component == "modal_help")
+		load_sick_characters(_ctx, items, data, NO_FLAGS, reorder);
 
-	else if (component == "modal_tithe" && game != nullptr)
-		load_party_characters(controller, game, items, data, MENU_SHOW_GOLD,
-							  reorder);
-	else if (component == "pay_menu" && game != nullptr)
-		load_party_characters(controller, game, items, data, MENU_SHOW_GOLD,
-							  reorder);
-	else if (component == "modal_inspect" && game != nullptr)
-		load_party_characters(controller, game, items, data, NO_FLAGS, reorder);
-	else if (component == "modal_stay" && game != nullptr)
-		load_party_characters(controller, game, items, data, NO_FLAGS, reorder);
-	else if (component == "modal_identify" && game != nullptr)
-		load_character_items(controller, _ctx.resources, game, items, data,
-							 MENU_IDENTIFY_ITEM);
-	else if (component == "modal_drop" && game != nullptr)
-		load_character_items(controller, _ctx.resources, game, items, data,
-							 MENU_DROP_ITEM);
-	else if (component == "modal_trade" && game != nullptr)
-		load_character_items(controller, _ctx.resources, game, items, data,
-							 MENU_TRADE_ITEM);
-	else if (component == "modal_use" && game != nullptr)
-		load_character_items(controller, _ctx.resources, game, items, data,
-							 MENU_USE_ITEM);
-	else if (component == "modal_invoke" && game != nullptr)
-		load_character_items(controller, _ctx.resources, game, items, data,
-							 MENU_INVOKE_ITEM);
+	else if (component == "modal_tithe")
+		load_party_characters(_ctx, items, data, MENU_SHOW_GOLD, reorder);
+	else if (component == "pay_menu")
+		load_party_characters(_ctx, items, data, MENU_SHOW_GOLD, reorder);
+	else if (component == "modal_inspect")
+		load_party_characters(_ctx, items, data, NO_FLAGS, reorder);
+	else if (component == "modal_stay")
+		load_party_characters(_ctx, items, data, NO_FLAGS, reorder);
+	else if (component == "modal_identify")
+		load_character_items(_ctx, items, data, MENU_IDENTIFY_ITEM);
+	else if (component == "modal_drop")
+		load_character_items(_ctx, items, data, MENU_DROP_ITEM);
+	else if (component == "modal_trade")
+		load_character_items(_ctx, items, data, MENU_TRADE_ITEM);
+	else if (component == "modal_use")
+		load_character_items(_ctx, items, data, MENU_USE_ITEM);
+	else if (component == "modal_invoke")
+		load_character_items(_ctx, items, data, MENU_INVOKE_ITEM);
 
 	// Note that modal_camp only has fixed items and thus isn't handled here
 }

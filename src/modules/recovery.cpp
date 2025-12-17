@@ -143,7 +143,7 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 				return BACK_TO_STAY;
 		}
 
-		_ctx.ui->display("recovery", _ctx.game, mode);
+		_ctx.ui->display("recovery", mode);
 
 		if (_character->mode == -1)
 			_ctx.controller->set_flag("recuperating_finished");

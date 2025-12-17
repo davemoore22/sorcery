@@ -68,7 +68,7 @@ auto Sorcery::Roster::start(const int mode) -> int {
 				return BACK_FROM_ROSTER;
 		}
 
-		_ctx.ui->display("roster", _ctx.game, mode);
+		_ctx.ui->display("roster", mode);
 
 		if (!_ctx.controller->has_flag("show_roster"))
 			return BACK_FROM_ROSTER;

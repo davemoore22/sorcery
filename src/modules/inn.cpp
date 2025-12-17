@@ -59,13 +59,13 @@ auto Sorcery::Inn::start() -> int {
 	_ctx.controller->move_screen("show_castle", "show_inn");
 
 	// Need this before accessing modal_inspect!
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_inspect");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_stay");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_identify");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_drop");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_trade");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_use");
-	_ctx.ui->create_dynamic_modal(_ctx.game, "modal_invoke");
+	_ctx.ui->create_dynamic_modal("modal_inspect");
+	_ctx.ui->create_dynamic_modal("modal_stay");
+	_ctx.ui->create_dynamic_modal("modal_identify");
+	_ctx.ui->create_dynamic_modal("modal_drop");
+	_ctx.ui->create_dynamic_modal("modal_trade");
+	_ctx.ui->create_dynamic_modal("modal_use");
+	_ctx.ui->create_dynamic_modal("modal_invoke");
 	_ctx.ui->modal_inspect->show = false;
 	_ctx.ui->modal_stay->show = false;
 	_ctx.ui->modal_identify->show = false;
