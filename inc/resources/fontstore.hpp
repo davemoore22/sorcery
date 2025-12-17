@@ -30,7 +30,7 @@
 
 namespace Sorcery {
 
-class System;
+struct Context;
 
 struct FontInfo {
 		std::string name;
@@ -42,7 +42,7 @@ struct FontInfo {
 
 class FontStore {
 	public:
-		FontStore(System *system, ImGuiIO &io);
+		FontStore(Context &ctx, ImGuiIO &io);
 
 		auto scan_and_load(const std::string &directory,
 						   float font_size = 16.0f) -> void;
@@ -60,7 +60,7 @@ class FontStore {
 		auto get_all_monospace_fonts() const -> const std::vector<FontInfo>;
 
 	private:
-		System *_system;
+		Context &_ctx;
 		ImGuiIO &_io;
 		std::vector<FontInfo> fonts;
 		std::map<Enums::Layout::Font, ImFont *> current_fonts;

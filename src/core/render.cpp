@@ -22,6 +22,7 @@
 
 #include "core/render.hpp"
 #include "core/animation.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/system.hpp"
@@ -32,9 +33,8 @@
 #include "types/tile.hpp"
 
 // Standard Constructor
-Sorcery::Render::Render(System *system, UI *ui)
-	: _system{system},
-	  _ui{ui} {
+Sorcery::Render::Render(Context &ctx)
+	: _ctx{ctx} {
 
 	_monochrome = false;
 	_source_size = ImVec2{912.0f * 4, 880.0f * 4};
@@ -137,7 +137,7 @@ auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1,
 										ImVec2 p2, ImVec2 p3, ImVec2 p4)
 	-> void {
 
-	ImVec4 colour{1.0f, 1.0f, 1.0f, _system->animation->fade};
+	ImVec4 colour{1.0f, 1.0f, 1.0f, _ctx.animation->fade};
 
 	// As we resized up the view, we resize it here too
 	auto scale{4};
@@ -157,7 +157,7 @@ auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1,
 										ImVec2 p2, ImVec2 p3, ImVec2 p4,
 										const ImVec4 colour) -> void {
 
-	auto col{_monochrome ? ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade}
+	auto col{_monochrome ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
 						 : colour};
 
 	// As we resized up the view, we resize it here too
@@ -182,12 +182,12 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		}
 	}
 
-	ImVec4 monochrome_colour{1.0f, 1.0f, 1.0f, _system->animation->fade};
-	ImVec4 floor_colour{0.33f, 1.0f, 1.0f, _system->animation->fade};
-	ImVec4 ceiling_colour{1.0f, 0.33f, 0.33f, _system->animation->fade};
-	ImVec4 stairs_colour{1.0f, 0.33f, 0.33f, _system->animation->fade};
-	ImVec4 elevator_colour{1.0f, 0.33f, 0.33f, _system->animation->fade};
-	ImVec4 darkness_colour{0.33f, 1.0f, 1.0f, _system->animation->fade};
+	ImVec4 monochrome_colour{1.0f, 1.0f, 1.0f, _ctx.animation->fade};
+	ImVec4 floor_colour{0.33f, 1.0f, 1.0f, _ctx.animation->fade};
+	ImVec4 ceiling_colour{1.0f, 0.33f, 0.33f, _ctx.animation->fade};
+	ImVec4 stairs_colour{1.0f, 0.33f, 0.33f, _ctx.animation->fade};
+	ImVec4 elevator_colour{1.0f, 0.33f, 0.33f, _ctx.animation->fade};
+	ImVec4 darkness_colour{0.33f, 1.0f, 1.0f, _ctx.animation->fade};
 
 	//  FLOORS/CEILINGS				SIDE DARKNESS			SIDE DOORS
 	//	FRONT DARKNESS				SIDE WALLS				FRONT DOORS z =
@@ -1094,5 +1094,5 @@ auto Sorcery::Render::_draw_vertex_array(const VertexArray &array,
 	adjusted.data[1].colour = array.data[1].colour;
 	adjusted.data[2].colour = array.data[2].colour;
 	adjusted.data[3].colour = array.data[3].colour;
-	_ui->draw_view_image(WIREFRAME_TEXTURE, adjusted);
+	_ctx.ui->draw_view_image(WIREFRAME_TEXTURE, adjusted);
 }

@@ -57,7 +57,7 @@ Sorcery::UI::UI(Context &ctx)
 
 	// Storage
 	components = std::make_unique<ComponentStore>(_ctx.get_file(LAYOUT_FILE));
-	images = std::make_unique<ImageStore>(_ctx.system);
+	images = std::make_unique<ImageStore>(_ctx);
 
 	// Can't create fontstore just yet as it needs IMGUI initialised
 
@@ -146,7 +146,7 @@ Sorcery::UI::UI(Context &ctx)
 	ui_rd = std::stoi(_ctx.get_config("UI", "rounding"));
 
 	// Render window
-	_render = std::make_unique<Render>(_ctx.system, this);
+	_render = std::make_unique<Render>(_ctx);
 
 	// Ticks
 	ticks = SDL_GetTicks();
@@ -462,7 +462,7 @@ auto Sorcery::UI::start() -> void {
 		set_fullscreen(false);
 
 	// Can create the fontstore now which loads the fonts
-	fontstore = std::make_unique<FontStore>(_ctx.system, _io);
+	fontstore = std::make_unique<FontStore>(_ctx, _io);
 	ui_colour = ImVec4{std::stof(_ctx.get_config("Frame", "colour_red")),
 					   std::stof(_ctx.get_config("Frame", "colour_green")),
 					   std::stof(_ctx.get_config("Frame", "colour_blue")), 1.0};

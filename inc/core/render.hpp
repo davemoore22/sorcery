@@ -36,14 +36,12 @@ class Component;
 class Tile;
 class TileView;
 class Game;
-class UI;
-class System;
 
 class Render {
 
 	public:
 		// Constructors
-		Render(System *system, UI *ui);
+		Render(Context &ctx);
 		~Render();
 
 		// Public Methods
@@ -53,8 +51,7 @@ class Render {
 
 	private:
 		// Private Members
-		System *_system;
-		UI *_ui;
+		Context &_ctx;
 		bool _loaded;
 		unsigned int _depth;
 		unsigned int _width;

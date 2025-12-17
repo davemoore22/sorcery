@@ -21,7 +21,9 @@
 // the resulting work.
 
 #include "resources/fontstore.hpp"
+#include "core/context.hpp"
 #include "core/system.hpp"
+#include "resources/define.hpp"
 #include "types/config.hpp"
 
 #pragma GCC diagnostic push
@@ -31,12 +33,12 @@
 #include "stb/stb_truetype.h"
 #pragma GCC diagnostic pop
 
-Sorcery::FontStore::FontStore(System *system, ImGuiIO &io)
-	: _system(system),
+Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO &io)
+	: _ctx(ctx),
 	  _io(io) {
 
 	// Get the Font Size from config
-	auto font_size{std::stof(_system->config->get("Font", "size"))};
+	auto font_size{std::stof(_ctx.get_config("Font", "size"))};
 
 	// Now scan the data directory for TTF fonts
 	const std::filesystem::path file_path{DATA_DIR};

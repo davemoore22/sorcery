@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "resources/imagestore.hpp"
+#include "core/context.hpp"
 #include "core/system.hpp"
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
@@ -33,8 +34,8 @@
 #include "stb/stb_image.h"
 #pragma GCC diagnostic pop
 
-Sorcery::ImageStore::ImageStore(System *system)
-	: _system{system} {
+Sorcery::ImageStore::ImageStore(Context &ctx)
+	: _ctx{ctx} {
 
 	_initialise();
 }
@@ -99,8 +100,8 @@ auto Sorcery::ImageStore::_load_image(const std::string file) -> bool {
 
 		// If not loaded, load the image
 		Image image{};
-		_load_texture_from_disc(_system->files->get(file).c_str(),
-								&image.texture, &image.width, &image.height);
+		_load_texture_from_disc(_ctx.get_file(file).c_str(), &image.texture,
+								&image.width, &image.height);
 		_images.try_emplace(file, image);
 		_loaded[file] = true;
 		++progress;

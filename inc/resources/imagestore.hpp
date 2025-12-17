@@ -27,13 +27,13 @@
 
 namespace Sorcery {
 
-class System;
+struct Context;
 class Image;
 
 class ImageStore {
 
 	public:
-		ImageStore(System *system);
+		ImageStore(Context &ctx);
 
 		auto get(const std::string file) -> Image;
 		auto has_loaded(const std::string file) -> bool;
@@ -51,7 +51,7 @@ class ImageStore {
 									 int *out_width, int *out_height) -> bool;
 		auto _load_image(const std::string key) -> bool;
 
-		System *_system;
+		Context &_ctx;
 		std::map<std::string, Image> _images;
 		std::map<std::string, bool> _loaded;
 		std::vector<std::string> _sources;
