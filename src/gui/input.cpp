@@ -44,7 +44,7 @@ Sorcery::Input::Input(System *system, UI *ui, Controller *controller,
 	_height = _component.h;
 	_colour = _component.colour;
 	_bg_colour = _component.background;
-	_hi_colour = std::stof(_component.get("highlight").value());
+	_hi_colour = _component.get_float("highlight");
 	_font = _component.font;
 	_title = _system->strings->get(_component.string_key);
 	_input = "";

@@ -34,6 +34,7 @@
 namespace Sorcery {
 
 // Forward Declarations
+struct Context;
 class System;
 class Resources;
 
@@ -42,10 +43,10 @@ class Character {
 	public:
 		// Constructors
 		Character();
-		Character(System *system, Resources *resources);
+		Character(Context *ctx);
 
 		// Destructor
-		~Character() = default;
+		~Character();
 
 		// Overloaded Operators
 		auto operator[](const Enums::Character::Ability &key) -> int &;
@@ -63,7 +64,7 @@ class Character {
 		}
 
 		// Public Methods
-		auto post_construct(System *system, Resources *resources) -> void;
+		auto post_construct(Context *ctx) -> void;
 		auto reset(const Enums::Character::Stage stage) -> void;
 		auto get_stage() const -> Enums::Character::Stage;
 		auto set_stage(const Enums::Character::Stage stage) -> void;
@@ -220,11 +221,9 @@ class Character {
 					 // was fatal
 		auto _heal(const unsigned int adjustment) -> void;
 
-		// Private Members
+		// Private
+		Context *_ctx;
 		int _version;
-
-		System *_system;
-		Resources *_resources;
 		std::map<Enums::Character::Ability, int> _abilities;
 		std::map<unsigned int, unsigned int> _priest_max_sp;
 		std::map<unsigned int, unsigned int> _priest_cur_sp;

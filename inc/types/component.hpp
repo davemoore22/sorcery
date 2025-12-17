@@ -56,6 +56,10 @@ class Component {
 		auto get_visible() const -> bool;
 		auto id() const -> long;
 
+		auto get_int(std::string_view key, int fallback = 0) const -> int;
+		auto get_float(std::string_view key, float fallback = 0.0f) const
+			-> float;
+
 		std::string form;
 		std::string name;
 		int x;

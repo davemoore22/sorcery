@@ -31,10 +31,11 @@
 
 Sorcery::Character::Character() {}
 
+Sorcery::Character::~Character() {}
+
 // Standard Constructor
-Sorcery::Character::Character(System *system, Resources *resources)
-	: _system{system},
-	  _resources{resources} {
+Sorcery::Character::Character(Context *ctx)
+	: _ctx{ctx} {
 
 	set_stage(Enums::Character::Stage::CHOOSE_METHOD);
 
@@ -336,9 +337,9 @@ auto Sorcery::Character::set_start_attr() -> void {
 
 	// Formula sourced from http://www.zimlab.com/wizardry/walk/w123calc.htm
 	using enum Enums::System::Random;
-	_points_left = _system->ctx->get_random(ZERO_TO_3);
-	const bool chance_of_more{_system->ctx->get_random(D10) == 1};
-	const bool chance_of_more_again{_system->ctx->get_random(D10) == 1};
+	_points_left = _ctx->get_random(ZERO_TO_3);
+	const bool chance_of_more{_ctx->get_random(D10) == 1};
+	const bool chance_of_more_again{_ctx->get_random(D10) == 1};
 	_points_left += 7;
 	if (_points_left < 20)
 		if (chance_of_more)
@@ -458,9 +459,9 @@ auto Sorcery::Character::alignment_to_str(
 	Enums::Character::Align character_alignment) const -> std::string {
 
 	static const std::array<std::string, 4> alignments{
-		"", _system->ctx->get_string("CHARACTER_ALIGNMENT_GOOD"),
-		_system->ctx->get_string("CHARACTER_ALIGNMENT_NEUTRAL"),
-		_system->ctx->get_string("CHARACTER_ALIGNMENT_EVIL")};
+		"", _ctx->get_string("CHARACTER_ALIGNMENT_GOOD"),
+		_ctx->get_string("CHARACTER_ALIGNMENT_NEUTRAL"),
+		_ctx->get_string("CHARACTER_ALIGNMENT_EVIL")};
 
 	return alignments[unenum(character_alignment)];
 }
@@ -470,11 +471,11 @@ auto Sorcery::Character::race_to_str(
 
 	static const std::array<std::string, 6> races{
 		"",
-		_system->ctx->get_string("CHARACTER_RACE_HUMAN"),
-		_system->ctx->get_string("CHARACTER_RACE_ELF"),
-		_system->ctx->get_string("CHARACTER_RACE_DWARF"),
-		_system->ctx->get_string("CHARACTER_RACE_GNOME"),
-		_system->ctx->get_string("CHARACTER_RACE_HOBBIT")};
+		_ctx->get_string("CHARACTER_RACE_HUMAN"),
+		_ctx->get_string("CHARACTER_RACE_ELF"),
+		_ctx->get_string("CHARACTER_RACE_DWARF"),
+		_ctx->get_string("CHARACTER_RACE_GNOME"),
+		_ctx->get_string("CHARACTER_RACE_HOBBIT")};
 
 	return races[unenum(character_race)];
 }
@@ -484,14 +485,14 @@ auto Sorcery::Character::class_to_str(
 
 	static const std::array<std::string, 10> classes{
 		"",
-		_system->ctx->get_string("CHARACTER_CLASS_FIGHTER"),
-		_system->ctx->get_string("CHARACTER_CLASS_MAGE"),
-		_system->ctx->get_string("CHARACTER_CLASS_PRIEST"),
-		_system->ctx->get_string("CHARACTER_CLASS_THIEF"),
-		_system->ctx->get_string("CHARACTER_CLASS_BISHOP"),
-		_system->ctx->get_string("CHARACTER_CLASS_SAMURAI"),
-		_system->ctx->get_string("CHARACTER_CLASS_LORD"),
-		_system->ctx->get_string("CHARACTER_CLASS_NINJA")};
+		_ctx->get_string("CHARACTER_CLASS_FIGHTER"),
+		_ctx->get_string("CHARACTER_CLASS_MAGE"),
+		_ctx->get_string("CHARACTER_CLASS_PRIEST"),
+		_ctx->get_string("CHARACTER_CLASS_THIEF"),
+		_ctx->get_string("CHARACTER_CLASS_BISHOP"),
+		_ctx->get_string("CHARACTER_CLASS_SAMURAI"),
+		_ctx->get_string("CHARACTER_CLASS_LORD"),
+		_ctx->get_string("CHARACTER_CLASS_NINJA")};
 
 	return classes[unenum(character_class)];
 }
@@ -548,12 +549,12 @@ auto Sorcery::Character::_legate_start_info() -> void {
 	// (D7 - 4) is -3 to +3
 	using enum Enums::Character::Attribute;
 	using enum Enums::System::Random;
-	_start_attr[STRENGTH] += (_system->ctx->get_random(D7) - 4);
-	_start_attr[IQ] += (_system->ctx->get_random(D7) - 4);
-	_start_attr[PIETY] += (_system->ctx->get_random(D7) - 4);
-	_start_attr[VITALITY] += (_system->ctx->get_random(D7) - 4);
-	_start_attr[AGILITY] += (_system->ctx->get_random(D7) - 4);
-	_start_attr[LUCK] += (_system->ctx->get_random(D7) - 4);
+	_start_attr[STRENGTH] += (_ctx->get_random(D7) - 4);
+	_start_attr[IQ] += (_ctx->get_random(D7) - 4);
+	_start_attr[PIETY] += (_ctx->get_random(D7) - 4);
+	_start_attr[VITALITY] += (_ctx->get_random(D7) - 4);
+	_start_attr[AGILITY] += (_ctx->get_random(D7) - 4);
+	_start_attr[LUCK] += (_ctx->get_random(D7) - 4);
 
 	auto mage_sp_total{0};
 	for (auto level = 1; level <= 7; level++)
@@ -621,7 +622,7 @@ auto Sorcery::Character::_regenerate_start_info() -> void {
 
 	// https://datadrivengamer.blogspot.com/2019/08/the-not-so-basic-mechanics-of-wizardry.html
 	auto age_increment{
-		(52 * (3 + _system->ctx->get_random(Enums::System::Random::D3))) + 44};
+		(52 * (3 + _ctx->get_random(Enums::System::Random::D3))) + 44};
 	_abilities[AGE] += age_increment;
 
 	// Reset attributes to racial minimums
@@ -708,8 +709,8 @@ auto Sorcery::Character::_generate_start_info() -> void {
 	_abilities[MAX_LEVEL] = 1;
 	_abilities[NEGATIVE_LEVEL] = 0;
 	_abilities[HIT_DICE] = 1;
-	_abilities[GOLD] = _system->ctx->get_random(ZERO_TO_99) + 90;
-	_abilities[AGE] = (18 * 52) + _system->ctx->get_random(ZERO_TO_299);
+	_abilities[GOLD] = _ctx->get_random(ZERO_TO_99) + 90;
+	_abilities[AGE] = (18 * 52) + _ctx->get_random(ZERO_TO_299);
 	_abilities[SWIM] = 1;
 	_abilities[MARKS] = 0;
 	_abilities[DEATHS] = 0;
@@ -887,7 +888,7 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial,
 		if (initial) {
 			const auto bonus{_abilities[BONUS_HIT_POINTS]};
 			using enum Enums::System::Random;
-			switch (auto chance{_system->ctx->get_random(D100)};
+			switch (auto chance{_ctx->get_random(D100)};
 					_class) { // NOLINT(clang-diagnostic-switch)
 			case FIGHTER:
 			case LORD:
@@ -1236,7 +1237,7 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 		using enum Enums::Character::Class;
 		using enum Enums::Config::Options;
 	case PRIEST:
-		_priest_max_sp[1] = _system->ctx->get_config(STRICT_MODE)
+		_priest_max_sp[1] = _ctx->get_config(STRICT_MODE)
 								? 2
 								: 2 + _abilities[BONUS_PRIEST_SPELLS];
 		break;
@@ -1244,7 +1245,7 @@ auto Sorcery::Character::_set_starting_sp() -> void {
 		_mage_max_sp[1] = 2;
 		break;
 	case MAGE:
-		_mage_max_sp[1] = _system->ctx->get_config(STRICT_MODE)
+		_mage_max_sp[1] = _ctx->get_config(STRICT_MODE)
 							  ? 2
 							  : 2 + _abilities[BONUS_MAGE_SPELLS];
 		break;
@@ -1319,22 +1320,22 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 		using enum Enums::System::Random;
 	case FIGHTER:
 	case LORD:
-		extra_hp += _system->ctx->get_random(D10);
+		extra_hp += _ctx->get_random(D10);
 		break;
 	case PRIEST:
-		extra_hp += _system->ctx->get_random(D8);
+		extra_hp += _ctx->get_random(D8);
 		break;
 	case THIEF:
 	case BISHOP:
 	case NINJA:
-		extra_hp += _system->ctx->get_random(D6);
+		extra_hp += _ctx->get_random(D6);
 		break;
 	case MAGE:
-		extra_hp += _system->ctx->get_random(D4);
+		extra_hp += _ctx->get_random(D4);
 		break;
 	case SAMURAI:
-		extra_hp += _system->ctx->get_random(D8);
-		extra_hp += _system->ctx->get_random(D8);
+		extra_hp += _ctx->get_random(D8);
+		extra_hp += _ctx->get_random(D8);
 		break;
 	default:
 		break;
@@ -1349,10 +1350,9 @@ auto Sorcery::Character::_get_hp_per_level() -> int {
 	return extra_hp;
 }
 
-auto Sorcery::Character::post_construct(System *system, Resources *resources)
-	-> void {
-	_system = system;
-	_resources = resources;
+auto Sorcery::Character::post_construct(Context *ctx) -> void {
+
+	_ctx = ctx;
 }
 
 // Add hit points on level gain (but note the strict mode limitation mentioned
@@ -1363,7 +1363,7 @@ auto Sorcery::Character::_update_hp_for_level() -> int {
 	// MaxLevel achieved when in strict mode
 	using enum Enums::Character::Ability;
 	auto hp_gained{0};
-	if (_system->ctx->get_config(Enums::Config::LEVEL_REROLL_HP)) {
+	if (_ctx->get_config(Enums::Config::LEVEL_REROLL_HP)) {
 		auto hp_total{0};
 		for (auto level = 1; level < _abilities[CURRENT_LEVEL]; level++)
 			hp_total += _get_hp_per_level();
@@ -1396,20 +1396,19 @@ auto Sorcery::Character::_update_stat_for_level(
 
 	auto message{""s};
 	using enum Enums::System::Random;
-	if (_system->ctx->get_random(D100) < 75) {
+	if (_ctx->get_random(D100) < 75) {
 		const auto chance{_abilities.at(Enums::Character::Ability::AGE) /
 						  130.f};
-		if (_system->ctx->get_random(D100) < chance) {
+		if (_ctx->get_random(D100) < chance) {
 			// Decrease
 			bool proceed{true};
-			if (_cur_attr.at(attribute) == 18 &&
-				_system->ctx->get_random(D6) > 1)
+			if (_cur_attr.at(attribute) == 18 && _ctx->get_random(D6) > 1)
 				proceed = false;
 
 			if (proceed) {
 				_cur_attr.at(attribute) = _cur_attr.at(attribute) - 1;
-				message = std::format(
-					"{} {}", _system->ctx->get_string("LEVEL_LOSS"), stat);
+				message =
+					std::format("{} {}", _ctx->get_string("LEVEL_LOSS"), stat);
 				if (_cur_attr.at(attribute) < 1)
 					_cur_attr.at(attribute) = 1;
 			}
@@ -1418,8 +1417,8 @@ auto Sorcery::Character::_update_stat_for_level(
 				_cur_attr.at(attribute) = _cur_attr.at(attribute) + 1;
 				if (_cur_attr.at(attribute) > _max_attr.at(attribute))
 					_max_attr.at(attribute) = _cur_attr.at(attribute);
-				message = std::format(
-					"{} {}", _system->ctx->get_string("LEVEL_GAIN"), stat);
+				message =
+					std::format("{} {}", _ctx->get_string("LEVEL_GAIN"), stat);
 			}
 		}
 	}
@@ -1434,7 +1433,7 @@ auto Sorcery::Character::_update_stat_for_level(
 auto Sorcery::Character::level_up() -> void {
 
 	level_up_results.clear();
-	level_up_results.emplace_back(_system->ctx->get_string("LEVEL_DING"));
+	level_up_results.emplace_back(_ctx->get_string("LEVEL_DING"));
 
 	// Increase level
 	using enum Enums::Character::Ability;
@@ -1445,7 +1444,7 @@ auto Sorcery::Character::level_up() -> void {
 
 	// Handle learning spells
 	if (_set_sp())
-		level_up_results.emplace_back(_system->ctx->get_string("LEVEL_SPELLS"));
+		level_up_results.emplace_back(_ctx->get_string("LEVEL_SPELLS"));
 
 	// Work out new xp needed
 	_abilities[NEXT_LEVEL_XP] = _get_xp_for_level(_abilities[CURRENT_LEVEL]);
@@ -1454,27 +1453,27 @@ auto Sorcery::Character::level_up() -> void {
 	auto stat_message{""s};
 	using enum Enums::Character::Attribute;
 	stat_message = _update_stat_for_level(
-		STRENGTH, _system->ctx->get_string("CHARACTER_STAT_STRENGTH"));
+		STRENGTH, _ctx->get_string("CHARACTER_STAT_STRENGTH"));
 	if (!stat_message.empty())
 		level_up_results.emplace_back(stat_message);
 	stat_message = _update_stat_for_level(
-		IQ, _system->ctx->get_string("CHARACTER_STAT_INTELLIGENCE"));
+		IQ, _ctx->get_string("CHARACTER_STAT_INTELLIGENCE"));
+	if (!stat_message.empty())
+		level_up_results.emplace_back(stat_message);
+	stat_message =
+		_update_stat_for_level(PIETY, _ctx->get_string("CHARACTER_STAT_PIETY"));
 	if (!stat_message.empty())
 		level_up_results.emplace_back(stat_message);
 	stat_message = _update_stat_for_level(
-		PIETY, _system->ctx->get_string("CHARACTER_STAT_PIETY"));
+		VITALITY, _ctx->get_string("CHARACTER_STAT_VITALITY"));
 	if (!stat_message.empty())
 		level_up_results.emplace_back(stat_message);
 	stat_message = _update_stat_for_level(
-		VITALITY, _system->ctx->get_string("CHARACTER_STAT_VITALITY"));
+		AGILITY, _ctx->get_string("CHARACTER_STAT_AGILITY"));
 	if (!stat_message.empty())
 		level_up_results.emplace_back(stat_message);
-	stat_message = _update_stat_for_level(
-		AGILITY, _system->ctx->get_string("CHARACTER_STAT_AGILITY"));
-	if (!stat_message.empty())
-		level_up_results.emplace_back(stat_message);
-	stat_message = _update_stat_for_level(
-		LUCK, _system->ctx->get_string("CHARACTER_STAT_LUCK"));
+	stat_message =
+		_update_stat_for_level(LUCK, _ctx->get_string("CHARACTER_STAT_LUCK"));
 	if (!stat_message.empty())
 		level_up_results.emplace_back(stat_message);
 
@@ -1484,12 +1483,12 @@ auto Sorcery::Character::level_up() -> void {
 	// handle hp
 	const auto hp_gained{_update_hp_for_level()};
 	const auto hp_message{
-		std::format("{} {} {}", _system->ctx->get_string("LEVEL_HP_PREFIX"),
-					hp_gained, _system->ctx->get_string("LEVEL_HP_SUFFIX"))};
+		std::format("{} {} {}", _ctx->get_string("LEVEL_HP_PREFIX"), hp_gained,
+					_ctx->get_string("LEVEL_HP_SUFFIX"))};
 	level_up_results.emplace_back(hp_message);
 
 	if (_cur_attr.at(VITALITY) < 3) {
-		level_up_results.emplace_back(_system->ctx->get_string("LEVEL_DIE"));
+		level_up_results.emplace_back(_ctx->get_string("LEVEL_DIE"));
 		_status = Enums::Character::Status::LOST;
 		_location = Enums::Character::Location::TRAINING;
 	}
@@ -1555,8 +1554,7 @@ auto Sorcery::Character::_try_learn_spell(Enums::Magic::SpellType spell_type,
 					 })};
 		 auto &spell : spells) {
 
-		const auto dice{
-			_system->ctx->get_random(Enums::System::Random::ZERO_TO_29)};
+		const auto dice{_ctx->get_random(Enums::System::Random::ZERO_TO_29)};
 
 		// Check the Spell Type against the relevant stat (see
 		// SPLPERLV//TRYLEARN)
@@ -1681,7 +1679,7 @@ auto Sorcery::Character::_set_sp() -> bool {
 				new_spells_learnt = true;
 				break;
 			case 3:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(DIALKO);
 				else
 					_learn_spell(LOMILWA);
@@ -1692,14 +1690,14 @@ auto Sorcery::Character::_set_sp() -> bool {
 				new_spells_learnt = true;
 				break;
 			case 5:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(BADIALMA);
 				else
 					_learn_spell(BADI);
 				new_spells_learnt = true;
 				break;
 			case 6:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(LORTO);
 				else
 					_learn_spell(MABADI);
@@ -1717,42 +1715,42 @@ auto Sorcery::Character::_set_sp() -> bool {
 			_get_spells_known(ARCANE, spell_level) == 0) {
 			switch (spell_level) {
 			case 1:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(KATINO);
 				else
 					_learn_spell(HALITO);
 				new_spells_learnt = true;
 				break;
 			case 2:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(DILTO);
 				else
 					_learn_spell(SOPIC);
 				new_spells_learnt = true;
 				break;
 			case 3:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(MOLITO);
 				else
 					_learn_spell(MAHALITO);
 				new_spells_learnt = true;
 				break;
 			case 4:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(DALTO);
 				else
 					_learn_spell(LAHALITO);
 				new_spells_learnt = true;
 				break;
 			case 5:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(MAMORLIS);
 				else
 					_learn_spell(MADALTO);
 				new_spells_learnt = true;
 				break;
 			case 6:
-				if (_system->ctx->get_random(D100) > 33)
+				if (_ctx->get_random(D100) > 33)
 					_learn_spell(LAKANITO);
 				else
 					_learn_spell(ZILWAN);
@@ -1865,7 +1863,7 @@ auto Sorcery::Character::set_spells() -> void {
 auto Sorcery::Character::create_spells() -> void {
 
 	_spells.clear();
-	_spells = _resources->spells->get_all();
+	_spells = _ctx->resources->spells->get_all();
 }
 
 auto Sorcery::Character::reset_spells() -> void {
@@ -1889,7 +1887,7 @@ auto Sorcery::Character::create_class_alignment(
 
 	_class = cclass;
 	_race = static_cast<Enums::Character::Race>(
-		_system->ctx->get_random(Enums::System::Random::D5));
+		_ctx->get_random(Enums::System::Random::D5));
 	_alignment = alignment;
 
 	switch (_race) { // NOLINT(clang-diagnostic-switch)
@@ -1962,9 +1960,8 @@ auto Sorcery::Character::create_class_alignment(
 
 	_cur_attr = _start_attr;
 
-	_name = _system->random->get_random_name();
-	_portrait_index =
-		_system->ctx->get_random(Enums::System::Random::ZERO_TO_29);
+	_name = _ctx->random->get_random_name();
+	_portrait_index = _ctx->get_random(Enums::System::Random::ZERO_TO_29);
 }
 
 // Enter Name and Portrait, rest is random
@@ -1972,21 +1969,20 @@ auto Sorcery::Character::create_quick() -> void {
 
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
 	using enum Enums::System::Random;
-	_class = static_cast<Enums::Character::Class>(_system->ctx->get_random(D4));
-	_race = static_cast<Enums::Character::Race>(_system->ctx->get_random(D5));
+	_class = static_cast<Enums::Character::Class>(_ctx->get_random(D4));
+	_race = static_cast<Enums::Character::Race>(_ctx->get_random(D5));
 	switch (_class) { // NOLINT(clang-diagnostic-switch)#
 		using enum Enums::Character::Align;
 		using enum Enums::Character::Class;
 	case FIGHTER:
 	case MAGE:
-		_alignment =
-			static_cast<Enums::Character::Align>(_system->ctx->get_random(D3));
+		_alignment = static_cast<Enums::Character::Align>(_ctx->get_random(D3));
 		break;
 	case PRIEST:
-		_alignment = _system->ctx->get_random(D2) == 1 ? GOOD : EVIL;
+		_alignment = _ctx->get_random(D2) == 1 ? GOOD : EVIL;
 		break;
 	case THIEF:
-		_alignment = _system->ctx->get_random(D2) == 1 ? NEUTRAL : EVIL;
+		_alignment = _ctx->get_random(D2) == 1 ? NEUTRAL : EVIL;
 		break;
 	default:
 		break;
@@ -2065,9 +2061,8 @@ auto Sorcery::Character::create_random() -> void {
 
 	// Random Name and Portrait
 	create_quick();
-	_name = _system->ctx->random->get_random_name();
-	_portrait_index =
-		_system->ctx->get_random(Enums::System::Random::ZERO_TO_29);
+	_name = _ctx->random->get_random_name();
+	_portrait_index = _ctx->get_random(Enums::System::Random::ZERO_TO_29);
 }
 
 auto Sorcery::Character::get_status() const -> Enums::Character::Status {
@@ -2093,34 +2088,34 @@ auto Sorcery::Character::_get_condition() const -> std::string {
 
 	using enum Enums::Character::Status;
 	if (is_poisoned() && (_status == OK)) {
-		return _system->ctx->get_string("STATUS_POISONED");
+		return _ctx->get_string("STATUS_POISONED");
 	} else if (_status == OK)
-		return _system->ctx->get_string("STATUS_OK");
+		return _ctx->get_string("STATUS_OK");
 	else {
 		switch (_status) {
 		case AFRAID:
-			return _system->ctx->get_string("STATUS_AFRAID");
+			return _ctx->get_string("STATUS_AFRAID");
 			break;
 		case ASHES:
-			return _system->ctx->get_string("STATUS_ASHES");
+			return _ctx->get_string("STATUS_ASHES");
 			break;
 		case ASLEEP:
-			return _system->ctx->get_string("STATUS_ASLEEP");
+			return _ctx->get_string("STATUS_ASLEEP");
 			break;
 		case DEAD:
-			return _system->ctx->get_string("STATUS_DEAD");
+			return _ctx->get_string("STATUS_DEAD");
 			break;
 		case LOST:
-			return _system->ctx->get_string("STATUS_LOST");
+			return _ctx->get_string("STATUS_LOST");
 			break;
 		case HELD:
-			return _system->ctx->get_string("STATUS_PARALYSED");
+			return _ctx->get_string("STATUS_PARALYSED");
 			break;
 		case SILENCED:
-			return _system->ctx->get_string("STATUS_SILENCED");
+			return _ctx->get_string("STATUS_SILENCED");
 			break;
 		case STONED:
-			return _system->ctx->get_string("STATUS_STONED");
+			return _ctx->get_string("STATUS_STONED");
 			break;
 		default:
 			return "";
@@ -2133,19 +2128,19 @@ auto Sorcery::Character::get_loc_str() const -> std::string {
 	switch (_location) {
 		using enum Enums::Character::Location;
 	case PARTY:
-		return _system->ctx->get_string("LOCATION_PARTY");
+		return _ctx->get_string("LOCATION_PARTY");
 		break;
 	case TAVERN:
-		return _system->ctx->get_string("LOCATION_TAVERN");
+		return _ctx->get_string("LOCATION_TAVERN");
 		break;
 	case TRAINING:
-		return _system->ctx->get_string("LOCATION_TRAINING");
+		return _ctx->get_string("LOCATION_TRAINING");
 		break;
 	case TEMPLE:
-		return _system->ctx->get_string("LOCATION_TEMPLE");
+		return _ctx->get_string("LOCATION_TEMPLE");
 		break;
 	case MAZE:
-		return _system->ctx->get_string("LOCATION_MAZE");
+		return _ctx->get_string("LOCATION_MAZE");
 		break;
 	default:
 		return "";
@@ -2160,7 +2155,7 @@ auto Sorcery::Character::get_status_string() const -> std::string {
 	if (!_hidden) {
 		return _get_condition();
 	} else
-		return _system->ctx->get_string("STATUS_HIDDEN");
+		return _ctx->get_string("STATUS_HIDDEN");
 }
 
 auto Sorcery::Character::set_status(Enums::Character::Status value) -> void {
@@ -2523,9 +2518,11 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 
 	for (const auto &item : inventory.items()) {
 		if (item.get_equipped() && item.get_cursed())
-			ac = ac + _resources->items->get(item.get_type_id()).get_ac_mod();
+			ac = ac +
+				 _ctx->resources->items->get(item.get_type_id()).get_ac_mod();
 		else if (item.get_equipped())
-			ac = ac - _resources->items->get(item.get_type_id()).get_ac_mod();
+			ac = ac -
+				 _ctx->resources->items->get(item.get_type_id()).get_ac_mod();
 	}
 
 	return ac;
@@ -2536,8 +2533,9 @@ auto Sorcery::Character::get_cur_to_hit() const -> int {
 	auto to_hit{_abilities.at(Enums::Character::Ability::HIT_PROBABILITY)};
 
 	for (const auto &item : inventory.items())
-		to_hit = to_hit +
-				 _resources->items->get(item.get_type_id()).get_to_hit_mod();
+		to_hit =
+			to_hit +
+			_ctx->resources->items->get(item.get_type_id()).get_to_hit_mod();
 
 	return to_hit;
 }
@@ -2549,8 +2547,9 @@ auto Sorcery::Character::get_cur_num_attacks() const -> int {
 	auto extra_attacks{0};
 
 	for (const auto &item : inventory.items())
-		extra_attacks = extra_attacks +
-						_resources->items->get(item.get_type_id()).get_swings();
+		extra_attacks =
+			extra_attacks +
+			_ctx->resources->items->get(item.get_type_id()).get_swings();
 
 	return extra_attacks > base_attacks ? extra_attacks : base_attacks;
 }

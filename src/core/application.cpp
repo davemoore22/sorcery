@@ -410,7 +410,7 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 	}
 
 	for (int i = 0; i < 12; i++) {
-		auto pc{Character(ctx.system, ctx.resources)};
+		auto pc{Character(&ctx)};
 		align = i > 5 ? first : second;
 
 		switch (i % 6) {
@@ -476,7 +476,7 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 			pc.set_location(Enums::Character::Location::TAVERN);
 		auto char_id{ctx.game->save_character(pc)};
 
-		ctx.game->characters[char_id] = pc;
+		ctx.game->characters.emplace(char_id, std::move(pc));
 		if (i < 6)
 			ctx.game->state->add_character_to_party(char_id);
 	}

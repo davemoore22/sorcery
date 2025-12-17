@@ -55,7 +55,7 @@ Sorcery::Menu::Menu(System *system, Resources *resources, UI *ui,
 	_height = std::stoi(_component->get("height").value());
 	_colour = _component->colour;
 	_bg_colour = _component->background;
-	_hi_colour = std::stof(_component->get("highlight").value());
+	_hi_colour = _component->get_float("highlight");
 	_font = _component->font;
 	if (component->get("reorder"))
 		_reorder = component->get("reorder").value() == "yes";

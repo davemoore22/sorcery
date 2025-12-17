@@ -151,3 +151,21 @@ auto Sorcery::Component::id() const -> long {
 
 	return _id;
 }
+
+auto Sorcery::Component::get_int(std::string_view key, int fallback) const
+	-> int {
+
+	if (_get(key))
+		return std::stoi(_get(key).value());
+	else
+		return fallback;
+}
+
+auto Sorcery::Component::get_float(std::string_view key, float fallback) const
+	-> float {
+
+	if (_get(key))
+		return std::stof(_get(key).value());
+	else
+		return fallback;
+}

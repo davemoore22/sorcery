@@ -302,7 +302,7 @@ auto Sorcery::Game::_clear() -> void {
 	levels = std::make_unique<LevelStore>(_system->files->get(MAPS_FILE));
 
 	state->clear_log_messages();
-	state->reset_shop(_resources->items.get());
+	state->reset_shop(_ctx.resources->items.get());
 
 	state->level->reset();
 }
@@ -480,7 +480,7 @@ auto Sorcery::Game::_load_characters() -> void {
 		std::stringstream ss;
 		ss.str(data);
 
-		Character character(_system, _resources);
+		Character character(&_ctx);
 		{
 			cereal::XMLInputArchive in_archive(ss);
 			in_archive(character);
@@ -640,8 +640,8 @@ auto Sorcery::Game::_debug_give_party_random_items() -> void {
 		for (auto i = 0u; i < slots_free; i++) {
 			using enum Enums::Items::TypeID;
 			if (cur_char.inventory.get_empty_slots() > 0) {
-				auto item{_resources->items->get_random_item(LONG_SWORD,
-															 RING_OF_DEATH)};
+				auto item{_ctx.resources->items->get_random_item(
+					LONG_SWORD, RING_OF_DEATH)};
 				cur_char.inventory.add(item);
 			}
 		}
@@ -670,7 +670,7 @@ auto Sorcery::Game::_debug_create_random_party() -> void {
 						 ? Enums::Character::Align::GOOD
 						 : Enums::Character::Align::EVIL};
 	for (int i = 0; i < 6; i++) {
-		auto pc{Character(_system, _resources)};
+		auto pc{Character(&_ctx)};
 		switch (i) {
 			using enum Enums::Character::Align;
 			using enum Enums::Character::Class;
@@ -707,22 +707,25 @@ auto Sorcery::Game::_debug_create_random_party() -> void {
 		case FIGHTER:
 		case LORD:
 		case SAMURAI:
-			pc.inventory.add_type(_resources->items->get(LEATHER_ARMOR), true);
-			pc.inventory.add_type(_resources->items->get(LONG_SWORD), true);
+			pc.inventory.add_type(_ctx.resources->items->get(LEATHER_ARMOR),
+								  true);
+			pc.inventory.add_type(_ctx.resources->items->get(LONG_SWORD), true);
 			break;
 		case MAGE:
-			pc.inventory.add_type(_resources->items->get(ROBES), true);
-			pc.inventory.add_type(_resources->items->get(DAGGER), true);
+			pc.inventory.add_type(_ctx.resources->items->get(ROBES), true);
+			pc.inventory.add_type(_ctx.resources->items->get(DAGGER), true);
 			break;
 		case PRIEST:
 		case BISHOP:
-			pc.inventory.add_type(_resources->items->get(ROBES), true);
-			pc.inventory.add_type(_resources->items->get(STAFF), true);
+			pc.inventory.add_type(_ctx.resources->items->get(ROBES), true);
+			pc.inventory.add_type(_ctx.resources->items->get(STAFF), true);
 			break;
 		case THIEF:
 		case NINJA:
-			pc.inventory.add_type(_resources->items->get(LEATHER_ARMOR), true);
-			pc.inventory.add_type(_resources->items->get(SHORT_SWORD), true);
+			pc.inventory.add_type(_ctx.resources->items->get(LEATHER_ARMOR),
+								  true);
+			pc.inventory.add_type(_ctx.resources->items->get(SHORT_SWORD),
+								  true);
 		default:
 			break;
 		}
@@ -744,7 +747,7 @@ auto Sorcery::Game::_debug_fill_party_unid_items() -> void {
 		auto slots_free = cur_char.inventory.get_empty_slots();
 		for (auto i = 0u; i < slots_free; i++) {
 			if (cur_char.inventory.get_empty_slots() > 0) {
-				auto item{_resources->items->get_random_item(
+				auto item{_ctx.resources->items->get_random_item(
 					Enums::Items::TypeID::LONG_SWORD,
 					Enums::Items::TypeID::RING_OF_DEATH)};
 				cur_char.inventory.add(item);

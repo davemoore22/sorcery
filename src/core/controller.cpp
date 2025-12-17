@@ -964,8 +964,8 @@ auto Sorcery::Controller::set_input_buffer(const std::string &value) -> void {
 }
 
 auto Sorcery::Controller::handle_stepper_button_click(
-	const std::string &component, UI *ui, const bool positive, int *data)
-	-> void {
+	const std::string &component, [[maybe_unused]] UI *ui, const bool positive,
+	int *data) -> void {
 
 	if (component.starts_with("##stepper_attribute_")) {
 
@@ -1040,7 +1040,8 @@ auto Sorcery::Controller::handle_stepper_button_click(
 };
 
 auto Sorcery::Controller::handle_input_button_click(
-	const std::string &component, UI *ui, std::string *data) -> void {
+	const std::string &component, [[maybe_unused]] UI *ui, std::string *data)
+	-> void {
 
 	if (component == "name_input_ok") {
 
@@ -1111,7 +1112,7 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 
 		Character pc{*_create};
 		auto char_id{_game->save_character(pc)};
-		_game->characters[char_id] = pc;
+		_game->characters.emplace(char_id, std::move(pc));
 		_game->save_game();
 		_create->reset(Enums::Character::Stage::CHOOSE_METHOD);
 		unset_flag("create_confirm");

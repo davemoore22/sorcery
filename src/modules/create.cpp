@@ -61,8 +61,7 @@ auto Sorcery::Create::start() -> int {
 	_ctx.controller->set_method(Enums::Character::Method::NO_METHOD);
 	_ctx.controller->set_selected("class_selected", 8);
 
-	std::shared_ptr<Character> candidate = std::make_shared<Character>(
-		_ctx.system, _ctx.application->get_resources());
+	std::shared_ptr<Character> candidate = std::make_shared<Character>(&_ctx);
 
 	_ctx.controller->inject_character(candidate);
 	candidate->reset(Enums::Character::Stage::ENTER_NAME);
