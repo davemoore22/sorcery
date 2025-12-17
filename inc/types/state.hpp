@@ -33,8 +33,8 @@
 namespace Sorcery {
 
 // Forward Declarations
+struct Context;
 class ItemStore;
-class System;
 
 // State holds the changable game data
 class State {
@@ -42,7 +42,7 @@ class State {
 	public:
 		// Constructor
 		State();
-		State(System *system);
+		State(Context *ctx);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -58,7 +58,7 @@ class State {
 		std::array<bool, 8> quest_item_flags;
 
 		// Public Methods
-		auto post_construct(System *system) -> void;
+		auto post_construct(Context *ctx) -> void;
 		auto reset_shop(ItemStore *itemstore) -> void;
 		auto add_character_to_party(unsigned int char_id) -> bool;
 		auto check_character_in_party(unsigned int char_id) -> bool;
@@ -80,7 +80,7 @@ class State {
 		auto remove_character_by_id(unsigned int char_id) -> bool;
 		auto remove_character_by_position(unsigned int index) -> bool;
 		auto reorder_party(std::vector<unsigned int> &new_order) -> void;
-		auto set(System *system) -> void;
+		auto set(Context *ctx) -> void;
 		auto set_party(std::vector<unsigned int> candidate_party) -> void;
 		auto set_current_level(Level *other) -> void;
 		auto set_player_facing(const Enums::Map::Direction direction) -> void;
@@ -125,7 +125,7 @@ class State {
 		auto _restart_expedition() -> void;
 
 		// Private Members
-		System *_system;
+		Context *_ctx;
 		std::vector<unsigned int> _party;
 		Coordinate _player_pos;
 		Coordinate _previous_pos;

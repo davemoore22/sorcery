@@ -22,6 +22,7 @@
 
 #include "gui/input.hpp"
 #include "core/animation.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
@@ -31,11 +32,8 @@
 #include "types/component.hpp"
 #include "types/game.hpp"
 
-Sorcery::Input::Input(System *system, UI *ui, Controller *controller,
-					  Component &component)
-	: _system{system},
-	  _ui{ui},
-	  _controller{controller},
+Sorcery::Input::Input(Context &ctx, Component &component)
+	: _ctx{ctx},
 	  _component{component} {
 
 	show = false;
@@ -46,7 +44,7 @@ Sorcery::Input::Input(System *system, UI *ui, Controller *controller,
 	_bg_colour = _component.background;
 	_hi_colour = _component.get_float("highlight");
 	_font = _component.font;
-	_title = _system->strings->get(_component.string_key);
+	_title = _ctx.get_string(_component.string_key);
 	_input = "";
 	_input_width = std::stoi(_component.get("input_width").value());
 	_game = nullptr;
@@ -82,8 +80,8 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 
 	_id = _component.name + "##input";
 
-	const auto grid_sz{_ui->grid_sz};
-	const auto rounding{_ui->frame_rd};
+	const auto grid_sz{_ctx.ui->grid_sz};
+	const auto rounding{_ctx.ui->frame_rd};
 	const auto width{(_width + 4) * grid_sz};
 	const auto height{_height * grid_sz};
 
@@ -107,20 +105,21 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width,
 								ImGui::GetWindowPos().y + height}};
 
-		const auto col{_ui->get_hl_colour(_system->animation->lerp)};
-		const auto sz{ImVec2{static_cast<float>((_width + 2) * _ui->font_sz),
-							 static_cast<float>(_height * _ui->font_sz)}};
+		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
+		const auto sz{
+			ImVec2{static_cast<float>((_width + 2) * _ctx.ui->font_sz),
+				   static_cast<float>(_height * _ctx.ui->font_sz)}};
 
-		_ui->draw_frame(p_min, p_max,
-						ImVec4{_ui->ui_colour.x, _ui->ui_colour.y,
-							   _ui->ui_colour.z, _system->animation->fade},
-						rounding);
+		_ctx.ui->draw_frame(p_min, p_max,
+							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+							rounding);
 
-		const auto title{_system->strings->get(_component.string_key)};
+		const auto title{_ctx.get_string(_component.string_key)};
 		auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) * grid_sz};
-		_ui->draw_text(_system->strings->get(_component.string_key),
-					   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
-					   ImVec2{centre_x, grid_sz}, _font);
+		_ctx.ui->draw_text(_ctx.get_string(_component.string_key),
+						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
+						   ImVec2{centre_x, grid_sz}, _font);
 
 		auto input_y{3 * grid_sz};
 		auto input_x{(((_width + 4) / 2) - (_input_width / 2)) * grid_sz};
@@ -133,7 +132,7 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 		ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
 		const auto centre{(width / 2)};
 
-		const auto ok_lbl{_system->strings->get("INPUT_OK")};
+		const auto ok_lbl{_ctx.get_string("INPUT_OK")};
 		ImGui::SetCursorPos(ImVec2{centre - (btn_size.x / 2), grid_sz * 5});
 		if (ImGui::Button(ok_lbl.c_str(), btn_size)) {
 			is_yes = true;
@@ -148,26 +147,26 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 				if (_component.name == "input_donate") {
 
 					auto &character{_game->characters.at(
-						_controller->get_character("tithe"))};
+						_ctx.controller->get_character("tithe"))};
 					const unsigned int amount{std::stoi(_input)};
 					if (amount > character.get_gold()) {
 
 						// Too much!
-						_controller->unset_flag("want_tithe");
-						_controller->unset_flag("want_gold");
-						_controller->set_flag("want_not_enough_gold");
-						_ui->notice_not_enough_gold->show = true;
-						_controller->clear_character("tithe");
+						_ctx.controller->unset_flag("want_tithe");
+						_ctx.controller->unset_flag("want_gold");
+						_ctx.controller->set_flag("want_not_enough_gold");
+						_ctx.ui->notice_not_enough_gold->show = true;
+						_ctx.controller->clear_character("tithe");
 					} else {
 
-						_controller->unset_flag("want_tithe");
-						_controller->unset_flag("want_gold");
-						_controller->set_flag("want_donated_ok");
-						_controller->clear_character("tithe");
+						_ctx.controller->unset_flag("want_tithe");
+						_ctx.controller->unset_flag("want_gold");
+						_ctx.controller->set_flag("want_donated_ok");
+						_ctx.controller->clear_character("tithe");
 						character.grant_xp(amount);
 						character.grant_gold(0 - amount);
-						_ui->notice_donated_ok->show = true;
-						_controller->clear_character("tithe");
+						_ctx.ui->notice_donated_ok->show = true;
+						_ctx.controller->clear_character("tithe");
 
 						// TODO: Check highest level XP and only allow tithing
 						// up to that amount!

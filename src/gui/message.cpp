@@ -22,6 +22,7 @@
 
 #include "gui/message.hpp"
 #include "core/animation.hpp"
+#include "core/context.hpp"
 #include "core/define.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
@@ -29,9 +30,8 @@
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"
 
-Sorcery::Message::Message(System *system, UI *ui, Component &component)
-	: _system{system},
-	  _ui{ui},
+Sorcery::Message::Message(Context &ctx, Component &component)
+	: _ctx{ctx},
 	  _component{component} {
 
 	show = false;
@@ -60,9 +60,9 @@ auto Sorcery::Message::name() const -> std::string {
 auto Sorcery::Message::display(bool &is_yes) -> void {
 
 	_id = _component.name + "##outer";
-	const auto continue_lbl{_system->strings->get("MESSAGE_CONTINUE")};
-	const auto grid_sz{_ui->grid_sz};
-	const auto rounding{_ui->frame_rd};
+	const auto continue_lbl{_ctx.get_string("MESSAGE_CONTINUE")};
+	const auto grid_sz{_ctx.ui->grid_sz};
+	const auto rounding{_ctx.ui->frame_rd};
 	const auto width{grid_sz * _component.w};
 	const auto height{(6 + _strings.size()) * grid_sz};
 
@@ -71,7 +71,7 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 		if (_component.y == -1) {
 			return 0.5f;
 		} else
-			return static_cast<float>(_ui->grid_sz * _component.y);
+			return static_cast<float>(_ctx.ui->grid_sz * _component.y);
 	})};
 	const auto pivot_y{std::invoke([&] {
 		if (_component.y == -1) {
@@ -86,18 +86,18 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 	ImGui::SetNextWindowSize(ImVec2{width, height});
 	ImGui::SetNextWindowBgAlpha(1.0f);
 
-	const auto col{_ui->get_hl_colour(_system->animation->lerp)};
+	const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
 	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 	set_StyleVar(ImGuiStyleVar_WindowRounding, _component.background);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
 	set_StyleColor(ImGuiCol_Button,
-				   ImVec4{0.0f, 0.0f, 0.0f, _system->animation->fade});
+				   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade});
+				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 
-	set_Font(_ui->fontstore->get_current_font(_component.font).value());
+	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value());
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 
@@ -106,17 +106,17 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width,
 								ImGui::GetWindowPos().y + height}};
 
-		_ui->draw_frame(p_min, p_max,
-						ImVec4{_ui->ui_colour.x, _ui->ui_colour.y,
-							   _ui->ui_colour.z, _system->animation->fade},
-						rounding);
+		_ctx.ui->draw_frame(p_min, p_max,
+							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+							rounding);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
 		auto y_pos{grid_sz * 2};
 		for (const auto &string : _strings) {
 			ImGui::SetCursorPos(ImVec2{grid_sz * 2, y_pos});
-			auto str{_system->strings->get(string)};
+			auto str{_ctx.get_string(string)};
 			ImGui::Text(str.c_str());
 			y_pos += grid_sz;
 		}

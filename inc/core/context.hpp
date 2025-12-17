@@ -69,6 +69,8 @@ struct Context {
 			-> unsigned int;
 		auto get_string(std::string_view key) -> std::string;
 		auto get_config(const unsigned int i) -> bool &;
+		auto get_config(std::string_view section, std::string_view value) const
+			-> std::string;
 		auto get_file(std::string_view key) const -> std::filesystem::path;
 		auto get_component(std::string_view combined_key) -> Component &;
 		auto get_flag_ref(const std::string &flag) -> bool &;

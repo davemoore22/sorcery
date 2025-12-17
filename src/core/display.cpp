@@ -50,10 +50,10 @@ auto Sorcery::Display::initialise_SDL() -> int {
 
 	// Create SDL Window with an Open GL Graphics Context
 	auto window_title{_ctx.get_string("WINDOW_TITLE")};
-	auto window_w{(std::stoi(_ctx.config->get("Window", "width")))};
-	auto window_h{std::stoi(_ctx.config->get("Window", "height"))};
-	auto min_window_w{std::stoi(_ctx.config->get("Window", "min_width"))};
-	auto min_window_h{std::stoi(_ctx.config->get("Window", "min_height"))};
+	auto window_w{(std::stoi(_ctx.get_config("Window", "width")))};
+	auto window_h{std::stoi(_ctx.get_config("Window", "height"))};
+	auto min_window_w{std::stoi(_ctx.get_config("Window", "min_width"))};
+	auto min_window_h{std::stoi(_ctx.get_config("Window", "min_height"))};
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);

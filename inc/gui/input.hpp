@@ -23,21 +23,18 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "types/component.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
-class UI;
-class Controller;
+struct Context;
 class Game;
-class System;
+class Component;
 
 class Input {
 
 	public:
-		Input(System *system, UI *ui, Controller *controller,
-			  Component &component);
+		Input(Context &ctx, Component &component);
 
 		auto display(bool &is_yes) -> void;
 		auto get() const -> std::string;
@@ -49,10 +46,8 @@ class Input {
 		bool show;
 
 	private:
-		System *_system;
-		UI *_ui;
-		Controller *_controller;
-		Component _component;
+		Context &_ctx;
+		Component &_component;
 		std::string _id;
 		std::string _name;
 		ImVec2 _pos;

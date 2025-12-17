@@ -79,77 +79,71 @@ Sorcery::UI::UI(Context &ctx)
 	}
 
 	// Custom components
-	dialog_exit = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("main_menu:dialog_exit"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_new = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("main_menu:dialog_new"),
-		Enums::Layout::DialogType::CONFIRM);
+	dialog_exit =
+		std::make_unique<Dialog>(_ctx, components->get("main_menu:dialog_exit"),
+								 Enums::Layout::DialogType::CONFIRM);
+	dialog_new =
+		std::make_unique<Dialog>(_ctx, components->get("main_menu:dialog_new"),
+								 Enums::Layout::DialogType::CONFIRM);
 	dialog_leave = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("main_menu:dialog_leave"),
+		_ctx, components->get("main_menu:dialog_leave"),
 		Enums::Layout::DialogType::CONFIRM);
-	notice_divvy = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("global:notice_divvy"),
-		Enums::Layout::DialogType::OK);
+	notice_divvy =
+		std::make_unique<Dialog>(_ctx, components->get("global:notice_divvy"),
+								 Enums::Layout::DialogType::OK);
 	notice_pool_gold = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("global:notice_pool_gold"),
+		_ctx, components->get("global:notice_pool_gold"),
 		Enums::Layout::DialogType::OK);
 	notice_cannot_donate = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("global:notice_cannot_donate"),
+		_ctx, components->get("global:notice_cannot_donate"),
 		Enums::Layout::DialogType::OK);
 	notice_donated_ok = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("global:notice_donated_ok"),
+		_ctx, components->get("global:notice_donated_ok"),
 		Enums::Layout::DialogType::OK);
 	notice_not_enough_gold = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("global:notice_not_enough_gold"),
+		_ctx, components->get("global:notice_not_enough_gold"),
 		Enums::Layout::DialogType::OK);
 	popup_ouch = std::make_unique<Popup>(
-		_ctx.system, this, components->get("engine_base_ui:popup_ouch"));
-	modal_camp =
-		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-								components->get("engine_base_ui:modal_camp"));
-	modal_drop = std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-										 components->get("global:modal_drop"));
+		_ctx, components->get("engine_base_ui:popup_ouch"));
+	modal_camp = std::make_unique<Modal>(
+		_ctx, components->get("engine_base_ui:modal_camp"));
+	modal_drop =
+		std::make_unique<Modal>(_ctx, components->get("global:modal_drop"));
 	modal_inspect =
-		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-								components->get("global:modal_inspect"));
+		std::make_unique<Modal>(_ctx, components->get("global:modal_inspect"));
 	modal_identify =
-		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-								components->get("global:modal_identify"));
+		std::make_unique<Modal>(_ctx, components->get("global:modal_identify"));
 	modal_trade =
-		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-								components->get("global:modal_trade"));
-	modal_use = std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-										components->get("global:modal_use"));
+		std::make_unique<Modal>(_ctx, components->get("global:modal_trade"));
+	modal_use =
+		std::make_unique<Modal>(_ctx, components->get("global:modal_use"));
 	modal_invoke =
-		std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-								components->get("global:modal_invoke"));
+		std::make_unique<Modal>(_ctx, components->get("global:modal_invoke"));
 
 	input_donate =
-		std::make_unique<Input>(_ctx.system, this, _ctx.controller,
-								components->get("global:input_donate"));
-	input_name = std::make_unique<Input>(_ctx.system, this, _ctx.controller,
-										 components->get("global:input_name"));
+		std::make_unique<Input>(_ctx, components->get("global:input_donate"));
+	input_name =
+		std::make_unique<Input>(_ctx, components->get("global:input_name"));
 
 	dialog_stairs_up = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("engine_base_ui:dialog_stairs_up"),
+		_ctx, components->get("engine_base_ui:dialog_stairs_up"),
 		Enums::Layout::DialogType::CONFIRM);
 	dialog_stairs_down = std::make_unique<Dialog>(
-		_ctx.system, this, components->get("engine_base_ui:dialog_stairs_down"),
+		_ctx, components->get("engine_base_ui:dialog_stairs_down"),
 		Enums::Layout::DialogType::CONFIRM);
 
 	message_tile = std::make_unique<Message>(
-		_ctx.system, this, components->get("engine_base_ui:message_tile"));
+		_ctx, components->get("engine_base_ui:message_tile"));
 
 	// Window and Display Settings
-	font_sz = std::stoi(_ctx.config->get("Font", "size"));
-	grid_sz = std::stoi(_ctx.config->get("Grid", "size"));
-	columns = std::stoi(_ctx.config->get("Grid", "columns"));
-	rows = std::stoi(_ctx.config->get("Grid", "rows"));
+	font_sz = std::stoi(_ctx.get_config("Font", "size"));
+	grid_sz = std::stoi(_ctx.get_config("Grid", "size"));
+	columns = std::stoi(_ctx.get_config("Grid", "columns"));
+	rows = std::stoi(_ctx.get_config("Grid", "rows"));
 	adj_grid_w = grid_sz;
 	adj_grid_h = grid_sz;
-	frame_rd = std::stoi(_ctx.config->get("Frame", "rounding"));
-	ui_rd = std::stoi(_ctx.config->get("UI", "rounding"));
+	frame_rd = std::stoi(_ctx.get_config("Frame", "rounding"));
+	ui_rd = std::stoi(_ctx.get_config("UI", "rounding"));
 
 	// Render window
 	_render = std::make_unique<Render>(_ctx.system, this);
@@ -295,72 +289,63 @@ auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for
 // example the Party Members); normally otherwise fixed Modals are created at
 // the beginning as part of the Form/Module create
-auto Sorcery::UI::create_dynamic_modal(Game *game, const std::string name)
-	-> void {
+auto Sorcery::UI::create_dynamic_modal([[maybe_unused]] Game *game,
+									   const std::string name) -> void {
 
 	if (name == "modal_inspect") {
 		if (modal_inspect.get())
 			modal_inspect.reset();
-		modal_inspect =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_inspect"));
-		modal_inspect->regenerate(_ctx.controller, game);
+		modal_inspect = std::make_unique<Modal>(
+			_ctx, components->get("global:modal_inspect"));
+		modal_inspect->regenerate();
 	} else if (name == "modal_stay") {
 		if (modal_stay.get())
 			modal_stay.reset();
 		modal_stay =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_stay"));
-		modal_stay->regenerate(_ctx.controller, game);
+			std::make_unique<Modal>(_ctx, components->get("global:modal_stay"));
+		modal_stay->regenerate();
 	} else if (name == "modal_help") {
 		if (modal_help.get())
 			modal_help.reset();
 		modal_help =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_help"));
-		modal_help->regenerate(_ctx.controller, game);
+			std::make_unique<Modal>(_ctx, components->get("global:modal_help"));
+		modal_help->regenerate();
 	} else if (name == "modal_tithe") {
 		if (modal_tithe.get())
 			modal_tithe.reset();
-		modal_tithe =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_tithe"));
-		modal_tithe->regenerate(_ctx.controller, game);
+		modal_tithe = std::make_unique<Modal>(
+			_ctx, components->get("global:modal_tithe"));
+		modal_tithe->regenerate();
 	} else if (name == "modal_identify") {
 		if (modal_identify.get())
 			modal_identify.reset();
-		modal_identify =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_identify"));
-		modal_identify->regenerate(_ctx.controller, game);
+		modal_identify = std::make_unique<Modal>(
+			_ctx, components->get("global:modal_identify"));
+		modal_identify->regenerate();
 	} else if (name == "modal_drop") {
 		if (modal_drop.get())
 			modal_drop.reset();
 		modal_drop =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_drop"));
-		modal_drop->regenerate(_ctx.controller, game);
+			std::make_unique<Modal>(_ctx, components->get("global:modal_drop"));
+		modal_drop->regenerate();
 	} else if (name == "modal_trade") {
 		if (modal_trade.get())
 			modal_trade.reset();
-		modal_trade =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_trade"));
-		modal_trade->regenerate(_ctx.controller, game);
+		modal_trade = std::make_unique<Modal>(
+			_ctx, components->get("global:modal_trade"));
+		modal_trade->regenerate();
 	} else if (name == "modal_use") {
 		if (modal_use.get())
 			modal_use.reset();
 		modal_use =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_use"));
-		modal_use->regenerate(_ctx.controller, game);
+			std::make_unique<Modal>(_ctx, components->get("global:modal_use"));
+		modal_use->regenerate();
 	} else if (name == "modal_invoke") {
 		if (modal_invoke.get())
 			modal_invoke.reset();
-		modal_invoke =
-			std::make_unique<Modal>(_ctx.system, this, _ctx.controller,
-									components->get("global:modal_invoke"));
-		modal_invoke->regenerate(_ctx.controller, game);
+		modal_invoke = std::make_unique<Modal>(
+			_ctx, components->get("global:modal_invoke"));
+		modal_invoke->regenerate();
 	}
 
 	// Note that modal_camp is not dynamic and thus isn't handled here
@@ -478,21 +463,20 @@ auto Sorcery::UI::start() -> void {
 
 	// Can create the fontstore now which loads the fonts
 	fontstore = std::make_unique<FontStore>(_ctx.system, _io);
-	ui_colour =
-		ImVec4{std::stof(_ctx.config->get("Frame", "colour_red")),
-			   std::stof(_ctx.config->get("Frame", "colour_green")),
-			   std::stof(_ctx.config->get("Frame", "colour_blue")), 1.0};
+	ui_colour = ImVec4{std::stof(_ctx.get_config("Frame", "colour_red")),
+					   std::stof(_ctx.get_config("Frame", "colour_green")),
+					   std::stof(_ctx.get_config("Frame", "colour_blue")), 1.0};
 
 	// Set the Default Fonts
 	using enum Enums::Layout::Font;
-	fontstore->set_current_font(TEXT, _ctx.config->get("Font", "text"));
+	fontstore->set_current_font(TEXT, _ctx.get_config("Font", "text"));
 	fontstore->set_current_font(DEFAULT, fontstore->get_default_font());
 	fontstore->set_current_font(MONOSPACE,
-								_ctx.config->get("Font", "monospace"));
+								_ctx.get_config("Font", "monospace"));
 	fontstore->set_current_font(PROPORTIONAL,
-								_ctx.config->get("Font", "proportional"));
+								_ctx.get_config("Font", "proportional"));
 
-	grid_sz = std::stoi(_ctx.config->get("Grid", "size"));
+	grid_sz = std::stoi(_ctx.get_config("Grid", "size"));
 
 	// Set the styles
 	ImGuiStyle &style = ImGui::GetStyle();
@@ -1014,15 +998,14 @@ auto Sorcery::UI::_draw_cursor() -> void {
 auto Sorcery::UI::_draw_frame(Component *component) -> void {
 
 	// Note the Frame class calls Gui::->draw_frame() below
-	auto frame{std::make_shared<Frame>(_ctx.system, this, component)};
+	auto frame{std::make_shared<Frame>(_ctx, component)};
 	_frames.emplace_back(std::move(frame));
 }
 
 // Draw a Menu
 auto Sorcery::UI::_draw_menu(Component *component, Game *game) -> void {
 
-	auto menu{std::make_shared<Menu>(_ctx.system, _ctx.resources, this,
-									 this->_ctx.controller, component, game)};
+	auto menu{std::make_shared<Menu>(_ctx, component, game)};
 	menu->regenerate();
 	menu->draw();
 	_menus.emplace_back(std::move(menu));
@@ -3508,9 +3491,8 @@ auto Sorcery::UI::_draw_level_no_player() -> void {
 	auto tc{20};
 	const auto map_c{components->get("atlas:map_graphic")};
 	ImVec2 top_left_pos{map_c.x * adj_grid_w, map_c.y * adj_grid_h};
-	const auto spacing{std::stoi(map_c.get("tile_spacing").value())};
-	ImVec2 tile_sz{std::stoi(map_c.get("tile_size").value()),
-				   std::stoi(map_c.get("tile_size").value())};
+	const auto spacing{map_c.get_int("tile_spacing")};
+	ImVec2 tile_sz{map_c.get_int("tile_size"), map_c.get_int("tile_size")};
 
 	// Remember to flip in Y-direction as (0,0) is at bottom left of map
 	const auto reverse_y{(tile_sz.x * tc) + ((tc - 1) * spacing) + 2};

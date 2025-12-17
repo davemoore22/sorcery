@@ -27,23 +27,21 @@
 
 namespace Sorcery {
 
+struct Context;
 class Component;
-class UI;
-class System;
 
 class Frame {
 
 	public:
 		Frame() = delete;
-		Frame(System *system, UI *ui, Component *component);
-		Frame(System *system, UI *ui, std::string_view name, const ImVec2 pos,
+		Frame(Context &ctx, Component *component);
+		Frame(Context &ctx, std::string_view name, const ImVec2 pos,
 			  const Size size, const ImU32 colour, const ImU32 bg_colour);
 
 	private:
 		auto _draw(const bool foreground) -> void;
 
-		System *_system;
-		UI *_ui;
+		Context &_ctx;
 		Component *_component;
 		std::string _name;
 		ImVec2 _pos;

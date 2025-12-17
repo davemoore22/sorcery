@@ -31,12 +31,10 @@
 #include "resources/levelstore.hpp"
 #include "types/state.hpp"
 
-Sorcery::Game::Game(Context &ctx, System *system, Resources *resources)
-	: _ctx{ctx},
-	  _system{system},
-	  _resources{resources} {
+Sorcery::Game::Game(Context &ctx)
+	: _ctx{ctx} {
 
-	if (_system->db->has_game()) {
+	if (_ctx.database->has_game()) {
 		_clear();
 		_load_game();
 	} else {
@@ -48,12 +46,9 @@ Sorcery::Game::Game(Context &ctx, System *system, Resources *resources)
 	_set_up_debug_keys();
 }
 
-auto Sorcery::Game::post_construct(Context &ctx, System *system,
-								   Resources *resources) -> void {
+auto Sorcery::Game::post_construct(Context &ctx) -> void {
 
 	_ctx = ctx;
-	_system = system;
-	_resources = resources;
 }
 
 auto Sorcery::Game::_set_up_debug_keys() -> void {
@@ -84,7 +79,7 @@ auto Sorcery::Game::reset() -> void {
 
 auto Sorcery::Game::wipe_data() -> void {
 
-	_system->db->wipe_data();
+	_ctx.database->wipe_data();
 }
 
 auto Sorcery::Game::move_party_to_tavern() -> void {
@@ -287,7 +282,7 @@ auto Sorcery::Game::restart_maze(unsigned int char_id) -> void {
 
 auto Sorcery::Game::delete_character(unsigned int char_id) -> void {
 
-	_system->db->delete_character(_id, char_id);
+	_ctx.database->delete_character(_id, char_id);
 }
 
 auto Sorcery::Game::_clear() -> void {
@@ -298,8 +293,8 @@ auto Sorcery::Game::_clear() -> void {
 	characters.clear();
 	_char_ids.clear();
 
-	state = std::make_unique<State>(_system);
-	levels = std::make_unique<LevelStore>(_system->files->get(MAPS_FILE));
+	state = std::make_unique<State>(&_ctx);
+	levels = std::make_unique<LevelStore>(_ctx.get_file(MAPS_FILE));
 
 	state->clear_log_messages();
 	state->reset_shop(_ctx.resources->items.get());
@@ -318,28 +313,28 @@ auto Sorcery::Game::_create_game() -> void {
 		out_archive(state);
 	}
 	const auto data{ss.str()};
-	_id = _system->db->create_game_state(data);
+	_id = _ctx.database->create_game_state(data);
 }
 
 auto Sorcery::Game::_load_game() -> void {
 
 	// Get Game and State Data
 	auto [id, key, status, start_time, last_time, data] =
-		_system->db->load_game_state().value();
+		_ctx.database->load_game_state().value();
 	_id = id;
 	_key = key;
 	_status = status;
 	_start_time = start_time;
 	_last_time = last_time;
 	state = std::make_unique<State>();
-	levels = std::make_unique<LevelStore>(_system->files->get(MAPS_FILE));
+	levels = std::make_unique<LevelStore>(_ctx.files->get(MAPS_FILE));
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);
 		{
 			cereal::XMLInputArchive in_archive(ss);
 			in_archive(state);
-			state->set(_system);
+			state->set(&_ctx);
 		}
 	}
 
@@ -386,7 +381,7 @@ auto Sorcery::Game::_save_game() -> void {
 	}
 	auto data{ss.str()};
 
-	_system->db->save_game_state(_id, _key, data);
+	_ctx.database->save_game_state(_id, _key, data);
 	_save_characters();
 }
 
@@ -401,8 +396,8 @@ auto Sorcery::Game::_save_characters() -> void {
 		}
 		const auto char_data{ss.str()};
 
-		_system->db->update_character(_id, char_id, character.get_name(),
-									  char_data);
+		_ctx.database->update_character(_id, char_id, character.get_name(),
+										char_data);
 	}
 }
 
@@ -451,7 +446,7 @@ auto Sorcery::Game::save_character(Character character) -> unsigned int {
 	}
 	const auto char_data{ss.str()};
 
-	return _system->db->add_character(_id, character.get_name(), char_data);
+	return _ctx.database->add_character(_id, character.get_name(), char_data);
 }
 
 auto Sorcery::Game::update_character(unsigned int game_id, unsigned int char_id,
@@ -464,19 +459,19 @@ auto Sorcery::Game::update_character(unsigned int game_id, unsigned int char_id,
 	}
 	const auto character_data{ss.str()};
 
-	return _system->db->update_character(game_id, char_id, character.get_name(),
-										 character_data);
+	return _ctx.database->update_character(
+		game_id, char_id, character.get_name(), character_data);
 }
 
 auto Sorcery::Game::_load_characters() -> void {
 
 	_char_ids.clear();
-	_char_ids = _system->db->get_character_ids(_id);
+	_char_ids = _ctx.database->get_character_ids(_id);
 	characters.clear();
 
 	for (auto char_id : _char_ids) {
 
-		const auto data{_system->db->get_character(_id, char_id)};
+		const auto data{_ctx.database->get_character(_id, char_id)};
 		std::stringstream ss;
 		ss.str(data);
 
@@ -573,7 +568,7 @@ auto Sorcery::Game::_debug_harm_party_to_min() -> void {
 
 	for (const auto party{state->get_party_characters()}; auto idx : party) {
 		auto &cur_char{characters.at(idx)};
-		const auto hp{_system->ctx->get_random(Enums::System::Random::D4)};
+		const auto hp{_ctx.get_random(Enums::System::Random::D4)};
 		cur_char.set_current_hp(hp);
 	}
 }
@@ -588,7 +583,7 @@ auto Sorcery::Game::_debug_give_party_random_status() -> void {
 
 		cur_char.set_status(
 			magic_enum::enum_cast<Enums::Character::Status>(
-				_system->ctx->get_random(Enums::System::Random::ZERO_TO_8))
+				_ctx.get_random(Enums::System::Random::ZERO_TO_8))
 				.value());
 		using enum Enums::Character::Status;
 		if ((cur_char.get_status() == DEAD) ||
@@ -666,7 +661,7 @@ auto Sorcery::Game::_debug_create_random_party() -> void {
 	PRINT("debug_create_random_party");
 
 	// Create a new random party of a random alignment
-	const auto align{_system->ctx->get_random(Enums::System::Random::D2) == 1
+	const auto align{_ctx.get_random(Enums::System::Random::D2) == 1
 						 ? Enums::Character::Align::GOOD
 						 : Enums::Character::Align::EVIL};
 	for (int i = 0; i < 6; i++) {

@@ -22,6 +22,7 @@
 
 #include "gui/modal.hpp"
 #include "core/animation.hpp"
+#include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
@@ -32,11 +33,8 @@
 #include "types/component.hpp"
 #include "types/game.hpp"
 
-Sorcery::Modal::Modal(System *system, UI *ui, Controller *controller,
-					  Component &component)
-	: _system{system},
-	  _ui{ui},
-	  _controller{controller},
+Sorcery::Modal::Modal(Context &ctx, Component &component)
+	: _ctx{ctx},
 	  _component{component} {
 
 	show = false;
@@ -48,7 +46,7 @@ Sorcery::Modal::Modal(System *system, UI *ui, Controller *controller,
 	_bg_colour = _component.background;
 	_hi_colour = _component.get_float("highlight");
 	_font = _component.font;
-	_has_title = _system->strings->get(_component.string_key).length() > 0;
+	_has_title = _ctx.get_string(_component.string_key).length() > 0;
 	_name = _component.name;
 }
 
@@ -57,13 +55,14 @@ auto Sorcery::Modal::name() const -> std::string {
 	return _name;
 }
 
-auto Sorcery::Modal::regenerate(Controller *controller, Game *game) -> void {
+auto Sorcery::Modal::regenerate() -> void {
 
 	_items.clear();
 	_data.clear();
-	_ui->load_dynamic_menu_items(game, controller, _component.name, _width,
-								 _items, _data, false);
-	_ui->load_fixed_items(_component.name, _width, _items, false);
+	_ctx.ui->load_dynamic_menu_items(_ctx.game, _ctx.controller,
+									 _component.name, _width, _items, _data,
+									 false);
+	_ctx.ui->load_fixed_items(_component.name, _width, _items, false);
 }
 
 auto Sorcery::Modal::id() const -> std::string {
@@ -75,8 +74,8 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 
 	_id = _component.name + "##modal";
 
-	const auto grid_sz{_ui->grid_sz};
-	const auto rounding{_ui->frame_rd};
+	const auto grid_sz{_ctx.ui->grid_sz};
+	const auto rounding{_ctx.ui->frame_rd};
 	const auto width{(_width + 4) * grid_sz};
 	const auto height{_height * grid_sz};
 
@@ -89,7 +88,7 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 	set_StyleVar(ImGuiStyleVar_WindowRounding, rounding);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
-	set_Font(_ui->fontstore->get_current_font(_component.font).value());
+	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value());
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
@@ -101,28 +100,28 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width,
 								ImGui::GetWindowPos().y + height}};
 
-		const auto col{_ui->get_hl_colour(_system->animation->lerp)};
+		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
 		const auto sz{ImVec2{
-			static_cast<float>((_width + 2) * _ui->font_sz),
+			static_cast<float>((_width + 2) * _ctx.ui->font_sz),
 			static_cast<float>(
 				(_items.size() * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
 
-		_ui->draw_frame(p_min, p_max,
-						ImVec4{_ui->ui_colour.x, _ui->ui_colour.y,
-							   _ui->ui_colour.z, _system->animation->fade},
-						rounding);
+		_ctx.ui->draw_frame(p_min, p_max,
+							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+							rounding);
 		auto top{_has_title ? 3 : 1};
 		if (_has_title) {
-			const auto title{_system->strings->get(_component.string_key)};
+			const auto title{_ctx.get_string(_component.string_key)};
 			auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) *
 						  grid_sz};
-			_ui->draw_text(_system->strings->get(_component.string_key),
-						   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
-						   ImVec2{centre_x, grid_sz}, _font);
+			_ctx.ui->draw_text(_ctx.get_string(_component.string_key),
+							   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
+							   ImVec2{centre_x, grid_sz}, _font);
 		}
 
 		// Note that pos is in grid units whereas sz is in pixels!
-		_ui->draw_menu(_menu_name, col, ImVec2{1, top}, sz, _font, _items,
-					   _data, false, false);
+		_ctx.ui->draw_menu(_menu_name, col, ImVec2{1, top}, sz, _font, _items,
+						   _data, false, false);
 	}
 }

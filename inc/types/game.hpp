@@ -30,16 +30,14 @@ namespace Sorcery {
 // Forward Declarations
 struct Context;
 class LevelStore;
-class System;
 class State;
-class Resources;
 
 // Game holds the current active game in progress
 class Game {
 
 	public:
 		// Constructor
-		Game(Context &ctx, System *system, Resources *resources);
+		Game(Context &ctx);
 		Game() = default;
 
 		// Overloaded Operator
@@ -58,8 +56,7 @@ class Game {
 		std::unique_ptr<LevelStore> levels;
 
 		// Public Methods
-		auto post_construct(Context &ctx, System *system, Resources *resources)
-			-> void;
+		auto post_construct(Context &ctx) -> void;
 
 		auto wipe_data() -> void;
 		auto get_id() const -> unsigned int;
@@ -119,8 +116,6 @@ class Game {
 
 		// Private Members
 		Context &_ctx;
-		System *_system;
-		Resources *_resources;
 		std::chrono::time_point<std::chrono::system_clock> _start_time;
 		std::chrono::time_point<std::chrono::system_clock> _last_time;
 		std::string _key;

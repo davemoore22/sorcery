@@ -99,7 +99,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	ctx.images = _ui->images.get();
 	ctx.fonts = _ui->fontstore.get();
 
-	_game = std::make_unique<Game>(ctx, _system.get(), _resources.get());
+	_game = std::make_unique<Game>(ctx);
 	ctx.game = _game.get();
 
 	// Frontend Game Modules

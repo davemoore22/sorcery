@@ -29,19 +29,15 @@
 
 namespace Sorcery {
 
+struct Context;
 class Component;
-class Controller;
 class Game;
-class Resources;
-class System;
-class UI;
 
 class Menu {
 
 	public:
 		Menu() = delete;
-		Menu(System *system, Resources *resources, UI *ui,
-			 Controller *controller, Component *component, Game *game);
+		Menu(Context &ctx, Component *component, Game *game);
 
 		auto draw() -> void;
 		auto regenerate() -> void;
@@ -54,10 +50,7 @@ class Menu {
 		auto _load_tavern_characters() -> void;
 		auto _load_sick_characters() -> void;
 
-		System *_system;
-		Resources *_resources;
-		UI *_ui;
-		Controller *_controller;
+		Context &_ctx;
 		Component *_component;
 		Game *_game;
 		std::string _name;

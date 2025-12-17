@@ -1065,7 +1065,7 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 	if (component == "button_identify") {
 
 		// Show Identify Modal
-		ui->modal_identify->regenerate(this, _game);
+		ui->modal_identify->regenerate();
 		ui->modal_identify->show = true;
 		set_flag("want_identify");
 	} else if (component == "button_pool") {
@@ -1083,25 +1083,25 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 	} else if (component == "button_drop") {
 
 		// Show Drop Modal
-		ui->modal_drop->regenerate(this, _game);
+		ui->modal_drop->regenerate();
 		ui->modal_drop->show = true;
 		set_flag("want_drop");
 	} else if (component == "button_trade") {
 
 		// Show Trade Modal
-		ui->modal_trade->regenerate(this, _game);
+		ui->modal_trade->regenerate();
 		ui->modal_trade->show = true;
 		set_flag("want_trade");
 	} else if (component == "button_use") {
 
 		// Show Use Modal
-		ui->modal_use->regenerate(this, _game);
+		ui->modal_use->regenerate();
 		ui->modal_use->show = true;
 		set_flag("want_use");
 	} else if (component == "button_invoke") {
 
 		// Show Use Modal
-		ui->modal_invoke->regenerate(this, _game);
+		ui->modal_invoke->regenerate();
 		ui->modal_invoke->show = true;
 		set_flag("want_invoke");
 	} else if (component == "button_keep_yes") {

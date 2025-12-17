@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "types/state.hpp"
+#include "core/context.hpp"
 #include "core/system.hpp"
 #include "resources/itemstore.hpp"
 
@@ -28,8 +29,8 @@
 Sorcery::State::State() {}
 
 // Normal Constructor
-Sorcery::State::State(System *system)
-	: _system{system} {
+Sorcery::State::State(Context *ctx)
+	: _ctx{ctx} {
 
 	_clear();
 	_restart_expedition();
@@ -153,15 +154,15 @@ auto Sorcery::State::_restart_expedition() -> void {
 	_lit = false;
 }
 
-auto Sorcery::State::post_construct(System *system) -> void {
+auto Sorcery::State::post_construct(Context *ctx) -> void {
 
-	_system = system;
+	_ctx = ctx;
 }
 
 // Method called to simulate Normal Constructor with Cereal Constructor
-auto Sorcery::State::set(System *system) -> void {
+auto Sorcery::State::set(Context *ctx) -> void {
 
-	_system = system;
+	_ctx = ctx;
 }
 
 auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party)
@@ -339,7 +340,7 @@ auto Sorcery::State::add_log_dice_roll(const std::string &message,
 	if (dice != -1 || roll != -1 || needed != -1) {
 		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};
 		const auto string{std::format("{} ({})", message, success)};
-		add_log_message(_system->dice_roll_to_str(string, dice, roll, needed),
+		add_log_message(_ctx->system->dice_roll_to_str(string, dice, roll, needed),
 						Enums::Internal::MessageType::ROLL);
 	} else
 		add_log_message(message, Enums::Internal::MessageType::GAME);

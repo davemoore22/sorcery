@@ -23,34 +23,29 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "types/component.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
-class UI;
-class Controller;
+struct Context;
 class Game;
-class System;
+class Component;
 
 class Modal {
 
 	public:
-		Modal(System *system, UI *ui, Controller *controller,
-			  Component &component);
+		Modal(Context &ctx, Component &component);
 
 		auto display(bool &is_yes) -> void;
 		auto id() const -> std::string;
-		auto regenerate(Controller *controller, Game *game) -> void;
+		auto regenerate() -> void;
 		auto name() const -> std::string;
 
 		bool show;
 
 	private:
-		System *_system;
-		UI *_ui;
-		Controller *_controller;
-		Component _component;
+		Context &_ctx;
+		Component &_component;
 		std::string _id;
 		std::string _name;
 		ImVec2 _pos;

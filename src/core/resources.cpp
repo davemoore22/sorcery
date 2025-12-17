@@ -32,9 +32,9 @@
 Sorcery::Resources::Resources(Context &ctx)
 	: _ctx{ctx} {
 
-	monsters = std::make_unique<MonsterStore>(_ctx.files->get(MONSTERS_FILE));
-	items = std::make_unique<ItemStore>(_ctx, _ctx.files->get(ITEMS_FILE));
-	levels = std::make_unique<LevelStore>(_ctx.files->get(MAPS_FILE));
+	monsters = std::make_unique<MonsterStore>(_ctx.get_file(MONSTERS_FILE));
+	items = std::make_unique<ItemStore>(_ctx, _ctx.get_file(ITEMS_FILE));
+	levels = std::make_unique<LevelStore>(_ctx.get_file(MAPS_FILE));
 	spells = std::make_unique<SpellStore>(_ctx);
 }
 

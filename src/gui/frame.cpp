@@ -23,6 +23,7 @@
 #include "gui/frame.hpp"
 #include "common/macro.hpp"
 #include "core/animation.hpp"
+#include "core/context.hpp"
 #include "core/define.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
@@ -30,9 +31,8 @@
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"
 
-Sorcery::Frame::Frame(System *system, UI *ui, Component *component)
-	: _system{system},
-	  _ui{ui},
+Sorcery::Frame::Frame(Context &ctx, Component *component)
+	: _ctx{ctx},
 	  _component{component} {
 
 	_pos = ImVec2{_component->x, _component->y};
@@ -59,11 +59,10 @@ Sorcery::Frame::Frame(System *system, UI *ui, Component *component)
 		_draw(false);
 }
 
-Sorcery::Frame::Frame(System *system, UI *ui, std::string_view name,
-					  const ImVec2 pos, const Size size, const ImU32 colour,
+Sorcery::Frame::Frame(Context &ctx, std::string_view name, const ImVec2 pos,
+					  const Size size, const ImU32 colour,
 					  const ImU32 bg_colour)
-	: _system{system},
-	  _ui{ui},
+	: _ctx{ctx},
 	  _name{name},
 	  _pos{pos},
 	  _size{size},
@@ -77,9 +76,9 @@ Sorcery::Frame::Frame(System *system, UI *ui, std::string_view name,
 
 auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
-	const auto grid_sz{_ui->grid_sz};
-	const auto font_sz{_ui->font_sz};
-	const auto rounding{_ui->frame_rd};
+	const auto grid_sz{_ctx.ui->grid_sz};
+	const auto font_sz{_ctx.ui->font_sz};
+	const auto rounding{_ctx.ui->frame_rd};
 
 	const auto outer_id{"##layer_frame_" + _name};
 
@@ -88,14 +87,14 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - grid_sz * _size.w) / 2;
 		} else
-			return _ui->adj_grid_w * _pos.x;
+			return _ctx.ui->adj_grid_w * _pos.x;
 	})};
 	const auto y{std::invoke([&] {
 		if (_pos.y == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.y - grid_sz * _size.h) / 2;
 		} else
-			return _ui->adj_grid_h * _pos.y;
+			return _ctx.ui->adj_grid_h * _pos.y;
 	})};
 
 	const auto layer{foreground ? WINDOW_LAYER_TEXTS : WINDOW_LAYER_FRAMES};
@@ -109,19 +108,19 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 		}
 
 		// Draw a Frame using the Direct Helper function on the Current Window
-		_ui->draw_frame(
+		_ctx.ui->draw_frame(
 			ImVec2{x, y},
 			ImVec2{x + (grid_sz * _size.w), y + (grid_sz * _size.h)},
-			ImVec4{_ui->ui_colour.x, _ui->ui_colour.y, _ui->ui_colour.z,
-				   _system->animation->fade},
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
 			rounding);
 
 		if (_title) {
 
-			set_Font(
-				_ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
-					.value());
-			const auto title_txt{_system->strings->get(_title.value())};
+			set_Font(_ctx.ui->fontstore
+						 ->get_current_font(Enums::Layout::Font::MONOSPACE)
+						 .value());
+			const auto title_txt{_ctx.get_string(_title.value())};
 			const auto title_sz{
 				Size{ImGui::CalcTextSize(title_txt.c_str()).x + (font_sz * 2),
 					 grid_sz * 3}};
@@ -130,15 +129,15 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 					   y - grid_sz}};
 			const auto text_pos{
 				ImVec2{title_pos.x + grid_sz, title_pos.y + grid_sz}};
-			_ui->draw_frame(
+			_ctx.ui->draw_frame(
 				title_pos,
 				ImVec2{title_pos.x + title_sz.w, title_pos.y + title_sz.h},
-				ImVec4{_ui->ui_colour.x, _ui->ui_colour.y, _ui->ui_colour.z,
-					   _system->animation->fade},
+				ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+					   _ctx.ui->ui_colour.z, _ctx.animation->fade},
 				rounding);
-			_ui->draw_text(title_txt,
-						   ImVec4{1.0f, 1.0f, 1.0f, _system->animation->fade},
-						   text_pos, Enums::Layout::Font::MONOSPACE);
+			_ctx.ui->draw_text(title_txt,
+							   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
+							   text_pos, Enums::Layout::Font::MONOSPACE);
 		}
 	}
 }

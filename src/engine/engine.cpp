@@ -258,9 +258,8 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 	_ctx.controller->set_can_undo(false);
 	_ctx.controller->set_monochrome(
-		_ctx.config->get(Enums::Config::COLOURED_WIREFRAME));
-	_ctx.ui->set_monochrome(
-		_ctx.config->get(Enums::Config::COLOURED_WIREFRAME));
+		_ctx.get_config(Enums::Config::COLOURED_WIREFRAME));
+	_ctx.ui->set_monochrome(_ctx.get_config(Enums::Config::COLOURED_WIREFRAME));
 
 	_ctx.controller->set_flag("interface_automap");
 	_ctx.controller->set_flag("interface_party_panel");
@@ -272,16 +271,16 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	if (mode & EXPEDITION_GOTO) {
 		// Check we have an override to go to a specific placein the maze
 		const auto goto_depth{
-			std::stoi(_ctx.config->get("Debug", "quick_start_depth"))};
+			std::stoi(_ctx.get_config("Debug", "quick_start_depth"))};
 		const auto goto_loc{
-			Coordinate{std::stoi(_ctx.config->get("Debug", "quick_start_x")),
-					   std::stoi(_ctx.config->get("Debug", "quick_start_y"))}};
+			Coordinate{std::stoi(_ctx.get_config("Debug", "quick_start_x")),
+					   std::stoi(_ctx.get_config("Debug", "quick_start_y"))}};
 		const auto goto_dir{static_cast<Enums::Map::Direction>(
-			std::stoi(_ctx.config->get("Debug", "quick_start_dir")))};
+			std::stoi(_ctx.get_config("Debug", "quick_start_dir")))};
 
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
-		_ctx.ui->modal_camp->regenerate(_ctx.controller, _ctx.game);
+		_ctx.ui->modal_camp->regenerate();
 		_ctx.ui->modal_camp->show = true;
 
 		_ctx.ui->modal_identify->show = false;
@@ -292,7 +291,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 	} else {
 		// Start off in Camp
-		_ctx.ui->modal_camp->regenerate(_ctx.controller, _ctx.game);
+		_ctx.ui->modal_camp->regenerate();
 		_ctx.ui->modal_camp->show = true;
 
 		// Hide any other modals that might be showing

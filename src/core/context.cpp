@@ -45,6 +45,12 @@ auto Sorcery::Context::get_config(const unsigned int i) -> bool & {
 	return config->get(i);
 }
 
+auto Sorcery::Context::get_config(std::string_view section,
+								  std::string_view value) const -> std::string {
+
+	return config->get(section, value);
+}
+
 auto Sorcery::Context::get_file(std::string_view key) const
 	-> std::filesystem::path {
 

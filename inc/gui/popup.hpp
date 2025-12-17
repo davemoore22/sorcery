@@ -23,18 +23,17 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "types/component.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
-class UI;
-class System;
+struct Context;
+class Component;
 
 class Popup {
 
 	public:
-		Popup(System *system, UI *ui, Component &component);
+		Popup(Context &ctx, Component &component);
 
 		auto display() -> void;
 		auto id() const -> std::string;
@@ -43,9 +42,8 @@ class Popup {
 		bool show;
 
 	private:
-		System *_system;
-		UI *_ui;
-		Component _component;
+		Context &_ctx;
+		Component &_component;
 		std::string _id;
 		std::string _name;
 };

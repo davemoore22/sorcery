@@ -23,18 +23,19 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "types/component.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
 
+struct Context;
 class UI;
 class System;
+class Component;
 
 class Dialog {
 
 	public:
-		Dialog(System *system, UI *ui, Component &component,
+		Dialog(Context &ctx, Component &component,
 			   const Enums::Layout::DialogType type);
 
 		auto display(bool &is_yes) -> void;
@@ -44,9 +45,8 @@ class Dialog {
 		bool show;
 
 	private:
-		System *_system;
-		UI *_ui;
-		Component _component;
+		Context &_ctx;
+		Component &_component;
 		Enums::Layout::DialogType _type;
 		std::string _id;
 		std::string _name;
