@@ -38,17 +38,10 @@ class Menu {
 	public:
 		Menu() = delete;
 		Menu(Context &ctx, Component *component, Game *game);
+		~Menu();
 
 		auto draw() -> void;
 		auto regenerate() -> void;
-
-	private:
-		auto _load_dynamic_items() -> void;
-		auto _load_fixed_items() -> void;
-		auto _load_maze_characters() -> void;
-		auto _load_party_characters(const int flags) -> void;
-		auto _load_tavern_characters() -> void;
-		auto _load_sick_characters() -> void;
 
 		Context &_ctx;
 		Component *_component;

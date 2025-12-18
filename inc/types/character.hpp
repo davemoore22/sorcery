@@ -172,6 +172,8 @@ class Character {
 		auto heal(const unsigned int adjustment) -> void;
 		auto attributes() -> std::map<Enums::Character::Attribute, int> &;
 		auto abilities() -> std::map<Enums::Character::Ability, int> &;
+		auto abilities() const
+			-> const std::map<Enums::Character::Ability, int> &;
 		auto spells() -> std::vector<Spell> &;
 		auto priest_cur_sp() -> std::map<unsigned int, unsigned int> &;
 		auto mage_cur_sp() -> std::map<unsigned int, unsigned int> &;

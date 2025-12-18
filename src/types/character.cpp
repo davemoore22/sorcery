@@ -96,6 +96,12 @@ auto Sorcery::Character::abilities()
 	return _abilities;
 }
 
+auto Sorcery::Character::abilities() const
+	-> const std::map<Enums::Character::Ability, int> & {
+
+	return _abilities;
+}
+
 auto Sorcery::Character::spells() -> std::vector<Spell> & {
 
 	return _spells;

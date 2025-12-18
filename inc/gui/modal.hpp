@@ -35,6 +35,7 @@ class Modal {
 
 	public:
 		Modal(Context &ctx, Component &component);
+		~Modal();
 
 		auto display(bool &is_yes) -> void;
 		auto id() const -> std::string;

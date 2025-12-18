@@ -4,6 +4,7 @@ list(APPEND sorcery_SOURCES
 	${CMAKE_CURRENT_LIST_DIR}/frame.cpp
 	${CMAKE_CURRENT_LIST_DIR}/input.cpp
 	${CMAKE_CURRENT_LIST_DIR}/menu.cpp
+	${CMAKE_CURRENT_LIST_DIR}/menubuilder.cpp
 	${CMAKE_CURRENT_LIST_DIR}/message.cpp
 	${CMAKE_CURRENT_LIST_DIR}/popup.cpp
 	${CMAKE_CURRENT_LIST_DIR}/videoplayer.cpp

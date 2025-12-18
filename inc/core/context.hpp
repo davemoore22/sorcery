@@ -43,6 +43,7 @@ class Random;
 class System;
 class UI;
 class Application;
+class MenuBuilder;
 
 // Context struct for simplying DI
 struct Context {
@@ -63,6 +64,7 @@ struct Context {
 		ComponentStore *components = nullptr;
 		FontStore *fonts = nullptr;
 		ImageStore *images = nullptr;
+		MenuBuilder *menubuilder = nullptr;
 
 		// Helpers
 		auto get_random(const Enums::System::Random random_type)

@@ -28,6 +28,7 @@
 #include "core/ui.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
+#include "gui/menubuilder.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"
@@ -50,6 +51,8 @@ Sorcery::Modal::Modal(Context &ctx, Component &component)
 	_name = _component.name;
 }
 
+Sorcery::Modal::~Modal() {}
+
 auto Sorcery::Modal::name() const -> std::string {
 
 	return _name;
@@ -57,11 +60,7 @@ auto Sorcery::Modal::name() const -> std::string {
 
 auto Sorcery::Modal::regenerate() -> void {
 
-	_items.clear();
-	_data.clear();
-	_ctx.ui->load_dynamic_menu_items(_component.name, _width, _items, _data,
-									 false);
-	_ctx.ui->load_fixed_items(_component.name, _width, _items, false);
+	_ctx.menubuilder->build(_component.name, _width, _items, _data, false);
 }
 
 auto Sorcery::Modal::id() const -> std::string {

@@ -95,6 +95,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	ctx.controller = _controller.get();
 	_ui = std::make_unique<UI>(ctx);
 	ctx.ui = _ui.get();
+	ctx.menubuilder = _ui->menubuilder.get();
 	ctx.components = _ui->components.get();
 	ctx.images = _ui->images.get();
 	ctx.fonts = _ui->fontstore.get();

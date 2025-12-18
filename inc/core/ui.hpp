@@ -48,6 +48,7 @@ class ImageStore;
 class Input;
 class Message;
 class Menu;
+class MenuBuilder;
 class Modal;
 class Render;
 class Popup;
@@ -88,15 +89,6 @@ class UI {
 		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo,
 						 const double percent) const -> ImVec4;
 		auto io() -> ImGuiIO &;
-		auto load_dynamic_menu_items(std::string_view component,
-									 const unsigned int width,
-									 std::vector<std::string> &items,
-									 std::vector<int> &data, const bool reorder)
-			-> void;
-		auto load_fixed_items(std::string_view component,
-							  const unsigned int width,
-							  std::vector<std::string> &items,
-							  const bool reorder) -> void;
 		auto load_message(const Enums::Map::Event event)
 			-> std::vector<std::string>;
 		auto set_monochrome(const bool value) -> void;
@@ -108,6 +100,8 @@ class UI {
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
 		std::unique_ptr<FontStore> fontstore;
+
+		std::unique_ptr<MenuBuilder> menubuilder;
 
 		std::unique_ptr<Dialog> dialog_exit;
 		std::unique_ptr<Dialog> dialog_new;
