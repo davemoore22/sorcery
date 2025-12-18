@@ -154,6 +154,37 @@ auto Sorcery::Application::get_resources() const -> Resources * {
 	return ctx.resources;
 }
 
+auto Sorcery::Application::_start_from_cli(const StartupPlan &plan) -> bool {
+
+	switch (plan.bootstrap) {
+	case GameBootstrap::LOAD_GAME:
+		if (!ctx.controller->has_saved_game())
+			return false;
+		_load_existing_game();
+		break;
+
+	case GameBootstrap::NEW_GAME:
+		_start_new_game(plan.party == PartyMode::QUICKSTART);
+		break;
+
+	default:
+		return false;
+	}
+
+	switch (plan.location) {
+	case StartLocation::MAZE:
+		_do_start_expedition(EXPEDITION_START | EXPEDITION_GOTO);
+		break;
+
+	case StartLocation::CASTLE:
+	default:
+		_do_town(DEST_NONE);
+		break;
+	}
+
+	return true;
+}
+
 // Start the Game
 auto Sorcery::Application::start() -> int {
 
@@ -164,122 +195,149 @@ auto Sorcery::Application::start() -> int {
 	_splash->stop();
 
 	// Start relevant animation worker threads
-	ctx.system->animation->refresh_colcyc();
-	ctx.system->animation->start_colcycl_th();
-	ctx.system->animation->refresh_wp();
-	ctx.system->animation->start_wp_th();
+	ctx.animation->refresh_colcyc();
+	ctx.animation->start_colcycl_th();
+	ctx.animation->refresh_wp();
+	ctx.animation->start_wp_th();
 
-	// Now check for any command line parameters
-	auto done{false};
-	auto front_result{0};
+	// Figure our what to do now (if we have any command line parameters)
+	const auto plan{_build_startup_plan()};
 
-	// Optionally skip images for speed to avoid loading them
-	if (_check_param(NO_IMAGES_PARAM))
+	// If we hit here without anything being changed in the startup plan, we are
+	// just starting the game as normal (i.e. going to the main menu)
+	if (plan.bypass_menu) {
+		if (!_start_from_cli(plan)) {
+			// e.g. --load with no save present
+			_run_main_menu();
+		}
+	} else {
+		_run_main_menu();
+	}
+
+	return 0;
+}
+
+auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
+
+	// Command-line parameters (debug-only)
+	constexpr auto PARAM_NO_IMAGES{"--no-images"sv};
+	constexpr auto PARAM_LOAD_GAME{"--load"sv};
+	constexpr auto PARAM_NEW_GAME{"--new"sv};
+	constexpr auto PARAM_QUICKSTART{"--quickstart"sv};
+	constexpr auto PARAM_GO_TO_MAZE{"--go-to-maze"sv};
+
+	const bool load_game{_check_param(PARAM_LOAD_GAME)};
+	const bool new_game{_check_param(PARAM_NEW_GAME)};
+	const bool quickstart{_check_param(PARAM_QUICKSTART)};
+	const bool go_to_maze{_check_param(PARAM_GO_TO_MAZE)};
+
+	// Independent global modifier
+	if (_check_param(PARAM_NO_IMAGES))
 		ctx.images->show_images = false;
 
-	if (_check_param(CONTINUE_GAME_PARAM) && ctx.controller->has_saved_game()) {
+	// Validate mutually exclusive bootstrap options
+	const int bootstrap_count =
+		(load_game ? 1 : 0) + (new_game ? 1 : 0) + (quickstart ? 1 : 0);
 
-		// _game is set by this
-		_load_existing_game();
+	if (bootstrap_count > 1)
+		throw std::runtime_error("Invalid startup parameters");
 
-		// Castle
-		front_result = _do_town(DEST_NONE);
-		if (front_result == GO_TO_MAZE) {
+	if (load_game && go_to_maze)
+		throw std::runtime_error("--load cannot be combined with --go-to-maze");
 
-			// Start the Maze
-			front_result = _do_start_expedition(EXPEDITION_RESTART);
-			done = true;
-		}
+	// Build the startup plan
+	StartupPlan plan{};
 
-	} else if (_check_param(QUICKSTART_PARAM)) {
+	// Aliases / shortcuts (highest priority first)
+	if (go_to_maze) {
+		// Alias: new game + quickstart + go to maze
+		plan.bypass_menu = true;
+		plan.bootstrap = GameBootstrap::NEW_GAME;
+		plan.party = PartyMode::QUICKSTART;
+		plan.location = StartLocation::MAZE;
 
-		// _game is set by this
-		_start_new_game(true);
-		front_result = _do_town(DEST_NONE);
-	} else if (_check_param(NEW_GAME_PARAM)) {
+	} else if (quickstart) {
+		// Alias: new game + quickstart party
+		plan.bypass_menu = true;
+		plan.bootstrap = GameBootstrap::NEW_GAME;
+		plan.party = PartyMode::QUICKSTART;
 
-		// _game is set by this
-		_start_new_game(false);
-		front_result = _do_town(DEST_NONE);
-	} else {
+	} else if (new_game) {
+		plan.bypass_menu = true;
+		plan.bootstrap = GameBootstrap::NEW_GAME;
 
-		const auto go_to_maze{_check_param(GO_TO_MAZE_PARAM)};
-		const auto go_to_training{_check_param(GO_TO_TRAINING_PARAM)};
+	} else if (load_game) {
+		plan.bypass_menu = true;
+		plan.bootstrap = GameBootstrap::LOAD_GAME;
+	}
 
-		int mm_what{};
-		auto first_time{true};
+	return plan;
+}
 
-		// Main Frontend Loop
-		while (!done) {
+auto Sorcery::Application::_run_main_menu() -> bool {
 
-			if (first_time && go_to_maze)
-				mm_what = MAIN_MENU_NEW_GAME;
-			else if (first_time && go_to_training) {
-				if (_controller->has_saved_game())
-					_load_existing_game();
-				else
-					_start_new_game(false);
+	int mm_what{};
+	auto first_time{true};
 
-			} else {
-				mm_what = _main_menu->start();
-				_main_menu->stop();
-			}
+	// Main Frontend Loop
+	bool done = false;
+	while (!done) {
 
-			// If we want to load a game or start a new game
-			if (mm_what == MAIN_MENU_NEW_GAME ||
-				mm_what == MAIN_MENU_CONTINUE_GAME) {
+		mm_what = _main_menu->start();
+		_main_menu->stop();
 
-				// Do the town/maze loop til we want to exit
-				if (mm_what == MAIN_MENU_NEW_GAME)
-					_start_new_game(true);
-				else if (mm_what == MAIN_MENU_CONTINUE_GAME &&
-						 _controller->has_saved_game())
-					_load_existing_game();
-				else if (mm_what == MAIN_MENU_EXIT_GAME)
-					done = true;
-				else if (mm_what == ABORT_GAME)
-					done = true;
-				else
-					_start_new_game(false);
+		// If we want to load a game or start a new game
+		if (mm_what == MAIN_MENU_NEW_GAME ||
+			mm_what == MAIN_MENU_CONTINUE_GAME) {
 
-				if (!done) {
+			// Do the town/maze loop til we want to exit
+			if (mm_what == MAIN_MENU_NEW_GAME)
+				_start_new_game(true);
+			else if (mm_what == MAIN_MENU_CONTINUE_GAME &&
+					 _controller->has_saved_game())
+				_load_existing_game();
+			else if (mm_what == MAIN_MENU_EXIT_GAME)
+				done = true;
+			else if (mm_what == ABORT_GAME)
+				done = true;
+			else
+				_start_new_game(false);
 
-					int inner_what;
-					while (!(inner_what == ABORT_GAME ||
-							 inner_what == LEAVE_GAME)) {
+			if (!done) {
 
-						if (_check_param(GO_TO_MAZE_PARAM) && first_time) {
-							inner_what = _do_start_expedition(EXPEDITION_START |
-															  EXPEDITION_GOTO);
-							first_time = false;
-							continue;
-						} else if (_check_param(GO_TO_TRAINING_PARAM) &&
-								   first_time) {
+				int inner_what;
+				while (
+					!(inner_what == ABORT_GAME || inner_what == LEAVE_GAME)) {
 
-							inner_what = _do_edge(GO_TO_TRAINING);
-							first_time = false;
-							continue;
-						}
+					if (_check_param(GO_TO_MAZE_PARAM) && first_time) {
+						inner_what = _do_start_expedition(EXPEDITION_START |
+														  EXPEDITION_GOTO);
+						first_time = false;
+						continue;
+					} else if (_check_param(GO_TO_TRAINING_PARAM) &&
+							   first_time) {
 
-						inner_what = _do_town(DEST_NONE);
-						if (_controller->has_flag("want_enter_maze"))
-							inner_what = _do_start_expedition(EXPEDITION_START);
-						else if (_controller->has_flag(
-									 "want_restart_expedition"))
-							inner_what =
-								_do_restart_expedition(EXPEDITION_RESTART);
+						inner_what = _do_edge(GO_TO_TRAINING);
+						first_time = false;
+						continue;
 					}
 
-					done = true;
+					inner_what = _do_town(DEST_NONE);
+					if (_controller->has_flag("want_enter_maze"))
+						inner_what = _do_start_expedition(EXPEDITION_START);
+					else if (_controller->has_flag("want_restart_expedition"))
+						inner_what = _do_restart_expedition(EXPEDITION_RESTART);
 				}
-			} else if (mm_what == MAIN_MENU_EXIT_GAME || mm_what == ABORT_GAME)
+
 				done = true;
-		}
+			}
+		} else if (mm_what == MAIN_MENU_EXIT_GAME || mm_what == ABORT_GAME)
+			done = true;
 	}
 
 	ctx.ui->stop();
-	return 0;
-};
+	return true;
+}
 
 auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 

@@ -48,6 +48,30 @@ class UI;
 // Application Class
 class Application {
 
+		enum class GameBootstrap {
+			NONE,
+			LOAD_GAME,
+			NEW_GAME,
+		};
+
+		enum class PartyMode {
+			NONE,
+			QUICKSTART,
+		};
+
+		enum class StartLocation {
+			NONE,
+			CASTLE,
+			MAZE,
+		};
+
+		struct StartupPlan {
+				bool bypass_menu{false};
+				GameBootstrap bootstrap{GameBootstrap::NONE};
+				PartyMode party{PartyMode::NONE};
+				StartLocation location{StartLocation::CASTLE};
+		};
+
 	public:
 		// Standard Constructor
 		Application(int argc, char **argv);
@@ -66,6 +90,9 @@ class Application {
 
 	private:
 		// Private Methods
+		auto _start_from_cli(const StartupPlan &plan) -> bool;
+		auto _run_main_menu() -> bool;
+		auto _build_startup_plan() -> StartupPlan;
 		auto _add_quickstart_party() -> void;
 		auto _check_param(std::string_view param) const -> bool;
 		auto _get_exe_path() const -> std::string_view;
