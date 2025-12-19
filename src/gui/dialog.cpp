@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "gui/uistyle.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"
@@ -73,11 +74,8 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 	set_StyleVar(ImGuiStyleVar_WindowRounding, _component.background);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
-	set_StyleColor(ImGuiCol_Button,
-				   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+	UIStyle::set_faded(_ctx);
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));

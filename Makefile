@@ -1050,29 +1050,29 @@ src/gui/menu.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menu.cpp.s
 .PHONY : src/gui/menu.cpp.s
 
-src/gui/menu_builder.o: src/gui/menu_builder.cpp.o
-.PHONY : src/gui/menu_builder.o
+src/gui/menubuilder.o: src/gui/menubuilder.cpp.o
+.PHONY : src/gui/menubuilder.o
 
 # target to build an object file
-src/gui/menu_builder.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menu_builder.cpp.o
-.PHONY : src/gui/menu_builder.cpp.o
+src/gui/menubuilder.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menubuilder.cpp.o
+.PHONY : src/gui/menubuilder.cpp.o
 
-src/gui/menu_builder.i: src/gui/menu_builder.cpp.i
-.PHONY : src/gui/menu_builder.i
+src/gui/menubuilder.i: src/gui/menubuilder.cpp.i
+.PHONY : src/gui/menubuilder.i
 
 # target to preprocess a source file
-src/gui/menu_builder.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menu_builder.cpp.i
-.PHONY : src/gui/menu_builder.cpp.i
+src/gui/menubuilder.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menubuilder.cpp.i
+.PHONY : src/gui/menubuilder.cpp.i
 
-src/gui/menu_builder.s: src/gui/menu_builder.cpp.s
-.PHONY : src/gui/menu_builder.s
+src/gui/menubuilder.s: src/gui/menubuilder.cpp.s
+.PHONY : src/gui/menubuilder.s
 
 # target to generate assembly for a file
-src/gui/menu_builder.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menu_builder.cpp.s
-.PHONY : src/gui/menu_builder.cpp.s
+src/gui/menubuilder.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menubuilder.cpp.s
+.PHONY : src/gui/menubuilder.cpp.s
 
 src/gui/message.o: src/gui/message.cpp.o
 .PHONY : src/gui/message.o
@@ -2445,9 +2445,9 @@ help:
 	@echo "... src/gui/menu.o"
 	@echo "... src/gui/menu.i"
 	@echo "... src/gui/menu.s"
-	@echo "... src/gui/menu_builder.o"
-	@echo "... src/gui/menu_builder.i"
-	@echo "... src/gui/menu_builder.s"
+	@echo "... src/gui/menubuilder.o"
+	@echo "... src/gui/menubuilder.i"
+	@echo "... src/gui/menubuilder.s"
 	@echo "... src/gui/message.o"
 	@echo "... src/gui/message.i"
 	@echo "... src/gui/message.s"

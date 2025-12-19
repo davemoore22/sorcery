@@ -37,6 +37,7 @@
 #include "gui/message.hpp"
 #include "gui/modal.hpp"
 #include "gui/popup.hpp"
+#include "gui/uistyle.hpp"
 #include "gui/videoplayer.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/filestore.hpp"
@@ -1117,10 +1118,7 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 	if (component->get("adjust_y"))
 		y += component->get_float("adjust_y");
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-	set_StyleColor(ImGuiCol_Button,
-				   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+	UIStyle::set_faded(_ctx);
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 	ImGui::SetCursorPos(ImVec2{x, y});
 	with_ID(name.c_str()) {
@@ -1166,10 +1164,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 		if (component->get("adjust_y"))
 			y += component->get_float("adjust_y");
 
-		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-		set_StyleColor(ImGuiCol_Button,
-					   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+		UIStyle::set_faded(_ctx);
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 		set_StyleColor(ImGuiCol_ButtonActive, (ImVec4)col);
 		ImGui::SetCursorPos(ImVec2{x, y});
@@ -1367,10 +1362,7 @@ auto Sorcery::UI::_draw_character_mage_spells(Component *component,
 	ImGui::SetCursorPos(pos);
 	with_Table("mage_spells_1", 3, ImGuiTableFlags_NoSavedSettings) {
 
-		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-		set_StyleColor(ImGuiCol_TextDisabled,
-					   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+		UIStyle::set_faded_with_disabled(_ctx);
 
 		// Row order since we need to do via rows not columns
 		auto comp_id{""s};
@@ -1421,10 +1413,7 @@ auto Sorcery::UI::_draw_character_priest_spells(Component *component,
 	ImGui::SetCursorPos(pos);
 	with_Table("priest_spells_1", 3, ImGuiTableFlags_NoSavedSettings) {
 
-		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-		set_StyleColor(ImGuiCol_TextDisabled,
-					   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+		UIStyle::set_faded_with_disabled(_ctx);
 
 		// Row order since we need to do via rows not columns
 		auto comp_id{""s};
@@ -2094,10 +2083,7 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 		const auto stepper_plus{std::format("##{}_plus", name)};
 
 		const auto col{get_hl_colour(_ctx.animation->lerp)};
-		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-		set_StyleColor(ImGuiCol_Button,
-					   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+		UIStyle::set_faded(_ctx);
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 
 		if (component->name == "current_stats") {
@@ -2187,10 +2173,7 @@ auto Sorcery::UI::_draw_input(Component *component, std::string *input)
 
 		ImGui::SameLine();
 		const auto col{get_hl_colour(_ctx.animation->lerp)};
-		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-		set_StyleColor(ImGuiCol_Button,
-					   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+		UIStyle::set_faded(_ctx);
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 
 		with_ID(input_button_name.c_str()) {
@@ -2660,10 +2643,7 @@ auto Sorcery::UI::_draw_options() -> void {
 		ImGui::SetCursorPos(pos);
 
 		// Now draw tab bar
-		set_StyleColor(ImGuiCol_Text,
-					   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-		set_StyleColor(ImGuiCol_Button,
-					   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+		UIStyle::set_faded(_ctx);
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 		const auto tabs_width{component.w * grid_sz};
 		const auto tabs_height{component.h * grid_sz};
@@ -2789,10 +2769,7 @@ auto Sorcery::UI::_draw_options() -> void {
 			const auto button_y{std::stoi(component.get("button_y").value())};
 			ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
 
-			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-			set_StyleColor(ImGuiCol_Button,
-						   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+			UIStyle::set_faded(_ctx);
 			set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{col});
 			set_StyleColor(ImGuiCol_ButtonActive, (ImVec4)col);
 
@@ -3627,10 +3604,7 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 				   ImVec4{0.0f, 0.0f, 0.0f, 1.0f - _ctx.animation->fade});
 	set_StyleColor(ImGuiCol_HeaderActive, (ImVec4)sel_color);
 	set_StyleColor(ImGuiCol_HeaderHovered, (ImVec4)sel_color);
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-	set_StyleColor(ImGuiCol_TextDisabled,
-				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+	UIStyle::set_faded_with_disabled(_ctx);
 
 	set_Font(fontstore->get_current_font(font).value());
 	ImGui::SetCursorPos(ImVec2{x, y});
