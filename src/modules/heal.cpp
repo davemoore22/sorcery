@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -60,7 +61,7 @@ auto Sorcery::Heal::_callback_heal_tick(Uint32, void *param) -> Uint32 {
 
 auto Sorcery::Heal::start() -> int {
 
-	_ctx.controller->move_screen("show_pay", "show_heal");
+	_ctx.controller->move_screen(Screens::PAY, Screens::HEAL);
 	_ctx.controller->unset_flag("heal_finished");
 
 	_heal_tick = SDL_AddTimer(2000, &Heal::_callback_heal_tick, this);
@@ -195,7 +196,7 @@ auto Sorcery::Heal::stop() -> int {
 
 	SDL_RemoveTimer(_heal_tick);
 
-	_ctx.controller->move_screen("show_heal", "show_title");
+	_ctx.controller->move_screen(Screens::HEAL, Screens::TEMPLE);
 
 	return 0;
 }

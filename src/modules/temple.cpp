@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -64,7 +65,7 @@ auto Sorcery::Temple::start() -> int {
 	};
 
 	_ctx.controller->initialise("inn");
-	_ctx.controller->move_screen("show_castle", "show_temple");
+	_ctx.controller->move_screen(Screens::CASTLE, Screens::TEMPLE);
 
 	// Need this before accessing dynamic modals!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
@@ -187,7 +188,7 @@ auto Sorcery::Temple::start() -> int {
 
 auto Sorcery::Temple::stop() -> int {
 
-	_ctx.controller->move_screen("show_temple", "show_castle");
+	_ctx.controller->move_screen(Screens::TEMPLE, Screens::CASTLE);
 	_ctx.controller->clear_character("inspect");
 
 	return 0;

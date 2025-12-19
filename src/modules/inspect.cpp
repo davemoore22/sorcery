@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "engine/define.hpp"
@@ -145,11 +146,11 @@ auto Sorcery::Inspect::stop(const int mode) -> void {
 
 	_ctx.controller->clear_character("inspect");
 	if (mode & INSPECT_MODE_CAMP)
-		_ctx.controller->move_screen("show_inspect", "show_engine");
+		_ctx.controller->move_screen(Screens::INSPECT, Screens::ENGINE);
 	else if (mode & INSPECT_MODE_TAVERN)
-		_ctx.controller->move_screen("show_inspect", "show_tavern");
+		_ctx.controller->move_screen(Screens::INSPECT, Screens::TAVERN);
 	else if (mode & INSPECT_MODE_INN)
-		_ctx.controller->move_screen("show_inspect", "show_inn");
+		_ctx.controller->move_screen(Screens::INSPECT, Screens::INN);
 	else if (mode & INSPECT_MODE_TEMPLE)
-		_ctx.controller->move_screen("show_inspect", "show_temple");
+		_ctx.controller->move_screen(Screens::INSPECT, Screens::TEMPLE);
 }

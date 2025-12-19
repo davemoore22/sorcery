@@ -85,8 +85,6 @@ class Controller {
 		auto set_screen(std::string_view value) -> void;
 		auto set_game(Game *game) -> void;
 		auto get_screen() const -> std::string_view;
-		auto move_screen(const std::string &from_screen,
-						 const std::string &to_screen) -> void;
 		auto clear_character(const std::string &flag) -> void;
 		auto get_character(const std::string &flag) const -> int;
 		auto has_character(const std::string &flag) const -> bool;
@@ -133,6 +131,7 @@ class Controller {
 		auto get_character() const -> Character *;
 		auto get_input_buffer() -> std::string &;
 		auto set_input_buffer(const std::string &value) -> void;
+		auto move_screen(std::string_view from, std::string_view to) -> void;
 
 		// Public Members
 
@@ -158,6 +157,8 @@ class Controller {
 		std::map<std::string, int> _selected;	   // Menu Selections
 		std::shared_ptr<Character> _create; // Candidate Character for Creation
 		std::string _input_buffer;			// Input Buffer for Text Input
+
+		auto _assert_only_one_show_flag() const -> void;
 };
 
 };

@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -84,7 +85,7 @@ auto Sorcery::Restart::start() -> int {
 auto Sorcery::Restart::stop() -> int {
 
 	_ctx.game->save_game();
-	_ctx.controller->move_screen("show_restart", "show_edge_of_town");
+	_ctx.controller->move_screen(Screens::RESTART, Screens::EDGEOFTOWN);
 
 	return 0;
 }

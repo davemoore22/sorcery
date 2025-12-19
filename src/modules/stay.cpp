@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -58,7 +59,7 @@ auto Sorcery::Stay::start() -> int {
 	// Unlike what happens in the start() methods in other modules, we don't
 	// call controller->initialise() here, as this module requires we know what
 	// character we have selected to stay at the inn!
-	_ctx.controller->move_screen("show_inn", "show_stay");
+	_ctx.controller->move_screen(Screens::INN, Screens::STAY);
 
 	// Main loop
 	auto done{false};
@@ -149,7 +150,7 @@ auto Sorcery::Stay::start() -> int {
 auto Sorcery::Stay::stop() -> int {
 
 	_ctx.controller->set_selected("stay_selected", 0);
-	_ctx.controller->move_screen("show_stay", "show_inn");
+	_ctx.controller->move_screen(Screens::STAY, Screens::INN);
 
 	return 0;
 }

@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -44,7 +45,7 @@ auto Sorcery::NoLevelUp::_initialise() -> bool {
 
 auto Sorcery::NoLevelUp::start(const int mode) -> int {
 
-	_ctx.controller->move_screen("show_stay", "show_nolevelup");
+	_ctx.controller->move_screen(Screens::STAY, Screens::NOLEVELUP);
 
 	// Main loop
 	auto done{false};
@@ -77,7 +78,7 @@ auto Sorcery::NoLevelUp::start(const int mode) -> int {
 
 auto Sorcery::NoLevelUp::stop() -> int {
 
-	_ctx.controller->move_screen("show_nolevelup", "show_stay");
+	_ctx.controller->move_screen(Screens::NOLEVELUP, Screens::STAY);
 
 	return 0;
 }

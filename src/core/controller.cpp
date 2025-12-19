@@ -26,6 +26,7 @@
 #include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/resources.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "engine/define.hpp"
@@ -576,13 +577,13 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			_flags["want_continue_game"] = true;
 			break;
 		case MAIN_MENU_OPTIONS:
-			move_screen("show_main_menu", "show_options");
+			move_screen(Screens::MAINMENU, Screens::OPTIONS);
 			break;
 		case MAIN_MENU_COMPENDIUM:
-			move_screen("show_main_menu", "show_compendium");
+			move_screen(Screens::MAINMENU, Screens::COMPENDIUM);
 			break;
 		case MAIN_MENU_LICENSE:
-			move_screen("show_main_menu", "show_license");
+			move_screen(Screens::MAINMENU, Screens::LICENSE);
 			break;
 		case MAIN_MENU_EXIT_GAME:
 			in_flags.at(1).get() = true;
@@ -595,13 +596,13 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		// Flags = &_ui->dialog_leave->show,
 		switch (selection) {
 		case EDGE_OF_TOWN_GO_TO_CASTLE:
-			move_screen("show_edge_of_town", "show_castle");
+			move_screen(Screens::EDGEOFTOWN, Screens::CASTLE);
 			break;
 		case EDGE_OF_TOWN_GO_TO_TRAINING:
-			move_screen("show_edge_of_town", "show_training");
+			move_screen(Screens::EDGEOFTOWN, Screens::TRAINING);
 			break;
 		case EDGE_OF_TOWN_RESTART:
-			move_screen("show_edge_of_town", "show_restart");
+			move_screen(Screens::EDGEOFTOWN, Screens::RESTART);
 			break;
 		case EDGE_OF_TOWN_GO_TO_MAZE:
 			_flags["want_enter_maze"] = true;
@@ -623,7 +624,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		else if (selection == INN_INSPECT)
 			in_flags.at(0).get() = true;
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_inn", "show_castle");
+			move_screen(Screens::INN, Screens::CASTLE);
 
 	} else if (component == "tavern_menu") {
 
@@ -631,17 +632,17 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 		// Flags = &_ui->notice_divvy->show, &_ui->modal_inspect->show,
 		if (selection == TAVERN_ADD)
-			move_screen("show_tavern", "show_add");
+			move_screen(Screens::TAVERN, Screens::ADD);
 		else if (selection == TAVERN_REMOVE)
-			move_screen("show_tavern", "show_remove");
+			move_screen(Screens::TAVERN, Screens::REMOVE);
 		else if (selection == TAVERN_INSPECT)
 			in_flags.at(1).get() = true;
 		else if (selection == TAVERN_REORDER)
-			move_screen("show_tavern", "show_reorder");
+			move_screen(Screens::TAVERN, Screens::REORDER);
 		else if (selection == TAVERN_DIVVY_GOLD)
 			in_flags.at(0).get() = true;
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_tavern", "show_castle");
+			move_screen(Screens::TAVERN, Screens::CASTLE);
 
 	} else if (component == "temple_menu") {
 
@@ -656,7 +657,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		else if (selection == TEMPLE_INSPECT)
 			in_flags.at(0).get() = true;
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_temple", "show_castle");
+			move_screen(Screens::TEMPLE, Screens::CASTLE);
 
 	} else if (component == "camp_menu") {
 
@@ -664,11 +665,11 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 		// Flags = &_ui->modal_camp->show
 		if (selection == CAMP_INSPECT)
-			move_screen("show_engine", "show_inspect");
+			move_screen(Screens::ENGINE, Screens::INSPECT);
 		else if (selection == CAMP_REORDER)
-			move_screen("show_engine", "show_reorder");
+			move_screen(Screens::ENGINE, Screens::REORDER);
 		else if (selection == CAMP_OPTIONS)
-			move_screen("show_engine", "show_options");
+			move_screen(Screens::ENGINE, Screens::OPTIONS);
 		else if (selection == CAMP_QUIT)
 			_flags["want_quit_expedition"] = true;
 		else if (selection == CAMP_LEAVE) {
@@ -1138,32 +1139,32 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Compendium
 		if (selection == COMPENDIUM_ATLAS)
-			move_screen("show_compendium", "show_atlas");
+			move_screen(Screens::COMPENDIUM, Screens::ATLAS);
 		else if (selection == COMPENDIUM_BESTIARY)
-			move_screen("show_compendium", "show_bestiary");
+			move_screen(Screens::COMPENDIUM, Screens::BESTIARY);
 		else if (selection == COMPENDIUM_MUSEUM)
-			move_screen("show_compendium", "show_museum");
+			move_screen(Screens::COMPENDIUM, Screens::MUSEUM);
 		else if (selection == COMPENDIUM_SPELLBOOK)
-			move_screen("show_compendium", "show_spellbook");
+			move_screen(Screens::COMPENDIUM, Screens::SPELLBOOK);
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_compendium", "show_main_menu");
+			move_screen(Screens::COMPENDIUM, Screens::MAINMENU);
 	} else if (component == "castle_menu") {
 
 		// Castle
 		if (selection == CASTLE_GO_TO_EDGE_OF_TOWN)
-			move_screen("show_castle", "show_edge_of_town");
+			move_screen(Screens::CASTLE, Screens::EDGEOFTOWN);
 		else if (selection == CASTLE_GO_TO_TAVERN)
-			move_screen("show_castle", "show_tavern");
+			move_screen(Screens::CASTLE, Screens::TAVERN);
 		else if (selection == CASTLE_GO_TO_INN)
-			move_screen("show_castle", "show_inn");
+			move_screen(Screens::CASTLE, Screens::INN);
 		else if (selection == CASTLE_GO_TO_SHOP)
-			move_screen("show_castle", "show_shop");
+			move_screen(Screens::CASTLE, Screens::SHOP);
 		else if (selection == CASTLE_GO_TO_TEMPLE)
-			move_screen("show_castle", "show_temple");
+			move_screen(Screens::CASTLE, Screens::TEMPLE);
 	} else if (component == "remove_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_remove", "show_tavern");
+			move_screen(Screens::REMOVE, Screens::TAVERN);
 		else {
 
 			// if we can, remove the character from the party
@@ -1177,7 +1178,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Restart Menu
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_restart", "show_edge_of_town");
+			move_screen(Screens::RESTART, Screens::EDGEOFTOWN);
 		else {
 
 			// Get the ID of the Character if we can, add the character to
@@ -1189,7 +1190,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "add_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_add", "show_tavern");
+			move_screen(Screens::ADD, Screens::TAVERN);
 		else {
 
 			// if we can, add the character to the party
@@ -1202,7 +1203,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "race_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_create", "show_method");
+			move_screen(Screens::CREATE, Screens::METHOD);
 		else {
 			_create->set_race(
 				magic_enum::enum_cast<Enums::Character::Race>(selection + 1)
@@ -1216,7 +1217,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "alignment_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_create", "show_method");
+			move_screen(Screens::CREATE, Screens::METHOD);
 		else {
 			_create->set_alignment(
 				magic_enum::enum_cast<Enums::Character::Align>(selection + 1)
@@ -1230,7 +1231,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "class_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_create", "show_method");
+			move_screen(Screens::CREATE, Screens::METHOD);
 		else {
 			if (_create->get_points_left() == 0) {
 
@@ -1286,20 +1287,20 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "method_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_method", "show_training");
+			move_screen(Screens::METHOD, Screens::TRAINING);
 		else {
 
 			// Which method of character creation do we want to do?
 
 			if (selection == METHOD_FULL) {
 				_method = Enums::Character::Method::FULL;
-				move_screen("show_method", "show_create");
+				move_screen(Screens::METHOD, Screens::CREATE);
 			} else if (selection == METHOD_QUICK) {
 				_method = Enums::Character::Method::QUICK;
-				move_screen("show_method", "show_create");
+				move_screen(Screens::METHOD, Screens::CREATE);
 			} else if (selection == METHOD_RANDOM) {
 				_method = Enums::Character::Method::RANDOM;
-				move_screen("show_method", "show_create");
+				move_screen(Screens::METHOD, Screens::CREATE);
 			}
 		}
 	} else if (component == "roster_menu") {
@@ -1329,47 +1330,47 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Shop
 		if (selection == SHOP_INSPECT)
-			move_screen("show_shop", "show_roster");
+			move_screen(Screens::SHOP, Screens::ROSTER);
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_shop", "show_castle");
+			move_screen(Screens::SHOP, Screens::CASTLE);
 	} else if (component == "temple_menu") {
 
 		// Temple
 		if (selection == TEMPLE_INSPECT)
-			move_screen("show_temple", "show_roster");
+			move_screen(Screens::TEMPLE, Screens::ROSTER);
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_temple", "show_castle");
+			move_screen(Screens::TEMPLE, Screens::CASTLE);
 	} else if (component == "training_menu") {
 
 		// Training Grounds
 		if (selection == TRAINING_CREATE)
-			move_screen("show_training", "show_method");
+			move_screen(Screens::TRAINING, Screens::METHOD);
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_training", "show_edge_of_town");
+			move_screen(Screens::TRAINING, Screens::EDGEOFTOWN);
 	} else if (component == "bestiary_menu") {
 
 		// Bestiary
 		_selected["bestiary_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_bestiary", "show_compendium");
+			move_screen(Screens::BESTIARY, Screens::COMPENDIUM);
 	} else if (component == "museum_menu") {
 
 		// Museum
 		_selected["museum_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_museum", "show_compendium");
+			move_screen(Screens::MUSEUM, Screens::COMPENDIUM);
 	} else if (component == "atlas_menu") {
 
 		// Atlas
 		_selected["atlas_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_atlas", "show_compendium");
+			move_screen(Screens::ATLAS, Screens::COMPENDIUM);
 	} else if (component == "spellbook_menu") {
 
 		// Spellbook
 		_selected["spellbook_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen("show_spellbook", "show_compendium");
+			move_screen(Screens::SPELLBOOK, Screens::COMPENDIUM);
 	} else if (component == "choose_menu") {
 
 		// Character Selection
@@ -1383,18 +1384,10 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		// Resting
 		_selected["stay_selected"] = selection + 1;
 		if (selection == (static_cast<int>(items.size()) - 1 + 1))
-			move_screen("show_stay", "show_inn");
+			move_screen(Screens::STAY, Screens::INN);
 		else
-			move_screen("show_stay", "show_recovery");
+			move_screen(Screens::STAY, Screens::RECOVERY);
 	}
-}
-
-// Move from one screen to another
-auto Sorcery::Controller::move_screen(const std::string &from_screen,
-									  const std::string &to_screen) -> void {
-
-	_flags[to_screen] = true;
-	_flags[from_screen] = false;
 }
 
 auto Sorcery::Controller::set_method(const Enums::Character::Method method)
@@ -1419,6 +1412,24 @@ auto Sorcery::Controller::get_character() const -> Character * {
 	return _create.get();
 }
 
+auto Sorcery::Controller::move_screen(std::string_view from,
+									  std::string_view to) -> void {
+
+	unset_flag(from.data());
+	set_flag(to.data());
+	_assert_only_one_show_flag();
+}
+
+auto Sorcery::Controller::_assert_only_one_show_flag() const -> void {
+
+	int count{0};
+	for (auto &[flag, value] : _flags) {
+		if (flag.starts_with("show_") && value)
+			++count;
+	}
+	assert(count == 1 && "Multiple active screens!");
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
@@ -1437,4 +1448,5 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
 
 	return out_stream << std::endl;
 }
+
 } // namespace Sorcery

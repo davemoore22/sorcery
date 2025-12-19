@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -56,7 +57,7 @@ auto Sorcery::Inn::_initialise() -> bool {
 auto Sorcery::Inn::start() -> int {
 
 	_ctx.controller->initialise("inn");
-	_ctx.controller->move_screen("show_castle", "show_inn");
+	_ctx.controller->move_screen(Screens::CASTLE, Screens::INN);
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
@@ -120,7 +121,7 @@ auto Sorcery::Inn::start() -> int {
 
 auto Sorcery::Inn::stop() -> int {
 
-	_ctx.controller->move_screen("show_inn", "show_castle");
+	_ctx.controller->move_screen(Screens::INN, Screens::CASTLE);
 	_ctx.controller->clear_character("inspect");
 	_ctx.controller->clear_character("stay");
 

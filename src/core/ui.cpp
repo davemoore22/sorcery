@@ -1117,7 +1117,6 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 		x += component->get_float("adjust_x");
 	if (component->get("adjust_y"))
 		y += component->get_float("adjust_y");
-
 	UIStyle::set_faded(_ctx);
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 	ImGui::SetCursorPos(ImVec2{x, y});
@@ -1191,8 +1190,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+	UIStyle::set_text_bright(_ctx);
 	ImVec2 pos{};
 	pos = ImVec2{left_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
@@ -1200,8 +1198,7 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 									   character->get_cur_attr(STRENGTH))
 							   .c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+	UIStyle::set_text_dark(_ctx);
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1232,16 +1229,14 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 					character->abilities().at(UNARMED_DAMAGE))
 			.c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+	UIStyle::set_text_bright(_ctx);
 	pos.y += (adj_grid_h * 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>14} {:>2}", "Vitality",
 									   character->get_cur_attr(VITALITY))
 							   .c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+	UIStyle::set_text_dark(_ctx);
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1275,14 +1270,12 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 
 	pos = ImVec2{right_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+	UIStyle::set_text_bright(_ctx);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "I.Q.", character->get_cur_attr(IQ))
 			.c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+	UIStyle::set_text_dark(_ctx);
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1307,16 +1300,14 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 									   character->abilities().at(IDENTIFY_FOES))
 							   .c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+	UIStyle::set_text_bright(_ctx);
 	pos.y += (adj_grid_h * 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Agility", character->get_cur_attr(AGILITY))
 			.c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+	UIStyle::set_text_dark(_ctx);
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1466,16 +1457,14 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+	UIStyle::set_text_bright(_ctx);
 	ImVec2 pos{left_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Piety", character->get_cur_attr(PIETY))
 			.c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+	UIStyle::set_text_dark(_ctx);
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1494,15 +1483,13 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 									   character->abilities().at(BASE_DISPELL))
 							   .c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+	UIStyle::set_text_bright(_ctx);
 	pos.y += (adj_grid_h * 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Luck", character->get_cur_attr(LUCK))
 			.c_str());
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+	UIStyle::set_text_dark(_ctx);
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -1518,12 +1505,10 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 
 	pos = ImVec2{right_col * adj_grid_w, component->y * adj_grid_h};
 	ImGui::SetCursorPos(pos);
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+	UIStyle::set_text_bright(_ctx);
 	ImGui::TextUnformatted(std::format("{:>14}", "Resistances").c_str());
 
-	set_StyleColor(ImGuiCol_Text,
-				   ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade});
+	UIStyle::set_text_dark(_ctx);
 	pos.y += adj_grid_h;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
@@ -2333,14 +2318,12 @@ auto Sorcery::UI::_draw_item_info() -> void {
 			with_TabBar("museum_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					{
-						set_StyleColor(
-							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+						UIStyle::set_text_bright(_ctx);
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
-														 _ctx.animation->fade});
+					UIStyle::set_text_dim(_ctx);
+
 					std::string item_category{
 						magic_enum::enum_name(item.get_category())};
 					if (item_category == "SPECIAL_ITEM")
@@ -2361,14 +2344,12 @@ auto Sorcery::UI::_draw_item_info() -> void {
 				}
 				with_TabItem("Stats") {
 					{
-						set_StyleColor(
-							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+						UIStyle::set_text_bright(_ctx);
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
-														 _ctx.animation->fade});
+					UIStyle::set_text_dim(_ctx);
+
 					const auto ac{std::format(
 						"   AC:{}", std::to_string(item.get_ac_mod()))};
 					auto value{std::format("{:+d}", item.get_to_hit_mod())};
@@ -2385,14 +2366,12 @@ auto Sorcery::UI::_draw_item_info() -> void {
 				}
 				with_TabItem("Traits") {
 					{
-						set_StyleColor(
-							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+						UIStyle::set_text_bright(_ctx);
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
-														 _ctx.animation->fade});
+					UIStyle::set_text_dim(_ctx);
+
 					auto effects{item.get_effects()};
 					if (effects.length() > 0) {
 						std::vector<std::string> strings;
@@ -2413,13 +2392,10 @@ auto Sorcery::UI::_draw_item_info() -> void {
 				}
 				with_TabItem("Powers") {
 					{
-						set_StyleColor(
-							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+						UIStyle::set_text_bright(_ctx);
 						ImGui::TextUnformatted(name.c_str());
 					}
-					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
-														 _ctx.animation->fade});
+					UIStyle::set_text_dim(_ctx);
 
 					const auto invokage{item.get_invokage()};
 					const auto usage{item.get_usage()};
@@ -2452,8 +2428,7 @@ auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
 				   ImGuiChildFlags_NavFlattened,
 				   ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
-			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{0.8f, 0.8f, 0.8f, _ctx.animation->fade});
+			UIStyle::set_text_dim(_ctx);
 			set_Font(fontstore->get_current_font(component->font).value());
 			with_TextWrapPos(ImGui::GetFontSize() * component->w) {
 				ImGui::TextUnformatted(string.c_str());
@@ -2936,8 +2911,7 @@ auto Sorcery::UI::_draw_party_panel() -> void {
 		with_Child("party_panel_child", ImVec2(width, height)) {
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			const auto hl_col{get_hl_colour(_ctx.animation->lerp)};
-			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+			UIStyle::set_text_bright(_ctx);
 			ImGui::TextUnformatted(
 				_ctx.get_string("PARTY_PANEL_LEGEND").c_str());
 			if (_ctx.game->state->get_party_size() > 0) {
@@ -3035,8 +3009,7 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 									 spell_type, spell_cat)};
 
 			{
-				set_StyleColor(ImGuiCol_Text,
-							   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+				UIStyle::set_text_bright(_ctx);
 				set_Font(fontstore->get_current_font(cmp.font).value());
 				ImGui::TextUnformatted(spell_name.c_str());
 				ImGui::NewLine();
@@ -3045,8 +3018,8 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 			}
 
 			set_Font(fontstore->get_current_font(cmp.font).value());
-			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{0.8f, 0.8f, 0.8f, _ctx.animation->fade});
+			UIStyle::set_text_dim(_ctx);
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
 			ImGui::TextWrapped(spell.details.c_str());
@@ -3088,14 +3061,11 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 			with_TabBar("bestiary_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					{
-						set_StyleColor(
-							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+						UIStyle::set_text_bright(_ctx);
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
-														 _ctx.animation->fade});
+					UIStyle::set_text_dim(_ctx);
 
 					const std::string mon_type{
 						magic_enum::enum_name(mon.get_category())};
@@ -3122,14 +3092,11 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 				with_TabItem("Stats") {
 
 					{
-						set_StyleColor(
-							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+						UIStyle::set_text_bright(_ctx);
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
-														 _ctx.animation->fade});
+					UIStyle::set_text_dim(_ctx);
 
 					const auto atks{
 						std::format(" Atks:{}", mon.get_attacks_str())};
@@ -3147,14 +3114,11 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 				}
 				with_TabItem("Traits") {
 					{
-						set_StyleColor(
-							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+						UIStyle::set_text_bright(_ctx);
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
-														 _ctx.animation->fade});
+					UIStyle::set_text_dim(_ctx);
 
 					auto traits{mon.get_traits()};
 					if (traits.length() > 0) {
@@ -3179,14 +3143,11 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 				with_TabItem("Weaknesses") {
 
 					{
-						set_StyleColor(
-							ImGuiCol_Text,
-							ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
+						UIStyle::set_text_bright(_ctx);
 						ImGui::TextUnformatted(name.c_str());
 					}
 
-					set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f,
-														 _ctx.animation->fade});
+					UIStyle::set_text_dim(_ctx);
 
 					auto weaknesses{mon.get_weaknesses()};
 					ImGui::TextUnformatted(weaknesses.c_str());

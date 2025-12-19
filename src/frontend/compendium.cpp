@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "frontend/atlas.hpp"
@@ -105,7 +106,7 @@ auto Sorcery::Compendium::start() -> int {
 
 auto Sorcery::Compendium::stop() -> int {
 
-	_ctx.controller->move_screen("show_compendium", "show_main_menu");
+	_ctx.controller->move_screen(Screens::COMPENDIUM, Screens::MAINMENU);
 
 	return 0;
 }

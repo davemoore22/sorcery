@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -111,7 +112,7 @@ auto Sorcery::Recovery::_callback_recuperating(Uint32, void *param) -> Uint32 {
 
 auto Sorcery::Recovery::start(const int mode) -> int {
 
-	_ctx.controller->move_screen("show_stay", "show_recovery");
+	_ctx.controller->move_screen(Screens::STAY, Screens::RECOVERY);
 	_ctx.controller->unset_flag("napping_finished");
 	_ctx.controller->unset_flag("recuperating_finished");
 
@@ -163,7 +164,7 @@ auto Sorcery::Recovery::stop() -> int {
 
 	SDL_RemoveTimer(_rest_tick);
 
-	_ctx.controller->move_screen("show_recovery", "show_stay");
+	_ctx.controller->move_screen(Screens::RECOVERY, Screens::STAY);
 
 	return 0;
 }

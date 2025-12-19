@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -79,7 +80,7 @@ auto Sorcery::Bestiary::start() -> int {
 
 auto Sorcery::Bestiary::stop() -> int {
 
-	_ctx.controller->move_screen("show_bestiary", "show_compendium");
+	_ctx.controller->move_screen(Screens::BESTIARY, Screens::COMPENDIUM);
 
 	return 0;
 }

@@ -44,5 +44,20 @@ namespace UIStyle {
 		set_StyleColor(ImGuiCol_TextDisabled, ImVec4{0.5f, 0.5f, 0.5f, a});
 		set_StyleColor(ImGuiCol_Button, ImVec4{0.0f, 0.0f, 0.0f, a});
 	}
+
+	inline void set_text_bright(Context &ctx) {
+		const float a{ctx.animation->fade};
+		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 1.0f, 1.0f, a});
+	}
+
+	inline void set_text_dark(Context &ctx) {
+		const float a{ctx.animation->fade};
+		set_StyleColor(ImGuiCol_Text, ImVec4{0.5f, 0.5f, 0.5f, a});
+	}
+
+	inline void set_text_dim(Context &ctx) {
+		const float a{ctx.animation->fade};
+		set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f, a});
+	}
 }
 }

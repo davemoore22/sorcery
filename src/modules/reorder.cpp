@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -82,9 +83,9 @@ auto Sorcery::Reorder::stop(const int mode) -> int {
 
 	_ctx.game->save_game();
 	if (mode == REORDER_MODE_CAMP)
-		_ctx.controller->move_screen("show_reorder", "show_engine");
+		_ctx.controller->move_screen(Screens::REORDER, Screens::ENGINE);
 	else
-		_ctx.controller->move_screen("show_reorder", "show_tavern");
+		_ctx.controller->move_screen(Screens::REORDER, Screens::TAVERN);
 
 	return 0;
 }

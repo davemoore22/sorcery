@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -89,9 +90,9 @@ auto Sorcery::Options::stop() -> int {
 	}
 
 	if (_is_in_game)
-		_ctx.controller->move_screen("show_options", "show_engine");
+		_ctx.controller->move_screen(Screens::OPTIONS, Screens::ENGINE);
 	else
-		_ctx.controller->move_screen("show_options", "show_main_menu");
+		_ctx.controller->move_screen(Screens::OPTIONS, Screens::MAINMENU);
 
 	return 0;
 }

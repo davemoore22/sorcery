@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -33,15 +34,18 @@
 
 Sorcery::LevelUp::LevelUp(Context &ctx)
 	: _ctx{ctx} {
+
 	_initialise();
 };
 
 auto Sorcery::LevelUp::_initialise() -> bool {
+
 	return true;
 }
 
 auto Sorcery::LevelUp::start(const int mode) -> int {
-	_ctx.controller->move_screen("show_stay", "show_levelup");
+
+	_ctx.controller->move_screen(Screens::STAY, Screens::LEVELUP);
 
 	// Main loop
 	auto done{false};
@@ -73,7 +77,8 @@ auto Sorcery::LevelUp::start(const int mode) -> int {
 }
 
 auto Sorcery::LevelUp::stop() -> int {
-	_ctx.controller->move_screen("show_levelup", "show_stay");
+
+	_ctx.controller->move_screen(Screens::LEVELUP, Screens::STAY);
 
 	return 0;
 }

@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -87,7 +88,6 @@ auto Sorcery::License::start() -> int {
 
 auto Sorcery::License::stop() -> int {
 
-	_ctx.controller->move_screen("show_license", "show_main_menu");
-
+	_ctx.controller->move_screen(Screens::LICENSE, Screens::MAINMENU);
 	return 0;
 }
