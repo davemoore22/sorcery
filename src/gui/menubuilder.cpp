@@ -34,7 +34,7 @@
 
 namespace {
 
-using StringList = std::initializer_list<std::string_view>;
+using StringList = std::vector<std::string>;
 
 const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
@@ -252,7 +252,8 @@ auto Sorcery::MenuBuilder::_load_museum_menu(unsigned int width,
 		std::format("{:^{}}", _ctx.get_string("MUSEUM_RETURN"), width));
 }
 
-auto Sorcery::MenuBuilder::build(std::string_view menu_name, unsigned int width,
+auto Sorcery::MenuBuilder::build(const std::string &menu_name,
+								 unsigned int width,
 								 std::vector<std::string> &items,
 								 std::vector<int> &data, bool reorder) -> void {
 
@@ -328,11 +329,13 @@ auto Sorcery::MenuBuilder::_load_fixed_menu(const std::string &menu_name,
 											std::vector<std::string> &items)
 	-> void {
 
+	assert(items.size() < 1000);
+
 	const auto it{FIXED_MENUS.find(menu_name)};
 	if (it == FIXED_MENUS.end())
 		return;
 
-	for (const auto key : it->second) {
+	for (const auto &key : it->second) {
 		items.emplace_back(std::format("{:^{}}", _ctx.get_string(key), width));
 	}
 }

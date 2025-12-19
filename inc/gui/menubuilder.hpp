@@ -34,7 +34,7 @@ class MenuBuilder {
 	public:
 		MenuBuilder(Context &ctx);
 		~MenuBuilder();
-		auto build(std::string_view menu_name, unsigned int width,
+		auto build(const std::string &menu_name, unsigned int width,
 				   std::vector<std::string> &items, std::vector<int> &data,
 				   bool reorder) -> void;
 
