@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -56,8 +56,8 @@ auto Sorcery::Inn::_initialise() -> bool {
 
 auto Sorcery::Inn::start() -> int {
 
-	_ctx.controller->initialise("inn");
-	_ctx.controller->move_screen(Screens::CASTLE, Screens::INN);
+	_ctx.controller->initialise(Enums::Screen::INN);
+	_ctx.controller->go_to(Enums::Screen::INN);
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
@@ -97,10 +97,10 @@ auto Sorcery::Inn::start() -> int {
 				return BACK_TO_CASTLE;
 		}
 
-		_ctx.ui->display("inn", _ctx.game);
+		_ctx.ui->display(Enums::Screen::INN, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_inn") &&
-			_ctx.controller->has_flag("show_castle"))
+		if (!_ctx.controller->wants(Enums::Screen::INN) &&
+			_ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 
 		if (_ctx.controller->has_character("inspect")) {
@@ -121,7 +121,7 @@ auto Sorcery::Inn::start() -> int {
 
 auto Sorcery::Inn::stop() -> int {
 
-	_ctx.controller->move_screen(Screens::INN, Screens::CASTLE);
+	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->clear_character("inspect");
 	_ctx.controller->clear_character("stay");
 

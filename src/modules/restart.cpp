@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -47,8 +47,8 @@ auto Sorcery::Restart::_initialise() -> bool {
 
 auto Sorcery::Restart::start() -> int {
 
-	_ctx.controller->initialise("restart");
-	_ctx.controller->set_flag("show_restart");
+	_ctx.controller->go_to(Enums::Screen::RESTART);
+	_ctx.controller->initialise(Enums::Screen::RESTART);
 
 	// Main loop
 	auto done{false};
@@ -69,12 +69,12 @@ auto Sorcery::Restart::start() -> int {
 				return BACK_FROM_ROSTER;
 		}
 
-		_ctx.ui->display("restart", _ctx.game);
+		_ctx.ui->display(Enums::Screen::RESTART, _ctx.game);
 
 		if (_ctx.controller->has_flag("want_restart_expedition")) {
 			return RESTART_MAZE;
-		} else if (!_ctx.controller->has_flag("show_restart") &&
-				   _ctx.controller->has_flag("show_edge_of_town"))
+		} else if (!_ctx.controller->wants(Enums::Screen::RESTART) &&
+				   _ctx.controller->wants(Enums::Screen::EDGEOFTOWN))
 			return BACK_TO_EDGE_OF_TOWN;
 	}
 
@@ -85,7 +85,7 @@ auto Sorcery::Restart::start() -> int {
 auto Sorcery::Restart::stop() -> int {
 
 	_ctx.game->save_game();
-	_ctx.controller->move_screen(Screens::RESTART, Screens::EDGEOFTOWN);
+	_ctx.controller->go_to(Enums::Screen::EDGEOFTOWN);
 
 	return 0;
 }

@@ -25,8 +25,8 @@
 #include "core/database.hpp"
 #include "core/define.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/resources.hpp"
-#include "core/screens.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "engine/define.hpp"
@@ -43,15 +43,13 @@
 Sorcery::Controller::Controller(Context &ctx)
 	: _ctx{ctx} {
 
-	initialise("");
+	initialise(Enums::Screen::NONE);
 	_game = nullptr;
 }
 
-auto Sorcery::Controller::initialise(std::string_view value) -> void {
+auto Sorcery::Controller::initialise(const Enums::Screen screen) -> void {
 
-	_screen = value;
 	_busy = false;
-	_last_screen = value;
 	_has_save = _ctx.database->has_game();
 
 	// TODO: are these needed?
@@ -275,17 +273,6 @@ auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {
 		return MOVE_BACKWARD;
 	else
 		return MOVE_NONE;
-}
-
-auto Sorcery::Controller::set_screen(std::string_view value) -> void {
-
-	_screen = value;
-	_last_screen = value;
-}
-
-auto Sorcery::Controller::get_screen() const -> std::string_view {
-
-	return _screen;
 }
 
 // Special Handling for Disable or Enable Menu Items
@@ -547,11 +534,11 @@ auto Sorcery::Controller::get_can_undo() const -> bool {
 	return _can_undo;
 }
 
-auto Sorcery::Controller::get_last_screen() const -> std::string {
+auto Sorcery::Controller::get_last_screen() const -> Enums::Screen {
 
 	return _last_screen;
 }
-auto Sorcery::Controller::set_last_screen(const std::string &value) -> void {
+auto Sorcery::Controller::set_last_screen(const Enums::Screen value) -> void {
 
 	_last_screen = value;
 }
@@ -577,13 +564,13 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			_flags["want_continue_game"] = true;
 			break;
 		case MAIN_MENU_OPTIONS:
-			move_screen(Screens::MAINMENU, Screens::OPTIONS);
+			go_to(Enums::Screen::OPTIONS);
 			break;
 		case MAIN_MENU_COMPENDIUM:
-			move_screen(Screens::MAINMENU, Screens::COMPENDIUM);
+			go_to(Enums::Screen::COMPENDIUM);
 			break;
 		case MAIN_MENU_LICENSE:
-			move_screen(Screens::MAINMENU, Screens::LICENSE);
+			go_to(Enums::Screen::LICENSE);
 			break;
 		case MAIN_MENU_EXIT_GAME:
 			in_flags.at(1).get() = true;
@@ -596,13 +583,13 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		// Flags = &_ui->dialog_leave->show,
 		switch (selection) {
 		case EDGE_OF_TOWN_GO_TO_CASTLE:
-			move_screen(Screens::EDGEOFTOWN, Screens::CASTLE);
+			go_to(Enums::Screen::CASTLE);
 			break;
 		case EDGE_OF_TOWN_GO_TO_TRAINING:
-			move_screen(Screens::EDGEOFTOWN, Screens::TRAINING);
+			go_to(Enums::Screen::TRAINING);
 			break;
 		case EDGE_OF_TOWN_RESTART:
-			move_screen(Screens::EDGEOFTOWN, Screens::RESTART);
+			go_to(Enums::Screen::RESTART);
 			break;
 		case EDGE_OF_TOWN_GO_TO_MAZE:
 			_flags["want_enter_maze"] = true;
@@ -624,7 +611,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		else if (selection == INN_INSPECT)
 			in_flags.at(0).get() = true;
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::INN, Screens::CASTLE);
+			go_to(Enums::Screen::CASTLE);
 
 	} else if (component == "tavern_menu") {
 
@@ -632,17 +619,17 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 		// Flags = &_ui->notice_divvy->show, &_ui->modal_inspect->show,
 		if (selection == TAVERN_ADD)
-			move_screen(Screens::TAVERN, Screens::ADD);
+			go_to(Enums::Screen::ADD);
 		else if (selection == TAVERN_REMOVE)
-			move_screen(Screens::TAVERN, Screens::REMOVE);
+			go_to(Enums::Screen::REMOVE);
 		else if (selection == TAVERN_INSPECT)
 			in_flags.at(1).get() = true;
 		else if (selection == TAVERN_REORDER)
-			move_screen(Screens::TAVERN, Screens::REORDER);
+			go_to(Enums::Screen::REORDER);
 		else if (selection == TAVERN_DIVVY_GOLD)
 			in_flags.at(0).get() = true;
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::TAVERN, Screens::CASTLE);
+			go_to(Enums::Screen::CASTLE);
 
 	} else if (component == "temple_menu") {
 
@@ -657,7 +644,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		else if (selection == TEMPLE_INSPECT)
 			in_flags.at(0).get() = true;
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::TEMPLE, Screens::CASTLE);
+			go_to(Enums::Screen::CASTLE);
 
 	} else if (component == "camp_menu") {
 
@@ -665,11 +652,11 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 		// Flags = &_ui->modal_camp->show
 		if (selection == CAMP_INSPECT)
-			move_screen(Screens::ENGINE, Screens::INSPECT);
+			go_to(Enums::Screen::INSPECT);
 		else if (selection == CAMP_REORDER)
-			move_screen(Screens::ENGINE, Screens::REORDER);
+			go_to(Enums::Screen::REORDER);
 		else if (selection == CAMP_OPTIONS)
-			move_screen(Screens::ENGINE, Screens::OPTIONS);
+			go_to(Enums::Screen::OPTIONS);
 		else if (selection == CAMP_QUIT)
 			_flags["want_quit_expedition"] = true;
 		else if (selection == CAMP_LEAVE) {
@@ -1139,32 +1126,32 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Compendium
 		if (selection == COMPENDIUM_ATLAS)
-			move_screen(Screens::COMPENDIUM, Screens::ATLAS);
+			go_to(Enums::Screen::ATLAS);
 		else if (selection == COMPENDIUM_BESTIARY)
-			move_screen(Screens::COMPENDIUM, Screens::BESTIARY);
+			go_to(Enums::Screen::BESTIARY);
 		else if (selection == COMPENDIUM_MUSEUM)
-			move_screen(Screens::COMPENDIUM, Screens::MUSEUM);
+			go_to(Enums::Screen::MUSEUM);
 		else if (selection == COMPENDIUM_SPELLBOOK)
-			move_screen(Screens::COMPENDIUM, Screens::SPELLBOOK);
+			go_to(Enums::Screen::SPELLBOOK);
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::COMPENDIUM, Screens::MAINMENU);
+			go_to(Enums::Screen::MAINMENU);
 	} else if (component == "castle_menu") {
 
 		// Castle
 		if (selection == CASTLE_GO_TO_EDGE_OF_TOWN)
-			move_screen(Screens::CASTLE, Screens::EDGEOFTOWN);
+			go_to(Enums::Screen::EDGEOFTOWN);
 		else if (selection == CASTLE_GO_TO_TAVERN)
-			move_screen(Screens::CASTLE, Screens::TAVERN);
+			go_to(Enums::Screen::TAVERN);
 		else if (selection == CASTLE_GO_TO_INN)
-			move_screen(Screens::CASTLE, Screens::INN);
+			go_to(Enums::Screen::INN);
 		else if (selection == CASTLE_GO_TO_SHOP)
-			move_screen(Screens::CASTLE, Screens::SHOP);
+			go_to(Enums::Screen::SHOP);
 		else if (selection == CASTLE_GO_TO_TEMPLE)
-			move_screen(Screens::CASTLE, Screens::TEMPLE);
+			go_to(Enums::Screen::TEMPLE);
 	} else if (component == "remove_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::REMOVE, Screens::TAVERN);
+			go_to(Enums::Screen::TAVERN);
 		else {
 
 			// if we can, remove the character from the party
@@ -1178,7 +1165,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Restart Menu
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::RESTART, Screens::EDGEOFTOWN);
+			go_to(Enums::Screen::EDGEOFTOWN);
 		else {
 
 			// Get the ID of the Character if we can, add the character to
@@ -1190,7 +1177,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "add_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::ADD, Screens::TAVERN);
+			go_to(Enums::Screen::TAVERN);
 		else {
 
 			// if we can, add the character to the party
@@ -1203,7 +1190,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "race_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::CREATE, Screens::METHOD);
+			go_to(Enums::Screen::METHOD);
 		else {
 			_create->set_race(
 				magic_enum::enum_cast<Enums::Character::Race>(selection + 1)
@@ -1217,7 +1204,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "alignment_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::CREATE, Screens::METHOD);
+			go_to(Enums::Screen::METHOD);
 		else {
 			_create->set_alignment(
 				magic_enum::enum_cast<Enums::Character::Align>(selection + 1)
@@ -1231,7 +1218,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "class_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::CREATE, Screens::METHOD);
+			go_to(Enums::Screen::METHOD);
 		else {
 			if (_create->get_points_left() == 0) {
 
@@ -1287,20 +1274,20 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "method_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::METHOD, Screens::TRAINING);
+			go_to(Enums::Screen::TRAINING);
 		else {
 
 			// Which method of character creation do we want to do?
 
 			if (selection == METHOD_FULL) {
 				_method = Enums::Character::Method::FULL;
-				move_screen(Screens::METHOD, Screens::CREATE);
+				go_to(Enums::Screen::CREATE);
 			} else if (selection == METHOD_QUICK) {
 				_method = Enums::Character::Method::QUICK;
-				move_screen(Screens::METHOD, Screens::CREATE);
+				go_to(Enums::Screen::CREATE);
 			} else if (selection == METHOD_RANDOM) {
 				_method = Enums::Character::Method::RANDOM;
-				move_screen(Screens::METHOD, Screens::CREATE);
+				go_to(Enums::Screen::CREATE);
 			}
 		}
 	} else if (component == "roster_menu") {
@@ -1330,47 +1317,47 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Shop
 		if (selection == SHOP_INSPECT)
-			move_screen(Screens::SHOP, Screens::ROSTER);
+			go_to(Enums::Screen::ROSTER);
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::SHOP, Screens::CASTLE);
+			go_to(Enums::Screen::CASTLE);
 	} else if (component == "temple_menu") {
 
 		// Temple
 		if (selection == TEMPLE_INSPECT)
-			move_screen(Screens::TEMPLE, Screens::ROSTER);
+			go_to(Enums::Screen::ROSTER);
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::TEMPLE, Screens::CASTLE);
+			go_to(Enums::Screen::CASTLE);
 	} else if (component == "training_menu") {
 
 		// Training Grounds
 		if (selection == TRAINING_CREATE)
-			move_screen(Screens::TRAINING, Screens::METHOD);
+			go_to(Enums::Screen::METHOD);
 		else if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::TRAINING, Screens::EDGEOFTOWN);
+			go_to(Enums::Screen::EDGEOFTOWN);
 	} else if (component == "bestiary_menu") {
 
 		// Bestiary
 		_selected["bestiary_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::BESTIARY, Screens::COMPENDIUM);
+			go_to(Enums::Screen::COMPENDIUM);
 	} else if (component == "museum_menu") {
 
 		// Museum
 		_selected["museum_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::MUSEUM, Screens::COMPENDIUM);
+			go_to(Enums::Screen::COMPENDIUM);
 	} else if (component == "atlas_menu") {
 
 		// Atlas
 		_selected["atlas_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::ATLAS, Screens::COMPENDIUM);
+			go_to(Enums::Screen::COMPENDIUM);
 	} else if (component == "spellbook_menu") {
 
 		// Spellbook
 		_selected["spellbook_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
-			move_screen(Screens::SPELLBOOK, Screens::COMPENDIUM);
+			go_to(Enums::Screen::COMPENDIUM);
 	} else if (component == "choose_menu") {
 
 		// Character Selection
@@ -1384,9 +1371,9 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		// Resting
 		_selected["stay_selected"] = selection + 1;
 		if (selection == (static_cast<int>(items.size()) - 1 + 1))
-			move_screen(Screens::STAY, Screens::INN);
+			go_to(Enums::Screen::INN);
 		else
-			move_screen(Screens::STAY, Screens::RECOVERY);
+			go_to(Enums::Screen::RECOVERY);
 	}
 }
 
@@ -1412,22 +1399,20 @@ auto Sorcery::Controller::get_character() const -> Character * {
 	return _create.get();
 }
 
-auto Sorcery::Controller::move_screen(std::string_view from,
-									  std::string_view to) -> void {
+auto Sorcery::Controller::go_to(const Enums::Screen screen) -> void {
 
-	unset_flag(from.data());
-	set_flag(to.data());
-	_assert_only_one_show_flag();
+	_last_screen = _screen;
+	_screen = screen;
 }
 
-auto Sorcery::Controller::_assert_only_one_show_flag() const -> void {
+auto Sorcery::Controller::wants(const Enums::Screen value) const -> bool {
 
-	int count{0};
-	for (auto &[flag, value] : _flags) {
-		if (flag.starts_with("show_") && value)
-			++count;
-	}
-	assert(count == 1 && "Multiple active screens!");
+	return _screen == value;
+}
+
+auto Sorcery::Controller::is_at() const -> Enums::Screen {
+
+	return _screen;
 }
 
 namespace Sorcery {

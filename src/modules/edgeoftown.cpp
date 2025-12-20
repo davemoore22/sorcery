@@ -26,6 +26,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -54,8 +55,8 @@ auto Sorcery::EdgeOfTown::_initialise() -> bool {
 
 auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 
-	_ctx.controller->initialise("edge_of_town");
-	_ctx.controller->set_flag("show_edge_of_town");
+	_ctx.controller->go_to(Enums::Screen::EDGEOFTOWN);
+	_ctx.controller->initialise(Enums::Screen::EDGEOFTOWN);
 
 	// Main loop
 	auto done{false};
@@ -75,11 +76,11 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
 		}
 
-		_ctx.ui->display("edge_of_town", _ctx.game);
+		_ctx.ui->display(Enums::Screen::EDGEOFTOWN, _ctx.game);
 
 		// Handle shortcuts
 		if (mode == GO_TO_TRAINING)
-			_ctx.controller->set_flag("show_training");
+			_ctx.controller->go_to(Enums::Screen::TRAINING);
 
 		if (_ctx.controller->has_flag("want_leave_game")) {
 			_ctx.game->move_party_to_tavern();
@@ -88,17 +89,17 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			return LEAVE_GAME;
 		} else if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_ctx.controller->has_flag("show_edge_of_town") &&
-				 _ctx.controller->has_flag("show_castle"))
+		else if (!_ctx.controller->wants(Enums::Screen::EDGEOFTOWN) &&
+				 _ctx.controller->wants(Enums::Screen::CASTLE))
 			return EDGE_OF_TOWN_GO_TO_CASTLE;
 
 		// Check for the results of something being selected from a menu
-		if (_ctx.controller->has_flag("show_training")) {
+		if (_ctx.controller->wants(Enums::Screen::TRAINING)) {
 			_ctx.game->move_party_to_tavern();
 			_ctx.game->save_game();
 			_training_grounds->start();
 			_training_grounds->stop();
-		} else if (_ctx.controller->has_flag("show_restart")) {
+		} else if (_ctx.controller->wants(Enums::Screen::RESTART)) {
 			_restart->start();
 			_restart->stop();
 			if (_ctx.controller->has_flag("want_restart_expedition"))
@@ -113,8 +114,6 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 }
 
 auto Sorcery::EdgeOfTown::stop() -> int {
-
-	_ctx.controller->unset_flag("show_edge_of_town");
 
 	return 0;
 }

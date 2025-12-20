@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -53,8 +53,8 @@ auto Sorcery::License::_initialise() -> bool {
 
 auto Sorcery::License::start() -> int {
 
-	_ctx.controller->initialise("license");
-	_ctx.controller->set_flag("show_license");
+	_ctx.controller->go_to(Enums::Screen::LICENSE);
+	_ctx.controller->initialise(Enums::Screen::LICENSE);
 
 	// Main loop
 	auto done{false};
@@ -71,14 +71,14 @@ auto Sorcery::License::start() -> int {
 				return GO_TO_FRONT_END;
 		}
 
-		_ctx.ui->display("license", _license_text);
+		_ctx.ui->display(Enums::Screen::LICENSE, _license_text);
 
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
 		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_ctx.controller->has_flag("show_license"))
+		else if (!_ctx.controller->wants(Enums::Screen::LICENSE))
 			return GO_TO_FRONT_END;
 	}
 
@@ -88,6 +88,6 @@ auto Sorcery::License::start() -> int {
 
 auto Sorcery::License::stop() -> int {
 
-	_ctx.controller->move_screen(Screens::LICENSE, Screens::MAINMENU);
+	_ctx.controller->go_to(Enums::Screen::MAINMENU);
 	return 0;
 }

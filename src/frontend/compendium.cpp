@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "frontend/atlas.hpp"
@@ -57,8 +57,8 @@ auto Sorcery::Compendium::_initialise() -> bool {
 
 auto Sorcery::Compendium::start() -> int {
 
-	_ctx.controller->initialise("compendium");
-	_ctx.controller->set_flag("show_compendium");
+	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
+	_ctx.controller->initialise(Enums::Screen::COMPENDIUM);
 
 	// Main loop
 	auto done{false};
@@ -75,28 +75,28 @@ auto Sorcery::Compendium::start() -> int {
 				return GO_TO_FRONT_END;
 		}
 
-		_ctx.ui->display("compendium");
+		_ctx.ui->display(Enums::Screen::COMPENDIUM);
 
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
-		if (_ctx.controller->has_flag("show_bestiary")) {
+		if (_ctx.controller->wants(Enums::Screen::BESTIARY)) {
 			_bestiary->start();
 			_bestiary->stop();
-		} else if (_ctx.controller->has_flag("show_museum")) {
+		} else if (_ctx.controller->wants(Enums::Screen::MUSEUM)) {
 			_museum->start();
 			_museum->stop();
-		} else if (_ctx.controller->has_flag("show_atlas")) {
+		} else if (_ctx.controller->wants(Enums::Screen::ATLAS)) {
 			_atlas->start();
 			_atlas->stop();
-		} else if (_ctx.controller->has_flag("show_spellbook")) {
+		} else if (_ctx.controller->wants(Enums::Screen::SPELLBOOK)) {
 			_spellbook->start();
 			_spellbook->stop();
 		}
 
 		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_ctx.controller->has_flag("show_compendium"))
+		else if (!_ctx.controller->wants(Enums::Screen::COMPENDIUM))
 			return GO_TO_FRONT_END;
 	}
 
@@ -106,7 +106,7 @@ auto Sorcery::Compendium::start() -> int {
 
 auto Sorcery::Compendium::stop() -> int {
 
-	_ctx.controller->move_screen(Screens::COMPENDIUM, Screens::MAINMENU);
+	_ctx.controller->go_to(Enums::Screen::MAINMENU);
 
 	return 0;
 }

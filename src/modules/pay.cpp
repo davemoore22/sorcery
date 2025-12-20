@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -55,7 +55,7 @@ auto Sorcery::Pay::_initialise() -> bool {
 auto Sorcery::Pay::start() -> int {
 
 	// Don't initialise here
-	_ctx.controller->move_screen(Screens::TEMPLE, Screens::PAY);
+	_ctx.controller->go_to(Enums::Screen::PAY);
 
 	// Need this before accessing dynamic modals!
 	_ctx.controller->clear_character("pay");
@@ -81,10 +81,10 @@ auto Sorcery::Pay::start() -> int {
 				return HEALED_NOT;
 		}
 
-		_ctx.ui->display("pay", _ctx.game);
+		_ctx.ui->display(Enums::Screen::PAY, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_pay") &&
-			_ctx.controller->has_flag("show_temple"))
+		if (!_ctx.controller->wants(Enums::Screen::PAY) &&
+			_ctx.controller->wants(Enums::Screen::TEMPLE))
 			return HEALED_NOT;
 		else if (_ctx.controller->has_selected("pay_selected")) {
 			_heal->start();
@@ -100,10 +100,10 @@ auto Sorcery::Pay::start() -> int {
 auto Sorcery::Pay::stop(const bool paid) -> int {
 
 	if (paid) {
-		_ctx.controller->move_screen(Screens::PAY, Screens::RESULTS);
+		_ctx.controller->go_to(Enums::Screen::RESULTS);
 		_ctx.controller->clear_character("pay");
 	} else {
-		_ctx.controller->move_screen(Screens::PAY, Screens::TEMPLE);
+		_ctx.controller->go_to(Enums::Screen::TEMPLE);
 		_ctx.controller->clear_character("pay");
 	}
 

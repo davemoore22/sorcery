@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "frontend/compendium.hpp"
@@ -53,7 +54,7 @@ auto Sorcery::MainMenu::_initialise() -> bool {
 auto Sorcery::MainMenu::start() -> int {
 
 	// Clear all controller and flow flags
-	_ctx.controller->initialise("main_menu");
+	_ctx.controller->initialise(Enums::Screen::MAINMENU);
 
 	// Start relevant animation worker threads
 	_ctx.animation->refresh_attract();
@@ -78,7 +79,7 @@ auto Sorcery::MainMenu::start() -> int {
 
 		if (!done) {
 
-			_ctx.ui->display("main_menu");
+			_ctx.ui->display(Enums::Screen::MAINMENU);
 
 			// Check for the results of a Popup Dialog
 			if (_ctx.controller->has_flag("want_exit_game"))
@@ -91,13 +92,13 @@ auto Sorcery::MainMenu::start() -> int {
 				return MAIN_MENU_CONTINUE_GAME;
 
 			// Check for the results of something being selected from a menu
-			if (_ctx.controller->has_flag("show_compendium")) {
+			if (_ctx.controller->wants(Enums::Screen::COMPENDIUM)) {
 				_compendium->start();
 				_compendium->stop();
-			} else if (_ctx.controller->has_flag("show_options")) {
+			} else if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
 				_options->start(false);
 				_options->stop();
-			} else if (_ctx.controller->has_flag("show_license")) {
+			} else if (_ctx.controller->wants(Enums::Screen::LICENSE)) {
 				_license->start();
 				_license->stop();
 			}

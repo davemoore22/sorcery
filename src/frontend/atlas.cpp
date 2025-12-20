@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -45,13 +45,12 @@ auto Sorcery::Atlas::_initialise() -> bool {
 
 auto Sorcery::Atlas::start() -> int {
 
-	_ctx.controller->initialise("atlas");
-	_ctx.controller->set_flag("show_atlas");
+	_ctx.controller->go_to(Enums::Screen::ATLAS);
+	_ctx.controller->initialise(Enums::Screen::ATLAS);
 
 	// Main loop
 	auto done{false};
 	while (!done) {
-
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
@@ -65,10 +64,10 @@ auto Sorcery::Atlas::start() -> int {
 
 		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_ctx.controller->has_flag("show_atlas"))
+		else if (!_ctx.controller->wants(Enums::Screen::ATLAS))
 			return GO_TO_COMPENDIUM;
 
-		_ctx.ui->display("atlas");
+		_ctx.ui->display(Enums::Screen::ATLAS);
 	}
 
 	// Exit if we get to here having broken out of the loop
@@ -77,7 +76,7 @@ auto Sorcery::Atlas::start() -> int {
 
 auto Sorcery::Atlas::stop() -> int {
 
-	_ctx.controller->move_screen(Screens::ATLAS, Screens::COMPENDIUM);
+	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
 
 	return 0;
 }

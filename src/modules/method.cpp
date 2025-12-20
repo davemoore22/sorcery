@@ -26,6 +26,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -53,11 +54,8 @@ auto Sorcery::Method::_initialise() -> bool {
 
 auto Sorcery::Method::start() -> int {
 
-	_ctx.controller->initialise("method");
-	_ctx.controller->set_flag("show_method");
-
-	//_ui->input_name->show = false;
-	//_ui->input_name->initialise(game);
+	_ctx.controller->go_to(Enums::Screen::METHOD);
+	_ctx.controller->initialise(Enums::Screen::METHOD);
 
 	// Main loop
 	auto done{false};
@@ -79,13 +77,13 @@ auto Sorcery::Method::start() -> int {
 			}
 		}
 
-		_ctx.ui->display("method", _ctx.game);
+		_ctx.ui->display(Enums::Screen::METHOD, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_method") &&
-			_ctx.controller->has_flag("show_training")) {
+		if (!_ctx.controller->wants(Enums::Screen::METHOD) &&
+			_ctx.controller->wants(Enums::Screen::TRAINING)) {
 			_ctx.game->save_game();
 			return BACK_TO_TRAINING_GROUNDS;
-		} else if (_ctx.controller->has_flag("show_create")) {
+		} else if (_ctx.controller->wants(Enums::Screen::CREATE)) {
 			_create->start();
 			_create->stop();
 			return BACK_TO_TRAINING_GROUNDS;
@@ -97,8 +95,6 @@ auto Sorcery::Method::start() -> int {
 }
 
 auto Sorcery::Method::stop() -> int {
-
-	_ctx.controller->unset_flag("show_method");
 
 	return 0;
 }

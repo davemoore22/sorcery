@@ -26,6 +26,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -51,8 +52,8 @@ auto Sorcery::Create::_initialise() -> bool {
 
 auto Sorcery::Create::start() -> int {
 
-	_ctx.controller->initialise("create");
-	_ctx.controller->set_flag("show_create");
+	_ctx.controller->go_to(Enums::Screen::CREATE);
+	_ctx.controller->initialise(Enums::Screen::CREATE);
 	_ctx.controller->set_flag("want_enter_name");
 	_ctx.controller->unset_flag("want_choose_race");
 	_ctx.controller->unset_flag("want_choose_alignment");
@@ -88,13 +89,13 @@ auto Sorcery::Create::start() -> int {
 			}
 		}
 
-		_ctx.ui->display("create_name", static_cast<int>(_stage));
+		_ctx.ui->display(Enums::Screen::CREATE_NAME, static_cast<int>(_stage));
 
-		if (!_ctx.controller->has_flag("show_create") &&
-			_ctx.controller->has_flag("show_method")) {
+		if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
+			_ctx.controller->wants(Enums::Screen::METHOD)) {
 			return BACK_TO_CHOOSE_METHOD;
-		} else if (!_ctx.controller->has_flag("show_create") &&
-				   _ctx.controller->has_flag("show_training")) {
+		} else if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
+				   _ctx.controller->wants(Enums::Screen::TRAINING)) {
 			return BACK_TO_TRAINING_GROUNDS;
 		}
 
@@ -102,7 +103,6 @@ auto Sorcery::Create::start() -> int {
 		// name are set in controller->handle_input_button_click())
 		if (!_ctx.controller->has_flag("want_enter_name") &&
 			candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
-
 			while (!done) {
 
 				// Move to the next stage
@@ -121,13 +121,14 @@ auto Sorcery::Create::start() -> int {
 					}
 				}
 
-				_ctx.ui->display("create_race", static_cast<int>(_stage));
+				_ctx.ui->display(Enums::Screen::CREATE_RACE,
+								 static_cast<int>(_stage));
 
-				if (!_ctx.controller->has_flag("show_create") &&
-					_ctx.controller->has_flag("show_method")) {
+				if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
+					_ctx.controller->wants(Enums::Screen::METHOD)) {
 					return BACK_TO_CHOOSE_METHOD;
-				} else if (!_ctx.controller->has_flag("show_create") &&
-						   _ctx.controller->has_flag("show_training")) {
+				} else if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
+						   _ctx.controller->wants(Enums::Screen::TRAINING)) {
 					return BACK_TO_TRAINING_GROUNDS;
 				}
 
@@ -152,21 +153,22 @@ auto Sorcery::Create::start() -> int {
 							}
 						}
 
-						_ctx.ui->display("create_alignment",
+						_ctx.ui->display(Enums::Screen::CREATE_ALIGNMENT,
 										 static_cast<int>(_stage));
 
-						if (!_ctx.controller->has_flag("show_create") &&
-							_ctx.controller->has_flag("show_method")) {
+						if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
+							_ctx.controller->wants(Enums::Screen::METHOD)) {
 							return BACK_TO_CHOOSE_METHOD;
-						} else if (!_ctx.controller->has_flag("show_create") &&
-								   _ctx.controller->has_flag("show_training")) {
+						} else if (!_ctx.controller->wants(
+									   Enums::Screen::CREATE) &&
+								   _ctx.controller->wants(
+									   Enums::Screen::TRAINING)) {
 							return BACK_TO_TRAINING_GROUNDS;
 						}
 
 						if (!_ctx.controller->has_flag(
 								"want_choose_alignment") &&
 							_ctx.controller->has_flag("want_choose_class")) {
-
 							while (!done) {
 
 								// Move to the next stage
@@ -188,16 +190,18 @@ auto Sorcery::Create::start() -> int {
 									}
 								}
 
-								_ctx.ui->display("create_class",
+								_ctx.ui->display(Enums::Screen::CREATE_CLASS,
 												 static_cast<int>(_stage));
 
-								if (!_ctx.controller->has_flag("show_create") &&
-									_ctx.controller->has_flag("show_method")) {
+								if (!_ctx.controller->wants(
+										Enums::Screen::CREATE) &&
+									_ctx.controller->wants(
+										Enums::Screen::METHOD))
 									return BACK_TO_CHOOSE_METHOD;
-								} else if (!_ctx.controller->has_flag(
-											   "show_create") &&
-										   _ctx.controller->has_flag(
-											   "show_training")) {
+								else if (!_ctx.controller->wants(
+											 Enums::Screen::CREATE) &&
+										 _ctx.controller->wants(
+											 Enums::Screen::TRAINING)) {
 									return BACK_TO_TRAINING_GROUNDS;
 								}
 
@@ -205,7 +209,6 @@ auto Sorcery::Create::start() -> int {
 										"want_choose_class") &&
 									_ctx.controller->has_flag(
 										"want_choose_confirm")) {
-
 									while (!done) {
 
 										// Move to the next stage
@@ -240,7 +243,7 @@ auto Sorcery::Create::start() -> int {
 										}
 
 										_ctx.ui->display(
-											"create_confirm",
+											Enums::Screen::CREATE_CONFIRM,
 											static_cast<int>(_stage));
 									}
 								}
@@ -260,7 +263,6 @@ auto Sorcery::Create::start() -> int {
 
 auto Sorcery::Create::stop() -> int {
 
-	_ctx.controller->unset_flag("show_create");
 	_stage = Enums::Character::Stage::ENTER_NAME;
 
 	return 0;

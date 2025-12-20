@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -65,8 +66,8 @@ auto Sorcery::Castle::_initialise() -> bool {
 
 auto Sorcery::Castle::start() -> int {
 
-	_ctx.controller->initialise("castle");
-	_ctx.controller->set_flag("show_castle");
+	_ctx.controller->go_to(Enums::Screen::CASTLE);
+	_ctx.controller->initialise(Enums::Screen::CASTLE);
 
 	// Main loop
 	auto done{false};
@@ -89,7 +90,7 @@ auto Sorcery::Castle::start() -> int {
 			_ctx.controller->check_for_debug(event);
 		}
 
-		_ctx.ui->display("castle", _ctx.game);
+		_ctx.ui->display(Enums::Screen::CASTLE, _ctx.game);
 
 		if (_ctx.controller->has_flag("want_leave_game")) {
 			_ctx.game->move_party_to_tavern();
@@ -98,21 +99,21 @@ auto Sorcery::Castle::start() -> int {
 			return LEAVE_GAME;
 		} else if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_ctx.controller->has_flag("show_castle") &&
-				 _ctx.controller->has_flag("show_edge_of_town"))
+		else if (!_ctx.controller->wants(Enums::Screen::CASTLE) &&
+				 _ctx.controller->wants(Enums::Screen::EDGEOFTOWN))
 			return CASTLE_GO_TO_EDGE_OF_TOWN;
 
 		// Check for the results of something being selected from a menu
-		if (_ctx.controller->has_flag("show_tavern")) {
+		if (_ctx.controller->wants(Enums::Screen::TAVERN)) {
 			_tavern->start();
 			_tavern->stop();
-		} else if (_ctx.controller->has_flag("show_inn")) {
+		} else if (_ctx.controller->wants(Enums::Screen::INN)) {
 			_inn->start();
 			_inn->stop();
-		} else if (_ctx.controller->has_flag("show_shop")) {
+		} else if (_ctx.controller->wants(Enums::Screen::SHOP)) {
 			_shop->start();
 			_shop->stop();
-		} else if (_ctx.controller->has_flag("show_temple")) {
+		} else if (_ctx.controller->wants(Enums::Screen::TEMPLE)) {
 			_temple->start();
 			_temple->stop();
 		}
@@ -123,8 +124,6 @@ auto Sorcery::Castle::start() -> int {
 }
 
 auto Sorcery::Castle::stop() -> int {
-
-	_ctx.controller->unset_flag("show_castle");
 
 	return 0;
 }

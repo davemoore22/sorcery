@@ -26,6 +26,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -53,8 +54,8 @@ auto Sorcery::Training::start() -> int {
 	_method->start();
 	_method->stop();
 
-	_ctx.controller->initialise("training_grounds");
-	_ctx.controller->set_flag("show_training");
+	_ctx.controller->go_to(Enums::Screen::TRAINING);
+	_ctx.controller->initialise(Enums::Screen::TRAINING);
 
 	// Main loop
 	auto done{false};
@@ -75,16 +76,16 @@ auto Sorcery::Training::start() -> int {
 				return BACK_TO_EDGE_OF_TOWN;
 			}
 
-			if (_ctx.controller->has_flag("show_method")) {
+			if (_ctx.controller->wants(Enums::Screen::METHOD)) {
 				_method->start();
 				_method->stop();
 			}
 		}
 
-		_ctx.ui->display("training_grounds", _ctx.game);
+		_ctx.ui->display(Enums::Screen::TRAINING, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_training") &&
-			_ctx.controller->has_flag("show_edge_of_town")) {
+		if (!_ctx.controller->wants(Enums::Screen::TRAINING) &&
+			_ctx.controller->wants(Enums::Screen::EDGEOFTOWN)) {
 			_ctx.game->save_game();
 			return BACK_TO_EDGE_OF_TOWN;
 		}
@@ -95,8 +96,6 @@ auto Sorcery::Training::start() -> int {
 }
 
 auto Sorcery::Training::stop() -> int {
-
-	_ctx.controller->unset_flag("show_training");
 
 	return 0;
 }

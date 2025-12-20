@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -58,8 +59,8 @@ auto Sorcery::Tavern::_initialise() -> bool {
 
 auto Sorcery::Tavern::start() -> int {
 
-	_ctx.controller->initialise("tavern");
-	_ctx.controller->set_flag("show_tavern");
+	_ctx.controller->go_to(Enums::Screen::TAVERN);
+	_ctx.controller->initialise(Enums::Screen::TAVERN);
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
@@ -95,30 +96,30 @@ auto Sorcery::Tavern::start() -> int {
 				return BACK_TO_CASTLE;
 		}
 
-		_ctx.ui->display("tavern", _ctx.game);
+		_ctx.ui->display(Enums::Screen::TAVERN, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_tavern") &&
-			_ctx.controller->has_flag("show_castle"))
+		if (!_ctx.controller->wants(Enums::Screen::TAVERN) &&
+			_ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 
 		// Check for the results of something being selected from a menu
-		if (_ctx.controller->has_flag("show_remove")) {
+		if (_ctx.controller->wants(Enums::Screen::REMOVE)) {
 			_remove->start();
 			_remove->stop();
-			_ctx.controller->set_flag("show_tavern");
-		} else if (_ctx.controller->has_flag("show_add")) {
+			_ctx.controller->go_to(Enums::Screen::TAVERN);
+		} else if (_ctx.controller->wants(Enums::Screen::ADD)) {
 			_add->start();
 			_add->stop();
-			_ctx.controller->set_flag("show_tavern");
-		} else if (_ctx.controller->has_flag("show_reorder")) {
+			_ctx.controller->go_to(Enums::Screen::TAVERN);
+		} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
 			_reorder->start(REORDER_MODE_TAVERN);
 			_reorder->stop(REORDER_MODE_TAVERN);
-			_ctx.controller->set_flag("show_tavern");
+			_ctx.controller->go_to(Enums::Screen::TAVERN);
 		} else if (_ctx.controller->has_character("inspect")) {
 			_inspect->start(INSPECT_MODE_TAVERN,
 							_ctx.controller->get_character("inspect"));
 			_inspect->stop(INSPECT_MODE_TAVERN);
-			_ctx.controller->set_flag("show_tavern");
+			_ctx.controller->go_to(Enums::Screen::TAVERN);
 			_ctx.controller->clear_character("inspect");
 		}
 	}
@@ -128,8 +129,6 @@ auto Sorcery::Tavern::start() -> int {
 }
 
 auto Sorcery::Tavern::stop() -> int {
-
-	_ctx.controller->unset_flag("show_tavern");
 
 	return 0;
 }

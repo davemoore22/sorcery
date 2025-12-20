@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -45,8 +45,8 @@ auto Sorcery::Bestiary::_initialise() -> bool {
 
 auto Sorcery::Bestiary::start() -> int {
 
-	_ctx.controller->initialise("bestiary");
-	_ctx.controller->set_flag("show_bestiary");
+	_ctx.controller->go_to(Enums::Screen::BESTIARY);
+	_ctx.controller->initialise(Enums::Screen::BESTIARY);
 
 	// Main loop
 	auto done{false};
@@ -63,14 +63,14 @@ auto Sorcery::Bestiary::start() -> int {
 				return GO_TO_COMPENDIUM;
 		}
 
-		_ctx.ui->display("bestiary");
+		_ctx.ui->display(Enums::Screen::BESTIARY);
 
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
 		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_ctx.controller->has_flag("show_bestiary"))
+		else if (!_ctx.controller->wants(Enums::Screen::BESTIARY))
 			return GO_TO_COMPENDIUM;
 	}
 
@@ -80,7 +80,7 @@ auto Sorcery::Bestiary::start() -> int {
 
 auto Sorcery::Bestiary::stop() -> int {
 
-	_ctx.controller->move_screen(Screens::BESTIARY, Screens::COMPENDIUM);
+	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
 
 	return 0;
 }

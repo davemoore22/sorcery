@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -61,7 +61,7 @@ auto Sorcery::Heal::_callback_heal_tick(Uint32, void *param) -> Uint32 {
 
 auto Sorcery::Heal::start() -> int {
 
-	_ctx.controller->move_screen(Screens::PAY, Screens::HEAL);
+	_ctx.controller->go_to(Enums::Screen::HEAL);
 	_ctx.controller->unset_flag("heal_finished");
 
 	_heal_tick = SDL_AddTimer(2000, &Heal::_callback_heal_tick, this);
@@ -88,7 +88,7 @@ auto Sorcery::Heal::start() -> int {
 				return BACK_TO_TEMPLE;
 		}
 
-		_ctx.ui->display("heal", _stage);
+		_ctx.ui->display(Enums::Screen::HEAL, _stage);
 
 		if (_stage <= 0) {
 
@@ -98,7 +98,7 @@ auto Sorcery::Heal::start() -> int {
 			_ctx.controller->set_flag("heal_finished");
 		}
 
-		if (!_ctx.controller->has_flag("show_heal"))
+		if (!_ctx.controller->wants(Enums::Screen::HEAL))
 			return BACK_TO_TEMPLE;
 	}
 
@@ -196,7 +196,7 @@ auto Sorcery::Heal::stop() -> int {
 
 	SDL_RemoveTimer(_heal_tick);
 
-	_ctx.controller->move_screen(Screens::HEAL, Screens::TEMPLE);
+	_ctx.controller->go_to(Enums::Screen::TEMPLE);
 
 	return 0;
 }

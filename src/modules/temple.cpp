@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -64,8 +64,8 @@ auto Sorcery::Temple::start() -> int {
 		});
 	};
 
-	_ctx.controller->initialise("inn");
-	_ctx.controller->move_screen(Screens::CASTLE, Screens::TEMPLE);
+	_ctx.controller->initialise(Enums::Screen::TEMPLE);
+	_ctx.controller->go_to(Enums::Screen::TEMPLE);
 
 	// Need this before accessing dynamic modals!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
@@ -151,10 +151,10 @@ auto Sorcery::Temple::start() -> int {
 			}
 		}
 
-		_ctx.ui->display("temple", _ctx.game);
+		_ctx.ui->display(Enums::Screen::TEMPLE, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_temple") &&
-			_ctx.controller->has_flag("show_castle"))
+		if (!_ctx.controller->wants(Enums::Screen::TEMPLE) &&
+			_ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 
 		if (_ctx.controller->has_character("inspect")) {
@@ -176,7 +176,6 @@ auto Sorcery::Temple::start() -> int {
 		}
 
 		if (_ctx.controller->has_character("tithe")) {
-
 			// We cannot clear the tithe character here, as we are still on the
 			// same screen, only to display the donate popup
 		}
@@ -188,7 +187,7 @@ auto Sorcery::Temple::start() -> int {
 
 auto Sorcery::Temple::stop() -> int {
 
-	_ctx.controller->move_screen(Screens::TEMPLE, Screens::CASTLE);
+	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->clear_character("inspect");
 
 	return 0;

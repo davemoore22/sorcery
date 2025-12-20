@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -45,7 +45,7 @@ auto Sorcery::LevelUp::_initialise() -> bool {
 
 auto Sorcery::LevelUp::start(const int mode) -> int {
 
-	_ctx.controller->move_screen(Screens::STAY, Screens::LEVELUP);
+	_ctx.controller->go_to(Enums::Screen::LEVELUP);
 
 	// Main loop
 	auto done{false};
@@ -66,9 +66,9 @@ auto Sorcery::LevelUp::start(const int mode) -> int {
 				return BACK_TO_STAY;
 		}
 
-		_ctx.ui->display("levelup", mode);
+		_ctx.ui->display(Enums::Screen::LEVELUP, mode);
 
-		if (!_ctx.controller->has_flag("show_levelup"))
+		if (!_ctx.controller->wants(Enums::Screen::LEVELUP))
 			return BACK_TO_STAY;
 	}
 
@@ -78,7 +78,7 @@ auto Sorcery::LevelUp::start(const int mode) -> int {
 
 auto Sorcery::LevelUp::stop() -> int {
 
-	_ctx.controller->move_screen(Screens::LEVELUP, Screens::STAY);
+	_ctx.controller->go_to(Enums::Screen::STAY);
 
 	return 0;
 }

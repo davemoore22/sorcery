@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -46,8 +47,8 @@ auto Sorcery::Choose::_initialise() -> bool {
 
 auto Sorcery::Choose::start(const int mode) -> int {
 
-	_ctx.controller->initialise("choose");
-	_ctx.controller->set_flag("show_choose");
+	_ctx.controller->go_to(Enums::Screen::CHOOSE);
+	_ctx.controller->initialise(Enums::Screen::CHOOSE);
 
 	// Main loop
 	auto done{false};
@@ -68,9 +69,9 @@ auto Sorcery::Choose::start(const int mode) -> int {
 				return BACK_FROM_CHOOSE;
 		}
 
-		_ctx.ui->display("choose", mode);
+		_ctx.ui->display(Enums::Screen::CHOOSE, mode);
 
-		if (!_ctx.controller->has_flag("show_choose"))
+		if (!_ctx.controller->wants(Enums::Screen::CHOOSE))
 			return BACK_FROM_CHOOSE;
 		if (_ctx.controller->get_character("choose"))
 			return BACK_FROM_CHOOSE;
@@ -81,8 +82,6 @@ auto Sorcery::Choose::start(const int mode) -> int {
 }
 
 auto Sorcery::Choose::stop() -> int {
-
-	_ctx.controller->unset_flag("show_choose");
 
 	return 0;
 }

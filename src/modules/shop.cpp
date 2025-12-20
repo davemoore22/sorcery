@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -49,8 +50,8 @@ auto Sorcery::Shop::_initialise() -> bool {
 
 auto Sorcery::Shop::start() -> int {
 
-	_ctx.controller->initialise("shop");
-	_ctx.controller->set_flag("show_shop");
+	_ctx.controller->go_to(Enums::Screen::SHOP);
+	_ctx.controller->initialise(Enums::Screen::SHOP);
 
 	// Main loop
 	auto done{false};
@@ -71,16 +72,16 @@ auto Sorcery::Shop::start() -> int {
 				return BACK_TO_CASTLE;
 		}
 
-		_ctx.ui->display("shop", _ctx.game);
+		_ctx.ui->display(Enums::Screen::SHOP, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_shop") &&
-			_ctx.controller->has_flag("show_castle"))
+		if (!_ctx.controller->wants(Enums::Screen::SHOP) &&
+			_ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 
-		if (_ctx.controller->has_flag("show_roster")) {
+		if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
 			_roster->start(ROSTER_MODE_SHOP);
 			_roster->stop();
-			_ctx.controller->set_flag("show_shop");
+			_ctx.controller->go_to(Enums::Screen::SHOP);
 		}
 	}
 
@@ -89,8 +90,6 @@ auto Sorcery::Shop::start() -> int {
 }
 
 auto Sorcery::Shop::stop() -> int {
-
-	_ctx.controller->unset_flag("show_shop");
 
 	return 0;
 }

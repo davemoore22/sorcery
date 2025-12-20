@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -47,8 +47,8 @@ auto Sorcery::Reorder::_initialise() -> bool {
 
 auto Sorcery::Reorder::start(const int mode) -> int {
 
-	_ctx.controller->initialise("reorder");
-	_ctx.controller->set_flag("show_reorder");
+	_ctx.controller->go_to(Enums::Screen::REORDER);
+	_ctx.controller->initialise(Enums::Screen::REORDER);
 
 	// Main loop
 	auto done{false};
@@ -69,9 +69,9 @@ auto Sorcery::Reorder::start(const int mode) -> int {
 				return BACK_FROM_ROSTER;
 		}
 
-		_ctx.ui->display("reorder", mode);
+		_ctx.ui->display(Enums::Screen::REORDER, mode);
 
-		if (!_ctx.controller->has_flag("show_reorder"))
+		if (!_ctx.controller->wants(Enums::Screen::REORDER))
 			return BACK_FROM_REORDER;
 	}
 
@@ -83,9 +83,9 @@ auto Sorcery::Reorder::stop(const int mode) -> int {
 
 	_ctx.game->save_game();
 	if (mode == REORDER_MODE_CAMP)
-		_ctx.controller->move_screen(Screens::REORDER, Screens::ENGINE);
+		_ctx.controller->go_to(Enums::Screen::ENGINE);
 	else
-		_ctx.controller->move_screen(Screens::REORDER, Screens::TAVERN);
+		_ctx.controller->go_to(Enums::Screen::TAVERN);
 
 	return 0;
 }

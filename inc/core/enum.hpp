@@ -20,56 +20,59 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "frontend/splash.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/display.hpp"
-#include "core/enum.hpp"
-#include "core/system.hpp"
-#include "core/ui.hpp"
-#include "resources/define.hpp"
-#include "resources/imagestore.hpp"
+#include "common/include.hpp"
 
-Sorcery::Splash::Splash(Context &ctx)
-	: _ctx{ctx} {
+#pragma once
 
-	_initialise();
+namespace Sorcery::Enums {
+
+enum class Screen {
+	NONE = 0,
+
+	SPLASH,
+
+	MAINMENU,
+	OPTIONS,
+	LICENSE,
+	COMPENDIUM,
+	ATLAS,
+	BESTIARY,
+	MUSEUM,
+	SPELLBOOK,
+	CASTLE,
+	EDGEOFTOWN,
+	TAVERN,
+	INN,
+	TEMPLE,
+	SHOP,
+	TRAINING,
+	RESTART,
+	ADD,
+	REMOVE,
+
+	ENGINE,
+	INSPECT,
+	REORDER,
+
+	STAY,
+	CHOOSE,
+	RECOVERY,
+	LEVELUP,
+	NOLEVELUP,
+
+	PAY,
+	HEAL,
+	RESULTS,
+
+	CREATE,
+	METHOD,
+	ROSTER,
+
+	CREATE_NAME,
+	CREATE_RACE,
+	CREATE_ALIGNMENT,
+	CREATE_CLASS,
+	CREATE_CONFIRM,
 };
 
-auto Sorcery::Splash::_initialise() -> bool {
-
-	// Load initial textures so that they are immediately available
-	_ctx.images->load_image(std::string{BANNER_TEXTURE});
-
-	return true;
-}
-
-auto Sorcery::Splash::start() -> int {
-
-	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
-
-	_ctx.controller->initialise(Enums::Screen::SPLASH);
-	_ctx.controller->set_busy(true);
-
-	// Main loop
-	auto done{false};
-	while (!done) {
-
-		SDL_Event event;
-		while (SDL_PollEvent(&event)) {
-		}
-
-		_ctx.ui->display(Enums::Screen::SPLASH);
-		// done = _ui->images->load_next();
-		done = true;
-	}
-
-	_ctx.controller->set_busy(false);
-
-	return 0;
-}
-
-auto Sorcery::Splash::stop() -> int {
-
-	return 0;
 }

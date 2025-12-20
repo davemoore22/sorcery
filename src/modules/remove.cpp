@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -46,8 +47,8 @@ auto Sorcery::Remove::_initialise() -> bool {
 
 auto Sorcery::Remove::start() -> int {
 
-	_ctx.controller->initialise("remove");
-	_ctx.controller->set_flag("show_remove");
+	_ctx.controller->go_to(Enums::Screen::REMOVE);
+	_ctx.controller->initialise(Enums::Screen::REMOVE);
 
 	// Main loop
 	auto done{false};
@@ -68,10 +69,10 @@ auto Sorcery::Remove::start() -> int {
 				return BACK_FROM_ROSTER;
 		}
 
-		_ctx.ui->display("remove", _ctx.game);
+		_ctx.ui->display(Enums::Screen::REMOVE, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_remove") &&
-			_ctx.controller->has_flag("show_tavern"))
+		if (!_ctx.controller->wants(Enums::Screen::REMOVE) &&
+			_ctx.controller->wants(Enums::Screen::TAVERN))
 			return BACK_TO_TAVERN;
 	}
 
@@ -82,7 +83,6 @@ auto Sorcery::Remove::start() -> int {
 auto Sorcery::Remove::stop() -> int {
 
 	_ctx.game->save_game();
-	_ctx.controller->unset_flag("show_remove");
 
 	return 0;
 }

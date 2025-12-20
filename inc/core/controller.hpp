@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/include.hpp"
+#include "core/enum.hpp"
 #include "core/include.hpp"
 
 namespace Sorcery {
@@ -79,12 +80,9 @@ class Controller {
 		auto handle_toggle(const std::string &component, const std::string &tab,
 						   const int selection) -> void;
 		auto has_saved_game() const -> bool;
-		auto initialise(std::string_view value) -> void;
 		auto is_menu_item_disabled(const std::string &component,
 								   const int selection, const int data) -> bool;
-		auto set_screen(std::string_view value) -> void;
 		auto set_game(Game *game) -> void;
-		auto get_screen() const -> std::string_view;
 		auto clear_character(const std::string &flag) -> void;
 		auto get_character(const std::string &flag) const -> int;
 		auto has_character(const std::string &flag) const -> bool;
@@ -117,8 +115,8 @@ class Controller {
 		auto get_busy() const -> bool;
 		auto set_can_undo(const bool value) -> void;
 		auto get_can_undo() const -> bool;
-		auto get_last_screen() const -> std::string;
-		auto set_last_screen(const std::string &value) -> void;
+		auto get_last_screen() const -> Enums::Screen;
+		auto set_last_screen(const Enums::Screen value) -> void;
 		auto get_last_event() const -> Enums::Map::Event;
 		auto set_last_event(const Enums::Map::Event value) -> void;
 		auto get_last_dir() const -> Enums::Map::Direction;
@@ -131,13 +129,18 @@ class Controller {
 		auto get_character() const -> Character *;
 		auto get_input_buffer() -> std::string &;
 		auto set_input_buffer(const std::string &value) -> void;
-		auto move_screen(std::string_view from, std::string_view to) -> void;
 
+		auto initialise(const Enums::Screen screen) -> void;
+		auto go_to(const Enums::Screen screen) -> void;
+		auto wants(const Enums::Screen value) const -> bool;
+		auto is_at() const -> Enums::Screen;
 		// Public Members
 
 	private:
 		// Private Members
 		Context &_ctx;
+		Enums::Screen _screen;
+		Enums::Screen _last_screen;
 
 		Game *_game;
 		bool _busy;		  // Currently busy (e.g. loading an asset etc)
@@ -149,16 +152,12 @@ class Controller {
 		std::vector<unsigned int> _candidate_party; // Used for Reordering
 		Enums::Map::Event _last_event;				// Last event in dungeon
 		Enums::Map::Direction _last_dir;			// Last movement in dungeon
-		std::string _last_screen;				// Last screen redrawn by the ui
-		std::string _screen;					// Where we currently are
-		std::map<std::string, int> _characters; // Character Selections
-		std::map<std::string, bool> _flags;		// Logic Flags
-		std::map<std::string, std::string> _texts; // "Global" Texts
-		std::map<std::string, int> _selected;	   // Menu Selections
+		std::map<std::string, int> _characters;		// Character Selections
+		std::map<std::string, bool> _flags;			// Logic Flags
+		std::map<std::string, std::string> _texts;	// "Global" Texts
+		std::map<std::string, int> _selected;		// Menu Selections
 		std::shared_ptr<Character> _create; // Candidate Character for Creation
 		std::string _input_buffer;			// Input Buffer for Text Input
-
-		auto _assert_only_one_show_flag() const -> void;
 };
 
 };

@@ -24,6 +24,7 @@
 
 #include "common/include.hpp"
 #include "common/types.hpp"
+#include "core/enum.hpp"
 #include "core/macro.hpp"
 #include "types/component.hpp"
 #include "types/enum.hpp"
@@ -66,8 +67,7 @@ class UI {
 
 		// Public Methods
 		auto create_dynamic_modal(const std::string name) -> void;
-		auto display(const std::string screen, std::any param = nullptr)
-			-> void;
+		auto display(Enums::Screen screen, std::any param = nullptr) -> void;
 		auto display_engine() -> void;
 		auto display_refresh(std::any payload = nullptr) -> void;
 		auto draw_cursor(const bool value) -> void;
@@ -154,9 +154,10 @@ class UI {
 		std::vector<std::shared_ptr<Menu>> _menus;
 		std::vector<unsigned int> _attract_data;
 
-		std::map<std::string, std::function<void()>> _draw_modules;
-		std::map<std::string, std::function<void(int)>> _draw_modules_with_int;
-		std::map<std::string, std::function<void(const std::string &)>>
+		std::map<Enums::Screen, std::function<void()>> _draw_modules;
+		std::map<Enums::Screen, std::function<void(int)>>
+			_draw_modules_with_int;
+		std::map<Enums::Screen, std::function<void(const std::string &)>>
 			_draw_modules_with_string;
 
 		// Private Methods

@@ -155,120 +155,121 @@ Sorcery::UI::UI(Context &ctx)
 	ticks = SDL_GetTicks();
 
 	// Initialise function tables for display methods
-	_draw_modules["atlas"] = [this] {
+	_draw_modules[Enums::Screen::ATLAS] = [this] {
 		_display_atlas();
 	};
-	_draw_modules["bestiary"] = [this] {
+	_draw_modules[Enums::Screen::BESTIARY] = [this] {
 		_display_bestiary();
 	};
-	_draw_modules["compendium"] = [this] {
+	_draw_modules[Enums::Screen::COMPENDIUM] = [this] {
 		_display_compendium();
 	};
-	_draw_modules["main_menu"] = [this] {
+	_draw_modules[Enums::Screen::MAINMENU] = [this] {
 		_display_main_menu();
 	};
-	_draw_modules["museum"] = [this] {
+	_draw_modules[Enums::Screen::MUSEUM] = [this] {
 		_display_museum();
 	};
-	_draw_modules["options"] = [this] {
+	_draw_modules[Enums::Screen::OPTIONS] = [this] {
 		_display_options();
 	};
-	_draw_modules["spellbook"] = [this] {
+	_draw_modules[Enums::Screen::SPELLBOOK] = [this] {
 		_display_spellbook();
 	};
-	_draw_modules["splash"] = [this] {
+	_draw_modules[Enums::Screen::SPLASH] = [this] {
 		_display_splash();
 	};
 
-	_draw_modules["add"] = [this]() {
+	_draw_modules[Enums::Screen::ADD] = [this]() {
 		_display_add();
 	};
-	_draw_modules["castle"] = [this]() {
+	_draw_modules[Enums::Screen::CASTLE] = [this]() {
 		_display_castle();
 	};
-	_draw_modules["edge_of_town"] = [this]() {
+	_draw_modules[Enums::Screen::EDGEOFTOWN] = [this]() {
 		_display_edge_of_town();
 	};
-	_draw_modules["inn"] = [this]() {
+	_draw_modules[Enums::Screen::INN] = [this]() {
 		_display_inn();
 	};
-	_draw_modules["pay"] = [this]() {
+	_draw_modules[Enums::Screen::PAY] = [this]() {
 		_display_pay();
 	};
-	_draw_modules["remove"] = [this]() {
+	_draw_modules[Enums::Screen::REMOVE] = [this]() {
 		_display_remove();
 	};
-	_draw_modules["restart"] = [this]() {
+	_draw_modules[Enums::Screen::RESTART] = [this]() {
 		_display_restart();
 	};
-	_draw_modules["shop"] = [this]() {
+	_draw_modules[Enums::Screen::SHOP] = [this]() {
 		_display_shop();
 	};
-	_draw_modules["stay"] = [this]() {
+	_draw_modules[Enums::Screen::STAY] = [this]() {
 		_display_stay();
 	};
-	_draw_modules["tavern"] = [this]() {
+	_draw_modules[Enums::Screen::TAVERN] = [this]() {
 		_display_tavern();
 	};
-	_draw_modules["temple"] = [this]() {
+	_draw_modules[Enums::Screen::TEMPLE] = [this]() {
 		_display_temple();
 	};
-	_draw_modules["training_grounds"] = [this]() {
+	_draw_modules[Enums::Screen::TRAINING] = [this]() {
 		_display_training_grounds();
 	};
-	_draw_modules["method"] = [this]() {
+	_draw_modules[Enums::Screen::METHOD] = [this]() {
 		_display_method();
 	};
 
-	_draw_modules_with_int["roster"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::ROSTER] = [this](int n) {
 		_display_roster(n);
 	};
 
-	_draw_modules_with_int["create_name"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::CREATE_NAME] = [this](int n) {
 		_display_create_name(n);
 	};
 
-	_draw_modules_with_int["create_race"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::CREATE_RACE] = [this](int n) {
 		_display_create_race(n);
 	};
 
-	_draw_modules_with_int["create_alignment"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::CREATE_ALIGNMENT] = [this](int n) {
 		_display_create_alignment(n);
 	};
 
-	_draw_modules_with_int["create_confirm"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::CREATE_CONFIRM] = [this](int n) {
 		_display_create_confirm(n);
 	};
 
-	_draw_modules_with_int["create_class"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::CREATE_CLASS] = [this](int n) {
 		_display_create_class(n);
 	};
 
-	_draw_modules_with_int["heal"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::HEAL] = [this](int n) {
 		_display_heal(n);
 	};
-	_draw_modules_with_int["inspect"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::INSPECT] = [this](int n) {
 		_display_inspect(n);
 	};
-	_draw_modules_with_int["level_up"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::LEVELUP] = [this](int n) {
 		_display_level_up(n);
 	};
-	_draw_modules_with_int["nolevelup"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::NOLEVELUP] = [this](int n) {
 		_display_no_level_up(n);
 	};
-	_draw_modules_with_int["recovery"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::RECOVERY] = [this](int n) {
 		_display_recovery(n);
 	};
-	_draw_modules_with_int["reorder"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::REORDER] = [this](int n) {
 		_display_reorder(n);
 	};
-	_draw_modules_with_int["roster"] = [this](int n) {
+	_draw_modules_with_int[Enums::Screen::ROSTER] = [this](int n) {
 		_display_roster(n);
 	};
 
-	_draw_modules_with_string["license"] = [this](const std::string &string) {
-		_display_license(string);
-	};
+	_draw_modules_with_string[Enums::Screen::LICENSE] =
+		[this](const std::string &string) {
+			_display_license(string);
+		};
 };
 
 Sorcery::UI::~UI() {}
@@ -621,7 +622,7 @@ auto Sorcery::UI::display_engine() -> void {
 	SDL_GL_SwapWindow(_ctx.display->get_SDL_window());
 }
 
-auto Sorcery::UI::display(const std::string screen, std::any payload) -> void {
+auto Sorcery::UI::display(Enums::Screen screen, std::any payload) -> void {
 
 	// Store what we want to draw for next refresh
 	_ctx.controller->set_last_screen(screen);
@@ -2752,12 +2753,12 @@ auto Sorcery::UI::_draw_options() -> void {
 				ImVec2{centre - (btn_size.x + grid_sz), button_y * grid_sz});
 			if (ImGui::Button(save_lbl.c_str(), btn_size)) {
 				_ctx.system->config->save();
-				_ctx.controller->unset_flag("show_options");
+				//_ctx.controller->unset_flag("show_options");
 			}
 			ImGui::SetCursorPos(ImVec2{centre + grid_sz, button_y * grid_sz});
 			if (ImGui::Button(cancel_lbl.c_str(), btn_size)) {
 				_ctx.system->config->load();
-				_ctx.controller->unset_flag("show_options");
+				//_ctx.controller->unset_flag("show_options");
 			}
 		}
 	}

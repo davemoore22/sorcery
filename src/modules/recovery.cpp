@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -112,7 +112,7 @@ auto Sorcery::Recovery::_callback_recuperating(Uint32, void *param) -> Uint32 {
 
 auto Sorcery::Recovery::start(const int mode) -> int {
 
-	_ctx.controller->move_screen(Screens::STAY, Screens::RECOVERY);
+	_ctx.controller->go_to(Enums::Screen::RECOVERY);
 	_ctx.controller->unset_flag("napping_finished");
 	_ctx.controller->unset_flag("recuperating_finished");
 
@@ -144,11 +144,11 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 				return BACK_TO_STAY;
 		}
 
-		_ctx.ui->display("recovery", mode);
+		_ctx.ui->display(Enums::Screen::RECOVERY, mode);
 
 		if (_character->mode == -1)
 			_ctx.controller->set_flag("recuperating_finished");
-		if (!_ctx.controller->has_flag("show_recovery"))
+		if (!_ctx.controller->wants(Enums::Screen::RECOVERY))
 			return CHECK_FOR_LEVEL_GAIN;
 		if (_ctx.controller->has_flag("napping_finished"))
 			return CHECK_FOR_LEVEL_GAIN;
@@ -164,7 +164,7 @@ auto Sorcery::Recovery::stop() -> int {
 
 	SDL_RemoveTimer(_rest_tick);
 
-	_ctx.controller->move_screen(Screens::RECOVERY, Screens::STAY);
+	_ctx.controller->go_to(Enums::Screen::STAY);
 
 	return 0;
 }

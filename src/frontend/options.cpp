@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -46,8 +46,8 @@ auto Sorcery::Options::_initialise() -> bool {
 auto Sorcery::Options::start(const bool is_in_game) -> int {
 
 	_is_in_game = is_in_game;
-	_ctx.controller->initialise("options");
-	_ctx.controller->set_flag("show_options");
+	_ctx.controller->go_to(Enums::Screen::OPTIONS);
+	_ctx.controller->initialise(Enums::Screen::OPTIONS);
 
 	// Main loop
 	auto done{false};
@@ -66,10 +66,10 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 				return GO_TO_FRONT_END; // Or back to the Game
 		}
 
-		_ctx.ui->display("options");
+		_ctx.ui->display(Enums::Screen::OPTIONS);
 		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_ctx.controller->has_flag("show_options"))
+		else if (!_ctx.controller->wants(Enums::Screen::OPTIONS))
 			return GO_TO_FRONT_END;
 	}
 
@@ -90,9 +90,9 @@ auto Sorcery::Options::stop() -> int {
 	}
 
 	if (_is_in_game)
-		_ctx.controller->move_screen(Screens::OPTIONS, Screens::ENGINE);
+		_ctx.controller->go_to(Enums::Screen::ENGINE);
 	else
-		_ctx.controller->move_screen(Screens::OPTIONS, Screens::MAINMENU);
+		_ctx.controller->go_to(Enums::Screen::MAINMENU);
 
 	return 0;
 }

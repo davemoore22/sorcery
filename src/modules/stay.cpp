@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -59,7 +59,7 @@ auto Sorcery::Stay::start() -> int {
 	// Unlike what happens in the start() methods in other modules, we don't
 	// call controller->initialise() here, as this module requires we know what
 	// character we have selected to stay at the inn!
-	_ctx.controller->move_screen(Screens::INN, Screens::STAY);
+	_ctx.controller->go_to(Enums::Screen::STAY);
 
 	// Main loop
 	auto done{false};
@@ -136,10 +136,10 @@ auto Sorcery::Stay::start() -> int {
 			}
 		}
 
-		_ctx.ui->display("stay", _ctx.game);
+		_ctx.ui->display(Enums::Screen::STAY, _ctx.game);
 
-		if (!_ctx.controller->has_flag("show_stay") &&
-			_ctx.controller->has_flag("show_inn"))
+		if (!_ctx.controller->wants(Enums::Screen::STAY) &&
+			_ctx.controller->wants(Enums::Screen::INN))
 			return BACK_TO_INN;
 	}
 
@@ -150,7 +150,7 @@ auto Sorcery::Stay::start() -> int {
 auto Sorcery::Stay::stop() -> int {
 
 	_ctx.controller->set_selected("stay_selected", 0);
-	_ctx.controller->move_screen(Screens::STAY, Screens::INN);
+	_ctx.controller->go_to(Enums::Screen::INN);
 
 	return 0;
 }

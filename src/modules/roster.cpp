@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -46,8 +47,8 @@ auto Sorcery::Roster::_initialise() -> bool {
 
 auto Sorcery::Roster::start(const int mode) -> int {
 
-	_ctx.controller->initialise("roster");
-	_ctx.controller->set_flag("show_roster");
+	_ctx.controller->go_to(Enums::Screen::ROSTER);
+	_ctx.controller->initialise(Enums::Screen::ROSTER);
 
 	// Main loop
 	auto done{false};
@@ -68,9 +69,9 @@ auto Sorcery::Roster::start(const int mode) -> int {
 				return BACK_FROM_ROSTER;
 		}
 
-		_ctx.ui->display("roster", mode);
+		_ctx.ui->display(Enums::Screen::ROSTER, mode);
 
-		if (!_ctx.controller->has_flag("show_roster"))
+		if (!_ctx.controller->wants(Enums::Screen::ROSTER))
 			return BACK_FROM_ROSTER;
 	}
 
@@ -79,8 +80,6 @@ auto Sorcery::Roster::start(const int mode) -> int {
 }
 
 auto Sorcery::Roster::stop() -> int {
-
-	_ctx.controller->unset_flag("show_roster");
 
 	return 0;
 }

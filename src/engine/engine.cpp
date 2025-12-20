@@ -27,6 +27,7 @@
 #include "core/controller.hpp"
 #include "core/define.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "engine/define.hpp"
@@ -62,8 +63,8 @@ auto Sorcery::Engine::_initialise() -> bool {
 
 auto Sorcery::Engine::start(const int mode) -> int {
 
-	_ctx.controller->initialise("engine");
-	_ctx.controller->set_flag("show_engine");
+	_ctx.controller->initialise(Enums::Screen::ENGINE);
+	_ctx.controller->go_to(Enums::Screen::ENGINE);
 	if (_ctx.game->state->get_party_size() > 0)
 		_ctx.controller->set_character(
 			"inspect", _ctx.game->state->get_party_char(1).value());
@@ -169,13 +170,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					}
 				}
 
-				if (_ctx.controller->has_flag("show_options")) {
+				if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
 					_options->start(false);
 					_options->stop();
-				} else if (_ctx.controller->has_flag("show_reorder")) {
+				} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
 					_reorder->start(REORDER_MODE_CAMP);
 					_reorder->stop(REORDER_MODE_CAMP);
-				} else if (_ctx.controller->has_flag("show_inspect")) {
+				} else if (_ctx.controller->wants(Enums::Screen::INSPECT)) {
 					_inspect->start(
 						INSPECT_MODE_CAMP,
 						_ctx.game->state->get_party_char(1).value());
@@ -192,7 +193,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				if (_ctx.controller->has_flag("after_tile_message") &&
 					!_ctx.ui->message_tile->show) {
-
 					// Do Event Handling
 					_ctx.controller->unset_flag("after_tile_message");
 					_ctx.controller->set_last_event(
@@ -201,7 +201,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				if (_ctx.controller->has_flag("want_quit_expedition") &&
 					!_ctx.ui->modal_camp->show) {
-
 					// Handle quitting expedition
 					auto party{_ctx.game->state->get_party_characters()};
 					for (auto &[id, character] : _ctx.game->characters) {

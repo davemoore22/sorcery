@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "engine/define.hpp"
@@ -57,8 +57,8 @@ auto Sorcery::Inspect::set(const int char_id) -> void {
 
 auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 
-	_ctx.controller->initialise("inspect");
-	_ctx.controller->set_flag("show_inspect");
+	_ctx.controller->go_to(Enums::Screen::INSPECT);
+	_ctx.controller->initialise(Enums::Screen::INSPECT);
 	_ctx.controller->set_character("inspect", start_char);
 
 	// Main loop
@@ -106,10 +106,10 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 			}
 		}
 
-		if (!_ctx.controller->has_flag("show_inspect"))
+		if (!_ctx.controller->wants(Enums::Screen::INSPECT))
 			return BACK_FROM_INSPECT;
 
-		_ctx.ui->display("inspect", mode);
+		_ctx.ui->display(Enums::Screen::INSPECT, mode);
 
 		if (_ctx.controller->has_flag("select_previous_character")) {
 
@@ -146,11 +146,11 @@ auto Sorcery::Inspect::stop(const int mode) -> void {
 
 	_ctx.controller->clear_character("inspect");
 	if (mode & INSPECT_MODE_CAMP)
-		_ctx.controller->move_screen(Screens::INSPECT, Screens::ENGINE);
+		_ctx.controller->go_to(Enums::Screen::ENGINE);
 	else if (mode & INSPECT_MODE_TAVERN)
-		_ctx.controller->move_screen(Screens::INSPECT, Screens::TAVERN);
+		_ctx.controller->go_to(Enums::Screen::TAVERN);
 	else if (mode & INSPECT_MODE_INN)
-		_ctx.controller->move_screen(Screens::INSPECT, Screens::INN);
+		_ctx.controller->go_to(Enums::Screen::INN);
 	else if (mode & INSPECT_MODE_TEMPLE)
-		_ctx.controller->move_screen(Screens::INSPECT, Screens::TEMPLE);
+		_ctx.controller->go_to(Enums::Screen::TEMPLE);
 }

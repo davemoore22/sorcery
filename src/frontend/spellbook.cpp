@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
-#include "core/screens.hpp"
+#include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
@@ -46,8 +46,8 @@ auto Sorcery::SpellBook::_initialise() -> bool {
 
 auto Sorcery::SpellBook::start() -> int {
 
-	_ctx.controller->initialise("spellbook");
-	_ctx.controller->set_flag("show_spellbook");
+	_ctx.controller->go_to(Enums::Screen::SPELLBOOK);
+	_ctx.controller->initialise(Enums::Screen::SPELLBOOK);
 
 	// Main loop
 	auto done{false};
@@ -64,14 +64,14 @@ auto Sorcery::SpellBook::start() -> int {
 				return GO_TO_COMPENDIUM;
 		}
 
-		_ctx.ui->display("spellbook");
+		_ctx.ui->display(Enums::Screen::SPELLBOOK);
 
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
 		if (_ctx.controller->has_flag("want_abort"))
 			return ABORT_GAME;
-		else if (!_ctx.controller->has_flag("show_spellbook"))
+		else if (!_ctx.controller->wants(Enums::Screen::SPELLBOOK))
 			return GO_TO_FRONT_END;
 	}
 
@@ -81,7 +81,7 @@ auto Sorcery::SpellBook::start() -> int {
 
 auto Sorcery::SpellBook::stop() -> int {
 
-	_ctx.controller->move_screen(Screens::SPELLBOOK, Screens::COMPENDIUM);
+	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
 
 	return 0;
 }
