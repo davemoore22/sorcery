@@ -55,7 +55,7 @@ auto Sorcery::Training::start() -> int {
 	_method->stop();
 
 	_ctx.controller->go_to(Enums::Screen::TRAINING);
-	_ctx.controller->initialise(Enums::Screen::TRAINING);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

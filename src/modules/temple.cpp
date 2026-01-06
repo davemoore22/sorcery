@@ -64,7 +64,7 @@ auto Sorcery::Temple::start() -> int {
 		});
 	};
 
-	_ctx.controller->initialise(Enums::Screen::TEMPLE);
+	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::TEMPLE);
 
 	// Need this before accessing dynamic modals!

@@ -58,7 +58,7 @@ auto Sorcery::Compendium::_initialise() -> bool {
 auto Sorcery::Compendium::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
-	_ctx.controller->initialise(Enums::Screen::COMPENDIUM);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};
@@ -94,7 +94,7 @@ auto Sorcery::Compendium::start() -> int {
 			_spellbook->stop();
 		}
 
-		if (_ctx.controller->has_flag("want_abort"))
+		if (_ctx.controller->want_to_abort())
 			return ABORT_GAME;
 		else if (!_ctx.controller->wants(Enums::Screen::COMPENDIUM))
 			return GO_TO_FRONT_END;

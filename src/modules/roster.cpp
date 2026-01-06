@@ -48,7 +48,7 @@ auto Sorcery::Roster::_initialise() -> bool {
 auto Sorcery::Roster::start(const int mode) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::ROSTER);
-	_ctx.controller->initialise(Enums::Screen::ROSTER);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

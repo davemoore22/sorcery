@@ -48,7 +48,7 @@ auto Sorcery::Remove::_initialise() -> bool {
 auto Sorcery::Remove::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::REMOVE);
-	_ctx.controller->initialise(Enums::Screen::REMOVE);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

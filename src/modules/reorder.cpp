@@ -48,7 +48,7 @@ auto Sorcery::Reorder::_initialise() -> bool {
 auto Sorcery::Reorder::start(const int mode) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::REORDER);
-	_ctx.controller->initialise(Enums::Screen::REORDER);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

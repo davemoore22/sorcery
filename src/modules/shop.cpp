@@ -51,7 +51,7 @@ auto Sorcery::Shop::_initialise() -> bool {
 auto Sorcery::Shop::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::SHOP);
-	_ctx.controller->initialise(Enums::Screen::SHOP);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

@@ -63,7 +63,7 @@ auto Sorcery::Engine::_initialise() -> bool {
 
 auto Sorcery::Engine::start(const int mode) -> int {
 
-	_ctx.controller->initialise(Enums::Screen::ENGINE);
+	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::ENGINE);
 	if (_ctx.game->state->get_party_size() > 0)
 		_ctx.controller->set_character(
@@ -82,7 +82,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			ImGui_ImplSDL2_ProcessEvent(&event);
 			done = _ctx.controller->check_for_abort(event);
 
-			if (_ctx.controller->has_flag("want_abort"))
+			if (_ctx.controller->want_to_abort())
 				return ABORT_GAME;
 
 			if (_ctx.controller->check_for_quicksave(event))

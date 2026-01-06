@@ -570,7 +570,7 @@ auto Sorcery::UI::display_engine() -> void {
 	// Background
 	_draw_components("engine_base_ui");
 
-	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
+	dialog_leave->display(_ctx.controller->want_to_leave_game());
 	dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
 	dialog_stairs_down->display(_ctx.get_flag_ref("want_take_stairs_down"));
 	// if (popup_ouch->show)
@@ -1022,15 +1022,12 @@ auto Sorcery::UI::_draw_debug() -> void {
 		ImGui::TextUnformatted(_ctx.controller->get_flags().c_str());
 
 		ImGui::SetCursorPos(ImVec2{8, 400});
-		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		ImGui::TextUnformatted(_get_popups().c_str());
 
 		ImGui::SetCursorPos(ImVec2{8, 700});
-		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		ImGui::TextUnformatted(_ctx.controller->get_characters().c_str());
 
 		ImGui::SetCursorPos(ImVec2{1000, 8});
-		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		auto fonts{fontstore->get_all_fonts()};
 		for (const auto &font : fonts) {
 			ImGui::TextUnformatted(font.name.c_str());
@@ -2027,8 +2024,7 @@ auto Sorcery::UI::_draw_current_character([[maybe_unused]] const int mode)
 		ImGui::SetCursorPos(pos);
 		with_Child("character_tab_bar_child",
 				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
-			set_StyleColor(ImGuiCol_Tab,
-						   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+			UIStyle::set_tab_black(_ctx);
 			auto char_cmp{components->get("inspect:character_tab_data")};
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			with_TabBar("character_tab_bar", tb_flags) {
@@ -2313,8 +2309,7 @@ auto Sorcery::UI::_draw_item_info() -> void {
 		ImGui::SetCursorPos(pos);
 		with_Child("museum_tab_bar_child",
 				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
-			set_StyleColor(ImGuiCol_Tab,
-						   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+			UIStyle::set_tab_black(_ctx);
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			with_TabBar("museum_tab_bar", tb_flags) {
 				with_TabItem("Info") {
@@ -2625,7 +2620,7 @@ auto Sorcery::UI::_draw_options() -> void {
 		const auto tabs_height{component.h * grid_sz};
 		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 		with_Child("options_tab_bar_child", ImVec2(tabs_width, tabs_height)) {
-			set_StyleColor(ImGuiCol_Tab, ImVec4{0.0f, 0.0f, 0.0f, 0.0f});
+			UIStyle::set_tab_black(_ctx);
 
 			auto summary_idx{0u};
 			auto gameplay_idx(5u);
@@ -3055,8 +3050,7 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 		ImGui::SetCursorPos(pos);
 		with_Child("bestiary_tab_bar_child",
 				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
-			set_StyleColor(ImGuiCol_Tab,
-						   ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade});
+			UIStyle::set_tab_black(_ctx);
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 			with_TabBar("bestiary_tab_bar", tb_flags) {
@@ -3175,7 +3169,7 @@ auto Sorcery::UI::_display_compendium() -> void {
 
 auto Sorcery::UI::_display_edge_of_town() -> void {
 	_draw_components("edge_of_town");
-	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
+	dialog_leave->display(_ctx.controller->want_to_leave_game());
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
@@ -3183,7 +3177,7 @@ auto Sorcery::UI::_display_edge_of_town() -> void {
 
 auto Sorcery::UI::_display_castle() -> void {
 	_draw_components("castle");
-	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
+	dialog_leave->display(_ctx.controller->want_to_leave_game());
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
@@ -3213,7 +3207,6 @@ auto Sorcery::UI::_display_choose(const int mode) -> void {
 auto Sorcery::UI::_display_method() -> void {
 
 	_draw_components("method");
-	// input_name->display(_ctx.get_flag_ref("want_name"));
 	_draw_cursor();
 }
 
@@ -3484,7 +3477,7 @@ auto Sorcery::UI::_display_main_menu() -> void {
 
 	dialog_exit->display(_ctx.get_flag_ref("want_exit_game"));
 	dialog_new->display(_ctx.get_flag_ref("want_new_game"));
-	dialog_leave->display(_ctx.get_flag_ref("want_leave_game"));
+	dialog_leave->display(_ctx.controller->want_to_leave_game());
 
 	_draw_cursor();
 

@@ -130,10 +130,14 @@ class Controller {
 		auto get_input_buffer() -> std::string &;
 		auto set_input_buffer(const std::string &value) -> void;
 
-		auto initialise(const Enums::Screen screen) -> void;
+		auto initialise() -> void;
 		auto go_to(const Enums::Screen screen) -> void;
 		auto wants(const Enums::Screen value) const -> bool;
 		auto is_at() const -> Enums::Screen;
+		auto abort(const bool value = true) -> void;
+		auto leave_game(const bool value = true) -> void;
+		auto want_to_abort() const -> bool;
+		auto want_to_leave_game() -> bool &;
 		// Public Members
 
 	private:
@@ -148,6 +152,8 @@ class Controller {
 		bool _monochrome; // Monochrome wireframe mode active
 		bool _fullscreen; // Fullscreen mode active
 		bool _can_undo;	  // Can "undo" a movement action
+		bool _abort;
+		bool _leave;
 		Enums::Character::Method _method;			// Character Create Method
 		std::vector<unsigned int> _candidate_party; // Used for Reordering
 		Enums::Map::Event _last_event;				// Last event in dungeon

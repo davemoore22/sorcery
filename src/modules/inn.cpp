@@ -56,7 +56,7 @@ auto Sorcery::Inn::_initialise() -> bool {
 
 auto Sorcery::Inn::start() -> int {
 
-	_ctx.controller->initialise(Enums::Screen::INN);
+	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::INN);
 
 	// Need this before accessing modal_inspect!

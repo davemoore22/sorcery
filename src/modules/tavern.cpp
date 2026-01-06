@@ -60,7 +60,7 @@ auto Sorcery::Tavern::_initialise() -> bool {
 auto Sorcery::Tavern::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::TAVERN);
-	_ctx.controller->initialise(Enums::Screen::TAVERN);
+	_ctx.controller->initialise();
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");

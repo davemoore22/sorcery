@@ -48,7 +48,7 @@ auto Sorcery::Restart::_initialise() -> bool {
 auto Sorcery::Restart::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::RESTART);
-	_ctx.controller->initialise(Enums::Screen::RESTART);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

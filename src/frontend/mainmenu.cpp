@@ -54,7 +54,7 @@ auto Sorcery::MainMenu::_initialise() -> bool {
 auto Sorcery::MainMenu::start() -> int {
 
 	// Clear all controller and flow flags
-	_ctx.controller->initialise(Enums::Screen::MAINMENU);
+	_ctx.controller->initialise();
 
 	// Start relevant animation worker threads
 	_ctx.animation->refresh_attract();
@@ -86,7 +86,7 @@ auto Sorcery::MainMenu::start() -> int {
 				return MAIN_MENU_EXIT_GAME;
 			else if (_ctx.controller->has_flag("want_new_game"))
 				return MAIN_MENU_NEW_GAME;
-			else if (_ctx.controller->has_flag("want_abort"))
+			else if (_ctx.controller->want_to_abort())
 				return ABORT_GAME;
 			else if (_ctx.controller->has_flag("want_continue_game"))
 				return MAIN_MENU_CONTINUE_GAME;

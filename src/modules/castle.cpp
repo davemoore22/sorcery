@@ -67,7 +67,7 @@ auto Sorcery::Castle::_initialise() -> bool {
 auto Sorcery::Castle::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
-	_ctx.controller->initialise(Enums::Screen::CASTLE);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};
@@ -92,12 +92,12 @@ auto Sorcery::Castle::start() -> int {
 
 		_ctx.ui->display(Enums::Screen::CASTLE, _ctx.game);
 
-		if (_ctx.controller->has_flag("want_leave_game")) {
+		if (_ctx.controller->want_to_leave_game()) {
 			_ctx.game->move_party_to_tavern();
 			_ctx.game->save_game();
 			_ctx.controller->set_game(nullptr);
 			return LEAVE_GAME;
-		} else if (_ctx.controller->has_flag("want_abort"))
+		} else if (_ctx.controller->want_to_abort())
 			return ABORT_GAME;
 		else if (!_ctx.controller->wants(Enums::Screen::CASTLE) &&
 				 _ctx.controller->wants(Enums::Screen::EDGEOFTOWN))

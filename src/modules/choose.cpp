@@ -48,7 +48,7 @@ auto Sorcery::Choose::_initialise() -> bool {
 auto Sorcery::Choose::start(const int mode) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CHOOSE);
-	_ctx.controller->initialise(Enums::Screen::CHOOSE);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

@@ -46,7 +46,7 @@ auto Sorcery::Atlas::_initialise() -> bool {
 auto Sorcery::Atlas::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::ATLAS);
-	_ctx.controller->initialise(Enums::Screen::ATLAS);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};
@@ -62,7 +62,7 @@ auto Sorcery::Atlas::start() -> int {
 				return GO_TO_COMPENDIUM;
 		}
 
-		if (_ctx.controller->has_flag("want_abort"))
+		if (_ctx.controller->want_to_abort())
 			return ABORT_GAME;
 		else if (!_ctx.controller->wants(Enums::Screen::ATLAS))
 			return GO_TO_COMPENDIUM;

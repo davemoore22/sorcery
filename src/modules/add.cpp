@@ -48,7 +48,7 @@ auto Sorcery::Add::_initialise() -> bool {
 auto Sorcery::Add::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::ADD);
-	_ctx.controller->initialise(Enums::Screen::ADD);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

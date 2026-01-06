@@ -53,7 +53,7 @@ auto Sorcery::Create::_initialise() -> bool {
 auto Sorcery::Create::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CREATE);
-	_ctx.controller->initialise(Enums::Screen::CREATE);
+	_ctx.controller->initialise();
 	_ctx.controller->set_flag("want_enter_name");
 	_ctx.controller->unset_flag("want_choose_race");
 	_ctx.controller->unset_flag("want_choose_alignment");

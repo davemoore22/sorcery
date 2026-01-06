@@ -58,7 +58,7 @@ auto Sorcery::Inspect::set(const int char_id) -> void {
 auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::INSPECT);
-	_ctx.controller->initialise(Enums::Screen::INSPECT);
+	_ctx.controller->initialise();
 	_ctx.controller->set_character("inspect", start_char);
 
 	// Main loop

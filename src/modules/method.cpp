@@ -55,7 +55,7 @@ auto Sorcery::Method::_initialise() -> bool {
 auto Sorcery::Method::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::METHOD);
-	_ctx.controller->initialise(Enums::Screen::METHOD);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};

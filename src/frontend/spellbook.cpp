@@ -47,7 +47,7 @@ auto Sorcery::SpellBook::_initialise() -> bool {
 auto Sorcery::SpellBook::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::SPELLBOOK);
-	_ctx.controller->initialise(Enums::Screen::SPELLBOOK);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};
@@ -69,7 +69,7 @@ auto Sorcery::SpellBook::start() -> int {
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
-		if (_ctx.controller->has_flag("want_abort"))
+		if (_ctx.controller->want_to_abort())
 			return ABORT_GAME;
 		else if (!_ctx.controller->wants(Enums::Screen::SPELLBOOK))
 			return GO_TO_FRONT_END;

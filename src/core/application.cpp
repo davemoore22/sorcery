@@ -372,7 +372,7 @@ auto Sorcery::Application::_do_edge(const int mode) -> int {
 
 		if (edge_what == EDGE_OF_TOWN_GO_TO_TRAINING)
 			return EDGE_OF_TOWN_GO_TO_TRAINING;
-		else if (ctx.controller->has_flag("want_leave_game")) {
+		else if (ctx.controller->want_to_leave_game()) {
 			ctx.game->save_game();
 			ctx.controller->set_game(nullptr);
 			return LEAVE_GAME;
@@ -409,7 +409,7 @@ auto Sorcery::Application::_do_town(const int mode) -> int {
 				return ABORT_GAME;
 			else if (edge_what == EDGE_OF_TOWN_GO_TO_TRAINING)
 				return EDGE_OF_TOWN_GO_TO_TRAINING;
-			else if (_controller->has_flag("want_leave_game")) {
+			else if (_controller->want_to_leave_game()) {
 				ctx.game->save_game();
 				ctx.controller->set_game(nullptr);
 				return LEAVE_GAME;
@@ -419,7 +419,7 @@ auto Sorcery::Application::_do_town(const int mode) -> int {
 
 		} else if (castle_what == ABORT_GAME)
 			return ABORT_GAME;
-		else if (ctx.controller->has_flag("want_leave_game")) {
+		else if (ctx.controller->want_to_leave_game()) {
 			_game->save_game();
 			return LEAVE_GAME;
 		}

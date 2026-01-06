@@ -48,7 +48,7 @@ auto Sorcery::Splash::start() -> int {
 
 	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 
-	_ctx.controller->initialise(Enums::Screen::SPLASH);
+	_ctx.controller->initialise();
 	_ctx.controller->set_busy(true);
 
 	// Main loop

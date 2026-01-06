@@ -43,14 +43,17 @@
 Sorcery::Controller::Controller(Context &ctx)
 	: _ctx{ctx} {
 
-	initialise(Enums::Screen::NONE);
+	initialise();
 	_game = nullptr;
 }
 
-auto Sorcery::Controller::initialise(const Enums::Screen screen) -> void {
+auto Sorcery::Controller::initialise() -> void {
 
 	_busy = false;
 	_has_save = _ctx.database->has_game();
+
+	_abort = false;
+	_leave = false;
 
 	// TODO: are these needed?
 	_flags.clear();
@@ -73,7 +76,7 @@ auto Sorcery::Controller::initialise(const Enums::Screen screen) -> void {
 	unset_flag("recuperating_finished");
 	unset_flag("select_previous_character");
 	unset_flag("select_next_character");
-	unset_flag("want_abort");
+
 	unset_flag("want_camp");
 	unset_flag("want_cannot_donate");
 	unset_flag("want_continue_game");
@@ -87,7 +90,7 @@ auto Sorcery::Controller::initialise(const Enums::Screen screen) -> void {
 	unset_flag("want_inspect");
 	unset_flag("want_identify");
 	unset_flag("want_invoke");
-	unset_flag("want_leave_game");
+
 	unset_flag("want_name");
 	unset_flag("want_name_ok");
 	unset_flag("want_not_enough_gold");
@@ -926,7 +929,7 @@ auto Sorcery::Controller::check_for_abort(const SDL_Event event) -> bool {
 
 	// SDL_QUIT event
 	if (event.type == SDL_QUIT) {
-		_flags["want_abort"] = true;
+		_abort = true;
 		return true;
 	}
 
@@ -935,11 +938,31 @@ auto Sorcery::Controller::check_for_abort(const SDL_Event event) -> bool {
 		event.window.event == SDL_WINDOWEVENT_CLOSE &&
 		event.window.windowID ==
 			SDL_GetWindowID(_ctx.display->get_SDL_window())) {
-		_flags["want_abort"] = true;
+		_abort = true;
 		return true;
 	}
 
 	return false;
+}
+
+auto Sorcery::Controller::abort(const bool value) -> void {
+
+	_abort = value;
+}
+
+auto Sorcery::Controller::want_to_abort() const -> bool {
+
+	return _abort;
+}
+
+auto Sorcery::Controller::leave_game(const bool value) -> void {
+
+	_leave = value;
+}
+
+auto Sorcery::Controller::want_to_leave_game() -> bool & {
+
+	return _leave;
 }
 
 auto Sorcery::Controller::get_input_buffer() -> std::string & {

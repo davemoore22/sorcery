@@ -59,5 +59,10 @@ namespace UIStyle {
 		const float a{ctx.animation->fade};
 		set_StyleColor(ImGuiCol_Text, ImVec4{0.8f, 0.8f, 0.8f, a});
 	}
+
+	inline void set_tab_black(Context &ctx) {
+		const float a{ctx.animation->fade};
+		set_StyleColor(ImGuiCol_Tab, ImVec4{0.0f, 0.0f, 0.0f, a});
+	}
 }
 }

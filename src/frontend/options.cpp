@@ -47,7 +47,7 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 
 	_is_in_game = is_in_game;
 	_ctx.controller->go_to(Enums::Screen::OPTIONS);
-	_ctx.controller->initialise(Enums::Screen::OPTIONS);
+	_ctx.controller->initialise();
 
 	// Main loop
 	auto done{false};
@@ -67,7 +67,7 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::OPTIONS);
-		if (_ctx.controller->has_flag("want_abort"))
+		if (_ctx.controller->want_to_abort())
 			return ABORT_GAME;
 		else if (!_ctx.controller->wants(Enums::Screen::OPTIONS))
 			return GO_TO_FRONT_END;
