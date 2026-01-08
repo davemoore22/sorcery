@@ -1050,6 +1050,30 @@ src/gui/menu.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menu.cpp.s
 .PHONY : src/gui/menu.cpp.s
 
+src/gui/menuaction.o: src/gui/menuaction.cpp.o
+.PHONY : src/gui/menuaction.o
+
+# target to build an object file
+src/gui/menuaction.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menuaction.cpp.o
+.PHONY : src/gui/menuaction.cpp.o
+
+src/gui/menuaction.i: src/gui/menuaction.cpp.i
+.PHONY : src/gui/menuaction.i
+
+# target to preprocess a source file
+src/gui/menuaction.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menuaction.cpp.i
+.PHONY : src/gui/menuaction.cpp.i
+
+src/gui/menuaction.s: src/gui/menuaction.cpp.s
+.PHONY : src/gui/menuaction.s
+
+# target to generate assembly for a file
+src/gui/menuaction.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/gui/menuaction.cpp.s
+.PHONY : src/gui/menuaction.cpp.s
+
 src/gui/menubuilder.o: src/gui/menubuilder.cpp.o
 .PHONY : src/gui/menubuilder.o
 
@@ -2445,6 +2469,9 @@ help:
 	@echo "... src/gui/menu.o"
 	@echo "... src/gui/menu.i"
 	@echo "... src/gui/menu.s"
+	@echo "... src/gui/menuaction.o"
+	@echo "... src/gui/menuaction.i"
+	@echo "... src/gui/menuaction.s"
 	@echo "... src/gui/menubuilder.o"
 	@echo "... src/gui/menubuilder.i"
 	@echo "... src/gui/menubuilder.s"

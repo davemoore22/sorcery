@@ -32,6 +32,7 @@
 #include "engine/define.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
+#include "gui/menuaction.hpp"
 #include "gui/modal.hpp"
 #include "resources/itemstore.hpp"
 #include "types/character.hpp"
@@ -1436,6 +1437,38 @@ auto Sorcery::Controller::wants(const Enums::Screen value) const -> bool {
 auto Sorcery::Controller::is_at() const -> Enums::Screen {
 
 	return _screen;
+}
+
+auto Sorcery::Controller::handle_menu(std::string_view menu, int selection,
+									  int data) -> void {
+	const auto it = MENU_ACTIONS.find(menu);
+	if (it == MENU_ACTIONS.end())
+		return;
+
+	if (selection < 0 || selection >= it->second.size())
+		return;
+
+	execute_action(it->second[selection], data);
+}
+
+auto Sorcery::Controller::execute_action(const MenuAction &action, int data)
+	-> void {
+	switch (action.type) {
+	case MenuAction::Type::GOTOSCREEN:
+		go_to(action.screen);
+		break;
+
+		// case MenuAction::Type::SetCharacter:
+		//	set_character("inspect", data);
+		//	break;
+
+		// case MenuAction::Type::OpenModal:
+		//     open_modal(action.flag);
+		//     break;
+
+	default:
+		break;
+	}
 }
 
 namespace Sorcery {

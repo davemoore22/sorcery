@@ -235,6 +235,12 @@
 },
 {
   "directory": "/home/dave/Development/wizardry/sorcery-sfml",
+  "command": "/usr/bin/c++ -DZEP_FEATURE_CPP_FILE_SYSTEM -DZEP_SINGLE_HEADER=1 -DZEP_USE_SDL -I/home/dave/Development/wizardry/sorcery-sfml/ext -I/home/dave/Development/wizardry/sorcery-sfml/ext/imgui -I/home/dave/Development/wizardry/sorcery-sfml/inc -isystem /usr/include/SDL2 -std=gnu++23 -Wall -Wextra -Wpedantic -Wunreachable-code -Wunused -Wignored-qualifiers -Wcast-align -Wformat-nonliteral -Wformat=2 -Wsuggest-attribute=format -Winvalid-pch -Wmissing-declarations -Wmissing-format-attribute -Wmissing-include-dirs -Wredundant-decls -Wodr -Wfatal-errors -fdiagnostics-color=always -Wno-narrowing -pthread -pg -g -o CMakeFiles/sorcery.dir/src/gui/menuaction.cpp.o -c /home/dave/Development/wizardry/sorcery-sfml/src/gui/menuaction.cpp",
+  "file": "/home/dave/Development/wizardry/sorcery-sfml/src/gui/menuaction.cpp",
+  "output": "CMakeFiles/sorcery.dir/src/gui/menuaction.cpp.o"
+},
+{
+  "directory": "/home/dave/Development/wizardry/sorcery-sfml",
   "command": "/usr/bin/c++ -DZEP_FEATURE_CPP_FILE_SYSTEM -DZEP_SINGLE_HEADER=1 -DZEP_USE_SDL -I/home/dave/Development/wizardry/sorcery-sfml/ext -I/home/dave/Development/wizardry/sorcery-sfml/ext/imgui -I/home/dave/Development/wizardry/sorcery-sfml/inc -isystem /usr/include/SDL2 -std=gnu++23 -Wall -Wextra -Wpedantic -Wunreachable-code -Wunused -Wignored-qualifiers -Wcast-align -Wformat-nonliteral -Wformat=2 -Wsuggest-attribute=format -Winvalid-pch -Wmissing-declarations -Wmissing-format-attribute -Wmissing-include-dirs -Wredundant-decls -Wodr -Wfatal-errors -fdiagnostics-color=always -Wno-narrowing -pthread -pg -g -o CMakeFiles/sorcery.dir/src/gui/menubuilder.cpp.o -c /home/dave/Development/wizardry/sorcery-sfml/src/gui/menubuilder.cpp",
   "file": "/home/dave/Development/wizardry/sorcery-sfml/src/gui/menubuilder.cpp",
   "output": "CMakeFiles/sorcery.dir/src/gui/menubuilder.cpp.o"

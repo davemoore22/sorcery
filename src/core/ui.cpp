@@ -3587,6 +3587,7 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 			if (reorder) {
 
 				if (ImGui::Selectable(items[i].c_str(), is_selected, flags)) {
+
 					_ctx.controller->handle_menu(name, items, data_item, i);
 				}
 
@@ -3631,6 +3632,8 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 			} else {
 
 				if (ImGui::Selectable(items[i].c_str(), is_selected, flags)) {
+
+					//_ctx.controller->handle_menu(name, i, data_item);
 
 					if (name == "main_menu") {
 						std::vector<std::reference_wrapper<bool>> out_flags{
