@@ -57,16 +57,17 @@ using ActionList = std::vector<MenuAction>;
 const std::vector<MenuAction> COMPENDIUM_ACTIONS{
 	{MenuAction::Type::GOTOSCREEN, Enums::Screen::ATLAS},
 	{MenuAction::Type::GOTOSCREEN, Enums::Screen::BESTIARY},
+	{MenuAction::Type::NONE, Enums::Screen::NONE},
 	{MenuAction::Type::GOTOSCREEN, Enums::Screen::MUSEUM},
 	{MenuAction::Type::GOTOSCREEN, Enums::Screen::SPELLBOOK},
 	{MenuAction::Type::GOTOSCREEN, Enums::Screen::MAINMENU}};
 
 const std::vector<MenuAction> CASTLE_ACTIONS{
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::EDGEOFTOWN},
 	{MenuAction::Type::GOTOSCREEN, Enums::Screen::TAVERN},
 	{MenuAction::Type::GOTOSCREEN, Enums::Screen::INN},
 	{MenuAction::Type::GOTOSCREEN, Enums::Screen::SHOP},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::TEMPLE}};
+	{MenuAction::Type::GOTOSCREEN, Enums::Screen::TEMPLE},
+	{MenuAction::Type::GOTOSCREEN, Enums::Screen::EDGEOFTOWN}};
 
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},

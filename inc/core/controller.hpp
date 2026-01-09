@@ -141,7 +141,7 @@ class Controller {
 		auto want_to_leave_game() -> bool &;
 
 		auto handle_menu(std::string_view menu, int selection, int data)
-			-> void;
+			-> bool;
 		auto execute_action(const MenuAction &action, int data) -> void;
 
 		// Public Members

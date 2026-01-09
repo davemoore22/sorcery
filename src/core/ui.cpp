@@ -3633,88 +3633,92 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 
 				if (ImGui::Selectable(items[i].c_str(), is_selected, flags)) {
 
-					//_ctx.controller->handle_menu(name, i, data_item);
+					if (_ctx.controller->handle_menu(name, i, data_item)) {
 
-					if (name == "main_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(dialog_new->show),
-							 std::ref(dialog_exit->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "edge_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(dialog_leave->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "tavern_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(notice_divvy->show),
-							 std::ref(modal_inspect->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "inn_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_inspect->show),
-							 std::ref(modal_stay->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "temple_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_inspect->show),
-							 std::ref(modal_help->show),
-							 std::ref(modal_tithe->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "camp_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_camp->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "inspect_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_inspect->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "stay_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_stay->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "help_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_help->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "tithe_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_tithe->show),
-							 std::ref(input_donate->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "identify_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_identify->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "drop_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_drop->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "use_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_use->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else if (name == "invoke_menu") {
-						std::vector<std::reference_wrapper<bool>> out_flags{
-							{std::ref(modal_invoke->show)}};
-						_ctx.controller->handle_menu_with_flags(
-							name, items, data_item, i, out_flags);
-					} else
+					} else {
 
-						// Any other menus
-						_ctx.controller->handle_menu(name, items, data_item, i);
+						if (name == "main_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(dialog_new->show),
+								 std::ref(dialog_exit->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "edge_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(dialog_leave->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "tavern_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(notice_divvy->show),
+								 std::ref(modal_inspect->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "inn_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_inspect->show),
+								 std::ref(modal_stay->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "temple_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_inspect->show),
+								 std::ref(modal_help->show),
+								 std::ref(modal_tithe->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "camp_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_camp->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "inspect_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_inspect->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "stay_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_stay->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "help_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_help->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "tithe_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_tithe->show),
+								 std::ref(input_donate->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "identify_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_identify->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "drop_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_drop->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "use_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_use->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "invoke_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_invoke->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else
+
+							// Any other menus
+							_ctx.controller->handle_menu(name, items, data_item,
+														 i);
+					}
 				}
 
 				if (ImGui::IsItemHovered()) {

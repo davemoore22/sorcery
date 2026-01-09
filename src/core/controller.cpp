@@ -1146,33 +1146,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 									  const int data, const int selection)
 	-> void {
 
-	if (component == "compendium_menu") {
-
-		// Compendium
-		if (selection == COMPENDIUM_ATLAS)
-			go_to(Enums::Screen::ATLAS);
-		else if (selection == COMPENDIUM_BESTIARY)
-			go_to(Enums::Screen::BESTIARY);
-		else if (selection == COMPENDIUM_MUSEUM)
-			go_to(Enums::Screen::MUSEUM);
-		else if (selection == COMPENDIUM_SPELLBOOK)
-			go_to(Enums::Screen::SPELLBOOK);
-		else if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::MAINMENU);
-	} else if (component == "castle_menu") {
-
-		// Castle
-		if (selection == CASTLE_GO_TO_EDGE_OF_TOWN)
-			go_to(Enums::Screen::EDGEOFTOWN);
-		else if (selection == CASTLE_GO_TO_TAVERN)
-			go_to(Enums::Screen::TAVERN);
-		else if (selection == CASTLE_GO_TO_INN)
-			go_to(Enums::Screen::INN);
-		else if (selection == CASTLE_GO_TO_SHOP)
-			go_to(Enums::Screen::SHOP);
-		else if (selection == CASTLE_GO_TO_TEMPLE)
-			go_to(Enums::Screen::TEMPLE);
-	} else if (component == "remove_menu") {
+	if (component == "remove_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::TAVERN);
@@ -1440,15 +1414,17 @@ auto Sorcery::Controller::is_at() const -> Enums::Screen {
 }
 
 auto Sorcery::Controller::handle_menu(std::string_view menu, int selection,
-									  int data) -> void {
-	const auto it = MENU_ACTIONS.find(menu);
+									  int data) -> bool {
+	const auto it{MENU_ACTIONS.find(menu)};
 	if (it == MENU_ACTIONS.end())
-		return;
+		return false;
 
 	if (selection < 0 || selection >= it->second.size())
-		return;
+		return false;
 
 	execute_action(it->second[selection], data);
+
+	return true;
 }
 
 auto Sorcery::Controller::execute_action(const MenuAction &action, int data)
