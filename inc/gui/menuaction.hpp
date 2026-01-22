@@ -33,11 +33,12 @@ struct MenuAction {
 		enum class Type {
 			NONE,
 			GOTOSCREEN,
-			OPENMODAL,
-			CLOSEMODAL,
 			SETFLAG,
 			CLEARFLAG,
 			SETCHARACTER,
+			CLEARCHARACTER,
+			SET_UI_BOOL,
+			CLEAR_UI_BOOL,
 			CUSTOM
 		};
 
@@ -46,7 +47,8 @@ struct MenuAction {
 		// Payload
 		Enums::Screen screen{};
 		std::string flag;
-		int character_id{-1};
+		std::string character_slot;
+		std::size_t ui_index{0};
 };
 
 using ActionList = std::vector<MenuAction>;
@@ -54,25 +56,34 @@ using ActionList = std::vector<MenuAction>;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
-const std::vector<MenuAction> COMPENDIUM_ACTIONS{
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::ATLAS},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::BESTIARY},
-	{MenuAction::Type::NONE, Enums::Screen::NONE},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::MUSEUM},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::SPELLBOOK},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::MAINMENU}};
+const ActionList COMPENDIUM_ACTIONS{
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ATLAS},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::BESTIARY},
+	{.type = MenuAction::Type::NONE, .screen = Enums::Screen::NONE},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::MUSEUM},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SPELLBOOK},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::MAINMENU}};
 
-const std::vector<MenuAction> CASTLE_ACTIONS{
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::TAVERN},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::INN},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::SHOP},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::TEMPLE},
-	{MenuAction::Type::GOTOSCREEN, Enums::Screen::EDGEOFTOWN}};
+const ActionList CASTLE_ACTIONS{
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TAVERN},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INN},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TEMPLE},
+	{.type = MenuAction::Type::GOTOSCREEN,
+	 .screen = Enums::Screen::EDGEOFTOWN}};
+
+const ActionList MAIN_MENU_ACTIONS{
+	{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
+	{.type = MenuAction::Type::SETFLAG, .flag = "want_continue_game"},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::OPTIONS},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::COMPENDIUM},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::LICENSE},
+	{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}};
 
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},
 	{"castle_menu", CASTLE_ACTIONS},
-};
+	{"main_menu", MAIN_MENU_ACTIONS}};
 
 #pragma GCC diagnostic pop
 

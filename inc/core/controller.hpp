@@ -140,9 +140,12 @@ class Controller {
 		auto want_to_abort() const -> bool;
 		auto want_to_leave_game() -> bool &;
 
-		auto handle_menu(std::string_view menu, int selection, int data)
+		auto handle_menu(std::string_view menu, int selection, int data,
+						 std::vector<std::reference_wrapper<bool>> &ui_flags)
 			-> bool;
-		auto execute_action(const MenuAction &action, int data) -> void;
+		auto execute_action(const MenuAction &action, int data,
+							std::vector<std::reference_wrapper<bool>> &ui_flags)
+			-> void;
 
 		// Public Members
 

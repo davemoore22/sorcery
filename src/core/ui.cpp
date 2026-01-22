@@ -3633,17 +3633,13 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 
 				if (ImGui::Selectable(items[i].c_str(), is_selected, flags)) {
 
-					if (_ctx.controller->handle_menu(name, i, data_item)) {
+					auto ui_flags{_get_menu_ui_flags(name)};
+					if (_ctx.controller->handle_menu(name, i, data_item,
+													 ui_flags)) {
 
 					} else {
 
-						if (name == "main_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(dialog_new->show),
-								 std::ref(dialog_exit->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "edge_menu") {
+						if (name == "edge_menu") {
 							std::vector<std::reference_wrapper<bool>> out_flags{
 								{std::ref(dialog_leave->show)}};
 							_ctx.controller->handle_menu_with_flags(
@@ -3812,4 +3808,53 @@ auto Sorcery::UI::_draw_map_tile(const Tile &tile, const ImVec2 pos,
 								sz);
 	else if (tile.has(MESSAGE) || tile.has(NOTICE))
 		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(EXCLAMATION), pos, sz);
+}
+
+auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
+	-> std::vector<std::reference_wrapper<bool>> {
+
+	if (menu == "main_menu")
+		return {std::ref(dialog_new->show), std::ref(dialog_exit->show)};
+
+	if (menu == "edge_menu")
+		return {std::ref(dialog_leave->show)};
+
+	if (menu == "tavern_menu")
+		return {std::ref(notice_divvy->show), std::ref(modal_inspect->show)};
+
+	if (menu == "inn_menu")
+		return {std::ref(modal_inspect->show), std::ref(modal_stay->show)};
+
+	if (menu == "temple_menu")
+		return {std::ref(modal_inspect->show), std::ref(modal_help->show),
+				std::ref(modal_tithe->show)};
+
+	if (menu == "camp_menu")
+		return {std::ref(modal_camp->show)};
+
+	if (menu == "inspect_menu")
+		return {std::ref(modal_inspect->show)};
+
+	if (menu == "stay_menu")
+		return {std::ref(modal_stay->show)};
+
+	if (menu == "help_menu")
+		return {std::ref(modal_help->show)};
+
+	if (menu == "tithe_menu")
+		return {std::ref(modal_tithe->show), std::ref(input_donate->show)};
+
+	if (menu == "identify_menu")
+		return {std::ref(modal_identify->show)};
+
+	if (menu == "drop_menu")
+		return {std::ref(modal_drop->show)};
+
+	if (menu == "use_menu")
+		return {std::ref(modal_use->show)};
+
+	if (menu == "invoke_menu")
+		return {std::ref(modal_invoke->show)};
+
+	return {};
 }

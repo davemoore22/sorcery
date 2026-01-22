@@ -275,6 +275,9 @@ class UI {
 
 		auto _draw_debug() -> void;
 		auto _draw_window_menu() -> void;
+
+		auto _get_menu_ui_flags(std::string_view menu)
+			-> std::vector<std::reference_wrapper<bool>>;
 };
 
 };

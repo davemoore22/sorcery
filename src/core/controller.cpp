@@ -1413,8 +1413,9 @@ auto Sorcery::Controller::is_at() const -> Enums::Screen {
 	return _screen;
 }
 
-auto Sorcery::Controller::handle_menu(std::string_view menu, int selection,
-									  int data) -> bool {
+auto Sorcery::Controller::handle_menu(
+	std::string_view menu, int selection, int data,
+	std::vector<std::reference_wrapper<bool>> &ui_flags) -> bool {
 	const auto it{MENU_ACTIONS.find(menu)};
 	if (it == MENU_ACTIONS.end())
 		return false;
@@ -1422,16 +1423,36 @@ auto Sorcery::Controller::handle_menu(std::string_view menu, int selection,
 	if (selection < 0 || selection >= it->second.size())
 		return false;
 
-	execute_action(it->second[selection], data);
+	execute_action(it->second[selection], data, ui_flags);
 
 	return true;
 }
 
-auto Sorcery::Controller::execute_action(const MenuAction &action, int data)
-	-> void {
+auto Sorcery::Controller::execute_action(
+	const MenuAction &action, int data,
+	std::vector<std::reference_wrapper<bool>> &ui_flags) -> void {
 	switch (action.type) {
 	case MenuAction::Type::GOTOSCREEN:
 		go_to(action.screen);
+		break;
+	case MenuAction::Type::SETFLAG:
+		_flags[action.flag] = true;
+		break;
+
+	case MenuAction::Type::CLEARFLAG:
+		_flags[action.flag] = false;
+		break;
+
+	case MenuAction::Type::SET_UI_BOOL:
+		if (action.ui_index >= 0 &&
+			static_cast<size_t>(action.ui_index) < ui_flags.size())
+			ui_flags[action.ui_index].get() = true;
+		break;
+
+	case MenuAction::Type::CLEAR_UI_BOOL:
+		if (action.ui_index >= 0 &&
+			static_cast<size_t>(action.ui_index) < ui_flags.size())
+			ui_flags[action.ui_index].get() = false;
 		break;
 
 		// case MenuAction::Type::SetCharacter:
