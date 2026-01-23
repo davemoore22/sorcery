@@ -3639,12 +3639,7 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 
 					} else {
 
-						if (name == "edge_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(dialog_leave->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "tavern_menu") {
+						if (name == "tavern_menu") {
 							std::vector<std::reference_wrapper<bool>> out_flags{
 								{std::ref(notice_divvy->show),
 								 std::ref(modal_inspect->show)}};

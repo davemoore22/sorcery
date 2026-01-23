@@ -80,11 +80,17 @@ const ActionList MAIN_MENU_ACTIONS{
 	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::LICENSE},
 	{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}};
 
+const ActionList EDGE_ACTIONS{
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TRAINING},
+	{.type = MenuAction::Type::SETFLAG, .flag = "want_enter_maze"},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RESTART},
+	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE},
+	{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}};
+
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},
 	{"castle_menu", CASTLE_ACTIONS},
-	{"main_menu", MAIN_MENU_ACTIONS}};
-
+	{"main_menu", MAIN_MENU_ACTIONS},
+	{"edge_menu", EDGE_ACTIONS}};
 #pragma GCC diagnostic pop
-
 }

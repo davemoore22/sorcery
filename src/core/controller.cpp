@@ -556,56 +556,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 	[[maybe_unused]] const int data, const int selection,
 	std::vector<std::reference_wrapper<bool>> in_flags) -> void {
 
-	if (component == "main_menu") {
-
-		// Flags = &_ui->dialog_new->show, &_ui->dialog_exit->show
-		switch (selection) {
-		case MAIN_MENU_NEW_GAME:
-			in_flags.at(0).get() = true;
-			break;
-		case MAIN_MENU_CONTINUE_GAME:
-			_busy = true;
-			_flags["want_continue_game"] = true;
-			break;
-		case MAIN_MENU_OPTIONS:
-			go_to(Enums::Screen::OPTIONS);
-			break;
-		case MAIN_MENU_COMPENDIUM:
-			go_to(Enums::Screen::COMPENDIUM);
-			break;
-		case MAIN_MENU_LICENSE:
-			go_to(Enums::Screen::LICENSE);
-			break;
-		case MAIN_MENU_EXIT_GAME:
-			in_flags.at(1).get() = true;
-			break;
-		default:
-			break;
-		};
-	} else if (component == "edge_menu") {
-
-		// Flags = &_ui->dialog_leave->show,
-		switch (selection) {
-		case EDGE_OF_TOWN_GO_TO_CASTLE:
-			go_to(Enums::Screen::CASTLE);
-			break;
-		case EDGE_OF_TOWN_GO_TO_TRAINING:
-			go_to(Enums::Screen::TRAINING);
-			break;
-		case EDGE_OF_TOWN_RESTART:
-			go_to(Enums::Screen::RESTART);
-			break;
-		case EDGE_OF_TOWN_GO_TO_MAZE:
-			_flags["want_enter_maze"] = true;
-			break;
-		case EDGE_OF_TOWN_LEAVE_GAME:
-			in_flags.at(0).get() = true;
-			break;
-		default:
-			break;
-		};
-
-	} else if (component == "inn_menu") {
+	if (component == "inn_menu") {
 
 		// Inn
 
