@@ -556,72 +556,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 	[[maybe_unused]] const int data, const int selection,
 	std::vector<std::reference_wrapper<bool>> in_flags) -> void {
 
-	if (component == "inn_menu") {
-
-		// Inn
-
-		// Flags = &_ui->modal_inspect->show, &_ui->modal_stay->show
-		if (selection == INN_STAY)
-			in_flags.at(1).get() = true;
-		else if (selection == INN_INSPECT)
-			in_flags.at(0).get() = true;
-		else if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::CASTLE);
-
-	} else if (component == "tavern_menu") {
-
-		// Tavern
-
-		// Flags = &_ui->notice_divvy->show, &_ui->modal_inspect->show,
-		if (selection == TAVERN_ADD)
-			go_to(Enums::Screen::ADD);
-		else if (selection == TAVERN_REMOVE)
-			go_to(Enums::Screen::REMOVE);
-		else if (selection == TAVERN_INSPECT)
-			in_flags.at(1).get() = true;
-		else if (selection == TAVERN_REORDER)
-			go_to(Enums::Screen::REORDER);
-		else if (selection == TAVERN_DIVVY_GOLD)
-			in_flags.at(0).get() = true;
-		else if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::CASTLE);
-
-	} else if (component == "temple_menu") {
-
-		// Inn
-
-		// Flags = &_ui->modal_inspect->show, &_ui->modal_help->show,
-		// &_ui->modal_tithe->show
-		if (selection == TEMPLE_TITHE)
-			in_flags.at(2).get() = true;
-		else if (selection == TEMPLE_HELP)
-			in_flags.at(1).get() = true;
-		else if (selection == TEMPLE_INSPECT)
-			in_flags.at(0).get() = true;
-		else if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::CASTLE);
-
-	} else if (component == "camp_menu") {
-
-		// Camp
-
-		// Flags = &_ui->modal_camp->show
-		if (selection == CAMP_INSPECT)
-			go_to(Enums::Screen::INSPECT);
-		else if (selection == CAMP_REORDER)
-			go_to(Enums::Screen::REORDER);
-		else if (selection == CAMP_OPTIONS)
-			go_to(Enums::Screen::OPTIONS);
-		else if (selection == CAMP_QUIT)
-			_flags["want_quit_expedition"] = true;
-		else if (selection == CAMP_LEAVE) {
-			// Exit from Camp
-		}
-
-		// In all cases remove modal
-		in_flags.at(0).get() = false;
-
-	} else if (component == "inspect_menu" || component == "modal_inspect") {
+	if (component == "inspect_menu" || component == "modal_inspect") {
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1))
@@ -1374,7 +1309,9 @@ auto Sorcery::Controller::handle_menu(
 	if (selection < 0 || selection >= it->second.size())
 		return false;
 
-	execute_action(it->second[selection], data, ui_flags);
+	const auto &actions = it->second[selection];
+	for (const auto &action : actions)
+		execute_action(action, data, ui_flags);
 
 	return true;
 }

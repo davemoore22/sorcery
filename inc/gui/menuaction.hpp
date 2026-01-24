@@ -51,46 +51,84 @@ struct MenuAction {
 		std::size_t ui_index{0};
 };
 
-using ActionList = std::vector<MenuAction>;
+using ActionList = std::vector<std::vector<MenuAction>>;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
 const ActionList COMPENDIUM_ACTIONS{
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ATLAS},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::BESTIARY},
-	{.type = MenuAction::Type::NONE, .screen = Enums::Screen::NONE},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::MUSEUM},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SPELLBOOK},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::MAINMENU}};
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ATLAS},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::BESTIARY},
+	 {.type = MenuAction::Type::NONE, .screen = Enums::Screen::NONE},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::MUSEUM},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SPELLBOOK},
+	 {.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::MAINMENU}}};
 
 const ActionList CASTLE_ACTIONS{
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TAVERN},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INN},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TEMPLE},
-	{.type = MenuAction::Type::GOTOSCREEN,
-	 .screen = Enums::Screen::EDGEOFTOWN}};
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TAVERN},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INN},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TEMPLE},
+	 {.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::EDGEOFTOWN}}};
 
 const ActionList MAIN_MENU_ACTIONS{
-	{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
-	{.type = MenuAction::Type::SETFLAG, .flag = "want_continue_game"},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::OPTIONS},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::COMPENDIUM},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::LICENSE},
-	{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}};
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_continue_game"},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::OPTIONS},
+	 {.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::COMPENDIUM},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::LICENSE},
+	 {.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}}};
 
 const ActionList EDGE_ACTIONS{
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TRAINING},
-	{.type = MenuAction::Type::SETFLAG, .flag = "want_enter_maze"},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RESTART},
-	{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE},
-	{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}};
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TRAINING},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_enter_maze"},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RESTART},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE},
+	 {.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
+
+const ActionList INN_ACTIONS{
+	{{.type = MenuAction::Type::GOTOSCREEN, .ui_index = 1},
+	 {.type = MenuAction::Type::GOTOSCREEN, .ui_index = 0},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
+
+const ActionList TAVERN_ACTIONS{
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ADD},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REMOVE},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REORDER},
+	 {.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1},
+	 {.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
+
+const ActionList TEMPLE_ACTIONS{
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 2},
+	 {.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1},
+	 {.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
+
+const ActionList CAMP_ACTIONS{
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INSPECT},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REORDER},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::OPTIONS},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::SETFLAG, .flag = "want_quit_expedition"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
 
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},
 	{"castle_menu", CASTLE_ACTIONS},
 	{"main_menu", MAIN_MENU_ACTIONS},
-	{"edge_menu", EDGE_ACTIONS}};
+	{"edge_menu", EDGE_ACTIONS},
+	{"inn_menu", INN_ACTIONS},
+	{"tavern_menu", TAVERN_ACTIONS},
+	{"temple_menu", TEMPLE_ACTIONS},
+	{"camp_menu", CAMP_ACTIONS}
+
+};
 #pragma GCC diagnostic pop
 }
