@@ -89,7 +89,7 @@
 	},
 	"cmake.debugConfig": {
 		"args": [
-			"--go-to-maze",
+			"--quickstart",
 			"--ni"
 		]
 	},
