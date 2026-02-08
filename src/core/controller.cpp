@@ -1343,13 +1343,13 @@ auto Sorcery::Controller::execute_action(
 			ui_flags[action.ui_index].get() = false;
 		break;
 
-		// case MenuAction::Type::SetCharacter:
-		//	set_character("inspect", data);
-		//	break;
+	case MenuAction::Type::SETCHARACTER:
+		set_character(action.character_key, data);
+		break;
 
-		// case MenuAction::Type::OpenModal:
-		//     open_modal(action.flag);
-		//     break;
+	case MenuAction::Type::CLEARCHARACTER:
+		clear_character(action.character_key);
+		break;
 
 	default:
 		break;

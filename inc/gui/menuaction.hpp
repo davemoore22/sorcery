@@ -49,6 +49,7 @@ struct MenuAction {
 		std::string flag;
 		std::string character_slot;
 		std::size_t ui_index{0};
+		std::string character_key;
 };
 
 using ActionList = std::vector<std::vector<MenuAction>>;
