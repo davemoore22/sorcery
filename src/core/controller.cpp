@@ -556,18 +556,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 	[[maybe_unused]] const int data, const int selection,
 	std::vector<std::reference_wrapper<bool>> in_flags) -> void {
 
-	if (component == "inspect_menu" || component == "modal_inspect") {
-
-		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1))
-			clear_character("inspect");
-		else
-			set_character("inspect", data);
-
-		// Remove the Modal
-		in_flags.at(0).get() = false;
-
-	} else if (component == "stay_menu" || component == "modal_stay") {
+	if (component == "stay_menu" || component == "modal_stay") {
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1))
