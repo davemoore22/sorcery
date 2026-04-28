@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Dave Moore
+// Copyright (C) 2026 Dave Moore
 //
 // This file is part of Sorcery.
 //
@@ -43,7 +43,7 @@ inline constexpr auto GO_TO_MAZE_PARAM{"--go-to-maze"sv};
 inline constexpr auto GO_TO_TRAINING_PARAM{"--go-to-training"sv};
 inline constexpr auto NO_IMAGES_PARAM{"--ni"sv};
 
-// Save State Defaults	
+// Save State Defaults
 inline constexpr auto SAVE_STATE_FILENAME{"save_state.b64"s};
 inline constexpr auto SAVE_STATE_VERSION{1u};
 

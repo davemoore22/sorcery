@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Dave Moore
+// Copyright (C) 2026 Dave Moore
 //
 // This file is part of Sorcery.
 //

@@ -1,13 +1,13 @@
 # Sorcery
 
-An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully later in 2025.
+An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully later in 2026.
 
 ~~Written using SFML, TGUI, and C++.~~
 
 Written using ImGui/SDL2/OpenGL and C++
-<br>(*Note that some re-engineering is currently in progress to move to a more flexible/easier-to-use UI stack This should not affect the aimed release date of late 2025!<p>For daily updates and progress on that see the [sdl/imgui branch](https://github.com/davemoore22/sorcery/tree/sdl/imgui)*)
+<br>(*Note that some re-engineering is currently in progress to move to a more flexible/easier-to-use UI stack This should not affect the aimed release date of late 2026!<p>For daily updates and progress on that see the [sdl/imgui branch](https://github.com/davemoore22/sorcery/tree/sdl/imgui)*)
 
-**(Updated 16th August 2025)**
+**(Updated 28th April 2026)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
@@ -52,7 +52,7 @@ Written using ImGui/SDL2/OpenGL and C++
 * Modding
 * Plugin/3D Graphics
 
-## What next? (as of August 2025)
+## What next? (as of April 2026)
 
 Currently adding Item Usage/Invocation, as well as buying, selling, uncursing, and identifying at Boltac's. Normal inventory management has been mosty completed!
 
