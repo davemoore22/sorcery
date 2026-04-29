@@ -354,6 +354,30 @@ ext/imgui/misc/cpp/imgui_stdlib.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dear_imgui.dir/build.make CMakeFiles/dear_imgui.dir/ext/imgui/misc/cpp/imgui_stdlib.cpp.s
 .PHONY : ext/imgui/misc/cpp/imgui_stdlib.cpp.s
 
+ext/imgui/misc/freetype/imgui_freetype.o: ext/imgui/misc/freetype/imgui_freetype.cpp.o
+.PHONY : ext/imgui/misc/freetype/imgui_freetype.o
+
+# target to build an object file
+ext/imgui/misc/freetype/imgui_freetype.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dear_imgui.dir/build.make CMakeFiles/dear_imgui.dir/ext/imgui/misc/freetype/imgui_freetype.cpp.o
+.PHONY : ext/imgui/misc/freetype/imgui_freetype.cpp.o
+
+ext/imgui/misc/freetype/imgui_freetype.i: ext/imgui/misc/freetype/imgui_freetype.cpp.i
+.PHONY : ext/imgui/misc/freetype/imgui_freetype.i
+
+# target to preprocess a source file
+ext/imgui/misc/freetype/imgui_freetype.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dear_imgui.dir/build.make CMakeFiles/dear_imgui.dir/ext/imgui/misc/freetype/imgui_freetype.cpp.i
+.PHONY : ext/imgui/misc/freetype/imgui_freetype.cpp.i
+
+ext/imgui/misc/freetype/imgui_freetype.s: ext/imgui/misc/freetype/imgui_freetype.cpp.s
+.PHONY : ext/imgui/misc/freetype/imgui_freetype.s
+
+# target to generate assembly for a file
+ext/imgui/misc/freetype/imgui_freetype.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dear_imgui.dir/build.make CMakeFiles/dear_imgui.dir/ext/imgui/misc/freetype/imgui_freetype.cpp.s
+.PHONY : ext/imgui/misc/freetype/imgui_freetype.cpp.s
+
 ext/imgui_toggle/imgui_toggle.o: ext/imgui_toggle/imgui_toggle.cpp.o
 .PHONY : ext/imgui_toggle/imgui_toggle.o
 
@@ -2382,6 +2406,9 @@ help:
 	@echo "... ext/imgui/misc/cpp/imgui_stdlib.o"
 	@echo "... ext/imgui/misc/cpp/imgui_stdlib.i"
 	@echo "... ext/imgui/misc/cpp/imgui_stdlib.s"
+	@echo "... ext/imgui/misc/freetype/imgui_freetype.o"
+	@echo "... ext/imgui/misc/freetype/imgui_freetype.i"
+	@echo "... ext/imgui/misc/freetype/imgui_freetype.s"
 	@echo "... ext/imgui_toggle/imgui_toggle.o"
 	@echo "... ext/imgui_toggle/imgui_toggle.i"
 	@echo "... ext/imgui_toggle/imgui_toggle.s"

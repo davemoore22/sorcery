@@ -15,6 +15,7 @@ find_package(OpenGL REQUIRED)
 find_package(jsoncpp REQUIRED)
 find_package(SQLite3 REQUIRED)
 find_package(PkgConfig REQUIRED)
+find_package(Freetype REQUIRED)
 
 # Zep
 add_definitions(-DZEP_USE_SDL)
@@ -48,6 +49,7 @@ target_sources(dear_imgui PRIVATE
 	ext/imgui_toggle/imgui_toggle_palette.cpp
 	ext/imgui_toggle/imgui_toggle_presets.cpp
 	ext/imgui_toggle/imgui_toggle_renderer.cpp
+	ext/imgui/misc/freetype/imgui_freetype.cpp
 )
 
 target_include_directories(dear_imgui PRIVATE
@@ -62,9 +64,17 @@ target_include_directories(dear_imgui PRIVATE
 	${CMAKE_SOURCE_DIR}/ext/imgui/misc/freetype
 )
 
+target_link_libraries(dear_imgui PRIVATE
+	Freetype::Freetype
+)
+
 target_compile_options(dear_imgui PRIVATE
 	-Wno-switch-default
 	-Wno-suggest-attribute=format
+)
+
+target_compile_definitions(dear_imgui PRIVATE
+	IMGUI_ENABLE_FREETYPE
 )
 
 # Main Source Files
@@ -118,6 +128,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE
 	${SDL2_LIBRARIES}
 	${OPENGL_LIBRARIES}
+	Freetype::Freetype
 	PkgConfig::LIBAV
 	Threads::Threads
 	OpenGL::GL

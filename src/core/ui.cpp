@@ -610,8 +610,9 @@ auto Sorcery::UI::display_engine() -> void {
 	_draw_cursor();
 
 	bool show{true};
-	ImGui::SetCurrentFont(fontstore->get_default_font());
+	ImGui::PushFont(fontstore->get_default_font());
 	ImGui::ShowDemoWindow(&show);
+	ImGui::PopFont();
 
 	// And finally clear and render everything
 	ImGui::Render();
@@ -812,7 +813,9 @@ auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view layer,
 		ImGui::SetCursorPos(ImVec2{p_min});
 		auto src_image{images->get(std::string{source})};
 		ImVec4 tint_col{ImVec4(tint.x, tint.y, tint.z, _ctx.animation->fade)};
-		ImGui::Image((intptr_t)src_image.texture, p_sz, uv_0, uv_1, tint_col);
+		ImGui::ImageWithBg(ImTextureRef(_to_imgui(src_image.texture)), p_sz,
+						   uv_0, uv_1, ImVec4(0.0f, 0.0f, 0.0f, 0.0f),
+						   tint_col);
 	}
 }
 
@@ -891,10 +894,11 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 			ImGui::SetCursorPos(ImVec2{x, y});
 			ImVec4 tint_col{ImVec4(1.0f, 1.0f, 1.0f, _ctx.animation->fade)};
-			ImGui::Image(src_image.texture,
-						 ImVec2{static_cast<float>(resized.w),
-								static_cast<float>(resized.h)},
-						 ImVec2{0.0f, 0.0f}, ImVec2{1.0f, 1.0f}, tint_col);
+			ImGui::ImageWithBg(_to_imgui(src_image.texture),
+							   ImVec2{static_cast<float>(resized.w),
+									  static_cast<float>(resized.h)},
+							   ImVec2{0.0f, 0.0f}, ImVec2{1.0f, 1.0f},
+							   ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tint_col);
 		}
 	}
 }
@@ -3482,8 +3486,9 @@ auto Sorcery::UI::_display_main_menu() -> void {
 	_draw_cursor();
 
 	bool show = true;
-	ImGui::SetCurrentFont(fontstore->get_default_font());
+	ImGui::PushFont(fontstore->get_default_font());
 	ImGui::ShowDemoWindow(&show);
+	ImGui::PopFont();
 
 	ImGui::SetNextWindowPos(ImVec2{1, 1});
 	ImGui::SetNextWindowSize(ImVec2{1000, 1000});
@@ -3803,6 +3808,11 @@ auto Sorcery::UI::_draw_map_tile(const Tile &tile, const ImVec2 pos,
 								sz);
 	else if (tile.has(MESSAGE) || tile.has(NOTICE))
 		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(EXCLAMATION), pos, sz);
+}
+
+auto Sorcery::UI::_to_imgui(GLuint tex) -> ImTextureID {
+
+	return (ImTextureID)(uintptr_t)tex;
 }
 
 auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)

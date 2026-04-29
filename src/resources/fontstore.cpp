@@ -26,12 +26,12 @@
 #include "resources/define.hpp"
 #include "types/config.hpp"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wswitch-default"
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
-#define STB_TRUETYPE_IMPLEMENTATION
-#include "stb/stb_truetype.h"
-#pragma GCC diagnostic pop
+// #pragma GCC diagnostic push
+// #pragma GCC diagnostic ignored "-Wswitch-default"
+// #pragma GCC diagnostic ignored "-Wmissing-declarations"
+#include <ft2build.h>
+#include FT_FREETYPE_H
+// #pragma GCC diagnostic pop
 
 Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO &io)
 	: _ctx(ctx),
@@ -101,6 +101,17 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory,
 		}
 	}
 
+	if (!_default_font)
+		_default_font = _io.Fonts->AddFontDefault();
+
+	// Ensure all font slots are populated
+	using enum Enums::Layout::Font;
+
+	for (auto type : {DEFAULT, TEXT, PROPORTIONAL, MONOSPACE}) {
+		if (!current_fonts.contains(type))
+			current_fonts[type] = _default_font;
+	}
+
 	ImGui::GetIO().Fonts->Build();
 }
 
@@ -137,57 +148,54 @@ auto Sorcery::FontStore::_load_font(const std::string &path, float size,
 // Attempt to validate a TTF font file by loading its header using stb_truetype
 auto Sorcery::FontStore::_is_valid_ttf(const std::string &path) const -> bool {
 
-	std::ifstream file(path, std::ios::binary);
-	if (!file.is_open())
+	FT_Library ft = nullptr;
+
+	if (FT_Init_FreeType(&ft) != 0)
 		return false;
 
-	std::vector<unsigned char> buffer((std::istreambuf_iterator<char>(file)),
-									  {});
-	if (buffer.empty())
-		return false;
+	FT_Face face = nullptr;
 
-	stbtt_fontinfo info;
-	auto offset{stbtt_GetFontOffsetForIndex(buffer.data(), 0)};
-	if (offset < 0)
-		return false;
+	const FT_Error err = FT_New_Face(ft, path.c_str(), 0, &face);
 
-	return stbtt_InitFont(&info, buffer.data(), offset) != 0;
+	if (err != 0) {
+		FT_Done_FreeType(ft);
+		return false;
+	}
+
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
+	return true;
 }
 
 auto Sorcery::FontStore::_get_font_full_name(
 	const std::vector<unsigned char> &buffer) -> std::string {
 
-	stbtt_fontinfo info;
-	int offset{stbtt_GetFontOffsetForIndex(buffer.data(), 0)};
-	if (offset < 0)
-		return "";
-	if (!stbtt_InitFont(&info, buffer.data(), offset))
+	FT_Library ft = nullptr;
+
+	if (FT_Init_FreeType(&ft) != 0)
 		return "";
 
-	const int NAME_ID_FULL_FONT_NAME{4};
+	FT_Face face = nullptr;
 
-	// Windows platform, Unicode BMP, English
-	const int PLATFORM_ID{3};
-	const int ENCODING_ID{1};
-	const int LANGUAGE_ID{0x0409};
-
-	char *name_string{nullptr};
-	int name_length{0};
-	name_string = (char *)stbtt_GetFontNameString(
-		&info, &name_length, PLATFORM_ID, ENCODING_ID, LANGUAGE_ID,
-		NAME_ID_FULL_FONT_NAME);
-	if (!name_string || name_length <= 0)
+	// Load font from memory instead of file
+	if (FT_New_Memory_Face(ft, buffer.data(),
+						   static_cast<FT_Long>(buffer.size()), 0,
+						   &face) != 0) {
+		FT_Done_FreeType(ft);
 		return "";
-
-	// Some fonts store UTF-16BE strings
-	std::string result;
-	if (PLATFORM_ID == 3) { // Windows, UTF-16BE
-		result.reserve(name_length / 2);
-		for (int i = 0; i < name_length; i += 2)
-			result.push_back(name_string[i + 1]);
-	} else {
-		result.assign(name_string, name_length);
 	}
+
+	std::string result;
+
+	// Prefer full name if available
+	if (face->family_name && face->style_name) {
+		result = std::string(face->family_name) + " " + face->style_name;
+	} else if (face->family_name) {
+		result = face->family_name;
+	}
+
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
 
 	return result;
 }
@@ -196,37 +204,20 @@ auto Sorcery::FontStore::_get_font_full_name(
 auto Sorcery::FontStore::_is_monospace_ttf(const std::string &path) const
 	-> bool {
 
-	std::ifstream file(path, std::ios::binary);
-	if (!file.is_open())
+	FT_Library ft = nullptr;
+	FT_Face face = nullptr;
+
+	if (FT_Init_FreeType(&ft) != 0)
 		return false;
 
-	std::vector<unsigned char> buffer((std::istreambuf_iterator<char>(file)),
-									  {});
-	if (buffer.empty())
+	if (FT_New_Face(ft, path.c_str(), 0, &face) != 0)
 		return false;
 
-	stbtt_fontinfo info;
-	auto offset{stbtt_GetFontOffsetForIndex(buffer.data(), 0)};
-	if (offset < 0)
-		return false;
+	const bool is_mono = FT_IS_FIXED_WIDTH(face);
 
-	if (!stbtt_InitFont(&info, buffer.data(), offset))
-		return false;
-
-	// Use a simple heuristic across key glyphs
-	const char *test_chars = "iIlLWMw1 0";
-	auto ref_advance{-1};
-
-	for (const char *c = test_chars; *c; ++c) {
-
-		int advance{}, lsb{};
-		stbtt_GetCodepointHMetrics(&info, *c, &advance, &lsb);
-		if (ref_advance == -1)
-			ref_advance = advance;
-		else if (advance != ref_advance)
-			return false;
-	}
-	return true;
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
+	return is_mono;
 };
 
 auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,

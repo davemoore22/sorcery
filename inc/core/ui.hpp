@@ -278,6 +278,8 @@ class UI {
 
 		auto _get_menu_ui_flags(std::string_view menu)
 			-> std::vector<std::reference_wrapper<bool>>;
+
+		auto _to_imgui(GLuint tex) -> ImTextureID;
 };
 
 };
