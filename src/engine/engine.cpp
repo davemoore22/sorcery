@@ -64,6 +64,7 @@ auto Sorcery::Engine::_initialise() -> bool {
 auto Sorcery::Engine::start(const int mode) -> int {
 
 	_ctx.controller->initialise();
+	_ctx.controller->set_flag("in_engine");
 	_ctx.controller->go_to(Enums::Screen::ENGINE);
 	if (_ctx.game->state->get_party_size() > 0)
 		_ctx.controller->set_character(
@@ -171,7 +172,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				}
 
 				if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
-					_options->start(false);
+					_options->start(true);
 					_options->stop();
 				} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
 					_reorder->start(REORDER_MODE_CAMP);
@@ -227,7 +228,10 @@ auto Sorcery::Engine::start(const int mode) -> int {
 	return LEAVE_MAZE;
 }
 
-auto Sorcery::Engine::stop() -> void {}
+auto Sorcery::Engine::stop() -> void {
+
+	_ctx.controller->unset_flag("in_engine");
+}
 
 auto Sorcery::Engine::_tile_explored(const Coordinate loc) const -> bool {
 

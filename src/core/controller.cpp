@@ -107,6 +107,8 @@ auto Sorcery::Controller::initialise() -> void {
 
 	unset_flag("debug_ui");
 
+	unset_flag("in_engine");
+
 	unset_text("heal_results");
 
 	set_selected("bestiary_selected", 0);

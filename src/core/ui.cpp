@@ -2752,11 +2752,22 @@ auto Sorcery::UI::_draw_options() -> void {
 				ImVec2{centre - (btn_size.x + grid_sz), button_y * grid_sz});
 			if (ImGui::Button(save_lbl.c_str(), btn_size)) {
 				_ctx.system->config->save();
+
+				if (_ctx.get_flag("in_engine"))
+					_ctx.controller->go_to(Enums::Screen::ENGINE);
+				else
+					_ctx.controller->go_to(Enums::Screen::MAINMENU);
+
 				//_ctx.controller->unset_flag("show_options");
 			}
 			ImGui::SetCursorPos(ImVec2{centre + grid_sz, button_y * grid_sz});
 			if (ImGui::Button(cancel_lbl.c_str(), btn_size)) {
 				_ctx.system->config->load();
+
+				if (_ctx.get_flag("in_engine"))
+					_ctx.controller->go_to(Enums::Screen::ENGINE);
+				else
+					_ctx.controller->go_to(Enums::Screen::MAINMENU);
 				//_ctx.controller->unset_flag("show_options");
 			}
 		}
