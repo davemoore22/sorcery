@@ -497,6 +497,8 @@ auto Sorcery::Controller::handle_toggle(const std::string &component,
 										const std::string &tab,
 										const int selection) -> void {
 
+	std::println("Toggle: {} {} {}", component, tab, selection);
+
 	if (component == "options_info") {
 
 		using enum Enums::Config::Options;
@@ -557,6 +559,8 @@ auto Sorcery::Controller::handle_menu_with_flags(
 	[[maybe_unused]] const std::vector<std::string> &items,
 	[[maybe_unused]] const int data, const int selection,
 	std::vector<std::reference_wrapper<bool>> in_flags) -> void {
+
+	std::println("Menu with Flags: {} {} {}", component, data, selection);
 
 	if (component == "stay_menu" || component == "modal_stay") {
 
@@ -856,6 +860,8 @@ auto Sorcery::Controller::handle_stepper_button_click(
 	const std::string &component, [[maybe_unused]] UI *ui, const bool positive,
 	int *data) -> void {
 
+	std::println("Stepper Button Click: {} {}", component, positive);
+
 	if (component.starts_with("##stepper_attribute_")) {
 
 		if (positive) {
@@ -932,6 +938,8 @@ auto Sorcery::Controller::handle_input_button_click(
 	const std::string &component, [[maybe_unused]] UI *ui, std::string *data)
 	-> void {
 
+	std::println("Input Button Click: {} {}", component, *data);
+
 	if (component == "name_input_ok") {
 
 		if (data->length() > 0) {
@@ -951,50 +959,44 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 											  [[maybe_unused]] const int data)
 	-> void {
 
-	if (component == "button_identify") {
+	std::println("Button Click: {} {}", component, data);
 
+	if (component == "button_identify") {
 		// Show Identify Modal
 		ui->modal_identify->regenerate();
 		ui->modal_identify->show = true;
 		set_flag("want_identify");
 	} else if (component == "button_pool") {
-
 		// Show Pool Gold Notice
 		ui->notice_pool_gold->show = true;
 		set_flag("want_pool_gold");
 		_game->pool_party_gold(get_character("inspect"));
 	} else if (component == "button_leave") {
-
 		// Leave Inspect
 		unset_flag("want_inspect");
 		unset_flag("show_inspect");
 		ui->modal_inspect->show = false;
 	} else if (component == "button_drop") {
-
 		// Show Drop Modal
 		ui->modal_drop->regenerate();
 		ui->modal_drop->show = true;
 		set_flag("want_drop");
 	} else if (component == "button_trade") {
-
 		// Show Trade Modal
 		ui->modal_trade->regenerate();
 		ui->modal_trade->show = true;
 		set_flag("want_trade");
 	} else if (component == "button_use") {
-
 		// Show Use Modal
 		ui->modal_use->regenerate();
 		ui->modal_use->show = true;
 		set_flag("want_use");
 	} else if (component == "button_invoke") {
-
 		// Show Use Modal
 		ui->modal_invoke->regenerate();
 		ui->modal_invoke->show = true;
 		set_flag("want_invoke");
 	} else if (component == "button_keep_yes") {
-
 		// Save Character
 		_create->set_stage(Enums::Character::Stage::COMPLETED);
 		_create->set_location(Enums::Character::Location::TAVERN);
@@ -1009,11 +1011,14 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		set_flag("show_training");
 
 	} else if (component == "button_keep_no") {
-
 		_create->reset(Enums::Character::Stage::CHOOSE_METHOD);
 		unset_flag("create_confirm");
 		unset_flag("show_create");
 		set_flag("show_training");
+	} else if (component == "license_return") {
+
+		// Return to Main Menu
+		go_to(Enums::Screen::MAINMENU);
 	}
 }
 
@@ -1022,6 +1027,8 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 									  const std::vector<std::string> &items,
 									  const int data, const int selection)
 	-> void {
+
+	std::println("Menu: {} {} {}", component, data, selection);
 
 	if (component == "remove_menu") {
 
@@ -1276,11 +1283,16 @@ auto Sorcery::Controller::get_character() const -> Character * {
 
 auto Sorcery::Controller::go_to(const Enums::Screen screen) -> void {
 
+	std::println("Go To Screen: {}", magic_enum::enum_name(screen));
+
 	_last_screen = _screen;
 	_screen = screen;
 }
 
 auto Sorcery::Controller::wants(const Enums::Screen value) const -> bool {
+
+	// std::println("Wants Screen: {}? {}", magic_enum::enum_name(value),
+	//			 magic_enum::enum_name(_screen));
 
 	return _screen == value;
 }
@@ -1293,6 +1305,9 @@ auto Sorcery::Controller::is_at() const -> Enums::Screen {
 auto Sorcery::Controller::handle_menu(
 	std::string_view menu, int selection, int data,
 	std::vector<std::reference_wrapper<bool>> &ui_flags) -> bool {
+
+	std::println("Handle Menu: {} {} {}", menu, selection, data);
+
 	const auto it{MENU_ACTIONS.find(menu)};
 	if (it == MENU_ACTIONS.end())
 		return false;

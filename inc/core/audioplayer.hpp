@@ -23,44 +23,48 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/include.hpp"
+#include "common/types.hpp"
+#include "core/macro.hpp"
+
+/* extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libswresample/swresample.h>
+}
+
+#include <SDL2/SDL.h> */
 
 namespace Sorcery {
 
-struct Context;
-class Animation;
-class AudioPlayer;
-class Config;
-class Database;
-class FileStore;
-class StringStore;
-class Random;
-
-class System {
-
+class AudioPlayer {
 	public:
-		System(int argc, char **argv);
-		~System();
+		AudioPlayer();
+		~AudioPlayer();
 
-		auto convert_tp_to_str(
-			const std::chrono::time_point<std::chrono::system_clock> tp) const
-			-> std::string;
-		auto dice_roll_to_str(const std::string &message, const int dice,
-							  const int roll, const int needed) const
-			-> std::string;
-
-		Context *ctx = nullptr;
-
-		std::unique_ptr<Animation> animation;
-		std::unique_ptr<AudioPlayer> audio;
-		std::unique_ptr<Config> config;
-		std::unique_ptr<Database> db;
-		std::unique_ptr<FileStore> files;
-		std::unique_ptr<StringStore> strings;
-		std::unique_ptr<Random> random;
+		void load(const std::string &filename);
+		void play();
+		void stop();
+		void update(); // call every frame
 
 	private:
-		std::unique_ptr<CSimpleIniA> _settings;
+		void free_resources();
+
+		// FFmpeg
+		AVFormatContext *_fmt = nullptr;
+		AVCodecContext *_codec = nullptr;
+		AVPacket *_packet = nullptr;
+		AVFrame *_frame = nullptr;
+		SwrContext *_swr = nullptr;
+
+		int _stream_index = -1;
+
+		// SDL
+		SDL_AudioDeviceID _device = 0;
+		SDL_AudioSpec _spec{};
+
+		std::vector<uint8_t> _buffer;
+
+		bool _playing = false;
 };
 
 }

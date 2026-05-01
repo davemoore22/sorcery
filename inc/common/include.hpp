@@ -35,13 +35,14 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 // clang-format off
 #include <GL/glew.h>
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 
 #include "imgui.h"
-#include "imgui_internal.h"
+//#include "imgui_internal.h"
 #include "backends/imgui_impl_sdl2.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "misc/cpp/imgui_stdlib.h"
@@ -58,6 +59,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/dict.h>
 #include <libavutil/imgutils.h>
+#include <libswresample/swresample.h>
 }
 
 // clang-format on

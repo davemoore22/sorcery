@@ -609,10 +609,10 @@ auto Sorcery::UI::display_engine() -> void {
 	_draw_debug();
 	_draw_cursor();
 
-	bool show{true};
-	ImGui::PushFont(fontstore->get_default_font());
-	ImGui::ShowDemoWindow(&show);
-	ImGui::PopFont();
+	// bool show{true};
+	// ImGui::PushFont(fontstore->get_default_font());
+	// ImGui::ShowDemoWindow(&show);
+	// ImGui::PopFont();
 
 	// And finally clear and render everything
 	ImGui::Render();
@@ -3496,10 +3496,10 @@ auto Sorcery::UI::_display_main_menu() -> void {
 
 	_draw_cursor();
 
-	bool show = true;
-	ImGui::PushFont(fontstore->get_default_font());
-	ImGui::ShowDemoWindow(&show);
-	ImGui::PopFont();
+	// bool show = true;
+	// ImGui::PushFont(fontstore->get_default_font());
+	// ImGui::ShowDemoWindow(&show);
+	// ImGui::PopFont();
 
 	ImGui::SetNextWindowPos(ImVec2{1, 1});
 	ImGui::SetNextWindowSize(ImVec2{1000, 1000});

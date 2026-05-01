@@ -34,6 +34,8 @@ Sorcery::Display::Display(Context &ctx)
 
 auto Sorcery::Display::initialise_SDL() -> int {
 
+	// Audio is initialised in System as it's a dependency of AudioPlayer, but
+	// we need to init the video subsystem here
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) !=
 		0) {
 		std::println("Error: {}", SDL_GetError());

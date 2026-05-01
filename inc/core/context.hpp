@@ -38,6 +38,7 @@ class FontStore;
 class ImageStore;
 class ComponentStore;
 class Animation;
+class AudioPlayer;
 class StringStore;
 class Random;
 class System;
@@ -56,6 +57,7 @@ struct Context {
 		Display *display = nullptr;
 		Game *game = nullptr;
 		Animation *animation = nullptr;
+		AudioPlayer *audio = nullptr;
 		Config *config = nullptr;
 		Database *database = nullptr;
 		FileStore *files = nullptr;

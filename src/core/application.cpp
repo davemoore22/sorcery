@@ -22,6 +22,7 @@
 
 #include "core/application.hpp"
 #include "core/animation.hpp"
+#include "core/audioplayer.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/resources.hpp"
@@ -82,6 +83,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_system = std::make_unique<System>(argc, argv);
 	ctx.system = _system.get();
 	ctx.animation = _system->animation.get();
+	ctx.audio = _system->audio.get();
 	ctx.config = _system->config.get();
 	ctx.database = _system->db.get();
 	ctx.files = _system->files.get();

@@ -522,6 +522,30 @@ src/core/application.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/application.cpp.s
 .PHONY : src/core/application.cpp.s
 
+src/core/audioplayer.o: src/core/audioplayer.cpp.o
+.PHONY : src/core/audioplayer.o
+
+# target to build an object file
+src/core/audioplayer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/audioplayer.cpp.o
+.PHONY : src/core/audioplayer.cpp.o
+
+src/core/audioplayer.i: src/core/audioplayer.cpp.i
+.PHONY : src/core/audioplayer.i
+
+# target to preprocess a source file
+src/core/audioplayer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/audioplayer.cpp.i
+.PHONY : src/core/audioplayer.cpp.i
+
+src/core/audioplayer.s: src/core/audioplayer.cpp.s
+.PHONY : src/core/audioplayer.s
+
+# target to generate assembly for a file
+src/core/audioplayer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/core/audioplayer.cpp.s
+.PHONY : src/core/audioplayer.cpp.s
+
 src/core/context.o: src/core/context.cpp.o
 .PHONY : src/core/context.o
 
@@ -2427,6 +2451,9 @@ help:
 	@echo "... src/core/application.o"
 	@echo "... src/core/application.i"
 	@echo "... src/core/application.s"
+	@echo "... src/core/audioplayer.o"
+	@echo "... src/core/audioplayer.i"
+	@echo "... src/core/audioplayer.s"
 	@echo "... src/core/context.o"
 	@echo "... src/core/context.i"
 	@echo "... src/core/context.s"

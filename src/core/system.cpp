@@ -24,6 +24,7 @@
 #include "common/define.hpp"
 #include "common/enum.hpp"
 #include "core/animation.hpp"
+#include "core/audioplayer.hpp"
 #include "core/database.hpp"
 #include "core/macro.hpp"
 #include "core/random.hpp"
@@ -34,18 +35,27 @@
 Sorcery::System::System(int argc __attribute__((unused)),
 						char **argv __attribute__((unused))) {
 
-	// Modules
-	files = std::make_unique<FileStore>();
-	strings = std::make_unique<StringStore>(files->get(STRINGS_FILE));
+	// Initialise SDL Audio first as it's a dependency of AudioPlayer, but we
+	// initialise the video subsystem in Display as it's not needed until then
+	if (SDL_Init(SDL_INIT_AUDIO) != 0) {
+		std::println("Error: {}", SDL_GetError());
+	} else {
 
-	_settings = std::make_unique<CSimpleIniA>();
-	_settings->SetUnicode();
-	_settings->LoadFile(CSTR(files->get(CONFIG_FILE)));
+		// Modules
+		files = std::make_unique<FileStore>();
+		strings = std::make_unique<StringStore>(files->get(STRINGS_FILE));
 
-	config = std::make_unique<Config>(_settings.get(), files->get(CONFIG_FILE));
-	random = std::make_unique<Random>();
-	animation = std::make_unique<Animation>(random.get());
-	db = std::make_unique<Database>(CSTR(files->get(DATABASE_FILE)));
+		_settings = std::make_unique<CSimpleIniA>();
+		_settings->SetUnicode();
+		_settings->LoadFile(CSTR(files->get(CONFIG_FILE)));
+
+		config =
+			std::make_unique<Config>(_settings.get(), files->get(CONFIG_FILE));
+		random = std::make_unique<Random>();
+		animation = std::make_unique<Animation>(random.get());
+		db = std::make_unique<Database>(CSTR(files->get(DATABASE_FILE)));
+		audio = std::make_unique<AudioPlayer>();
+	}
 }
 
 Sorcery::System::~System() {}
