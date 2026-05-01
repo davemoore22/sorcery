@@ -27,6 +27,12 @@
 #include "core/macro.hpp"
 #include "resources/define.hpp"
 #include "types/enum.hpp"
+// #pragma GCC diagnostic push
+// #pragma GCC diagnostic ignored "-Wswitch-default"
+// #pragma GCC diagnostic ignored "-Wmissing-declarations"
+#include <ft2build.h>
+#include FT_FREETYPE_H
+// #pragma GCC diagnostic pop
 
 namespace Sorcery {
 
@@ -43,6 +49,7 @@ struct FontInfo {
 class FontStore {
 	public:
 		FontStore(Context &ctx, ImGuiIO &io);
+		~FontStore();
 
 		auto scan_and_load(const std::string &directory,
 						   float font_size = 16.0f) -> void;
@@ -66,6 +73,7 @@ class FontStore {
 		std::map<Enums::Layout::Font, ImFont *> current_fonts;
 		ImFont *_current_font{nullptr};
 		ImFont *_default_font{nullptr};
+		FT_Library _ft;
 
 		auto _is_valid_ttf(const std::string &path) const -> bool;
 		auto _is_monospace_ttf(const std::string &path) const -> bool;

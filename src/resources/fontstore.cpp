@@ -26,16 +26,11 @@
 #include "resources/define.hpp"
 #include "types/config.hpp"
 
-// #pragma GCC diagnostic push
-// #pragma GCC diagnostic ignored "-Wswitch-default"
-// #pragma GCC diagnostic ignored "-Wmissing-declarations"
-#include <ft2build.h>
-#include FT_FREETYPE_H
-// #pragma GCC diagnostic pop
-
 Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO &io)
 	: _ctx(ctx),
 	  _io(io) {
+
+	FT_Init_FreeType(&_ft);
 
 	// Get the Font Size from config
 	auto font_size{std::stof(_ctx.get_config("Font", "size"))};
@@ -44,6 +39,12 @@ Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO &io)
 	const std::filesystem::path file_path{DATA_DIR};
 	scan_and_load(file_path.string(), font_size);
 	_sort_fonts_by_name();
+}
+
+Sorcery::FontStore::~FontStore() {
+
+	if (_ft)
+		FT_Done_FreeType(_ft);
 }
 
 auto Sorcery::FontStore::_get_fonts() const -> const std::vector<FontInfo> & {
@@ -148,40 +149,27 @@ auto Sorcery::FontStore::_load_font(const std::string &path, float size,
 // Attempt to validate a TTF font file by loading its header using stb_truetype
 auto Sorcery::FontStore::_is_valid_ttf(const std::string &path) const -> bool {
 
-	FT_Library ft = nullptr;
-
-	if (FT_Init_FreeType(&ft) != 0)
-		return false;
-
 	FT_Face face = nullptr;
 
-	const FT_Error err = FT_New_Face(ft, path.c_str(), 0, &face);
+	const FT_Error err = FT_New_Face(_ft, path.c_str(), 0, &face);
 
 	if (err != 0) {
-		FT_Done_FreeType(ft);
 		return false;
 	}
 
 	FT_Done_Face(face);
-	FT_Done_FreeType(ft);
 	return true;
 }
 
 auto Sorcery::FontStore::_get_font_full_name(
 	const std::vector<unsigned char> &buffer) -> std::string {
 
-	FT_Library ft = nullptr;
-
-	if (FT_Init_FreeType(&ft) != 0)
-		return "";
-
 	FT_Face face = nullptr;
 
 	// Load font from memory instead of file
-	if (FT_New_Memory_Face(ft, buffer.data(),
+	if (FT_New_Memory_Face(_ft, buffer.data(),
 						   static_cast<FT_Long>(buffer.size()), 0,
 						   &face) != 0) {
-		FT_Done_FreeType(ft);
 		return "";
 	}
 
@@ -195,7 +183,6 @@ auto Sorcery::FontStore::_get_font_full_name(
 	}
 
 	FT_Done_Face(face);
-	FT_Done_FreeType(ft);
 
 	return result;
 }
@@ -204,20 +191,40 @@ auto Sorcery::FontStore::_get_font_full_name(
 auto Sorcery::FontStore::_is_monospace_ttf(const std::string &path) const
 	-> bool {
 
-	FT_Library ft = nullptr;
 	FT_Face face = nullptr;
 
-	if (FT_Init_FreeType(&ft) != 0)
+	if (FT_New_Face(_ft, path.c_str(), 0, &face) != 0)
 		return false;
 
-	if (FT_New_Face(ft, path.c_str(), 0, &face) != 0)
-		return false;
+	// 1. Trust font metadata first
+	if (FT_IS_FIXED_WIDTH(face)) {
+		FT_Done_Face(face);
+		return true;
+	}
 
-	const bool is_mono = FT_IS_FIXED_WIDTH(face);
+	// 2. Fallback heuristic (your old logic, but using FreeType)
+	const char *test_chars = "iIlLWMw1 0";
+
+	FT_Set_Pixel_Sizes(face, 0, 16);
+
+	int ref_advance = -1;
+
+	for (const char *c = test_chars; *c; ++c) {
+		if (FT_Load_Char(face, *c, FT_LOAD_DEFAULT) != 0)
+			continue;
+
+		int advance = face->glyph->advance.x;
+
+		if (ref_advance == -1)
+			ref_advance = advance;
+		else if (advance != ref_advance) {
+			FT_Done_Face(face);
+			return false;
+		}
+	}
 
 	FT_Done_Face(face);
-	FT_Done_FreeType(ft);
-	return is_mono;
+	return true;
 };
 
 auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,

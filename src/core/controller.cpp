@@ -1297,7 +1297,7 @@ auto Sorcery::Controller::handle_menu(
 	if (it == MENU_ACTIONS.end())
 		return false;
 
-	if (selection < 0 || selection >= it->second.size())
+	if (selection < 0 || selection >= static_cast<int>(it->second.size()))
 		return false;
 
 	const auto &actions = it->second[selection];
