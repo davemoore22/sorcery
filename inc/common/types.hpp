@@ -22,9 +22,10 @@
 
 #pragma once
 
+#include "common/cereal.hpp"
+#include "common/enum.hpp"
 #include "common/include.hpp"
 #include "common/macro.hpp"
-#include "core/include.hpp"
 
 // Enums
 namespace Sorcery {

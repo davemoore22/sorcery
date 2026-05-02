@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/ffmpeg.hpp"
+#include "common/imgui.hpp"
 #include "common/include.hpp"
 #include "common/opengl.hpp"
 #include "common/types.hpp"

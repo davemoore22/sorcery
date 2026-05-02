@@ -22,7 +22,7 @@
 
 #include "resources/stringstore.hpp"
 #include "resources/define.hpp"
-#include "resources/include.hpp"
+#include <jsoncpp/json/json.h>
 
 Sorcery::StringStore::StringStore(const std::string &filename)
 	: _filename{filename} {

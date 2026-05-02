@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "types/config.hpp"
+#include "common/enum.hpp"
 #include "core/macro.hpp"
 #include "types/define.hpp"
 #include "types/enum.hpp"

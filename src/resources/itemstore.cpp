@@ -25,6 +25,7 @@
 #include "common/macro.hpp"
 #include "core/context.hpp"
 #include "core/random.hpp"
+#include <jsoncpp/json/json.h>
 
 // Standard Constructor
 Sorcery::ItemStore::ItemStore(Context &ctx,

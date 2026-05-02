@@ -21,7 +21,7 @@
 // the resulting work.
 
 #include "types/level.hpp"
-#include "core/include.hpp"
+#include <jsoncpp/json/json.h>
 
 // Default Constructor
 Sorcery::Level::Level() {

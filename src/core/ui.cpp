@@ -21,6 +21,8 @@
 // the resulting work.
 
 #include "core/ui.hpp"
+#include "common/enum.hpp"
+#include "common/imgui.hpp"
 #include "common/macro.hpp"
 #include "common/opengl.hpp"
 #include "core/animation.hpp"
@@ -52,6 +54,7 @@
 #include "types/component.hpp"
 #include "types/config.hpp"
 #include "types/enum.hpp"
+#include "types/error.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
 

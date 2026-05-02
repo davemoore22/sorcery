@@ -24,6 +24,7 @@
 
 #include "common/define.hpp"
 #include "common/include.hpp"
+#include "simpleini/SimpleIni.h"
 #include "types/define.hpp"
 #include "types/include.hpp"
 

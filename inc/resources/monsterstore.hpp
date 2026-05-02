@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/define.hpp"
+#include "common/enum.hpp"
 #include "resources/define.hpp"
 #include "types/dice.hpp"
 #include "types/enum.hpp"

@@ -23,8 +23,7 @@
 #pragma once
 
 #include "common/include.hpp"
-#include "core/include.hpp"
-
+#include "simpleini/SimpleIni.h"
 namespace Sorcery {
 
 struct Context;

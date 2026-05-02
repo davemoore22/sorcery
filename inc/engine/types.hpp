@@ -22,9 +22,9 @@
 
 #pragma once
 
+#include "common/imgui.hpp"
 #include "common/include.hpp"
 #include "common/types.hpp"
-#include "core/include.hpp"
 
 namespace Sorcery {
 

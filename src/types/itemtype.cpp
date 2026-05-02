@@ -23,6 +23,7 @@
 // the resulting work.
 
 #include "types/itemtype.hpp"
+#include "common/enum.hpp"
 #include "common/macro.hpp"
 
 std::random_device Sorcery::ItemType::_device;

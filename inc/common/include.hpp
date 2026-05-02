@@ -22,50 +22,6 @@
 
 #pragma once
 
-// Library Includes
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wswitch-default"
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#pragma GCC diagnostic ignored                                                 \
-	"-Wvolatile" // NOLINT(clang-diagnostic-unknown-warning-option)
-#pragma GCC diagnostic ignored "-Wignored-qualifiers"
-#pragma GCC diagnostic ignored "-Wsuggest-attribute=format"
-#pragma GCC diagnostic ignored "-Wreorder"
-#pragma GCC diagnostic ignored "-Wreturn-type"
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
-#pragma GCC diagnostic ignored "-Wshadow"
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-// clang-format off
-
-#include "imgui.h"
-//#include "imgui_internal.h"
-#include "backends/imgui_impl_sdl2.h"
-#include "backends/imgui_impl_opengl3.h"
-#include "misc/cpp/imgui_stdlib.h"
-#include "misc/freetype/imgui_freetype.h"
-
-// clang-format on
-#pragma GCC diagnostic pop
-
-// https://github.com/Neargye/magic_enum/blob/master/doc/limitations.md
-#define MAGIC_ENUM_RANGE_MIN -1
-#define MAGIC_ENUM_RANGE_MAX 255
-#include "magic_enum/magic_enum.hpp"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpedantic"
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "=Wimplicit-fallthrough"
-#define IMSPINNER_DEMO
-#include "imgui_spinner/imspinner.h"
-#include "imgui_sugar/imgui_sugar.hpp"
-#include "imgui_toggle/imgui_toggle.h"
-
-#pragma GCC diagnostic pop
-
 // Standard Includes
 #include <algorithm>
 #include <any>
@@ -107,7 +63,3 @@
 #include <uuid/uuid.h>
 #include <variant>
 #include <vector>
-
-// Internal Includes
-#include "common/enum.hpp"
-#include "types/error.hpp"

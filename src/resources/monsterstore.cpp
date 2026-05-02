@@ -25,8 +25,8 @@
 #include "common/include.hpp"
 #include "common/macro.hpp"
 #include "resources/define.hpp"
-#include "resources/include.hpp"
 #include "types/monstertype.hpp"
+#include <jsoncpp/json/json.h>
 
 // Standard Constructor
 Sorcery::MonsterStore::MonsterStore(const std::filesystem::path filename) {

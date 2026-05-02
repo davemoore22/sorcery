@@ -22,12 +22,12 @@
 
 #pragma once
 
+#include "common/cereal.hpp"
 #include "common/include.hpp"
-#include "core/include.hpp"
 #include "core/macro.hpp"
-#include "resources/include.hpp"
 #include "types/enum.hpp"
 #include "types/tile.hpp"
+#include <jsoncpp/json/json.h>
 
 namespace Sorcery {
 

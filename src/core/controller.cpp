@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "core/controller.hpp"
+#include "common/enum.hpp"
 #include "core/context.hpp"
 #include "core/database.hpp"
 #include "core/define.hpp"

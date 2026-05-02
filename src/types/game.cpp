@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "types/game.hpp"
+#include "common/enum.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
 #include "core/database.hpp"

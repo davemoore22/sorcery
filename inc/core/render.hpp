@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "common/enum.hpp"
+#include "common/imgui.hpp"
 #include "common/include.hpp"
 #include "core/types.hpp"
 #include "engine/types.hpp"

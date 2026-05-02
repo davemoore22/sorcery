@@ -24,6 +24,7 @@
 #include "common/enum.hpp"
 #include "common/include.hpp"
 #include "common/macro.hpp"
+#include "common/sqllite.hpp"
 #include "common/types.hpp"
 #include "types/error.hpp"
 

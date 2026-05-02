@@ -22,7 +22,12 @@
 
 #pragma once
 
+#include <string_view>
+
 namespace Sorcery {
+
+using namespace std::string_view_literals;
+using namespace std::string_literals;
 
 // Timed Settings (Milliseconds)
 inline constexpr auto DELAY_TSLEEP{500u};

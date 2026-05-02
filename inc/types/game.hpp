@@ -22,8 +22,8 @@
 
 #pragma once
 
+#include "common/cereal.hpp"
 #include "common/sdl2.hpp"
-#include "core/include.hpp"
 #include "types/character.hpp"
 
 namespace Sorcery {

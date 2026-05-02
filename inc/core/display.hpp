@@ -25,7 +25,6 @@
 #include "common/opengl.hpp"
 #include "common/sdl2.hpp"
 #include "common/types.hpp"
-#include "core/include.hpp"
 
 namespace Sorcery {
 

@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "types/state.hpp"
+#include "common/enum.hpp"
 #include "core/context.hpp"
 #include "core/system.hpp"
 #include "resources/itemstore.hpp"

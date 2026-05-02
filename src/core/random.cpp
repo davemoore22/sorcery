@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "core/random.hpp"
+#include "common/enum.hpp"
 
 Sorcery::Random::Random() {
 

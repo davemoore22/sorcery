@@ -22,10 +22,11 @@
 
 #pragma once
 
+#include "common/cereal.hpp"
 #include "common/define.hpp"
+#include "common/enum.hpp"
 #include "common/include.hpp"
 #include "common/types.hpp"
-#include "core/include.hpp"
 #include "types/define.hpp"
 #include "types/enum.hpp"
 #include "types/include.hpp"

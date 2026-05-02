@@ -20,6 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+#include "common/enum.hpp"
 #include "common/include.hpp"
 
 #pragma once

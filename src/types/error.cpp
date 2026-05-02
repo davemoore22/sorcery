@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "types/error.hpp"
+#include "common/enum.hpp"
 #include "common/include.hpp"
 #include "common/macro.hpp"
 

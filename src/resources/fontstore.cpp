@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "resources/fontstore.hpp"
+#include "common/imgui.hpp"
 #include "core/context.hpp"
 #include "core/system.hpp"
 #include "resources/define.hpp"

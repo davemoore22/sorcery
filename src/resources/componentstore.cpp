@@ -24,6 +24,9 @@
 #include "common/macro.hpp"
 #include "core/system.hpp"
 #include "types/component.hpp"
+#include "types/error.hpp"
+#include "types/state.hpp"
+#include <jsoncpp/json/json.h>
 
 // Standard Constructor
 Sorcery::ComponentStore::ComponentStore(const std::filesystem::path filename) {

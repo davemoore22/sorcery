@@ -23,34 +23,36 @@
 #pragma once
 
 // Library Includes
-#include <jsoncpp/json/json.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-default"
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#ifndef __clang__
 #pragma GCC diagnostic ignored                                                 \
 	"-Wvolatile" // NOLINT(clang-diagnostic-unknown-warning-option)
-#endif
 #pragma GCC diagnostic ignored "-Wignored-qualifiers"
+#pragma GCC diagnostic ignored "-Wsuggest-attribute=format"
 #pragma GCC diagnostic ignored "-Wreorder"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #pragma GCC diagnostic ignored "-Wshadow"
-#ifdef __clang__
-#pragma GCC diagnostic ignored "-Wunqualified-std-cast-call"
-#endif
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#pragma GCC diagnostic ignored "-Wpedantic"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
 // clang-format off
-#include "cereal/cereal.hpp"
-#include "cereal/archives/xml.hpp"
-#include "cereal/archives/binary.hpp"
-#include "cereal/types/array.hpp"
-#include "cereal/types/bitset.hpp"
-#include "cereal/types/chrono.hpp"
-#include "cereal/types/map.hpp"
-#include "cereal/types/memory.hpp"
-#include "cereal/types/optional.hpp"
-#include "cereal/types/string.hpp"
-#include "cereal/types/vector.hpp"
+
+#include "imgui.h"
+#include "backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "misc/cpp/imgui_stdlib.h"
+#include "misc/freetype/imgui_freetype.h"
+#define IMSPINNER_DEMO
+#include "imgui_spinner/imspinner.h"
+#include "imgui_sugar/imgui_sugar.hpp"
+#include "imgui_toggle/imgui_toggle.h"
+
 // clang-format on
 #pragma GCC diagnostic pop
