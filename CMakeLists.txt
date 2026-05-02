@@ -77,6 +77,16 @@ target_compile_definitions(dear_imgui PRIVATE
 	IMGUI_ENABLE_FREETYPE
 )
 
+add_library(sorcery_warnings INTERFACE)
+
+target_compile_options(sorcery_warnings INTERFACE
+	-Wall
+	-Wextra
+	-Wpedantic
+	-Wno-narrowing
+	-Wno-unused-parameter
+)
+
 # Main Source Files
 include(src/core/CMakeLists.txt)
 include(src/engine/CMakeLists.txt)
@@ -124,6 +134,14 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-pg
 	-g)
 
+target_link_libraries(sorcery_types PRIVATE sorcery_warnings)
+target_link_libraries(sorcery_engine PRIVATE sorcery_warnings)
+target_link_libraries(sorcery_core PRIVATE sorcery_warnings)
+target_link_libraries(sorcery_frontend PRIVATE sorcery_warnings)
+target_link_libraries(sorcery_gui PRIVATE sorcery_warnings)
+target_link_libraries(sorcery_modules PRIVATE sorcery_warnings)
+target_link_libraries(sorcery_resources PRIVATE sorcery_warnings)
+
 # Link Libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
 	${SDL2_LIBRARIES}
@@ -141,10 +159,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	dear_imgui
 	uuid
 	sqlite3
+	sorcery_core
+	sorcery_engine
 	sorcery_frontend
+	sorcery_gui
 	sorcery_modules
 	sorcery_resources
 	sorcery_types
+	sorcery_warnings
 )
 
 # Post Build Directories
