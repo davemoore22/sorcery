@@ -29,6 +29,8 @@
 #include "engine/enum.hpp"
 #include "engine/types.hpp"
 
+#include <cstdint>
+
 namespace Sorcery {
 
 struct Context;
@@ -55,7 +57,8 @@ class Engine {
 
 	private:
 		// Private Methods
-		static auto _callback_stop_popup_ouch(Uint32, void *param) -> Uint32;
+		static auto _callback_stop_popup_ouch(std::uint32_t, void *param)
+			-> std::uint32_t;
 		auto _initialise() -> bool;
 		auto _go_back_to_town() -> int;
 		auto _go_down_a_level() -> void;

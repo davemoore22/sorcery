@@ -27,6 +27,8 @@
 #include "common/sdl2.hpp"
 #include "types/enum.hpp"
 
+#include <cstdint>
+
 namespace Sorcery {
 
 // Forward Declarations
@@ -46,8 +48,10 @@ class Recovery {
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
-		static auto _callback_napping(Uint32, void *param) -> Uint32;
-		static auto _callback_recuperating(Uint32, void *param) -> Uint32;
+		static auto _callback_napping(std::uint32_t, void *param)
+			-> std::uint32_t;
+		static auto _callback_recuperating(std::uint32_t, void *param)
+			-> std::uint32_t;
 
 		// Private Members
 		Context &_ctx;

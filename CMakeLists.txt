@@ -52,7 +52,7 @@ target_sources(dear_imgui PRIVATE
 	ext/imgui/misc/freetype/imgui_freetype.cpp
 )
 
-target_include_directories(dear_imgui PRIVATE
+target_include_directories(dear_imgui PUBLIC
 	${SDL2_INCLUDE_DIRS}
 	${SDL2_IMAGE_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIR}
@@ -134,13 +134,17 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	OpenGL::GL
 	GLEW
 	dl
+	backtrace
 	stdc++fs
 	stdc++exp
-	fmt
 	jsoncpp
 	dear_imgui
 	uuid
 	sqlite3
+	sorcery_frontend
+	sorcery_modules
+	sorcery_resources
+	sorcery_types
 )
 
 # Post Build Directories

@@ -23,6 +23,7 @@
 #include "core/controller.hpp"
 #include "common/cereal.hpp"
 #include "common/enum.hpp"
+#include "common/opengl.hpp"
 #include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/database.hpp"

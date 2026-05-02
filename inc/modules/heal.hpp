@@ -27,6 +27,7 @@
 #include "common/sdl2.hpp"
 #include "types/enum.hpp"
 
+#include <cstdint>
 namespace Sorcery {
 
 // Forward Declarations
@@ -45,7 +46,8 @@ class Heal {
 
 	private:
 		// Private Methods
-		static auto _callback_heal_tick(Uint32, void *param) -> Uint32;
+		static auto _callback_heal_tick(std::uint32_t, void *param)
+			-> std::uint32_t;
 		auto _initialise() -> bool;
 		auto _try_heal(int heal_char_id, int pay_char_id) -> bool;
 

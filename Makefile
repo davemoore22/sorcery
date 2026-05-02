@@ -150,6 +150,58 @@ dear_imgui/fast:
 .PHONY : dear_imgui/fast
 
 #=============================================================================
+# Target rules for targets named sorcery_frontend
+
+# Build rule for target.
+sorcery_frontend: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sorcery_frontend
+.PHONY : sorcery_frontend
+
+# fast build rule for target.
+sorcery_frontend/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/build
+.PHONY : sorcery_frontend/fast
+
+#=============================================================================
+# Target rules for targets named sorcery_modules
+
+# Build rule for target.
+sorcery_modules: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sorcery_modules
+.PHONY : sorcery_modules
+
+# fast build rule for target.
+sorcery_modules/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/build
+.PHONY : sorcery_modules/fast
+
+#=============================================================================
+# Target rules for targets named sorcery_resources
+
+# Build rule for target.
+sorcery_resources: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sorcery_resources
+.PHONY : sorcery_resources
+
+# fast build rule for target.
+sorcery_resources/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/build
+.PHONY : sorcery_resources/fast
+
+#=============================================================================
+# Target rules for targets named sorcery_types
+
+# Build rule for target.
+sorcery_types: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sorcery_types
+.PHONY : sorcery_types
+
+# fast build rule for target.
+sorcery_types/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/build
+.PHONY : sorcery_types/fast
+
+#=============================================================================
 # Target rules for targets named sorcery
 
 # Build rule for target.
@@ -791,7 +843,7 @@ src/frontend/atlas.o: src/frontend/atlas.cpp.o
 
 # target to build an object file
 src/frontend/atlas.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/atlas.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/atlas.cpp.o
 .PHONY : src/frontend/atlas.cpp.o
 
 src/frontend/atlas.i: src/frontend/atlas.cpp.i
@@ -799,7 +851,7 @@ src/frontend/atlas.i: src/frontend/atlas.cpp.i
 
 # target to preprocess a source file
 src/frontend/atlas.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/atlas.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/atlas.cpp.i
 .PHONY : src/frontend/atlas.cpp.i
 
 src/frontend/atlas.s: src/frontend/atlas.cpp.s
@@ -807,7 +859,7 @@ src/frontend/atlas.s: src/frontend/atlas.cpp.s
 
 # target to generate assembly for a file
 src/frontend/atlas.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/atlas.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/atlas.cpp.s
 .PHONY : src/frontend/atlas.cpp.s
 
 src/frontend/bestiary.o: src/frontend/bestiary.cpp.o
@@ -815,7 +867,7 @@ src/frontend/bestiary.o: src/frontend/bestiary.cpp.o
 
 # target to build an object file
 src/frontend/bestiary.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/bestiary.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/bestiary.cpp.o
 .PHONY : src/frontend/bestiary.cpp.o
 
 src/frontend/bestiary.i: src/frontend/bestiary.cpp.i
@@ -823,7 +875,7 @@ src/frontend/bestiary.i: src/frontend/bestiary.cpp.i
 
 # target to preprocess a source file
 src/frontend/bestiary.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/bestiary.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/bestiary.cpp.i
 .PHONY : src/frontend/bestiary.cpp.i
 
 src/frontend/bestiary.s: src/frontend/bestiary.cpp.s
@@ -831,7 +883,7 @@ src/frontend/bestiary.s: src/frontend/bestiary.cpp.s
 
 # target to generate assembly for a file
 src/frontend/bestiary.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/bestiary.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/bestiary.cpp.s
 .PHONY : src/frontend/bestiary.cpp.s
 
 src/frontend/compendium.o: src/frontend/compendium.cpp.o
@@ -839,7 +891,7 @@ src/frontend/compendium.o: src/frontend/compendium.cpp.o
 
 # target to build an object file
 src/frontend/compendium.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/compendium.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/compendium.cpp.o
 .PHONY : src/frontend/compendium.cpp.o
 
 src/frontend/compendium.i: src/frontend/compendium.cpp.i
@@ -847,7 +899,7 @@ src/frontend/compendium.i: src/frontend/compendium.cpp.i
 
 # target to preprocess a source file
 src/frontend/compendium.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/compendium.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/compendium.cpp.i
 .PHONY : src/frontend/compendium.cpp.i
 
 src/frontend/compendium.s: src/frontend/compendium.cpp.s
@@ -855,7 +907,7 @@ src/frontend/compendium.s: src/frontend/compendium.cpp.s
 
 # target to generate assembly for a file
 src/frontend/compendium.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/compendium.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/compendium.cpp.s
 .PHONY : src/frontend/compendium.cpp.s
 
 src/frontend/license.o: src/frontend/license.cpp.o
@@ -863,7 +915,7 @@ src/frontend/license.o: src/frontend/license.cpp.o
 
 # target to build an object file
 src/frontend/license.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/license.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/license.cpp.o
 .PHONY : src/frontend/license.cpp.o
 
 src/frontend/license.i: src/frontend/license.cpp.i
@@ -871,7 +923,7 @@ src/frontend/license.i: src/frontend/license.cpp.i
 
 # target to preprocess a source file
 src/frontend/license.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/license.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/license.cpp.i
 .PHONY : src/frontend/license.cpp.i
 
 src/frontend/license.s: src/frontend/license.cpp.s
@@ -879,7 +931,7 @@ src/frontend/license.s: src/frontend/license.cpp.s
 
 # target to generate assembly for a file
 src/frontend/license.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/license.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/license.cpp.s
 .PHONY : src/frontend/license.cpp.s
 
 src/frontend/mainmenu.o: src/frontend/mainmenu.cpp.o
@@ -887,7 +939,7 @@ src/frontend/mainmenu.o: src/frontend/mainmenu.cpp.o
 
 # target to build an object file
 src/frontend/mainmenu.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/mainmenu.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/mainmenu.cpp.o
 .PHONY : src/frontend/mainmenu.cpp.o
 
 src/frontend/mainmenu.i: src/frontend/mainmenu.cpp.i
@@ -895,7 +947,7 @@ src/frontend/mainmenu.i: src/frontend/mainmenu.cpp.i
 
 # target to preprocess a source file
 src/frontend/mainmenu.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/mainmenu.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/mainmenu.cpp.i
 .PHONY : src/frontend/mainmenu.cpp.i
 
 src/frontend/mainmenu.s: src/frontend/mainmenu.cpp.s
@@ -903,7 +955,7 @@ src/frontend/mainmenu.s: src/frontend/mainmenu.cpp.s
 
 # target to generate assembly for a file
 src/frontend/mainmenu.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/mainmenu.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/mainmenu.cpp.s
 .PHONY : src/frontend/mainmenu.cpp.s
 
 src/frontend/museum.o: src/frontend/museum.cpp.o
@@ -911,7 +963,7 @@ src/frontend/museum.o: src/frontend/museum.cpp.o
 
 # target to build an object file
 src/frontend/museum.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/museum.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/museum.cpp.o
 .PHONY : src/frontend/museum.cpp.o
 
 src/frontend/museum.i: src/frontend/museum.cpp.i
@@ -919,7 +971,7 @@ src/frontend/museum.i: src/frontend/museum.cpp.i
 
 # target to preprocess a source file
 src/frontend/museum.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/museum.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/museum.cpp.i
 .PHONY : src/frontend/museum.cpp.i
 
 src/frontend/museum.s: src/frontend/museum.cpp.s
@@ -927,7 +979,7 @@ src/frontend/museum.s: src/frontend/museum.cpp.s
 
 # target to generate assembly for a file
 src/frontend/museum.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/museum.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/museum.cpp.s
 .PHONY : src/frontend/museum.cpp.s
 
 src/frontend/options.o: src/frontend/options.cpp.o
@@ -935,7 +987,7 @@ src/frontend/options.o: src/frontend/options.cpp.o
 
 # target to build an object file
 src/frontend/options.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/options.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/options.cpp.o
 .PHONY : src/frontend/options.cpp.o
 
 src/frontend/options.i: src/frontend/options.cpp.i
@@ -943,7 +995,7 @@ src/frontend/options.i: src/frontend/options.cpp.i
 
 # target to preprocess a source file
 src/frontend/options.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/options.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/options.cpp.i
 .PHONY : src/frontend/options.cpp.i
 
 src/frontend/options.s: src/frontend/options.cpp.s
@@ -951,7 +1003,7 @@ src/frontend/options.s: src/frontend/options.cpp.s
 
 # target to generate assembly for a file
 src/frontend/options.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/options.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/options.cpp.s
 .PHONY : src/frontend/options.cpp.s
 
 src/frontend/spellbook.o: src/frontend/spellbook.cpp.o
@@ -959,7 +1011,7 @@ src/frontend/spellbook.o: src/frontend/spellbook.cpp.o
 
 # target to build an object file
 src/frontend/spellbook.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/spellbook.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/spellbook.cpp.o
 .PHONY : src/frontend/spellbook.cpp.o
 
 src/frontend/spellbook.i: src/frontend/spellbook.cpp.i
@@ -967,7 +1019,7 @@ src/frontend/spellbook.i: src/frontend/spellbook.cpp.i
 
 # target to preprocess a source file
 src/frontend/spellbook.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/spellbook.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/spellbook.cpp.i
 .PHONY : src/frontend/spellbook.cpp.i
 
 src/frontend/spellbook.s: src/frontend/spellbook.cpp.s
@@ -975,7 +1027,7 @@ src/frontend/spellbook.s: src/frontend/spellbook.cpp.s
 
 # target to generate assembly for a file
 src/frontend/spellbook.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/spellbook.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/spellbook.cpp.s
 .PHONY : src/frontend/spellbook.cpp.s
 
 src/frontend/splash.o: src/frontend/splash.cpp.o
@@ -983,7 +1035,7 @@ src/frontend/splash.o: src/frontend/splash.cpp.o
 
 # target to build an object file
 src/frontend/splash.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/splash.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/splash.cpp.o
 .PHONY : src/frontend/splash.cpp.o
 
 src/frontend/splash.i: src/frontend/splash.cpp.i
@@ -991,7 +1043,7 @@ src/frontend/splash.i: src/frontend/splash.cpp.i
 
 # target to preprocess a source file
 src/frontend/splash.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/splash.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/splash.cpp.i
 .PHONY : src/frontend/splash.cpp.i
 
 src/frontend/splash.s: src/frontend/splash.cpp.s
@@ -999,7 +1051,7 @@ src/frontend/splash.s: src/frontend/splash.cpp.s
 
 # target to generate assembly for a file
 src/frontend/splash.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/frontend/splash.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_frontend.dir/build.make CMakeFiles/sorcery_frontend.dir/src/frontend/splash.cpp.s
 .PHONY : src/frontend/splash.cpp.s
 
 src/gui/dialog.o: src/gui/dialog.cpp.o
@@ -1247,7 +1299,7 @@ src/modules/add.o: src/modules/add.cpp.o
 
 # target to build an object file
 src/modules/add.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/add.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/add.cpp.o
 .PHONY : src/modules/add.cpp.o
 
 src/modules/add.i: src/modules/add.cpp.i
@@ -1255,7 +1307,7 @@ src/modules/add.i: src/modules/add.cpp.i
 
 # target to preprocess a source file
 src/modules/add.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/add.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/add.cpp.i
 .PHONY : src/modules/add.cpp.i
 
 src/modules/add.s: src/modules/add.cpp.s
@@ -1263,7 +1315,7 @@ src/modules/add.s: src/modules/add.cpp.s
 
 # target to generate assembly for a file
 src/modules/add.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/add.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/add.cpp.s
 .PHONY : src/modules/add.cpp.s
 
 src/modules/castle.o: src/modules/castle.cpp.o
@@ -1271,7 +1323,7 @@ src/modules/castle.o: src/modules/castle.cpp.o
 
 # target to build an object file
 src/modules/castle.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/castle.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/castle.cpp.o
 .PHONY : src/modules/castle.cpp.o
 
 src/modules/castle.i: src/modules/castle.cpp.i
@@ -1279,7 +1331,7 @@ src/modules/castle.i: src/modules/castle.cpp.i
 
 # target to preprocess a source file
 src/modules/castle.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/castle.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/castle.cpp.i
 .PHONY : src/modules/castle.cpp.i
 
 src/modules/castle.s: src/modules/castle.cpp.s
@@ -1287,7 +1339,7 @@ src/modules/castle.s: src/modules/castle.cpp.s
 
 # target to generate assembly for a file
 src/modules/castle.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/castle.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/castle.cpp.s
 .PHONY : src/modules/castle.cpp.s
 
 src/modules/choose.o: src/modules/choose.cpp.o
@@ -1295,7 +1347,7 @@ src/modules/choose.o: src/modules/choose.cpp.o
 
 # target to build an object file
 src/modules/choose.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/choose.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/choose.cpp.o
 .PHONY : src/modules/choose.cpp.o
 
 src/modules/choose.i: src/modules/choose.cpp.i
@@ -1303,7 +1355,7 @@ src/modules/choose.i: src/modules/choose.cpp.i
 
 # target to preprocess a source file
 src/modules/choose.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/choose.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/choose.cpp.i
 .PHONY : src/modules/choose.cpp.i
 
 src/modules/choose.s: src/modules/choose.cpp.s
@@ -1311,7 +1363,7 @@ src/modules/choose.s: src/modules/choose.cpp.s
 
 # target to generate assembly for a file
 src/modules/choose.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/choose.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/choose.cpp.s
 .PHONY : src/modules/choose.cpp.s
 
 src/modules/create.o: src/modules/create.cpp.o
@@ -1319,7 +1371,7 @@ src/modules/create.o: src/modules/create.cpp.o
 
 # target to build an object file
 src/modules/create.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/create.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/create.cpp.o
 .PHONY : src/modules/create.cpp.o
 
 src/modules/create.i: src/modules/create.cpp.i
@@ -1327,7 +1379,7 @@ src/modules/create.i: src/modules/create.cpp.i
 
 # target to preprocess a source file
 src/modules/create.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/create.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/create.cpp.i
 .PHONY : src/modules/create.cpp.i
 
 src/modules/create.s: src/modules/create.cpp.s
@@ -1335,7 +1387,7 @@ src/modules/create.s: src/modules/create.cpp.s
 
 # target to generate assembly for a file
 src/modules/create.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/create.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/create.cpp.s
 .PHONY : src/modules/create.cpp.s
 
 src/modules/edgeoftown.o: src/modules/edgeoftown.cpp.o
@@ -1343,7 +1395,7 @@ src/modules/edgeoftown.o: src/modules/edgeoftown.cpp.o
 
 # target to build an object file
 src/modules/edgeoftown.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/edgeoftown.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/edgeoftown.cpp.o
 .PHONY : src/modules/edgeoftown.cpp.o
 
 src/modules/edgeoftown.i: src/modules/edgeoftown.cpp.i
@@ -1351,7 +1403,7 @@ src/modules/edgeoftown.i: src/modules/edgeoftown.cpp.i
 
 # target to preprocess a source file
 src/modules/edgeoftown.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/edgeoftown.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/edgeoftown.cpp.i
 .PHONY : src/modules/edgeoftown.cpp.i
 
 src/modules/edgeoftown.s: src/modules/edgeoftown.cpp.s
@@ -1359,7 +1411,7 @@ src/modules/edgeoftown.s: src/modules/edgeoftown.cpp.s
 
 # target to generate assembly for a file
 src/modules/edgeoftown.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/edgeoftown.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/edgeoftown.cpp.s
 .PHONY : src/modules/edgeoftown.cpp.s
 
 src/modules/heal.o: src/modules/heal.cpp.o
@@ -1367,7 +1419,7 @@ src/modules/heal.o: src/modules/heal.cpp.o
 
 # target to build an object file
 src/modules/heal.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/heal.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/heal.cpp.o
 .PHONY : src/modules/heal.cpp.o
 
 src/modules/heal.i: src/modules/heal.cpp.i
@@ -1375,7 +1427,7 @@ src/modules/heal.i: src/modules/heal.cpp.i
 
 # target to preprocess a source file
 src/modules/heal.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/heal.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/heal.cpp.i
 .PHONY : src/modules/heal.cpp.i
 
 src/modules/heal.s: src/modules/heal.cpp.s
@@ -1383,7 +1435,7 @@ src/modules/heal.s: src/modules/heal.cpp.s
 
 # target to generate assembly for a file
 src/modules/heal.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/heal.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/heal.cpp.s
 .PHONY : src/modules/heal.cpp.s
 
 src/modules/inn.o: src/modules/inn.cpp.o
@@ -1391,7 +1443,7 @@ src/modules/inn.o: src/modules/inn.cpp.o
 
 # target to build an object file
 src/modules/inn.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/inn.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/inn.cpp.o
 .PHONY : src/modules/inn.cpp.o
 
 src/modules/inn.i: src/modules/inn.cpp.i
@@ -1399,7 +1451,7 @@ src/modules/inn.i: src/modules/inn.cpp.i
 
 # target to preprocess a source file
 src/modules/inn.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/inn.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/inn.cpp.i
 .PHONY : src/modules/inn.cpp.i
 
 src/modules/inn.s: src/modules/inn.cpp.s
@@ -1407,7 +1459,7 @@ src/modules/inn.s: src/modules/inn.cpp.s
 
 # target to generate assembly for a file
 src/modules/inn.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/inn.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/inn.cpp.s
 .PHONY : src/modules/inn.cpp.s
 
 src/modules/inspect.o: src/modules/inspect.cpp.o
@@ -1415,7 +1467,7 @@ src/modules/inspect.o: src/modules/inspect.cpp.o
 
 # target to build an object file
 src/modules/inspect.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/inspect.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/inspect.cpp.o
 .PHONY : src/modules/inspect.cpp.o
 
 src/modules/inspect.i: src/modules/inspect.cpp.i
@@ -1423,7 +1475,7 @@ src/modules/inspect.i: src/modules/inspect.cpp.i
 
 # target to preprocess a source file
 src/modules/inspect.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/inspect.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/inspect.cpp.i
 .PHONY : src/modules/inspect.cpp.i
 
 src/modules/inspect.s: src/modules/inspect.cpp.s
@@ -1431,7 +1483,7 @@ src/modules/inspect.s: src/modules/inspect.cpp.s
 
 # target to generate assembly for a file
 src/modules/inspect.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/inspect.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/inspect.cpp.s
 .PHONY : src/modules/inspect.cpp.s
 
 src/modules/levelup.o: src/modules/levelup.cpp.o
@@ -1439,7 +1491,7 @@ src/modules/levelup.o: src/modules/levelup.cpp.o
 
 # target to build an object file
 src/modules/levelup.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/levelup.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/levelup.cpp.o
 .PHONY : src/modules/levelup.cpp.o
 
 src/modules/levelup.i: src/modules/levelup.cpp.i
@@ -1447,7 +1499,7 @@ src/modules/levelup.i: src/modules/levelup.cpp.i
 
 # target to preprocess a source file
 src/modules/levelup.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/levelup.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/levelup.cpp.i
 .PHONY : src/modules/levelup.cpp.i
 
 src/modules/levelup.s: src/modules/levelup.cpp.s
@@ -1455,7 +1507,7 @@ src/modules/levelup.s: src/modules/levelup.cpp.s
 
 # target to generate assembly for a file
 src/modules/levelup.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/levelup.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/levelup.cpp.s
 .PHONY : src/modules/levelup.cpp.s
 
 src/modules/method.o: src/modules/method.cpp.o
@@ -1463,7 +1515,7 @@ src/modules/method.o: src/modules/method.cpp.o
 
 # target to build an object file
 src/modules/method.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/method.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/method.cpp.o
 .PHONY : src/modules/method.cpp.o
 
 src/modules/method.i: src/modules/method.cpp.i
@@ -1471,7 +1523,7 @@ src/modules/method.i: src/modules/method.cpp.i
 
 # target to preprocess a source file
 src/modules/method.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/method.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/method.cpp.i
 .PHONY : src/modules/method.cpp.i
 
 src/modules/method.s: src/modules/method.cpp.s
@@ -1479,7 +1531,7 @@ src/modules/method.s: src/modules/method.cpp.s
 
 # target to generate assembly for a file
 src/modules/method.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/method.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/method.cpp.s
 .PHONY : src/modules/method.cpp.s
 
 src/modules/nolevelup.o: src/modules/nolevelup.cpp.o
@@ -1487,7 +1539,7 @@ src/modules/nolevelup.o: src/modules/nolevelup.cpp.o
 
 # target to build an object file
 src/modules/nolevelup.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/nolevelup.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/nolevelup.cpp.o
 .PHONY : src/modules/nolevelup.cpp.o
 
 src/modules/nolevelup.i: src/modules/nolevelup.cpp.i
@@ -1495,7 +1547,7 @@ src/modules/nolevelup.i: src/modules/nolevelup.cpp.i
 
 # target to preprocess a source file
 src/modules/nolevelup.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/nolevelup.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/nolevelup.cpp.i
 .PHONY : src/modules/nolevelup.cpp.i
 
 src/modules/nolevelup.s: src/modules/nolevelup.cpp.s
@@ -1503,7 +1555,7 @@ src/modules/nolevelup.s: src/modules/nolevelup.cpp.s
 
 # target to generate assembly for a file
 src/modules/nolevelup.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/nolevelup.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/nolevelup.cpp.s
 .PHONY : src/modules/nolevelup.cpp.s
 
 src/modules/pay.o: src/modules/pay.cpp.o
@@ -1511,7 +1563,7 @@ src/modules/pay.o: src/modules/pay.cpp.o
 
 # target to build an object file
 src/modules/pay.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/pay.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/pay.cpp.o
 .PHONY : src/modules/pay.cpp.o
 
 src/modules/pay.i: src/modules/pay.cpp.i
@@ -1519,7 +1571,7 @@ src/modules/pay.i: src/modules/pay.cpp.i
 
 # target to preprocess a source file
 src/modules/pay.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/pay.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/pay.cpp.i
 .PHONY : src/modules/pay.cpp.i
 
 src/modules/pay.s: src/modules/pay.cpp.s
@@ -1527,7 +1579,7 @@ src/modules/pay.s: src/modules/pay.cpp.s
 
 # target to generate assembly for a file
 src/modules/pay.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/pay.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/pay.cpp.s
 .PHONY : src/modules/pay.cpp.s
 
 src/modules/recovery.o: src/modules/recovery.cpp.o
@@ -1535,7 +1587,7 @@ src/modules/recovery.o: src/modules/recovery.cpp.o
 
 # target to build an object file
 src/modules/recovery.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/recovery.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/recovery.cpp.o
 .PHONY : src/modules/recovery.cpp.o
 
 src/modules/recovery.i: src/modules/recovery.cpp.i
@@ -1543,7 +1595,7 @@ src/modules/recovery.i: src/modules/recovery.cpp.i
 
 # target to preprocess a source file
 src/modules/recovery.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/recovery.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/recovery.cpp.i
 .PHONY : src/modules/recovery.cpp.i
 
 src/modules/recovery.s: src/modules/recovery.cpp.s
@@ -1551,7 +1603,7 @@ src/modules/recovery.s: src/modules/recovery.cpp.s
 
 # target to generate assembly for a file
 src/modules/recovery.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/recovery.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/recovery.cpp.s
 .PHONY : src/modules/recovery.cpp.s
 
 src/modules/remove.o: src/modules/remove.cpp.o
@@ -1559,7 +1611,7 @@ src/modules/remove.o: src/modules/remove.cpp.o
 
 # target to build an object file
 src/modules/remove.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/remove.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/remove.cpp.o
 .PHONY : src/modules/remove.cpp.o
 
 src/modules/remove.i: src/modules/remove.cpp.i
@@ -1567,7 +1619,7 @@ src/modules/remove.i: src/modules/remove.cpp.i
 
 # target to preprocess a source file
 src/modules/remove.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/remove.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/remove.cpp.i
 .PHONY : src/modules/remove.cpp.i
 
 src/modules/remove.s: src/modules/remove.cpp.s
@@ -1575,7 +1627,7 @@ src/modules/remove.s: src/modules/remove.cpp.s
 
 # target to generate assembly for a file
 src/modules/remove.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/remove.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/remove.cpp.s
 .PHONY : src/modules/remove.cpp.s
 
 src/modules/reorder.o: src/modules/reorder.cpp.o
@@ -1583,7 +1635,7 @@ src/modules/reorder.o: src/modules/reorder.cpp.o
 
 # target to build an object file
 src/modules/reorder.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/reorder.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/reorder.cpp.o
 .PHONY : src/modules/reorder.cpp.o
 
 src/modules/reorder.i: src/modules/reorder.cpp.i
@@ -1591,7 +1643,7 @@ src/modules/reorder.i: src/modules/reorder.cpp.i
 
 # target to preprocess a source file
 src/modules/reorder.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/reorder.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/reorder.cpp.i
 .PHONY : src/modules/reorder.cpp.i
 
 src/modules/reorder.s: src/modules/reorder.cpp.s
@@ -1599,7 +1651,7 @@ src/modules/reorder.s: src/modules/reorder.cpp.s
 
 # target to generate assembly for a file
 src/modules/reorder.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/reorder.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/reorder.cpp.s
 .PHONY : src/modules/reorder.cpp.s
 
 src/modules/restart.o: src/modules/restart.cpp.o
@@ -1607,7 +1659,7 @@ src/modules/restart.o: src/modules/restart.cpp.o
 
 # target to build an object file
 src/modules/restart.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/restart.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/restart.cpp.o
 .PHONY : src/modules/restart.cpp.o
 
 src/modules/restart.i: src/modules/restart.cpp.i
@@ -1615,7 +1667,7 @@ src/modules/restart.i: src/modules/restart.cpp.i
 
 # target to preprocess a source file
 src/modules/restart.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/restart.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/restart.cpp.i
 .PHONY : src/modules/restart.cpp.i
 
 src/modules/restart.s: src/modules/restart.cpp.s
@@ -1623,7 +1675,7 @@ src/modules/restart.s: src/modules/restart.cpp.s
 
 # target to generate assembly for a file
 src/modules/restart.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/restart.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/restart.cpp.s
 .PHONY : src/modules/restart.cpp.s
 
 src/modules/roster.o: src/modules/roster.cpp.o
@@ -1631,7 +1683,7 @@ src/modules/roster.o: src/modules/roster.cpp.o
 
 # target to build an object file
 src/modules/roster.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/roster.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/roster.cpp.o
 .PHONY : src/modules/roster.cpp.o
 
 src/modules/roster.i: src/modules/roster.cpp.i
@@ -1639,7 +1691,7 @@ src/modules/roster.i: src/modules/roster.cpp.i
 
 # target to preprocess a source file
 src/modules/roster.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/roster.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/roster.cpp.i
 .PHONY : src/modules/roster.cpp.i
 
 src/modules/roster.s: src/modules/roster.cpp.s
@@ -1647,7 +1699,7 @@ src/modules/roster.s: src/modules/roster.cpp.s
 
 # target to generate assembly for a file
 src/modules/roster.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/roster.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/roster.cpp.s
 .PHONY : src/modules/roster.cpp.s
 
 src/modules/shop.o: src/modules/shop.cpp.o
@@ -1655,7 +1707,7 @@ src/modules/shop.o: src/modules/shop.cpp.o
 
 # target to build an object file
 src/modules/shop.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/shop.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/shop.cpp.o
 .PHONY : src/modules/shop.cpp.o
 
 src/modules/shop.i: src/modules/shop.cpp.i
@@ -1663,7 +1715,7 @@ src/modules/shop.i: src/modules/shop.cpp.i
 
 # target to preprocess a source file
 src/modules/shop.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/shop.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/shop.cpp.i
 .PHONY : src/modules/shop.cpp.i
 
 src/modules/shop.s: src/modules/shop.cpp.s
@@ -1671,7 +1723,7 @@ src/modules/shop.s: src/modules/shop.cpp.s
 
 # target to generate assembly for a file
 src/modules/shop.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/shop.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/shop.cpp.s
 .PHONY : src/modules/shop.cpp.s
 
 src/modules/stay.o: src/modules/stay.cpp.o
@@ -1679,7 +1731,7 @@ src/modules/stay.o: src/modules/stay.cpp.o
 
 # target to build an object file
 src/modules/stay.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/stay.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/stay.cpp.o
 .PHONY : src/modules/stay.cpp.o
 
 src/modules/stay.i: src/modules/stay.cpp.i
@@ -1687,7 +1739,7 @@ src/modules/stay.i: src/modules/stay.cpp.i
 
 # target to preprocess a source file
 src/modules/stay.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/stay.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/stay.cpp.i
 .PHONY : src/modules/stay.cpp.i
 
 src/modules/stay.s: src/modules/stay.cpp.s
@@ -1695,7 +1747,7 @@ src/modules/stay.s: src/modules/stay.cpp.s
 
 # target to generate assembly for a file
 src/modules/stay.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/stay.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/stay.cpp.s
 .PHONY : src/modules/stay.cpp.s
 
 src/modules/tavern.o: src/modules/tavern.cpp.o
@@ -1703,7 +1755,7 @@ src/modules/tavern.o: src/modules/tavern.cpp.o
 
 # target to build an object file
 src/modules/tavern.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/tavern.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/tavern.cpp.o
 .PHONY : src/modules/tavern.cpp.o
 
 src/modules/tavern.i: src/modules/tavern.cpp.i
@@ -1711,7 +1763,7 @@ src/modules/tavern.i: src/modules/tavern.cpp.i
 
 # target to preprocess a source file
 src/modules/tavern.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/tavern.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/tavern.cpp.i
 .PHONY : src/modules/tavern.cpp.i
 
 src/modules/tavern.s: src/modules/tavern.cpp.s
@@ -1719,7 +1771,7 @@ src/modules/tavern.s: src/modules/tavern.cpp.s
 
 # target to generate assembly for a file
 src/modules/tavern.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/tavern.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/tavern.cpp.s
 .PHONY : src/modules/tavern.cpp.s
 
 src/modules/temple.o: src/modules/temple.cpp.o
@@ -1727,7 +1779,7 @@ src/modules/temple.o: src/modules/temple.cpp.o
 
 # target to build an object file
 src/modules/temple.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/temple.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/temple.cpp.o
 .PHONY : src/modules/temple.cpp.o
 
 src/modules/temple.i: src/modules/temple.cpp.i
@@ -1735,7 +1787,7 @@ src/modules/temple.i: src/modules/temple.cpp.i
 
 # target to preprocess a source file
 src/modules/temple.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/temple.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/temple.cpp.i
 .PHONY : src/modules/temple.cpp.i
 
 src/modules/temple.s: src/modules/temple.cpp.s
@@ -1743,7 +1795,7 @@ src/modules/temple.s: src/modules/temple.cpp.s
 
 # target to generate assembly for a file
 src/modules/temple.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/temple.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/temple.cpp.s
 .PHONY : src/modules/temple.cpp.s
 
 src/modules/training.o: src/modules/training.cpp.o
@@ -1751,7 +1803,7 @@ src/modules/training.o: src/modules/training.cpp.o
 
 # target to build an object file
 src/modules/training.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/training.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/training.cpp.o
 .PHONY : src/modules/training.cpp.o
 
 src/modules/training.i: src/modules/training.cpp.i
@@ -1759,7 +1811,7 @@ src/modules/training.i: src/modules/training.cpp.i
 
 # target to preprocess a source file
 src/modules/training.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/training.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/training.cpp.i
 .PHONY : src/modules/training.cpp.i
 
 src/modules/training.s: src/modules/training.cpp.s
@@ -1767,7 +1819,7 @@ src/modules/training.s: src/modules/training.cpp.s
 
 # target to generate assembly for a file
 src/modules/training.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/modules/training.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/training.cpp.s
 .PHONY : src/modules/training.cpp.s
 
 src/resources/componentstore.o: src/resources/componentstore.cpp.o
@@ -1775,7 +1827,7 @@ src/resources/componentstore.o: src/resources/componentstore.cpp.o
 
 # target to build an object file
 src/resources/componentstore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/componentstore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/componentstore.cpp.o
 .PHONY : src/resources/componentstore.cpp.o
 
 src/resources/componentstore.i: src/resources/componentstore.cpp.i
@@ -1783,7 +1835,7 @@ src/resources/componentstore.i: src/resources/componentstore.cpp.i
 
 # target to preprocess a source file
 src/resources/componentstore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/componentstore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/componentstore.cpp.i
 .PHONY : src/resources/componentstore.cpp.i
 
 src/resources/componentstore.s: src/resources/componentstore.cpp.s
@@ -1791,7 +1843,7 @@ src/resources/componentstore.s: src/resources/componentstore.cpp.s
 
 # target to generate assembly for a file
 src/resources/componentstore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/componentstore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/componentstore.cpp.s
 .PHONY : src/resources/componentstore.cpp.s
 
 src/resources/filestore.o: src/resources/filestore.cpp.o
@@ -1799,7 +1851,7 @@ src/resources/filestore.o: src/resources/filestore.cpp.o
 
 # target to build an object file
 src/resources/filestore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/filestore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/filestore.cpp.o
 .PHONY : src/resources/filestore.cpp.o
 
 src/resources/filestore.i: src/resources/filestore.cpp.i
@@ -1807,7 +1859,7 @@ src/resources/filestore.i: src/resources/filestore.cpp.i
 
 # target to preprocess a source file
 src/resources/filestore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/filestore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/filestore.cpp.i
 .PHONY : src/resources/filestore.cpp.i
 
 src/resources/filestore.s: src/resources/filestore.cpp.s
@@ -1815,7 +1867,7 @@ src/resources/filestore.s: src/resources/filestore.cpp.s
 
 # target to generate assembly for a file
 src/resources/filestore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/filestore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/filestore.cpp.s
 .PHONY : src/resources/filestore.cpp.s
 
 src/resources/fontstore.o: src/resources/fontstore.cpp.o
@@ -1823,7 +1875,7 @@ src/resources/fontstore.o: src/resources/fontstore.cpp.o
 
 # target to build an object file
 src/resources/fontstore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/fontstore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/fontstore.cpp.o
 .PHONY : src/resources/fontstore.cpp.o
 
 src/resources/fontstore.i: src/resources/fontstore.cpp.i
@@ -1831,7 +1883,7 @@ src/resources/fontstore.i: src/resources/fontstore.cpp.i
 
 # target to preprocess a source file
 src/resources/fontstore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/fontstore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/fontstore.cpp.i
 .PHONY : src/resources/fontstore.cpp.i
 
 src/resources/fontstore.s: src/resources/fontstore.cpp.s
@@ -1839,7 +1891,7 @@ src/resources/fontstore.s: src/resources/fontstore.cpp.s
 
 # target to generate assembly for a file
 src/resources/fontstore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/fontstore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/fontstore.cpp.s
 .PHONY : src/resources/fontstore.cpp.s
 
 src/resources/imagestore.o: src/resources/imagestore.cpp.o
@@ -1847,7 +1899,7 @@ src/resources/imagestore.o: src/resources/imagestore.cpp.o
 
 # target to build an object file
 src/resources/imagestore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/imagestore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/imagestore.cpp.o
 .PHONY : src/resources/imagestore.cpp.o
 
 src/resources/imagestore.i: src/resources/imagestore.cpp.i
@@ -1855,7 +1907,7 @@ src/resources/imagestore.i: src/resources/imagestore.cpp.i
 
 # target to preprocess a source file
 src/resources/imagestore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/imagestore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/imagestore.cpp.i
 .PHONY : src/resources/imagestore.cpp.i
 
 src/resources/imagestore.s: src/resources/imagestore.cpp.s
@@ -1863,7 +1915,7 @@ src/resources/imagestore.s: src/resources/imagestore.cpp.s
 
 # target to generate assembly for a file
 src/resources/imagestore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/imagestore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/imagestore.cpp.s
 .PHONY : src/resources/imagestore.cpp.s
 
 src/resources/itemstore.o: src/resources/itemstore.cpp.o
@@ -1871,7 +1923,7 @@ src/resources/itemstore.o: src/resources/itemstore.cpp.o
 
 # target to build an object file
 src/resources/itemstore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/itemstore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/itemstore.cpp.o
 .PHONY : src/resources/itemstore.cpp.o
 
 src/resources/itemstore.i: src/resources/itemstore.cpp.i
@@ -1879,7 +1931,7 @@ src/resources/itemstore.i: src/resources/itemstore.cpp.i
 
 # target to preprocess a source file
 src/resources/itemstore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/itemstore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/itemstore.cpp.i
 .PHONY : src/resources/itemstore.cpp.i
 
 src/resources/itemstore.s: src/resources/itemstore.cpp.s
@@ -1887,7 +1939,7 @@ src/resources/itemstore.s: src/resources/itemstore.cpp.s
 
 # target to generate assembly for a file
 src/resources/itemstore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/itemstore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/itemstore.cpp.s
 .PHONY : src/resources/itemstore.cpp.s
 
 src/resources/levelstore.o: src/resources/levelstore.cpp.o
@@ -1895,7 +1947,7 @@ src/resources/levelstore.o: src/resources/levelstore.cpp.o
 
 # target to build an object file
 src/resources/levelstore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/levelstore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/levelstore.cpp.o
 .PHONY : src/resources/levelstore.cpp.o
 
 src/resources/levelstore.i: src/resources/levelstore.cpp.i
@@ -1903,7 +1955,7 @@ src/resources/levelstore.i: src/resources/levelstore.cpp.i
 
 # target to preprocess a source file
 src/resources/levelstore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/levelstore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/levelstore.cpp.i
 .PHONY : src/resources/levelstore.cpp.i
 
 src/resources/levelstore.s: src/resources/levelstore.cpp.s
@@ -1911,7 +1963,7 @@ src/resources/levelstore.s: src/resources/levelstore.cpp.s
 
 # target to generate assembly for a file
 src/resources/levelstore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/levelstore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/levelstore.cpp.s
 .PHONY : src/resources/levelstore.cpp.s
 
 src/resources/monsterstore.o: src/resources/monsterstore.cpp.o
@@ -1919,7 +1971,7 @@ src/resources/monsterstore.o: src/resources/monsterstore.cpp.o
 
 # target to build an object file
 src/resources/monsterstore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/monsterstore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/monsterstore.cpp.o
 .PHONY : src/resources/monsterstore.cpp.o
 
 src/resources/monsterstore.i: src/resources/monsterstore.cpp.i
@@ -1927,7 +1979,7 @@ src/resources/monsterstore.i: src/resources/monsterstore.cpp.i
 
 # target to preprocess a source file
 src/resources/monsterstore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/monsterstore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/monsterstore.cpp.i
 .PHONY : src/resources/monsterstore.cpp.i
 
 src/resources/monsterstore.s: src/resources/monsterstore.cpp.s
@@ -1935,7 +1987,7 @@ src/resources/monsterstore.s: src/resources/monsterstore.cpp.s
 
 # target to generate assembly for a file
 src/resources/monsterstore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/monsterstore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/monsterstore.cpp.s
 .PHONY : src/resources/monsterstore.cpp.s
 
 src/resources/spellstore.o: src/resources/spellstore.cpp.o
@@ -1943,7 +1995,7 @@ src/resources/spellstore.o: src/resources/spellstore.cpp.o
 
 # target to build an object file
 src/resources/spellstore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/spellstore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/spellstore.cpp.o
 .PHONY : src/resources/spellstore.cpp.o
 
 src/resources/spellstore.i: src/resources/spellstore.cpp.i
@@ -1951,7 +2003,7 @@ src/resources/spellstore.i: src/resources/spellstore.cpp.i
 
 # target to preprocess a source file
 src/resources/spellstore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/spellstore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/spellstore.cpp.i
 .PHONY : src/resources/spellstore.cpp.i
 
 src/resources/spellstore.s: src/resources/spellstore.cpp.s
@@ -1959,7 +2011,7 @@ src/resources/spellstore.s: src/resources/spellstore.cpp.s
 
 # target to generate assembly for a file
 src/resources/spellstore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/spellstore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/spellstore.cpp.s
 .PHONY : src/resources/spellstore.cpp.s
 
 src/resources/stringstore.o: src/resources/stringstore.cpp.o
@@ -1967,7 +2019,7 @@ src/resources/stringstore.o: src/resources/stringstore.cpp.o
 
 # target to build an object file
 src/resources/stringstore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/stringstore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/stringstore.cpp.o
 .PHONY : src/resources/stringstore.cpp.o
 
 src/resources/stringstore.i: src/resources/stringstore.cpp.i
@@ -1975,7 +2027,7 @@ src/resources/stringstore.i: src/resources/stringstore.cpp.i
 
 # target to preprocess a source file
 src/resources/stringstore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/stringstore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/stringstore.cpp.i
 .PHONY : src/resources/stringstore.cpp.i
 
 src/resources/stringstore.s: src/resources/stringstore.cpp.s
@@ -1983,7 +2035,7 @@ src/resources/stringstore.s: src/resources/stringstore.cpp.s
 
 # target to generate assembly for a file
 src/resources/stringstore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/resources/stringstore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/stringstore.cpp.s
 .PHONY : src/resources/stringstore.cpp.s
 
 src/sorcery.o: src/sorcery.cpp.o
@@ -2015,7 +2067,7 @@ src/types/character.o: src/types/character.cpp.o
 
 # target to build an object file
 src/types/character.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/character.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/character.cpp.o
 .PHONY : src/types/character.cpp.o
 
 src/types/character.i: src/types/character.cpp.i
@@ -2023,7 +2075,7 @@ src/types/character.i: src/types/character.cpp.i
 
 # target to preprocess a source file
 src/types/character.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/character.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/character.cpp.i
 .PHONY : src/types/character.cpp.i
 
 src/types/character.s: src/types/character.cpp.s
@@ -2031,7 +2083,7 @@ src/types/character.s: src/types/character.cpp.s
 
 # target to generate assembly for a file
 src/types/character.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/character.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/character.cpp.s
 .PHONY : src/types/character.cpp.s
 
 src/types/component.o: src/types/component.cpp.o
@@ -2039,7 +2091,7 @@ src/types/component.o: src/types/component.cpp.o
 
 # target to build an object file
 src/types/component.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/component.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/component.cpp.o
 .PHONY : src/types/component.cpp.o
 
 src/types/component.i: src/types/component.cpp.i
@@ -2047,7 +2099,7 @@ src/types/component.i: src/types/component.cpp.i
 
 # target to preprocess a source file
 src/types/component.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/component.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/component.cpp.i
 .PHONY : src/types/component.cpp.i
 
 src/types/component.s: src/types/component.cpp.s
@@ -2055,7 +2107,7 @@ src/types/component.s: src/types/component.cpp.s
 
 # target to generate assembly for a file
 src/types/component.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/component.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/component.cpp.s
 .PHONY : src/types/component.cpp.s
 
 src/types/config.o: src/types/config.cpp.o
@@ -2063,7 +2115,7 @@ src/types/config.o: src/types/config.cpp.o
 
 # target to build an object file
 src/types/config.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/config.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/config.cpp.o
 .PHONY : src/types/config.cpp.o
 
 src/types/config.i: src/types/config.cpp.i
@@ -2071,7 +2123,7 @@ src/types/config.i: src/types/config.cpp.i
 
 # target to preprocess a source file
 src/types/config.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/config.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/config.cpp.i
 .PHONY : src/types/config.cpp.i
 
 src/types/config.s: src/types/config.cpp.s
@@ -2079,7 +2131,7 @@ src/types/config.s: src/types/config.cpp.s
 
 # target to generate assembly for a file
 src/types/config.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/config.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/config.cpp.s
 .PHONY : src/types/config.cpp.s
 
 src/types/dice.o: src/types/dice.cpp.o
@@ -2087,7 +2139,7 @@ src/types/dice.o: src/types/dice.cpp.o
 
 # target to build an object file
 src/types/dice.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/dice.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/dice.cpp.o
 .PHONY : src/types/dice.cpp.o
 
 src/types/dice.i: src/types/dice.cpp.i
@@ -2095,7 +2147,7 @@ src/types/dice.i: src/types/dice.cpp.i
 
 # target to preprocess a source file
 src/types/dice.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/dice.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/dice.cpp.i
 .PHONY : src/types/dice.cpp.i
 
 src/types/dice.s: src/types/dice.cpp.s
@@ -2103,7 +2155,7 @@ src/types/dice.s: src/types/dice.cpp.s
 
 # target to generate assembly for a file
 src/types/dice.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/dice.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/dice.cpp.s
 .PHONY : src/types/dice.cpp.s
 
 src/types/error.o: src/types/error.cpp.o
@@ -2111,7 +2163,7 @@ src/types/error.o: src/types/error.cpp.o
 
 # target to build an object file
 src/types/error.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/error.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/error.cpp.o
 .PHONY : src/types/error.cpp.o
 
 src/types/error.i: src/types/error.cpp.i
@@ -2119,7 +2171,7 @@ src/types/error.i: src/types/error.cpp.i
 
 # target to preprocess a source file
 src/types/error.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/error.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/error.cpp.i
 .PHONY : src/types/error.cpp.i
 
 src/types/error.s: src/types/error.cpp.s
@@ -2127,7 +2179,7 @@ src/types/error.s: src/types/error.cpp.s
 
 # target to generate assembly for a file
 src/types/error.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/error.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/error.cpp.s
 .PHONY : src/types/error.cpp.s
 
 src/types/explore.o: src/types/explore.cpp.o
@@ -2135,7 +2187,7 @@ src/types/explore.o: src/types/explore.cpp.o
 
 # target to build an object file
 src/types/explore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/explore.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/explore.cpp.o
 .PHONY : src/types/explore.cpp.o
 
 src/types/explore.i: src/types/explore.cpp.i
@@ -2143,7 +2195,7 @@ src/types/explore.i: src/types/explore.cpp.i
 
 # target to preprocess a source file
 src/types/explore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/explore.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/explore.cpp.i
 .PHONY : src/types/explore.cpp.i
 
 src/types/explore.s: src/types/explore.cpp.s
@@ -2151,7 +2203,7 @@ src/types/explore.s: src/types/explore.cpp.s
 
 # target to generate assembly for a file
 src/types/explore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/explore.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/explore.cpp.s
 .PHONY : src/types/explore.cpp.s
 
 src/types/game.o: src/types/game.cpp.o
@@ -2159,7 +2211,7 @@ src/types/game.o: src/types/game.cpp.o
 
 # target to build an object file
 src/types/game.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/game.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/game.cpp.o
 .PHONY : src/types/game.cpp.o
 
 src/types/game.i: src/types/game.cpp.i
@@ -2167,7 +2219,7 @@ src/types/game.i: src/types/game.cpp.i
 
 # target to preprocess a source file
 src/types/game.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/game.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/game.cpp.i
 .PHONY : src/types/game.cpp.i
 
 src/types/game.s: src/types/game.cpp.s
@@ -2175,7 +2227,7 @@ src/types/game.s: src/types/game.cpp.s
 
 # target to generate assembly for a file
 src/types/game.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/game.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/game.cpp.s
 .PHONY : src/types/game.cpp.s
 
 src/types/image.o: src/types/image.cpp.o
@@ -2183,7 +2235,7 @@ src/types/image.o: src/types/image.cpp.o
 
 # target to build an object file
 src/types/image.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/image.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/image.cpp.o
 .PHONY : src/types/image.cpp.o
 
 src/types/image.i: src/types/image.cpp.i
@@ -2191,7 +2243,7 @@ src/types/image.i: src/types/image.cpp.i
 
 # target to preprocess a source file
 src/types/image.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/image.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/image.cpp.i
 .PHONY : src/types/image.cpp.i
 
 src/types/image.s: src/types/image.cpp.s
@@ -2199,7 +2251,7 @@ src/types/image.s: src/types/image.cpp.s
 
 # target to generate assembly for a file
 src/types/image.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/image.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/image.cpp.s
 .PHONY : src/types/image.cpp.s
 
 src/types/inventory.o: src/types/inventory.cpp.o
@@ -2207,7 +2259,7 @@ src/types/inventory.o: src/types/inventory.cpp.o
 
 # target to build an object file
 src/types/inventory.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/inventory.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/inventory.cpp.o
 .PHONY : src/types/inventory.cpp.o
 
 src/types/inventory.i: src/types/inventory.cpp.i
@@ -2215,7 +2267,7 @@ src/types/inventory.i: src/types/inventory.cpp.i
 
 # target to preprocess a source file
 src/types/inventory.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/inventory.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/inventory.cpp.i
 .PHONY : src/types/inventory.cpp.i
 
 src/types/inventory.s: src/types/inventory.cpp.s
@@ -2223,7 +2275,7 @@ src/types/inventory.s: src/types/inventory.cpp.s
 
 # target to generate assembly for a file
 src/types/inventory.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/inventory.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/inventory.cpp.s
 .PHONY : src/types/inventory.cpp.s
 
 src/types/item.o: src/types/item.cpp.o
@@ -2231,7 +2283,7 @@ src/types/item.o: src/types/item.cpp.o
 
 # target to build an object file
 src/types/item.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/item.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/item.cpp.o
 .PHONY : src/types/item.cpp.o
 
 src/types/item.i: src/types/item.cpp.i
@@ -2239,7 +2291,7 @@ src/types/item.i: src/types/item.cpp.i
 
 # target to preprocess a source file
 src/types/item.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/item.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/item.cpp.i
 .PHONY : src/types/item.cpp.i
 
 src/types/item.s: src/types/item.cpp.s
@@ -2247,7 +2299,7 @@ src/types/item.s: src/types/item.cpp.s
 
 # target to generate assembly for a file
 src/types/item.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/item.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/item.cpp.s
 .PHONY : src/types/item.cpp.s
 
 src/types/itemtype.o: src/types/itemtype.cpp.o
@@ -2255,7 +2307,7 @@ src/types/itemtype.o: src/types/itemtype.cpp.o
 
 # target to build an object file
 src/types/itemtype.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/itemtype.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/itemtype.cpp.o
 .PHONY : src/types/itemtype.cpp.o
 
 src/types/itemtype.i: src/types/itemtype.cpp.i
@@ -2263,7 +2315,7 @@ src/types/itemtype.i: src/types/itemtype.cpp.i
 
 # target to preprocess a source file
 src/types/itemtype.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/itemtype.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/itemtype.cpp.i
 .PHONY : src/types/itemtype.cpp.i
 
 src/types/itemtype.s: src/types/itemtype.cpp.s
@@ -2271,7 +2323,7 @@ src/types/itemtype.s: src/types/itemtype.cpp.s
 
 # target to generate assembly for a file
 src/types/itemtype.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/itemtype.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/itemtype.cpp.s
 .PHONY : src/types/itemtype.cpp.s
 
 src/types/level.o: src/types/level.cpp.o
@@ -2279,7 +2331,7 @@ src/types/level.o: src/types/level.cpp.o
 
 # target to build an object file
 src/types/level.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/level.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/level.cpp.o
 .PHONY : src/types/level.cpp.o
 
 src/types/level.i: src/types/level.cpp.i
@@ -2287,7 +2339,7 @@ src/types/level.i: src/types/level.cpp.i
 
 # target to preprocess a source file
 src/types/level.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/level.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/level.cpp.i
 .PHONY : src/types/level.cpp.i
 
 src/types/level.s: src/types/level.cpp.s
@@ -2295,7 +2347,7 @@ src/types/level.s: src/types/level.cpp.s
 
 # target to generate assembly for a file
 src/types/level.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/level.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/level.cpp.s
 .PHONY : src/types/level.cpp.s
 
 src/types/monster.o: src/types/monster.cpp.o
@@ -2303,7 +2355,7 @@ src/types/monster.o: src/types/monster.cpp.o
 
 # target to build an object file
 src/types/monster.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monster.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/monster.cpp.o
 .PHONY : src/types/monster.cpp.o
 
 src/types/monster.i: src/types/monster.cpp.i
@@ -2311,7 +2363,7 @@ src/types/monster.i: src/types/monster.cpp.i
 
 # target to preprocess a source file
 src/types/monster.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monster.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/monster.cpp.i
 .PHONY : src/types/monster.cpp.i
 
 src/types/monster.s: src/types/monster.cpp.s
@@ -2319,7 +2371,7 @@ src/types/monster.s: src/types/monster.cpp.s
 
 # target to generate assembly for a file
 src/types/monster.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monster.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/monster.cpp.s
 .PHONY : src/types/monster.cpp.s
 
 src/types/monstertype.o: src/types/monstertype.cpp.o
@@ -2327,7 +2379,7 @@ src/types/monstertype.o: src/types/monstertype.cpp.o
 
 # target to build an object file
 src/types/monstertype.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monstertype.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/monstertype.cpp.o
 .PHONY : src/types/monstertype.cpp.o
 
 src/types/monstertype.i: src/types/monstertype.cpp.i
@@ -2335,7 +2387,7 @@ src/types/monstertype.i: src/types/monstertype.cpp.i
 
 # target to preprocess a source file
 src/types/monstertype.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monstertype.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/monstertype.cpp.i
 .PHONY : src/types/monstertype.cpp.i
 
 src/types/monstertype.s: src/types/monstertype.cpp.s
@@ -2343,7 +2395,7 @@ src/types/monstertype.s: src/types/monstertype.cpp.s
 
 # target to generate assembly for a file
 src/types/monstertype.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/monstertype.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/monstertype.cpp.s
 .PHONY : src/types/monstertype.cpp.s
 
 src/types/state.o: src/types/state.cpp.o
@@ -2351,7 +2403,7 @@ src/types/state.o: src/types/state.cpp.o
 
 # target to build an object file
 src/types/state.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/state.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/state.cpp.o
 .PHONY : src/types/state.cpp.o
 
 src/types/state.i: src/types/state.cpp.i
@@ -2359,7 +2411,7 @@ src/types/state.i: src/types/state.cpp.i
 
 # target to preprocess a source file
 src/types/state.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/state.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/state.cpp.i
 .PHONY : src/types/state.cpp.i
 
 src/types/state.s: src/types/state.cpp.s
@@ -2367,7 +2419,7 @@ src/types/state.s: src/types/state.cpp.s
 
 # target to generate assembly for a file
 src/types/state.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/state.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/state.cpp.s
 .PHONY : src/types/state.cpp.s
 
 src/types/tile.o: src/types/tile.cpp.o
@@ -2375,7 +2427,7 @@ src/types/tile.o: src/types/tile.cpp.o
 
 # target to build an object file
 src/types/tile.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/tile.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/tile.cpp.o
 .PHONY : src/types/tile.cpp.o
 
 src/types/tile.i: src/types/tile.cpp.i
@@ -2383,7 +2435,7 @@ src/types/tile.i: src/types/tile.cpp.i
 
 # target to preprocess a source file
 src/types/tile.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/tile.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/tile.cpp.i
 .PHONY : src/types/tile.cpp.i
 
 src/types/tile.s: src/types/tile.cpp.s
@@ -2391,7 +2443,7 @@ src/types/tile.s: src/types/tile.cpp.s
 
 # target to generate assembly for a file
 src/types/tile.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/src/types/tile.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/tile.cpp.s
 .PHONY : src/types/tile.cpp.s
 
 # Help Target
@@ -2406,6 +2458,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... dear_imgui"
 	@echo "... sorcery"
+	@echo "... sorcery_frontend"
+	@echo "... sorcery_modules"
+	@echo "... sorcery_resources"
+	@echo "... sorcery_types"
 	@echo "... ext/imgui/backends/imgui_impl_opengl3.o"
 	@echo "... ext/imgui/backends/imgui_impl_opengl3.i"
 	@echo "... ext/imgui/backends/imgui_impl_opengl3.s"

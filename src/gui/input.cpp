@@ -24,6 +24,7 @@
 #include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/macro.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/dialog.hpp"

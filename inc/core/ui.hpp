@@ -22,17 +22,21 @@
 
 #pragma once
 
+using GLuint = unsigned int;
+
 #include "common/enum.hpp"
 #include "common/imgui.hpp"
-#include "common/include.hpp"
-#include "common/sdl2.hpp"
-#include "common/types.hpp"
 #include "core/enum.hpp"
-#include "core/macro.hpp"
-#include "types/component.hpp"
 #include "types/enum.hpp"
-#include "types/image.hpp"
-#include "types/tile.hpp"
+
+#include <any>
+#include <array>
+#include <functional>
+#include <map>
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
 
 // UI Generation Class (sits on top of, and heavil;y uses, ImGui)
 namespace Sorcery {
@@ -56,6 +60,7 @@ class MenuBuilder;
 class Modal;
 class Render;
 class Popup;
+struct Tile;
 class VideoPlayer;
 struct VertexArray;
 
@@ -145,7 +150,7 @@ class UI {
 		std::map<std::string, bool> pressed;
 		std::array<bool, 21> ms_selected;
 		std::array<bool, 29> ps_selected;
-		Uint32 ticks;
+		std::uint32_t ticks;
 		bool first_frame;
 
 	private:
@@ -284,5 +289,4 @@ class UI {
 
 		auto _to_imgui(GLuint tex) -> ImTextureID;
 };
-
 };

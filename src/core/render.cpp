@@ -30,6 +30,7 @@
 #include "core/ui.hpp"
 #include "engine/types.hpp"
 #include "resources/define.hpp"
+#include "types/component.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
 #include "types/tile.hpp"

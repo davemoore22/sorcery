@@ -1,4 +1,16 @@
-list(APPEND sorcery_SOURCES
+add_library(sorcery_modules)
+
+target_include_directories(sorcery_modules PUBLIC
+	${CMAKE_SOURCE_DIR}/inc
+	${CMAKE_SOURCE_DIR}/ext
+)
+
+target_link_libraries(sorcery_modules PUBLIC
+	dear_imgui
+	${SDL2_LIBRARIES}
+)
+
+target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/add.cpp
 	${CMAKE_CURRENT_LIST_DIR}/castle.cpp
 	${CMAKE_CURRENT_LIST_DIR}/choose.cpp

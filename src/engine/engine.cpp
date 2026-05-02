@@ -405,7 +405,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	}
 }
 
-auto Sorcery::Engine::_callback_stop_popup_ouch(Uint32, void *param) -> Uint32 {
+auto Sorcery::Engine::_callback_stop_popup_ouch(std::uint32_t, void *param)
+	-> std::uint32_t {
 
 	((Engine *)param)->_ctx.ui->popup_ouch->show = false;
 

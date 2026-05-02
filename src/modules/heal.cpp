@@ -48,7 +48,8 @@ auto Sorcery::Heal::_initialise() -> bool {
 }
 
 // Heal timer will return non-zero as long as there are stages left
-auto Sorcery::Heal::_callback_heal_tick(Uint32, void *param) -> Uint32 {
+auto Sorcery::Heal::_callback_heal_tick(std::uint32_t, void *param)
+	-> std::uint32_t {
 
 	auto &current_stage{static_cast<Heal *>(param)->_stage};
 	--current_stage;

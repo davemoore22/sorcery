@@ -23,12 +23,17 @@
 #include "core/ui.hpp"
 #include "common/enum.hpp"
 #include "common/imgui.hpp"
+#include "common/include.hpp"
 #include "common/macro.hpp"
 #include "common/opengl.hpp"
+#include "common/sdl2.hpp"
+#include "common/types.hpp"
 #include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
+#include "core/enum.hpp"
+#include "core/macro.hpp"
 #include "core/render.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
@@ -57,7 +62,9 @@
 #include "types/enum.hpp"
 #include "types/error.hpp"
 #include "types/game.hpp"
+#include "types/image.hpp"
 #include "types/state.hpp"
+#include "types/tile.hpp"
 
 Sorcery::UI::UI(Context &ctx)
 	: _ctx{ctx} {

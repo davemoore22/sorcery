@@ -48,7 +48,8 @@ auto Sorcery::Recovery::_initialise() -> bool {
 }
 
 // Napping timer only ever runs once, thus 0 is returned which cancels it
-auto Sorcery::Recovery::_callback_napping(Uint32, void *param) -> Uint32 {
+auto Sorcery::Recovery::_callback_napping(std::uint32_t, void *param)
+	-> std::uint32_t {
 
 	((Recovery *)param)->_ctx.controller->set_flag("napping_finished");
 
@@ -57,7 +58,8 @@ auto Sorcery::Recovery::_callback_napping(Uint32, void *param) -> Uint32 {
 
 // Recuperating timer will return non-zero as long as there are hit points left
 // to heal and there is enough gold, or if the recuperation is cancelled
-auto Sorcery::Recovery::_callback_recuperating(Uint32, void *param) -> Uint32 {
+auto Sorcery::Recovery::_callback_recuperating(std::uint32_t, void *param)
+	-> std::uint32_t {
 
 	auto character{static_cast<Character *>(param)};
 

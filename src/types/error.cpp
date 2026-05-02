@@ -40,30 +40,19 @@ Sorcery::Error::Error(Enums::System::Error error_code,
 	_details.emplace_back(get_when());
 	_details.emplace_back(_notes);
 
-	// If no notes are supplied, generate a stack trace instead
-	if (_details[4].size() == 0) {
-
-		auto trace{std::stacktrace::current()};
-		for (const auto &entry : trace) {
-			std::println("{}", std::to_string(entry));
-		}
-
-	} else {
-
-		// Split the display lines
-		auto wrapped_notes{WORDWRAP(_details[4], 80)};
-		const std::regex regex(R"([@]+)");
-		std::sregex_token_iterator it{wrapped_notes.begin(),
-									  wrapped_notes.end(), regex, -1};
-		std::vector<std::string> lines{it, {}};
-		lines.erase(std::remove_if(lines.begin(), lines.end(),
-								   [](std::string const &s) {
-									   return s.size() == 0;
-								   }),
-					lines.end());
-		for (auto line_of_text : lines) {
-			_details.emplace_back(line_of_text);
-		}
+	// Split the display lines
+	auto wrapped_notes{WORDWRAP(_details[4], 80)};
+	const std::regex regex(R"([@]+)");
+	std::sregex_token_iterator it{wrapped_notes.begin(), wrapped_notes.end(),
+								  regex, -1};
+	std::vector<std::string> lines{it, {}};
+	lines.erase(std::remove_if(lines.begin(), lines.end(),
+							   [](std::string const &s) {
+								   return s.size() == 0;
+							   }),
+				lines.end());
+	for (auto line_of_text : lines) {
+		_details.emplace_back(line_of_text);
 	}
 }
 
