@@ -22,6 +22,7 @@
 
 #include "core/ui.hpp"
 #include "common/macro.hpp"
+#include "common/opengl.hpp"
 #include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"

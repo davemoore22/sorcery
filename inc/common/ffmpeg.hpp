@@ -20,8 +20,6 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#pragma once
-
 // Library Includes
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-default"
@@ -38,76 +36,14 @@
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 // clang-format off
 
-#include "imgui.h"
-//#include "imgui_internal.h"
-#include "backends/imgui_impl_sdl2.h"
-#include "backends/imgui_impl_opengl3.h"
-#include "misc/cpp/imgui_stdlib.h"
-#include "misc/freetype/imgui_freetype.h"
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
+#include <libavutil/dict.h>
+#include <libavutil/imgutils.h>
+#include <libswresample/swresample.h>
+}
 
 // clang-format on
 #pragma GCC diagnostic pop
-
-// https://github.com/Neargye/magic_enum/blob/master/doc/limitations.md
-#define MAGIC_ENUM_RANGE_MIN -1
-#define MAGIC_ENUM_RANGE_MAX 255
-#include "magic_enum/magic_enum.hpp"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpedantic"
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "=Wimplicit-fallthrough"
-#define IMSPINNER_DEMO
-#include "imgui_spinner/imspinner.h"
-#include "imgui_sugar/imgui_sugar.hpp"
-#include "imgui_toggle/imgui_toggle.h"
-
-#pragma GCC diagnostic pop
-
-// Standard Includes
-#include <algorithm>
-#include <any>
-#include <array>
-#include <atomic>
-#include <bitset>
-#include <chrono>
-#include <codecvt>
-#include <cstdarg>
-#include <cstdio>
-#include <ctime>
-#include <exception>
-#include <filesystem>
-#include <format>
-#include <fstream>
-#include <iomanip>
-#include <ios>
-#include <iostream>
-#include <iterator>
-#include <libgen.h>
-#include <locale>
-#include <memory>
-#include <mutex>
-#include <numbers>
-#include <print>
-#include <random>
-#include <ranges>
-#include <regex>
-#include <span>
-#include <sstream>
-#include <stacktrace>
-#include <stdexcept>
-#include <string>
-#include <string_view>
-#include <thread>
-#include <tuple>
-#include <typeinfo>
-#include <utility>
-#include <uuid/uuid.h>
-#include <variant>
-#include <vector>
-
-// Internal Includes
-#include "common/enum.hpp"
-#include "types/error.hpp"

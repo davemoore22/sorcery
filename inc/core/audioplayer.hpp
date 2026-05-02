@@ -22,17 +22,11 @@
 
 #pragma once
 
+#include "common/ffmpeg.hpp"
 #include "common/include.hpp"
+#include "common/sdl2.hpp"
 #include "common/types.hpp"
 #include "core/macro.hpp"
-
-/* extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libswresample/swresample.h>
-}
-
-#include <SDL2/SDL.h> */
 
 namespace Sorcery {
 

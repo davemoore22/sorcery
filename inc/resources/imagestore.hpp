@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/include.hpp"
+#include "common/opengl.hpp"
 #include "resources/define.hpp"
 
 namespace Sorcery {

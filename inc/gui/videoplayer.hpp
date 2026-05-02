@@ -22,7 +22,9 @@
 
 #pragma once
 
+#include "common/ffmpeg.hpp"
 #include "common/include.hpp"
+#include "common/opengl.hpp"
 #include "common/types.hpp"
 #include "core/macro.hpp"
 

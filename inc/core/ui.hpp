@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/include.hpp"
+#include "common/sdl2.hpp"
 #include "common/types.hpp"
 #include "core/enum.hpp"
 #include "core/macro.hpp"
