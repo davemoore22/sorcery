@@ -21,17 +21,12 @@
 // the resulting work.
 
 #include "engine/engine.hpp"
-#include "common/macro.hpp"
 #include "common/sdl2.hpp"
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/define.hpp"
-#include "core/display.hpp"
-#include "core/enum.hpp"
-#include "core/system.hpp"
 #include "core/ui.hpp"
-#include "engine/define.hpp"
 #include "frontend/options.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
@@ -41,9 +36,10 @@
 #include "modules/inspect.hpp"
 #include "modules/reorder.hpp"
 #include "resources/levelstore.hpp"
-#include "types/config.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
+#include <algorithm>
+#include <string>
 
 Sorcery::Engine::Engine(Context &ctx)
 	: _ctx{ctx} {

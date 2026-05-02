@@ -1,4 +1,7 @@
 cp ./cfg/* ./build/cfg/
-cp ./dat/* ./build/data/
+cp ./sfx/* ./build/doc/
+cp ./sfx/* ./build/sfx/
+cp ./vfx/* ./build/vfx/
+cp ./dat/* ./build/dat/
 cp ./gfx/* ./build/gfx/
 

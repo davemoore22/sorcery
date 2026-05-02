@@ -22,14 +22,10 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/include.hpp"
-#include "common/sdl2.hpp"
 #include "common/types.hpp"
 #include "engine/enum.hpp"
-#include "engine/types.hpp"
-
 #include <cstdint>
+#include <memory>
 
 namespace Sorcery {
 
