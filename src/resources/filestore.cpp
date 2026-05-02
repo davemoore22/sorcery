@@ -59,6 +59,9 @@ Sorcery::FileStore::FileStore() {
 	_add_path(GFX_DIR, MAPS_TEXTURE);
 	_add_path(GFX_DIR, UNKNOWN_CREATURES_TEXTURE);
 	_add_path(GFX_DIR, WIREFRAME_TEXTURE);
+	_add_path(SFX_DIR, ENGINE_MUSIC);
+	_add_path(SFX_DIR, MAINMENU_MUSIC);
+	_add_path(SFX_DIR, TOWN_MUSIC);
 	_add_path(VFX_DIR, MAINMENU_VIDEO);
 }
 

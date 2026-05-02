@@ -33,6 +33,7 @@ inline constexpr auto CONFIG_DIR{"cfg"sv};
 inline constexpr auto DATA_DIR{"dat"sv};
 inline constexpr auto DOCUMENTS_DIR{"doc"sv};
 inline constexpr auto GFX_DIR{"gfx"sv};
+inline constexpr auto SFX_DIR{"sfx"sv};
 inline constexpr auto VFX_DIR{"vfx"sv};
 
 // Files
@@ -63,6 +64,11 @@ inline constexpr auto ITEMS_TEXTURE{"items.png"sv};
 inline constexpr auto LOGO_TEXTURE{"logo.png"sv};
 inline constexpr auto MAPS_TEXTURE{"maps.png"sv};
 inline constexpr auto MAINMENU_VIDEO{"mainmenu.mp4"sv};
+
+inline constexpr auto ENGINE_MUSIC{"engine.mp3"sv};
+inline constexpr auto MAINMENU_MUSIC{"mainmenu.mp3"sv};
+inline constexpr auto TOWN_MUSIC{"town.mp3"sv};
+
 inline constexpr auto UNKNOWN_CREATURES_TEXTURE{"unknown.png"sv};
 inline constexpr auto WIREFRAME_TEXTURE{"wireframe.png"sv};
 
