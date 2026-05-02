@@ -24,10 +24,6 @@
 
 #include "common/enum.hpp"
 #include "common/imgui.hpp"
-#include "common/include.hpp"
-#include "core/types.hpp"
-#include "engine/types.hpp"
-#include "resources/define.hpp"
 
 // Class to handles rendering Wireframe
 namespace Sorcery {
@@ -37,6 +33,8 @@ struct Context;
 class Component;
 class Tile;
 class TileView;
+struct VertexArray;
+struct Coordinate3;
 
 class Render {
 

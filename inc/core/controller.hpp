@@ -22,11 +22,18 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
+#include <functional>
+#include <map>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <string_view>
+#include <vector>
+
 #include "common/enum.hpp"
-#include "common/include.hpp"
-#include "common/sdl2.hpp"
 #include "core/enum.hpp"
+
+union SDL_Event;
 
 namespace Sorcery {
 

@@ -20,10 +20,13 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "common/enum.hpp"
-#include "common/include.hpp"
-
 #pragma once
+
+#include <filesystem>
+#include <string>
+#include <string_view>
+
+#include "common/enum.hpp"
 
 namespace Sorcery {
 

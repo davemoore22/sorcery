@@ -23,6 +23,7 @@
 #include "core/system.hpp"
 #include "common/define.hpp"
 #include "common/enum.hpp"
+#include "common/sdl2.hpp"
 #include "core/animation.hpp"
 #include "core/audioplayer.hpp"
 #include "core/database.hpp"

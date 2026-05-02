@@ -22,8 +22,12 @@
 
 #pragma once
 
+#include <memory>
+#include <string>
+#include <string_view>
+#include <vector>
+
 #include "common/define.hpp"
-#include "common/include.hpp"
 #include "core/context.hpp"
 #include "core/types.hpp"
 

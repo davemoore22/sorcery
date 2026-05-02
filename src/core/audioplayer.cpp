@@ -21,6 +21,9 @@
 // the resulting work.
 
 #include "core/audioplayer.hpp"
+#include "common/ffmpeg.hpp"
+#include "common/sdl2.hpp"
+#include <iostream>
 
 Sorcery::AudioPlayer::AudioPlayer() {
 

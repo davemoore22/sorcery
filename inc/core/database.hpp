@@ -22,9 +22,12 @@
 
 #pragma once
 
-#include "common/include.hpp"
+#include <filesystem>
+#include <optional>
+#include <string>
+#include <vector>
+
 #include "common/types.hpp"
-#include "core/define.hpp"
 
 namespace Sorcery {
 

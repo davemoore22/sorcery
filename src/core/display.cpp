@@ -21,10 +21,19 @@
 // the resulting work.
 
 #include "core/display.hpp"
+#include "common/types.hpp"
+
 #include "core/context.hpp"
 #include "core/system.hpp"
 #include "resources/stringstore.hpp"
 #include "types/config.hpp"
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
+
+#include <cstdlib>
+#include <print>
+#include <string>
 
 Sorcery::Display::Display(Context &ctx)
 	: _ctx{ctx} {

@@ -22,14 +22,18 @@
 
 #pragma once
 
-#include "common/ffmpeg.hpp"
-#include "common/include.hpp"
-#include "common/sdl2.hpp"
-#include "common/types.hpp"
-#include "core/macro.hpp"
+#include <SDL2/SDL_audio.h>
+#include <string>
+#include <vector>
+
+// Forward declare FFmpeg types
+struct AVFormatContext;
+struct AVCodecContext;
+struct AVPacket;
+struct AVFrame;
+struct SwrContext;
 
 namespace Sorcery {
-
 class AudioPlayer {
 	public:
 		AudioPlayer();

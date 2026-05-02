@@ -20,11 +20,12 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-// Internal Includes
-#include "common/include.hpp"
-#include "common/opengl.hpp"
-#include "common/sdl2.hpp"
-#include "common/types.hpp"
+#pragma once
+
+#include <string>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
 
 namespace Sorcery {
 

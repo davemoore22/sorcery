@@ -22,7 +22,12 @@
 
 #pragma once
 
-#include "common/include.hpp"
+#include <atomic>
+#include <chrono>
+#include <mutex>
+#include <thread>
+#include <vector>
+
 #include "core/define.hpp"
 
 namespace Sorcery {

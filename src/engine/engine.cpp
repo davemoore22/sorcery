@@ -22,6 +22,7 @@
 
 #include "engine/engine.hpp"
 #include "common/macro.hpp"
+#include "common/sdl2.hpp"
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"

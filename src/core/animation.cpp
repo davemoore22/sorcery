@@ -22,7 +22,11 @@
 
 #include "core/animation.hpp"
 #include "core/random.hpp"
-#include "core/system.hpp"
+
+#include <algorithm>
+#include <chrono>
+#include <ranges>
+#include <thread>
 
 // Standard Constructor
 Sorcery::Animation::Animation(Random *random)

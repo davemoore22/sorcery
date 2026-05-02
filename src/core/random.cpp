@@ -22,6 +22,8 @@
 
 #include "core/random.hpp"
 #include "common/enum.hpp"
+#include <format>
+#include <random>
 
 Sorcery::Random::Random() {
 
