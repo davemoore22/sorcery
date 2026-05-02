@@ -98,16 +98,29 @@ void Sorcery::AudioPlayer::load(const std::string &filename) {
 	_packet = av_packet_alloc();
 	_frame = av_frame_alloc();
 
-	// Resampler
-	_swr = swr_alloc_set_opts(
-		nullptr, av_get_default_channel_layout(_spec.channels),
-		AV_SAMPLE_FMT_FLT, _spec.freq,
+	// Resampler (modern FFmpeg API)
 
-		_codec->ch_layout.u.mask, _codec->sample_fmt, _codec->sample_rate,
+	AVChannelLayout out_layout{};
+	av_channel_layout_default(&out_layout, _spec.channels);
 
-		0, nullptr);
+	const AVChannelLayout *in_layout = &_codec->ch_layout;
 
-	swr_init(_swr);
+	if (swr_alloc_set_opts2(&_swr, &out_layout, AV_SAMPLE_FMT_FLT, _spec.freq,
+
+							in_layout, _codec->sample_fmt, _codec->sample_rate,
+
+							0, nullptr) < 0) {
+		av_channel_layout_uninit(&out_layout);
+		throw std::runtime_error("Failed to allocate resampler");
+	}
+
+	if (swr_init(_swr) < 0) {
+		av_channel_layout_uninit(&out_layout);
+		throw std::runtime_error("Failed to initialise resampler");
+	}
+
+	// Clean up temp layout
+	av_channel_layout_uninit(&out_layout);
 }
 
 void Sorcery::AudioPlayer::play() {
