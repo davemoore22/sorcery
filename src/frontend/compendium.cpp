@@ -75,6 +75,8 @@ auto Sorcery::Compendium::start() -> int {
 
 		_ctx.ui->display(Enums::Screen::COMPENDIUM);
 
+		_ctx.tick();
+
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here

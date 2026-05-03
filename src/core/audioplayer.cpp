@@ -24,6 +24,7 @@
 #include "common/ffmpeg.hpp"
 #include "common/sdl2.hpp"
 #include <iostream>
+#include <print>
 
 Sorcery::AudioPlayer::AudioPlayer() {
 
@@ -42,7 +43,7 @@ Sorcery::AudioPlayer::AudioPlayer() {
 		throw std::runtime_error("Failed to open audio device");
 	}
 
-	SDL_PauseAudioDevice(_device, 0);
+	SDL_PauseAudioDevice(_device, 1);
 }
 
 Sorcery::AudioPlayer::~AudioPlayer() {
@@ -127,19 +128,37 @@ void Sorcery::AudioPlayer::load(const std::string &filename) {
 }
 
 void Sorcery::AudioPlayer::play() {
+
+	if (!_fmt)
+		return;
+
+	SDL_ClearQueuedAudio(_device);
+
 	_playing = true;
+
+	// Fill buffer while device is still paused
+	update();
+
+	SDL_PauseAudioDevice(_device, 0);
 }
 
 void Sorcery::AudioPlayer::stop() {
+
 	_playing = false;
+	SDL_PauseAudioDevice(_device, 1);
 	SDL_ClearQueuedAudio(_device);
+}
+
+void Sorcery::AudioPlayer::set_volume(float v) {
+
+	_volume = v;
 }
 
 void Sorcery::AudioPlayer::update() {
 	if (!_playing || !_fmt)
 		return;
 
-	constexpr int TARGET_BUFFER = 48000 * 4; // ~1 sec
+	const int TARGET_BUFFER = _spec.freq * _spec.channels * sizeof(float);
 
 	while (SDL_GetQueuedAudioSize(_device) < TARGET_BUFFER) {
 
@@ -170,6 +189,12 @@ void Sorcery::AudioPlayer::update() {
 												_frame->nb_samples);
 
 					int size = converted * _spec.channels * sizeof(float);
+
+					float *samples = reinterpret_cast<float *>(out_data);
+					int sample_count = converted * _spec.channels;
+
+					for (int i = 0; i < sample_count; ++i)
+						samples[i] *= _volume;
 
 					SDL_QueueAudio(_device, out_data, size);
 

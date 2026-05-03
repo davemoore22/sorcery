@@ -7,7 +7,7 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 Written using ImGui/SDL2/OpenGL and C++
 <br>(*Note that some re-engineering is currently in progress to move to a more flexible/easier-to-use UI stack This should not affect the aimed release date of late 2026!<p>For daily updates and progress on that see the [sdl/imgui branch](https://github.com/davemoore22/sorcery/tree/sdl/imgui)*)
 
-**(Updated 28th April 2026)**
+**(Updated 3rd May 2026)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
@@ -35,6 +35,7 @@ Written using ImGui/SDL2/OpenGL and C++
 * ~~Wipe Handling~~ (DONE)
 * ~~Dungeon Events~~ (DONE)
 * ~~Compendium~~ (DONE)
+* ~~Music~~ (DONE)
 * **Inventory and Item Manipulation (DOING)**
 * **Special Item Powers and Handling (DOING)**
 * **Boltac's Equipment Shop (DOING)**
@@ -52,7 +53,7 @@ Written using ImGui/SDL2/OpenGL and C++
 * Modding
 * Plugin/3D Graphics
 
-## What next? (as of April 2026)
+## What next? (as of May 2026)
 
 Currently adding Item Usage/Invocation, as well as buying, selling, uncursing, and identifying at Boltac's. Normal inventory management has been mosty completed!
 
@@ -79,7 +80,9 @@ Graphics used (all free/open source) are by:
 * Justin Nichol - <https://opengameart.org/users/justin-nichol>
 * Various - <https://game-icons.net/>
 
-Game font is based upon the DOS Wizardry V font.
+Music used (Creative Commonds) is by:
+
+* Kevin MacLeod - <https://incompetech.com/music/royalty-free/music.html>
 
 ## Videos
 

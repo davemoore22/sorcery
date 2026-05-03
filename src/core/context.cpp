@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "core/context.hpp"
+#include "core/application.hpp"
 #include "core/controller.hpp"
 #include "core/random.hpp"
 #include "resources/componentstore.hpp"
@@ -28,6 +29,11 @@
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"
 #include "types/config.hpp"
+
+auto Sorcery::Context::tick() -> void {
+
+	application->update();
+};
 
 auto Sorcery::Context::get_random(const Enums::System::Random random_type)
 	-> unsigned int {

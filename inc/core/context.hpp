@@ -84,6 +84,8 @@ struct Context {
 		auto get_flag_ref(const std::string &flag) -> bool &;
 		auto get_flag(const std::string &flag) -> bool;
 		auto get_selected(const std::string &flag) const -> int;
+
+		auto tick() -> void;
 };
 
 }

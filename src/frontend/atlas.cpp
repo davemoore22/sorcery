@@ -66,6 +66,8 @@ auto Sorcery::Atlas::start() -> int {
 			return GO_TO_COMPENDIUM;
 
 		_ctx.ui->display(Enums::Screen::ATLAS);
+
+		_ctx.tick();
 	}
 
 	// Exit if we get to here having broken out of the loop

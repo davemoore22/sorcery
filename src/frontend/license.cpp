@@ -74,6 +74,8 @@ auto Sorcery::License::start() -> int {
 
 		_ctx.ui->display(Enums::Screen::LICENSE, _license_text);
 
+		_ctx.tick();
+
 		// If we have selected something, let's action it - either return to the
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here

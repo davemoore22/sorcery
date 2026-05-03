@@ -23,6 +23,7 @@
 #include "frontend/mainmenu.hpp"
 #include "common/sdl2.hpp"
 #include "core/animation.hpp"
+#include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/enum.hpp"
@@ -61,6 +62,8 @@ auto Sorcery::MainMenu::start() -> int {
 	_ctx.animation->refresh_attract();
 	_ctx.animation->start_attract_th();
 
+	_ctx.audio->set_volume(1.0f);
+
 	// Main loop
 	auto done{false};
 	auto lastFrameTime{std::chrono::steady_clock::now()};
@@ -77,6 +80,8 @@ auto Sorcery::MainMenu::start() -> int {
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 			_ctx.controller->check_for_back(event, _ctx.ui->dialog_exit->show);
 		}
+
+		_ctx.tick();
 
 		if (!done) {
 

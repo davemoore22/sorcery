@@ -205,6 +205,9 @@ auto Sorcery::Application::start() -> int {
 	ctx.animation->refresh_wp();
 	ctx.animation->start_wp_th();
 
+	ctx.system->audio->load(ctx.files->get(MAINMENU_MUSIC));
+	ctx.system->audio->set_volume(0.0f);
+
 	// Figure our what to do now (if we have any command line parameters)
 	const auto plan{_build_startup_plan()};
 
@@ -279,7 +282,14 @@ auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 	return plan;
 }
 
+auto Sorcery::Application::update() -> void {
+
+	ctx.system->audio->update();
+}
+
 auto Sorcery::Application::_run_main_menu() -> bool {
+
+	ctx.system->audio->play();
 
 	int mm_what{};
 	auto first_time{true};
@@ -341,6 +351,8 @@ auto Sorcery::Application::_run_main_menu() -> bool {
 	}
 
 	ctx.ui->stop();
+	ctx.system->audio->stop();
+
 	return true;
 }
 

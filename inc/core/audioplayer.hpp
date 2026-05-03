@@ -43,6 +43,7 @@ class AudioPlayer {
 		void play();
 		void stop();
 		void update(); // call every frame
+		void set_volume(float v);
 
 	private:
 		void free_resources();
@@ -63,6 +64,8 @@ class AudioPlayer {
 		std::vector<uint8_t> _buffer;
 
 		bool _playing = false;
+
+		float _volume = 0.0f;
 };
 
 }
