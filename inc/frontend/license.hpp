@@ -22,10 +22,7 @@
 
 #pragma once
 
-#include "common/define.hpp"
-#include "common/include.hpp"
-#include "types/enum.hpp"
-
+#include <string>
 namespace Sorcery {
 
 struct Context;

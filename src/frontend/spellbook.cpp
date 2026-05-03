@@ -22,11 +22,10 @@
 
 #include "frontend/spellbook.hpp"
 #include "common/macro.hpp"
+#include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
-#include "core/display.hpp"
 #include "core/enum.hpp"
-#include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 

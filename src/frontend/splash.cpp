@@ -21,11 +21,10 @@
 // the resulting work.
 
 #include "frontend/splash.hpp"
+#include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
-#include "core/display.hpp"
 #include "core/enum.hpp"
-#include "core/system.hpp"
 #include "core/ui.hpp"
 #include "resources/define.hpp"
 #include "resources/imagestore.hpp"

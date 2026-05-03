@@ -25,11 +25,17 @@
 #include "common/cereal.hpp"
 #include "common/define.hpp"
 #include "common/enum.hpp"
-#include "common/include.hpp"
 #include "common/types.hpp"
 #include "types/define.hpp"
 #include "types/enum.hpp"
 #include "types/inventory.hpp"
+
+#include <map>
+#include <optional>
+#include <ostream>
+#include <string>
+#include <string_view>
+#include <vector>
 
 namespace Sorcery {
 

@@ -21,13 +21,19 @@
 // the resulting work.
 
 #include "types/character.hpp"
-#include "common/macro.hpp"
 #include "core/context.hpp"
 #include "core/random.hpp"
 #include "core/resources.hpp"
-#include "core/system.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/spellstore.hpp"
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <compare>
+#include <format>
+#include <ranges>
+#include <string>
 
 Sorcery::Character::Character() {}
 
