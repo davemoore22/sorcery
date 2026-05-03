@@ -22,9 +22,10 @@
 
 #pragma once
 
-#include "common/include.hpp"
 #include "common/types.hpp"
 #include "types/enum.hpp"
+
+#include <iostream>
 
 namespace Sorcery {
 

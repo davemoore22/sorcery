@@ -25,6 +25,7 @@
 #include "common/define.hpp"
 #include "common/enum.hpp"
 
+#include <chrono>
 namespace Sorcery {
 
 class Error {

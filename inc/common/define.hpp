@@ -20,12 +20,4 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "common/include.hpp"
-
 #pragma once
-
-namespace Sorcery {
-
-using namespace std::literals;
-
-}

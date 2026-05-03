@@ -27,6 +27,8 @@
 #include "resources/define.hpp"
 #include "types/config.hpp"
 
+#include <fstream>
+
 Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO &io)
 	: _ctx(ctx),
 	  _io(io) {

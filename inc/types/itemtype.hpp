@@ -23,9 +23,10 @@
 #pragma once
 
 #include "common/enum.hpp"
-#include "common/include.hpp"
 #include "types/dice.hpp"
 #include "types/enum.hpp"
+
+#include <random>
 
 namespace Sorcery {
 

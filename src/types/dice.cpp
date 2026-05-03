@@ -20,6 +20,8 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+#include <regex>
+
 #include "types/dice.hpp"
 
 std::random_device Sorcery::Dice::_device;

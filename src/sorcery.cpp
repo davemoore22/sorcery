@@ -20,8 +20,9 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "common/include.hpp"
 #include "core/application.hpp"
+
+#include <memory>
 
 // Executablele Entry Point
 auto main(int argc, char *argv[]) -> int {

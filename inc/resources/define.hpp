@@ -22,11 +22,12 @@
 
 #pragma once
 
-#include "common/include.hpp"
+#include <string>
+
+using namespace std::string_literals;
+using namespace std::string_view_literals;
 
 namespace Sorcery {
-
-using namespace std::literals;
 
 // Directories
 inline constexpr auto CONFIG_DIR{"cfg"sv};

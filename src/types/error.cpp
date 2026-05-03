@@ -22,8 +22,9 @@
 
 #include "types/error.hpp"
 #include "common/enum.hpp"
-#include "common/include.hpp"
 #include "common/macro.hpp"
+
+#include <regex>
 
 Sorcery::Error::Error(Enums::System::Error error_code,
 					  std::exception &exception, std::string notes)

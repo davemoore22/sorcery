@@ -20,8 +20,10 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/stringstore.hpp"
+#include <fstream>
+
 #include "resources/define.hpp"
+#include "resources/stringstore.hpp"
 #include <jsoncpp/json/json.h>
 
 Sorcery::StringStore::StringStore(const std::string &filename)

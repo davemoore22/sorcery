@@ -22,7 +22,8 @@
 
 #pragma once
 
-#include "common/include.hpp"
+#include <map>
+#include <string>
 
 namespace Sorcery {
 class StringStore {

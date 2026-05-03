@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "common/include.hpp"
+#include <memory>
 
 namespace Sorcery {
 

@@ -20,6 +20,8 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+#include <format>
+
 #include "types/component.hpp"
 
 Sorcery::Component::Component()

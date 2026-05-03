@@ -22,8 +22,10 @@
 
 #pragma once
 
+#include <regex>
+#include <filesystem>
+
 #include "common/enum.hpp"
-#include "common/include.hpp"
 #include "types/enum.hpp"
 #include "types/item.hpp"
 #include "types/itemtype.hpp"

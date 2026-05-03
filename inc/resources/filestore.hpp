@@ -25,6 +25,10 @@
 #include "common/define.hpp"
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
+
+#include <filesystem>
+#include <map>
+
 #include <libgen.h>
 #include <limits.h>
 #include <unistd.h>

@@ -23,7 +23,6 @@
 #pragma once
 
 #include "common/imgui.hpp"
-#include "common/include.hpp"
 #include "core/animation.hpp"
 #include "core/context.hpp"
 #include "gui/uistyle.hpp"

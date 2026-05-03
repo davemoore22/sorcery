@@ -20,11 +20,13 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/monsterstore.hpp"
+#include <fstream>
+#include <regex>
+
 #include "common/enum.hpp"
-#include "common/include.hpp"
 #include "common/macro.hpp"
 #include "resources/define.hpp"
+#include "resources/monsterstore.hpp"
 #include "types/monstertype.hpp"
 #include <jsoncpp/json/json.h>
 

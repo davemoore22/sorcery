@@ -26,6 +26,8 @@
 #include "core/system.hpp"
 #include "resources/itemstore.hpp"
 
+using namespace std::literals;
+
 // Constructor used by Cereal to serialise this item
 Sorcery::State::State() {}
 

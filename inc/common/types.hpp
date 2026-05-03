@@ -22,12 +22,18 @@
 
 #pragma once
 
+#include <chrono>
+#include <format>
+#include <ostream>
+#include <print>
+#include <string>
+#include <tuple>
+#include <unordered_set>
+
 #include "common/cereal.hpp"
 #include "common/enum.hpp"
-#include "common/include.hpp"
 #include "common/macro.hpp"
 
-// Enums
 namespace Sorcery {
 
 struct Rect {
@@ -92,8 +98,8 @@ struct Coordinate {
 			return std::tie(x, y) < std::tie(a.x, a.y);
 		}
 
-		// Remember that in Wizardy Games we are used to coordinates that are N
-		// and E, i.e. y and x, not x and y!
+		// Remember that in Wizardy Games we are used to coordinates that
+		// are N and E, i.e. y and x, not x and y!
 		friend std::ostream &operator<<(std::ostream &os, Coordinate const &a) {
 			return os << std::format("({}/{})", a.y, a.x) << std::endl;
 		}
@@ -184,7 +190,7 @@ struct Elevator {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(up, up_loc, down_loc, top_depth, bottom_depth);
+			archive(up, down, up_loc, down_loc, top_depth, bottom_depth);
 		}
 };
 
@@ -398,5 +404,4 @@ struct DungeonEvent {
 					go_back_after, go_town_after, enabled, num, count);
 		}
 };
-
 };

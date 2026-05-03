@@ -22,7 +22,8 @@
 
 #pragma once
 
-#include "common/include.hpp"
+#include <string>
+
 #include "types/enum.hpp"
 
 namespace Sorcery {

@@ -20,10 +20,12 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/levelstore.hpp"
+#include <fstream>
+
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 #include "core/random.hpp"
+#include "resources/levelstore.hpp"
 #include "types/error.hpp"
 #include <jsoncpp/json/json.h>
 

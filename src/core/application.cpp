@@ -44,6 +44,8 @@
 #include "types/game.hpp"
 #include "types/state.hpp"
 
+#include <fstream>
+
 // Standard Constructor
 Sorcery::Application::Application(int argc, char **argv) {
 

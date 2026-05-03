@@ -23,11 +23,12 @@
 #pragma once
 
 #include "common/define.hpp"
-#include "common/include.hpp"
 #include "common/sdl2.hpp"
 #include "types/enum.hpp"
 
 #include <cstdint>
+#include <string>
+
 namespace Sorcery {
 
 // Forward Declarations

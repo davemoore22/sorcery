@@ -22,7 +22,9 @@
 
 #pragma once
 
-#include "common/include.hpp"
+#include <map>
+#include <vector>
+
 #include "common/opengl.hpp"
 #include "resources/define.hpp"
 

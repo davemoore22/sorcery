@@ -22,7 +22,10 @@
 
 #pragma once
 
-#include "common/include.hpp"
+#include <iterator>
+#include <sstream>
+#include <string>
+#include <vector>
 
 namespace Sorcery {
 

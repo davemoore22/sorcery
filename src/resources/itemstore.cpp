@@ -20,11 +20,13 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/itemstore.hpp"
+#include <fstream>
+
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
 #include "core/random.hpp"
+#include "resources/itemstore.hpp"
 #include <jsoncpp/json/json.h>
 
 // Standard Constructor

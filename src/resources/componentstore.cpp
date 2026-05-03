@@ -20,9 +20,11 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/componentstore.hpp"
+#include <fstream>
+
 #include "common/macro.hpp"
 #include "core/system.hpp"
+#include "resources/componentstore.hpp"
 #include "types/component.hpp"
 #include "types/error.hpp"
 #include "types/state.hpp"

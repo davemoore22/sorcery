@@ -22,11 +22,15 @@
 
 #include "core/database.hpp"
 #include "common/enum.hpp"
-#include "common/include.hpp"
 #include "common/macro.hpp"
 #include "common/sqllite.hpp"
 #include "common/types.hpp"
 #include "types/error.hpp"
+
+#include <chrono>
+#include <filesystem>
+
+using namespace std::literals;
 
 // Standard Constructor
 Sorcery::Database::Database(const std::filesystem::path &fp)

@@ -22,9 +22,15 @@
 
 #pragma once
 
-#include "common/enum.hpp"
 #include "common/imgui.hpp"
-#include "common/include.hpp"
+#include <algorithm>
+#include <cctype>
+#include <chrono>
+#include <format>
+#include <print>
+#include <string>
+#include <string_view>
+#include <uuid/uuid.h>
 
 // Enums
 namespace Sorcery {

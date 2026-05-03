@@ -24,7 +24,6 @@
 
 #include "common/enum.hpp"
 #include "common/imgui.hpp"
-#include "common/include.hpp"
 #include "common/types.hpp"
 #include "core/macro.hpp"
 #include "resources/define.hpp"

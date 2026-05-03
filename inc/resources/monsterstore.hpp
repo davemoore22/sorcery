@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <filesystem>
+
 #include "common/define.hpp"
 #include "common/enum.hpp"
 #include "resources/define.hpp"

@@ -20,11 +20,12 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/spellstore.hpp"
+#include <ranges>
+
 #include "common/enum.hpp"
-#include "common/include.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
+#include "resources/spellstore.hpp"
 #include "resources/stringstore.hpp"
 
 Sorcery::SpellStore::SpellStore(Context &ctx)

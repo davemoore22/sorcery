@@ -20,10 +20,12 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/ui.hpp"
+#include <ranges>
+#include <regex>
+#include <vector>
+
 #include "common/enum.hpp"
 #include "common/imgui.hpp"
-#include "common/include.hpp"
 #include "common/macro.hpp"
 #include "common/opengl.hpp"
 #include "common/sdl2.hpp"
@@ -37,6 +39,7 @@
 #include "core/render.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
+#include "core/ui.hpp"
 #include "engine/types.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
