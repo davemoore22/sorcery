@@ -22,6 +22,7 @@
 
 #include "modules/castle.hpp"
 #include "common/macro.hpp"
+#include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -69,6 +70,8 @@ auto Sorcery::Castle::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->initialise();
 
+	_ctx.audio->set_volume(1.0f);
+
 	// Main loop
 	auto done{false};
 	while (!done) {
@@ -91,6 +94,7 @@ auto Sorcery::Castle::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::CASTLE, _ctx.game);
+		_ctx.tick();
 
 		if (_ctx.controller->want_to_leave_game()) {
 			_ctx.game->move_party_to_tavern();

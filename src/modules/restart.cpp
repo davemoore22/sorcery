@@ -70,6 +70,7 @@ auto Sorcery::Restart::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::RESTART, _ctx.game);
+		_ctx.tick();
 
 		if (_ctx.controller->has_flag("want_restart_expedition")) {
 			return RESTART_MAZE;

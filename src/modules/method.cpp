@@ -78,6 +78,7 @@ auto Sorcery::Method::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::METHOD, _ctx.game);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::METHOD) &&
 			_ctx.controller->wants(Enums::Screen::TRAINING)) {

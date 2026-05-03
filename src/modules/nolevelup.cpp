@@ -67,6 +67,7 @@ auto Sorcery::NoLevelUp::start(const int mode) -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::NOLEVELUP, mode);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::NOLEVELUP))
 			return BACK_TO_STAY;

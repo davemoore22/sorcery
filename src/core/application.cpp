@@ -205,8 +205,8 @@ auto Sorcery::Application::start() -> int {
 	ctx.animation->refresh_wp();
 	ctx.animation->start_wp_th();
 
-	ctx.system->audio->load(ctx.files->get(MAINMENU_MUSIC));
-	ctx.system->audio->set_volume(0.0f);
+	ctx.audio->load(ctx.files->get(MAINMENU_MUSIC));
+	ctx.audio->set_volume(0.0f);
 
 	// Figure our what to do now (if we have any command line parameters)
 	const auto plan{_build_startup_plan()};
@@ -284,12 +284,12 @@ auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 
 auto Sorcery::Application::update() -> void {
 
-	ctx.system->audio->update();
+	ctx.audio->update();
 }
 
 auto Sorcery::Application::_run_main_menu() -> bool {
 
-	ctx.system->audio->play();
+	ctx.audio->play();
 
 	int mm_what{};
 	auto first_time{true};
@@ -351,7 +351,7 @@ auto Sorcery::Application::_run_main_menu() -> bool {
 	}
 
 	ctx.ui->stop();
-	ctx.system->audio->stop();
+	ctx.audio->stop();
 
 	return true;
 }
@@ -359,6 +359,10 @@ auto Sorcery::Application::_run_main_menu() -> bool {
 auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 
 	ctx.game->restart_maze(ctx.controller->get_character("restart"));
+
+	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
+	ctx.audio->set_volume(0.0f);
+
 	auto what{_engine->start(mode)};
 	_engine->stop();
 
@@ -369,6 +373,8 @@ auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 auto Sorcery::Application::_do_start_expedition(const int mode) -> int {
 
 	ctx.game->enter_maze();
+	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
+	ctx.audio->set_volume(0.0f);
 	auto what{_engine->start(mode)};
 	_engine->stop();
 
@@ -376,6 +382,9 @@ auto Sorcery::Application::_do_start_expedition(const int mode) -> int {
 }
 
 auto Sorcery::Application::_do_edge(const int mode) -> int {
+
+	ctx.audio->load(ctx.files->get(TOWN_MUSIC));
+	ctx.audio->set_volume(0.0f);
 
 	// Go to the Edge of Town, and optionally wait to do something
 	auto done{false};
@@ -402,6 +411,9 @@ auto Sorcery::Application::_do_edge(const int mode) -> int {
 }
 
 auto Sorcery::Application::_do_town(const int mode) -> int {
+
+	ctx.audio->load(ctx.files->get(TOWN_MUSIC));
+	ctx.audio->set_volume(0.0f);
 
 	// Go to the Castle, and then wait until we've got exit back
 	auto done{false};

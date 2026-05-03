@@ -110,6 +110,7 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 			return BACK_FROM_INSPECT;
 
 		_ctx.ui->display(Enums::Screen::INSPECT, mode);
+		_ctx.tick();
 
 		if (_ctx.controller->has_flag("select_previous_character")) {
 

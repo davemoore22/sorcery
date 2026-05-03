@@ -147,6 +147,7 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::RECOVERY, mode);
+		_ctx.tick();
 
 		if (_character->mode == -1)
 			_ctx.controller->set_flag("recuperating_finished");

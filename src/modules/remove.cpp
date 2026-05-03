@@ -70,6 +70,7 @@ auto Sorcery::Remove::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::REMOVE, _ctx.game);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::REMOVE) &&
 			_ctx.controller->wants(Enums::Screen::TAVERN))

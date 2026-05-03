@@ -70,6 +70,7 @@ auto Sorcery::Choose::start(const int mode) -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::CHOOSE, mode);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::CHOOSE))
 			return BACK_FROM_CHOOSE;

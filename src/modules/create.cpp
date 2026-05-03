@@ -90,6 +90,7 @@ auto Sorcery::Create::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::CREATE_NAME, static_cast<int>(_stage));
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
 			_ctx.controller->wants(Enums::Screen::METHOD)) {

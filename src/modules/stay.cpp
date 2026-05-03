@@ -137,6 +137,7 @@ auto Sorcery::Stay::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::STAY, _ctx.game);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::STAY) &&
 			_ctx.controller->wants(Enums::Screen::INN))

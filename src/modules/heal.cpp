@@ -90,6 +90,7 @@ auto Sorcery::Heal::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::HEAL, _stage);
+		_ctx.tick();
 
 		if (_stage <= 0) {
 

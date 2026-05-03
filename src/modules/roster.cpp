@@ -70,6 +70,7 @@ auto Sorcery::Roster::start(const int mode) -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::ROSTER, mode);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::ROSTER))
 			return BACK_FROM_ROSTER;

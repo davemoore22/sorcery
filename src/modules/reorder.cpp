@@ -70,6 +70,7 @@ auto Sorcery::Reorder::start(const int mode) -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::REORDER, mode);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::REORDER))
 			return BACK_FROM_REORDER;

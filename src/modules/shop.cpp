@@ -73,6 +73,7 @@ auto Sorcery::Shop::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::SHOP, _ctx.game);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::SHOP) &&
 			_ctx.controller->wants(Enums::Screen::CASTLE))

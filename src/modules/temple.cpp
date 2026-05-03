@@ -152,6 +152,7 @@ auto Sorcery::Temple::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::TEMPLE, _ctx.game);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::TEMPLE) &&
 			_ctx.controller->wants(Enums::Screen::CASTLE))

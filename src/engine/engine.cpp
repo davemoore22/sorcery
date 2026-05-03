@@ -23,6 +23,7 @@
 #include "engine/engine.hpp"
 #include "common/sdl2.hpp"
 #include "core/application.hpp"
+#include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/define.hpp"
@@ -38,6 +39,7 @@
 #include "resources/levelstore.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
+
 #include <algorithm>
 #include <string>
 
@@ -68,6 +70,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			"inspect", _ctx.game->state->get_party_char(1).value());
 
 	_start_expedition(mode);
+
+	_ctx.audio->set_volume(1.0f);
 
 	// Main loop
 	auto done{false};
@@ -219,6 +223,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			}
 		}
 		_ctx.ui->display_engine();
+		_ctx.tick();
 	}
 
 	// Exit if we get to here having broken out of the loop

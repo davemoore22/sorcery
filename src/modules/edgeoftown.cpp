@@ -23,6 +23,7 @@
 #include "modules/edgeoftown.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
+#include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -58,6 +59,8 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 	_ctx.controller->go_to(Enums::Screen::EDGEOFTOWN);
 	_ctx.controller->initialise();
 
+	_ctx.audio->set_volume(1.0f);
+
 	// Main loop
 	auto done{false};
 	while (!done) {
@@ -77,6 +80,7 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::EDGEOFTOWN, _ctx.game);
+		_ctx.tick();
 
 		// Handle shortcuts
 		if (mode == GO_TO_TRAINING)

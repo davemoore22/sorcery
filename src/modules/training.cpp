@@ -23,6 +23,7 @@
 #include "modules/training.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
+#include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -57,6 +58,8 @@ auto Sorcery::Training::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::TRAINING);
 	_ctx.controller->initialise();
 
+	_ctx.audio->set_volume(1.0f);
+
 	// Main loop
 	auto done{false};
 	while (!done) {
@@ -83,6 +86,7 @@ auto Sorcery::Training::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::TRAINING, _ctx.game);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::TRAINING) &&
 			_ctx.controller->wants(Enums::Screen::EDGEOFTOWN)) {

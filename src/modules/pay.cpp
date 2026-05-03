@@ -82,6 +82,7 @@ auto Sorcery::Pay::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::PAY, _ctx.game);
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::PAY) &&
 			_ctx.controller->wants(Enums::Screen::TEMPLE))
