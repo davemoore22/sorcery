@@ -119,7 +119,7 @@ const ActionList CAMP_ACTIONS{
 	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
 	{{.type = MenuAction::Type::SETFLAG, .flag = "want_quit_expedition"},
 	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
+	{{.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
 
 const ActionList INSPECT_ACTIONS{
 	{{.type = MenuAction::Type::SETCHARACTER, .character_key = "inspect"},

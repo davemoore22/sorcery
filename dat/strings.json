@@ -320,6 +320,7 @@
 	"MODAL_USE": "Use which item?",
 	"MODAL_INVOKE": "Invoke which item?",
 	"MODAL_NAME": "Enter name:",
+	"MODAL_CAMP": "Camping",
 	"DROP_RETURN": "<Return>",
 	"INSPECT_RETURN": "<Return>",
 	"IDENTIFY_RETURN": "<Return>",
