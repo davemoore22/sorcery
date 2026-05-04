@@ -969,16 +969,21 @@ auto Sorcery::UI::draw_ui_status() -> void {
 
 auto Sorcery::UI::_draw_ui_status() -> void {
 
+	constexpr auto ICON_CGA_ON{108u};
+	constexpr auto ICON_CGA_OFF{109u};
+
 	if (images->has_loaded(std::string{ICONS_TEXTURE})) {
 
 		const auto music_status{_ctx.get_config(Enums::Config::MUSIC)};
 		const auto sound_status{_ctx.get_config(Enums::Config::SOUND)};
+		const auto cga_status{!_render->get_monochrome()};
 		const auto music_icon{music_status ? ICON_MUSIC_ON : ICON_MUSIC_OFF};
 		const auto sound_icon{sound_status ? ICON_SOUND_ON : ICON_SOUND_OFF};
+		const auto cga_icon{cga_status ? ICON_CGA_ON : ICON_CGA_OFF};
 
 		const auto tint{_ctx.controller->get_monochrome()
 							? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-							: ImVec4{1.0f, 1.0f, 0.33f, _ctx.animation->fade}};
+							: ImVec4{1.0f, 0.0f, 1.0f, _ctx.animation->fade}};
 		auto pos{ImVec2{4, 4}};
 		auto size{ImVec2{32, 32}};
 
@@ -990,6 +995,10 @@ auto Sorcery::UI::_draw_ui_status() -> void {
 			pos.x += 32;
 			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE,
 									sound_icon, pos, size, tint);
+
+			pos.x += 32;
+			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, cga_icon,
+									pos, size, tint);
 		}
 	};
 };
