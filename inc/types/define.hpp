@@ -31,7 +31,7 @@ inline constexpr auto OPT_ON{"on"};
 inline constexpr auto OPT_OFF{"off"};
 
 // Gameplay settings
-static const int NUM_GAME_SETTINGS{20};
+static const int NUM_GAME_SETTINGS{22};
 static const std::string OPT_RECOMMENDED_MODE{"recommended_mode"};
 static const std::string OPT_STRICT_MODE{"strict_mode"};
 static const std::string OPT_CHEAT_MODE{"cheat_mode"};
@@ -52,4 +52,6 @@ static const std::string OPT_LOST_LEGATION{"lost_legation"};
 static const std::string OPT_CURABLE_DRAINING{"curable_draining"};
 static const std::string OPT_SHARED_INVENTORY{"shared_inventory"};
 static const std::string OPT_PROTECT_TELEPORT{"protect_teleport"};
+static const std::string OPT_SOUND{"sound"};
+static const std::string OPT_MUSIC{"music"};
 }

@@ -60,6 +60,11 @@ auto Sorcery::Controller::initialise() -> void {
 	_abort = false;
 	_leave = false;
 
+	// Store these flags (if set)
+	auto show_automap{_flags["interface_automap"]};
+	auto show_party_panel{_flags["interface_party_panel"]};
+	auto show_ui{_flags["interface_ui"]};
+
 	// TODO: are these needed?
 	_flags.clear();
 	_texts.clear();
@@ -121,7 +126,10 @@ auto Sorcery::Controller::initialise() -> void {
 	set_selected("class_selected", 8);
 	set_selected("atlas_selected", 8);
 
-	// need to set ui flags too, argh
+	// set ui flags again
+	_flags["interface_automap"] = show_automap;
+	_flags["interface_party_panel"] = show_party_panel;
+	_flags["interface_ui"] = show_ui;
 }
 
 auto Sorcery::Controller::add_to_candidate_party(unsigned int value) -> void {
@@ -261,6 +269,8 @@ auto Sorcery::Controller::check_for_ui_toggle(const SDL_Event event) -> void {
 		toggle_flag("interface_automap");
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n)
 		_monochrome = !_monochrome;
+	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_p)
+		toggle_flag("debug_ui");
 }
 
 auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {

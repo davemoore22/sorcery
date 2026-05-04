@@ -622,6 +622,7 @@ auto Sorcery::UI::display_engine() -> void {
 
 	// And Cursor on Top
 	_draw_debug();
+	_draw_ui_status();
 	_draw_cursor();
 
 	// bool show{true};
@@ -961,6 +962,38 @@ auto Sorcery::UI::draw_cursor(const bool value) -> void {
 	_draw_cursor();
 }
 
+auto Sorcery::UI::draw_ui_status() -> void {
+
+	_draw_ui_status();
+}
+
+auto Sorcery::UI::_draw_ui_status() -> void {
+
+	if (images->has_loaded(std::string{ICONS_TEXTURE})) {
+
+		const auto music_status{_ctx.get_config(Enums::Config::MUSIC)};
+		const auto sound_status{_ctx.get_config(Enums::Config::SOUND)};
+		const auto music_icon{music_status ? ICON_MUSIC_ON : ICON_MUSIC_OFF};
+		const auto sound_icon{sound_status ? ICON_SOUND_ON : ICON_SOUND_OFF};
+
+		const auto tint{_ctx.controller->get_monochrome()
+							? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+							: ImVec4{1.0f, 1.0f, 0.33f, _ctx.animation->fade}};
+		auto pos{ImVec2{4, 4}};
+		auto size{ImVec2{32, 32}};
+
+		with_Window(WINDOW_LAYER_TEXTS, nullptr,
+					ImGuiWindowFlags_NoDecoration) {
+
+			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE,
+									music_icon, pos, size, tint);
+			pos.x += 32;
+			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE,
+									sound_icon, pos, size, tint);
+		}
+	};
+};
+
 auto Sorcery::UI::_draw_cursor() -> void {
 
 	// Just check if we can draw
@@ -1040,7 +1073,7 @@ auto Sorcery::UI::_draw_debug() -> void {
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		ImGui::TextUnformatted(_ctx.controller->get_flags().c_str());
 
-		ImGui::SetCursorPos(ImVec2{8, 400});
+		ImGui::SetCursorPos(ImVec2{1000, 400});
 		ImGui::TextUnformatted(_get_popups().c_str());
 
 		ImGui::SetCursorPos(ImVec2{8, 700});
@@ -2614,7 +2647,8 @@ auto Sorcery::UI::_draw_options() -> void {
 		"OPT_PROTECT_TELEPORT"};
 
 	std::vector<std::string> graphics_opts{"OPT_COLOURED_WIREFRAME",
-										   "OPT_FULLSCREEN"};
+										   "OPT_FULLSCREEN", "OPT_UI_MUSIC",
+										   "OPT_UI_SOUND"};
 
 	const auto save_lbl{_ctx.get_string("DIALOG_SAVE")};
 	const auto cancel_lbl{_ctx.get_string("DIALOG_CANCEL")};
@@ -2690,7 +2724,7 @@ auto Sorcery::UI::_draw_options() -> void {
 						++gameplay_idx;
 					}
 				}
-				tabname = "Display";
+				tabname = "UI";
 				with_TabItem(tabname) {
 
 					for (const auto &opt : graphics_opts) {
@@ -2817,6 +2851,7 @@ auto Sorcery::UI::_draw_buffbar() -> void {
 }
 
 auto Sorcery::UI::_draw_icons() -> void {
+
 	auto cmp{components->get("engine_base_ui:icons")};
 	auto frame_cmp{components->get("engine_base_ui:icons_frame")};
 

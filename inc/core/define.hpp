@@ -80,6 +80,10 @@ inline constexpr auto SAVE_STATE_VERSION{1u};
 #define ICON_MAP 73
 #define ICON_LOOK 60
 #define ICON_SAVE_AND_QUIT 69
+#define ICON_MUSIC_ON 104
+#define ICON_MUSIC_OFF 105
+#define ICON_SOUND_ON 106
+#define ICON_SOUND_OFF 107
 
 // Expedition Mode
 inline constexpr auto EXPEDITION_START{1};

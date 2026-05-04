@@ -269,6 +269,8 @@
 	"OPT_COLOURED_WIREFRAME": "CGA Colours",
 	"OPT_FULLSCREEN": "Fullscreen Mode",
 	"OPT_UI_COLOUR": "UI Colour Scheme",
+	"OPT_UI_SOUND": "Sound Effects",
+	"OPT_UI_MUSIC": "Music",
 	"CHARACTER_ALIGNMENT_GOOD": "Good",
 	"CHARACTER_ALIGNMENT_NEUTRAL": "Neutral",
 	"CHARACTER_ALIGNMENT_EVIL": "Evil",

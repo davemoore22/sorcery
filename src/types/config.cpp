@@ -110,6 +110,10 @@ auto Sorcery::Config::_load() -> bool {
 	_options[COLOURED_WIREFRAME] = option.compare(on) == 0;
 	option = _settings->GetValue("Graphics", CSTR(OPT_FULLSCREEN), off);
 	_options[FULLSCREEN] = option.compare(on) == 0;
+	option = _settings->GetValue("Media", CSTR(OPT_SOUND), off);
+	_options[SOUND] = option.compare(on) == 0;
+	option = _settings->GetValue("Media", CSTR(OPT_MUSIC), off);
+	_options[MUSIC] = option.compare(on) == 0;
 
 	return true;
 }
@@ -157,6 +161,10 @@ bool Sorcery::Config::save() {
 						BOOL2OPTIONCSTR(_options[COLOURED_WIREFRAME]));
 	_settings->SetValue("Graphics", CSTR(OPT_FULLSCREEN),
 						BOOL2OPTIONCSTR(_options[FULLSCREEN]));
+	_settings->SetValue("Media", CSTR(OPT_SOUND),
+						BOOL2OPTIONCSTR(_options[SOUND]));
+	_settings->SetValue("Media", CSTR(OPT_MUSIC),
+						BOOL2OPTIONCSTR(_options[MUSIC]));
 
 	// Save current settings to ini file
 	SI_Error result{_settings->SaveFile(CSTR(_cfg_path))};
@@ -172,24 +180,27 @@ auto Sorcery::Config::store() -> void {
 auto Sorcery::Config::set_rec_mode() -> void {
 
 	std::array<bool, NUM_GAME_SETTINGS> rec{
-		true, false, false, false, true, true, false, false, false, false,
-		true, false, true,	true,  true, true, true,  true,	 true};
+		true,  false, false, false, true,  true, false,
+		false, false, false, true,	false, true, true,
+		true,  true,  true,	 true,	true,  true, true};
 	std::swap(_options, rec);
 }
 
 auto Sorcery::Config::set_strict_mode() -> void {
 
 	std::array<bool, NUM_GAME_SETTINGS> strict{
-		false, true,  false, true,	false, false, true,	 true,	true, true,
-		false, false, false, false, false, false, false, false, false};
+		false, true,  false, true,	false, false, true,
+		true,  true,  true,	 false, false, false, false,
+		false, false, false, false, false, false, false};
 	std::swap(_options, strict);
 }
 
 auto Sorcery::Config::is_strict_mode() const -> bool {
 
 	std::array<bool, NUM_GAME_SETTINGS> strict{
-		false, true,  false, true,	false, true,  true,	 true,	true, true,
-		false, false, false, false, false, false, false, false, false};
+		false, true,  false, true,	false, true,  true,
+		true,  true,  true,	 false, false, false, false,
+		false, false, false, false, false, false, false};
 
 	return _options == strict;
 }
@@ -197,8 +208,9 @@ auto Sorcery::Config::is_strict_mode() const -> bool {
 auto Sorcery::Config::is_rec_mode() const -> bool {
 
 	std::array<bool, NUM_GAME_SETTINGS> rec{
-		true, false, false, false, true, true, false, false, false, false,
-		true, false, true,	true,  true, true, true,  true,	 true};
+		true,  false, false, false, true,  true, false,
+		false, false, false, true,	false, true, true,
+		true,  true,  true,	 true,	true,  true, true};
 
 	return _options == rec;
 }

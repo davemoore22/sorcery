@@ -93,6 +93,7 @@ class UI {
 		auto draw_text(const std::string string, const ImColor colour,
 					   const ImVec2 pos, const Enums::Layout::Font font)
 			-> void;
+		auto draw_ui_status() -> void;
 		auto get_hl_colour(const double percent) const -> ImColor;
 		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo,
 						 const double percent) const -> ImVec4;
@@ -283,6 +284,7 @@ class UI {
 
 		auto _draw_debug() -> void;
 		auto _draw_window_menu() -> void;
+		auto _draw_ui_status() -> void;
 
 		auto _get_menu_ui_flags(std::string_view menu)
 			-> std::vector<std::reference_wrapper<bool>>;

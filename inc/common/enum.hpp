@@ -1067,6 +1067,8 @@ namespace Enums::Config {
 		PROTECT_TELEPORT = 17,
 		COLOURED_WIREFRAME = 18,
 		FULLSCREEN = 19,
+		SOUND = 20,
+		MUSIC = 21
 	};
 }
 
