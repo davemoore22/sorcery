@@ -132,6 +132,8 @@ auto Sorcery::Application::save_state_to_binary(const std::string &filename)
 	cereal::BinaryOutputArchive archive(os);
 	archive(*_game, *_controller);
 
+	std::println("Quicksave successfully written to {}!", filename);
+
 	return true;
 }
 
@@ -148,6 +150,8 @@ auto Sorcery::Application::load_state_from_binary(const std::string &filename)
 	cereal::BinaryInputArchive archive(is);
 	archive(*_game, *_controller);
 
+	std::println("Quicksave successfully loaded from {}!", filename);
+
 	return true;
 }
 
@@ -159,47 +163,14 @@ auto Sorcery::Application::get_resources() const -> Resources * {
 	return ctx.resources;
 }
 
-auto Sorcery::Application::_start_from_cli(const StartupPlan &plan) -> bool {
-
-	switch (plan.bootstrap) {
-	case GameBootstrap::LOAD_GAME:
-		if (!ctx.controller->has_saved_game())
-			return false;
-		_load_existing_game();
-		break;
-
-	case GameBootstrap::NEW_GAME:
-		_start_new_game(plan.party == PartyMode::QUICKSTART);
-		break;
-
-	default:
-		return false;
-	}
-
-	switch (plan.location) {
-	case StartLocation::MAZE:
-		_do_start_expedition(EXPEDITION_START | EXPEDITION_GOTO);
-		break;
-
-	case StartLocation::CASTLE:
-	default:
-		_do_town(DEST_NONE);
-		break;
-	}
-
-	return true;
-}
-
 // Start the Game
 auto Sorcery::Application::start() -> int {
 
 	ctx.ui->start();
 
-	// Display Splash Screen (this will start loading resources)
 	_splash->start();
 	_splash->stop();
 
-	// Start relevant animation worker threads
 	ctx.animation->refresh_colcyc();
 	ctx.animation->start_colcycl_th();
 	ctx.animation->refresh_wp();
@@ -208,21 +179,170 @@ auto Sorcery::Application::start() -> int {
 	ctx.audio->load(ctx.files->get(MAINMENU_MUSIC));
 	ctx.audio->set_volume(0.0f);
 
-	// Figure our what to do now (if we have any command line parameters)
 	const auto plan{_build_startup_plan()};
+	auto flow{_flow_from_startup_plan(plan)};
 
-	// If we hit here without anything being changed in the startup plan, we are
-	// just starting the game as normal (i.e. going to the main menu)
-	if (plan.bypass_menu) {
-		if (!_start_from_cli(plan)) {
-			// e.g. --load with no save present
-			_run_main_menu();
+	while (flow != AppFlow::QUIT && flow != AppFlow::ABORT) {
+		switch (flow) {
+		case AppFlow::MAIN_MENU:
+			flow = _run_main_menu();
+			break;
+
+		case AppFlow::NEW_GAME:
+			_start_new_game(true);
+			flow = AppFlow::TOWN;
+			break;
+
+		case AppFlow::CONTINUE_GAME:
+			if (ctx.controller->has_saved_game())
+				_load_existing_game();
+			flow = AppFlow::TOWN;
+			break;
+
+		case AppFlow::TOWN:
+			flow = _run_town();
+			break;
+
+		case AppFlow::MAZE:
+			flow = _run_maze(EXPEDITION_START);
+			break;
+
+		case AppFlow::RESTART_MAZE:
+			flow = _run_restart_maze(EXPEDITION_RESTART);
+			break;
+
+		case AppFlow::LEAVE_GAME:
+			ctx.game->save_game();
+			ctx.controller->set_game(nullptr);
+			flow = AppFlow::MAIN_MENU;
+			break;
+
+		default:
+			flow = AppFlow::ABORT;
+			break;
 		}
-	} else {
-		_run_main_menu();
 	}
 
+	ctx.ui->stop();
+	ctx.audio->stop();
+
 	return 0;
+}
+
+auto Sorcery::Application::_run_town() -> AppFlow {
+
+	ctx.audio->load(ctx.files->get(TOWN_MUSIC));
+	ctx.audio->set_volume(0.0f);
+	ctx.audio->play();
+
+	while (true) {
+		const auto castle_result{_castle->start()};
+		_castle->stop();
+
+		if (castle_result == ABORT_GAME)
+			return AppFlow::ABORT;
+
+		if (ctx.controller->want_to_leave_game())
+			return AppFlow::LEAVE_GAME;
+
+		if (castle_result != CASTLE_GO_TO_EDGE_OF_TOWN)
+			continue;
+
+		const auto edge_result{_edge_of_town->start(DEST_NONE)};
+		_edge_of_town->stop();
+
+		switch (edge_result) {
+		case EDGE_OF_TOWN_GO_TO_CASTLE:
+		case RETURN_TO_TOWN:
+			continue;
+
+		case EDGE_OF_TOWN_GO_TO_MAZE:
+			return AppFlow::MAZE;
+
+		case RESTART_MAZE:
+			return AppFlow::RESTART_MAZE;
+
+		case EDGE_OF_TOWN_GO_TO_TRAINING:
+			return AppFlow::TRAINING;
+
+		case ABORT_GAME:
+			return AppFlow::ABORT;
+
+		default:
+			if (ctx.controller->want_to_leave_game())
+				return AppFlow::LEAVE_GAME;
+
+			continue;
+		}
+	}
+}
+
+auto Sorcery::Application::_flow_from_startup_plan(const StartupPlan &plan)
+	-> AppFlow {
+
+	if (!plan.bypass_menu)
+		return AppFlow::MAIN_MENU;
+
+	switch (plan.bootstrap) {
+	case GameBootstrap::LOAD_GAME:
+		if (!ctx.controller->has_saved_game())
+			return AppFlow::MAIN_MENU;
+
+		_load_existing_game();
+		break;
+
+	case GameBootstrap::NEW_GAME:
+		_start_new_game(plan.party == PartyMode::QUICKSTART);
+		break;
+
+	default:
+		return AppFlow::MAIN_MENU;
+	}
+
+	if (plan.location == StartLocation::MAZE)
+		return AppFlow::MAZE;
+
+	return AppFlow::TOWN;
+}
+
+auto Sorcery::Application::_run_maze(const int mode) -> AppFlow {
+
+	ctx.game->enter_maze();
+
+	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
+	ctx.audio->set_volume(0.0f);
+	ctx.audio->play();
+
+	const auto result{_engine->start(mode)};
+	_engine->stop();
+
+	if (result == ABORT_GAME)
+		return AppFlow::ABORT;
+
+	if (result == LEAVE_GAME)
+		return AppFlow::LEAVE_GAME;
+
+	return AppFlow::TOWN;
+}
+
+auto Sorcery::Application::_run_restart_maze(const int mode) -> AppFlow {
+
+	ctx.game->restart_maze(ctx.controller->get_character("restart"));
+
+	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
+	ctx.audio->set_volume(0.0f);
+	ctx.audio->play();
+
+	const auto result{_engine->start(mode)};
+	_engine->stop();
+
+	if (result == ABORT_GAME)
+		return AppFlow::ABORT;
+
+	if (result == LEAVE_GAME)
+		return AppFlow::LEAVE_GAME;
+
+	return AppFlow::TOWN;
 }
 
 auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
@@ -287,73 +407,31 @@ auto Sorcery::Application::update() -> void {
 	ctx.audio->update();
 }
 
-auto Sorcery::Application::_run_main_menu() -> bool {
+auto Sorcery::Application::_run_main_menu() -> AppFlow {
 
+	ctx.audio->load(ctx.files->get(MAINMENU_MUSIC));
+	ctx.audio->set_volume(0.0f);
 	ctx.audio->play();
 
-	int mm_what{};
-	auto first_time{true};
+	const auto result{_main_menu->start()};
+	_main_menu->stop();
 
-	// Main Frontend Loop
-	bool done = false;
-	while (!done) {
+	switch (result) {
+	case MAIN_MENU_NEW_GAME:
+		return AppFlow::NEW_GAME;
 
-		mm_what = _main_menu->start();
-		_main_menu->stop();
+	case MAIN_MENU_CONTINUE_GAME:
+		return AppFlow::CONTINUE_GAME;
 
-		// If we want to load a game or start a new game
-		if (mm_what == MAIN_MENU_NEW_GAME ||
-			mm_what == MAIN_MENU_CONTINUE_GAME) {
+	case MAIN_MENU_EXIT_GAME:
+		return AppFlow::QUIT;
 
-			// Do the town/maze loop til we want to exit
-			if (mm_what == MAIN_MENU_NEW_GAME)
-				_start_new_game(true);
-			else if (mm_what == MAIN_MENU_CONTINUE_GAME &&
-					 _controller->has_saved_game())
-				_load_existing_game();
-			else if (mm_what == MAIN_MENU_EXIT_GAME)
-				done = true;
-			else if (mm_what == ABORT_GAME)
-				done = true;
-			else
-				_start_new_game(false);
+	case ABORT_GAME:
+		return AppFlow::ABORT;
 
-			if (!done) {
-
-				int inner_what;
-				while (
-					!(inner_what == ABORT_GAME || inner_what == LEAVE_GAME)) {
-
-					if (_check_param(GO_TO_MAZE_PARAM) && first_time) {
-						inner_what = _do_start_expedition(EXPEDITION_START |
-														  EXPEDITION_GOTO);
-						first_time = false;
-						continue;
-					} else if (_check_param(GO_TO_TRAINING_PARAM) &&
-							   first_time) {
-
-						inner_what = _do_edge(GO_TO_TRAINING);
-						first_time = false;
-						continue;
-					}
-
-					inner_what = _do_town(DEST_NONE);
-					if (_controller->has_flag("want_enter_maze"))
-						inner_what = _do_start_expedition(EXPEDITION_START);
-					else if (_controller->has_flag("want_restart_expedition"))
-						inner_what = _do_restart_expedition(EXPEDITION_RESTART);
-				}
-
-				done = true;
-			}
-		} else if (mm_what == MAIN_MENU_EXIT_GAME || mm_what == ABORT_GAME)
-			done = true;
+	default:
+		return AppFlow::MAIN_MENU;
 	}
-
-	ctx.ui->stop();
-	ctx.audio->stop();
-
-	return true;
 }
 
 auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
@@ -379,83 +457,6 @@ auto Sorcery::Application::_do_start_expedition(const int mode) -> int {
 	_engine->stop();
 
 	return what;
-}
-
-auto Sorcery::Application::_do_edge(const int mode) -> int {
-
-	ctx.audio->load(ctx.files->get(TOWN_MUSIC));
-	ctx.audio->set_volume(0.0f);
-
-	// Go to the Edge of Town, and optionally wait to do something
-	auto done{false};
-	while (!done) {
-
-		// Limited selection here of choices here (for now) to cover just
-		// the additional command line parameters used for shortcuts
-		auto edge_what{_edge_of_town->start(mode)};
-		_edge_of_town->stop();
-
-		if (edge_what == EDGE_OF_TOWN_GO_TO_TRAINING)
-			return EDGE_OF_TOWN_GO_TO_TRAINING;
-		else if (ctx.controller->want_to_leave_game()) {
-			ctx.game->save_game();
-			ctx.controller->set_game(nullptr);
-			return LEAVE_GAME;
-		} else if (edge_what == RETURN_TO_TOWN) {
-			continue;
-		} else if (edge_what == ABORT_GAME)
-			return ABORT_GAME;
-	};
-
-	return 0;
-}
-
-auto Sorcery::Application::_do_town(const int mode) -> int {
-
-	ctx.audio->load(ctx.files->get(TOWN_MUSIC));
-	ctx.audio->set_volume(0.0f);
-
-	// Go to the Castle, and then wait until we've got exit back
-	auto done{false};
-	while (!done) {
-
-		auto castle_what{_castle->start()};
-		_castle->stop();
-
-		if (castle_what == CASTLE_GO_TO_EDGE_OF_TOWN) {
-
-			auto edge_what{_edge_of_town->start(mode)};
-			_edge_of_town->stop();
-
-			if (edge_what == EDGE_OF_TOWN_GO_TO_CASTLE)
-				continue;
-			else if (edge_what == EDGE_OF_TOWN_GO_TO_MAZE)
-				return START_MAZE;
-			else if (edge_what == RESTART_MAZE)
-				return RESTART_MAZE;
-			else if (edge_what == ABORT_GAME)
-				return ABORT_GAME;
-			else if (edge_what == EDGE_OF_TOWN_GO_TO_TRAINING)
-				return EDGE_OF_TOWN_GO_TO_TRAINING;
-			else if (_controller->want_to_leave_game()) {
-				ctx.game->save_game();
-				ctx.controller->set_game(nullptr);
-				return LEAVE_GAME;
-			} else if (edge_what == RETURN_TO_TOWN) {
-				continue;
-			}
-
-		} else if (castle_what == ABORT_GAME)
-			return ABORT_GAME;
-		else if (ctx.controller->want_to_leave_game()) {
-			_game->save_game();
-			return LEAVE_GAME;
-		}
-
-		return 0;
-	}
-
-	return 0;
 }
 
 auto Sorcery::Application::_load_existing_game() -> void {

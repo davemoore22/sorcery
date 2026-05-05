@@ -26,6 +26,7 @@
 #include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -78,6 +79,11 @@ auto Sorcery::Training::start() -> int {
 			if (_ctx.controller->check_for_back(event)) {
 				return BACK_TO_EDGE_OF_TOWN;
 			}
+
+			if (_ctx.controller->check_for_quicksave(event))
+				_ctx.application->save_state_to_binary(SAVE_STATE_FILENAME);
+			else if (_ctx.controller->check_for_quickload(event))
+				_ctx.application->load_state_from_binary(SAVE_STATE_FILENAME);
 
 			if (_ctx.controller->wants(Enums::Screen::METHOD)) {
 				_method->start();

@@ -68,6 +68,24 @@ class Application {
 			MAZE,
 		};
 
+		enum class AppFlow {
+			NONE,
+			ABORT,
+			QUIT,
+
+			MAIN_MENU,
+			NEW_GAME,
+			CONTINUE_GAME,
+
+			TOWN,
+			CASTLE,
+			EDGE_OF_TOWN,
+			TRAINING,
+			MAZE,
+			RESTART_MAZE,
+			LEAVE_GAME
+		};
+
 		struct StartupPlan {
 				bool bypass_menu{false};
 				GameBootstrap bootstrap{GameBootstrap::NONE};
@@ -94,8 +112,11 @@ class Application {
 
 	private:
 		// Private Methods
-		auto _start_from_cli(const StartupPlan &plan) -> bool;
-		auto _run_main_menu() -> bool;
+		auto _flow_from_startup_plan(const StartupPlan &plan) -> AppFlow;
+		auto _run_maze(const int mode) -> AppFlow;
+		auto _run_town() -> AppFlow;
+		auto _run_restart_maze(const int mode) -> AppFlow;
+		auto _run_main_menu() -> AppFlow;
 		auto _build_startup_plan() -> StartupPlan;
 		auto _add_quickstart_party() -> void;
 		auto _check_param(std::string_view param) const -> bool;
@@ -105,8 +126,6 @@ class Application {
 		auto _continue_existing_game() -> int;
 		auto _do_start_expedition(const int mode) -> int;
 		auto _do_restart_expedition(const int mode) -> int;
-		auto _do_town(const int mode) -> int;
-		auto _do_edge(const int mode) -> int;
 
 		// Private Members
 		std::vector<std::string> _args;
