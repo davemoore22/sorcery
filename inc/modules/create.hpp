@@ -54,7 +54,6 @@ class Create {
 
 		// Private Members
 		Context &_ctx;
-		Enums::Character::Stage _stage;
 		std::vector<Character> _stages;
 };
 

@@ -46,8 +46,6 @@ Sorcery::Create::~Create() {};
 
 auto Sorcery::Create::_initialise() -> bool {
 
-	_stage = Enums::Character::Stage::ENTER_NAME;
-
 	return true;
 }
 
@@ -89,22 +87,22 @@ auto Sorcery::Create::start() -> int {
 		}
 
 		using enum Enums::Character::Stage;
-		switch (_stage) {
+		switch (candidate->get_stage()) {
 		case ENTER_NAME:
 			_ctx.ui->display(Enums::Screen::CREATE_NAME,
-							 static_cast<int>(_stage));
+							 std::to_underlying(candidate->get_stage()));
 
 			if (candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
-				_stage = CHOOSE_RACE;
+				candidate->set_stage(CHOOSE_RACE);
 			}
 			break;
 		case CHOOSE_RACE:
 
 			_ctx.ui->display(Enums::Screen::CREATE_RACE,
-							 static_cast<int>(_stage));
+							 std::to_underlying(candidate->get_stage()));
 			if (candidate->get_stage() !=
 				Enums::Character::Stage::CHOOSE_RACE) {
-				_stage = CHOOSE_ALIGNMENT;
+				candidate->set_stage(CHOOSE_ALIGNMENT);
 			}
 			break;
 		default:
@@ -318,8 +316,6 @@ auto Sorcery::Create::start() -> int {
 }
 
 auto Sorcery::Create::stop() -> int {
-
-	_stage = Enums::Character::Stage::ENTER_NAME;
 
 	return 0;
 }
