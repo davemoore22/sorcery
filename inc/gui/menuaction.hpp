@@ -127,6 +127,14 @@ const ActionList INSPECT_ACTIONS{
 	{{.type = MenuAction::Type::CLEARCHARACTER, .character_key = "inspect"},
 	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
 
+const ActionList METHOD_ACTIONS{
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_full_create"}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_quick_create"}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_random_create"}}};
+
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},
 	{"castle_menu", CASTLE_ACTIONS},
@@ -137,6 +145,7 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"temple_menu", TEMPLE_ACTIONS},
 	{"camp_menu", CAMP_ACTIONS},
 	{"inspect_menu", INSPECT_ACTIONS},
+	{"method_menu", METHOD_ACTIONS},
 
 };
 #pragma GCC diagnostic pop

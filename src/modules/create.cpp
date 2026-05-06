@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -54,13 +55,6 @@ auto Sorcery::Create::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CREATE);
 	_ctx.controller->initialise();
-	_ctx.controller->set_flag("want_enter_name");
-	_ctx.controller->unset_flag("want_choose_race");
-	_ctx.controller->unset_flag("want_choose_alignment");
-	_ctx.controller->unset_flag("want_choose_class");
-	_ctx.controller->unset_flag("want_choose_confirm");
-	_ctx.controller->set_method(Enums::Character::Method::NO_METHOD);
-	_ctx.controller->set_selected("class_selected", 8);
 
 	std::shared_ptr<Character> candidate = std::make_shared<Character>(&_ctx);
 
@@ -87,18 +81,39 @@ auto Sorcery::Create::start() -> int {
 			if (_ctx.controller->check_for_back(event)) {
 				return BACK_TO_CHOOSE_METHOD;
 			}
+
+			if (_ctx.controller->check_for_quicksave(event))
+				_ctx.application->save_state_to_binary(SAVE_STATE_FILENAME);
+			else if (_ctx.controller->check_for_quickload(event))
+				_ctx.application->load_state_from_binary(SAVE_STATE_FILENAME);
 		}
 
-		_ctx.ui->display(Enums::Screen::CREATE_NAME, static_cast<int>(_stage));
+		using enum Enums::Character::Stage;
+		switch (_stage) {
+		case ENTER_NAME:
+			_ctx.ui->display(Enums::Screen::CREATE_NAME,
+							 static_cast<int>(_stage));
+
+			if (candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
+				_stage = CHOOSE_RACE;
+			}
+			break;
+		case CHOOSE_RACE:
+
+			_ctx.ui->display(Enums::Screen::CREATE_RACE,
+							 static_cast<int>(_stage));
+			if (candidate->get_stage() !=
+				Enums::Character::Stage::CHOOSE_RACE) {
+				_stage = CHOOSE_ALIGNMENT;
+			}
+			break;
+		default:
+			break;
+		}
+
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
-			_ctx.controller->wants(Enums::Screen::METHOD)) {
-			return BACK_TO_CHOOSE_METHOD;
-		} else if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
-				   _ctx.controller->wants(Enums::Screen::TRAINING)) {
-			return BACK_TO_TRAINING_GROUNDS;
-		}
+		/*
 
 		// Check to see if we have finished entering the name (the stage and
 		// name are set in controller->handle_input_button_click())
@@ -120,6 +135,13 @@ auto Sorcery::Create::start() -> int {
 					if (_ctx.controller->check_for_back(event)) {
 						return BACK_TO_CHOOSE_METHOD;
 					}
+
+					if (_ctx.controller->check_for_quicksave(event))
+						_ctx.application->save_state_to_binary(
+							SAVE_STATE_FILENAME);
+					else if (_ctx.controller->check_for_quickload(event))
+						_ctx.application->load_state_from_binary(
+							SAVE_STATE_FILENAME);
 				}
 
 				_ctx.ui->display(Enums::Screen::CREATE_RACE,
@@ -152,6 +174,14 @@ auto Sorcery::Create::start() -> int {
 							if (_ctx.controller->check_for_back(event)) {
 								return BACK_TO_CHOOSE_METHOD;
 							}
+
+							if (_ctx.controller->check_for_quicksave(event))
+								_ctx.application->save_state_to_binary(
+									SAVE_STATE_FILENAME);
+							else if (_ctx.controller->check_for_quickload(
+										 event))
+								_ctx.application->load_state_from_binary(
+									SAVE_STATE_FILENAME);
 						}
 
 						_ctx.ui->display(Enums::Screen::CREATE_ALIGNMENT,
@@ -189,6 +219,16 @@ auto Sorcery::Create::start() -> int {
 											event)) {
 										return BACK_TO_CHOOSE_METHOD;
 									}
+
+									if (_ctx.controller->check_for_quicksave(
+											event))
+										_ctx.application->save_state_to_binary(
+											SAVE_STATE_FILENAME);
+									else if (_ctx.controller
+												 ->check_for_quickload(event))
+										_ctx.application
+											->load_state_from_binary(
+												SAVE_STATE_FILENAME);
 								}
 
 								_ctx.ui->display(Enums::Screen::CREATE_CLASS,
@@ -229,6 +269,19 @@ auto Sorcery::Create::start() -> int {
 													event)) {
 												return BACK_TO_CHOOSE_METHOD;
 											}
+
+											if (_ctx.controller
+													->check_for_quicksave(
+														event))
+												_ctx.application
+													->save_state_to_binary(
+														SAVE_STATE_FILENAME);
+											else if (_ctx.controller
+														 ->check_for_quickload(
+															 event))
+												_ctx.application
+													->load_state_from_binary(
+														SAVE_STATE_FILENAME);
 										}
 
 										if (!_ctx.controller->has_flag(
@@ -256,6 +309,8 @@ auto Sorcery::Create::start() -> int {
 
 			// done = true;
 		}
+
+		*/
 	}
 
 	// Exit if we get to here having broken out of the loop

@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -80,11 +81,22 @@ auto Sorcery::Method::start() -> int {
 		_ctx.ui->display(Enums::Screen::METHOD, _ctx.game);
 		_ctx.tick();
 
+		if (_ctx.controller->check_for_quicksave(event))
+			_ctx.application->save_state_to_binary(SAVE_STATE_FILENAME);
+		else if (_ctx.controller->check_for_quickload(event))
+			_ctx.application->load_state_from_binary(SAVE_STATE_FILENAME);
+
 		if (!_ctx.controller->wants(Enums::Screen::METHOD) &&
 			_ctx.controller->wants(Enums::Screen::TRAINING)) {
 			_ctx.game->save_game();
 			return BACK_TO_TRAINING_GROUNDS;
 		} else if (_ctx.controller->wants(Enums::Screen::CREATE)) {
+			if (_ctx.controller->has_flag("want_full_create"))
+				_ctx.controller->set_method(Enums::Character::Method::FULL);
+			else if (_ctx.controller->has_flag("want_quick_create"))
+				_ctx.controller->set_method(Enums::Character::Method::QUICK);
+			else if (_ctx.controller->has_flag("want_qrandom_create"))
+				_ctx.controller->set_method(Enums::Character::Method::RANDOM);
 			_create->start();
 			_create->stop();
 			return BACK_TO_TRAINING_GROUNDS;

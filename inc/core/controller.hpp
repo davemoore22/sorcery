@@ -56,7 +56,7 @@ class Controller {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
 					_can_undo, _fullscreen, _candidate_party, _screen,
-					_characters, _flags, _texts, _monochrome, _method);
+					_characters, _flags, _texts, _monochrome, _method, _create);
 		}
 
 		// Overloaded Operator

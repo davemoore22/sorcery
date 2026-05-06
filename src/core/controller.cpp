@@ -960,10 +960,6 @@ auto Sorcery::Controller::handle_input_button_click(
 
 			_create->set_name(*data);
 			_create->set_stage(Enums::Character::Stage::CHOOSE_RACE);
-
-			// Finished entering name
-			unset_flag("want_enter_name");
-			set_flag("want_choose_race");
 		}
 	}
 }
@@ -1167,25 +1163,6 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 				unset_flag("want_choose_class");
 			}
 		};
-	} else if (component == "method_menu") {
-
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::TRAINING);
-		else {
-
-			// Which method of character creation do we want to do?
-
-			if (selection == METHOD_FULL) {
-				_method = Enums::Character::Method::FULL;
-				go_to(Enums::Screen::CREATE);
-			} else if (selection == METHOD_QUICK) {
-				_method = Enums::Character::Method::QUICK;
-				go_to(Enums::Screen::CREATE);
-			} else if (selection == METHOD_RANDOM) {
-				_method = Enums::Character::Method::RANDOM;
-				go_to(Enums::Screen::CREATE);
-			}
-		}
 	} else if (component == "roster_menu") {
 
 		// Roster has multiple entry points so need to rely uponcalling

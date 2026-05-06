@@ -53,8 +53,8 @@ auto Sorcery::Training::_initialise() -> bool {
 
 auto Sorcery::Training::start() -> int {
 
-	_method->start();
-	_method->stop();
+	//_method->start();
+	//_method->stop();
 
 	_ctx.controller->go_to(Enums::Screen::TRAINING);
 	_ctx.controller->initialise();

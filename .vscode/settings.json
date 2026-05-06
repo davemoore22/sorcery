@@ -91,7 +91,7 @@
 		"args": [
 			"--quickstart",
 			"--ngi",
-			"--go-to-traiening"
+			"--go-to-mafze"
 		]
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",

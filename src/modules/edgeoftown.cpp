@@ -88,10 +88,6 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 		_ctx.ui->display(Enums::Screen::EDGEOFTOWN, _ctx.game);
 		_ctx.tick();
 
-		// Handle shortcuts
-		if (mode == GO_TO_TRAINING)
-			_ctx.controller->go_to(Enums::Screen::TRAINING);
-
 		if (_ctx.controller->want_to_leave_game()) {
 			_ctx.game->move_party_to_tavern();
 			_ctx.game->save_game();
