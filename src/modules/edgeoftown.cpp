@@ -114,9 +114,8 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			_restart->stop();
 			if (_ctx.controller->has_flag("want_restart_expedition"))
 				return RESTART_MAZE;
-
-		} else if (_ctx.controller->has_flag("want_enter_maze"))
-			return GO_TO_MAZE;
+		} else if (_ctx.controller->wants(Enums::Screen::ENGINE))
+			return EDGE_OF_TOWN_GO_TO_MAZE;
 	}
 
 	// Exit if we get to here having broken out of the loop

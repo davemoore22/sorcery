@@ -89,7 +89,7 @@
 	},
 	"cmake.debugConfig": {
 		"args": [
-			"--quicdkstart",
+			"--quickstart",
 			"--ngi",
 			"--go-to-traiening"
 		]

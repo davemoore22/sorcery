@@ -86,7 +86,7 @@ const ActionList MAIN_MENU_ACTIONS{
 
 const ActionList EDGE_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TRAINING}},
-	{{.type = MenuAction::Type::SETFLAG, .flag = "want_enter_maze"}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ENGINE}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RESTART}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
