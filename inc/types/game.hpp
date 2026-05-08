@@ -47,14 +47,16 @@ class Game {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(characters, state, _start_time, _last_time, _key, _id,
-					_status, _char_ids, _show_console, _events);
+			archive(characters, creation_candidate, state, _start_time,
+					_last_time, _key, _id, _status, _char_ids, _show_console,
+					_events);
 		}
 
 		// Public Members
 		std::map<unsigned int, Character> characters;
 		std::unique_ptr<State> state;
 		std::unique_ptr<LevelStore> levels;
+		std::shared_ptr<Character> creation_candidate = nullptr;
 
 		// Public Methods
 		auto post_construct(Context &ctx) -> void;

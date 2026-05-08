@@ -56,7 +56,7 @@ class Controller {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
 					_can_undo, _fullscreen, _candidate_party, _screen,
-					_characters, _flags, _texts, _monochrome, _method, _create);
+					_characters, _flags, _texts, _monochrome, _method);
 		}
 
 		// Overloaded Operator
@@ -135,7 +135,6 @@ class Controller {
 		auto clear_candidate_party() -> void;
 		auto get_candidate_party() -> std::vector<unsigned int> &;
 		auto get_candidate_party() const -> const std::vector<unsigned int> &;
-		auto inject_character(std::shared_ptr<Character> character) -> void;
 		auto get_character() const -> Character *;
 		auto get_input_buffer() -> std::string &;
 		auto set_input_buffer(const std::string &value) -> void;
@@ -180,8 +179,7 @@ class Controller {
 		std::map<std::string, bool> _flags;			// Logic Flags
 		std::map<std::string, std::string> _texts;	// "Global" Texts
 		std::map<std::string, int> _selected;		// Menu Selections
-		std::shared_ptr<Character> _create; // Candidate Character for Creation
-		std::string _input_buffer;			// Input Buffer for Text Input
+		std::string _input_buffer; // Input Buffer for Text Input
 };
 
 };

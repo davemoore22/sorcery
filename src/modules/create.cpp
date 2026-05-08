@@ -54,10 +54,10 @@ auto Sorcery::Create::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::CREATE);
 	_ctx.controller->initialise();
 
-	std::shared_ptr<Character> candidate = std::make_shared<Character>(&_ctx);
+	_ctx.game->creation_candidate = std::make_shared<Character>(&_ctx);
+	_ctx.game->creation_candidate->reset(Enums::Character::Stage::ENTER_NAME);
 
-	_ctx.controller->inject_character(candidate);
-	candidate->reset(Enums::Character::Stage::ENTER_NAME);
+	auto candidate{_ctx.game->creation_candidate};
 
 	_ctx.ui->first_frame = true;
 
@@ -110,6 +110,11 @@ auto Sorcery::Create::start() -> int {
 		}
 
 		_ctx.tick();
+
+		/* auto id = ctx.game->save_character(*candidate);
+ctx.game->characters.emplace(id, std::move(*candidate));
+ctx.game->creation_candidate.reset();*/
+
 
 		/*
 

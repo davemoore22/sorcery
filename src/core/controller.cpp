@@ -494,7 +494,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			return false;
 	} else if (component == "class_menu") {
 
-		const auto classes{_create->get_pos_class()};
+		const auto classes{_game->creation_candidate->get_pos_class()};
 		if (selection >= 0 && selection < 8) {
 			return !classes.at(
 				magic_enum::enum_cast<Enums::Character::Class>(selection + 1)
@@ -876,71 +876,73 @@ auto Sorcery::Controller::handle_stepper_button_click(
 
 	std::println("Stepper Button Click: {} {}", component, positive);
 
+	auto candidate{_ctx.game->creation_candidate};
+
 	if (component.starts_with("##stepper_attribute_")) {
 
 		if (positive) {
 
 			// Up: If we have points left and the value is less than 18
-			if ((_create->get_points_left() > 0) && (*data <= 17)) {
+			if ((candidate->get_points_left() > 0) && (*data <= 17)) {
 
 				(*data)++;
-				_create->set_points_left(_create->get_points_left() - 1);
-				_create->set_pos_class();
+				candidate->set_points_left(candidate->get_points_left() - 1);
+				candidate->set_pos_class();
 			}
 
 		} else {
 
-			if (_create->get_points_left() < _create->get_start_points()) {
+			if (candidate->get_points_left() < candidate->get_start_points()) {
 
 				// Down: If we are above staring points
 				using enum Enums::Character::Attribute;
 				if (component.starts_with("##stepper_attribute_1")) {
-					if (_create->get_cur_attr(STRENGTH) >
-						_create->get_start_attr(STRENGTH)) {
+					if (candidate->get_cur_attr(STRENGTH) >
+						candidate->get_start_attr(STRENGTH)) {
 						(*data)--;
-						_create->set_points_left(_create->get_points_left() +
-												 1);
-						_create->set_pos_class();
+						candidate->set_points_left(
+							candidate->get_points_left() + 1);
+						candidate->set_pos_class();
 					}
 				} else if (component.starts_with("##stepper_attribute_2")) {
-					if (_create->get_cur_attr(IQ) >
-						_create->get_start_attr(IQ)) {
+					if (candidate->get_cur_attr(IQ) >
+						candidate->get_start_attr(IQ)) {
 						(*data)--;
-						_create->set_points_left(_create->get_points_left() +
-												 1);
-						_create->set_pos_class();
+						candidate->set_points_left(
+							candidate->get_points_left() + 1);
+						candidate->set_pos_class();
 					}
 				} else if (component.starts_with("##stepper_attribute_3")) {
-					if (_create->get_cur_attr(PIETY) >
-						_create->get_start_attr(PIETY)) {
+					if (candidate->get_cur_attr(PIETY) >
+						candidate->get_start_attr(PIETY)) {
 						(*data)--;
-						_create->set_points_left(_create->get_points_left() +
-												 1);
-						_create->set_pos_class();
+						candidate->set_points_left(
+							candidate->get_points_left() + 1);
+						candidate->set_pos_class();
 					}
 				} else if (component.starts_with("##stepper_attribute_4")) {
-					if (_create->get_cur_attr(VITALITY) >
-						_create->get_start_attr(VITALITY)) {
+					if (candidate->get_cur_attr(VITALITY) >
+						candidate->get_start_attr(VITALITY)) {
 						(*data)--;
-						_create->set_points_left(_create->get_points_left() +
-												 1);
-						_create->set_pos_class();
+						candidate->set_points_left(
+							candidate->get_points_left() + 1);
+						candidate->set_pos_class();
 					}
 				} else if (component.starts_with("##stepper_attribute_5")) {
-					if (_create->get_cur_attr(AGILITY) >
-						_create->get_start_attr(AGILITY)) {
+					if (candidate->get_cur_attr(AGILITY) >
+						candidate->get_start_attr(AGILITY)) {
 						(*data)--;
-						_create->set_points_left(_create->get_points_left() +
-												 1);
-						_create->set_pos_class();
+						candidate->set_points_left(
+							candidate->get_points_left() + 1);
+						candidate->set_pos_class();
 					}
 				} else if (component.starts_with("##stepper_attribute_6")) {
-					if (_create->get_cur_attr(LUCK) >
-						_create->get_start_attr(LUCK)) {
+					if (candidate->get_cur_attr(LUCK) >
+						candidate->get_start_attr(LUCK)) {
 						(*data)--;
-						_create->set_points_left(_create->get_points_left() +
-												 1);
-						_create->set_pos_class();
+						candidate->set_points_left(
+							candidate->get_points_left() + 1);
+						candidate->set_pos_class();
 					}
 				}
 			}
@@ -958,8 +960,9 @@ auto Sorcery::Controller::handle_input_button_click(
 
 		if (data->length() > 0) {
 
-			_create->set_name(*data);
-			_create->set_stage(Enums::Character::Stage::CHOOSE_RACE);
+			_game->creation_candidate->set_name(*data);
+			_game->creation_candidate->set_stage(
+				Enums::Character::Stage::CHOOSE_RACE);
 		}
 	}
 }
@@ -1008,20 +1011,24 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		set_flag("want_invoke");
 	} else if (component == "button_keep_yes") {
 		// Save Character
-		_create->set_stage(Enums::Character::Stage::COMPLETED);
-		_create->set_location(Enums::Character::Location::TAVERN);
+		_game->creation_candidate->set_stage(
+			Enums::Character::Stage::COMPLETED);
+		_game->creation_candidate->set_location(
+			Enums::Character::Location::TAVERN);
 
-		Character pc{*_create};
+		Character pc{*_game->creation_candidate};
 		auto char_id{_game->save_character(pc)};
 		_game->characters.emplace(char_id, std::move(pc));
 		_game->save_game();
-		_create->reset(Enums::Character::Stage::CHOOSE_METHOD);
+		_game->creation_candidate->reset(
+			Enums::Character::Stage::CHOOSE_METHOD);
 		unset_flag("create_confirm");
 		unset_flag("show_create");
 		set_flag("show_training");
 
 	} else if (component == "button_keep_no") {
-		_create->reset(Enums::Character::Stage::CHOOSE_METHOD);
+		_game->creation_candidate->reset(
+			Enums::Character::Stage::CHOOSE_METHOD);
 		unset_flag("create_confirm");
 		unset_flag("show_create");
 		set_flag("show_training");
@@ -1084,11 +1091,12 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::METHOD);
 		else {
-			_create->set_race(
+			_game->creation_candidate->set_race(
 				magic_enum::enum_cast<Enums::Character::Race>(selection + 1)
 					.value());
-			_create->set_stage(Enums::Character::Stage::CHOOSE_ALIGNMENT);
-			_create->set_start_attr();
+			_game->creation_candidate->set_stage(
+				Enums::Character::Stage::CHOOSE_ALIGNMENT);
+			_game->creation_candidate->set_start_attr();
 			unset_flag("want_choose_race");
 			set_flag("want_choose_alignment");
 		}
@@ -1098,12 +1106,13 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::METHOD);
 		else {
-			_create->set_alignment(
+			_game->creation_candidate->set_alignment(
 				magic_enum::enum_cast<Enums::Character::Align>(selection + 1)
 					.value());
-			_create->set_stage(Enums::Character::Stage::CHOOSE_CLASS);
-			_create->set_start_attr();
-			_create->set_pos_class();
+			_game->creation_candidate->set_stage(
+				Enums::Character::Stage::CHOOSE_CLASS);
+			_game->creation_candidate->set_start_attr();
+			_game->creation_candidate->set_pos_class();
 			set_flag("want_choose_class");
 			unset_flag("want_choose_alignment");
 		}
@@ -1112,48 +1121,50 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::METHOD);
 		else {
-			if (_create->get_points_left() == 0) {
+			auto candidate{_ctx.game->creation_candidate};
+			if (candidate->get_points_left() == 0) {
 
-				_create->set_class(
+				candidate->set_class(
 					magic_enum::enum_cast<Enums::Character::Class>(selection +
 																   1)
 						.value());
-				_create->set_stage(Enums::Character::Stage::REVIEW_AND_CONFIRM);
-				_create->finalise();
+				candidate->set_stage(
+					Enums::Character::Stage::REVIEW_AND_CONFIRM);
+				candidate->finalise();
 
 				// TODO: refactor this
-				_create->inventory.clear();
+				candidate->inventory.clear();
 
 				switch (
-					_create->get_class()) { // NOLINT(clang-diagnostic-switch)
+					candidate->get_class()) { // NOLINT(clang-diagnostic-switch)
 					using enum Enums::Character::Class;
 					using enum Enums::Items::TypeID;
 				case FIGHTER:
 				case LORD:
 				case SAMURAI:
-					_create->inventory.add_type(
+					candidate->inventory.add_type(
 						_ctx.resources->items->get(LEATHER_ARMOR), true);
-					_create->inventory.add_type(
+					candidate->inventory.add_type(
 						_ctx.resources->items->get(LONG_SWORD), true);
 					break;
 				case MAGE:
-					_create->inventory.add_type(
+					candidate->inventory.add_type(
 						_ctx.resources->items->get(ROBES), true);
-					_create->inventory.add_type(
+					candidate->inventory.add_type(
 						_ctx.resources->items->get(DAGGER), true);
 					break;
 				case PRIEST:
 				case BISHOP:
-					_create->inventory.add_type(
+					candidate->inventory.add_type(
 						_ctx.resources->items->get(ROBES), true);
-					_create->inventory.add_type(
+					candidate->inventory.add_type(
 						_ctx.resources->items->get(STAFF), true);
 					break;
 				case THIEF:
 				case NINJA:
-					_create->inventory.add_type(
+					candidate->inventory.add_type(
 						_ctx.resources->items->get(LEATHER_ARMOR), true);
-					_create->inventory.add_type(
+					candidate->inventory.add_type(
 						_ctx.resources->items->get(SHORT_SWORD), true);
 				default:
 					break;
@@ -1261,15 +1272,9 @@ auto Sorcery::Controller::get_method() const -> Enums::Character::Method {
 	return _method;
 }
 
-auto Sorcery::Controller::inject_character(std::shared_ptr<Character> character)
-	-> void {
-
-	_create = character;
-}
-
 auto Sorcery::Controller::get_character() const -> Character * {
 
-	return _create.get();
+	return _game->creation_candidate.get();
 }
 
 auto Sorcery::Controller::go_to(const Enums::Screen screen) -> void {
