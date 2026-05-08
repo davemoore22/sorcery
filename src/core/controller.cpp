@@ -1011,6 +1011,7 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		set_flag("want_invoke");
 	} else if (component == "button_keep_yes") {
 		// Save Character
+
 		_game->creation_candidate->set_stage(
 			Enums::Character::Stage::COMPLETED);
 		_game->creation_candidate->set_location(
@@ -1022,16 +1023,13 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		_game->save_game();
 		_game->creation_candidate->reset(
 			Enums::Character::Stage::CHOOSE_METHOD);
-		unset_flag("create_confirm");
-		unset_flag("show_create");
-		set_flag("show_training");
+		_ctx.controller->go_to(Enums::Screen::TRAINING);
 
 	} else if (component == "button_keep_no") {
 		_game->creation_candidate->reset(
 			Enums::Character::Stage::CHOOSE_METHOD);
-		unset_flag("create_confirm");
-		unset_flag("show_create");
-		set_flag("show_training");
+		_ctx.controller->go_to(Enums::Screen::TRAINING);
+
 	} else if (component == "license_return") {
 
 		// Return to Main Menu
@@ -1097,8 +1095,6 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 			_game->creation_candidate->set_stage(
 				Enums::Character::Stage::CHOOSE_ALIGNMENT);
 			_game->creation_candidate->set_start_attr();
-			unset_flag("want_choose_race");
-			set_flag("want_choose_alignment");
 		}
 
 	} else if (component == "alignment_menu") {
@@ -1113,8 +1109,6 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 				Enums::Character::Stage::CHOOSE_CLASS);
 			_game->creation_candidate->set_start_attr();
 			_game->creation_candidate->set_pos_class();
-			set_flag("want_choose_class");
-			unset_flag("want_choose_alignment");
 		}
 	} else if (component == "class_menu") {
 

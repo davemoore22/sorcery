@@ -78,11 +78,6 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 
 			// Check for Back Event
 			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
-
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(SAVE_STATE_FILENAME);
-			else if (_ctx.controller->check_for_quickload(event))
-				_ctx.application->load_state_from_binary(SAVE_STATE_FILENAME);
 		}
 
 		_ctx.ui->display(Enums::Screen::EDGEOFTOWN, _ctx.game);

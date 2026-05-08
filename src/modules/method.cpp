@@ -81,11 +81,6 @@ auto Sorcery::Method::start() -> int {
 		_ctx.ui->display(Enums::Screen::METHOD, _ctx.game);
 		_ctx.tick();
 
-		if (_ctx.controller->check_for_quicksave(event))
-			_ctx.application->save_state_to_binary(SAVE_STATE_FILENAME);
-		else if (_ctx.controller->check_for_quickload(event))
-			_ctx.application->load_state_from_binary(SAVE_STATE_FILENAME);
-
 		if (!_ctx.controller->wants(Enums::Screen::METHOD) &&
 			_ctx.controller->wants(Enums::Screen::TRAINING)) {
 			_ctx.game->save_game();

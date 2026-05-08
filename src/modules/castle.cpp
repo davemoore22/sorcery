@@ -93,11 +93,6 @@ auto Sorcery::Castle::start() -> int {
 
 			// Check for Debug
 			_ctx.controller->check_for_debug(event);
-
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(SAVE_STATE_FILENAME);
-			else if (_ctx.controller->check_for_quickload(event))
-				_ctx.application->load_state_from_binary(SAVE_STATE_FILENAME);
 		}
 
 		_ctx.ui->display(Enums::Screen::CASTLE, _ctx.game);

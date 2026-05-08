@@ -2443,20 +2443,10 @@ auto Sorcery::Character::summary_text() -> std::string {
 		return std::format("{:<15} L {:>2} ?-??? {}", name, level,
 						   race_to_str(_race));
 		break;
-	case ALLOCATE_STATS:
-		return std::format("{:<15} L {:>2} {}-??? {}", name, level,
-						   alignment_to_str(_alignment).substr(0, 1),
-						   race_to_str(_race));
-		break;
+
 	case CHOOSE_CLASS:
 		return std::format("{:<15} L {:>2} {}-??? {}", name, level,
 						   alignment_to_str(_alignment).substr(0, 1),
-						   race_to_str(_race));
-		break;
-	case CHOOSE_PORTRAIT:
-		return std::format("{:<15} L {:>2} {}-{} {}", name, level,
-						   alignment_to_str(_alignment).substr(0, 1),
-						   class_to_str(_class).substr(0, 3),
 						   race_to_str(_race));
 		break;
 	case REVIEW_AND_CONFIRM:
