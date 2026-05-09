@@ -31,7 +31,7 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Method;
+class Create;
 
 class Training {
 
@@ -51,7 +51,7 @@ class Training {
 
 		// Private Members
 		Context &_ctx;
-		std::unique_ptr<Method> _method;
+		std::unique_ptr<Create> _create;
 };
 
 };

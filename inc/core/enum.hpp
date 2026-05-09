@@ -57,13 +57,11 @@ enum class Screen {
 	RECOVERY,
 	LEVELUP,
 	NOLEVELUP,
-
 	PAY,
 	HEAL,
 	RESULTS,
 
 	CREATE,
-	METHOD,
 	ROSTER,
 
 	CREATE_NAME,

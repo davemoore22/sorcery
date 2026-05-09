@@ -183,7 +183,6 @@ class UI {
 		auto _display_castle() -> void;
 		auto _display_edge_of_town() -> void;
 		auto _display_inn() -> void;
-		auto _display_method() -> void;
 		auto _display_pay() -> void;
 		auto _display_remove() -> void;
 		auto _display_restart() -> void;

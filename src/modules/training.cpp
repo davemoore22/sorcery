@@ -33,7 +33,7 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
-#include "modules/method.hpp"
+#include "modules/create.hpp"
 #include "types/game.hpp"
 
 Sorcery::Training::Training(Context &ctx)
@@ -41,7 +41,7 @@ Sorcery::Training::Training(Context &ctx)
 
 	_initialise();
 
-	_method = std::make_unique<Method>(_ctx);
+	_create = std::make_unique<Create>(_ctx);
 };
 
 Sorcery::Training::~Training() {}
@@ -52,9 +52,6 @@ auto Sorcery::Training::_initialise() -> bool {
 }
 
 auto Sorcery::Training::start() -> int {
-
-	//_method->start();
-	//_method->stop();
 
 	_ctx.controller->go_to(Enums::Screen::TRAINING);
 	_ctx.controller->initialise();
@@ -80,9 +77,9 @@ auto Sorcery::Training::start() -> int {
 				return BACK_TO_EDGE_OF_TOWN;
 			}
 
-			if (_ctx.controller->wants(Enums::Screen::METHOD)) {
-				_method->start();
-				_method->stop();
+			if (_ctx.controller->wants(Enums::Screen::CREATE)) {
+				_create->start();
+				_create->stop();
 			}
 		}
 

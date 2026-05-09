@@ -43,7 +43,7 @@ Sorcery::Character::~Character() {}
 Sorcery::Character::Character(Context *ctx)
 	: _ctx{ctx} {
 
-	set_stage(Enums::Character::Stage::CHOOSE_METHOD);
+	set_stage(Enums::Character::Stage::NOT_STARTED);
 
 	_hidden = false;
 	set_status(Enums::Character::Status::OK);
@@ -150,7 +150,7 @@ auto Sorcery::Character::set_stage(const Enums::Character::Stage stage)
 	_current_stage = stage;
 	switch (stage) {
 		using enum Enums::Character::Stage;
-	case CHOOSE_METHOD:
+	case NOT_STARTED:
 		_name.clear();
 		_race = Enums::Character::Race::NO_RACE;
 		_alignment = Enums::Character::Align::NO_ALIGN;
@@ -2430,9 +2430,7 @@ auto Sorcery::Character::summary_text() -> std::string {
 	const auto level{_abilities.at(Enums::Character::Ability::CURRENT_LEVEL)};
 	switch (_current_stage) {
 		using enum Enums::Character::Stage;
-
-	case CHOOSE_METHOD:
-		[[fallthrough]];
+		;
 	case ENTER_NAME:
 		return std::format("{:<15} L ?? ?-??? ???", "???");
 		break;
@@ -2492,16 +2490,6 @@ auto Sorcery::Character::_heal(const unsigned int adjustment) -> void {
 
 	if (_abilities[CURRENT_HP] > _abilities[MAX_HP])
 		_abilities[CURRENT_HP] = _abilities[MAX_HP];
-}
-
-auto Sorcery::Character::get_method() const -> Enums::Manage::Method {
-
-	return _method;
-}
-
-auto Sorcery::Character::set_method(const Enums::Manage::Method value) -> void {
-
-	_method = value;
 }
 
 auto Sorcery::Character::get_cur_xp() const -> int {

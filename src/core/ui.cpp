@@ -231,9 +231,6 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::TRAINING] = [this]() {
 		_display_training_grounds();
 	};
-	_draw_modules[Enums::Screen::METHOD] = [this]() {
-		_display_method();
-	};
 
 	_draw_modules_with_int[Enums::Screen::ROSTER] = [this](int n) {
 		_display_roster(n);
@@ -3275,12 +3272,6 @@ auto Sorcery::UI::_display_roster(const int mode) -> void {
 auto Sorcery::UI::_display_choose(const int mode) -> void {
 	_draw_components("choose", mode);
 	_draw_choose(mode);
-	_draw_cursor();
-}
-
-auto Sorcery::UI::_display_method() -> void {
-
-	_draw_components("method");
 	_draw_cursor();
 }
 

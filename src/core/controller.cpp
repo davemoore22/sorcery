@@ -1015,8 +1015,7 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		_ctx.controller->set_flag("confirm_keep_character");
 
 	} else if (component == "button_keep_no") {
-		_game->creation_candidate->reset(
-			Enums::Character::Stage::CHOOSE_METHOD);
+		_game->creation_candidate->reset(Enums::Character::Stage::NOT_STARTED);
 		_ctx.controller->go_to(Enums::Screen::TRAINING);
 
 	} else if (component == "license_return") {
@@ -1076,7 +1075,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "race_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::METHOD);
+			go_to(Enums::Screen::TRAINING);
 		else {
 			_game->creation_candidate->set_race(
 				magic_enum::enum_cast<Enums::Character::Race>(selection + 1)
@@ -1089,7 +1088,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "alignment_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::METHOD);
+			go_to(Enums::Screen::TRAINING);
 		else {
 			_game->creation_candidate->set_alignment(
 				magic_enum::enum_cast<Enums::Character::Align>(selection + 1)
@@ -1102,7 +1101,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 	} else if (component == "class_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::METHOD);
+			go_to(Enums::Screen::TRAINING);
 		else {
 			auto candidate{_ctx.game->creation_candidate};
 			if (candidate->get_points_left() == 0) {
@@ -1198,7 +1197,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Training Grounds
 		if (selection == TRAINING_CREATE)
-			go_to(Enums::Screen::METHOD);
+			go_to(Enums::Screen::CREATE);
 		else if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::EDGEOFTOWN);
 	} else if (component == "bestiary_menu") {
@@ -1242,17 +1241,6 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		else
 			go_to(Enums::Screen::RECOVERY);
 	}
-}
-
-auto Sorcery::Controller::set_method(const Enums::Character::Method method)
-	-> void {
-
-	_method = method;
-}
-
-auto Sorcery::Controller::get_method() const -> Enums::Character::Method {
-
-	return _method;
 }
 
 auto Sorcery::Controller::get_character() const -> Character * {

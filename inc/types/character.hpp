@@ -132,8 +132,6 @@ class Character {
 		auto set_gold(const unsigned int value) -> void;
 		auto grant_gold(const int value) -> void;
 		auto summary_text() -> std::string;
-		auto get_method() const -> Enums::Manage::Method;
-		auto set_method(const Enums::Manage::Method value) -> void;
 		auto get_summary() -> std::string;
 		auto create_spells() -> void;
 		auto reset_spells() -> void;
@@ -255,7 +253,6 @@ class Character {
 		unsigned int _portrait_index;
 		Enums::Character::Status _status;
 		bool _hidden;
-		Enums::Manage::Method _method;
 		bool _legated;
 		Enums::Character::Location _location;
 };

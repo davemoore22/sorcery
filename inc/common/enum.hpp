@@ -110,7 +110,6 @@ namespace Enums::Window {
 		SHOW_OUCH,
 		INPUT_NAME,
 		ALLOCATE_STATS,
-		CHOOSE_METHOD,
 		CHOOSE_PORTRAIT,
 		REVIEW_AND_CONFIRM,
 		BROWSE_CHARACTER,
@@ -311,23 +310,7 @@ namespace Enums::Magic {
 	};
 }
 
-namespace Enums::Manage {
-
-	enum class Method {
-		FULL = 0,
-		QUICK = 1,
-		RANDOM = 2
-	};
-}
-
 namespace Enums::Character {
-
-	enum class Method {
-		NO_METHOD = -1,
-		FULL = 0,
-		QUICK = 1,
-		RANDOM = 2
-	};
 
 	enum class Location {
 		NO_LOCATION = -1,
@@ -350,7 +333,6 @@ namespace Enums::Character {
 	// State of Character Creation
 	enum class Stage {
 		NOT_STARTED,
-		CHOOSE_METHOD,
 		CHOOSE_RACE,
 		CHOOSE_ALIGNMENT,
 		CHOOSE_CLASS,
@@ -616,7 +598,6 @@ namespace Enums::Menu {
 		CHOOSE_CHARACTER_CLASS,
 		CHOOSE_CHARACTER_PORTRAIT,
 		REVIEW_AND_CONFIRM,
-		CHOOSE_METHOD,
 		CHARACTER_ROSTER,
 		EDIT_CHARACTER,
 		CHANGE_CHARACTER_CLASS,

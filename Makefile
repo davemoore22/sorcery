@@ -1549,30 +1549,6 @@ src/modules/levelup.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/levelup.cpp.s
 .PHONY : src/modules/levelup.cpp.s
 
-src/modules/method.o: src/modules/method.cpp.o
-.PHONY : src/modules/method.o
-
-# target to build an object file
-src/modules/method.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/method.cpp.o
-.PHONY : src/modules/method.cpp.o
-
-src/modules/method.i: src/modules/method.cpp.i
-.PHONY : src/modules/method.i
-
-# target to preprocess a source file
-src/modules/method.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/method.cpp.i
-.PHONY : src/modules/method.cpp.i
-
-src/modules/method.s: src/modules/method.cpp.s
-.PHONY : src/modules/method.s
-
-# target to generate assembly for a file
-src/modules/method.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_modules.dir/build.make CMakeFiles/sorcery_modules.dir/src/modules/method.cpp.s
-.PHONY : src/modules/method.cpp.s
-
 src/modules/nolevelup.o: src/modules/nolevelup.cpp.o
 .PHONY : src/modules/nolevelup.o
 
@@ -2666,9 +2642,6 @@ help:
 	@echo "... src/modules/levelup.o"
 	@echo "... src/modules/levelup.i"
 	@echo "... src/modules/levelup.s"
-	@echo "... src/modules/method.o"
-	@echo "... src/modules/method.i"
-	@echo "... src/modules/method.s"
 	@echo "... src/modules/nolevelup.o"
 	@echo "... src/modules/nolevelup.i"
 	@echo "... src/modules/nolevelup.s"

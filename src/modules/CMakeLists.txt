@@ -20,7 +20,6 @@ target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/inn.cpp
 	${CMAKE_CURRENT_LIST_DIR}/inspect.cpp
 	${CMAKE_CURRENT_LIST_DIR}/levelup.cpp
-	${CMAKE_CURRENT_LIST_DIR}/method.cpp
 	${CMAKE_CURRENT_LIST_DIR}/nolevelup.cpp
 	${CMAKE_CURRENT_LIST_DIR}/pay.cpp
 	${CMAKE_CURRENT_LIST_DIR}/remove.cpp

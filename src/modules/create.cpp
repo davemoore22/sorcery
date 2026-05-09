@@ -77,7 +77,7 @@ auto Sorcery::Create::start() -> int {
 
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event)) {
-				return BACK_TO_CHOOSE_METHOD;
+				return BACK_TO_TRAINING_GROUNDS;
 			}
 
 			if (_ctx.controller->check_for_quicksave(event))
@@ -92,7 +92,7 @@ auto Sorcery::Create::start() -> int {
 		switch (candidate->get_stage()) {
 		case ENTER_NAME:
 			_ctx.ui->display(Enums::Screen::CREATE_NAME,
-							 std::to_underlying(candidate->get_stage()));
+							 unenum(candidate->get_stage()));
 
 			if (candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
 				candidate->set_stage(CHOOSE_RACE);
@@ -100,7 +100,7 @@ auto Sorcery::Create::start() -> int {
 			break;
 		case CHOOSE_RACE:
 			_ctx.ui->display(Enums::Screen::CREATE_RACE,
-							 std::to_underlying(candidate->get_stage()));
+							 unenum(candidate->get_stage()));
 			if (candidate->get_stage() !=
 				Enums::Character::Stage::CHOOSE_RACE) {
 				candidate->set_stage(CHOOSE_ALIGNMENT);
@@ -108,7 +108,7 @@ auto Sorcery::Create::start() -> int {
 			break;
 		case CHOOSE_ALIGNMENT:
 			_ctx.ui->display(Enums::Screen::CREATE_ALIGNMENT,
-							 std::to_underlying(candidate->get_stage()));
+							 unenum(candidate->get_stage()));
 			if (candidate->get_stage() !=
 				Enums::Character::Stage::CHOOSE_ALIGNMENT) {
 				candidate->set_stage(CHOOSE_CLASS);
@@ -116,7 +116,7 @@ auto Sorcery::Create::start() -> int {
 			break;
 		case CHOOSE_CLASS:
 			_ctx.ui->display(Enums::Screen::CREATE_CLASS,
-							 std::to_underlying(candidate->get_stage()));
+							 unenum(candidate->get_stage()));
 			if (candidate->get_stage() !=
 				Enums::Character::Stage::CHOOSE_CLASS) {
 				candidate->finalise();
@@ -132,7 +132,7 @@ auto Sorcery::Create::start() -> int {
 			}
 
 			_ctx.ui->display(Enums::Screen::CREATE_CONFIRM,
-							 std::to_underlying(candidate->get_stage()));
+							 unenum(candidate->get_stage()));
 
 			if (_ctx.controller->has_flag("confirm_keep_character")) {
 
@@ -158,207 +158,6 @@ auto Sorcery::Create::start() -> int {
 		}
 
 		_ctx.tick();
-
-		/* auto id = ctx.game->save_character(*candidate);
-ctx.game->characters.emplace(id, std::move(*candidate));
-ctx.game->creation_candidate.reset();*/
-
-		/*
-
-		// Check to see if we have finished entering the name (the stage and
-		// name are set in controller->handle_input_button_click())
-		if (!_ctx.controller->has_flag("want_enter_name") &&
-			candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
-			while (!done) {
-
-				// Move to the next stage
-				while (SDL_PollEvent(&event)) {
-
-					// Check for Quit Events
-					ImGui_ImplSDL2_ProcessEvent(&event);
-					done = _ctx.controller->check_for_abort(event);
-
-					// Check for Window Resize
-					_ctx.controller->check_for_resize(event, _ctx.ui);
-
-					// Check for Back Event
-					if (_ctx.controller->check_for_back(event)) {
-						return BACK_TO_CHOOSE_METHOD;
-					}
-
-					if (_ctx.controller->check_for_quicksave(event))
-						_ctx.application->save_state_to_binary(
-							SAVE_STATE_FILENAME);
-					else if (_ctx.controller->check_for_quickload(event))
-						_ctx.application->load_state_from_binary(
-							SAVE_STATE_FILENAME);
-				}
-
-				_ctx.ui->display(Enums::Screen::CREATE_RACE,
-								 static_cast<int>(_stage));
-
-				if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
-					_ctx.controller->wants(Enums::Screen::METHOD)) {
-					return BACK_TO_CHOOSE_METHOD;
-				} else if (!_ctx.controller->wants(Enums::Screen::CREATE) &&
-						   _ctx.controller->wants(Enums::Screen::TRAINING))
-{ return BACK_TO_TRAINING_GROUNDS;
-				}
-
-				if (!_ctx.controller->has_flag("want_choose_race") &&
-					_ctx.controller->has_flag("want_choose_alignment")) {
-
-					while (!done) {
-
-						// Move to the next stage
-						while (SDL_PollEvent(&event)) {
-
-							// Check for Quit Events
-							ImGui_ImplSDL2_ProcessEvent(&event);
-							done = _ctx.controller->check_for_abort(event);
-
-							// Check for Window Resize
-							_ctx.controller->check_for_resize(event,
-_ctx.ui);
-
-							// Check for Back Event
-							if (_ctx.controller->check_for_back(event)) {
-								return BACK_TO_CHOOSE_METHOD;
-							}
-
-							if (_ctx.controller->check_for_quicksave(event))
-								_ctx.application->save_state_to_binary(
-									SAVE_STATE_FILENAME);
-							else if (_ctx.controller->check_for_quickload(
-										 event))
-								_ctx.application->load_state_from_binary(
-									SAVE_STATE_FILENAME);
-						}
-
-						_ctx.ui->display(Enums::Screen::CREATE_ALIGNMENT,
-										 static_cast<int>(_stage));
-
-						if (!_ctx.controller->wants(Enums::Screen::CREATE)
-&& _ctx.controller->wants(Enums::Screen::METHOD)) { return
-BACK_TO_CHOOSE_METHOD; } else if (!_ctx.controller->wants(
-									   Enums::Screen::CREATE) &&
-								   _ctx.controller->wants(
-									   Enums::Screen::TRAINING)) {
-							return BACK_TO_TRAINING_GROUNDS;
-						}
-
-						if (!_ctx.controller->has_flag(
-								"want_choose_alignment") &&
-							_ctx.controller->has_flag("want_choose_class"))
-{ while (!done) {
-
-								// Move to the next stage
-								while (SDL_PollEvent(&event)) {
-
-									// Check for Quit Events
-									ImGui_ImplSDL2_ProcessEvent(&event);
-									done =
-										_ctx.controller->check_for_abort(event);
-
-									// Check for Window Resize
-									_ctx.controller->check_for_resize(event,
-																	  _ctx.ui);
-
-									// Check for Back Event
-									if (_ctx.controller->check_for_back(
-											event)) {
-										return BACK_TO_CHOOSE_METHOD;
-									}
-
-									if
-(_ctx.controller->check_for_quicksave( event))
-										_ctx.application->save_state_to_binary(
-											SAVE_STATE_FILENAME);
-									else if (_ctx.controller
-												 ->check_for_quickload(event))
-										_ctx.application
-											->load_state_from_binary(
-												SAVE_STATE_FILENAME);
-								}
-
-								_ctx.ui->display(Enums::Screen::CREATE_CLASS,
-												 static_cast<int>(_stage));
-
-								if (!_ctx.controller->wants(
-										Enums::Screen::CREATE) &&
-									_ctx.controller->wants(
-										Enums::Screen::METHOD))
-									return BACK_TO_CHOOSE_METHOD;
-								else if (!_ctx.controller->wants(
-											 Enums::Screen::CREATE) &&
-										 _ctx.controller->wants(
-											 Enums::Screen::TRAINING)) {
-									return BACK_TO_TRAINING_GROUNDS;
-								}
-
-								if (!_ctx.controller->has_flag(
-										"want_choose_class") &&
-									_ctx.controller->has_flag(
-										"want_choose_confirm")) {
-									while (!done) {
-LLOCATE_STATS,
-										// Move to the next stage
-										while (SDL_PollEvent(&event)) {
-
-											// Check for Quit Events
-											ImGui_ImplSDL2_ProcessEvent(&event);
-											done = _ctx.controller
-													   ->check_for_abort(event);
-
-											// Check for Window Resize
-											_ctx.controller->check_for_resize(
-												event, _ctx.ui);
-
-											// Check for Back Event
-											if
-(_ctx.controller->check_for_back( event)) { return BACK_TO_CHOOSE_METHOD;
-											}
-
-											if (_ctx.controller
-													->check_for_quicksave(
-														event))
-												_ctx.application
-													->save_state_to_binary(
-														SAVE_STATE_FILENAME);
-											else if (_ctx.controller
-														 ->check_for_quickload(
-															 event))
-												_ctx.application
-													->load_state_from_binary(
-														SAVE_STATE_FILENAME);
-										}
-
-										if (!_ctx.controller->has_flag(
-												"show_create") &&
-											_ctx.controller->has_flag(
-												"show_method")) {
-											return BACK_TO_CHOOSE_METHOD;
-										} else if
-(!_ctx.controller->has_flag( "show_create") && _ctx.controller->has_flag(
-													   "show_training")) {
-											return BACK_TO_TRAINING_GROUNDS;
-										}
-
-										_ctx.ui->display(
-											Enums::Screen::CREATE_CONFIRM,
-											static_cast<int>(_stage));
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			// done = true;
-		}
-
-		*/
 	}
 
 	// Exit if we get to here having broken out of the loop
@@ -367,5 +166,6 @@ LLOCATE_STATS,
 
 auto Sorcery::Create::stop() -> int {
 
+	_ctx.controller->go_to(Enums::Screen::TRAINING);
 	return 0;
 }
