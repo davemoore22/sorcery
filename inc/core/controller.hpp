@@ -136,6 +136,7 @@ class Controller {
 		auto get_character() const -> Character *;
 		auto get_input_buffer() -> std::string &;
 		auto set_input_buffer(const std::string &value) -> void;
+		auto clear_input_buffer() -> void;
 
 		auto initialise() -> void;
 		auto go_to(const Enums::Screen screen) -> void;

@@ -870,6 +870,11 @@ auto Sorcery::Controller::set_input_buffer(const std::string &value) -> void {
 	_input_buffer = value;
 }
 
+auto Sorcery::Controller::clear_input_buffer() -> void {
+
+	_input_buffer.clear();
+}
+
 auto Sorcery::Controller::handle_stepper_button_click(
 	const std::string &component, [[maybe_unused]] UI *ui, const bool positive,
 	int *data) -> void {

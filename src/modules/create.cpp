@@ -60,6 +60,7 @@ auto Sorcery::Create::start() -> int {
 	auto candidate{_ctx.game->creation_candidate};
 
 	_ctx.ui->first_frame = true;
+	_ctx.controller->clear_input_buffer();
 
 	// Main loop
 	auto done{false};
