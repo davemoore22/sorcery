@@ -124,14 +124,34 @@ auto Sorcery::Create::start() -> int {
 			}
 			break;
 		case REVIEW_AND_CONFIRM:
+
+			// Order is changed to avoid doing a display before returning after
+			if (candidate->get_stage() !=
+				Enums::Character::Stage::REVIEW_AND_CONFIRM) {
+				return BACK_TO_TRAINING_GROUNDS;
+			}
+
 			_ctx.ui->display(Enums::Screen::CREATE_CONFIRM,
 							 std::to_underlying(candidate->get_stage()));
 
-			if (candidate->get_stage() !=
-				Enums::Character::Stage::REVIEW_AND_CONFIRM) {
-				_ctx.controller->go_to(Enums::Screen::TRAINING);
+			if (_ctx.controller->has_flag("confirm_keep_character")) {
+
+				candidate->set_stage(COMPLETED);
+				candidate->set_location(Enums::Character::Location::TAVERN);
+
+				auto char_id = _ctx.game->save_character(*candidate);
+
+				_ctx.game->characters.emplace(char_id, *candidate);
+				_ctx.game->creation_candidate.reset();
+				_ctx.game->save_game();
+
+				_ctx.controller->unset_flag("confirm_keep_character");
 				return BACK_TO_TRAINING_GROUNDS;
 			}
+
+			break;
+		case COMPLETED:
+			return BACK_TO_TRAINING_GROUNDS;
 			break;
 		default:
 			break;

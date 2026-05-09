@@ -1010,20 +1010,9 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		ui->modal_invoke->show = true;
 		set_flag("want_invoke");
 	} else if (component == "button_keep_yes") {
+
 		// Save Character
-
-		_game->creation_candidate->set_stage(
-			Enums::Character::Stage::COMPLETED);
-		_game->creation_candidate->set_location(
-			Enums::Character::Location::TAVERN);
-
-		Character pc{*_game->creation_candidate};
-		auto char_id{_game->save_character(pc)};
-		_game->characters.emplace(char_id, std::move(pc));
-		_game->save_game();
-		_game->creation_candidate->reset(
-			Enums::Character::Stage::CHOOSE_METHOD);
-		_ctx.controller->go_to(Enums::Screen::TRAINING);
+		_ctx.controller->set_flag("confirm_keep_character");
 
 	} else if (component == "button_keep_no") {
 		_game->creation_candidate->reset(
