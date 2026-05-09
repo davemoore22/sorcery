@@ -1020,8 +1020,9 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		_ctx.controller->set_flag("confirm_keep_character");
 
 	} else if (component == "button_keep_no") {
-		_game->creation_candidate->reset(Enums::Character::Stage::NOT_STARTED);
-		_ctx.controller->go_to(Enums::Screen::TRAINING);
+
+		// Don't save Character
+		_ctx.controller->set_flag("confirm_discard_character");
 
 	} else if (component == "license_return") {
 

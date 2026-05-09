@@ -78,7 +78,8 @@ auto Sorcery::Create::start() -> int {
 
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event)) {
-				return BACK_TO_TRAINING_GROUNDS;
+				if (_go_back_stage())
+					return BACK_TO_TRAINING_GROUNDS;
 			}
 
 			if (_ctx.controller->check_for_quicksave(event))
@@ -142,11 +143,16 @@ auto Sorcery::Create::start() -> int {
 
 				auto char_id = _ctx.game->save_character(*candidate);
 
-				_ctx.game->characters.emplace(char_id, *candidate);
+				_ctx.game->characters.try_emplace(char_id, *candidate);
 				_ctx.game->creation_candidate.reset();
 				_ctx.game->save_game();
 
 				_ctx.controller->unset_flag("confirm_keep_character");
+				return BACK_TO_TRAINING_GROUNDS;
+			} else if (_ctx.controller->has_flag("confirm_discard_character")) {
+
+				_ctx.game->creation_candidate.reset();
+				_ctx.controller->unset_flag("confirm_discard_character");
 				return BACK_TO_TRAINING_GROUNDS;
 			}
 
@@ -163,6 +169,42 @@ auto Sorcery::Create::start() -> int {
 
 	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
+}
+
+auto Sorcery::Create::_go_back_stage() -> bool {
+
+	auto candidate{_ctx.game->creation_candidate};
+
+	using enum Enums::Character::Stage;
+
+	switch (candidate->get_stage()) {
+
+	case ENTER_NAME:
+		return true;
+
+	case CHOOSE_RACE:
+		candidate->set_stage(ENTER_NAME);
+		_ctx.controller->clear_input_buffer();
+		_ctx.ui->first_frame = true;
+		break;
+
+	case CHOOSE_ALIGNMENT:
+		candidate->set_stage(CHOOSE_RACE);
+		break;
+
+	case CHOOSE_CLASS:
+		candidate->set_stage(CHOOSE_ALIGNMENT);
+		break;
+
+	case REVIEW_AND_CONFIRM:
+		candidate->set_stage(CHOOSE_CLASS);
+		break;
+
+	default:
+		break;
+	}
+
+	return false;
 }
 
 auto Sorcery::Create::stop() -> int {
