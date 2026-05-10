@@ -65,6 +65,7 @@ inline constexpr auto ITEMS_TEXTURE{"items.png"sv};
 inline constexpr auto LOGO_TEXTURE{"logo.png"sv};
 inline constexpr auto MAPS_TEXTURE{"maps.png"sv};
 inline constexpr auto MAINMENU_VIDEO{"mainmenu.mp4"sv};
+inline constexpr auto BACKGROUNDS_TEXTURE{"backgrounds.png"sv};
 
 inline constexpr auto ENGINE_MUSIC{"engine.mp3"sv};
 inline constexpr auto MAINMENU_MUSIC{"mainmenu.mp3"sv};

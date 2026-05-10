@@ -209,6 +209,7 @@ class UI {
 		auto _display_license(const std::string &string) -> void;
 
 		auto _draw_attract_mode() -> void;
+		auto _draw_tiled_bg(Component *component) -> void;
 		auto _draw_bg_image(Component *component) -> void;
 		auto _draw_bg_video() -> void;
 

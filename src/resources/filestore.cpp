@@ -51,6 +51,7 @@ Sorcery::FileStore::FileStore() {
 	_add_path(DATA_DIR, TEXT_FONT_FILE);
 	_add_path(DOCUMENTS_DIR, LICENSE_FILE);
 	_add_path(GFX_DIR, BACKGROUND_MAIN_MENU_TEXTURE);
+	_add_path(GFX_DIR, BACKGROUNDS_TEXTURE);
 	_add_path(GFX_DIR, BANNER_TEXTURE);
 	_add_path(GFX_DIR, ICONS_TEXTURE);
 	_add_path(GFX_DIR, ITEMS_TEXTURE);

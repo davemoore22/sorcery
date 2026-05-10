@@ -60,10 +60,11 @@ auto Sorcery::ImageStore::_initialise() -> bool {
 	// Work out what we need to load and just store it in a list
 	_sources.insert(
 		_sources.end(),
-		{std::string{BANNER_TEXTURE}, std::string{BACKGROUND_MAIN_MENU_TEXTURE},
-		 std::string{ICONS_TEXTURE}, std::string{ITEMS_TEXTURE},
-		 std::string{KNOWN_CREATURES_TEXTURE}, std::string{LOGO_TEXTURE},
-		 std::string{MAPS_TEXTURE}, std::string{UNKNOWN_CREATURES_TEXTURE},
+		{std::string{BANNER_TEXTURE}, std::string{BACKGROUNDS_TEXTURE},
+		 std::string{BACKGROUND_MAIN_MENU_TEXTURE}, std::string{ICONS_TEXTURE},
+		 std::string{ITEMS_TEXTURE}, std::string{KNOWN_CREATURES_TEXTURE},
+		 std::string{LOGO_TEXTURE}, std::string{MAPS_TEXTURE},
+		 std::string{UNKNOWN_CREATURES_TEXTURE},
 		 std::string{WIREFRAME_TEXTURE}});
 	capacity = _sources.size();
 

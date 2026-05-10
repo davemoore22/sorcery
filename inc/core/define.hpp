@@ -39,6 +39,7 @@ inline constexpr auto CREATURE_TILE_ROW_COUNT{20u};
 inline constexpr auto ICONS_TILE_ROW_COUNT{15u};
 inline constexpr auto ITEM_TILE_ROW_COUNT{15u};
 inline constexpr auto MAP_TILE_ROW_COUNT{10u};
+inline constexpr auto BACKGROUNDS_TILE_ROW_COUNT{15u};
 
 // Command Line Parameters
 inline constexpr auto CONTINUE_GAME_PARAM{"--continue"sv};
