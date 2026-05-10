@@ -121,12 +121,6 @@ const ActionList CAMP_ACTIONS{
 	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
 	{{.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
 
-const ActionList INSPECT_ACTIONS{
-	{{.type = MenuAction::Type::SETCHARACTER, .character_key = "inspect"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::CLEARCHARACTER, .character_key = "inspect"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
-
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},
 	{"castle_menu", CASTLE_ACTIONS},
@@ -135,8 +129,7 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"inn_menu", INN_ACTIONS},
 	{"tavern_menu", TAVERN_ACTIONS},
 	{"temple_menu", TEMPLE_ACTIONS},
-	{"camp_menu", CAMP_ACTIONS},
-	{"inspect_menu", INSPECT_ACTIONS},
+	{"camp_menu", CAMP_ACTIONS}
 
 };
 #pragma GCC diagnostic pop

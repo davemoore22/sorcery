@@ -136,6 +136,9 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 			_ctx.controller->set_character(
 				"inspect", _ctx.game->state->get_party_char(pos).value());
 			_ctx.controller->unset_flag("select_next_character");
+		} else if (_ctx.controller->has_flag("back_from_inspect")) {
+			_ctx.controller->unset_flag("back_from_inspect");
+			return BACK_FROM_INSPECT;
 		}
 	}
 

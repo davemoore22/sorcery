@@ -586,6 +586,16 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
+	} else if (component == "inspect_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character("inspect");
+			set_flag("back_from_inspect");
+		} else
+			set_character("inspect", data);
+
+		in_flags[0].get() = false;
 	} else if (component == "tithe_menu" || component == "modal_tithe") {
 
 		// Flags = &_ui->modal_tithe->show, &_ui->input_donate->show,

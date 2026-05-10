@@ -275,12 +275,15 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	items.clear();
 	data.clear();
 
+	// std::println("Building Menu: {}", menu_name);
+
 	// -------- Dynamic menus --------
 	if (menu_name == "roster_menu" || menu_name == "choose_menu" ||
 		menu_name == "inspect_menu" || menu_name == "remove_menu" ||
 		menu_name == "modal_inspect") {
 
 		_load_party_characters(items, data, NO_FLAGS, reorder);
+		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
@@ -298,6 +301,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 	if (menu_name == "add_menu") {
 		_load_tavern_characters(items, data);
+		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 

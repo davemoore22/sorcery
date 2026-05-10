@@ -78,6 +78,9 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 
 			// Check for Back Event
 			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
+
+			// Check for Debug
+			_ctx.controller->check_for_debug(event);
 		}
 
 		_ctx.ui->display(Enums::Screen::EDGEOFTOWN, _ctx.game);
