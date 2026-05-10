@@ -941,24 +941,24 @@ auto Sorcery::UI::_draw_tiled_bg(Component *component) -> void {
 
 		auto src_image{images->get(std::string{BACKGROUNDS_TEXTURE})};
 
-		constexpr float TILE_SIZE = 400.0f;
+		constexpr float TILE_SIZE{400.0f};
 
-		const int tiles_per_row = src_image.width / static_cast<int>(TILE_SIZE);
+		const int tiles_per_row{src_image.width / static_cast<int>(TILE_SIZE)};
 
-		const int idx = _ctx.animation->wp_idx;
+		const int idx{_ctx.animation->wp_idx};
 
-		const int tile_x = idx % tiles_per_row;
-		const int tile_y = idx / tiles_per_row;
+		const int tile_x{idx % tiles_per_row};
+		const int tile_y{idx / tiles_per_row};
 
 		// UV coordinates into atlas
-		const float u0 = (tile_x * TILE_SIZE) / src_image.width;
-		const float v0 = (tile_y * TILE_SIZE) / src_image.height;
+		const float u0{(tile_x * TILE_SIZE) / src_image.width};
+		const float v0{(tile_y * TILE_SIZE) / src_image.height};
 
-		const float u1 = ((tile_x + 1) * TILE_SIZE) / src_image.width;
-		const float v1 = ((tile_y + 1) * TILE_SIZE) / src_image.height;
+		const float u1{((tile_x + 1) * TILE_SIZE) / src_image.width};
+		const float v1{((tile_y + 1) * TILE_SIZE) / src_image.height};
 
-		const auto viewport = ImGui::GetMainViewport();
-		auto *draw_list = ImGui::GetWindowDrawList();
+		const auto viewport{ImGui::GetMainViewport()};
+		auto *draw_list{ImGui::GetWindowDrawList()};
 
 		for (float y = 0; y < viewport->Size.y; y += TILE_SIZE) {
 
