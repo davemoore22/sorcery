@@ -293,6 +293,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->modal_use->show = false;
 		_ctx.ui->modal_invoke->show = false;
 		_ctx.ui->modal_trade->show = false;
+		_ctx.ui->modal_give->show = false;
 
 	} else {
 		// Start off in Camp
@@ -305,6 +306,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->modal_use->show = false;
 		_ctx.ui->modal_invoke->show = false;
 		_ctx.ui->modal_trade->show = false;
+		_ctx.ui->modal_give->show = false;
 	}
 }
 

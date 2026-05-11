@@ -204,6 +204,26 @@
 					]
 				},
 				{
+					"name": "modal_give",
+					"x": "centre",
+					"y": "8",
+					"w": "24",
+					"h": "15",
+					"font": "monospace",
+					"type": "choice",
+					"string": "MODAL_GIVE",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"menu_name": "give_menu",
+							"highlight": "0x6060c8"
+						}
+					]
+				},
+				{
 					"name": "modal_trade",
 					"x": "centre",
 					"y": "8",

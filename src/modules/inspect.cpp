@@ -98,6 +98,10 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 					_ctx.ui->modal_trade->show = false;
 					_ctx.controller->unset_flag("want_trade");
 				}
+				if (_ctx.ui->modal_give->show) {
+					_ctx.ui->modal_give->show = false;
+					_ctx.controller->unset_flag("want_give");
+				}
 				if (_ctx.ui->notice_pool_gold->show) {
 					_ctx.ui->notice_pool_gold->show = false;
 					_ctx.controller->unset_flag("want_pool_gold");

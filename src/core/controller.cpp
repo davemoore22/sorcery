@@ -406,9 +406,6 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 	} else if (component == "pay_menu") {
 		if (_game != nullptr) {
 
-			if (data == -1)
-				return false;
-
 			const auto &help{_game->characters.at(_characters["help"])};
 			const auto &who{_game->characters[data]};
 			return help.get_cure_cost() > who.get_gold();
@@ -641,11 +638,18 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		}
 	} else if (component == "trade_menu" || component == "modal_trade") {
 
-		// Flags = &_ui->modal_trade->show
+		// Flags = &_ui->modal_trade->show, &_ui->modal_give->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_trade"] = true;
+			_flags["want_give"] = true;
 			in_flags.at(0).get() = false;
 		} else {
+			in_flags.at(0).get() = false;
+			in_flags.at(1).get() = true;
+			_flags["want_give"] = true;
+			_flags["want_trade"] = false;
+
+			// Handle Trade
 		}
 	} else if (component == "use_menu" || component == "modal_use") {
 
@@ -1013,7 +1017,10 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		// Show Trade Modal
 		ui->modal_trade->regenerate();
 		ui->modal_trade->show = true;
+		ui->modal_give->regenerate();
+		ui->modal_give->show = false;
 		set_flag("want_trade");
+		unset_flag("want_give");
 	} else if (component == "button_use") {
 		// Show Use Modal
 		ui->modal_use->regenerate();

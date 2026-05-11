@@ -119,6 +119,7 @@ inline constexpr auto COMPENDIUM_SPELLBOOK{4};
 inline constexpr auto NO_FLAGS{0};
 inline constexpr auto MENU_SHOW_POSITION{1};
 inline constexpr auto MENU_SHOW_GOLD{2};
+inline constexpr auto MENU_SHOW_SPACE{4};
 
 // Item Menu Mode
 inline constexpr auto MENU_IDENTIFY_ITEM{1};

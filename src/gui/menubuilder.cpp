@@ -63,12 +63,14 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"trade_menu", {"TRADE_RETURN"}},
 	{"use_menu", {"USE_RETURN"}},
 	{"invoke_menu", {"INVOKE_RETURN"}},
+	{"give_menu", {"GIVE_RETURN"}},
 
 	{"modal_drop", {"DROP_RETURN"}},
 	{"modal_identify", {"IDENTIFY_RETURN"}},
 	{"modal_trade", {"TRADE_RETURN"}},
 	{"modal_use", {"USE_RETURN"}},
 	{"modal_invoke", {"INVOKE_RETURN"}},
+	{"modal_give", {"GIVE_RETURN"}},
 
 	{"stay_menu", {"STAY_RETURN"}},
 	{"modal_stay", {"STAY_RETURN"}},
@@ -163,7 +165,11 @@ auto Sorcery::MenuBuilder::_load_party_characters(
 			items.emplace_back(std::format("{:<16} {:>8} G.P.",
 										   character.get_name(),
 										   character.get_gold()));
-		else
+		else if (flags & MENU_SHOW_SPACE) {
+			const auto slots_free{character.inventory.get_empty_slots()};
+			items.emplace_back(std::format("{:<16} ({:>8})",
+										   character.get_name(), slots_free));
+		} else
 			items.emplace_back(std::format("{:^21}", character.get_name()));
 
 		data.emplace_back(id);
@@ -311,6 +317,13 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		return;
 	}
 
+	if (menu_name == "give_menu") {
+
+		_load_party_characters(items, data, MENU_SHOW_SPACE, reorder);
+		_load_fixed_menu(menu_name, width, items);
+		return;
+	}
+
 	if (menu_name == "add_menu") {
 		_load_tavern_characters(items, data);
 		_load_fixed_menu(menu_name, width, items);
@@ -340,7 +353,6 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		menu_name == "trade_menu" || menu_name == "use_menu" ||
 		menu_name == "invoke_menu") {
 
-		_load_character_items(menu_name, items, data);
 		_load_fixed_menu(menu_name, width, items);
 		return;
 	}

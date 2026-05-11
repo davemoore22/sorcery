@@ -74,6 +74,7 @@ auto Sorcery::Temple::start() -> int {
 	_ctx.ui->create_dynamic_modal("modal_help");
 	_ctx.ui->create_dynamic_modal("modal_tithe");
 	_ctx.ui->create_dynamic_modal("modal_trade");
+	_ctx.ui->create_dynamic_modal("modal_give");
 	_ctx.ui->create_dynamic_modal("modal_use");
 	_ctx.ui->create_dynamic_modal("modal_invoke");
 	_ctx.ui->modal_inspect->show = false;
@@ -82,6 +83,7 @@ auto Sorcery::Temple::start() -> int {
 	_ctx.ui->modal_identify->show = false;
 	_ctx.ui->modal_drop->show = false;
 	_ctx.ui->modal_trade->show = false;
+	_ctx.ui->modal_give->show = false;
 	_ctx.ui->modal_use->show = false;
 	_ctx.ui->modal_invoke->show = false;
 
@@ -123,6 +125,7 @@ auto Sorcery::Temple::start() -> int {
 						_ctx.controller->unset_flag("want_identify");
 						_ctx.controller->unset_flag("want_drop");
 						_ctx.controller->unset_flag("want_trade");
+						_ctx.controller->unset_flag("want_give");
 						_ctx.controller->unset_flag("want_pool_gold");
 						_ctx.ui->modal_inspect->show = false;
 					} else if (_ctx.ui->modal_help->show) {

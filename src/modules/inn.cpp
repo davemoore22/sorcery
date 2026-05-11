@@ -66,11 +66,13 @@ auto Sorcery::Inn::start() -> int {
 	_ctx.ui->create_dynamic_modal("modal_drop");
 	_ctx.ui->create_dynamic_modal("modal_trade");
 	_ctx.ui->create_dynamic_modal("modal_use");
+	_ctx.ui->create_dynamic_modal("modal_give");
 	_ctx.ui->create_dynamic_modal("modal_invoke");
 	_ctx.ui->modal_inspect->show = false;
 	_ctx.ui->modal_stay->show = false;
 	_ctx.ui->modal_identify->show = false;
 	_ctx.ui->modal_drop->show = false;
+	_ctx.ui->modal_give->show = false;
 	_ctx.ui->modal_trade->show = false;
 	_ctx.ui->modal_use->show = false;
 	_ctx.ui->modal_invoke->show = false;

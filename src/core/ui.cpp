@@ -133,6 +133,8 @@ Sorcery::UI::UI(Context &ctx)
 		std::make_unique<Modal>(_ctx, components->get("global:modal_identify"));
 	modal_trade =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_trade"));
+	modal_give =
+		std::make_unique<Modal>(_ctx, components->get("global:modal_give"));
 	modal_use =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_use"));
 	modal_invoke =
@@ -349,6 +351,12 @@ auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
 		modal_trade = std::make_unique<Modal>(
 			_ctx, components->get("global:modal_trade"));
 		modal_trade->regenerate();
+	} else if (name == "modal_give") {
+		if (modal_give.get())
+			modal_give.reset();
+		modal_give =
+			std::make_unique<Modal>(_ctx, components->get("global:modal_give"));
+		modal_give->regenerate();
 	} else if (name == "modal_use") {
 		if (modal_use.get())
 			modal_use.reset();
@@ -423,6 +431,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		output.append(get_popup_status((void *)modal_camp.get(), "modal"));
 	if (modal_drop)
 		output.append(get_popup_status((void *)modal_drop.get(), "modal"));
+	if (modal_give)
+		output.append(get_popup_status((void *)modal_give.get(), "modal"));
 	if (modal_help)
 		output.append(get_popup_status((void *)modal_help.get(), "modal"));
 	if (modal_identify)
@@ -539,6 +549,7 @@ auto Sorcery::UI::start() -> void {
 	modal_identify->show = false;
 	modal_drop->show = false;
 	modal_trade->show = false;
+	modal_give->show = false;
 	modal_use->show = false;
 	modal_invoke->show = false;
 	dialog_stairs_up->show = false;
@@ -598,6 +609,8 @@ auto Sorcery::UI::display_engine() -> void {
 		modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	if (modal_trade->show)
 		modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	if (modal_give->show)
+		modal_give->display(_ctx.get_flag_ref("want_give"));
 	if (modal_use->show)
 		modal_use->display(_ctx.get_flag_ref("want_use"));
 	if (modal_invoke->show)
@@ -3342,6 +3355,8 @@ auto Sorcery::UI::_display_inspect(const int mode) -> void {
 		modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	if (modal_trade->show)
 		modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	if (modal_give->show)
+		modal_give->display(_ctx.get_flag_ref("want_give"));
 	if (modal_use->show)
 		modal_use->display(_ctx.get_flag_ref("want_use"));
 	if (modal_invoke->show)
@@ -3383,6 +3398,7 @@ auto Sorcery::UI::_display_inn() -> void {
 	modal_stay->display(_ctx.get_flag_ref("want_stay"));
 	modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	modal_give->display(_ctx.get_flag_ref("want_give"));
 	modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	modal_use->display(_ctx.get_flag_ref("want_use"));
 	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
@@ -3448,6 +3464,7 @@ auto Sorcery::UI::_display_tavern() -> void {
 	modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	modal_use->display(_ctx.get_flag_ref("want_use"));
+	modal_give->display(_ctx.get_flag_ref("want_give"));
 	modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	_draw_party_panel();
@@ -3474,6 +3491,7 @@ auto Sorcery::UI::_display_temple() -> void {
 	modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	modal_give->display(_ctx.get_flag_ref("want_give"));
 	modal_use->display(_ctx.get_flag_ref("want_use"));
 	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	input_donate->display(_ctx.get_flag_ref("want_donate"));
@@ -3825,6 +3843,17 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 						} else if (name == "invoke_menu") {
 							std::vector<std::reference_wrapper<bool>> out_flags{
 								{std::ref(modal_invoke->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "trade_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_trade->show),
+								 std::ref(modal_give->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "give_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_give->show)}};
 							_ctx.controller->handle_menu_with_flags(
 								name, items, data_item, i, out_flags);
 						} else
