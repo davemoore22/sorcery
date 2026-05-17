@@ -375,6 +375,19 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			else
 				return false;
 		}
+	} else if (component == "give_menu" || component == "modal_give") {
+
+		if (_game != nullptr) {
+
+			const auto current_char_id{_characters["inspect"]};
+
+			if (current_char_id == data)
+				return true;
+
+			const auto slots_free{
+				_game->characters[data].inventory.get_empty_slots()};
+			return slots_free == 0;
+		}
 	} else if (component == "rest_menu") {
 
 		if (_game != nullptr) {
