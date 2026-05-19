@@ -1,6 +1,6 @@
 # Project Definition
 cmake_minimum_required(VERSION 3.22...3.22)
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
 project(sorcery VERSION 0.1.0)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

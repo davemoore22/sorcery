@@ -1504,8 +1504,9 @@ auto Sorcery::UI::_draw_character_mage_spells(Component *component,
 				if (!(*spell).known)
 					ImGui::BeginDisabled();
 
-				if (ImGui::Selectable((*spell).name.c_str(),
-									  &ms_selected[unenum(spell_id)])) {
+				if (ImGui::Selectable(
+						(*spell).name.c_str(),
+						&ms_selected[_mage_spell_index(spell_id)])) {
 				};
 
 				if (!(*spell).known)
@@ -1556,8 +1557,9 @@ auto Sorcery::UI::_draw_character_priest_spells(Component *component,
 				if (!(*spell).known)
 					ImGui::BeginDisabled();
 
-				if (ImGui::Selectable((*spell).name.c_str(),
-									  &ms_selected[unenum(spell_id)])) {
+				if (ImGui::Selectable(
+						(*spell).name.c_str(),
+						&ps_selected[_priest_spell_index(spell_id)])) {
 				};
 
 				if (!(*spell).known)
@@ -4009,4 +4011,13 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 		return {std::ref(modal_invoke->show)};
 
 	return {};
+}
+
+auto Sorcery::UI::_mage_spell_index(Enums::Magic::SpellID id) -> std::size_t {
+	return static_cast<std::size_t>(unenum(id));
+}
+
+auto Sorcery::UI::_priest_spell_index(Enums::Magic::SpellID id) -> std::size_t {
+	return static_cast<std::size_t>(unenum(id) -
+									unenum(Enums::Magic::SpellID::BADIOS));
 }
