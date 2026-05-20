@@ -97,7 +97,17 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 
 			// Check for Back Event
-			_ctx.controller->check_for_back(event, _ctx.ui->modal_camp->show);
+			//_ctx.controller->check_for_back(event, _ctx.ui->modal_camp->show);
+			//
+			if (_ctx.controller->check_for_back(event)) {
+				if (_ctx.ui->in_popup()) {
+					_ctx.ui->close_all_popups();
+					_ctx.controller->clear_modal_flags();
+				} else {
+					_ctx.ui->modal_camp->show = true;
+					_ctx.controller->set_flag("want_camp");
+				}
+			}
 
 			// Check for Debug
 

@@ -4029,46 +4029,53 @@ auto Sorcery::UI::in_popup() const -> bool {
 
 auto Sorcery::UI::close_all_popups() -> void {
 
-	const std::array popup_states{
-		&dialog_exit->show,		  &dialog_new->show,
-		&dialog_leave->show,	  &notice_cannot_donate->show,
-		&notice_donated_ok->show, &notice_not_enough_gold->show,
-		&notice_divvy->show,	  &notice_pool_gold->show,
-		&dialog_stairs_up->show,  &dialog_stairs_down->show,
-		&input_donate->show,	  &input_name->show,
-		&popup_ouch->show,		  &modal_camp->show,
-		&message_tile->show,	  &modal_inspect->show,
-		&modal_stay->show,		  &modal_help->show,
-		&modal_tithe->show,		  &modal_identify->show,
-		&modal_drop->show,		  &modal_trade->show,
-		&modal_give->show,		  &modal_use->show,
-		&modal_invoke->show,
-	};
-
-	for (auto *show : popup_states)
+	for (auto *show : _popup_states())
 		*show = false;
 }
 
 auto Sorcery::UI::active_popup_count() const -> int {
 
-	const std::array popup_states{
-		&dialog_exit->show,		  &dialog_new->show,
-		&dialog_leave->show,	  &notice_cannot_donate->show,
-		&notice_donated_ok->show, &notice_not_enough_gold->show,
-		&notice_divvy->show,	  &notice_pool_gold->show,
-		&dialog_stairs_up->show,  &dialog_stairs_down->show,
-		&input_donate->show,	  &input_name->show,
-		&popup_ouch->show,		  &modal_camp->show,
-		&message_tile->show,	  &modal_inspect->show,
-		&modal_stay->show,		  &modal_help->show,
-		&modal_tithe->show,		  &modal_identify->show,
-		&modal_drop->show,		  &modal_trade->show,
-		&modal_give->show,		  &modal_use->show,
-		&modal_invoke->show,
+	const auto states{_popup_states()};
+
+	return std::count_if(states.begin(), states.end(), [](const bool *show) {
+		return *show;
+	});
+}
+
+auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
+
+	std::vector<bool *> states;
+
+	auto add = [&](const auto &ptr) {
+		if (ptr)
+			states.emplace_back(&ptr->show);
 	};
 
-	return std::count_if(popup_states.begin(), popup_states.end(),
-						 [](const bool *show) {
-							 return *show;
-						 });
+	add(dialog_exit);
+	add(dialog_new);
+	add(dialog_leave);
+	add(notice_cannot_donate);
+	add(notice_donated_ok);
+	add(notice_not_enough_gold);
+	add(notice_divvy);
+	add(notice_pool_gold);
+	add(dialog_stairs_up);
+	add(dialog_stairs_down);
+	add(input_donate);
+	add(input_name);
+	add(popup_ouch);
+	add(modal_camp);
+	add(message_tile);
+	add(modal_inspect);
+	add(modal_stay);
+	add(modal_help);
+	add(modal_tithe);
+	add(modal_identify);
+	add(modal_drop);
+	add(modal_trade);
+	add(modal_give);
+	add(modal_use);
+	add(modal_invoke);
+
+	return states;
 }

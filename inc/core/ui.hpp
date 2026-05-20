@@ -297,5 +297,7 @@ class UI {
 
 		auto _mage_spell_index(Enums::Magic::SpellID id) -> std::size_t;
 		auto _priest_spell_index(Enums::Magic::SpellID id) -> std::size_t;
+
+		auto _popup_states() const -> std::vector<bool *>;
 };
 };
