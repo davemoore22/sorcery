@@ -27,6 +27,8 @@
 #include "resources/filestore.hpp"
 #include "types/image.hpp"
 
+#include <print>
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-default"
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
@@ -40,7 +42,7 @@ Sorcery::ImageStore::ImageStore(Context &ctx)
 	_initialise();
 }
 
-auto Sorcery::ImageStore::get(const std::string file) -> Image {
+auto Sorcery::ImageStore::get(const std::string &file) -> Image {
 
 	if (!_loaded.at(file)) {
 		_load_image(file);
@@ -79,18 +81,18 @@ auto Sorcery::ImageStore::_initialise() -> bool {
 }
 
 // Load a specific image
-auto Sorcery::ImageStore::load_image(const std::string file) -> bool {
+auto Sorcery::ImageStore::load_image(const std::string &file) -> bool {
 
 	return _load_image(file);
 }
 
-auto Sorcery::ImageStore::has_loaded(const std::string file) -> bool {
+auto Sorcery::ImageStore::has_loaded(const std::string &file) -> bool {
 
 	return _loaded.at(file);
 }
 
 // Wrapper method to load an image
-auto Sorcery::ImageStore::_load_image(const std::string file) -> bool {
+auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
 
 	// Check to make sure we don't reload an image (in future,
 	// store the file modified timestamp so we can dynamically
@@ -99,10 +101,13 @@ auto Sorcery::ImageStore::_load_image(const std::string file) -> bool {
 		return false;
 	else {
 
+		const auto path{_ctx.get_file(file)};
+
 		// If not loaded, load the image
 		Image image{};
-		_load_texture_from_disc(_ctx.get_file(file).c_str(), &image.texture,
-								&image.width, &image.height);
+		_load_texture_from_disc(path.c_str(), &image.texture, &image.width,
+								&image.height);
+
 		_images.try_emplace(file, image);
 		_loaded[file] = true;
 		++progress;

@@ -38,9 +38,9 @@ class ImageStore {
 	public:
 		ImageStore(Context &ctx);
 
-		auto get(const std::string file) -> Image;
-		auto has_loaded(const std::string file) -> bool;
-		auto load_image(const std::string file) -> bool;
+		auto get(const std::string &file) -> Image;
+		auto has_loaded(const std::string &file) -> bool;
+		auto load_image(const std::string &file) -> bool;
 
 		bool loaded;
 		unsigned int progress;
@@ -52,7 +52,7 @@ class ImageStore {
 		auto _initialise() -> bool;
 		auto _load_texture_from_disc(const char *filename, GLuint *out_texture,
 									 int *out_width, int *out_height) -> bool;
-		auto _load_image(const std::string key) -> bool;
+		auto _load_image(const std::string &key) -> bool;
 
 		Context &_ctx;
 		std::map<std::string, Image> _images;

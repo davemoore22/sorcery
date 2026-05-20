@@ -30,6 +30,8 @@
 #include "types/component.hpp"
 #include "types/config.hpp"
 
+#include <print>
+
 auto Sorcery::Context::tick() -> void {
 
 	application->update();
@@ -59,6 +61,8 @@ auto Sorcery::Context::get_config(std::string_view section,
 
 auto Sorcery::Context::get_file(std::string_view key) const
 	-> std::filesystem::path {
+
+	std::println("Loading Resource: {}...", key);
 
 	return files->get(key);
 }

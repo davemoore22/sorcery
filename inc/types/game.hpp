@@ -55,7 +55,6 @@ class Game {
 		// Public Members
 		std::map<unsigned int, Character> characters;
 		std::unique_ptr<State> state;
-		std::unique_ptr<LevelStore> levels;
 		std::shared_ptr<Character> creation_candidate = nullptr;
 
 		// Public Methods

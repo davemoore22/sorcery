@@ -27,6 +27,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/define.hpp"
+#include "core/resources.hpp"
 #include "core/ui.hpp"
 #include "frontend/options.hpp"
 #include "gui/define.hpp"
@@ -248,7 +249,7 @@ auto Sorcery::Engine::_set_tile_explored(const Coordinate loc) -> void {
 auto Sorcery::Engine::_go_to_location(const int depth, const Coordinate loc,
 									  const Enums::Map::Direction dir) -> void {
 
-	Level level{_ctx.game->levels->get(depth).value()};
+	Level level{_ctx.resources->levels->get(depth).value()};
 	_ctx.game->state->set_current_level(&level);
 	_ctx.game->state->set_player_pos(loc);
 	_ctx.game->state->set_player_prev_depth(_ctx.game->state->get_depth());
@@ -441,7 +442,7 @@ auto Sorcery::Engine::_go_down_a_level() -> void {
 
 		// Floors are negative
 		if (to_level < 0) {
-			Level level{_ctx.game->levels->get(to_level).value()};
+			Level level{_ctx.resources->levels->get(to_level).value()};
 			_ctx.game->state->set_current_level(&level);
 			_ctx.game->state->set_player_pos(destination.to_loc);
 			_ctx.game->state->set_player_prev_depth(
@@ -465,7 +466,7 @@ auto Sorcery::Engine::_go_up_a_level() -> void {
 
 		// Floors are negative
 		if (to_level < 0) {
-			Level level{_ctx.game->levels->get(to_level).value()};
+			Level level{_ctx.resources->levels->get(to_level).value()};
 			_ctx.game->state->set_current_level(&level);
 			_ctx.game->state->set_player_pos(destination.to_loc);
 			_ctx.game->state->set_player_prev_depth(

@@ -250,7 +250,7 @@ auto Sorcery::Game::save_game() -> void {
 
 auto Sorcery::Game::enter_maze() -> void {
 
-	Level level{levels->get(-1).value()};
+	Level level{_ctx.resources->levels->get(-1).value()};
 
 	state->set_current_level(&level);
 	state->restart_expedition();
@@ -277,7 +277,7 @@ auto Sorcery::Game::restart_maze(unsigned int char_id) -> void {
 	state->set_depth(to_depth);
 	state->set_player_prev_depth(state->get_depth());
 	state->set_player_pos(to_loc);
-	Level level{levels->get(to_depth).value()};
+	Level level{_ctx.resources->levels->get(to_depth).value()};
 	state->set_current_level(&level);
 }
 
@@ -290,12 +290,10 @@ auto Sorcery::Game::_clear() -> void {
 
 	// Clear existing data!
 	state.reset();
-	levels.reset();
 	characters.clear();
 	_char_ids.clear();
 
 	state = std::make_unique<State>(&_ctx);
-	levels = std::make_unique<LevelStore>(_ctx.get_file(MAPS_FILE));
 
 	state->clear_log_messages();
 	state->reset_shop(_ctx.resources->items.get());
@@ -328,7 +326,6 @@ auto Sorcery::Game::_load_game() -> void {
 	_start_time = start_time;
 	_last_time = last_time;
 	state = std::make_unique<State>();
-	levels = std::make_unique<LevelStore>(_ctx.files->get(MAPS_FILE));
 	if (data.length() > 0) {
 		std::stringstream ss;
 		ss.str(data);
