@@ -847,6 +847,56 @@ auto Sorcery::Controller::check_for_back(const SDL_Event event, bool &flag)
 		flag = true;
 }
 
+auto Sorcery::Controller::clear_modal_flags() -> void {
+
+	for (const auto flag : {
+			 "want_camp",
+			 "want_inspect",
+			 "want_stay",
+			 "want_help",
+			 "want_tithe",
+			 "want_identify",
+			 "want_drop",
+			 "want_trade",
+			 "want_give",
+			 "want_use",
+			 "want_invoke",
+			 "want_take_stairs_up",
+			 "want_take_stairs_down",
+			 "after_tile_message",
+		 })
+		unset_flag(flag);
+}
+
+auto Sorcery::Controller::check_for_quick_inspect(const SDL_Event event)
+	-> int {
+
+	if (event.type != SDL_KEYDOWN)
+		return -1;
+
+	const auto scancode{event.key.keysym.scancode};
+
+	int position{-1};
+
+	// Main keyboard number row
+	if (scancode >= SDL_SCANCODE_1 && scancode <= SDL_SCANCODE_6)
+		position = static_cast<int>(scancode - SDL_SCANCODE_1) + 1;
+
+	// Numeric keypad
+	else if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_6)
+		position = static_cast<int>(scancode - SDL_SCANCODE_KP_1) + 1;
+
+	if (position == -1)
+		return -1;
+
+	const auto party_count{_game->state->get_party_size()};
+
+	if (position > party_count)
+		return -1;
+
+	return position;
+}
+
 // Check if the SDL event is a Window-Shut-Down event
 auto Sorcery::Controller::check_for_abort(const SDL_Event event) -> bool {
 

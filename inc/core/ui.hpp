@@ -104,6 +104,9 @@ class UI {
 		auto set_fullscreen(const bool value) -> void;
 		auto start() -> void;
 		auto stop() -> void;
+		auto in_popup() const -> bool;
+		auto close_all_popups() -> void;
+		auto active_popup_count() const -> int;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;

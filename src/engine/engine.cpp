@@ -117,6 +117,15 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				if (old_monochrome != _ctx.controller->get_monochrome())
 					_ctx.ui->set_monochrome(_ctx.controller->get_monochrome());
 
+				// Check for Quick Access
+				if (const auto selected{
+						_ctx.controller->check_for_quick_inspect(event)};
+					selected != -1) {
+
+					_inspect->start(INSPECT_MODE_CAMP, selected);
+					_inspect->stop(INSPECT_MODE_CAMP);
+				}
+
 				// Check for Movement
 				if (const auto movement{
 						_ctx.controller->check_for_movement(event)};
@@ -221,6 +230,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				}
 
 				// check for light, elevator etc
+			} else {
+
+				// If we are in a popup
 			}
 		}
 		_ctx.ui->display_engine();

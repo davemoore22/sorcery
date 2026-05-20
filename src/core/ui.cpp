@@ -4021,3 +4021,54 @@ auto Sorcery::UI::_priest_spell_index(Enums::Magic::SpellID id) -> std::size_t {
 	return static_cast<std::size_t>(unenum(id) -
 									unenum(Enums::Magic::SpellID::BADIOS));
 }
+
+auto Sorcery::UI::in_popup() const -> bool {
+
+	return active_popup_count() > 0;
+}
+
+auto Sorcery::UI::close_all_popups() -> void {
+
+	const std::array popup_states{
+		&dialog_exit->show,		  &dialog_new->show,
+		&dialog_leave->show,	  &notice_cannot_donate->show,
+		&notice_donated_ok->show, &notice_not_enough_gold->show,
+		&notice_divvy->show,	  &notice_pool_gold->show,
+		&dialog_stairs_up->show,  &dialog_stairs_down->show,
+		&input_donate->show,	  &input_name->show,
+		&popup_ouch->show,		  &modal_camp->show,
+		&message_tile->show,	  &modal_inspect->show,
+		&modal_stay->show,		  &modal_help->show,
+		&modal_tithe->show,		  &modal_identify->show,
+		&modal_drop->show,		  &modal_trade->show,
+		&modal_give->show,		  &modal_use->show,
+		&modal_invoke->show,
+	};
+
+	for (auto *show : popup_states)
+		*show = false;
+}
+
+auto Sorcery::UI::active_popup_count() const -> int {
+
+	const std::array popup_states{
+		&dialog_exit->show,		  &dialog_new->show,
+		&dialog_leave->show,	  &notice_cannot_donate->show,
+		&notice_donated_ok->show, &notice_not_enough_gold->show,
+		&notice_divvy->show,	  &notice_pool_gold->show,
+		&dialog_stairs_up->show,  &dialog_stairs_down->show,
+		&input_donate->show,	  &input_name->show,
+		&popup_ouch->show,		  &modal_camp->show,
+		&message_tile->show,	  &modal_inspect->show,
+		&modal_stay->show,		  &modal_help->show,
+		&modal_tithe->show,		  &modal_identify->show,
+		&modal_drop->show,		  &modal_trade->show,
+		&modal_give->show,		  &modal_use->show,
+		&modal_invoke->show,
+	};
+
+	return std::count_if(popup_states.begin(), popup_states.end(),
+						 [](const bool *show) {
+							 return *show;
+						 });
+}
