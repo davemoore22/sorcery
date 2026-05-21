@@ -23,10 +23,14 @@
 #include "core/audioplayer.hpp"
 #include "common/ffmpeg.hpp"
 #include "common/sdl2.hpp"
+#include "core/debug.hpp"
+#include "types/scopedtimer.hpp"
 #include <iostream>
 #include <print>
 
 Sorcery::AudioPlayer::AudioPlayer() {
+
+	av_log_set_level(AV_LOG_ERROR);
 
 	SDL_AudioSpec want{};
 
@@ -77,6 +81,9 @@ void Sorcery::AudioPlayer::free_resources() {
 }
 
 void Sorcery::AudioPlayer::load(const std::string &filename) {
+
+	PROFILE_SCOPE("AudioPlayer::load");
+	DEBUG_LOGF("Loading Resource: {}", filename);
 
 	free_resources();
 
@@ -159,9 +166,9 @@ void Sorcery::AudioPlayer::update() {
 	if (!_playing || !_fmt)
 		return;
 
-	const int TARGET_BUFFER{_spec.freq * _spec.channels * sizeof(float)};
+	const Uint32 target_buffer{_spec.freq * _spec.channels * sizeof(float)};
 
-	while (SDL_GetQueuedAudioSize(_device) < TARGET_BUFFER) {
+	while (SDL_GetQueuedAudioSize(_device) < target_buffer) {
 
 		if (av_read_frame(_fmt, _packet) < 0) {
 			// loop

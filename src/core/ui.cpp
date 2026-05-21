@@ -33,6 +33,7 @@
 #include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/debug.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/macro.hpp"
@@ -472,6 +473,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 
 auto Sorcery::UI::start() -> void {
 
+	DEBUG_LOG("Starting UI...");
+
 	// Initialise ImGUI to use SDL2/OpenGL
 	ImGui::CreateContext();
 	_io = ImGui::GetIO();
@@ -565,6 +568,8 @@ auto Sorcery::UI::io() -> ImGuiIO & {
 }
 
 auto Sorcery::UI::stop() -> void {
+
+	DEBUG_LOG("Stopping UI...");
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();

@@ -24,6 +24,7 @@
 #include "core/animation.hpp"
 #include "core/audioplayer.hpp"
 #include "core/controller.hpp"
+#include "core/debug.hpp"
 #include "core/display.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
@@ -134,7 +135,7 @@ auto Sorcery::Application::save_state_to_binary(const std::string &filename)
 	cereal::BinaryOutputArchive archive(os);
 	archive(*_game, *_controller);
 
-	std::println("Quicksave successfully written to {}!", filename);
+	DEBUG_LOGF("Quicksave successfully written to {}!", filename);
 
 	return true;
 }
@@ -152,7 +153,7 @@ auto Sorcery::Application::load_state_from_binary(const std::string &filename)
 	cereal::BinaryInputArchive archive(is);
 	archive(*_game, *_controller);
 
-	std::println("Quicksave successfully loaded from {}!", filename);
+	DEBUG_LOGF("Quicksave successfully loaded from {}!", filename);
 
 	return true;
 }

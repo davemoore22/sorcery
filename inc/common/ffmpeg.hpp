@@ -42,6 +42,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/dict.h>
 #include <libavutil/imgutils.h>
+#include <libavutil/log.h>
 #include <libswresample/swresample.h>
 }
 

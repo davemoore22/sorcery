@@ -293,8 +293,6 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	items.clear();
 	data.clear();
 
-	// std::println("Building Menu: {}", menu_name);
-
 	// -------- Dynamic menus --------
 	if (menu_name == "roster_menu" || menu_name == "choose_menu" ||
 		menu_name == "inspect_menu" || menu_name == "remove_menu" ||

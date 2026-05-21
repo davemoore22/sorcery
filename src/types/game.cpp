@@ -25,11 +25,13 @@
 #include "common/macro.hpp"
 #include "core/context.hpp"
 #include "core/database.hpp"
+#include "core/debug.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
 #include "resources/filestore.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
+#include "types/scopedtimer.hpp"
 #include "types/state.hpp"
 
 Sorcery::Game::Game(Context &ctx)
@@ -240,10 +242,16 @@ auto Sorcery::Game::create_game() -> void {
 
 auto Sorcery::Game::load_game() -> void {
 
+	PROFILE_SCOPE("Game::load_game");
+	DEBUG_LOG("Loading Game from DB");
+
 	_load_game();
 }
 
 auto Sorcery::Game::save_game() -> void {
+
+	PROFILE_SCOPE("Game::save_game");
+	DEBUG_LOG("Saving Game to DB");
 
 	_save_game();
 }
