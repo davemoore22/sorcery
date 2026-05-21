@@ -925,7 +925,7 @@ auto Sorcery::Controller::abort(const bool value) -> void {
 
 auto Sorcery::Controller::want_to_abort() const -> bool {
 
-	return _abort;
+	return _abort || has_flag("want_abort_game");
 }
 
 auto Sorcery::Controller::leave_game(const bool value) -> void {

@@ -169,6 +169,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_warnings
 )
 
+# Compile Definitions
+target_compile_definitions(${PROJECT_NAME} PRIVATE SORCERY_PROFILE)
+
 # Post Build Directories
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
 	cfg)

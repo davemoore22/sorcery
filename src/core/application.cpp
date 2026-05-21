@@ -66,6 +66,8 @@ Sorcery::Application::Application(int argc, char **argv) {
 		std::abort();
 	});
 
+	install_signal_handlers();
+
 	// Get any command line arguments
 	_args.clear();
 	for (auto loop = 0; loop < argc; ++loop) {
@@ -223,8 +225,8 @@ auto Sorcery::Application::start() -> int {
 		}
 	}
 
-	ctx.ui->stop();
 	ctx.audio->stop();
+	ctx.ui->stop();
 
 	return 0;
 }
@@ -403,6 +405,11 @@ auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 }
 
 auto Sorcery::Application::update() -> void {
+
+	if (signal_shutdown_requested()) {
+		ctx.controller->set_flag("want_abort_game");
+		ctx.controller->set_flag("want_exit_game");
+	}
 
 	ctx.audio->update();
 }
@@ -635,4 +642,20 @@ auto Sorcery::Application::_get_exe_path() const -> std::string_view {
 		return base_path;
 	}
 #endif
+}
+
+auto Sorcery::Application::install_signal_handlers() -> void {
+
+	std::signal(SIGTERM, _handle_signal);
+	std::signal(SIGINT, _handle_signal);
+}
+
+auto Sorcery::Application::_handle_signal([[maybe_unused]] int signal) -> void {
+
+	_signal_shutdown_requested.store(true, std::memory_order_relaxed);
+}
+
+auto Sorcery::Application::signal_shutdown_requested() -> bool {
+
+	return _signal_shutdown_requested.load(std::memory_order_relaxed);
 }

@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <atomic>
+#include <csignal>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -107,6 +109,8 @@ class Application {
 		auto load_state_from_binary(const std::string &filename) -> bool;
 		auto get_resources() const -> Resources *;
 		auto update() -> void;
+		static auto signal_shutdown_requested() -> bool;
+		static auto install_signal_handlers() -> void;
 
 		Context ctx;
 
@@ -126,6 +130,7 @@ class Application {
 		auto _continue_existing_game() -> int;
 		auto _do_start_expedition(const int mode) -> int;
 		auto _do_restart_expedition(const int mode) -> int;
+		static auto _handle_signal(int signal) -> void;
 
 		// Private Members
 		std::vector<std::string> _args;
@@ -140,5 +145,6 @@ class Application {
 		std::unique_ptr<Castle> _castle;
 		std::unique_ptr<EdgeOfTown> _edge_of_town;
 		std::unique_ptr<Engine> _engine;
+		static inline std::atomic_bool _signal_shutdown_requested{false};
 };
 }

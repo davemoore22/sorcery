@@ -27,6 +27,7 @@ target_sources(sorcery_types PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/level.cpp
 	${CMAKE_CURRENT_LIST_DIR}/monster.cpp
 	${CMAKE_CURRENT_LIST_DIR}/monstertype.cpp
+	${CMAKE_CURRENT_LIST_DIR}/scopedtimer.cpp
 	${CMAKE_CURRENT_LIST_DIR}/state.cpp
 	${CMAKE_CURRENT_LIST_DIR}/tile.cpp
 )
