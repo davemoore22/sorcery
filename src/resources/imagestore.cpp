@@ -65,10 +65,9 @@ auto Sorcery::ImageStore::_initialise() -> bool {
 	_sources.insert(
 		_sources.end(),
 		{std::string{BANNER_TEXTURE}, std::string{BACKGROUNDS_TEXTURE},
-		 std::string{BACKGROUND_MAIN_MENU_TEXTURE}, std::string{ICONS_TEXTURE},
-		 std::string{ITEMS_TEXTURE}, std::string{KNOWN_CREATURES_TEXTURE},
-		 std::string{LOGO_TEXTURE}, std::string{MAPS_TEXTURE},
-		 std::string{UNKNOWN_CREATURES_TEXTURE},
+		 std::string{ICONS_TEXTURE}, std::string{ITEMS_TEXTURE},
+		 std::string{KNOWN_CREATURES_TEXTURE}, std::string{LOGO_TEXTURE},
+		 std::string{MAPS_TEXTURE}, std::string{UNKNOWN_CREATURES_TEXTURE},
 		 std::string{WIREFRAME_TEXTURE}});
 	capacity = _sources.size();
 
@@ -144,8 +143,8 @@ auto Sorcery::ImageStore::_load_texture_from_disc(const char *filename,
 	glBindTexture(GL_TEXTURE_2D, image_texture);
 
 	// Setup filtering parameters for display
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 

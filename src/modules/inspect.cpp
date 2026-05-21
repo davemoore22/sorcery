@@ -78,33 +78,9 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event)) {
 
-				if (_ctx.ui->modal_identify->show) {
-					_ctx.ui->modal_identify->show = false;
-					_ctx.controller->unset_flag("want_identify");
-				}
-				if (_ctx.ui->modal_drop->show) {
-					_ctx.ui->modal_drop->show = false;
-					_ctx.controller->unset_flag("want_drop");
-				}
-				if (_ctx.ui->modal_use->show) {
-					_ctx.ui->modal_use->show = false;
-					_ctx.controller->unset_flag("want_use");
-				}
-				if (_ctx.ui->modal_invoke->show) {
-					_ctx.ui->modal_invoke->show = false;
-					_ctx.controller->unset_flag("want_invoke");
-				}
-				if (_ctx.ui->modal_trade->show) {
-					_ctx.ui->modal_trade->show = false;
-					_ctx.controller->unset_flag("want_trade");
-				}
-				if (_ctx.ui->modal_give->show) {
-					_ctx.ui->modal_give->show = false;
-					_ctx.controller->unset_flag("want_give");
-				}
-				if (_ctx.ui->notice_pool_gold->show) {
-					_ctx.ui->notice_pool_gold->show = false;
-					_ctx.controller->unset_flag("want_pool_gold");
+				if (_ctx.ui->in_popup()) {
+					_ctx.ui->close_all_popups();
+					_ctx.controller->clear_modal_flags();
 				} else
 					return BACK_FROM_INSPECT;
 			}

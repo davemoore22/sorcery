@@ -57,22 +57,21 @@ inline constexpr auto DEFAULT_MONOSPACE_FONT_FILE{"monospace.ttf"sv};
 inline constexpr auto PROPORTIONAL_FONT_FILE{"proportional.ttf"sv};
 inline constexpr auto TEXT_FONT_FILE{"text.ttf"sv};
 
-inline constexpr auto BACKGROUND_MAIN_MENU_TEXTURE{"background-mm.png"sv};
-inline constexpr auto BANNER_TEXTURE{"banner.png"sv};
-inline constexpr auto KNOWN_CREATURES_TEXTURE{"known.png"sv};
-inline constexpr auto ICONS_TEXTURE{"icons.png"sv};
-inline constexpr auto ITEMS_TEXTURE{"items.png"sv};
-inline constexpr auto LOGO_TEXTURE{"logo.png"sv};
-inline constexpr auto MAPS_TEXTURE{"maps.png"sv};
+inline constexpr auto BANNER_TEXTURE{"banner.tga"sv};
+inline constexpr auto KNOWN_CREATURES_TEXTURE{"known.tga"sv};
+inline constexpr auto ICONS_TEXTURE{"icons.tga"sv};
+inline constexpr auto ITEMS_TEXTURE{"items.tga"sv};
+inline constexpr auto LOGO_TEXTURE{"logo.tga"sv};
+inline constexpr auto MAPS_TEXTURE{"maps.tga"sv};
 inline constexpr auto MAINMENU_VIDEO{"mainmenu.mp4"sv};
-inline constexpr auto BACKGROUNDS_TEXTURE{"backgrounds.png"sv};
+inline constexpr auto BACKGROUNDS_TEXTURE{"backgrounds.tga"sv};
 
 inline constexpr auto ENGINE_MUSIC{"engine.mp3"sv};
 inline constexpr auto MAINMENU_MUSIC{"mainmenu.mp3"sv};
 inline constexpr auto TOWN_MUSIC{"town.mp3"sv};
 
-inline constexpr auto UNKNOWN_CREATURES_TEXTURE{"unknown.png"sv};
-inline constexpr auto WIREFRAME_TEXTURE{"wireframe.png"sv};
+inline constexpr auto UNKNOWN_CREATURES_TEXTURE{"unknown.tga"sv};
+inline constexpr auto WIREFRAME_TEXTURE{"wireframe.tga"sv};
 
 // Miscellaneous error strings
 static const std::string KEY_NOT_FOUND{"KEY NOT FOUND"};
