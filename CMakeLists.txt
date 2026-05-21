@@ -77,8 +77,13 @@ target_compile_definitions(dear_imgui PRIVATE
 	IMGUI_ENABLE_FREETYPE
 )
 
-add_library(sorcery_warnings INTERFACE)
+# Global Ifdefs
+add_library(sorcery_options INTERFACE)
+target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
+target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
 
+# Global Compile Options
+add_library(sorcery_warnings INTERFACE)
 target_compile_options(sorcery_warnings INTERFACE
 	-Wall
 	-Wextra
@@ -134,13 +139,27 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-pg
 	-g)
 
-target_link_libraries(sorcery_types PRIVATE sorcery_warnings)
-target_link_libraries(sorcery_engine PRIVATE sorcery_warnings)
-target_link_libraries(sorcery_core PRIVATE sorcery_warnings)
-target_link_libraries(sorcery_frontend PRIVATE sorcery_warnings)
-target_link_libraries(sorcery_gui PRIVATE sorcery_warnings)
-target_link_libraries(sorcery_modules PRIVATE sorcery_warnings)
-target_link_libraries(sorcery_resources PRIVATE sorcery_warnings)
+target_link_libraries(sorcery_types PRIVATE
+	sorcery_warnings
+	sorcery_options)
+target_link_libraries(sorcery_engine PRIVATE
+	sorcery_warnings
+	sorcery_options)
+target_link_libraries(sorcery_core PRIVATE
+	sorcery_warnings
+	sorcery_options)
+target_link_libraries(sorcery_frontend PRIVATE
+	sorcery_warnings
+	sorcery_options)
+target_link_libraries(sorcery_gui PRIVATE
+	sorcery_warnings
+	sorcery_options)
+target_link_libraries(sorcery_modules PRIVATE
+	sorcery_warnings
+	sorcery_options)
+target_link_libraries(sorcery_resources PRIVATE
+	sorcery_warnings
+	sorcery_options)
 
 # Link Libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -168,9 +187,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_types
 	sorcery_warnings
 )
-
-# Compile Definitions
-target_compile_definitions(${PROJECT_NAME} PRIVATE SORCERY_PROFILE)
 
 # Post Build Directories
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory

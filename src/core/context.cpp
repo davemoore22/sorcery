@@ -63,8 +63,6 @@ auto Sorcery::Context::get_config(std::string_view section,
 auto Sorcery::Context::get_file(std::string_view key) const
 	-> std::filesystem::path {
 
-	PROFILE_SCOPE("Context::get_file");
-
 	return files->get(key);
 }
 

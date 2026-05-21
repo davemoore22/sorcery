@@ -22,10 +22,12 @@
 
 #include "resources/imagestore.hpp"
 #include "core/context.hpp"
+#include "core/debug.hpp"
 #include "core/system.hpp"
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
 #include "types/image.hpp"
+#include "types/scopedtimer.hpp"
 
 #include <print>
 
@@ -100,6 +102,9 @@ auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
 	if (_loaded.at(file))
 		return false;
 	else {
+
+		PROFILE_SCOPE("ImageStore::_load_image");
+		DEBUG_LOGF("Loading Resource: {}", file);
 
 		const auto path{_ctx.get_file(file)};
 
