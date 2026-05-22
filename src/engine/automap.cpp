@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/automap.hpp"
+#include "engine/automap.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
@@ -73,6 +73,10 @@ auto Sorcery::Automap::start(void) -> int {
 			if (_ctx.controller->check_for_back(event))
 				return BACK_FROM_AUTOMAP;
 		}
+
+		_ctx.ui->display_engine(true);
+		//_ctx.ui->display(Enums::Screen::AUTOMAP, _ctx.game);
+		_ctx.tick();
 	}
 
 	// Exit if we get to here having broken out of the loop

@@ -29,13 +29,13 @@
 #include "core/define.hpp"
 #include "core/resources.hpp"
 #include "core/ui.hpp"
+#include "engine/automap.hpp"
 #include "frontend/options.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "gui/message.hpp"
 #include "gui/modal.hpp"
 #include "gui/popup.hpp"
-#include "modules/automap.hpp"
 #include "modules/inspect.hpp"
 #include "modules/reorder.hpp"
 #include "resources/levelstore.hpp"
@@ -51,6 +51,7 @@ Sorcery::Engine::Engine(Context &ctx)
 	_options = std::make_unique<Options>(_ctx);
 	_reorder = std::make_unique<Reorder>(_ctx);
 	_inspect = std::make_unique<Inspect>(_ctx);
+	_automap = std::make_unique<Automap>(_ctx);
 
 	_initialise();
 };
@@ -97,6 +98,11 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			// Check for Window Resize
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 
+			if (_ctx.controller->check_for_automap(event)) {
+				_automap->start();
+				_automap->stop();
+			}
+
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event)) {
 				if (_ctx.ui->in_popup()) {
@@ -108,7 +114,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				}
 			}
 		}
-		_ctx.ui->display_engine();
+		_ctx.ui->display_engine(false);
 		_ctx.tick();
 	}
 

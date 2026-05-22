@@ -207,6 +207,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::EDGEOFTOWN] = [this]() {
 		_display_edge_of_town();
 	};
+	_draw_modules[Enums::Screen::AUTOMAP] = [this]() {
+		_display_automap();
+	};
 	_draw_modules[Enums::Screen::INN] = [this]() {
 		_display_inn();
 	};
@@ -585,7 +588,7 @@ auto Sorcery::UI::display_refresh(std::any payload) -> void {
 	display(_ctx.controller->get_last_screen(), payload);
 }
 
-auto Sorcery::UI::display_engine() -> void {
+auto Sorcery::UI::display_engine(const bool draw_automap) -> void {
 
 	// Start a new Rendering Frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -634,6 +637,10 @@ auto Sorcery::UI::display_engine() -> void {
 	// Dungeon View
 	auto component{components->get("engine_base_ui:wire_frame_view")};
 	_render->draw(&component);
+
+	// Optionally draw the automap on top of the view
+	if (draw_automap)
+		_display_automap();
 
 	// And Cursor on Top
 	_draw_debug();
@@ -3382,6 +3389,12 @@ auto Sorcery::UI::_display_spellbook() -> void {
 	_draw_cursor();
 }
 
+auto Sorcery::UI::_display_automap() -> void {
+
+	_draw_components("automap");
+	_draw_current_level_map();
+}
+
 auto Sorcery::UI::_display_atlas() -> void {
 
 	_draw_components("atlas");
@@ -3541,6 +3554,40 @@ auto Sorcery::UI::_display_license(const std::string &string) -> void {
 	auto component{components->get("license:license_info")};
 	_draw_license(&component, string);
 	_draw_cursor();
+}
+
+auto Sorcery::UI::_draw_current_level_map() -> void {
+
+	const auto level{_ctx.game->state->level.get()};
+
+	// Work out where and how to draw the grid
+	auto tc{20};
+	const auto map_c{components->get("automap:map_graphic")};
+	ImVec2 top_left_pos{map_c.x * adj_grid_w, map_c.y * adj_grid_h};
+	const auto spacing{map_c.get_int("tile_spacing")};
+	ImVec2 tile_sz{map_c.get_int("tile_size"), map_c.get_int("tile_size")};
+
+	// Remember to flip in Y-direction as (0,0) is at bottom left of map
+	const auto reverse_y{(tile_sz.x * tc) + ((tc - 1) * spacing) + 2};
+	auto tcx{0};
+	auto tcy{0};
+
+	// Draw Map
+	for (auto y = 0; y <= 19; y++) {
+		for (auto x = 0; x <= 19; x++) {
+			const auto &tile{level->at(x, y)};
+			if (tile.get_explored())
+				continue;
+			const auto tile_x{(tcx * tile_sz.x) + (tcx * spacing)};
+			const auto tile_y{(tcy * tile_sz.y) + (tcy * spacing)};
+			const auto tile_pos{ImVec2{top_left_pos.x + tile_x,
+									   top_left_pos.y + reverse_y - tile_y}};
+			_draw_map_tile(tile, tile_pos, tile_sz);
+			++tcx;
+		}
+		++tcy;
+		tcx = 0;
+	}
 }
 
 auto Sorcery::UI::_draw_level_no_player() -> void {

@@ -76,7 +76,7 @@ class UI {
 		// Public Methods
 		auto create_dynamic_modal(const std::string name) -> void;
 		auto display(Enums::Screen screen, std::any param = nullptr) -> void;
-		auto display_engine() -> void;
+		auto display_engine(const bool draw_automap) -> void;
 		auto display_refresh(std::any payload = nullptr) -> void;
 		auto draw_cursor(const bool value) -> void;
 		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
@@ -196,6 +196,8 @@ class UI {
 		auto _display_temple() -> void;
 		auto _display_training_grounds() -> void;
 
+		auto _display_automap() -> void;
+
 		auto _display_choose(const int mode) -> void;
 		auto _display_create_name(const int stage) -> void;
 		auto _display_create_race(const int stage) -> void;
@@ -262,6 +264,7 @@ class UI {
 		auto _draw_license(Component *component, const std::string &string)
 			-> void;
 		auto _draw_loading_progress() -> void;
+		auto _draw_current_level_map() -> void;
 		auto _draw_level_no_player() -> void;
 		auto _draw_level_up(const int mode) -> void;
 		auto _draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz)

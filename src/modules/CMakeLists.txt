@@ -12,7 +12,6 @@ target_link_libraries(sorcery_modules PUBLIC
 
 target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/add.cpp
-	${CMAKE_CURRENT_LIST_DIR}/automap.cpp
 	${CMAKE_CURRENT_LIST_DIR}/castle.cpp
 	${CMAKE_CURRENT_LIST_DIR}/choose.cpp
 	${CMAKE_CURRENT_LIST_DIR}/create.cpp
