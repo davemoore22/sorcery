@@ -75,7 +75,7 @@ All comments and criticism and help welcome. You can find me as *Typhon* on the 
 
 Graphics used (all free/open source) are by:
 
-* とり夫 - <https://www.pixiv.net/en/users/5887541>
+* Torio - <https://www.pixiv.net/en/users/5887541>
 * Various - <https://game-icons.net/>
 
 Music used (Creative Commonds) is by:

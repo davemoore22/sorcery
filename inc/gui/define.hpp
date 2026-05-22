@@ -83,6 +83,7 @@ inline constexpr auto BACK_TO_TEMPLE{4};
 inline constexpr auto BACK_TO_SHOP{4};
 inline constexpr auto BACK_TO_EDGE_OF_TOWN{4};
 inline constexpr auto BACK_TO_TRAINING_GROUNDS{4};
+inline constexpr auto BACK_FROM_AUTOMAP{4};
 inline constexpr auto BACK_FROM_REORDER{4};
 inline constexpr auto BACK_FROM_ROSTER{4};
 inline constexpr auto BACK_FROM_INSPECT{4};

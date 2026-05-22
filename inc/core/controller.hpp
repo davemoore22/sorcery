@@ -68,6 +68,7 @@ class Controller {
 		auto check_for_back(const SDL_Event event) -> bool;
 		auto check_for_back(const SDL_Event event, bool &flag) -> void;
 		auto check_for_debug(const SDL_Event event) -> void;
+		auto check_for_automap(const SDL_Event event) -> bool;
 		auto check_for_movement(const SDL_Event event) -> int;
 		auto check_for_quickload(const SDL_Event event) -> bool;
 		auto check_for_quicksave(const SDL_Event event) -> bool;

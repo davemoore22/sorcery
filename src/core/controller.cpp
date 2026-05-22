@@ -258,14 +258,17 @@ auto Sorcery::Controller::check_for_quickload(const SDL_Event event) -> bool {
 	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F10);
 }
 
+auto Sorcery::Controller::check_for_automap(const SDL_Event event) -> bool {
+
+	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m);
+}
+
 auto Sorcery::Controller::check_for_ui_toggle(const SDL_Event event) -> void {
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)
 		toggle_flag("interface_party_panel");
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_o)
 		toggle_flag("interface_ui");
-	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m)
-		toggle_flag("interface_automap");
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n)
 		_monochrome = !_monochrome;
 	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_p)

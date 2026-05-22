@@ -4209,6 +4209,43 @@
 			]
 		},
 		{
+			"name": "automap",
+			"component": [
+				{
+					"name": "map_frame",
+					"type": "frame",
+					"x": "22",
+					"y": "4",
+					"w": "35",
+					"h": "28",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "3",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "map_graphic",
+					"x": "27",
+					"y": "5",
+					"font": "monospace",
+					"colour": "0xffffff",
+					"size": "32",
+					"justification": "centre",
+					"type": "other",
+					"drawmode": "automatic",
+					"priority": "5",
+					"data": [
+						{
+							"tile_spacing": "2",
+							"tile_size": "27"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "inspect",
 			"component": [
 				{

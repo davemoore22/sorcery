@@ -23,64 +23,36 @@
 #pragma once
 
 #include "common/types.hpp"
+#include "engine/define.hpp"
 #include "engine/enum.hpp"
-#include <cstdint>
-#include <memory>
+#include "engine/types.hpp"
 
 namespace Sorcery {
 
+// Forward Declarations
 struct Context;
-class Options;
-class Inspect;
-class Reorder;
-class Application;
-class Automap;
 
-class Engine {
+class Automap {
 
 	public:
 		// Standard Constructor
-		Engine(Context &ctx);
-		Engine() = delete;
+		Automap(Context &ctx);
 
 		// Standard Destructor
-		~Engine();
+		~Automap();
 
 		// Public Members
 
 		// Public Methods
-		auto start(const int mode) -> int;
-		auto stop() -> void;
+		auto start(void) -> int;
+		auto stop(void) -> void;
 
 	private:
 		// Private Methods
-		static auto _callback_stop_popup_ouch(std::uint32_t, void *param)
-			-> std::uint32_t;
 		auto _initialise() -> bool;
-		auto _go_back_to_town() -> int;
-		auto _go_down_a_level() -> void;
-		auto _go_up_a_level() -> void;
-		auto _go_to_location(const int depth, const Coordinate loc,
-							 const Enums::Map::Direction dir) -> void;
-		auto _move_backward() -> bool;
-		auto _move_forward() -> bool;
-		auto _set_tile_explored(const Coordinate loc) -> void;
-		auto _start_expedition(const int mode) -> void;
-		auto _start_popup_ouch() -> void;
-		auto _tile_explored(const Coordinate loc) const -> bool;
-		auto _turn_around() -> void;
-		auto _turn_left() -> void;
-		auto _turn_right() -> void;
 
 		// Private Members
-		Application *_application;
-
 		Context &_ctx;
-
-		std::unique_ptr<Options> _options;
-		std::unique_ptr<Reorder> _reorder;
-		std::unique_ptr<Inspect> _inspect;
-		std::unique_ptr<Automap> _automap;
 };
 
 }
