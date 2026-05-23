@@ -35,6 +35,7 @@
 #include "cereal/types/memory.hpp"
 #pragma GCC diagnostic pop
 #include "cereal/types/optional.hpp"
+#include "cereal/types/set.hpp"
 #include "cereal/types/string.hpp"
 #include "cereal/types/vector.hpp"
 // clang-format on

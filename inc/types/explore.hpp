@@ -53,6 +53,6 @@ class Explore {
 
 	private:
 		// Private Members
-		std::map<Coordinate, bool> _tiles;
+		std::set<Coordinate> _tiles;
 };
 }

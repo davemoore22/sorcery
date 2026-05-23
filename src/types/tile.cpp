@@ -151,16 +151,6 @@ auto Sorcery::Tile::has(const Enums::Map::Direction direction,
 	}
 }
 
-auto Sorcery::Tile::set_explored() -> void {
-
-	_properties[unenum(Enums::Tile::Properties::EXPLORED)] = true;
-}
-
-auto Sorcery::Tile::get_explored() const -> bool {
-
-	return _properties[unenum(Enums::Tile::Properties::EXPLORED)];
-}
-
 auto Sorcery::Tile::has(const Enums::Tile::Features feature) const -> bool {
 
 	return _features[unenum(feature)];

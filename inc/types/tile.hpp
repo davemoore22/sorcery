@@ -62,7 +62,6 @@ class Tile {
 		auto has(const Enums::Map::Direction direction,
 				 const Enums::Tile::Edge wall_type) const -> bool;
 		auto has(const Enums::Tile::Features feature) const -> bool;
-		auto get_explored() const -> bool;
 		auto has_event() const -> std::optional<Enums::Map::Event>;
 		auto has_stairs() const -> std::optional<Teleport>;
 		auto has_teleport() const -> std::optional<Teleport>;
@@ -80,7 +79,6 @@ class Tile {
 		auto set(const Enums::Map::Direction direction,
 				 Enums::Tile::Edge new_wall) -> void;
 		auto set(const std::optional<Coordinate> location);
-		auto set_explored() -> void;
 		auto set_teleport(Teleport teleport) -> void;
 		auto set_stairs(Teleport stairs) -> void;
 		auto set_elevator(Elevator elevator) -> void;

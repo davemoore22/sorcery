@@ -96,9 +96,10 @@ auto Sorcery::State::pass_turn(unsigned int turns) -> void {
 
 auto Sorcery::State::_clear_explored() -> void {
 
-	// TODO: handle different depths etc
-	for (int depth = -1; depth >= -10; depth--)
-		explored.try_emplace(depth, Explore{});
+	explored.clear();
+
+	for (auto depth = -1; depth >= -10; --depth)
+		explored.emplace(depth, Explore{});
 }
 
 auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {

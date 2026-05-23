@@ -76,7 +76,7 @@ class UI {
 		// Public Methods
 		auto create_dynamic_modal(const std::string name) -> void;
 		auto display(Enums::Screen screen, std::any param = nullptr) -> void;
-		auto display_engine(const bool draw_automap) -> void;
+		auto display_engine() -> void;
 		auto display_refresh(std::any payload = nullptr) -> void;
 		auto draw_cursor(const bool value) -> void;
 		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,

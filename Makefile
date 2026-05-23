@@ -853,6 +853,30 @@ src/core/ui.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_core.dir/build.make CMakeFiles/sorcery_core.dir/src/core/ui.cpp.s
 .PHONY : src/core/ui.cpp.s
 
+src/engine/automap.o: src/engine/automap.cpp.o
+.PHONY : src/engine/automap.o
+
+# target to build an object file
+src/engine/automap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_engine.dir/build.make CMakeFiles/sorcery_engine.dir/src/engine/automap.cpp.o
+.PHONY : src/engine/automap.cpp.o
+
+src/engine/automap.i: src/engine/automap.cpp.i
+.PHONY : src/engine/automap.i
+
+# target to preprocess a source file
+src/engine/automap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_engine.dir/build.make CMakeFiles/sorcery_engine.dir/src/engine/automap.cpp.i
+.PHONY : src/engine/automap.cpp.i
+
+src/engine/automap.s: src/engine/automap.cpp.s
+.PHONY : src/engine/automap.s
+
+# target to generate assembly for a file
+src/engine/automap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_engine.dir/build.make CMakeFiles/sorcery_engine.dir/src/engine/automap.cpp.s
+.PHONY : src/engine/automap.cpp.s
+
 src/engine/engine.o: src/engine/engine.cpp.o
 .PHONY : src/engine/engine.o
 
@@ -2413,6 +2437,30 @@ src/types/monstertype.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/monstertype.cpp.s
 .PHONY : src/types/monstertype.cpp.s
 
+src/types/scopedtimer.o: src/types/scopedtimer.cpp.o
+.PHONY : src/types/scopedtimer.o
+
+# target to build an object file
+src/types/scopedtimer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/scopedtimer.cpp.o
+.PHONY : src/types/scopedtimer.cpp.o
+
+src/types/scopedtimer.i: src/types/scopedtimer.cpp.i
+.PHONY : src/types/scopedtimer.i
+
+# target to preprocess a source file
+src/types/scopedtimer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/scopedtimer.cpp.i
+.PHONY : src/types/scopedtimer.cpp.i
+
+src/types/scopedtimer.s: src/types/scopedtimer.cpp.s
+.PHONY : src/types/scopedtimer.s
+
+# target to generate assembly for a file
+src/types/scopedtimer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_types.dir/build.make CMakeFiles/sorcery_types.dir/src/types/scopedtimer.cpp.s
+.PHONY : src/types/scopedtimer.cpp.s
+
 src/types/state.o: src/types/state.cpp.o
 .PHONY : src/types/state.o
 
@@ -2555,6 +2603,9 @@ help:
 	@echo "... src/core/ui.o"
 	@echo "... src/core/ui.i"
 	@echo "... src/core/ui.s"
+	@echo "... src/engine/automap.o"
+	@echo "... src/engine/automap.i"
+	@echo "... src/engine/automap.s"
 	@echo "... src/engine/engine.o"
 	@echo "... src/engine/engine.i"
 	@echo "... src/engine/engine.s"
@@ -2750,6 +2801,9 @@ help:
 	@echo "... src/types/monstertype.o"
 	@echo "... src/types/monstertype.i"
 	@echo "... src/types/monstertype.s"
+	@echo "... src/types/scopedtimer.o"
+	@echo "... src/types/scopedtimer.i"
+	@echo "... src/types/scopedtimer.s"
 	@echo "... src/types/state.o"
 	@echo "... src/types/state.i"
 	@echo "... src/types/state.s"

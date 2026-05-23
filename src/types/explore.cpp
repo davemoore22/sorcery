@@ -28,33 +28,26 @@ Sorcery::Explore::Explore() {
 	_tiles.clear();
 }
 
+auto Sorcery::Explore::at(Coordinate loc) const -> bool {
+	return _tiles.contains(loc);
+}
+
+auto Sorcery::Explore::at(int x, int y) const -> bool {
+	return at(Coordinate{x, y});
+}
+
 auto Sorcery::Explore::operator[](Coordinate loc) const -> bool {
-
-	return _tiles.contains(loc);
+	return at(loc);
 }
 
-auto Sorcery::Explore::at(const Coordinate loc) const -> bool {
-
-	return _tiles.contains(loc);
-}
-
-auto Sorcery::Explore::at(const int x, const int y) const -> bool {
-
-	return _tiles.contains(Coordinate{x, y});
+auto Sorcery::Explore::set(Coordinate loc) -> void {
+	_tiles.insert(loc);
 }
 
 auto Sorcery::Explore::reset() -> void {
-
 	_tiles.clear();
 }
 
-auto Sorcery::Explore::set(const Coordinate loc) -> void {
-
-	_tiles.insert({loc, true});
-}
-
-auto Sorcery::Explore::unset(const Coordinate loc) -> void {
-
-	if (_tiles.contains(loc))
-		_tiles.erase(loc);
+auto Sorcery::Explore::unset(Coordinate loc) -> void {
+	_tiles.erase(loc);
 }

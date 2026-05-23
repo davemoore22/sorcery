@@ -113,8 +113,111 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					_ctx.controller->set_flag("want_camp");
 				}
 			}
+
+			auto old_monochrome{_ctx.controller->get_monochrome()};
+			_ctx.controller->check_for_ui_toggle(event);
+			if (old_monochrome != _ctx.controller->get_monochrome())
+				_ctx.ui->set_monochrome(_ctx.controller->get_monochrome());
+
+			// Check for Movement
+			if (const auto movement{_ctx.controller->check_for_movement(event)};
+				movement != MOVE_NONE) {
+
+				switch (movement) {
+				case MOVE_FORWARD:
+					_ctx.game->pass_turn();
+					if (auto has_moved{_move_forward()}; !has_moved) {
+
+						// Can't move forwards
+					} else {
+
+						// Move forward
+						_ctx.ui->popup_ouch->show = false;
+						if (!_tile_explored(_ctx.game->state->get_player_pos()))
+							_set_tile_explored(
+								_ctx.game->state->get_player_pos());
+					}
+					break;
+				case MOVE_BACKWARD:
+					_ctx.game->pass_turn();
+					_ctx.ui->popup_ouch->show = false;
+					if (auto has_moved{_move_backward()}; !has_moved) {
+
+						// Can't move backwards
+					} else {
+
+						// Move backwards
+						if (!_tile_explored(_ctx.game->state->get_player_pos()))
+							_set_tile_explored(
+								_ctx.game->state->get_player_pos());
+					}
+					break;
+				case MOVE_TURN_LEFT:
+					_ctx.ui->popup_ouch->show = false;
+					_turn_left();
+					_ctx.game->pass_turn();
+					break;
+				case MOVE_TURN_RIGHT:
+					_ctx.ui->popup_ouch->show = false;
+					_turn_right();
+					_ctx.game->pass_turn();
+					break;
+				case MOVE_TURN_AROUND:
+					_ctx.ui->popup_ouch->show = false;
+					_turn_around();
+					_ctx.game->pass_turn();
+					break;
+				default:
+					break;
+				}
+			}
+
+			if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
+				_options->start(true);
+				_options->stop();
+			} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
+				_reorder->start(REORDER_MODE_CAMP);
+				_reorder->stop(REORDER_MODE_CAMP);
+			} else if (_ctx.controller->wants(Enums::Screen::INSPECT)) {
+				_inspect->start(INSPECT_MODE_CAMP,
+								_ctx.game->state->get_party_char(1).value());
+				_inspect->stop(INSPECT_MODE_CAMP);
+			}
+
+			if (_ctx.controller->has_flag("want_take_stairs_up")) {
+				if (_ctx.game->state->get_depth() == -1)
+					return _go_back_to_town();
+				else
+					_go_up_a_level();
+			} else if (_ctx.controller->has_flag("want_take_stairs_down"))
+				_go_down_a_level();
+
+			if (_ctx.controller->has_flag("after_tile_message") &&
+				!_ctx.ui->message_tile->show) {
+				// Do Event Handling
+				_ctx.controller->unset_flag("after_tile_message");
+				_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+			}
+
+			if (_ctx.controller->has_flag("want_quit_expedition") &&
+				!_ctx.ui->modal_camp->show) {
+				// Handle quitting expedition
+				auto party{_ctx.game->state->get_party_characters()};
+				for (auto &[id, character] : _ctx.game->characters) {
+					if (std::find(party.begin(), party.end(), id) !=
+						party.end()) {
+						character.set_location(
+							Enums::Character::Location::MAZE);
+					}
+				}
+				_ctx.controller->set_busy(true);
+				_ctx.game->save_game();
+				_ctx.controller->set_busy(false);
+				_ctx.game->state->clear_party();
+				return LEAVE_MAZE;
+			}
 		}
-		_ctx.ui->display_engine(false);
+		_ctx.ui->display_engine();
 		_ctx.tick();
 	}
 
@@ -129,12 +232,19 @@ auto Sorcery::Engine::stop() -> void {
 
 auto Sorcery::Engine::_tile_explored(const Coordinate loc) const -> bool {
 
-	return _ctx.game->state->explored[_ctx.game->state->get_depth()].at(loc);
+	const auto depth{_ctx.game->state->get_depth()};
+	const auto it{_ctx.game->state->explored.find(depth)};
+
+	if (it == _ctx.game->state->explored.end())
+		return false;
+
+	return it->second.at(loc);
 }
 
 auto Sorcery::Engine::_set_tile_explored(const Coordinate loc) -> void {
 
-	_ctx.game->state->explored[_ctx.game->state->get_depth()].set(loc);
+	const auto depth{_ctx.game->state->get_depth()};
+	_ctx.game->state->explored[depth].set(loc);
 }
 
 auto Sorcery::Engine::_go_to_location(const int depth, const Coordinate loc,
