@@ -4212,6 +4212,89 @@
 			"name": "automap",
 			"component": [
 				{
+					"name": "background_image",
+					"x": "0",
+					"y": "0",
+					"type": "image_bg",
+					"drawmode": "automatic",
+					"priority": "0",
+					"alpha": "1.0",
+					"data": [
+						{
+							"source": "backgrounds.tga",
+							"scale": "1.0"
+						}
+					]
+				},
+				{
+					"name": "automap_legend",
+					"x": "4",
+					"y": "6",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"type": "other",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"row_gap": "1",
+							"tile_size": "27"
+						}
+					]
+				},
+				{
+					"name": "automap_level",
+					"x": "4",
+					"y": "4",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "",
+					"drawmode": "manual",
+					"priority": "1",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"type": "text"
+				},
+				{
+					"name": "outer_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "centre",
+					"w": "56",
+					"h": "32",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"title": "AUTOMAP_TITLE"
+						}
+					]
+				},
+				{
+					"name": "automap_return",
+					"type": "button",
+					"x": "7",
+					"y": "30",
+					"w": "9",
+					"h": "1",
+					"font": "monospace",
+					"string": "AUTOMAP_RETURN",
+					"drawmode": "manual",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
 					"name": "map_frame",
 					"type": "frame",
 					"x": "22",

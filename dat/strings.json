@@ -19,6 +19,8 @@
 	"DIALOG_SAVE": "Save",
 	"DIALOG_CANCEL": "Cancel",
 	"DIALOG_OK": "OK",
+	"AUTOMAP_TITLE": "Map",
+	"AUTOMAP_RETURN": "<Return>",
 	"COMPENDIUM_ATLAS": "Atlas",
 	"COMPENDIUM_BESTIARY": "Bestiary",
 	"COMPENDIUM_MUSEUM": "Museum",

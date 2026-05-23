@@ -36,6 +36,7 @@ Written using ImGui/SDL2/OpenGL and C++
 * ~~Dungeon Events~~ (DONE)
 * ~~Compendium~~ (DONE)
 * ~~Music~~ (DONE)
+* ~~Automap~~ (DONE)
 * **Inventory and Item Manipulation (DOING)**
 * **Special Item Powers and Handling (DOING)**
 * **Boltac's Equipment Shop (DOING)**

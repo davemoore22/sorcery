@@ -62,7 +62,7 @@ auto Sorcery::Controller::initialise() -> void {
 	_leave = false;
 
 	// Store these flags (if set)
-	auto show_automap{_flags["interface_automap"]};
+	// auto show_automap{_flags["show_automap"]};
 	auto show_party_panel{_flags["interface_party_panel"]};
 	auto show_ui{_flags["interface_ui"]};
 
@@ -128,7 +128,7 @@ auto Sorcery::Controller::initialise() -> void {
 	set_selected("atlas_selected", 8);
 
 	// set ui flags again
-	_flags["interface_automap"] = show_automap;
+	//_flags["show_automap"] = show_automap;
 	_flags["interface_party_panel"] = show_party_panel;
 	_flags["interface_ui"] = show_ui;
 }

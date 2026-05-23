@@ -268,7 +268,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.get_config(Enums::Config::COLOURED_WIREFRAME));
 	_ctx.ui->set_monochrome(_ctx.get_config(Enums::Config::COLOURED_WIREFRAME));
 
-	_ctx.controller->set_flag("interface_automap");
+	//_ctx.controller->set_flag("show_automap");
 	_ctx.controller->set_flag("interface_party_panel");
 	_ctx.controller->set_flag("interface_ui");
 

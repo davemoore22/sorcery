@@ -2345,6 +2345,64 @@ auto Sorcery::UI::_draw_text(Component *component, const std::string &string)
 	}
 }
 
+auto Sorcery::UI::_draw_automap_legend(Component *component) -> void {
+
+	struct MapLegendItem {
+			Enums::DrawMap::Feature feature;
+			std::string_view label;
+	};
+
+	using enum Enums::DrawMap::Feature;
+
+	static constexpr std::array legend{
+		MapLegendItem{FLOOR, "Floor"},
+		MapLegendItem{NORTH_WALL, "Wall"},
+		MapLegendItem{NORTH_DOOR, "Door"},
+		MapLegendItem{NORTH_SECRET, "Secret"},
+		MapLegendItem{MAP_DARKNESS, "Darkness"},
+		MapLegendItem{MAP_STAIRS_UP, "Stairs Up"},
+		MapLegendItem{MAP_STAIRS_DOWN, "Stairs Down"},
+		MapLegendItem{MAP_ELEVATOR, "Elevator"},
+		MapLegendItem{MAP_PIT, "Pit"},
+		MapLegendItem{MAP_SPINNER, "Spinner"},
+		MapLegendItem{MAP_CHUTE, "Chute"},
+		MapLegendItem{MAP_TELEPORT_FROM, "Teleport From"},
+		MapLegendItem{MAP_TELEPORT_TO, "Teleport To"},
+		MapLegendItem{EXCLAMATION, "Message"},
+	};
+
+	const auto icon_size{component->get_int("tile_size")};
+	const auto row_gap{component->get_int("row_gap")};
+
+	auto pos{ImVec2{component->x * adj_grid_w, component->y * adj_grid_h}};
+
+	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
+
+		set_Font(fontstore->get_current_font(component->font).value());
+
+		auto cmp_level{components->get("automap:automap_level")};
+		_draw_text(&cmp_level, _ctx.game->state->level->name());
+
+		for (const auto &item : legend) {
+			_draw_fg_image_with_idx(WINDOW_LAYER_MENUS, MAPS_TEXTURE,
+									unenum(item.feature), pos,
+									ImVec2{static_cast<float>(icon_size),
+										   static_cast<float>(icon_size)});
+
+			ImGui::SetCursorPos(ImVec2{pos.x + icon_size + adj_grid_w, pos.y});
+
+			ImGui::TextUnformatted(item.label.data());
+
+			pos.y += icon_size + row_gap;
+		}
+	}
+
+	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
+		auto leave{components->get("automap:automap_return")};
+		_draw_button_click(&leave, _ctx.get_flag_ref("show_automap"), true);
+	}
+}
+
 // Draw a Text (String)
 auto Sorcery::UI::_draw_text(Component *component) -> void {
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
@@ -3389,6 +3447,10 @@ auto Sorcery::UI::_display_automap() -> void {
 
 	_draw_components("automap");
 	_draw_current_level_map();
+
+	auto legend{components->get("automap:automap_legend")};
+	_draw_automap_legend(&legend);
+
 	_draw_cursor();
 }
 
@@ -3578,9 +3640,8 @@ auto Sorcery::UI::_draw_current_level_map() -> void {
 
 	for (auto y = 0; y < tc; ++y) {
 		for (auto x = 0; x < tc; ++x) {
-			const Coordinate loc{x, y};
 
-			if (!explored.at(loc))
+			if (const Coordinate loc{x, y}; !explored.at(loc))
 				continue;
 
 			const auto &tile{level->at(x, y)};
@@ -3593,6 +3654,41 @@ auto Sorcery::UI::_draw_current_level_map() -> void {
 			_draw_map_tile(tile, tile_pos, tile_sz);
 		}
 	}
+
+	auto player_icon{ICON_COMPASS_NORTH};
+	auto tint{ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
+
+	switch (_ctx.game->state->get_player_facing()) {
+		using enum Enums::Map::Direction;
+
+	case NORTH:
+		player_icon = ICON_COMPASS_NORTH;
+		break;
+	case SOUTH:
+		player_icon = ICON_COMPASS_SOUTH;
+		break;
+	case EAST:
+		player_icon = ICON_COMPASS_EAST;
+		break;
+	case WEST:
+		player_icon = ICON_COMPASS_WEST;
+		break;
+	default:
+		break;
+	}
+
+	const auto player_pos{_ctx.game->state->get_player_pos()};
+
+	const auto player_tile_x{(player_pos.x * tile_sz.x) +
+							 (player_pos.x * spacing)};
+	const auto player_tile_y{(player_pos.y * tile_sz.y) +
+							 (player_pos.y * spacing)};
+
+	const ImVec2 player_draw_pos{top_left_pos.x + player_tile_x,
+								 top_left_pos.y + reverse_y - player_tile_y};
+
+	_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, player_icon,
+							player_draw_pos, tile_sz, tint);
 }
 
 auto Sorcery::UI::_draw_level_no_player() -> void {
