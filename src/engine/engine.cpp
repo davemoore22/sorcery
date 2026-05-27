@@ -83,10 +83,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _ctx.controller->check_for_abort(event);
 
+			done = _ctx.controller->check_for_abort(event);
 			if (_ctx.controller->want_to_abort())
 				return ABORT_GAME;
 
@@ -95,15 +94,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			else if (_ctx.controller->check_for_quickload(event))
 				_application->load_state_from_binary(SAVE_STATE_FILENAME);
 
-			// Check for Window Resize
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 
-			if (_ctx.controller->check_for_automap(event)) {
-				_automap->start();
-				_automap->stop();
-			}
-
-			// Check for Back Event
+			// Back closes popup first, otherwise opens camp.
 			if (_ctx.controller->check_for_back(event)) {
 				if (_ctx.ui->in_popup()) {
 					_ctx.ui->close_all_popups();
@@ -112,6 +105,18 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					_ctx.ui->modal_camp->show = true;
 					_ctx.controller->set_flag("want_camp");
 				}
+
+				continue;
+			}
+
+			// From here down, no gameplay input while active popup/modal/dialog
+			if (_ctx.ui->in_popup())
+				continue;
+
+			if (_ctx.controller->check_for_automap(event)) {
+				_automap->start();
+				_automap->stop();
+				continue;
 			}
 
 			auto old_monochrome{_ctx.controller->get_monochrome()};
@@ -119,7 +124,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (old_monochrome != _ctx.controller->get_monochrome())
 				_ctx.ui->set_monochrome(_ctx.controller->get_monochrome());
 
-			// Check for Movement
 			if (const auto movement{_ctx.controller->check_for_movement(event)};
 				movement != MOVE_NONE) {
 
@@ -171,7 +175,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					break;
 				}
 			}
+		}
 
+		if (!_ctx.ui->in_popup()) {
 			if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
 				_options->start(true);
 				_options->stop();
@@ -192,15 +198,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			} else if (_ctx.controller->has_flag("want_take_stairs_down"))
 				_go_down_a_level();
 
-			if (_ctx.controller->has_flag("after_tile_message") &&
-				!_ctx.ui->message_tile->show) {
-				// Do Event Handling
-				_ctx.controller->unset_flag("after_tile_message");
-				_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
-			}
-
 			if (_ctx.controller->has_flag("want_quit_expedition") &&
 				!_ctx.ui->modal_camp->show) {
+
 				// Handle quitting expedition
 				auto party{_ctx.game->state->get_party_characters()};
 				for (auto &[id, character] : _ctx.game->characters) {
@@ -217,6 +217,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				return LEAVE_MAZE;
 			}
 		}
+
+		if (_ctx.controller->has_flag("after_tile_message") &&
+			!_ctx.ui->message_tile->show) {
+			_ctx.controller->unset_flag("after_tile_message");
+			_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+		}
+
 		_ctx.ui->display_engine();
 		_ctx.tick();
 	}
