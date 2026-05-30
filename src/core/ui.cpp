@@ -126,6 +126,10 @@ Sorcery::UI::UI(Context &ctx)
 		_ctx, components->get("engine_base_ui:popup_ouch"));
 	modal_camp = std::make_unique<Modal>(
 		_ctx, components->get("engine_base_ui:modal_camp"));
+	modal_elevator_top = std::make_unique<Modal>(
+		_ctx, components->get("global:modal_elevator_top"));
+	modal_elevator_bottom = std::make_unique<Modal>(
+		_ctx, components->get("global:modal_elevator_bottom"));
 	modal_drop =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_drop"));
 	modal_inspect =
@@ -433,6 +437,12 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		output.append(get_popup_status((void *)message_tile.get(), "message"));
 	if (modal_camp)
 		output.append(get_popup_status((void *)modal_camp.get(), "modal"));
+	if (modal_elevator_bottom)
+		output.append(
+			get_popup_status((void *)modal_elevator_bottom.get(), "modal"));
+	if (modal_elevator_top)
+		output.append(
+			get_popup_status((void *)modal_elevator_top.get(), "modal"));
 	if (modal_drop)
 		output.append(get_popup_status((void *)modal_drop.get(), "modal"));
 	if (modal_give)
@@ -554,6 +564,8 @@ auto Sorcery::UI::start() -> void {
 	modal_camp->show = false;
 	modal_identify->show = false;
 	modal_drop->show = false;
+	modal_elevator_bottom->show = false;
+	modal_elevator_top->show = false;
 	modal_trade->show = false;
 	modal_give->show = false;
 	modal_use->show = false;
@@ -609,6 +621,11 @@ auto Sorcery::UI::display_engine() -> void {
 	message_tile->display(_ctx.get_flag_ref("after_tile_message"));
 	if (modal_camp->show)
 		modal_camp->display(_ctx.get_flag_ref("want_camp"));
+	if (modal_elevator_top->show)
+		modal_elevator_top->display(_ctx.get_flag_ref("want_elevator_top"));
+	if (modal_elevator_bottom->show)
+		modal_elevator_bottom->display(
+			_ctx.get_flag_ref("want_elevator_bottom"));
 	if (modal_inspect->show)
 		modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	if (modal_identify->show)
@@ -3959,6 +3976,16 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 								{std::ref(modal_camp->show)}};
 							_ctx.controller->handle_menu_with_flags(
 								name, items, data_item, i, out_flags);
+						} else if (name == "top_elevator_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_elevator_top->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
+						} else if (name == "bottom_elevator_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_elevator_bottom->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
 						} else if (name == "inspect_menu") {
 							std::vector<std::reference_wrapper<bool>> out_flags{
 								{std::ref(modal_inspect->show)}};
@@ -4139,6 +4166,12 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 	if (menu == "camp_menu")
 		return {std::ref(modal_camp->show)};
 
+	if (menu == "top_elevator_menu")
+		return {std::ref(modal_elevator_top->show)};
+
+	if (menu == "bottom_elevator_menu")
+		return {std::ref(modal_elevator_bottom->show)};
+
 	if (menu == "inspect_menu")
 		return {std::ref(modal_inspect->show)};
 
@@ -4218,6 +4251,8 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	add(input_name);
 	add(popup_ouch);
 	add(modal_camp);
+	add(modal_elevator_top);
+	add(modal_elevator_bottom);
 	add(message_tile);
 	add(modal_inspect);
 	add(modal_stay);

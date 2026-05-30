@@ -68,6 +68,7 @@ class Application {
 			NONE,
 			CASTLE,
 			MAZE,
+			MAZE_WITH_GOTO
 		};
 
 		enum class AppFlow {
@@ -84,6 +85,7 @@ class Application {
 			EDGE_OF_TOWN,
 			TRAINING,
 			MAZE,
+			MAZE_WITH_GOTO,
 			RESTART_MAZE,
 			LEAVE_GAME
 		};
@@ -93,6 +95,7 @@ class Application {
 				GameBootstrap bootstrap{GameBootstrap::NONE};
 				PartyMode party{PartyMode::NONE};
 				StartLocation location{StartLocation::CASTLE};
+				bool go_to{false};
 		};
 
 	public:

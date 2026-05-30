@@ -90,7 +90,8 @@
 	"cmake.debugConfig": {
 		"args": [
 			"--quickstart",
-			"--go-to-maze"
+			"--start-engine",
+			"--go-to"
 		]
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",

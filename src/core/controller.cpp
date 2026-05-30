@@ -89,6 +89,8 @@ auto Sorcery::Controller::initialise() -> void {
 	unset_flag("select_next_character");
 
 	unset_flag("want_camp");
+	unset_flag("want_elevator_top");
+	unset_flag("want_elevator_bottom");
 	unset_flag("want_cannot_donate");
 	unset_flag("want_continue_game");
 	unset_flag("want_divvy_gold");

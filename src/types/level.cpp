@@ -300,6 +300,8 @@ auto Sorcery::Level::_add_event_mappings() -> void {
 	_event_mappings["WERDNA_COMBAT"] = WERDNA_COMBAT;
 	_event_mappings["GUARANTEED_COMBAT"] = GUARANTEED_COMBAT;
 	_event_mappings["NEED_BLUE_RIBBON"] = NEED_BLUE_RIBBON;
+
+	_event_mappings["TOP_ELEVATOR"] = TOP_ELEVATOR;
 }
 
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {

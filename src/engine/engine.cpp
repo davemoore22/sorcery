@@ -303,6 +303,8 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->modal_invoke->show = false;
 		_ctx.ui->modal_trade->show = false;
 		_ctx.ui->modal_give->show = false;
+		_ctx.ui->modal_elevator_top->show = false;
+		_ctx.ui->modal_elevator_bottom->show = false;
 
 	} else {
 		// Start off in Camp
@@ -316,6 +318,8 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->modal_invoke->show = false;
 		_ctx.ui->modal_trade->show = false;
 		_ctx.ui->modal_give->show = false;
+		_ctx.ui->modal_elevator_top->show = false;
+		_ctx.ui->modal_elevator_bottom->show = false;
 	}
 }
 
@@ -398,7 +402,13 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 			if (event_type == Enums::Map::Event::NO_EVENT) {
 
-			} else {
+			} else if (event_type == Enums::Map::Event::TOP_ELEVATOR) {
+
+				_ctx.ui->modal_elevator_top->show = true;
+				_ctx.controller->set_flag("want_elevator_top");
+			} else
+
+			{
 				_ctx.ui->message_tile->set(_ctx.ui->load_message(event_type),
 										   event_type);
 				_ctx.controller->set_flag("after_tile_message");

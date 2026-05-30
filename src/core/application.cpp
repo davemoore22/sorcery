@@ -210,6 +210,10 @@ auto Sorcery::Application::start() -> int {
 			flow = _run_maze(EXPEDITION_START);
 			break;
 
+		case AppFlow::MAZE_WITH_GOTO:
+			flow = _run_maze(EXPEDITION_GOTO);
+			break;
+
 		case AppFlow::RESTART_MAZE:
 			flow = _run_restart_maze(EXPEDITION_RESTART);
 			break;
@@ -304,6 +308,8 @@ auto Sorcery::Application::_flow_from_startup_plan(const StartupPlan &plan)
 
 	if (plan.location == StartLocation::MAZE)
 		return AppFlow::MAZE;
+	else if (plan.location == StartLocation::MAZE_WITH_GOTO)
+		return AppFlow::MAZE_WITH_GOTO;
 
 	return AppFlow::TOWN;
 }
@@ -355,12 +361,14 @@ auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 	constexpr auto PARAM_LOAD_GAME{"--load"sv};
 	constexpr auto PARAM_NEW_GAME{"--new"sv};
 	constexpr auto PARAM_QUICKSTART{"--quickstart"sv};
-	constexpr auto PARAM_GO_TO_MAZE{"--go-to-maze"sv};
+	constexpr auto PARAM_START_ENGINE{"--start-engine"sv};
+	constexpr auto PARAM_GO_TO{"--go-to"sv};
 
 	const bool load_game{_check_param(PARAM_LOAD_GAME)};
 	const bool new_game{_check_param(PARAM_NEW_GAME)};
 	const bool quickstart{_check_param(PARAM_QUICKSTART)};
-	const bool go_to_maze{_check_param(PARAM_GO_TO_MAZE)};
+	const bool start_engine{_check_param(PARAM_START_ENGINE)};
+	const bool go_to{_check_param(PARAM_GO_TO)};
 
 	// Independent global modifier
 	if (_check_param(PARAM_NO_IMAGES))
@@ -373,19 +381,28 @@ auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 	if (bootstrap_count > 1)
 		throw std::runtime_error("Invalid startup parameters");
 
-	if (load_game && go_to_maze)
-		throw std::runtime_error("--load cannot be combined with --go-to-maze");
+	if (load_game && start_engine)
+		throw std::runtime_error(
+			"--load cannot be combined with --start-engine");
+
+	if (go_to && !start_engine)
+		throw std::runtime_error("--go-to requires --start-engine");
 
 	// Build the startup plan
 	StartupPlan plan{};
 
 	// Aliases / shortcuts (highest priority first)
-	if (go_to_maze) {
+	if (start_engine) {
 		// Alias: new game + quickstart + go to maze
 		plan.bypass_menu = true;
 		plan.bootstrap = GameBootstrap::NEW_GAME;
 		plan.party = PartyMode::QUICKSTART;
 		plan.location = StartLocation::MAZE;
+
+		if (go_to) {
+			plan.go_to = true;
+			plan.location = StartLocation::MAZE_WITH_GOTO;
+		}
 
 	} else if (quickstart) {
 		// Alias: new game + quickstart party

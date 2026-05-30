@@ -137,8 +137,15 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	  "CHARACTER_CLASS_PRIEST", "CHARACTER_CLASS_THIEF",
 	  "CHARACTER_CLASS_BISHOP", "CHARACTER_CLASS_SAMURAI",
 	  "CHARACTER_CLASS_LORD", "CHARACTER_CLASS_NINJA",
-	  "CHARACTER_CLASS_RETURN"}}};
+	  "CHARACTER_CLASS_RETURN"}},
 
+	{"top_elevator_menu",
+	 {"ELEVATOR_A", "ELEVATOR_B", "ELEVATOR_C", "ELEVATOR_D",
+	  "ELEVATOR_LEAVE"}},
+
+	{"bottom_elevator_menu",
+	 {"ELEVATOR_A", "ELEVATOR_B", "ELEVATOR_C", "ELEVATOR_D", "ELEVATOR_E",
+	  "ELEVATOR_F", "ELEVATOR_LEAVE"}}};
 }
 
 Sorcery::MenuBuilder::MenuBuilder(Context &ctx)

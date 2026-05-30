@@ -118,6 +118,9 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	_events.emplace_back(MURPHYS_GHOSTS, "event_murphys_ghosts", true, true,
 						 false, false);
 
+	_events.emplace_back(TOP_ELEVATOR, "event_top_elevator", false, false,
+						 false, false);
+
 	// Level 2
 	_events.emplace_back(GOLD_KEY, "event_gold_key", true, false, false, false);
 	_events.emplace_back(BEAR_STATUE, "event_bear_statue", true, false, false,

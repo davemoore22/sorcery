@@ -264,6 +264,46 @@
 					]
 				},
 				{
+					"name": "modal_elevator_top",
+					"x": "centre",
+					"y": "8",
+					"w": "34",
+					"h": "15",
+					"font": "monospace",
+					"type": "choice",
+					"string": "ELEVATOR_TOP",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"menu_name": "top_elevator_menu",
+							"highlight": "0x6060c8"
+						}
+					]
+				},
+				{
+					"name": "modal_elevator_bottom",
+					"x": "centre",
+					"y": "8",
+					"w": "34",
+					"h": "20",
+					"font": "monospace",
+					"type": "choice",
+					"string": "ELEVATOR_BOTTOM",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"menu_name": "bottom_elevator_menu",
+							"highlight": "0x6060c8"
+						}
+					]
+				},
+				{
 					"name": "modal_invoke",
 					"x": "centre",
 					"y": "8",
