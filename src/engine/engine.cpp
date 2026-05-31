@@ -26,6 +26,7 @@
 #include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/debug.hpp"
 #include "core/define.hpp"
 #include "core/resources.hpp"
 #include "core/ui.hpp"
@@ -295,6 +296,9 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
 		_ctx.ui->modal_camp->regenerate();
+		_ctx.ui->modal_elevator_bottom->regenerate();
+		_ctx.ui->modal_elevator_top->regenerate();
+
 		_ctx.ui->modal_camp->show = true;
 
 		_ctx.ui->modal_identify->show = false;
@@ -309,6 +313,9 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	} else {
 		// Start off in Camp
 		_ctx.ui->modal_camp->regenerate();
+		_ctx.ui->modal_elevator_bottom->regenerate();
+		_ctx.ui->modal_elevator_top->regenerate();
+
 		_ctx.ui->modal_camp->show = true;
 
 		// Hide any other modals that might be showing
@@ -392,23 +399,36 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			}
 		}
 
-		// Check for Event
-		if (const auto at{_ctx.game->state->get_player_pos()};
-			_ctx.game->state->level->at(at).has_event()) {
+		// Check for Events or Elevators etc
+		const auto at{_ctx.game->state->get_player_pos()};
+		if (_ctx.game->state->level->at(at).has_elevator()) {
+
+			const auto elevator{
+				_ctx.game->state->level->at(at).has_elevator().value()};
+			const auto top_elevator(elevator.top_depth == -1);
+
+			if (top_elevator) {
+				_ctx.ui->modal_elevator_top->show = true;
+				_ctx.controller->set_flag("want_take_elevator_top");
+				DEBUG_LOG("Player triggered top elevator");
+
+			} else {
+				_ctx.ui->modal_elevator_bottom->show = true;
+				_ctx.controller->set_flag("want_take_elevator_bottom");
+				DEBUG_LOG("Player triggered bottom elevator");
+			}
+		} else if (_ctx.game->state->level->at(at).has_event()) {
 
 			const auto event_type{
 				_ctx.game->state->level->at(at).has_event().value()};
+
+			DEBUG_LOGF("Player triggered event: {}", unenum(event_type));
+
 			// const auto dungeon_event{_ctx.game->get_event(event_type)};
 
 			if (event_type == Enums::Map::Event::NO_EVENT) {
 
-			} else if (event_type == Enums::Map::Event::TOP_ELEVATOR) {
-
-				_ctx.ui->modal_elevator_top->show = true;
-				_ctx.controller->set_flag("want_elevator_top");
-			} else
-
-			{
+			} else {
 				_ctx.ui->message_tile->set(_ctx.ui->load_message(event_type),
 										   event_type);
 				_ctx.controller->set_flag("after_tile_message");

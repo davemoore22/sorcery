@@ -24,6 +24,7 @@
 #include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/debug.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/frame.hpp"
@@ -71,6 +72,8 @@ auto Sorcery::Modal::id() const -> std::string {
 auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 
 	_id = _component.name + "##modal";
+
+	// DEBUG_LOGF("Displaying modal: {}", _id);
 
 	const auto grid_sz{_ctx.ui->grid_sz};
 	const auto rounding{_ctx.ui->frame_rd};
@@ -121,5 +124,7 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 		// Note that pos is in grid units whereas sz is in pixels!
 		_ctx.ui->draw_menu(_menu_name, col, ImVec2{1, top}, sz, _font, _items,
 						   _data, false, false);
+
+		// DEBUG_LOGF("Displaying modal: {}", _menu_name);
 	}
 }

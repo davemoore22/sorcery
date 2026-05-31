@@ -126,10 +126,12 @@ Sorcery::UI::UI(Context &ctx)
 		_ctx, components->get("engine_base_ui:popup_ouch"));
 	modal_camp = std::make_unique<Modal>(
 		_ctx, components->get("engine_base_ui:modal_camp"));
+
 	modal_elevator_top = std::make_unique<Modal>(
 		_ctx, components->get("global:modal_elevator_top"));
 	modal_elevator_bottom = std::make_unique<Modal>(
 		_ctx, components->get("global:modal_elevator_bottom"));
+
 	modal_drop =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_drop"));
 	modal_inspect =
