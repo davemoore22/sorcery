@@ -417,6 +417,32 @@ auto Sorcery::Engine::_move_forward() -> bool {
 				_ctx.controller->set_flag("want_take_elevator_bottom");
 				DEBUG_LOG("Player triggered bottom elevator");
 			}
+		} else if (_ctx.game->state->level->at(at).has_teleport()) {
+
+			const auto destination{
+				_ctx.game->state->level->at(at).has_teleport().value()};
+			DEBUG_LOG("Player triggered teleporter");
+			if (destination.to_level == 0) {
+
+				// Special case of teleporting back to castle
+				return _go_back_to_town();
+			} else if (destination.to_level == _ctx.game->state->get_depth()) {
+
+				// Same level teleport
+				_ctx.game->state->set_player_pos(destination.to_loc);
+				_ctx.controller->set_can_undo(false);
+				return true;
+			} else {
+
+				// Teleport to another level
+				_ctx.game->state->set_player_prev_depth(
+					_ctx.game->state->get_depth());
+				_ctx.game->state->set_depth(_ctx.game->state->get_depth());
+				_ctx.game->state->set_player_pos(destination.to_loc);
+				_ctx.controller->set_can_undo(false);
+				return true;
+			}
+
 		} else if (_ctx.game->state->level->at(at).has_event()) {
 
 			const auto event_type{
