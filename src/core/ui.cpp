@@ -124,6 +124,8 @@ Sorcery::UI::UI(Context &ctx)
 		Enums::Layout::DialogType::OK);
 	popup_ouch = std::make_unique<Popup>(
 		_ctx, components->get("engine_base_ui:popup_ouch"));
+	popup_pit = std::make_unique<Popup>(
+		_ctx, components->get("engine_base_ui:popup_pit"));
 	modal_camp = std::make_unique<Modal>(
 		_ctx, components->get("engine_base_ui:modal_camp"));
 
@@ -479,6 +481,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 			get_popup_status((void *)notice_not_enough_gold.get(), "dialog"));
 	if (popup_ouch)
 		output.append(get_popup_status((void *)popup_ouch.get(), "popup"));
+	if (popup_pit)
+		output.append(get_popup_status((void *)popup_pit.get(), "popup"));
 	if (notice_pool_gold)
 		output.append(
 			get_popup_status((void *)notice_pool_gold.get(), "dialog"));
@@ -563,6 +567,7 @@ auto Sorcery::UI::start() -> void {
 	input_donate->show = false;
 	input_name->show = false;
 	popup_ouch->show = false;
+	popup_pit->show = false;
 	modal_camp->show = false;
 	modal_identify->show = false;
 	modal_drop->show = false;
@@ -618,8 +623,10 @@ auto Sorcery::UI::display_engine() -> void {
 	dialog_leave->display(_ctx.controller->want_to_leave_game());
 	dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
 	dialog_stairs_down->display(_ctx.get_flag_ref("want_take_stairs_down"));
-	// if (popup_ouch->show)
-	popup_ouch->display();
+	if (popup_ouch->show)
+		popup_ouch->display();
+	if (popup_pit->show)
+		popup_pit->display();
 	message_tile->display(_ctx.get_flag_ref("after_tile_message"));
 	if (modal_camp->show)
 		modal_camp->display(_ctx.get_flag_ref("want_camp"));
@@ -2700,64 +2707,98 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 				"GAME_MESSAGE_GOLD_KEY_5", "GAME_MESSAGE_GOLD_KEY_6"};
 		break;
 	case NEED_SILVER_KEY:
-		return {};
+		return {"GAME_MESSAGE_SILVER_KEY_1", "GAME_MESSAGE_SILVER_KEY_2",
+				"GAME_MESSAGE_SILVER_KEY_3", "GAME_MESSAGE_SILVER_KEY_4",
+				"GAME_MESSAGE_SILVER_KEY_5", "GAME_MESSAGE_SILVER_KEY_6",
+				"GAME_MESSAGE_SILVER_KEY_7", "GAME_MESSAGE_SILVER_KEY_8"};
 		break;
 	case NEED_BRONZE_KEY:
-		return {};
+		return {"GAME_MESSAGE_BRONZE_KEY_1", "GAME_MESSAGE_BRONZE_KEY_2",
+				"GAME_MESSAGE_BRONZE_KEY_3", "GAME_MESSAGE_BRONZE_KEY_4",
+				"GAME_MESSAGE_BRONZE_KEY_5", "GAME_MESSAGE_BRONZE_KEY_6"};
 		break;
 	case NEED_BEAR_STATUE:
-		return {};
+		return {"GAME_MESSAGE_BEAR_STATUE_1", "GAME_MESSAGE_BEAR_STATUE_2",
+				"GAME_MESSAGE_BEAR_STATUE_3"};
 		break;
 	case NEED_FROG_STATUE:
-		return {};
+		return {"GAME_MESSAGE_FROG_STATUE_1", "GAME_MESSAGE_FROG_STATUE_2",
+				"GAME_MESSAGE_FROG_STATUE_3", "GAME_MESSAGE_FROG_STATUE_4"};
 		break;
 	case PLACARD_PIT_1:
-		return {};
+		return {"GAME_MESSAGE_PLACARD_PIT_1_1", "GAME_MESSAGE_PLACARD_PIT_1_2"};
 		break;
 	case PLACARD_PIT_2:
-		return {};
+		return {"GAME_MESSAGE_PLACARD_PIT_2_1", "GAME_MESSAGE_PLACARD_PIT_2_2"};
 		break;
 	case PLACARD_PIT_3:
-		return {};
+		return {"GAME_MESSAGE_PLACARD_PIT_3_1", "GAME_MESSAGE_PLACARD_PIT_3_2"};
 		break;
 	case TURN_AROUND:
-		return {};
+		return {"GAME_MESSAGE_TURN_AROUND_1", "GAME_MESSAGE_TURN_AROUND_2"};
 		break;
 	case TURN_LEFT:
-		return {};
+		return {"GAME_MESSAGE_TURN_LEFT_1", "GAME_MESSAGE_TURN_LEFT_2"};
 		break;
 	case TURN_RIGHT:
-		return {};
+		return {"GAME_MESSAGE_TURN_RIGHT_1", "GAME_MESSAGE_TURN_RIGHT_2"};
 		break;
 	case NEED_BEAR_STATUE_2:
-		return {};
+		return {"GAME_MESSAGE_BEAR_STATUE_2_1", "GAME_MESSAGE_BEAR_STATUE_2_2",
+				"GAME_MESSAGE_BEAR_STATUE_2_3"};
 		break;
 	case TESTING_GROUNDS:
-		return {};
+		return {
+			"GAME_MESSAGE_TESTING_GROUNDS_1", "GAME_MESSAGE_TESTING_GROUNDS_2",
+			"GAME_MESSAGE_TESTING_GROUNDS_3", "GAME_MESSAGE_TESTING_GROUNDS_4"};
 		break;
 	case ALARM_BELLS:
-		return {};
+		return {"GAME_MESSAGE_ALARM_BELLS_1", "GAME_MESSAGE_ALARM_BELLS_2",
+				"GAME_MESSAGE_ALARM_BELLS_3", "GAME_MESSAGE_ALARM_BELLS_4"};
 		break;
 	case TREASURE_REPOSITORY:
-		return {};
+		return {"GAME_MESSAGE_TREASURE_REPOSITORY_1",
+				"GAME_MESSAGE_TREASURE_REPOSITORY_2"};
 		break;
 	case MONSTER_ALLOCATION_CENTRE:
-		return {};
+		return {"GAME_MESSAGE_MONSTER_ALLOCATION_CENTRE_1",
+				"GAME_MESSAGE_MONSTER_ALLOCATION_CENTRE_2"};
 		break;
 	case LARGE_DESK:
-		return {};
+		return {"GAME_MESSAGE_LARGE_DESK_1", "GAME_MESSAGE_LARGE_DESK_2",
+				"GAME_MESSAGE_LARGE_DESK_3", "GAME_MESSAGE_LARGE_DESK_4",
+				"GAME_MESSAGE_LARGE_DESK_5", "GAME_MESSAGE_LARGE_DESK_6",
+				"GAME_MESSAGE_LARGE_DESK_7", "GAME_MESSAGE_LARGE_DESK_8",
+				"GAME_MESSAGE_LARGE_DESK_9"};
 		break;
 	case TREBOR_VOICE:
-		return {};
+		return {
+			"GAME_MESSAGE_TREBOR_VOICE_1_1", "GAME_MESSAGE_TREBOR_VOICE_1_2",
+			"GAME_MESSAGE_TREBOR_VOICE_1_3", "GAME_MESSAGE_TREBOR_VOICE_1_4",
+			"GAME_MESSAGE_TREBOR_VOICE_2_1", "GAME_MESSAGE_TREBOR_VOICE_2_2",
+			"GAME_MESSAGE_TREBOR_VOICE_2_3", "GAME_MESSAGE_TREBOR_VOICE_2_4",
+			"GAME_MESSAGE_TREBOR_VOICE_2_5", "GAME_MESSAGE_TREBOR_VOICE_2_6",
+			"GAME_MESSAGE_TREBOR_VOICE_2_7", "GAME_MESSAGE_TREBOR_VOICE_2_8",
+			"GAME_MESSAGE_TREBOR_VOICE_2_9", "GAME_MESSAGE_TREBOR_VOICE_2_10",
+			"GAME_MESSAGE_TREBOR_VOICE_2_11"};
 		break;
 	case SERVICE_ELEVATOR:
-		return {};
+		return {"GAME_MESSAGE_SERVICE_ELEVATOR_1",
+				"GAME_MESSAGE_SERVICE_ELEVATOR_2",
+				"GAME_MESSAGE_SERVICE_ELEVATOR_3"};
 		break;
 	case WERDNA_BOAST:
-		return {};
+		return {
+			"GAME_MESSAGE_WERDNA_BOAST_1_1", "GAME_MESSAGE_WERDNA_BOAST_1_2",
+			"GAME_MESSAGE_WERDNA_BOAST_1_3", "GAME_MESSAGE_WERDNA_BOAST_1_4",
+			"GAME_MESSAGE_WERDNA_BOAST_1_5", "GAME_MESSAGE_WERDNA_BOAST_1_6",
+			"GAME_MESSAGE_WERDNA_BOAST_1_7", "GAME_MESSAGE_WERDNA_BOAST_1_8",
+			"GAME_MESSAGE_WERDNA_BOAST_2_1", "GAME_MESSAGE_WERDNA_BOAST_2_2",
+			"GAME_MESSAGE_WERDNA_BOAST_3_1"};
 		break;
 	case TURN_BACK:
-		return {};
+		return {"GAME_MESSAGE_TURN_BACK_1", "GAME_MESSAGE_TURN_BACK_2",
+				"GAME_MESSAGE_TURN_BACK_3"};
 		break;
 	case WERDNA_SIGN:
 		return {};
@@ -2787,7 +2828,10 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 		return {};
 		break;
 	case NEED_BLUE_RIBBON:
-		return {};
+		return {"GAME_MESSAGE_NEED_BLUE_RIBBON_1",
+				"GAME_MESSAGE_NEED_BLUE_RIBBON_2",
+				"GAME_MESSAGE_NEED_BLUE_RIBBON_3",
+				"GAME_MESSAGE_NEED_BLUE_RIBBON_4"};
 		break;
 	default:
 		return {};
@@ -4252,6 +4296,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	add(input_donate);
 	add(input_name);
 	add(popup_ouch);
+	add(popup_pit);
 	add(modal_camp);
 	add(modal_elevator_top);
 	add(modal_elevator_bottom);

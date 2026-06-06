@@ -50,9 +50,6 @@ auto Sorcery::Popup::name() const -> std::string {
 
 auto Sorcery::Popup::display() -> void {
 
-	if (!show)
-		return;
-
 	_id = _component.name + "##outer";
 	const auto text{_ctx.get_string(_component.string_key)};
 	const auto grid_sz{_ctx.ui->grid_sz};

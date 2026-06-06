@@ -67,6 +67,7 @@ class Tile {
 		auto has_teleport() const -> std::optional<Teleport>;
 		auto has_elevator() const -> std::optional<Elevator>;
 		auto has_spinner() const -> bool;
+		auto has_pit() const -> bool;
 		auto id() const -> long;
 		auto is(const Enums::Tile::Properties property) const -> bool;
 		auto loc() const -> Coordinate;

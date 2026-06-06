@@ -622,6 +622,20 @@
 					"bg_colour": "0x000000"
 				},
 				{
+					"name": "popup_pit",
+					"x": "centre",
+					"y": "centre",
+					"w": "30",
+					"h": "5",
+					"font": "monospace",
+					"type": "popup",
+					"string": "POPUP_PIT",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000"
+				},
+				{
 					"name": "main_frame",
 					"type": "frame",
 					"x": "centre",

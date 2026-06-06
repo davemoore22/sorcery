@@ -341,6 +341,11 @@ auto Sorcery::Tile::has_stairs() const -> std::optional<Teleport> {
 		return std::nullopt;
 }
 
+auto Sorcery::Tile::has_pit() const -> bool {
+
+	return _features[unenum(Enums::Tile::Features::PIT)];
+}
+
 auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
 
 	_teleport = teleport;

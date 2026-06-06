@@ -303,6 +303,7 @@
 	"NOTICE_DIVVY_GOLD": "Done!",
 	"NOTICE_POOL_GOLD": "Done!",
 	"POPUP_OUCH": "You can't walk through walls!",
+	"POPUP_PIT": "A Pit!",
 	"CAMP_INSPECT": "Inspect Party",
 	"CAMP_REORDER": "Reorder Party",
 	"CAMP_OPTIONS": "Change Game Options",

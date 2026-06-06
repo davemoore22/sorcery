@@ -188,6 +188,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_warnings
 )
 
+MESSAGE("Creating Post-Build Directories")
+
 # Post Build Directories
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
 	cfg)
@@ -201,6 +203,8 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E
 	sfx)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
 	vfx)
+
+MESSAGE("Copying into Post-Build Directories")
 
 # Post Build Copying
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory

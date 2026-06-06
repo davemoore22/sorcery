@@ -128,6 +128,7 @@ class UI {
 		std::unique_ptr<Input> input_donate;
 		std::unique_ptr<Input> input_name;
 		std::unique_ptr<Popup> popup_ouch;
+		std::unique_ptr<Popup> popup_pit;
 		std::unique_ptr<Modal> modal_camp;
 		std::unique_ptr<Message> message_tile;
 		std::unique_ptr<Modal> modal_inspect;

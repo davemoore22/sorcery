@@ -138,6 +138,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 						// Move forward
 						_ctx.ui->popup_ouch->show = false;
+						//_ctx.ui->popup_pit->show = false;
 						if (!_tile_explored(_ctx.game->state->get_player_pos()))
 							_set_tile_explored(
 								_ctx.game->state->get_player_pos());
@@ -146,6 +147,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				case MOVE_BACKWARD:
 					_ctx.game->pass_turn();
 					_ctx.ui->popup_ouch->show = false;
+					//_ctx.ui->popup_pit->show = false;
 					if (auto has_moved{_move_backward()}; !has_moved) {
 
 						// Can't move backwards
@@ -159,16 +161,19 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					break;
 				case MOVE_TURN_LEFT:
 					_ctx.ui->popup_ouch->show = false;
+					_ctx.ui->popup_pit->show = false;
 					_turn_left();
 					_ctx.game->pass_turn();
 					break;
 				case MOVE_TURN_RIGHT:
 					_ctx.ui->popup_ouch->show = false;
+					_ctx.ui->popup_pit->show = false;
 					_turn_right();
 					_ctx.game->pass_turn();
 					break;
 				case MOVE_TURN_AROUND:
 					_ctx.ui->popup_ouch->show = false;
+					_ctx.ui->popup_pit->show = false;
 					_turn_around();
 					_ctx.game->pass_turn();
 					break;
@@ -453,6 +458,13 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 			return true;
 
+		} else if (_ctx.game->state->level->at(at).has_pit()) {
+
+			_start_popup_pit();
+			DEBUG_LOG("Player triggered pit");
+			_pit_oops();
+			return true;
+
 		} else if (_ctx.game->state->level->at(at).has_event()) {
 
 			// Check for events after elevators etc, so they take precedence
@@ -493,10 +505,24 @@ auto Sorcery::Engine::_callback_stop_popup_ouch(std::uint32_t, void *param)
 	return 0;
 }
 
+auto Sorcery::Engine::_callback_stop_popup_pit(std::uint32_t, void *param)
+	-> std::uint32_t {
+
+	((Engine *)param)->_ctx.ui->popup_pit->show = false;
+
+	return 0;
+}
+
 auto Sorcery::Engine::_start_popup_ouch() -> void {
 
 	_ctx.ui->popup_ouch->show = true;
 	SDL_AddTimer(2000, &Engine::_callback_stop_popup_ouch, this);
+}
+
+auto Sorcery::Engine::_start_popup_pit() -> void {
+
+	_ctx.ui->popup_pit->show = true;
+	SDL_AddTimer(3000, &Engine::_callback_stop_popup_pit, this);
 }
 
 auto Sorcery::Engine::_go_back_to_town() -> int {
@@ -780,5 +806,67 @@ auto Sorcery::Engine::_turn_around() -> void {
 		_ctx.game->state->set_player_facing(new_facing);
 
 		DEBUG_LOG("Player triggered spinner");
+	}
+}
+
+auto Sorcery::Engine::_pit_oops() -> void {
+
+	std::vector<int> deaths{};
+	deaths.clear();
+
+	auto party{_ctx.game->state->get_party_characters()};
+	for (auto &[id, character] : _ctx.game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
+
+			const auto chance{
+				(character.get_cur_attr(Enums::Character::Attribute::AGILITY) -
+				 _ctx.game->state->get_depth()) *
+				4};
+			const auto roll(_ctx.get_random(Enums::System::Random::D100));
+			//_ctx.game->state->add_log_dice_roll(
+			//	fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"),
+			//	100, roll, chance);
+			if (roll < chance) {
+
+				// Damage is avoided
+
+			} else {
+
+				// Now in the original Apple 2 version, pit damage is based upon
+				// 3 extra values stored in the square in the TMaze records -
+				// AUX0, AUX1, and AUX2. Thanks to the data extraction by Tommy
+				// Ewers, the relevant values for each pit in the game are 0, 8
+				// and depth respectively. This is a long-winded way of saying
+				// that the pit damage (calculated in APIT and ROCKWATR) is 0 +
+				// (depth * d8), i.e. a d8 for level depth.
+
+				// Inflict damage! (remember depth is negative here and positve
+				// in original wizardry)
+				auto pit_damage{0U};
+				const auto dice{std::abs(_ctx.game->state->get_depth())};
+				for (int i = 1; i <= dice; i++)
+					pit_damage += _ctx.get_random(Enums::System::Random::D8);
+
+				//_ctx.game->state->add_log_message(
+				//	fmt::format(
+				//		"{} fell into a pit and took {} points of damage!",
+				//		character.get_name(), pit_damage),
+				//	IMT::GAME);
+
+				if (const auto alive{character.damage(pit_damage)}; !alive) {
+
+					// Oh dear, death from a pit!
+					//_game->state->add_log_message(
+					//	fmt::format("{} has died!", character.get_name()),
+					//	IMT::GAME);
+					deaths.emplace_back(id);
+				}
+			}
+		}
+	}
+
+	if (!deaths.empty()) {
+
+		// need to display a character has died dialog
 	}
 }
