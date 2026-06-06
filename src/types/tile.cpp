@@ -346,6 +346,11 @@ auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
 	_teleport = teleport;
 }
 
+auto Sorcery::Tile::has_spinner() const -> bool {
+
+	return _features[unenum(Enums::Tile::Features::SPINNER)];
+}
+
 auto Sorcery::Tile::set_stairs(Teleport stairs) -> void {
 
 	_stairs = stairs;

@@ -443,8 +443,19 @@ auto Sorcery::Engine::_move_forward() -> bool {
 				return true;
 			}
 
+		} else if (_ctx.game->state->level->at(at).has_spinner()) {
+
+			auto new_facing{static_cast<Enums::Map::Direction>(
+				_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+			_ctx.game->state->set_player_facing(new_facing);
+
+			DEBUG_LOG("Player triggered spinner");
+
+			return true;
+
 		} else if (_ctx.game->state->level->at(at).has_event()) {
 
+			// Check for events after elevators etc, so they take precedence
 			const auto event_type{
 				_ctx.game->state->level->at(at).has_event().value()};
 
@@ -463,7 +474,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			}
 		}
 
-		// Remember this is COMPASS (on screen) direction, not map direction!
+		// Remember this is COMPASS (on screen) direction, not map
+		// direction!
 		_ctx.controller->set_last_dir(Enums::Map::Direction::NORTH);
 
 		return true;
@@ -632,6 +644,18 @@ auto Sorcery::Engine::_move_backward() -> bool {
 			}
 		}
 
+		const auto at{_ctx.game->state->get_player_pos()};
+		if (_ctx.game->state->level->at(at).has_spinner()) {
+
+			auto new_facing{static_cast<Enums::Map::Direction>(
+				_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+			_ctx.game->state->set_player_facing(new_facing);
+			_ctx.controller->set_last_dir(Enums::Map::Direction::SOUTH);
+
+			DEBUG_LOG("Player triggered spinner");
+			return true;
+		}
+
 		// Check for Event
 		if (const auto at{_ctx.game->state->get_player_pos()};
 			_ctx.game->state->level->at(at).has_event()) {
@@ -679,6 +703,16 @@ auto Sorcery::Engine::_turn_left() -> void {
 
 	_ctx.controller->set_last_dir(Enums::Map::Direction::WEST);
 	_ctx.controller->set_can_undo(false);
+
+	const auto at{_ctx.game->state->get_player_pos()};
+	if (_ctx.game->state->level->at(at).has_spinner()) {
+
+		auto new_facing{static_cast<Enums::Map::Direction>(
+			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+		_ctx.game->state->set_player_facing(new_facing);
+
+		DEBUG_LOG("Player triggered spinner");
+	}
 }
 
 auto Sorcery::Engine::_turn_right() -> void {
@@ -703,6 +737,16 @@ auto Sorcery::Engine::_turn_right() -> void {
 
 	_ctx.controller->set_last_dir(Enums::Map::Direction::EAST);
 	_ctx.controller->set_can_undo(false);
+
+	const auto at{_ctx.game->state->get_player_pos()};
+	if (_ctx.game->state->level->at(at).has_spinner()) {
+
+		auto new_facing{static_cast<Enums::Map::Direction>(
+			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+		_ctx.game->state->set_player_facing(new_facing);
+
+		DEBUG_LOG("Player triggered spinner");
+	}
 }
 
 auto Sorcery::Engine::_turn_around() -> void {
@@ -727,4 +771,14 @@ auto Sorcery::Engine::_turn_around() -> void {
 
 	_ctx.controller->set_last_dir(Enums::Map::Direction::SOUTH);
 	_ctx.controller->set_can_undo(false);
+
+	const auto at{_ctx.game->state->get_player_pos()};
+	if (_ctx.game->state->level->at(at).has_spinner()) {
+
+		auto new_facing{static_cast<Enums::Map::Direction>(
+			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+		_ctx.game->state->set_player_facing(new_facing);
+
+		DEBUG_LOG("Player triggered spinner");
+	}
 }
