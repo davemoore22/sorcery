@@ -58,6 +58,7 @@ inline constexpr auto PROPORTIONAL_FONT_FILE{"proportional.ttf"sv};
 inline constexpr auto TEXT_FONT_FILE{"text.ttf"sv};
 
 inline constexpr auto BANNER_TEXTURE{"banner.tga"sv};
+inline constexpr auto EVENTS_TEXTURE{"events.tga"sv};
 inline constexpr auto KNOWN_CREATURES_TEXTURE{"known.tga"sv};
 inline constexpr auto ICONS_TEXTURE{"icons.tga"sv};
 inline constexpr auto ITEMS_TEXTURE{"items.tga"sv};

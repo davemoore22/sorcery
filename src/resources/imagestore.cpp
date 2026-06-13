@@ -65,9 +65,10 @@ auto Sorcery::ImageStore::_initialise() -> bool {
 	_sources.insert(
 		_sources.end(),
 		{std::string{BANNER_TEXTURE}, std::string{BACKGROUNDS_TEXTURE},
-		 std::string{ICONS_TEXTURE}, std::string{ITEMS_TEXTURE},
-		 std::string{KNOWN_CREATURES_TEXTURE}, std::string{LOGO_TEXTURE},
-		 std::string{MAPS_TEXTURE}, std::string{UNKNOWN_CREATURES_TEXTURE},
+		 std::string{EVENTS_TEXTURE}, std::string{ICONS_TEXTURE},
+		 std::string{ITEMS_TEXTURE}, std::string{KNOWN_CREATURES_TEXTURE},
+		 std::string{LOGO_TEXTURE}, std::string{MAPS_TEXTURE},
+		 std::string{UNKNOWN_CREATURES_TEXTURE},
 		 std::string{WIREFRAME_TEXTURE}});
 	capacity = _sources.size();
 

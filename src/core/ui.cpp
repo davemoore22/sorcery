@@ -863,6 +863,11 @@ auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view layer,
 		tile_size = src_image.width / ICONS_TILE_ROW_COUNT;
 		image_size.x = src_image.width;
 		image_size.y = src_image.height;
+	} else if (source == EVENTS_TEXTURE) {
+		tile_row_count = EVENTS_TILE_ROW_COUNT;
+		tile_size = src_image.width / EVENTS_TILE_ROW_COUNT;
+		image_size.x = src_image.width;
+		image_size.y = src_image.height;
 	}
 
 	// Work out the source rect to copy
