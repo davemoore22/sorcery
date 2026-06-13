@@ -35,6 +35,7 @@ class Inspect;
 class Reorder;
 class Application;
 class Automap;
+class Graveyard;
 
 class Engine {
 
@@ -85,6 +86,7 @@ class Engine {
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Automap> _automap;
+		std::unique_ptr<Graveyard> _graveyard;
 };
 
 }

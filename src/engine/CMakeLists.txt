@@ -15,5 +15,6 @@ target_link_libraries(sorcery_engine PUBLIC
 
 target_sources(sorcery_engine PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/automap.cpp
+	${CMAKE_CURRENT_LIST_DIR}/graveyard.cpp
 	${CMAKE_CURRENT_LIST_DIR}/engine.cpp
 )

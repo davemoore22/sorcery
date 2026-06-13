@@ -200,6 +200,7 @@ class UI {
 		auto _display_training_grounds() -> void;
 
 		auto _display_automap() -> void;
+		auto _display_graveyard() -> void;
 
 		auto _display_choose(const int mode) -> void;
 		auto _display_create_name(const int stage) -> void;
@@ -269,6 +270,7 @@ class UI {
 		auto _draw_loading_progress() -> void;
 		auto _draw_current_level_map() -> void;
 		auto _draw_level_no_player() -> void;
+		auto _draw_party_wipe() -> void;
 		auto _draw_level_up(const int mode) -> void;
 		auto _draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz)
 			-> void;

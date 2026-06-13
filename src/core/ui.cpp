@@ -218,6 +218,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::AUTOMAP] = [this]() {
 		_display_automap();
 	};
+	_draw_modules[Enums::Screen::GRAVEYARD] = [this]() {
+		_display_graveyard();
+	};
 	_draw_modules[Enums::Screen::INN] = [this]() {
 		_display_inn();
 	};
@@ -3510,6 +3513,15 @@ auto Sorcery::UI::_display_spellbook() -> void {
 	_draw_spell_info();
 	_draw_cursor();
 }
+
+auto Sorcery::UI::_display_graveyard() -> void {
+
+	_draw_components("graveyard");
+	_draw_party_wipe();
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_draw_party_wipe() -> void {}
 
 auto Sorcery::UI::_display_automap() -> void {
 

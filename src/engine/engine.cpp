@@ -31,6 +31,7 @@
 #include "core/resources.hpp"
 #include "core/ui.hpp"
 #include "engine/automap.hpp"
+#include "engine/graveyard.hpp"
 #include "frontend/options.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
@@ -53,6 +54,7 @@ Sorcery::Engine::Engine(Context &ctx)
 	_reorder = std::make_unique<Reorder>(_ctx);
 	_inspect = std::make_unique<Inspect>(_ctx);
 	_automap = std::make_unique<Automap>(_ctx);
+	_graveyard = std::make_unique<Graveyard>(_ctx);
 
 	_initialise();
 };

@@ -22,55 +22,37 @@
 
 #pragma once
 
-namespace Sorcery::Enums {
+#include "common/types.hpp"
+#include "engine/define.hpp"
+#include "engine/enum.hpp"
+#include "engine/types.hpp"
 
-enum class Screen {
-	NONE = 0,
+namespace Sorcery {
 
-	SPLASH,
+// Forward Declarations
+struct Context;
 
-	MAINMENU,
-	OPTIONS,
-	LICENSE,
-	COMPENDIUM,
-	ATLAS,
-	BESTIARY,
-	MUSEUM,
-	SPELLBOOK,
-	CASTLE,
-	EDGEOFTOWN,
-	TAVERN,
-	INN,
-	TEMPLE,
-	SHOP,
-	TRAINING,
-	RESTART,
-	ADD,
-	REMOVE,
+class Graveyard {
 
-	ENGINE,
-	INSPECT,
-	REORDER,
-	AUTOMAP,
-	GRAVEYARD,
+	public:
+		// Standard Constructor
+		Graveyard(Context &ctx);
 
-	STAY,
-	CHOOSE,
-	RECOVERY,
-	LEVELUP,
-	NOLEVELUP,
-	PAY,
-	HEAL,
-	RESULTS,
+		// Standard Destructor
+		~Graveyard();
 
-	CREATE,
-	ROSTER,
+		// Public Members
 
-	CREATE_NAME,
-	CREATE_RACE,
-	CREATE_ALIGNMENT,
-	CREATE_CLASS,
-	CREATE_CONFIRM,
+		// Public Methods
+		auto start(void) -> int;
+		auto stop(void) -> void;
+
+	private:
+		// Private Methods
+		auto _initialise() -> bool;
+
+		// Private Members
+		Context &_ctx;
 };
 
 }

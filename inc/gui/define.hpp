@@ -88,6 +88,7 @@ inline constexpr auto BACK_FROM_REORDER{4};
 inline constexpr auto BACK_FROM_ROSTER{4};
 inline constexpr auto BACK_FROM_INSPECT{4};
 inline constexpr auto BACK_FROM_CHOOSE{4};
+inline constexpr auto BACK_FROM_GRAVEYARD{4};
 inline constexpr auto CHECK_FOR_LEVEL_GAIN{5};
 inline constexpr auto ROSTER_MODE_INN{1};
 inline constexpr auto ROSTER_MODE_SHOP{2};

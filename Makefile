@@ -901,6 +901,30 @@ src/engine/engine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_engine.dir/build.make CMakeFiles/sorcery_engine.dir/src/engine/engine.cpp.s
 .PHONY : src/engine/engine.cpp.s
 
+src/engine/graveyard.o: src/engine/graveyard.cpp.o
+.PHONY : src/engine/graveyard.o
+
+# target to build an object file
+src/engine/graveyard.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_engine.dir/build.make CMakeFiles/sorcery_engine.dir/src/engine/graveyard.cpp.o
+.PHONY : src/engine/graveyard.cpp.o
+
+src/engine/graveyard.i: src/engine/graveyard.cpp.i
+.PHONY : src/engine/graveyard.i
+
+# target to preprocess a source file
+src/engine/graveyard.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_engine.dir/build.make CMakeFiles/sorcery_engine.dir/src/engine/graveyard.cpp.i
+.PHONY : src/engine/graveyard.cpp.i
+
+src/engine/graveyard.s: src/engine/graveyard.cpp.s
+.PHONY : src/engine/graveyard.s
+
+# target to generate assembly for a file
+src/engine/graveyard.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_engine.dir/build.make CMakeFiles/sorcery_engine.dir/src/engine/graveyard.cpp.s
+.PHONY : src/engine/graveyard.cpp.s
+
 src/frontend/atlas.o: src/frontend/atlas.cpp.o
 .PHONY : src/frontend/atlas.o
 
@@ -2609,6 +2633,9 @@ help:
 	@echo "... src/engine/engine.o"
 	@echo "... src/engine/engine.i"
 	@echo "... src/engine/engine.s"
+	@echo "... src/engine/graveyard.o"
+	@echo "... src/engine/graveyard.i"
+	@echo "... src/engine/graveyard.s"
 	@echo "... src/frontend/atlas.o"
 	@echo "... src/frontend/atlas.i"
 	@echo "... src/frontend/atlas.s"
