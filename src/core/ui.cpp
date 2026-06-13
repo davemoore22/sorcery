@@ -41,6 +41,7 @@
 #include "core/resources.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
+#include "engine/define.hpp"
 #include "engine/types.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
@@ -2379,6 +2380,75 @@ auto Sorcery::UI::_draw_text(Component *component, const std::string &string)
 	}
 }
 
+auto Sorcery::UI::_draw_party_wipe() -> void {
+
+	const auto cmp{components->get("graveyard:gravestone")};
+
+	const auto max_cols{3};
+	const auto grave_idx{GRAVESTONE_GFX_ID};
+	const auto grave_w{cmp.get_float("tile_width")};
+	const auto grave_h{cmp.get_float("tile_height")};
+	const auto x_gap{cmp.get_float("spacing_x") * adj_grid_w};
+	const auto y_gap{cmp.get_float("spacing_y") * adj_grid_h};
+
+	std::vector<std::string> names;
+
+	const auto party{_ctx.game->state->get_party_characters()};
+	for (const auto char_id : party) {
+		if (!_ctx.game->characters.contains(char_id))
+			continue;
+
+		names.emplace_back(_ctx.game->characters.at(char_id).get_name());
+	}
+
+	if (names.empty())
+		return;
+
+	const auto count{static_cast<int>(names.size())};
+	const auto cols{std::min(max_cols, count)};
+	const auto rows{(count + max_cols - 1) / max_cols};
+
+	const auto cell_w{grave_w + x_gap};
+	const auto cell_h{grave_h + y_gap};
+
+	auto origin_x{static_cast<float>(cmp.x * adj_grid_w)};
+	auto origin_y{static_cast<float>(cmp.y * adj_grid_h)};
+
+	const auto total_w{(cols * grave_w) + ((cols - 1) * x_gap)};
+
+	for (auto i = 0; i < count; ++i) {
+		const auto row{i / max_cols};
+		const auto col{i % max_cols};
+
+		const auto row_count{std::min(max_cols, count - (row * max_cols))};
+
+		const auto row_w{(row_count * grave_w) + ((row_count - 1) * x_gap)};
+
+		auto row_x{origin_x};
+
+		const ImVec2 grave_pos{row_x + (col * cell_w),
+							   origin_y + (row * cell_h)};
+
+		_draw_fg_image_with_idx(EVENTS_TEXTURE, grave_idx, grave_pos,
+								ImVec2{grave_w, grave_h});
+
+		auto text_cmp{components->get("graveyard:party_members")};
+		text_cmp.x = 0;
+		text_cmp.y = 0;
+
+		const auto name{names.at(i)};
+		const auto text_size{ImGui::CalcTextSize(name.c_str())};
+
+		text_cmp.x = static_cast<int>(
+			(grave_pos.x + (grave_w - text_size.x) / 2.0f) / adj_grid_w);
+
+		text_cmp.y =
+			static_cast<int>((grave_pos.y + grave_h + adj_grid_h) / adj_grid_h);
+
+		_draw_text(&text_cmp, name);
+	};
+}
+
 auto Sorcery::UI::_draw_automap_legend(Component *component) -> void {
 
 	struct MapLegendItem {
@@ -3520,8 +3590,6 @@ auto Sorcery::UI::_display_graveyard() -> void {
 	_draw_party_wipe();
 	_draw_cursor();
 }
-
-auto Sorcery::UI::_draw_party_wipe() -> void {}
 
 auto Sorcery::UI::_display_automap() -> void {
 

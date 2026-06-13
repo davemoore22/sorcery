@@ -918,7 +918,7 @@
 					"justification": "centre",
 					"type": "text",
 					"priority": "4",
-					"drawmode": "manual"
+					"drawmode": "automatic"
 				},
 				{
 					"name": "party_members",

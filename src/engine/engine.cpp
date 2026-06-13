@@ -99,6 +99,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 
+			// Check for Debug
+			_ctx.controller->check_for_debug(event);
+
 			// Back closes popup first, otherwise opens camp.
 			if (_ctx.controller->check_for_back(event)) {
 				if (_ctx.ui->in_popup()) {
@@ -120,6 +123,24 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				_automap->start();
 				_automap->stop();
 				continue;
+			}
+
+			if (_check_for_wipe()) {
+				_graveyard->start();
+				_graveyard->stop();
+
+				const auto party{_ctx.game->state->get_party_characters()};
+				for (auto &[id, character] : _ctx.game->characters) {
+					if (std::find(party.begin(), party.end(), id) !=
+						party.end()) {
+						character.set_location(
+							Enums::Character::Location::MAZE);
+						character.set_current_hp(0);
+					}
+				}
+				_ctx.game->state->clear_party();
+				_ctx.game->save_game();
+				return LEAVE_MAZE;
 			}
 
 			auto old_monochrome{_ctx.controller->get_monochrome()};
@@ -871,4 +892,21 @@ auto Sorcery::Engine::_pit_oops() -> void {
 
 		// need to display a character has died dialog
 	}
+}
+
+// Will return true in the event of a wipe
+auto Sorcery::Engine::_check_for_wipe() const -> bool {
+
+	const auto party{_ctx.game->state->get_party_characters()};
+	for (auto &[id, character] : _ctx.game->characters) {
+		if (std::find(party.begin(), party.end(), id) != party.end()) {
+			using enum Enums::Character::Status;
+			if ((character.get_status() == OK) ||
+				(character.get_status() == AFRAID) ||
+				(character.get_status() == SILENCED))
+				return false;
+		}
+	}
+
+	return true;
 }

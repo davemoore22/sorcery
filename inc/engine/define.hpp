@@ -33,6 +33,8 @@ inline constexpr auto MOVE_TURN_RIGHT{2};
 inline constexpr auto MOVE_FORWARD{3};
 inline constexpr auto MOVE_BACKWARD{4};
 
-inline constexpr auto RETURN_TO_TOWN(-5);
+inline constexpr auto RETURN_TO_TOWN{-5};
+
+inline constexpr auto GRAVESTONE_GFX_ID{0};
 
 };

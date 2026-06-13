@@ -61,7 +61,7 @@ auto Sorcery::Game::_set_up_debug_keys() -> void {
 	_debug[SDLK_F2] = std::bind(&Game::_debug_give_party_random_status, this);
 	_debug[SDLK_F3] = std::bind(&Game::_debug_heal_party_to_full, this);
 	_debug[SDLK_F4] = std::bind(&Game::_debug_toggle_light, this);
-	_debug[SDLK_F5] = std::bind(&Game::_debug_harm_party_to_min, this);
+	_debug[SDLK_F5] = std::bind(&Game::_debug_kill_party, this);
 	_debug[SDLK_F6] = std::bind(&Game::_debug_give_party_gold, this);
 	_debug[SDLK_F7] = std::bind(&Game::_debug_give_party_xp, this);
 	_debug[SDLK_F8] = std::bind(&Game::_debug_give_party_random_items, this);
@@ -579,6 +579,17 @@ auto Sorcery::Game::_debug_harm_party_to_min() -> void {
 		auto &cur_char{characters.at(idx)};
 		const auto hp{_ctx.get_random(Enums::System::Random::D4)};
 		cur_char.set_current_hp(hp);
+	}
+}
+
+auto Sorcery::Game::_debug_kill_party() -> void {
+
+	PRINT("debug_kill_party");
+
+	for (const auto party{state->get_party_characters()}; auto idx : party) {
+		auto &cur_char{characters.at(idx)};
+		cur_char.set_status(Enums::Character::Status::DEAD);
+		cur_char.set_current_hp(0);
 	}
 }
 

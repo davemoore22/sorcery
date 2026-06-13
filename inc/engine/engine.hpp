@@ -76,6 +76,7 @@ class Engine {
 		auto _turn_left() -> void;
 		auto _turn_right() -> void;
 		auto _pit_oops() -> void;
+		auto _check_for_wipe() const -> bool;
 
 		// Private Members
 		Application *_application;
