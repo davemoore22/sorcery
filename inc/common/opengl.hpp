@@ -36,6 +36,9 @@
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 // clang-format off
 #include <GL/glew.h>
+
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 #include <SDL_opengl.h>

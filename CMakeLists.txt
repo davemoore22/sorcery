@@ -16,6 +16,7 @@ find_package(jsoncpp REQUIRED)
 find_package(SQLite3 REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(Freetype REQUIRED)
+find_package(glm REQUIRED)
 
 # Zep
 add_definitions(-DZEP_USE_SDL)

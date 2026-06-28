@@ -310,7 +310,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	items.clear();
 	data.clear();
 
-	DEBUG_LOGF("Building menu: {}", menu_name);
+	// DEBUG_LOGF("Building menu: {}", menu_name);
 
 	// -------- Dynamic menus --------
 	if (menu_name == "roster_menu" || menu_name == "choose_menu" ||
