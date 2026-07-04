@@ -500,8 +500,13 @@ auto Sorcery::UI::start() -> void {
 
 	// Initialise ImGUI to use SDL2/OpenGL
 	ImGui::CreateContext();
-	_io = ImGui::GetIO();
-	_io.IniFilename = CSTR(_ctx.get_file(CONFIG_FILE));
+	_io = &ImGui::GetIO();
+
+	_imgui_ini_path = _ctx.get_file(IMGUI_INI_FILE).string();
+	_io->IniFilename = CSTR(_imgui_ini_path);
+
+	std::cout << "ImGui ini: " << _imgui_ini_path << '\n';
+
 	ImGui::StyleColorsClassic();
 	ImGui_ImplSDL2_InitForOpenGL(_ctx.display->get_SDL_window(),
 								 _ctx.display->get_GL_context());
@@ -586,11 +591,6 @@ auto Sorcery::UI::start() -> void {
 	message_tile->show = false;
 
 	_attract_data.clear();
-}
-
-auto Sorcery::UI::io() -> ImGuiIO & {
-
-	return _io;
 }
 
 auto Sorcery::UI::stop() -> void {
@@ -680,7 +680,7 @@ auto Sorcery::UI::display_engine() -> void {
 
 	// And finally clear and render everything
 	ImGui::Render();
-	glViewport(0, 0, (int)io().DisplaySize.x, (int)io().DisplaySize.y);
+	glViewport(0, 0, (int)_io->DisplaySize.x, (int)_io->DisplaySize.y);
 	glClearColor(0, 0, 0, 255);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -717,7 +717,7 @@ auto Sorcery::UI::display(Enums::Screen screen, std::any payload) -> void {
 
 	// And finally clear and render everything
 	ImGui::Render();
-	glViewport(0, 0, (int)io().DisplaySize.x, (int)io().DisplaySize.y);
+	glViewport(0, 0, (int)_io->DisplaySize.x, (int)_io->DisplaySize.y);
 	glClearColor(0, 0, 0, 255);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -1123,8 +1123,7 @@ auto Sorcery::UI::_draw_cursor() -> void {
 		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 
 	// Get the current mouse position
-	ImGuiIO &io{ImGui::GetIO()};
-	const auto pos{ImVec2{io.MousePos.x, io.MousePos.y}};
+	const auto pos{ImVec2{_io->MousePos.x, _io->MousePos.y}};
 	if (ImGui::IsMousePosValid()) {
 
 		// Grab and extract the image manually and add to the foreground
@@ -1187,7 +1186,7 @@ auto Sorcery::UI::_draw_debug() -> void {
 	with_Window(WINDOW_LAYER_MENUS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		set_Font(_io.FontDefault);
+		set_Font(_io->FontDefault);
 		ImGui::SetCursorPos(ImVec2{8, 8});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		ImGui::TextUnformatted(_ctx.controller->get_flags().c_str());

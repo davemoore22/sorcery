@@ -9,16 +9,20 @@ Tested Environment
 My Development Environment is:
 
 Ubuntu 26.04 LTS
-GCC 14.2+
+GCC 14.2+ (though this may change to GCC15 minimum at some point)
 CMake 3.22+
+
+Current C++ standard used is C++23
 
 Git Notes
 =========
 
-You'll need git lfs enabled to get the image files in the gfx directory due to 
-their size, else you will not get any images. Please checkout the sdl/imgui 
-branch as this is the current updated branch of code using SDL2/Imgui, not the
-original SFML development effort.
+IMPORTANT! You'll need git lfs enabled to get the image files in the gfx directory due to 
+their size, else you will not get any images. 
+
+Please note as of 4th July 2026, I have replaced the master branch with the 
+sdl/imgui branch and have archived the older SFML-based version of the code.
+
 
 VSCode Notes
 ============
@@ -27,16 +31,17 @@ VSCode 1.127
 C/C++ extension 1.29.3 (note that 1.32.2 currently breaks debugging in VSCode)
 CMake Tools extension 1.23.52
 
-I also use bear to produce compile-commands.json for Intelliense plugins
+Additional Tools
 
-Git Notes
-=========
+I also use bear to produce compile-commands.json for Intelliense plugins (to 
+install near use apt install bear, then use it by calling
+bear -- make -j <number of your cores>)
 
 
 Code Formatting
 ===============
 
-Clang-tidy support via the format file in /.clang-format
+Clang-tidy support via the format file in /.clang-format.
 
 Dependencies
 ============

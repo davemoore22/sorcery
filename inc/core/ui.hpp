@@ -97,7 +97,6 @@ class UI {
 		auto get_hl_colour(const double percent) const -> ImColor;
 		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo,
 						 const double percent) const -> ImVec4;
-		auto io() -> ImGuiIO &;
 		auto load_message(const Enums::Map::Event event)
 			-> std::vector<std::string>;
 		auto set_monochrome(const bool value) -> void;
@@ -164,7 +163,7 @@ class UI {
 	private:
 		// Private Members
 		Context &_ctx;
-		ImGuiIO _io;
+		ImGuiIO *_io;
 		std::unique_ptr<Render> _render;
 		std::vector<std::shared_ptr<Frame>> _frames;
 		std::vector<std::shared_ptr<Menu>> _menus;
@@ -175,6 +174,7 @@ class UI {
 			_draw_modules_with_int;
 		std::map<Enums::Screen, std::function<void(const std::string &)>>
 			_draw_modules_with_string;
+		std::string _imgui_ini_path;
 
 		// Private Methods
 		auto _display_atlas() -> void;

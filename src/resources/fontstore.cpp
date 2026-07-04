@@ -29,7 +29,7 @@
 
 #include <fstream>
 
-Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO &io)
+Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO *io)
 	: _ctx(ctx),
 	  _io(io) {
 
@@ -76,7 +76,7 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory,
 	current_fonts.clear();
 
 	// Always load internal ImGui font
-	_default_font = _io.Fonts->AddFontDefault();
+	_default_font = _io->Fonts->AddFontDefault();
 
 	for (const auto &entry : std::filesystem::directory_iterator(directory)) {
 		if (!entry.is_regular_file())
@@ -106,7 +106,7 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory,
 	}
 
 	if (!_default_font)
-		_default_font = _io.Fonts->AddFontDefault();
+		_default_font = _io->Fonts->AddFontDefault();
 
 	// Ensure all font slots are populated
 	using enum Enums::Layout::Font;
@@ -116,7 +116,7 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory,
 			current_fonts[type] = _default_font;
 	}
 
-	ImGui::GetIO().Fonts->Build();
+	_io->Fonts->Build();
 }
 
 auto Sorcery::FontStore::_load_font(const std::string &path, float size,
@@ -139,7 +139,7 @@ auto Sorcery::FontStore::_load_font(const std::string &path, float size,
 	config.OversampleV = 3;
 	config.PixelSnapH = false;
 
-	ImFont *font{_io.Fonts->AddFontFromFileTTF(path.c_str(), size, &config)};
+	ImFont *font{_io->Fonts->AddFontFromFileTTF(path.c_str(), size, &config)};
 	if (!font) {
 
 		std::cerr << "Failed to load font: " << path << "\n";
@@ -240,7 +240,7 @@ auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,
 
 	// Also set ImGui's default if Default font type
 	if (type == Enums::Layout::Font::DEFAULT)
-		_io.FontDefault = font;
+		_io->FontDefault = font;
 }
 
 auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,

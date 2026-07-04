@@ -36,6 +36,8 @@ collateral
 # Binaries
 bin/*
 build/*
+build/dist/*
+dist/*
 obj/*
 .debris/*
 

@@ -34,6 +34,7 @@ Sorcery::FileStore::FileStore() {
 	_file_paths.clear();
 
 	_add_path(CONFIG_DIR, CONFIG_FILE);
+	_add_path(CONFIG_DIR, IMGUI_INI_FILE);
 	_add_path(DATA_DIR, DATABASE_FILE);
 	_add_path(DATA_DIR, ITEMS_FILE);
 	_add_path(DATA_DIR, LAYOUT_FILE);

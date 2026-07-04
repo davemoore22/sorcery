@@ -49,7 +49,7 @@ struct FontInfo {
 
 class FontStore {
 	public:
-		FontStore(Context &ctx, ImGuiIO &io);
+		FontStore(Context &ctx, ImGuiIO *io);
 		~FontStore();
 
 		auto scan_and_load(const std::string &directory,
@@ -69,7 +69,7 @@ class FontStore {
 
 	private:
 		Context &_ctx;
-		ImGuiIO &_io;
+		ImGuiIO *_io;
 		std::vector<FontInfo> fonts;
 		std::map<Enums::Layout::Font, ImFont *> current_fonts;
 		ImFont *_current_font{nullptr};

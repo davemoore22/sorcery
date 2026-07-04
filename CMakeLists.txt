@@ -1,9 +1,14 @@
 # Project Definition
 cmake_minimum_required(VERSION 3.22...3.22)
-set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD 23)
 project(sorcery VERSION 0.1.0)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Paths
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 # Prerequisites
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
@@ -144,6 +149,10 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-pg
 	-g)
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    BUILD_RPATH "$ORIGIN/lib"
+)
+
 target_link_libraries(sorcery_types PRIVATE
 	sorcery_warnings
 	sorcery_options)
@@ -193,37 +202,48 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_warnings
 )
 
-MESSAGE("Creating Post-Build Directories")
-
-# Post Build Directories
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
-	cfg)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
-	dat)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
-	doc)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
-	gfx)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
-	sfx)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
-	vfx)
-
-MESSAGE("Copying into Post-Build Directories")
+MESSAGE("Creating and Populating Post-Build Directories")
 
 # Post Build Copying
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${CMAKE_SOURCE_DIR}/cfg/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/cfg)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${CMAKE_SOURCE_DIR}/dat/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/dat)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${CMAKE_SOURCE_DIR}/doc/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/doc)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${CMAKE_SOURCE_DIR}/gfx/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/gfx)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${CMAKE_SOURCE_DIR}/sfx/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/sfx)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-	${CMAKE_SOURCE_DIR}/vfx/ $<TARGET_FILE_DIR:${PROJECT_NAME}>/vfx)
+set(SORCERY_DIST_DIR "${CMAKE_BINARY_DIR}/dist")
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory
+        "${SORCERY_DIST_DIR}"
+        "${SORCERY_DIST_DIR}/lib"
+
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<TARGET_FILE:${PROJECT_NAME}>"
+        "${SORCERY_DIST_DIR}/"
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_BINARY_DIR}/lib"
+        "${SORCERY_DIST_DIR}/lib"
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/cfg"
+        "${SORCERY_DIST_DIR}/cfg"
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/dat"
+        "${SORCERY_DIST_DIR}/dat"
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/doc"
+        "${SORCERY_DIST_DIR}/doc"
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/gfx"
+        "${SORCERY_DIST_DIR}/gfx"
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/sfx"
+        "${SORCERY_DIST_DIR}/sfx"
+
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/vfx"
+        "${SORCERY_DIST_DIR}/vfx"
+)
 
 # Packaging
 set(CPACK_PROJECT_NAME sorcery)
