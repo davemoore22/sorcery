@@ -1,0 +1,111 @@
+Introduction
+============
+
+Compilation Notes for Sorcery on Linux
+
+Tested Environment
+==================
+
+My Development Environment is:
+
+Ubuntu 26.04 LTS
+GCC 14.2+
+CMake 3.22+
+VSCode 1.127
+C/C++ extension 1.29.3 (note that 1.32.2 currently breaks debugging in VSCode)
+CMake Tools extension 1.23.52
+
+Code Formatting
+===============
+
+Clang-tidy support via the format file in /.clang-format
+
+Dependencies
+============
+
+To summarise:
+
+SDL2
+OpenGL
+jsoncpp
+SQLite3
+PkgConfig
+FreeType
+glm
+FFmpeg
+pthreads
+
+Package List
+============
+
+sudo apt install \
+    build-essential \
+    cmake \
+    pkg-config \
+    libsdl2-dev \
+    libgl-dev \
+    libjsoncpp-dev \
+    libsqlite3-dev \
+    libfreetype6-dev \
+    libglm-dev \
+    libavcodec-dev \
+    libavdevice-dev \
+    libavfilter-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libswresample-dev \
+    libavutil-dev \
+    libglew-dev \
+    uuid-dev \
+    libdw-dev
+
+External Libraries
+==================
+
+The ext directory should contain the following git repos (latest commits should
+suffice unless where indicated):
+
+cereal - https://github.com/USCiLab/cereal.git
+imgui - https://github.com/ocornut/imgui.git
+	Use Commit 6ded5230d043aa32c755e65c910c2af5002fb9f9 (tag v1.92.6)
+imgui_spinner - https://github.com/cmdwtf/imgui_toggle.git
+imgui_sugar - https://github.com/mnesarco/imgui_sugar.git
+imgui_toggle - https://github.com/cmdwtf/imgui_toggle.git
+	May need adjustments to support imgui version above
+magic_enum - https://github.com/Neargye/magic_enum.git
+simpleini - https://github.com/brofield/simpleini
+sqlite_modern_cpp - https://github.com/SqliteModernCpp/sqlite_modern_cpp.git
+stb - https://github.com/nothings/stb.git
+
+Structure Notes
+==================
+
+The executable consists of:
+
+sorcery_core
+sorcery_engine
+sorcery_frontend
+sorcery_gui
+sorcery_modules
+sorcery_resources
+sorcery_types
+dear_imgui
+
+which are linked into sorcery.
+
+Post-build
+==========
+
+The build automatically creates and copies these directories and their contents:
+
+cfg/
+dat/
+doc/
+gfx/
+sfx/
+vfx/
+
+Debugging
+=========
+
+Both CMake Tools Debug and standard VS Code Debug are supported.

@@ -1,0 +1,47 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Sorcery",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/build/sorcery",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [
+				{
+					"name": "DISPLAY",
+					"value": ":0.0"
+				},
+				{
+					"name": "WAYLAND_DISPLAY",
+					"value": ""
+				},
+				{
+					"name": "DEBUGINFOD_URLS",
+					"value": ""
+				}
+			],
+			"console": "integratedTerminal",
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"miDebuggerPath": "/usr/bin/gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty printing",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+				{
+					"text": "set debuginfod enabled off",
+					"ignoreFailures": true
+				},
+				{
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				}
+			]
+		}
+	]
+}
