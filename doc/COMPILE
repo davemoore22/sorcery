@@ -12,13 +12,24 @@ Ubuntu 26.04 LTS
 GCC 14.2+
 CMake 3.22+
 
-Optional:
+Git Notes
+=========
+
+You'll need git lfs enabled to get the image files in the gfx directory due to 
+their size, else you will not get any images.
+
+VSCode Notes
+============
 
 VSCode 1.127
 C/C++ extension 1.29.3 (note that 1.32.2 currently breaks debugging in VSCode)
 CMake Tools extension 1.23.52
 
 I also use bear to produce compile-commands.json for Intelliense plugins
+
+Git Notes
+=========
+
 
 Code Formatting
 ===============
