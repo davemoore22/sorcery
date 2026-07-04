@@ -16,7 +16,9 @@ Git Notes
 =========
 
 You'll need git lfs enabled to get the image files in the gfx directory due to 
-their size, else you will not get any images.
+their size, else you will not get any images. Please checkout the sdl/imgui 
+branch as this is the current updated branch of code using SDL2/Imgui, not the
+original SFML development effort.
 
 VSCode Notes
 ============
