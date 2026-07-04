@@ -11,6 +11,9 @@ My Development Environment is:
 Ubuntu 26.04 LTS
 GCC 14.2+
 CMake 3.22+
+
+Optional:
+
 VSCode 1.127
 C/C++ extension 1.29.3 (note that 1.32.2 currently breaks debugging in VSCode)
 CMake Tools extension 1.23.52

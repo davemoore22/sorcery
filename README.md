@@ -2,12 +2,9 @@
 
 An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully later in 2026.
 
-~~Written using SFML, TGUI, and C++.~~
-
 Written using ImGui/SDL2/OpenGL and C++
-<br>(*Note that some re-engineering is currently in progress to move to a more flexible/easier-to-use UI stack This should not affect the aimed release date of late 2026!<p>For daily updates and progress on that see the [sdl/imgui branch](https://github.com/davemoore22/sorcery/tree/sdl/imgui)*)
 
-**(Updated 3rd May 2026)**
+**(Updated 4th July 2026)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
@@ -54,7 +51,7 @@ Written using ImGui/SDL2/OpenGL and C++
 * Modding
 * Plugin/3D Graphics
 
-## What next? (as of May 2026)
+## What next? (as of June 2026)
 
 Currently adding Item Usage/Invocation, as well as buying, selling, uncursing, and identifying at Boltac's. Normal inventory management has been mosty completed!
 
@@ -62,9 +59,9 @@ Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subs
 
 ## Compilation
 
-I'm currently developing solely on Linux (Ubuntu 24) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date.
+I'm currently developing solely on Linux (Ubuntu 26) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date.
 
-Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief both CMake (via VSCode CMake Tools) and Code::Blocks are supported once the various support libraries are installed. C++23 compiler support is required (I'm currently using GCC 14.2).
+Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief use Cmake and optionally VSCode with CMakeTools. C++23 compiler support is required (I'm currently using GCC 14.2).
 
 All code is released under the GPL - see the doc/LICENSE text file for full details.
 
