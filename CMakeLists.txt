@@ -82,6 +82,9 @@ target_compile_definitions(dear_imgui PRIVATE
 add_library(sorcery_options INTERFACE)
 target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
 target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
+target_include_directories(sorcery_options INTERFACE
+    ${CMAKE_SOURCE_DIR}/ext/cereal/include
+)
 
 # Global Compile Options
 add_library(sorcery_warnings INTERFACE)
@@ -112,6 +115,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	${OPENGL_INCLUDE_DIR}
 	${GLUT_INCLUDE_DIRS}
 	${CMAKE_SOURCE_DIR}/ext
+	${CMAKE_SOURCE_DIR}/ext/cereal/include
 	${CMAKE_SOURCE_DIR}/ext/imgui
 	${CMAKE_SOURCE_DIR}/inc)
 
