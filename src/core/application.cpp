@@ -620,48 +620,6 @@ auto Sorcery::Application::_check_param(std::string_view param) const -> bool {
 							   });
 }
 
-// Get the Application Executable Path
-auto Sorcery::Application::_get_exe_path() const -> std::string_view {
-
-#ifdef __linux__
-
-	// On Linux
-	{
-		char result[PATH_MAX];
-		if (const ssize_t count{readlink("/proc/self/exe", result, PATH_MAX)};
-			count != -1) {
-			const char *path{dirname(result)};
-			std::string_view base_path{path};
-			return base_path;
-		} else
-			return "";
-	}
-
-#elif _WIN32
-
-	// On Windows
-	{
-		std::vector<wchar_t> pathBuf;
-		unsigned long copied{0};
-		do {
-			pathBuf.resize(pathBuf.size() + MAX_PATH);
-			copied = GetModuleFileName(0, &pathBuf.at(0), pathBuf.size());
-		} while (copied >= pathBuf.size());
-
-		pathBuf.resize(copied);
-
-		std::wstring path{pathBuf.begin(), pathBuf.end()};
-		std::string base_path;
-		std::transform(wide.begin(), wide.end(), std::back_inserter(base_path),
-					   [](wchar_t c) {
-						   return (char)c;
-					   });
-
-		return base_path;
-	}
-#endif
-}
-
 auto Sorcery::Application::install_signal_handlers() -> void {
 
 	std::signal(SIGTERM, _handle_signal);

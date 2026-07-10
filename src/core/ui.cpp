@@ -505,7 +505,7 @@ auto Sorcery::UI::start() -> void {
 	_imgui_ini_path = _ctx.get_file(IMGUI_INI_FILE).string();
 	_io->IniFilename = CSTR(_imgui_ini_path);
 
-	std::cout << "ImGui ini: " << _imgui_ini_path << '\n';
+	DEBUG_LOGF("ImGui ini: {}", _imgui_ini_path);
 
 	ImGui::StyleColorsClassic();
 	ImGui_ImplSDL2_InitForOpenGL(_ctx.display->get_SDL_window(),

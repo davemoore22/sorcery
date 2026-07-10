@@ -127,7 +127,6 @@ class Application {
 		auto _build_startup_plan() -> StartupPlan;
 		auto _add_quickstart_party() -> void;
 		auto _check_param(std::string_view param) const -> bool;
-		auto _get_exe_path() const -> std::string_view;
 		auto _load_existing_game() -> void;
 		auto _start_new_game(const bool quickstart) -> void;
 		auto _continue_existing_game() -> int;

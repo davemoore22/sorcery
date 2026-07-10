@@ -29,6 +29,7 @@
 #include "core/database.hpp"
 #include "core/macro.hpp"
 #include "core/random.hpp"
+#include "resources/define.hpp"
 #include "resources/filestore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/config.hpp"

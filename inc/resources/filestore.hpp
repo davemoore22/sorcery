@@ -22,34 +22,36 @@
 
 #pragma once
 
-#include "common/define.hpp"
-#include "resources/define.hpp"
-#include "resources/filestore.hpp"
-
 #include <filesystem>
-#include <map>
-
-#include <libgen.h>
-#include <limits.h>
-#include <unistd.h>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <vector>
 
 namespace Sorcery {
-class FileStore {
 
+class FileStore {
 	public:
 		FileStore();
 
-		auto get(std::string_view key) const -> std::filesystem::path;
+		[[nodiscard]] auto get(std::string_view key) const
+			-> std::filesystem::path;
 
-		auto get_path(std::string_view key) const -> std::string;
-		auto get_base_path() const -> std::filesystem::path;
+		[[nodiscard]] auto get_path(std::string_view key) const -> std::string;
+
+		[[nodiscard]] auto get_base_path() const -> std::filesystem::path;
 
 	private:
-		auto _add_path(const std::string_view dir, const std::string_view file)
-			-> void;
-		auto _get_exe_path() const -> std::string_view;
+		auto _add_path(std::string_view dir, std::string_view file,
+					   bool required = true) -> void;
 
-		std::map<std::string_view, std::filesystem::path> _file_paths;
+		[[nodiscard]] auto _get_exe_path() const -> std::filesystem::path;
+
+		auto _validate_files() const -> void;
+
 		std::filesystem::path _base_path;
+		std::unordered_map<std::string, std::filesystem::path> _file_paths;
+		std::vector<std::filesystem::path> _required_files;
 };
+
 }
