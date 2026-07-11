@@ -34,10 +34,14 @@ inline constexpr auto CONFIG_DIR{"cfg"sv};
 inline constexpr auto DATA_DIR{"dat"sv};
 inline constexpr auto DOCUMENTS_DIR{"doc"sv};
 inline constexpr auto GFX_DIR{"gfx"sv};
+inline constexpr auto SAVE_DIR{"sav"sv};
+inline constexpr auto SAVE_CHARACTERS_DIR{"characters"sv};
+inline constexpr auto SAVE_STATES_DIR{"states"sv};
 inline constexpr auto SFX_DIR{"sfx"sv};
 inline constexpr auto VFX_DIR{"vfx"sv};
 
 // Files
+inline constexpr auto COMPILE_FILE{"COMPILE"sv};
 inline constexpr auto CONFIG_FILE{"config.ini"sv};
 inline constexpr auto DATABASE_FILE{"save.db3"sv};
 inline constexpr auto IMGUI_INI_FILE{"imgui.ini"sv};
@@ -73,6 +77,10 @@ inline constexpr auto TOWN_MUSIC{"town.mp3"sv};
 
 inline constexpr auto UNKNOWN_CREATURES_TEXTURE{"unknown.tga"sv};
 inline constexpr auto WIREFRAME_TEXTURE{"wireframe.tga"sv};
+
+inline constexpr auto SAVE_GAME_FILE{"game.json"sv};
+inline constexpr auto SAVE_CHARACTERS_FILE{"characters.json"sv};
+inline constexpr auto SAVE_STATE_FILENAME{"save_state.b64"sv};
 
 // Miscellaneous error strings
 static const std::string KEY_NOT_FOUND{"KEY NOT FOUND"};

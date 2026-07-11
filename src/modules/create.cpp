@@ -33,6 +33,7 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "gui/input.hpp"
+#include "resources/define.hpp"
 #include "types/character.hpp"
 #include "types/game.hpp"
 
@@ -83,9 +84,11 @@ auto Sorcery::Create::start() -> int {
 			}
 
 			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(SAVE_STATE_FILENAME);
+				_ctx.application->save_state_to_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
 			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(SAVE_STATE_FILENAME);
+				_ctx.application->load_state_from_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
 				continue;
 			}
 		}

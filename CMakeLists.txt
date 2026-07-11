@@ -240,6 +240,14 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "${CMAKE_SOURCE_DIR}/sav"
         "${SORCERY_DIST_DIR}/sav"
 
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/sav/characters"
+        "${SORCERY_DIST_DIR}/sav/characters"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/sav/characters"
+        "${SORCERY_DIST_DIR}/sav/states"
+
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/sfx"
         "${SORCERY_DIST_DIR}/sfx"

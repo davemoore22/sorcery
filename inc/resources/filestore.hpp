@@ -39,11 +39,49 @@ class FileStore {
 
 		[[nodiscard]] auto get_path(std::string_view key) const -> std::string;
 
+		[[nodiscard]] auto get_directory(std::string_view key) const
+			-> std::filesystem::path;
+
+		[[nodiscard]] auto get_directory_path(std::string_view key) const
+			-> std::string;
+
+		[[nodiscard]] auto get_required_files() const
+			-> const std::vector<std::filesystem::path> &;
+
+		[[nodiscard]] auto get_required_directories() const
+			-> const std::unordered_map<std::string, std::filesystem::path> &;
+
+		[[nodiscard]] auto get_file_paths() const
+			-> const std::unordered_map<std::string, std::filesystem::path> &;
+
+		[[nodiscard]] auto get_directory_paths() const
+			-> const std::unordered_map<std::string, std::filesystem::path> &;
+
+		[[nodiscard]] auto get_required_file_count() const -> std::size_t;
+
+		[[nodiscard]] auto get_required_directory_count() const -> std::size_t;
+
+		[[nodiscard]] auto get_file_count() const -> std::size_t;
+
+		[[nodiscard]] auto get_directory_count() const -> std::size_t;
+
 		[[nodiscard]] auto get_base_path() const -> std::filesystem::path;
 
 	private:
 		auto _add_path(std::string_view dir, std::string_view file,
 					   bool required = true) -> void;
+
+		auto _add_path(const std::string_view dir,
+					   const std::string_view sub_dir,
+					   const std::string_view file, const bool required)
+			-> void;
+
+		auto _add_directory(const std::string_view dir,
+							const bool required = true) -> void;
+
+		auto _add_directory(const std::string_view dir,
+							const std::string_view sub_dir,
+							const bool required = true) -> void;
 
 		[[nodiscard]] auto _get_exe_path() const -> std::filesystem::path;
 
@@ -52,6 +90,8 @@ class FileStore {
 		std::filesystem::path _base_path;
 		std::unordered_map<std::string, std::filesystem::path> _file_paths;
 		std::vector<std::filesystem::path> _required_files;
+		std::unordered_map<std::string, std::filesystem::path> _directory_paths;
+		std::vector<std::filesystem::path> _required_directories;
 };
 
 }

@@ -40,6 +40,8 @@
 #include "gui/popup.hpp"
 #include "modules/inspect.hpp"
 #include "modules/reorder.hpp"
+#include "resources/define.hpp"
+#include "resources/filestore.hpp"
 #include "resources/levelstore.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
@@ -93,9 +95,11 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				return ABORT_GAME;
 
 			if (_ctx.controller->check_for_quicksave(event))
-				_application->save_state_to_binary(SAVE_STATE_FILENAME);
+				_application->save_state_to_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
 			else if (_ctx.controller->check_for_quickload(event))
-				_application->load_state_from_binary(SAVE_STATE_FILENAME);
+				_application->load_state_from_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
 
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 
