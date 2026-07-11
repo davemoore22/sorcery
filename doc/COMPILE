@@ -1,35 +1,33 @@
 Introduction
 ============
 
-Compilation Notes for Sorcery on Linux
-
-Tested Environment
-==================
+Compilation Notes for Sorcery on Linux. Updated 11th July 2026.
 
 My Development Environment is:
 
-Ubuntu 26.04 LTS
-GCC 14.2+ (though this may change to GCC15 minimum at some point)
-CMake 3.22+
+- Ubuntu 26.04 LTS
+- GCC 14.2+ (though this may change to GCC15 minimum at some point)
+- CMake 3.22+
 
-Current C++ standard used is C++23
+Current C++ standard used is C++23.
 
 Git Notes
 =========
 
-IMPORTANT! You'll need git lfs enabled to get the image files in the gfx directory due to 
-their size, else you will not get any images. 
+IMPORTANT! You'll need git lfs enabled to get the image files in the gfx
+directory due to their size, else you will not get any images. 
 
 Please note as of 4th July 2026, I have replaced the master branch with the 
-sdl/imgui branch and have archived the older SFML-based version of the code.
+sdl/imgui branch and have archived the older SFML-based version of the code. 
+That branch is no longer updated, and will also be archived in the near future.
 
 
 VSCode Notes
 ============
 
-VSCode 1.127
-C/C++ extension 1.29.3 (note that 1.32.2 currently breaks debugging in VSCode)
-CMake Tools extension 1.23.52
+- VSCode 1.127
+- C/C++ extension 1.29.3 (note that 1.32.2 currently breaks debugging in VSCode)
+- CMake Tools extension 1.23.52
 
 Additional Tools
 
@@ -48,15 +46,7 @@ Dependencies
 
 To summarise:
 
-SDL2
-OpenGL
-jsoncpp
-SQLite3
-PkgConfig
-FreeType
-glm
-FFmpeg
-pthreads
+SDL2, OpenGL, jsoncpp, SQLite3, PkgConfig, FreeType, glm, FFmpeg, pthreads
 
 Package List
 ============
@@ -88,33 +78,33 @@ External Libraries
 The ext directory should contain the following git repos (latest commits should
 suffice unless where indicated):
 
-cereal - https://github.com/USCiLab/cereal.git
-imgui - https://github.com/ocornut/imgui.git
+- cereal - https://github.com/USCiLab/cereal.git
+- imgui - https://github.com/ocornut/imgui.git
 	Use Commit 6ded5230d043aa32c755e65c910c2af5002fb9f9 (tag v1.92.6)
-imgui_spinner - https://github.com/cmdwtf/imgui_toggle.git
-imgui_sugar - https://github.com/mnesarco/imgui_sugar.git
-imgui_toggle - https://github.com/cmdwtf/imgui_toggle.git
+- imgui_spinner - https://github.com/cmdwtf/imgui_toggle.git
+- imgui_sugar - https://github.com/mnesarco/imgui_sugar.git
+- imgui_toggle - https://github.com/cmdwtf/imgui_toggle.git
 	May need adjustments to support imgui version above
-magic_enum - https://github.com/Neargye/magic_enum.git
-simpleini - https://github.com/brofield/simpleini
-sqlite_modern_cpp - https://github.com/SqliteModernCpp/sqlite_modern_cpp.git
-stb - https://github.com/nothings/stb.git
+- magic_enum - https://github.com/Neargye/magic_enum.git
+- simpleini - https://github.com/brofield/simpleini
+- sqlite_modern_cpp - https://github.com/SqliteModernCpp/sqlite_modern_cpp.git
+- stb - https://github.com/nothings/stb.git
 
 Structure Notes
 ==================
 
-The executable consists of:
+The executable consists of the following libraries:
 
-sorcery_core
-sorcery_engine
-sorcery_frontend
-sorcery_gui
-sorcery_modules
-sorcery_resources
-sorcery_types
-dear_imgui
+- sorcery_core
+- sorcery_engine
+- sorcery_frontend
+- sorcery_gui
+- sorcery_modules
+- sorcery_resources
+- sorcery_types
+- dear_imgui
 
-which are linked into sorcery.
+which are linked into the sorcery executable.
 
 Post-build
 ==========
@@ -125,10 +115,13 @@ cfg/
 dat/
 doc/
 gfx/
+sav/
+sav/characters/
+sav/states/
 sfx/
 vfx/
 
 Debugging
 =========
 
-Both CMake Tools Debug and standard VS Code Debug are supported.
+Both CMake Tools Debug and standard VS Code Debug are supported via gdb.
