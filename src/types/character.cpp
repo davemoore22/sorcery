@@ -26,6 +26,7 @@
 #include "core/resources.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/spellstore.hpp"
+#include "types/templates.hpp"
 
 #include <algorithm>
 #include <array>
@@ -1826,23 +1827,30 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 	// "chunks", for example, 134586 is stored at &0002013C as EA 11 0D, or 4586
 	// - to get the actual value for the level we add this to 0D in decimal (13)
 	// times 10000, to get 134586.
-	static const std::array<std::array<int, 14>, 8> levels{
+	static constexpr Grid<int, 8, 14> levels{std::array<std::array<int, 14>, 8>{
 		{{0, 1000, 1724, 2972, 5124, 8834, 15231, 26260, 45275, 78060, 134586,
-		  232044, 400075, 289709}, // FIGHTER
+		  232044, 400075, 289709},
+
 		 {0, 1100, 1896, 3268, 5124, 9713, 16746, 28872, 49779, 85825, 147974,
-		  255127, 439874, 318529}, // MAGE
+		  255127, 439874, 318529},
+
 		 {0, 1050, 1810, 3120, 5379, 9274, 15989, 27567, 47529, 81946, 141286,
-		  243596, 419993, 304132}, // PRIEST
+		  243596, 419993, 304132},
+
 		 {0, 900, 1551, 2574, 4610, 7948, 13703, 23625, 40732, 70187, 121081,
-		  208750, 359931, 260639}, // THIEF
+		  208750, 359931, 260639},
+
 		 {0, 1000, 2105, 3692, 6477, 11363, 19935, 34973, 61136, 107642, 188845,
-		  331370, 481240, 438479}, // BISHOP
+		  331370, 481240, 438479},
+
 		 {0, 1250, 2192, 3845, 6745, 11833, 20759, 36419, 63892, 112091, 196650,
-		  345000, 605263, 456601}, // SAMURAI
+		  345000, 605263, 456601},
+
 		 {0, 1300, 2280, 4000, 7017, 12310, 21596, 37887, 66468, 116610, 204578,
-		  358908, 629663, 475008}, // LORD
+		  358908, 629663, 475008},
+
 		 {0, 1450, 2543, 4461, 7826, 13729, 24085, 42254, 74129, 130050, 228157,
-		  400275, 702236, 529756}}}; // NINJA
+		  400275, 702236, 529756}}}};
 
 	// Also found here:
 	// http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
@@ -1850,9 +1858,9 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 	auto xp_needed{0};
 	auto c_index{unenum(_class) - 1};
 	if (level <= 13)
-		xp_needed = levels[c_index][level];
+		xp_needed = levels[c_index, level];
 	else
-		xp_needed = levels[c_index][12] + ((level - 13) * levels[c_index][13]);
+		xp_needed = levels[c_index, 12] + ((level - 13) * levels[c_index, 13]);
 
 	return xp_needed;
 }
