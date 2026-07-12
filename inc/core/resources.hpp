@@ -31,6 +31,7 @@ class ItemStore;
 class LevelStore;
 class MonsterStore;
 class SpellStore;
+class SaveStore;
 class Resources {
 
 	public:
@@ -41,6 +42,7 @@ class Resources {
 		std::unique_ptr<LevelStore> levels;
 		std::unique_ptr<MonsterStore> monsters;
 		std::unique_ptr<SpellStore> spells;
+		std::unique_ptr<SaveStore> saves;
 
 	private:
 		Context &_ctx;

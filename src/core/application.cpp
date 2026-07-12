@@ -96,6 +96,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	ctx.strings = _system->strings.get();
 	_resources = std::make_unique<Resources>(ctx);
 	ctx.resources = _resources.get();
+	ctx.saves = _resources->saves.get();
 	_display = std::make_unique<Display>(ctx);
 	ctx.display = _display.get();
 	_controller = std::make_unique<Controller>(ctx);

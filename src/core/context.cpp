@@ -66,6 +66,12 @@ auto Sorcery::Context::get_file(std::string_view key) const
 	return files->get(key);
 }
 
+auto Sorcery::Context::get_directory(std::string_view key) const
+	-> std::filesystem::path {
+
+	return files->get_directory(key);
+}
+
 auto Sorcery::Context::get_component(std::string_view combined_key)
 	-> Component & {
 

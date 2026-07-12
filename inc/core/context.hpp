@@ -49,6 +49,7 @@ class System;
 class UI;
 class Application;
 class MenuBuilder;
+class SaveStore;
 
 // Context struct for simplying DI
 struct Context {
@@ -71,6 +72,7 @@ struct Context {
 		FontStore *fonts = nullptr;
 		ImageStore *images = nullptr;
 		MenuBuilder *menubuilder = nullptr;
+		SaveStore *saves = nullptr;
 
 		// Helpers
 		auto get_random(const Enums::System::Random random_type)
@@ -79,6 +81,7 @@ struct Context {
 		auto get_config(const unsigned int i) -> bool &;
 		auto get_config(std::string_view section, std::string_view value) const
 			-> std::string;
+		auto get_directory(std::string_view key) const -> std::filesystem::path;
 		auto get_file(std::string_view key) const -> std::filesystem::path;
 		auto get_component(std::string_view combined_key) -> Component &;
 		auto get_flag_ref(const std::string &flag) -> bool &;

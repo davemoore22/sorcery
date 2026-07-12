@@ -2053,6 +2053,30 @@ src/resources/monsterstore.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/monsterstore.cpp.s
 .PHONY : src/resources/monsterstore.cpp.s
 
+src/resources/savestore.o: src/resources/savestore.cpp.o
+.PHONY : src/resources/savestore.o
+
+# target to build an object file
+src/resources/savestore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/savestore.cpp.o
+.PHONY : src/resources/savestore.cpp.o
+
+src/resources/savestore.i: src/resources/savestore.cpp.i
+.PHONY : src/resources/savestore.i
+
+# target to preprocess a source file
+src/resources/savestore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/savestore.cpp.i
+.PHONY : src/resources/savestore.cpp.i
+
+src/resources/savestore.s: src/resources/savestore.cpp.s
+.PHONY : src/resources/savestore.s
+
+# target to generate assembly for a file
+src/resources/savestore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_resources.dir/build.make CMakeFiles/sorcery_resources.dir/src/resources/savestore.cpp.s
+.PHONY : src/resources/savestore.cpp.s
+
 src/resources/spellstore.o: src/resources/spellstore.cpp.o
 .PHONY : src/resources/spellstore.o
 
@@ -2777,6 +2801,9 @@ help:
 	@echo "... src/resources/monsterstore.o"
 	@echo "... src/resources/monsterstore.i"
 	@echo "... src/resources/monsterstore.s"
+	@echo "... src/resources/savestore.o"
+	@echo "... src/resources/savestore.i"
+	@echo "... src/resources/savestore.s"
 	@echo "... src/resources/spellstore.o"
 	@echo "... src/resources/spellstore.i"
 	@echo "... src/resources/spellstore.s"
