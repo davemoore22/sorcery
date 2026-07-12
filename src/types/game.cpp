@@ -31,13 +31,15 @@
 #include "resources/filestore.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
+#include "resources/savestore.hpp"
 #include "types/scopedtimer.hpp"
 #include "types/state.hpp"
 
 Sorcery::Game::Game(Context &ctx)
 	: _ctx{ctx} {
 
-	if (_ctx.database->has_game()) {
+	// if (_ctx.database->has_game()) {
+	if (_ctx.saves->has_game()) {
 		_clear();
 		_load_game();
 	} else {
@@ -82,7 +84,8 @@ auto Sorcery::Game::reset() -> void {
 
 auto Sorcery::Game::wipe_data() -> void {
 
-	_ctx.database->wipe_data();
+	//_ctx.database->wipe_data();
+	_ctx.saves->wipe_data();
 }
 
 auto Sorcery::Game::move_party_to_tavern() -> void {
@@ -294,7 +297,8 @@ auto Sorcery::Game::restart_maze(unsigned int char_id) -> void {
 
 auto Sorcery::Game::delete_character(unsigned int char_id) -> void {
 
-	_ctx.database->delete_character(_id, char_id);
+	//_ctx.database->delete_character(_id, char_id);
+	_ctx.saves->delete_character(_id, char_id);
 }
 
 auto Sorcery::Game::_clear() -> void {
@@ -323,14 +327,17 @@ auto Sorcery::Game::_create_game() -> void {
 		out_archive(state);
 	}
 	const auto data{ss.str()};
-	_id = _ctx.database->create_game_state(data);
+	_id = _ctx.saves->create_game_state(data);
+	//_id = _ctx.database->create_game_state(data);
 }
 
 auto Sorcery::Game::_load_game() -> void {
 
 	// Get Game and State Data
 	auto [id, key, status, start_time, last_time, data] =
-		_ctx.database->load_game_state().value();
+		_ctx.saves->load_game_state().value();
+	// auto [id, key, status, start_time, last_time, data] =
+	//	_ctx.database->load_game_state().value();
 	_id = id;
 	_key = key;
 	_status = status;
@@ -390,7 +397,8 @@ auto Sorcery::Game::_save_game() -> void {
 	}
 	auto data{ss.str()};
 
-	_ctx.database->save_game_state(_id, _key, data);
+	//_ctx.database->save_game_state(_id, _key, data);
+	_ctx.saves->save_game_state(_id, _key, data);
 	_save_characters();
 }
 
@@ -405,8 +413,10 @@ auto Sorcery::Game::_save_characters() -> void {
 		}
 		const auto char_data{ss.str()};
 
-		_ctx.database->update_character(_id, char_id, character.get_name(),
-										char_data);
+		//_ctx.database->update_character(_id, char_id, character.get_name(),
+		//								char_data);
+		_ctx.saves->update_character(_id, char_id, character.get_name(),
+									 char_data);
 	}
 }
 
@@ -455,7 +465,9 @@ auto Sorcery::Game::save_character(Character character) -> unsigned int {
 	}
 	const auto char_data{ss.str()};
 
-	return _ctx.database->add_character(_id, character.get_name(), char_data);
+	// return _ctx.database->add_character(_id, character.get_name(),
+	// char_data);
+	return _ctx.saves->add_character(_id, character.get_name(), char_data);
 }
 
 auto Sorcery::Game::update_character(unsigned int game_id, unsigned int char_id,
@@ -468,19 +480,23 @@ auto Sorcery::Game::update_character(unsigned int game_id, unsigned int char_id,
 	}
 	const auto character_data{ss.str()};
 
-	return _ctx.database->update_character(
-		game_id, char_id, character.get_name(), character_data);
+	// return _ctx.database->update_character(
+	//	game_id, char_id, character.get_name(), character_data);
+	return _ctx.saves->update_character(game_id, char_id, character.get_name(),
+										character_data);
 }
 
 auto Sorcery::Game::_load_characters() -> void {
 
 	_char_ids.clear();
-	_char_ids = _ctx.database->get_character_ids(_id);
+	//_char_ids = _ctx.database->get_character_ids(_id);
+	_char_ids = _ctx.saves->get_character_ids(_id);
 	characters.clear();
 
 	for (auto char_id : _char_ids) {
 
-		const auto data{_ctx.database->get_character(_id, char_id)};
+		// const auto data{_ctx.database->get_character(_id, char_id)};
+		const auto data{_ctx.saves->get_character(_id, char_id)};
 		std::stringstream ss;
 		ss.str(data);
 

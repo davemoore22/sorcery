@@ -40,6 +40,7 @@
 #include "gui/menuaction.hpp"
 #include "gui/modal.hpp"
 #include "resources/itemstore.hpp"
+#include "resources/savestore.hpp"
 #include "types/character.hpp"
 #include "types/config.hpp"
 #include "types/game.hpp"
@@ -56,7 +57,8 @@ Sorcery::Controller::Controller(Context &ctx)
 auto Sorcery::Controller::initialise() -> void {
 
 	_busy = false;
-	_has_save = _ctx.database->has_game();
+	_has_save = _ctx.saves->has_game();
+	//_has_save = _ctx.database->has_game();
 
 	_abort = false;
 	_leave = false;

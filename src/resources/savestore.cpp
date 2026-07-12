@@ -21,15 +21,41 @@
 // the resulting work.
 
 #include "resources/savestore.hpp"
+#include "common/cereal.hpp"
 #include "common/types.hpp"
 
+#include <chrono>
+#include <cstdint>
 #include <filesystem>
+#include <fstream>
 #include <stdexcept>
 #include <string>
-#include <system_error>
 #include <utility>
 
 namespace {
+
+struct GameSaveRecord {
+		std::uint32_t version{1};
+		unsigned int id{1};
+		std::string key;
+		std::string status;
+		std::int64_t started{};
+		std::int64_t last_played{};
+		std::string data;
+		template <class Archive> auto serialize(Archive &archive) -> void {
+			archive(CEREAL_NVP(version), CEREAL_NVP(id), CEREAL_NVP(key),
+					CEREAL_NVP(status), CEREAL_NVP(started),
+					CEREAL_NVP(last_played), CEREAL_NVP(data));
+		}
+};
+
+[[nodiscard]] auto
+to_epoch_seconds(const std::chrono::system_clock::time_point time)
+	-> std::int64_t {
+	return std::chrono::duration_cast<std::chrono::seconds>(
+			   time.time_since_epoch())
+		.count();
+}
 
 [[noreturn]] auto not_implemented(const std::string_view function) -> void {
 
@@ -108,9 +134,61 @@ auto Sorcery::SaveStore::wipe_data() -> void {
 
 auto Sorcery::SaveStore::create_game_state(std::string data) -> unsigned int {
 
-	static_cast<void>(data);
-
-	not_implemented("create_game_state");
+	constexpr unsigned int game_id{1};
+	const auto now{std::chrono::system_clock::now()};
+	GameSaveRecord game{.version = 1,
+						.id = game_id,
+						.key = GUID(),
+						.status = "OK",
+						.started = to_epoch_seconds(now),
+						.last_played = to_epoch_seconds(now),
+						.data = std::move(data)};
+	const std::filesystem::path temporary_file{_game_file.string() + ".tmp"};
+	try {
+		const auto parent_directory{_game_file.parent_path()};
+		if (!parent_directory.empty())
+			std::filesystem::create_directories(parent_directory);
+		{
+			std::ofstream output{temporary_file,
+								 std::ios::out | std::ios::trunc};
+			if (!output.is_open()) {
+				throw std::runtime_error{
+					"Unable to open temporary game save file: " +
+					temporary_file.string()};
+			}
+			cereal::JSONOutputArchive archive{output};
+			archive(cereal::make_nvp("game", game));
+			output.flush();
+			if (!output) {
+				throw std::runtime_error{
+					"Unable to write temporary game save file: " +
+					temporary_file.string()};
+			}
+		}
+		std::error_code error;
+		std::filesystem::rename(temporary_file, _game_file, error);
+		if (error) { /* * Some platforms do not replace an existing destination
+						during * rename, so remove the old save and retry. */
+			error.clear();
+			std::filesystem::remove(_game_file, error);
+			if (error) {
+				throw std::filesystem::filesystem_error{
+					"Unable to replace the existing game save file", _game_file,
+					error};
+			}
+			std::filesystem::rename(temporary_file, _game_file, error);
+			if (error) {
+				throw std::filesystem::filesystem_error{
+					"Unable to install the new game save file", temporary_file,
+					_game_file, error};
+			}
+		}
+		return game_id;
+	} catch (...) {
+		std::error_code ignored_error;
+		std::filesystem::remove(temporary_file, ignored_error);
+		throw;
+	}
 }
 
 auto Sorcery::SaveStore::load_game_state() const -> std::optional<GameEntry> {
