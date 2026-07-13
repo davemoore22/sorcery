@@ -23,11 +23,15 @@
 #include "resources/savestore.hpp"
 #include "common/cereal.hpp"
 #include "common/types.hpp"
+#include "core/debug.hpp"
 
+#include <algorithm>
+#include <charconv>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -63,12 +67,22 @@ to_epoch_seconds(const std::chrono::system_clock::time_point time)
 						   " has not yet been implemented."};
 }
 
+[[nodiscard]] auto from_epoch_seconds(const std::int64_t seconds)
+	-> std::chrono::system_clock::time_point {
+
+	return std::chrono::system_clock::time_point{std::chrono::seconds{seconds}};
+}
+
 }
 
 Sorcery::SaveStore::SaveStore(const std::filesystem::path &game_file,
 							  const std::filesystem::path &characters_directory)
 	: _game_file{game_file},
 	  _characters_directory{characters_directory} {
+
+	DEBUG_LOGF(
+		"SaveStore::SaveStore(game_file='{}', characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
 
 	if (_game_file.empty())
 		throw std::invalid_argument{
@@ -105,6 +119,8 @@ Sorcery::SaveStore::SaveStore(const std::filesystem::path &game_file,
 
 auto Sorcery::SaveStore::has_game() const -> bool {
 
+	DEBUG_LOGF("SaveStore::has_game(game_file='{}')", _game_file.string());
+
 	std::error_code error;
 
 	const bool exists{std::filesystem::exists(_game_file, error)};
@@ -127,12 +143,109 @@ auto Sorcery::SaveStore::has_game() const -> bool {
 
 	return regular_file;
 }
+
 auto Sorcery::SaveStore::wipe_data() -> void {
 
-	not_implemented("wipe_data");
+	DEBUG_LOGF(
+		"SaveStore::wipe_data(game_file='{}', characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
+
+	std::error_code error;
+
+	// Remove the active game save, if present.
+	std::filesystem::remove(_game_file, error);
+
+	if (error) {
+		throw std::filesystem::filesystem_error{
+			"Unable to remove the game save file", _game_file, error};
+	}
+
+	error.clear();
+
+	if (!std::filesystem::exists(_characters_directory, error)) {
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect the character save directory",
+				_characters_directory, error};
+		}
+
+		return;
+	}
+
+	if (!std::filesystem::is_directory(_characters_directory, error)) {
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect the character save directory",
+				_characters_directory, error};
+		}
+
+		throw std::runtime_error{"Character save path is not a directory: " +
+								 _characters_directory.string()};
+	}
+
+	std::filesystem::directory_iterator iterator{_characters_directory, error};
+
+	if (error) {
+		throw std::filesystem::filesystem_error{
+			"Unable to open the character save directory",
+			_characters_directory, error};
+	}
+
+	const std::filesystem::directory_iterator end;
+
+	while (iterator != end) {
+		const auto entry_path{iterator->path()};
+
+		error.clear();
+
+		const bool regular_file{iterator->is_regular_file(error)};
+
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect character save entry", entry_path, error};
+		}
+
+		if (regular_file && entry_path.extension() == ".json") {
+			const std::string stem{entry_path.stem().string()};
+
+			unsigned int character_id{};
+
+			const auto [ptr, conversion_error]{std::from_chars(
+				stem.data(), stem.data() + stem.size(), character_id)};
+
+			const bool valid_character_file{conversion_error == std::errc{} &&
+											ptr == stem.data() + stem.size() &&
+											character_id > 0};
+
+			if (valid_character_file) {
+				error.clear();
+
+				std::filesystem::remove(entry_path, error);
+
+				if (error) {
+					throw std::filesystem::filesystem_error{
+						"Unable to remove character save file", entry_path,
+						error};
+				}
+			}
+		}
+
+		iterator.increment(error);
+
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to enumerate the character save directory",
+				_characters_directory, error};
+		}
+	}
 }
 
 auto Sorcery::SaveStore::create_game_state(std::string data) -> unsigned int {
+
+	DEBUG_LOGF(
+		"SaveStore::create_game_state(game_file='{}', "
+		"characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
 
 	constexpr unsigned int game_id{1};
 	const auto now{std::chrono::system_clock::now()};
@@ -193,12 +306,71 @@ auto Sorcery::SaveStore::create_game_state(std::string data) -> unsigned int {
 
 auto Sorcery::SaveStore::load_game_state() const -> std::optional<GameEntry> {
 
-	not_implemented("load_game_state");
+	DEBUG_LOGF(
+		"SaveStore::load_game_state(game_file='{}', "
+		"characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
+
+	if (!has_game())
+		return std::nullopt;
+
+	try {
+		std::ifstream input{_game_file, std::ios::in};
+
+		if (!input.is_open()) {
+			throw std::runtime_error{"Unable to open game save file: " +
+									 _game_file.string()};
+		}
+
+		GameSaveRecord game;
+
+		{
+			cereal::JSONInputArchive archive{input};
+
+			archive(cereal::make_nvp("game", game));
+		}
+
+		if (!input.eof() && input.fail()) {
+			throw std::runtime_error{"Unable to read game save file: " +
+									 _game_file.string()};
+		}
+
+		if (game.version != 1) {
+			throw std::runtime_error{"Unsupported game save version " +
+									 std::to_string(game.version) +
+									 " in file: " + _game_file.string()};
+		}
+
+		if (game.id == 0) {
+			throw std::runtime_error{"Invalid game ID in save file: " +
+									 _game_file.string()};
+		}
+
+		if (game.key.empty()) {
+			throw std::runtime_error{"Missing game key in save file: " +
+									 _game_file.string()};
+		}
+
+		return GameEntry{game.id,
+						 std::move(game.key),
+						 std::move(game.status),
+						 from_epoch_seconds(game.started),
+						 from_epoch_seconds(game.last_played),
+						 std::move(game.data)};
+
+	} catch (const cereal::Exception &error) {
+		throw std::runtime_error{"Unable to deserialize game save file '" +
+								 _game_file.string() + "': " + error.what()};
+	}
 }
 
 auto Sorcery::SaveStore::save_game_state(const unsigned int game_id,
 										 const std::string_view key,
 										 std::string data) -> void {
+
+	DEBUG_LOGF(
+		"SaveStore::save_game_state(game_file='{}', characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
 
 	static_cast<void>(game_id);
 	static_cast<void>(key);
@@ -244,9 +416,102 @@ auto Sorcery::SaveStore::delete_character(const unsigned int game_id,
 auto Sorcery::SaveStore::get_character_ids(const unsigned int game_id) const
 	-> std::vector<unsigned int> {
 
+	DEBUG_LOGF(
+		"SaveStore::get_character_ids(game_file='{}', "
+		"characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
+
+	/*
+	 * There is currently only one active game, so character files all belong
+	 * to that game. Retain game_id in the interface for compatibility with
+	 * Database.
+	 */
 	static_cast<void>(game_id);
 
-	not_implemented("get_character_ids");
+	std::vector<unsigned int> character_ids;
+
+	std::error_code error;
+
+	if (!std::filesystem::exists(_characters_directory, error)) {
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect the character save directory",
+				_characters_directory, error};
+		}
+
+		return character_ids;
+	}
+
+	if (!std::filesystem::is_directory(_characters_directory, error)) {
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect the character save directory",
+				_characters_directory, error};
+		}
+
+		throw std::runtime_error{"Character save path is not a directory: " +
+								 _characters_directory.string()};
+	}
+
+	std::filesystem::directory_iterator iterator{_characters_directory, error};
+
+	if (error) {
+		throw std::filesystem::filesystem_error{
+			"Unable to open the character save directory",
+			_characters_directory, error};
+	}
+
+	const std::filesystem::directory_iterator end;
+
+	while (iterator != end) {
+		const auto &entry{*iterator};
+
+		error.clear();
+
+		if (entry.is_regular_file(error) &&
+			entry.path().extension() == ".json") {
+
+			const std::string stem{entry.path().stem().string()};
+
+			unsigned int character_id{};
+
+			const auto [ptr, conversion_error]{std::from_chars(
+				stem.data(), stem.data() + stem.size(), character_id)};
+
+			/*
+			 * Accept only complete positive integer filenames:
+			 *
+			 *     1.json      valid
+			 *     12.json     valid
+			 *     0.json      ignored
+			 *     1-old.json  ignored
+			 *     fred.json   ignored
+			 */
+			if (conversion_error == std::errc{} &&
+				ptr == stem.data() + stem.size() && character_id > 0) {
+
+				character_ids.emplace_back(character_id);
+			}
+		}
+
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect a character save entry", entry.path(),
+				error};
+		}
+
+		iterator.increment(error);
+
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to enumerate the character save directory",
+				_characters_directory, error};
+		}
+	}
+
+	std::ranges::sort(character_ids);
+
+	return character_ids;
 }
 
 auto Sorcery::SaveStore::get_character(const unsigned int game_id,

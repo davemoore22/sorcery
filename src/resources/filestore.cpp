@@ -60,8 +60,8 @@ Sorcery::FileStore::FileStore() {
 	_add_directory(SAVE_DIR);
 	_add_directory(SFX_DIR);
 	_add_directory(VFX_DIR);
-	_add_directory(SAVE_DIR, SAVE_CHARACTERS_DIR);
-	_add_directory(SAVE_DIR, SAVE_STATES_DIR);
+	_add_directory(SAVE_DIR, SAVE_CHARACTERS_DIR, true);
+	_add_directory(SAVE_DIR, SAVE_STATES_DIR, true);
 
 	_add_path(CONFIG_DIR, CONFIG_FILE);
 
@@ -137,7 +137,7 @@ auto Sorcery::FileStore::get_path(const std::string_view key) const
 auto Sorcery::FileStore::get_directory(std::string_view key) const
 	-> std::filesystem::path {
 
-	const auto found{_file_paths.find(std::string{key})};
+	const auto found{_directory_paths.find(std::string{key})};
 
 	return found != _directory_paths.end()
 			   ? found->second
@@ -147,7 +147,7 @@ auto Sorcery::FileStore::get_directory(std::string_view key) const
 auto Sorcery::FileStore::get_directory_path(std::string_view key) const
 	-> std::string {
 
-	const auto found{_file_paths.find(std::string{key})};
+	const auto found{_directory_paths.find(std::string{key})};
 
 	return found != _directory_paths.end()
 			   ? found->second
@@ -176,10 +176,9 @@ auto Sorcery::FileStore::_add_directory(const std::string_view dir,
 										const bool required) -> void {
 
 	const std::filesystem::path dir_path{_base_path / dir / sub_dir};
-	const std::string combined_key{std::string{dir} + "/" +
-								   std::string{sub_dir}};
+	const std::string key{std::string{sub_dir}};
 
-	_directory_paths.insert_or_assign(std::string{combined_key}, dir_path);
+	_directory_paths.insert_or_assign(std::string{key}, dir_path);
 
 	if (required)
 		_required_directories.emplace_back(dir_path);
