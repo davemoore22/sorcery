@@ -9,7 +9,6 @@ target_link_libraries(sorcery_engine PUBLIC
 	dear_imgui
 	Freetype::Freetype
 	uuid
-	sqlite3
 	${SDL2_LIBRARIES}
 )
 

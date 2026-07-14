@@ -685,30 +685,6 @@ src/core/controller.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_core.dir/build.make CMakeFiles/sorcery_core.dir/src/core/controller.cpp.s
 .PHONY : src/core/controller.cpp.s
 
-src/core/database.o: src/core/database.cpp.o
-.PHONY : src/core/database.o
-
-# target to build an object file
-src/core/database.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_core.dir/build.make CMakeFiles/sorcery_core.dir/src/core/database.cpp.o
-.PHONY : src/core/database.cpp.o
-
-src/core/database.i: src/core/database.cpp.i
-.PHONY : src/core/database.i
-
-# target to preprocess a source file
-src/core/database.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_core.dir/build.make CMakeFiles/sorcery_core.dir/src/core/database.cpp.i
-.PHONY : src/core/database.cpp.i
-
-src/core/database.s: src/core/database.cpp.s
-.PHONY : src/core/database.s
-
-# target to generate assembly for a file
-src/core/database.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery_core.dir/build.make CMakeFiles/sorcery_core.dir/src/core/database.cpp.s
-.PHONY : src/core/database.cpp.s
-
 src/core/display.o: src/core/display.cpp.o
 .PHONY : src/core/display.o
 
@@ -2630,9 +2606,6 @@ help:
 	@echo "... src/core/controller.o"
 	@echo "... src/core/controller.i"
 	@echo "... src/core/controller.s"
-	@echo "... src/core/database.o"
-	@echo "... src/core/database.i"
-	@echo "... src/core/database.s"
 	@echo "... src/core/display.o"
 	@echo "... src/core/display.i"
 	@echo "... src/core/display.s"

@@ -38,6 +38,23 @@
 
 namespace {
 
+struct CharacterSaveRecord {
+		std::uint32_t version{1};
+		unsigned int id{};
+		unsigned int game_id{};
+		std::string name;
+		std::string status;
+		std::int64_t created{};
+		std::string data;
+
+		template <class Archive> auto serialize(Archive &archive) -> void {
+
+			archive(CEREAL_NVP(version), CEREAL_NVP(id), CEREAL_NVP(game_id),
+					CEREAL_NVP(name), CEREAL_NVP(status), CEREAL_NVP(created),
+					CEREAL_NVP(data));
+		}
+};
+
 struct GameSaveRecord {
 		std::uint32_t version{1};
 		unsigned int id{1};
@@ -52,26 +69,6 @@ struct GameSaveRecord {
 					CEREAL_NVP(last_played), CEREAL_NVP(data));
 		}
 };
-
-[[nodiscard]] auto
-to_epoch_seconds(const std::chrono::system_clock::time_point time)
-	-> std::int64_t {
-	return std::chrono::duration_cast<std::chrono::seconds>(
-			   time.time_since_epoch())
-		.count();
-}
-
-[[noreturn]] auto not_implemented(const std::string_view function) -> void {
-
-	throw std::logic_error{std::string{"SaveStore::"} + std::string{function} +
-						   " has not yet been implemented."};
-}
-
-[[nodiscard]] auto from_epoch_seconds(const std::int64_t seconds)
-	-> std::chrono::system_clock::time_point {
-
-	return std::chrono::system_clock::time_point{std::chrono::seconds{seconds}};
-}
 
 }
 
@@ -240,7 +237,8 @@ auto Sorcery::SaveStore::wipe_data() -> void {
 	}
 }
 
-auto Sorcery::SaveStore::create_game_state(std::string data) -> unsigned int {
+auto Sorcery::SaveStore::create_game_state(std::string key, std::string data)
+	-> unsigned int {
 
 	DEBUG_LOGF(
 		"SaveStore::create_game_state(game_file='{}', "
@@ -251,10 +249,10 @@ auto Sorcery::SaveStore::create_game_state(std::string data) -> unsigned int {
 	const auto now{std::chrono::system_clock::now()};
 	GameSaveRecord game{.version = 1,
 						.id = game_id,
-						.key = GUID(),
+						.key = key,
 						.status = "OK",
-						.started = to_epoch_seconds(now),
-						.last_played = to_epoch_seconds(now),
+						.started = _to_epoch_seconds(now),
+						.last_played = _to_epoch_seconds(now),
 						.data = std::move(data)};
 	const std::filesystem::path temporary_file{_game_file.string() + ".tmp"};
 	try {
@@ -354,8 +352,8 @@ auto Sorcery::SaveStore::load_game_state() const -> std::optional<GameEntry> {
 		return GameEntry{game.id,
 						 std::move(game.key),
 						 std::move(game.status),
-						 from_epoch_seconds(game.started),
-						 from_epoch_seconds(game.last_played),
+						 _from_epoch_seconds(game.started),
+						 _from_epoch_seconds(game.last_played),
 						 std::move(game.data)};
 
 	} catch (const cereal::Exception &error) {
@@ -372,22 +370,181 @@ auto Sorcery::SaveStore::save_game_state(const unsigned int game_id,
 		"SaveStore::save_game_state(game_file='{}', characters_directory='{}')",
 		_game_file.string(), _characters_directory.string());
 
-	static_cast<void>(game_id);
-	static_cast<void>(key);
-	static_cast<void>(data);
+	if (!has_game()) {
+		throw std::runtime_error{
+			"Unable to update game state because no game save exists: " +
+			_game_file.string()};
+	}
 
-	not_implemented("save_game_state");
+	GameSaveRecord game;
+
+	try {
+		std::ifstream input{_game_file, std::ios::in};
+
+		if (!input.is_open()) {
+			throw std::runtime_error{"Unable to open game save file: " +
+									 _game_file.string()};
+		}
+
+		cereal::JSONInputArchive archive{input};
+
+		archive(cereal::make_nvp("game", game));
+
+	} catch (const cereal::Exception &error) {
+		throw std::runtime_error{"Unable to deserialize game save file '" +
+								 _game_file.string() + "': " + error.what()};
+	}
+
+	if (game.version != 1) {
+		throw std::runtime_error{"Unsupported game save version " +
+								 std::to_string(game.version) +
+								 " in file: " + _game_file.string()};
+	}
+
+	if (game.id != game_id) {
+		throw std::runtime_error{
+			"Game ID does not match the active save file."};
+	}
+
+	if (game.key != key) {
+		throw std::runtime_error{
+			"Game key does not match the active save file."};
+	}
+
+	game.status = "OK";
+	game.last_played = _to_epoch_seconds(std::chrono::system_clock::now());
+	game.data = std::move(data);
+
+	const std::filesystem::path temporary_file{_game_file.string() + ".tmp"};
+
+	try {
+		{
+			std::ofstream output{temporary_file,
+								 std::ios::out | std::ios::trunc};
+
+			if (!output.is_open()) {
+				throw std::runtime_error{
+					"Unable to open temporary game save file: " +
+					temporary_file.string()};
+			}
+
+			cereal::JSONOutputArchive archive{output};
+
+			archive(cereal::make_nvp("game", game));
+
+			output.flush();
+
+			if (!output) {
+				throw std::runtime_error{
+					"Unable to write temporary game save file: " +
+					temporary_file.string()};
+			}
+		}
+
+		std::error_code error;
+
+		std::filesystem::rename(temporary_file, _game_file, error);
+
+		if (error) {
+			error.clear();
+
+			std::filesystem::remove(_game_file, error);
+
+			if (error) {
+				throw std::filesystem::filesystem_error{
+					"Unable to replace the existing game save file", _game_file,
+					error};
+			}
+
+			std::filesystem::rename(temporary_file, _game_file, error);
+
+			if (error) {
+				throw std::filesystem::filesystem_error{
+					"Unable to install the updated game save file",
+					temporary_file, _game_file, error};
+			}
+		}
+
+	} catch (...) {
+		std::error_code ignored_error;
+
+		std::filesystem::remove(temporary_file, ignored_error);
+
+		throw;
+	}
 }
 
 auto Sorcery::SaveStore::add_character(const unsigned int game_id,
 									   std::string name, std::string data)
 	-> unsigned int {
 
-	static_cast<void>(game_id);
-	static_cast<void>(name);
-	static_cast<void>(data);
+	DEBUG_LOGF(
+		"SaveStore::add_character(game_file='{}', characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
 
-	not_implemented("add_character");
+	if (!has_game()) {
+		throw std::runtime_error{
+			"Cannot create a character because no game exists."};
+	}
+
+	const auto character_ids{get_character_ids(game_id)};
+
+	unsigned int character_id{1};
+
+	if (!character_ids.empty())
+		character_id = character_ids.back() + 1;
+
+	const CharacterSaveRecord character{
+		.version = 1,
+		.id = character_id,
+		.game_id = game_id,
+		.name = std::move(name),
+		.status = "OK",
+		.created = _to_epoch_seconds(std::chrono::system_clock::now()),
+		.data = std::move(data)};
+
+	const auto character_file{_characters_directory /
+							  (std::to_string(character_id) + ".json")};
+
+	const auto temporary_file{character_file.string() + ".tmp"};
+
+	try {
+
+		{
+			std::ofstream output{temporary_file,
+								 std::ios::out | std::ios::trunc};
+
+			if (!output.is_open()) {
+				throw std::runtime_error{
+					"Unable to open temporary character save: " +
+					temporary_file};
+			}
+
+			cereal::JSONOutputArchive archive{output};
+
+			archive(cereal::make_nvp("character", character));
+		}
+
+		std::error_code error;
+
+		std::filesystem::rename(temporary_file, character_file, error);
+
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to install character save", temporary_file,
+				character_file, error};
+		}
+
+		return character_id;
+
+	} catch (...) {
+
+		std::error_code ignored;
+
+		std::filesystem::remove(temporary_file, ignored);
+
+		throw;
+	}
 }
 
 auto Sorcery::SaveStore::update_character(const unsigned int game_id,
@@ -395,22 +552,182 @@ auto Sorcery::SaveStore::update_character(const unsigned int game_id,
 										  std::string name, std::string data)
 	-> bool {
 
-	static_cast<void>(game_id);
-	static_cast<void>(character_id);
-	static_cast<void>(name);
-	static_cast<void>(data);
+	DEBUG_LOGF(
+		"SaveStore::update_character(game_file='{}', "
+		"characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
 
-	not_implemented("update_character");
+	const auto character_file{_characters_directory /
+							  (std::to_string(character_id) + ".json")};
+
+	std::error_code error;
+
+	if (!std::filesystem::is_regular_file(character_file, error)) {
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect character save file", character_file, error};
+		}
+
+		return false;
+	}
+
+	CharacterSaveRecord character;
+
+	try {
+		std::ifstream input{character_file, std::ios::in};
+
+		if (!input.is_open()) {
+			throw std::runtime_error{"Unable to open character save file: " +
+									 character_file.string()};
+		}
+
+		cereal::JSONInputArchive archive{input};
+
+		archive(cereal::make_nvp("character", character));
+
+	} catch (const cereal::Exception &error) {
+		throw std::runtime_error{"Unable to deserialize character save file '" +
+								 character_file.string() +
+								 "': " + error.what()};
+	}
+
+	if (character.version != 1) {
+		throw std::runtime_error{"Unsupported character save version " +
+								 std::to_string(character.version) +
+								 " in file: " + character_file.string()};
+	}
+
+	if (character.id != character_id) {
+		throw std::runtime_error{
+			"Character ID does not match its save filename: " +
+			character_file.string()};
+	}
+
+	if (character.game_id != game_id)
+		return false;
+
+	character.name = std::move(name);
+	character.data = std::move(data);
+	character.status = "OK";
+
+	const auto temporary_file{
+		std::filesystem::path{character_file.string() + ".tmp"}};
+
+	try {
+		{
+			std::ofstream output{temporary_file,
+								 std::ios::out | std::ios::trunc};
+
+			if (!output.is_open()) {
+				throw std::runtime_error{
+					"Unable to open temporary character save file: " +
+					temporary_file.string()};
+			}
+
+			cereal::JSONOutputArchive archive{output};
+
+			archive(cereal::make_nvp("character", character));
+
+			output.flush();
+
+			if (!output) {
+				throw std::runtime_error{
+					"Unable to write temporary character save file: " +
+					temporary_file.string()};
+			}
+		}
+
+		error.clear();
+
+		std::filesystem::rename(temporary_file, character_file, error);
+
+		if (error) {
+			error.clear();
+
+			std::filesystem::remove(character_file, error);
+
+			if (error) {
+				throw std::filesystem::filesystem_error{
+					"Unable to replace the existing character save file",
+					character_file, error};
+			}
+
+			std::filesystem::rename(temporary_file, character_file, error);
+
+			if (error) {
+				throw std::filesystem::filesystem_error{
+					"Unable to install the updated character save file",
+					temporary_file, character_file, error};
+			}
+		}
+
+		return true;
+
+	} catch (...) {
+		std::error_code ignored_error;
+
+		std::filesystem::remove(temporary_file, ignored_error);
+
+		throw;
+	}
 }
 
 auto Sorcery::SaveStore::delete_character(const unsigned int game_id,
 										  const unsigned int character_id)
 	-> void {
 
-	static_cast<void>(game_id);
-	static_cast<void>(character_id);
+	DEBUG_LOGF(
+		"SaveStore::delete_character(game_file='{}', "
+		"characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
 
-	not_implemented("delete_character");
+	const auto character_file{_characters_directory /
+							  (std::to_string(character_id) + ".json")};
+
+	std::error_code error;
+
+	if (!std::filesystem::exists(character_file, error)) {
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect character save file", character_file, error};
+		}
+
+		return;
+	}
+
+	CharacterSaveRecord character;
+
+	try {
+
+		std::ifstream input{character_file, std::ios::in};
+
+		if (!input.is_open()) {
+			throw std::runtime_error{"Unable to open character save file: " +
+									 character_file.string()};
+		}
+
+		cereal::JSONInputArchive archive{input};
+
+		archive(cereal::make_nvp("character", character));
+
+	} catch (const cereal::Exception &error) {
+
+		throw std::runtime_error{"Unable to deserialize character save file '" +
+								 character_file.string() +
+								 "': " + error.what()};
+	}
+
+	if (character.game_id != game_id)
+		return;
+
+	error.clear();
+
+	std::filesystem::remove(character_file, error);
+
+	if (error) {
+		throw std::filesystem::filesystem_error{
+			"Unable to remove character save file", character_file, error};
+	}
 }
 
 auto Sorcery::SaveStore::get_character_ids(const unsigned int game_id) const
@@ -421,11 +738,8 @@ auto Sorcery::SaveStore::get_character_ids(const unsigned int game_id) const
 		"characters_directory='{}')",
 		_game_file.string(), _characters_directory.string());
 
-	/*
-	 * There is currently only one active game, so character files all belong
-	 * to that game. Retain game_id in the interface for compatibility with
-	 * Database.
-	 */
+	// There is currently only one active game, so character files all belong
+	// to that game
 	static_cast<void>(game_id);
 
 	std::vector<unsigned int> character_ids;
@@ -462,7 +776,6 @@ auto Sorcery::SaveStore::get_character_ids(const unsigned int game_id) const
 	}
 
 	const std::filesystem::directory_iterator end;
-
 	while (iterator != end) {
 		const auto &entry{*iterator};
 
@@ -518,8 +831,63 @@ auto Sorcery::SaveStore::get_character(const unsigned int game_id,
 									   const unsigned int character_id) const
 	-> std::string {
 
-	static_cast<void>(game_id);
-	static_cast<void>(character_id);
+	DEBUG_LOGF(
+		"SaveStore::get_character(game_file='{}', "
+		"characters_directory='{}')",
+		_game_file.string(), _characters_directory.string());
 
-	not_implemented("get_character");
+	const auto character_file{_characters_directory /
+							  (std::to_string(character_id) + ".json")};
+
+	std::error_code error;
+
+	if (!std::filesystem::is_regular_file(character_file, error)) {
+		if (error) {
+			throw std::filesystem::filesystem_error{
+				"Unable to inspect character save file", character_file, error};
+		}
+
+		return {};
+	}
+
+	CharacterSaveRecord character;
+
+	try {
+
+		std::ifstream input{character_file, std::ios::in};
+
+		if (!input.is_open()) {
+			throw std::runtime_error{"Unable to open character save file: " +
+									 character_file.string()};
+		}
+
+		cereal::JSONInputArchive archive{input};
+
+		archive(cereal::make_nvp("character", character));
+
+	} catch (const cereal::Exception &error) {
+
+		throw std::runtime_error{"Unable to deserialize character save file '" +
+								 character_file.string() +
+								 "': " + error.what()};
+	}
+
+	if (character.game_id != game_id)
+		return {};
+
+	return character.data;
+}
+
+auto Sorcery::SaveStore::_to_epoch_seconds(
+	const std::chrono::system_clock::time_point time) const -> std::int64_t {
+
+	return std::chrono::duration_cast<std::chrono::seconds>(
+			   time.time_since_epoch())
+		.count();
+}
+
+auto Sorcery::SaveStore::_from_epoch_seconds(const std::int64_t seconds) const
+	-> std::chrono::system_clock::time_point {
+
+	return std::chrono::system_clock::time_point{std::chrono::seconds{seconds}};
 }

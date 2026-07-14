@@ -43,7 +43,6 @@ inline constexpr auto VFX_DIR{"vfx"sv};
 // Files
 inline constexpr auto COMPILE_FILE{"COMPILE"sv};
 inline constexpr auto CONFIG_FILE{"config.ini"sv};
-inline constexpr auto DATABASE_FILE{"save.db3"sv};
 inline constexpr auto IMGUI_INI_FILE{"imgui.ini"sv};
 inline constexpr auto ITEMS_FILE{"items.json"sv};
 inline constexpr auto LAYOUT_FILE{"layout.json"sv};

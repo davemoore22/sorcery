@@ -39,36 +39,32 @@ class SaveStore {
 						   const std::filesystem::path &characters_directory);
 		SaveStore() = delete;
 
-		[[nodiscard]] auto has_game() const -> bool;
-
+		auto has_game() const -> bool;
 		auto wipe_data() -> void;
-
-		auto create_game_state(std::string data) -> unsigned int;
-
-		[[nodiscard]] auto load_game_state() const -> std::optional<GameEntry>;
-
+		auto create_game_state(std::string key, std::string data)
+			-> unsigned int;
+		auto load_game_state() const -> std::optional<GameEntry>;
 		auto save_game_state(unsigned int game_id, std::string_view key,
 							 std::string data) -> void;
-
 		auto add_character(unsigned int game_id, std::string name,
 						   std::string data) -> unsigned int;
-
 		auto update_character(unsigned int game_id, unsigned int character_id,
 							  std::string name, std::string data) -> bool;
-
 		auto delete_character(unsigned int game_id, unsigned int character_id)
 			-> void;
-
-		[[nodiscard]] auto get_character_ids(unsigned int game_id) const
+		auto get_character_ids(unsigned int game_id) const
 			-> std::vector<unsigned int>;
-
-		[[nodiscard]] auto get_character(unsigned int game_id,
-										 unsigned int character_id) const
-			-> std::string;
+		auto get_character(unsigned int game_id,
+						   unsigned int character_id) const -> std::string;
 
 	private:
 		std::filesystem::path _game_file;
 		std::filesystem::path _characters_directory;
+
+		auto _to_epoch_seconds(const std::chrono::system_clock::time_point time)
+			const -> std::int64_t;
+		auto _from_epoch_seconds(const std::int64_t seconds) const
+			-> std::chrono::system_clock::time_point;
 };
 
 }

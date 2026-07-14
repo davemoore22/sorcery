@@ -46,7 +46,7 @@ Dependencies
 
 To summarise:
 
-SDL2, OpenGL, jsoncpp, SQLite3, PkgConfig, FreeType, glm, FFmpeg, pthreads
+SDL2, OpenGL, jsoncpp, PkgConfig, FreeType, glm, FFmpeg, pthreads
 
 Package List
 ============
@@ -58,7 +58,6 @@ sudo apt install \
     libsdl2-dev \
     libgl-dev \
     libjsoncpp-dev \
-    libsqlite3-dev \
     libfreetype6-dev \
     libglm-dev \
     libavcodec-dev \
@@ -87,7 +86,6 @@ suffice unless where indicated):
 	May need adjustments to support imgui version above
 - magic_enum - https://github.com/Neargye/magic_enum.git
 - simpleini - https://github.com/brofield/simpleini
-- sqlite_modern_cpp - https://github.com/SqliteModernCpp/sqlite_modern_cpp.git
 - stb - https://github.com/nothings/stb.git
 
 Structure Notes

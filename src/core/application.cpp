@@ -90,7 +90,6 @@ Sorcery::Application::Application(int argc, char **argv) {
 	ctx.animation = _system->animation.get();
 	ctx.audio = _system->audio.get();
 	ctx.config = _system->config.get();
-	ctx.database = _system->db.get();
 	ctx.files = _system->files.get();
 	ctx.random = _system->random.get();
 	ctx.strings = _system->strings.get();

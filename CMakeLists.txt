@@ -18,7 +18,6 @@ find_package(Threads REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(jsoncpp REQUIRED)
-find_package(SQLite3 REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(glm REQUIRED)
@@ -191,7 +190,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	jsoncpp
 	dear_imgui
 	uuid
-	sqlite3
 	sorcery_core
 	sorcery_engine
 	sorcery_frontend

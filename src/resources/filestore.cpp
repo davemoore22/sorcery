@@ -73,7 +73,6 @@ Sorcery::FileStore::FileStore() {
 	_add_path(SAVE_DIR, SAVE_STATES_DIR, SAVE_STATE_FILENAME, false);
 
 	// Data Files (required)
-	_add_path(DATA_DIR, DATABASE_FILE);
 	_add_path(DATA_DIR, ITEMS_FILE);
 	_add_path(DATA_DIR, LAYOUT_FILE);
 	_add_path(DATA_DIR, MAPS_FILE);

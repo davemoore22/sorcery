@@ -33,7 +33,6 @@ struct Context;
 class Animation;
 class AudioPlayer;
 class Config;
-class Database;
 class FileStore;
 class StringStore;
 class Random;
@@ -56,7 +55,6 @@ class System {
 		std::unique_ptr<Animation> animation;
 		std::unique_ptr<AudioPlayer> audio;
 		std::unique_ptr<Config> config;
-		std::unique_ptr<Database> db;
 		std::unique_ptr<FileStore> files;
 		std::unique_ptr<StringStore> strings;
 		std::unique_ptr<Random> random;

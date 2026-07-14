@@ -26,7 +26,6 @@
 #include "common/opengl.hpp"
 #include "common/sdl2.hpp"
 #include "core/context.hpp"
-#include "core/database.hpp"
 #include "core/debug.hpp"
 #include "core/define.hpp"
 #include "core/display.hpp"
@@ -58,7 +57,6 @@ auto Sorcery::Controller::initialise() -> void {
 
 	_busy = false;
 	_has_save = _ctx.saves->has_game();
-	//_has_save = _ctx.database->has_game();
 
 	_abort = false;
 	_leave = false;

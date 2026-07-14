@@ -26,13 +26,14 @@
 #include "common/sdl2.hpp"
 #include "core/animation.hpp"
 #include "core/audioplayer.hpp"
-#include "core/database.hpp"
 #include "core/macro.hpp"
 #include "core/random.hpp"
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/config.hpp"
+
+#include <print>
 
 Sorcery::System::System(int argc __attribute__((unused)),
 						char **argv __attribute__((unused))) {
@@ -55,7 +56,6 @@ Sorcery::System::System(int argc __attribute__((unused)),
 			std::make_unique<Config>(_settings.get(), files->get(CONFIG_FILE));
 		random = std::make_unique<Random>();
 		animation = std::make_unique<Animation>(random.get());
-		db = std::make_unique<Database>(CSTR(files->get(DATABASE_FILE)));
 		audio = std::make_unique<AudioPlayer>();
 	}
 }
