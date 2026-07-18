@@ -1226,6 +1226,39 @@ auto Sorcery::UI::_draw_paragraph(Component *component) -> void {
 	}
 }
 
+auto Sorcery::UI::draw_text_with_layer(const std::string string,
+									   const ImColor colour, const ImVec2 pos,
+									   const Enums::Layout::Font font) -> void {
+
+	with_Window(WINDOW_LAYER_TEXTS, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
+					ImGuiWindowFlags_NoBackground) {
+
+		set_Font(fontstore->get_current_font(font).value());
+
+		const auto x{std::invoke([&] {
+			if (pos.x == -1) {
+				const auto viewport{ImGui::GetMainViewport()};
+				const auto width{ImGui::CalcTextSize(string.c_str())};
+				return (viewport->Size.x - width.x) / 2;
+			} else
+				return static_cast<float>(pos.x);
+		})};
+		const auto y{std::invoke([&] {
+			if (pos.y == -1) {
+				const auto viewport{ImGui::GetMainViewport()};
+				const auto height{ImGui::CalcTextSize(string.c_str())};
+				return (viewport->Size.y - height.y) / 2;
+			} else
+				return static_cast<float>(pos.y);
+		})};
+
+		set_StyleColor(ImGuiCol_Text, ImVec4{colour});
+		ImGui::SetCursorScreenPos(ImVec2{x, y});
+		ImGui::TextUnformatted(string.c_str());
+	}
+}
+
 auto Sorcery::UI::draw_text(const std::string string, const ImColor colour,
 							const ImVec2 pos, const Enums::Layout::Font font)
 	-> void {
@@ -2381,71 +2414,83 @@ auto Sorcery::UI::_draw_text(Component *component, const std::string &string)
 
 auto Sorcery::UI::_draw_party_wipe() -> void {
 
-	const auto cmp{components->get("graveyard:gravestone")};
+	const auto grave_cmp{components->get("graveyard:gravestone")};
+	const auto text_cmp{components->get("graveyard:party_members")};
 
-	const auto max_cols{3};
+	constexpr auto max_cols{3};
+
 	const auto grave_idx{GRAVESTONE_GFX_ID};
-	const auto grave_w{cmp.get_float("tile_width")};
-	const auto grave_h{cmp.get_float("tile_height")};
-	const auto x_gap{cmp.get_float("spacing_x") * adj_grid_w};
-	const auto y_gap{cmp.get_float("spacing_y") * adj_grid_h};
+	const auto grave_w{grave_cmp.get_float("tile_width")};
+	const auto grave_h{grave_cmp.get_float("tile_height")};
+	const auto x_gap{grave_cmp.get_float("spacing_x") * adj_grid_w};
+	const auto y_gap{grave_cmp.get_float("spacing_y") * adj_grid_h};
 
 	std::vector<std::string> names;
 
 	const auto party{_ctx.game->state->get_party_characters()};
-	for (const auto char_id : party) {
-		if (!_ctx.game->characters.contains(char_id))
+	for (const auto character_id : party) {
+		const auto character{_ctx.game->characters.find(character_id)};
+
+		if (character == _ctx.game->characters.end())
 			continue;
 
-		names.emplace_back(_ctx.game->characters.at(char_id).get_name());
+		names.emplace_back(character->second.get_name());
 	}
 
 	if (names.empty())
 		return;
 
 	const auto count{static_cast<int>(names.size())};
-	const auto cols{std::min(max_cols, count)};
+	const auto layout_cols{std::min(max_cols, count)};
 	const auto rows{(count + max_cols - 1) / max_cols};
 
 	const auto cell_w{grave_w + x_gap};
 	const auto cell_h{grave_h + y_gap};
 
-	auto origin_x{static_cast<float>(cmp.x * adj_grid_w)};
-	auto origin_y{static_cast<float>(cmp.y * adj_grid_h)};
+	const auto origin_x{static_cast<float>(grave_cmp.x) * adj_grid_w};
 
-	const auto total_w{(cols * grave_w) + ((cols - 1) * x_gap)};
+	// The component's Y coordinate represents the vertical centre of the
+	// complete gravestone arrangement.
+	const auto centre_y{static_cast<float>(grave_cmp.y) * adj_grid_h};
+	const auto layout_w{(layout_cols * grave_w) + ((layout_cols - 1) * x_gap)};
+	const auto layout_h{(rows * grave_h) + ((rows - 1) * y_gap)};
 
-	for (auto i = 0; i < count; ++i) {
-		const auto row{i / max_cols};
-		const auto col{i % max_cols};
+	const auto origin_y{centre_y - (layout_h * 0.5f)};
 
-		const auto row_count{std::min(max_cols, count - (row * max_cols))};
+	for (auto row = 0; row < rows; ++row) {
 
+		const auto first_index{row * max_cols};
+		const auto row_count{std::min(max_cols, count - first_index)};
+
+		// Centre each row independently.
 		const auto row_w{(row_count * grave_w) + ((row_count - 1) * x_gap)};
+		const auto row_x{origin_x + ((layout_w - row_w) * 0.5f)};
 
-		auto row_x{origin_x};
+		for (auto col = 0; col < row_count; ++col) {
 
-		const ImVec2 grave_pos{row_x + (col * cell_w),
-							   origin_y + (row * cell_h)};
+			const auto index{first_index + col};
 
-		_draw_fg_image_with_idx(EVENTS_TEXTURE, grave_idx, grave_pos,
-								ImVec2{grave_w, grave_h});
+			const ImVec2 grave_pos{row_x + (static_cast<float>(col) * cell_w),
+								   origin_y +
+									   (static_cast<float>(row) * cell_h)};
 
-		auto text_cmp{components->get("graveyard:party_members")};
-		text_cmp.x = 0;
-		text_cmp.y = 0;
+			_draw_fg_image_with_idx(EVENTS_TEXTURE, grave_idx, grave_pos,
+									ImVec2{grave_w, grave_h});
 
-		const auto name{names.at(i)};
-		const auto text_size{ImGui::CalcTextSize(name.c_str())};
+			const auto &name{names.at(index)};
 
-		text_cmp.x = static_cast<int>(
-			(grave_pos.x + (grave_w - text_size.x) / 2.0f) / adj_grid_w);
+			set_Font(fontstore->get_current_font(text_cmp.font).value());
 
-		text_cmp.y =
-			static_cast<int>((grave_pos.y + grave_h + adj_grid_h) / adj_grid_h);
+			const auto text_size{ImGui::CalcTextSize(name.c_str())};
 
-		_draw_text(&text_cmp, name);
-	};
+			const ImVec2 text_pos{grave_pos.x +
+									  ((grave_w - text_size.x) * 0.5f),
+								  grave_pos.y + grave_h - adj_grid_h};
+
+			draw_text_with_layer(name, text_cmp.colour, text_pos,
+								 text_cmp.font);
+		}
+	}
 }
 
 auto Sorcery::UI::_draw_automap_legend(Component *component) -> void {

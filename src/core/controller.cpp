@@ -893,7 +893,7 @@ auto Sorcery::Controller::check_for_quick_inspect(const SDL_Event event)
 	if (position == -1)
 		return -1;
 
-	const auto party_count{_game->state->get_party_size()};
+	const int party_count{_game->state->get_party_size()};
 
 	if (position > party_count)
 		return -1;
@@ -1112,6 +1112,10 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 
 		// Return to Main Menu
 		go_to(Enums::Screen::MAINMENU);
+	} else if (component == "graveyard_return") {
+
+		// Return to Castle on a wipe
+		go_to(Enums::Screen::CASTLE);
 	}
 }
 
@@ -1391,6 +1395,9 @@ auto Sorcery::Controller::execute_action(
 		_flags[action.flag] = false;
 		break;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wtype-limits"
+
 	case MenuAction::Type::SET_UI_BOOL:
 		if (action.ui_index >= 0 &&
 			static_cast<size_t>(action.ui_index) < ui_flags.size())
@@ -1402,6 +1409,8 @@ auto Sorcery::Controller::execute_action(
 			static_cast<size_t>(action.ui_index) < ui_flags.size())
 			ui_flags[action.ui_index].get() = false;
 		break;
+
+#pragma GCC diagnostic pop
 
 	case MenuAction::Type::SETCHARACTER:
 		set_character(action.character_key, data);
