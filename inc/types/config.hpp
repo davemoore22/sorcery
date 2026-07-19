@@ -26,8 +26,8 @@
 #include <filesystem>
 
 #include "common/define.hpp"
-#include "simpleini/SimpleIni.h"
 #include "types/define.hpp"
+#include <SimpleIni.h>
 
 namespace Sorcery {
 

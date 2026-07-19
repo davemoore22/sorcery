@@ -1,27 +1,40 @@
+============
 Introduction
 ============
 
-Compilation Notes for Sorcery on Linux. Updated 11th July 2026.
+Compilation Notes for Sorcery on Linux. Updated 19th July 2026. My Development 
+Environment is Ubuntu 26.04 LTS.
 
-My Development Environment is:
+================
+Tested Compilers
+================
 
-- Ubuntu 26.04 LTS
-- GCC 14.2+ (though this may change to GCC15 minimum at some point)
+Currently tested using:
+
+- GCC 15.2
 - CMake 3.22+
 
-Current C++ standard used is C++23.
+The project targets C++23 and should compile with any reasonably recent GCC
+supporting C++23 (GCC 14 or later is recommended).
 
-Git Notes
-=========
+=======
+Git LFS
+=======
 
-IMPORTANT! You'll need git lfs enabled to get the image files in the gfx
-directory due to their size, else you will not get any images. 
+Sorcery stores artwork using Git LFS.
+
+Before cloning the repository, install Git LFS and enable it:
+
+	git lfs install
+
+Failure to do so will result in placeholder files being checked out instead of
+the artwork contained within gfx/.
 
 Please note as of 4th July 2026, I have replaced the master branch with the 
 sdl/imgui branch and have archived the older SFML-based version of the code. 
 That branch is no longer updated, and will also be archived in the near future.
 
-
+============
 VSCode Notes
 ============
 
@@ -29,69 +42,116 @@ VSCode Notes
 - C/C++ extension 1.29.3 (note that 1.32.2 currently breaks debugging in VSCode)
 - CMake Tools extension 1.23.52
 
-Additional Tools
+====================
+Compilation Database
+====================
 
-I also use bear to produce compile-commands.json for Intelliense plugins (to 
-install near use apt install bear, then use it by calling
-bear -- make -j <number of your cores>)
+I automatically generate compile_commands.json via CMake. This is used by 
+clangd, clang-tidy and other language servers. No additional tools (such as 
+Bear) are required.
 
-
+===============
 Code Formatting
 ===============
 
 Clang-tidy support via the format file in /.clang-format.
 
-Dependencies
-============
+===================
+System Dependencies
+===================
 
-To summarise:
+Sorcery uses the following libraries supplied by the operating system:
 
-SDL2, OpenGL, jsoncpp, PkgConfig, FreeType, glm, FFmpeg, pthreads
+- SDL2
+- OpenGL
+- GLEW
+- FreeType
+- FFmpeg
+- jsoncpp
+- glm
+- pthreads
+- libuuid
+- libdw
+- doxygen
 
-Package List
-============
+This corresponds (on my system) to the following packages:
 
 sudo apt install \
-    build-essential \
-    cmake \
-    pkg-config \
-    libsdl2-dev \
-    libgl-dev \
-    libjsoncpp-dev \
-    libfreetype6-dev \
-    libglm-dev \
-    libavcodec-dev \
-    libavdevice-dev \
-    libavfilter-dev \
-    libavformat-dev \
-    libswscale-dev \
-    libswresample-dev \
-    libavutil-dev \
-    libglew-dev \
-    uuid-dev \
-    libdw-dev
+	build-essential \
+	cmake \
+	pkg-config \
+	libsdl2-dev \
+	libgl-dev \
+	libjsoncpp-dev \
+	libfreetype6-dev \
+	libglm-dev \
+	libavcodec-dev \
+	libavdevice-dev \
+	libavfilter-dev \
+	libavformat-dev \
+	libswscale-dev \
+	libswresample-dev \
+	libavutil-dev \
+	libglew-dev \
+	uuid-dev \
+	libdw-dev \
+	doxygen
 
-External Libraries
-==================
+===================
+Manual Dependencies
+===================
 
-The ext directory should contain the following git repos (latest commits should
-suffice unless where indicated):
+At present the following libraries remain as git submodules/checkouts under ext/
 
-- cereal - https://github.com/USCiLab/cereal.git
-- imgui - https://github.com/ocornut/imgui.git
+- Dear ImGui - https://github.com/ocornut/imgui.git
 	Use Commit 6ded5230d043aa32c755e65c910c2af5002fb9f9 (tag v1.92.6)
 - imgui_spinner - https://github.com/cmdwtf/imgui_toggle.git
 - imgui_sugar - https://github.com/mnesarco/imgui_sugar.git
 - imgui_toggle - https://github.com/cmdwtf/imgui_toggle.git
 	May need adjustments to support imgui version above
-- magic_enum - https://github.com/Neargye/magic_enum.git
-- simpleini - https://github.com/brofield/simpleini
-- stb - https://github.com/nothings/stb.git
 
-Structure Notes
+These will migrate to FetchContent in a future revision.
+
+==================
+External Libraries
 ==================
 
-The executable consists of the following libraries:
+Otherwise FetchContent is used for:
+
+- ext/cereal
+https://github.com/USCiLab/cereal.git
+22a1b369f39be918ca79206a83c4facd759f9105
+
+- ext/magic_enum
+https://github.com/Neargye/magic_enum.git
+b233b96e49d371bad00300f59b5ba581100b8745
+
+- ext/simpleini
+https://github.com/brofield/simpleini
+e260c3217bd37b3efc33767b6b7a49e38c1481e7
+
+- ext/stb
+https://github.com/nothings/stb.git
+31c1ad37456438565541f4919958214b6e762fb4
+
+==================
+FetchContent Notes
+==================
+
+Dependencies downloaded via FetchContent are placed in
+
+    build/_deps/
+
+and are not stored in the repository.
+
+The first CMake configure therefore requires an internet connection.
+Subsequent builds are performed using the cached copies.
+
+===============
+Structure Notes
+===============
+
+Sorcery is organised into the following static libraries:
 
 - sorcery_core
 - sorcery_engine
@@ -102,8 +162,31 @@ The executable consists of the following libraries:
 - sorcery_types
 - dear_imgui
 
-which are linked into the sorcery executable.
+These are linked together to produce the final executable.
 
+========
+Building
+========
+
+Clone the repository:
+
+	git clone https://github.com/davemoore22/sorcery.git
+
+Configure:
+
+	cmake -S . -B build
+
+Compile:
+
+	cmake --build build
+
+or
+
+	cmake --build build --parallel
+
+Output is in the build/dist directory
+
+==========
 Post-build
 ==========
 
@@ -119,7 +202,8 @@ sav/states/
 sfx/
 vfx/
 
+=========
 Debugging
 =========
 
-Both CMake Tools Debug and standard VS Code Debug are supported via gdb.
+GDB, CMake Tools Debug and standard VS Code Debug are supported.

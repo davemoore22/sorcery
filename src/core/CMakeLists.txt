@@ -9,6 +9,7 @@ target_link_libraries(sorcery_core PUBLIC
 	dear_imgui
 	Freetype::Freetype
 	uuid
+	SimpleIni::SimpleIni
 	${SDL2_LIBRARIES}
 )
 

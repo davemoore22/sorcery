@@ -31,3 +31,41 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(magic_enum)
+
+# ---------------------------------------------------------------------------
+# SimpleIni
+# ---------------------------------------------------------------------------
+
+FetchContent_Declare(
+    simpleini
+    GIT_REPOSITORY https://github.com/brofield/simpleini.git
+    GIT_TAG        e260c3217bd37b3efc33767b6b7a49e38c1481e7
+    GIT_SHALLOW    FALSE
+)
+
+FetchContent_MakeAvailable(simpleini)
+
+# ---------------------------------------------------------------------------
+# stb
+# ---------------------------------------------------------------------------
+
+FetchContent_Declare(
+    stb
+    GIT_REPOSITORY https://github.com/nothings/stb.git
+    GIT_TAG        31c1ad37456438565541f4919958214b6e762fb4
+    GIT_SHALLOW    FALSE
+
+    # stb is a source/header collection, so we supply our own target.
+    SOURCE_SUBDIR  cmake/fetchcontent-disabled
+)
+
+FetchContent_MakeAvailable(stb)
+
+# stb has no upstream CMake target, so provide one.
+add_library(stb INTERFACE)
+add_library(stb::stb ALIAS stb)
+
+target_include_directories(stb
+    SYSTEM INTERFACE
+        "${stb_SOURCE_DIR}"
+)

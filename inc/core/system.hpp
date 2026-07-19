@@ -26,7 +26,7 @@
 #include <memory>
 #include <string>
 
-#include "simpleini/SimpleIni.h"
+#include <SimpleIni.h>
 namespace Sorcery {
 
 struct Context;

@@ -8,6 +8,7 @@ target_include_directories(sorcery_resources PUBLIC
 target_link_libraries(sorcery_resources PUBLIC
 	dear_imgui
 	Freetype::Freetype
+	stb::stb
 	${SDL2_LIBRARIES}
 )
 

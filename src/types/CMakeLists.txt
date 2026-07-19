@@ -9,6 +9,7 @@ target_link_libraries(sorcery_types PUBLIC
 	dear_imgui
 	jsoncpp
 	dl
+	SimpleIni::SimpleIni
 	${SDL2_LIBRARIES}
 )
 

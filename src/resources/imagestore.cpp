@@ -35,7 +35,7 @@
 #pragma GCC diagnostic ignored "-Wswitch-default"
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb/stb_image.h"
+#include <stb_image.h>
 #pragma GCC diagnostic pop
 
 Sorcery::ImageStore::ImageStore(Context &ctx)

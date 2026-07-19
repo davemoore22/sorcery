@@ -3,20 +3,34 @@ cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 23)
 project(sorcery VERSION 0.1.0)
 
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+	message(FATAL_ERROR
+		"In-source builds are not supported. "
+		"Use: cmake -S . -B build"
+	)
+endif()
+
 include(FetchContent)
 include(Dependencies.cmake)
 
 if(TARGET cereal::cereal)
-    message(STATUS "Found cereal::cereal")
+	message(STATUS "Found cereal::cereal")
 else()
-    message(FATAL_ERROR "cereal::cereal target was not created")
+	message(FATAL_ERROR "cereal::cereal target was not created")
 endif()
 
 if(TARGET magic_enum::magic_enum)
-    message(STATUS "Found magic_enum::magic_enum")
+	message(STATUS "Found magic_enum::magic_enum")
 else()
-    message(FATAL_ERROR "magic_enum::magic_enum target was not created")
+	message(FATAL_ERROR "magic_enum::magic_enum target was not created")
 endif()
+
+if(TARGET SimpleIni::SimpleIni)
+	message(STATUS "Found SimpleIni::SimpleIni")
+else()
+	message(FATAL_ERROR "SimpleIni::SimpleIni target was not created")
+endif()
+
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -105,6 +119,8 @@ target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
 target_link_libraries(sorcery_options INTERFACE
 	cereal::cereal
 	magic_enum::magic_enum
+	stb::stb
+	SimpleIni::SimpleIni
 )
 
 # Global Compile Options
@@ -165,7 +181,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-g)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    BUILD_RPATH "$ORIGIN/lib"
+	BUILD_RPATH "$ORIGIN/lib"
 )
 
 target_link_libraries(sorcery_types PRIVATE
@@ -216,7 +232,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_warnings
 	cereal::cereal
 	magic_enum::magic_enum
-
+	stb::stb
+	SimpleIni::SimpleIni
 )
 
 MESSAGE("Creating and Populating Post-Build Directories")
@@ -225,53 +242,53 @@ MESSAGE("Creating and Populating Post-Build Directories")
 set(SORCERY_DIST_DIR "${CMAKE_BINARY_DIR}/dist")
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory
-        "${SORCERY_DIST_DIR}"
-        "${SORCERY_DIST_DIR}/lib"
+	COMMAND ${CMAKE_COMMAND} -E make_directory
+		"${SORCERY_DIST_DIR}"
+		"${SORCERY_DIST_DIR}/lib"
 
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "$<TARGET_FILE:${PROJECT_NAME}>"
-        "${SORCERY_DIST_DIR}/"
-
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_BINARY_DIR}/lib"
-        "${SORCERY_DIST_DIR}/lib"
-
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/cfg"
-        "${SORCERY_DIST_DIR}/cfg"
-
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/dat"
-        "${SORCERY_DIST_DIR}/dat"
-
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/doc"
-        "${SORCERY_DIST_DIR}/doc"
-
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/gfx"
-        "${SORCERY_DIST_DIR}/gfx"
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		"$<TARGET_FILE:${PROJECT_NAME}>"
+		"${SORCERY_DIST_DIR}/"
 
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/sav"
-        "${SORCERY_DIST_DIR}/sav"
+		"${CMAKE_BINARY_DIR}/lib"
+		"${SORCERY_DIST_DIR}/lib"
 
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/sav/characters"
-        "${SORCERY_DIST_DIR}/sav/characters"
+		"${CMAKE_SOURCE_DIR}/cfg"
+		"${SORCERY_DIST_DIR}/cfg"
 
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/sav/characters"
-        "${SORCERY_DIST_DIR}/sav/states"
+		"${CMAKE_SOURCE_DIR}/dat"
+		"${SORCERY_DIST_DIR}/dat"
 
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/sfx"
-        "${SORCERY_DIST_DIR}/sfx"
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/doc"
+		"${SORCERY_DIST_DIR}/doc"
 
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/vfx"
-        "${SORCERY_DIST_DIR}/vfx"
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/gfx"
+		"${SORCERY_DIST_DIR}/gfx"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/sav"
+		"${SORCERY_DIST_DIR}/sav"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/sav/characters"
+		"${SORCERY_DIST_DIR}/sav/characters"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/sav/characters"
+		"${SORCERY_DIST_DIR}/sav/states"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/sfx"
+		"${SORCERY_DIST_DIR}/sfx"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/vfx"
+		"${SORCERY_DIST_DIR}/vfx"
 )
 
 # Packaging
