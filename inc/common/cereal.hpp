@@ -23,20 +23,20 @@
 #pragma once
 
 // clang-format off
-#include "cereal/cereal.hpp"
-#include "cereal/archives/xml.hpp"
-#include "cereal/archives/binary.hpp"
-#include "cereal/archives/json.hpp"
-#include "cereal/types/array.hpp"
-#include "cereal/types/bitset.hpp"
-#include "cereal/types/chrono.hpp"
-#include "cereal/types/map.hpp"
+#include <cereal/cereal.hpp>
+#include <cereal/archives/xml.hpp>
+#include <cereal/archives/binary.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/array.hpp>
+#include <cereal/types/bitset.hpp>
+#include <cereal/types/chrono.hpp>
+#include <cereal/types/map.hpp>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#include "cereal/types/memory.hpp"
+#include <cereal/types/memory.hpp>
 #pragma GCC diagnostic pop
-#include "cereal/types/optional.hpp"
-#include "cereal/types/set.hpp"
-#include "cereal/types/string.hpp"
-#include "cereal/types/vector.hpp"
+#include <cereal/types/optional.hpp>
+#include <cereal/types/set.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
 // clang-format on

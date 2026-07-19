@@ -32,6 +32,7 @@
 *.app
 ext
 collateral
+_deps
 
 # Binaries
 bin/*

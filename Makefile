@@ -253,6 +253,32 @@ sorcery/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sorcery.dir/build.make CMakeFiles/sorcery.dir/build
 .PHONY : sorcery/fast
 
+#=============================================================================
+# Target rules for targets named doc
+
+# Build rule for target.
+doc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 doc
+.PHONY : doc
+
+# fast build rule for target.
+doc/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/cereal-build/doc/CMakeFiles/doc.dir/build.make _deps/cereal-build/doc/CMakeFiles/doc.dir/build
+.PHONY : doc/fast
+
+#=============================================================================
+# Target rules for targets named update-doc
+
+# Build rule for target.
+update-doc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 update-doc
+.PHONY : update-doc
+
+# fast build rule for target.
+update-doc/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/cereal-build/doc/CMakeFiles/update-doc.dir/build.make _deps/cereal-build/doc/CMakeFiles/update-doc.dir/build
+.PHONY : update-doc/fast
+
 ext/imgui/backends/imgui_impl_opengl3.o: ext/imgui/backends/imgui_impl_opengl3.cpp.o
 .PHONY : ext/imgui/backends/imgui_impl_opengl3.o
 
@@ -2543,6 +2569,8 @@ help:
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... rebuild_cache"
+	@echo "... doc"
+	@echo "... update-doc"
 	@echo "... dear_imgui"
 	@echo "... sorcery"
 	@echo "... sorcery_core"

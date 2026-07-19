@@ -1,7 +1,22 @@
 # Project Definition
-cmake_minimum_required(VERSION 3.22...3.22)
+cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 23)
 project(sorcery VERSION 0.1.0)
+
+include(FetchContent)
+include(Dependencies.cmake)
+
+if(TARGET cereal::cereal)
+    message(STATUS "Found cereal::cereal")
+else()
+    message(FATAL_ERROR "cereal::cereal target was not created")
+endif()
+
+if(TARGET magic_enum::magic_enum)
+    message(STATUS "Found magic_enum::magic_enum")
+else()
+    message(FATAL_ERROR "magic_enum::magic_enum target was not created")
+endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -86,8 +101,10 @@ target_compile_definitions(dear_imgui PRIVATE
 add_library(sorcery_options INTERFACE)
 target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
 target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
-target_include_directories(sorcery_options INTERFACE
-    ${CMAKE_SOURCE_DIR}/ext/cereal/include
+
+target_link_libraries(sorcery_options INTERFACE
+	cereal::cereal
+	magic_enum::magic_enum
 )
 
 # Global Compile Options
@@ -119,7 +136,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	${OPENGL_INCLUDE_DIR}
 	${GLUT_INCLUDE_DIRS}
 	${CMAKE_SOURCE_DIR}/ext
-	${CMAKE_SOURCE_DIR}/ext/cereal/include
 	${CMAKE_SOURCE_DIR}/ext/imgui
 	${CMAKE_SOURCE_DIR}/inc)
 
@@ -198,6 +214,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_resources
 	sorcery_types
 	sorcery_warnings
+	cereal::cereal
+	magic_enum::magic_enum
+
 )
 
 MESSAGE("Creating and Populating Post-Build Directories")
