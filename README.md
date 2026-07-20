@@ -4,7 +4,7 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 
 Written using ImGui/SDL2/OpenGL and C++
 
-**(Updated 11th July 2026)**
+**(Updated 20th July 2026)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
@@ -59,9 +59,9 @@ Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subs
 
 ## Compilation
 
-I'm currently developing solely on Linux (Ubuntu 26) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date. Full compliation instructions for Linux are in the doc/COMPILE text file, but in brief, the easiest way is to use Cmake and optionally VSCode with CMakeTools. C++23 compiler support is required (I'm currently using GCC 14.2).
+I'm currently developing solely on Linux (Ubuntu 26) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date. Full compliation instructions for Linux are in the doc/COMPILE.md file, but in brief, CMake is used to test for needed system libraries, fetch needed third-party headers, and to produce an appropriate makefile.
 
-All code is released under the GPL - see the doc/LICENSE text file for full details.
+All code is released under the GPLv2 - see the doc/LICENSE.md file for full details.
 
 ## Contact and Help
 

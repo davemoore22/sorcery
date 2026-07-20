@@ -2,7 +2,6 @@ add_library(sorcery_resources)
 
 target_include_directories(sorcery_resources PUBLIC
 	${CMAKE_SOURCE_DIR}/inc
-	${CMAKE_SOURCE_DIR}/ext
 )
 
 target_link_libraries(sorcery_resources PUBLIC

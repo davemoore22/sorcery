@@ -41,12 +41,12 @@ inline constexpr auto SFX_DIR{"sfx"sv};
 inline constexpr auto VFX_DIR{"vfx"sv};
 
 // Files
-inline constexpr auto COMPILE_FILE{"COMPILE"sv};
+inline constexpr auto COMPILE_FILE{"COMPILE.md"sv};
 inline constexpr auto CONFIG_FILE{"config.ini"sv};
 inline constexpr auto IMGUI_INI_FILE{"imgui.ini"sv};
 inline constexpr auto ITEMS_FILE{"items.json"sv};
 inline constexpr auto LAYOUT_FILE{"layout.json"sv};
-inline constexpr auto LICENSE_FILE{"LICENSE"sv};
+inline constexpr auto LICENSE_FILE{"LICENSE.md"sv};
 inline constexpr auto MAPS_FILE{"maps.json"sv};
 inline constexpr auto MONSTERS_FILE{"monsters.json"sv};
 inline constexpr auto STRINGS_FILE{"strings.json"sv};

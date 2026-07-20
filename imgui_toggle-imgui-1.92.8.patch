@@ -1,0 +1,18 @@
+diff --git a/imgui_offset_rect.h b/imgui_offset_rect.h
+index e01738c..871d909 100644
+--- a/imgui_offset_rect.h
++++ b/imgui_offset_rect.h
+@@ -39,3 +39,13 @@ static inline ImOffsetRect operator+(const ImOffsetRect& lhs, const ImOffsetRect
+ static inline ImOffsetRect operator-(const ImOffsetRect& lhs, const ImOffsetRect& rhs) { return ImOffsetRect(lhs.Top - rhs.Top, lhs.Left - rhs.Left, lhs.Bottom - rhs.Bottom, lhs.Right - rhs.Right); }
+ static inline ImOffsetRect operator*(const ImOffsetRect& lhs, const ImOffsetRect& rhs) { return ImOffsetRect(lhs.Top * rhs.Top, lhs.Left * rhs.Left, lhs.Bottom * rhs.Bottom, lhs.Right * rhs.Right); }
+ IM_MSVC_RUNTIME_CHECKS_RESTORE
++
++#if IMGUI_VERSION_NUM >= 19274
++static inline ImOffsetRect ImLerp(
++    ImOffsetRect a,
++    ImOffsetRect b,
++    float t
++) {
++    return a + (b - a) * t;
++}
++#endif

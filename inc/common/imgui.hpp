@@ -52,7 +52,7 @@
 #define IMSPINNER_DEMO
 #include <imspinner.h>
 #include <imgui_sugar.hpp>
-#include <imgui_toggle/imgui_toggle.h>
+#include <imgui_toggle.h>
 
 // clang-format on
 #pragma GCC diagnostic pop

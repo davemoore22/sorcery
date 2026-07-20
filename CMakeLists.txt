@@ -16,7 +16,7 @@ include(Dependencies.cmake)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Paths
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
@@ -61,10 +61,6 @@ target_sources(dear_imgui PRIVATE
 	${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
 	${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
 	${imgui_SOURCE_DIR}/misc/freetype/imgui_freetype.cpp
-	ext/imgui_toggle/imgui_toggle.cpp
-	ext/imgui_toggle/imgui_toggle_palette.cpp
-	ext/imgui_toggle/imgui_toggle_presets.cpp
-	ext/imgui_toggle/imgui_toggle_renderer.cpp
 )
 
 target_include_directories(dear_imgui PUBLIC
@@ -73,7 +69,6 @@ target_include_directories(dear_imgui PUBLIC
 	${OPENGL_INCLUDE_DIR}
 	${GLUT_INCLUDE_DIRS}
 	${imgui_SOURCE_DIR}
-	${CMAKE_SOURCE_DIR}/ext/imgui_toggle
 )
 
 target_link_libraries(dear_imgui PRIVATE
@@ -96,6 +91,30 @@ target_compile_definitions(dear_imgui PRIVATE
 	IMGUI_ENABLE_FREETYPE
 )
 
+add_library(sorcery_imgui_toggle STATIC
+    "${imgui_toggle_SOURCE_DIR}/imgui_toggle.cpp"
+    "${imgui_toggle_SOURCE_DIR}/imgui_toggle_palette.cpp"
+    "${imgui_toggle_SOURCE_DIR}/imgui_toggle_presets.cpp"
+    "${imgui_toggle_SOURCE_DIR}/imgui_toggle_renderer.cpp"
+)
+
+add_library(imgui_toggle::imgui_toggle ALIAS sorcery_imgui_toggle)
+
+target_include_directories(sorcery_imgui_toggle
+    SYSTEM PUBLIC
+        "${imgui_toggle_SOURCE_DIR}"
+)
+
+target_link_libraries(sorcery_imgui_toggle
+    PUBLIC
+        dear_imgui
+)
+
+target_compile_options(sorcery_imgui_toggle PRIVATE
+    -Wno-switch-default
+    -Wno-suggest-attribute=format
+)
+
 # Global Ifdefs
 add_library(sorcery_options INTERFACE)
 target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
@@ -106,6 +125,7 @@ target_link_libraries(sorcery_options INTERFACE
 	magic_enum::magic_enum
 	stb::stb
 	SimpleIni::SimpleIni
+	imgui_toggle::imgui_toggle
 )
 
 # Global Compile Options
@@ -136,7 +156,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	${SDL2_IMAGE_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIR}
 	${GLUT_INCLUDE_DIRS}
-	${CMAKE_SOURCE_DIR}/ext
 	${CMAKE_SOURCE_DIR}/inc)
 
 # Compiler Options
@@ -205,6 +224,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	stdc++exp
 	jsoncpp
 	dear_imgui
+	imgui_toggle::imgui_toggle
 	uuid
 	sorcery_core
 	sorcery_engine

@@ -4,10 +4,13 @@ include_guard(GLOBAL)
 # Dear ImGui
 # ---------------------------------------------------------------------------
 
+
+MESSAGE("Grabbing Dear ImGui from https://github.com/ocornut/imgui.git")
+
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
-    GIT_TAG        6ded5230d043aa32c755e65c910c2af5002fb9f9
+    GIT_TAG        8936b58
     GIT_SHALLOW    FALSE
 )
 
@@ -17,15 +20,13 @@ FetchContent_MakeAvailable(imgui)
 # Cereal
 # ---------------------------------------------------------------------------
 
-set(BUILD_SANDBOX OFF CACHE BOOL
-    "Disable cereal sandbox examples"
-    FORCE
-)
+MESSAGE("Grabbing Cereal from https://github.com/USCiLab/cereal.git")
 
-set(SKIP_PERFORMANCE_COMPARISON ON CACHE BOOL
-    "Disable cereal performance sandbox"
-    FORCE
-)
+set(SKIP_PORTABILITY_TEST ON CACHE BOOL "" FORCE)
+set(BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(BUILD_SANDBOX OFF CACHE BOOL "" FORCE)
+set(BUILD_DOC OFF CACHE BOOL "" FORCE)
+set(JUST_INSTALL_CEREAL ON CACHE BOOL "" FORCE)
 
 FetchContent_Declare(
 	cereal
@@ -53,6 +54,8 @@ FetchContent_MakeAvailable(magic_enum)
 # SimpleIni
 # ---------------------------------------------------------------------------
 
+Message("Grabbing SimpleIni from https://github.com/brofield/simpleini.git")
+
 FetchContent_Declare(
     simpleini
     GIT_REPOSITORY https://github.com/brofield/simpleini.git
@@ -65,6 +68,8 @@ FetchContent_MakeAvailable(simpleini)
 # ---------------------------------------------------------------------------
 # stb
 # ---------------------------------------------------------------------------
+
+MESSAGE("Grabbing stb from https://github.com/nothings/stb.git")
 
 FetchContent_Declare(
     stb
@@ -90,6 +95,9 @@ target_include_directories(stb
 # ---------------------------------------------------------------------------
 # Imgui Spinner
 # ---------------------------------------------------------------------------
+
+MESSAGE("Grabbing Imgui Spinner from https://github.com/dalerank/imspinner.git")
+
 FetchContent_Declare(
     imgui_spinner
     GIT_REPOSITORY https://github.com/dalerank/imspinner.git
@@ -110,6 +118,9 @@ target_include_directories(sorcery_imgui_spinner
 # ---------------------------------------------------------------------------
 # Imgui Sugar
 # ---------------------------------------------------------------------------
+
+MESSAGE("Grabbing Imgui Sugar from https://github.com/mnesarco/imgui_sugar.git")
+
 FetchContent_Declare(
     imgui_sugar
     GIT_REPOSITORY https://github.com/mnesarco/imgui_sugar.git
@@ -127,6 +138,30 @@ target_include_directories(sorcery_imgui_sugar
         "${imgui_sugar_SOURCE_DIR}"
 )
 
+
+# ---------------------------------------------------------------------------
+# Imgui Toggle
+# ---------------------------------------------------------------------------
+
+MESSAGE("Grabbing Imgui Toggle from https://github.com/cmdwtf/imgui_toggle.git")
+MESSAGE("Applying patch to Imgui Toggle for Dear ImGui 1.92.8 compatibility")
+
+FetchContent_Declare(
+    imgui_toggle
+    GIT_REPOSITORY https://github.com/cmdwtf/imgui_toggle.git
+    GIT_TAG        bfd17d7e73558b1fb1ecf70fd0a6481c1b05cc69
+    GIT_SHALLOW    FALSE
+
+   PATCH_COMMAND
+        "${CMAKE_COMMAND}"
+        "-DSOURCE_DIR=<SOURCE_DIR>"
+        "-DPATCH_FILE=${CMAKE_SOURCE_DIR}/imgui_toggle-imgui-1.92.8.patch"
+        -P
+        "${CMAKE_SOURCE_DIR}/ApplyPatch.cmake"
+)
+
+FetchContent_MakeAvailable(imgui_toggle)
+
 # ---------------------------------------------------------------------------
 # Messages
 # ---------------------------------------------------------------------------
@@ -134,6 +169,7 @@ target_include_directories(sorcery_imgui_sugar
 message(STATUS "Dear ImGui source: ${imgui_SOURCE_DIR}")
 message(STATUS "Imgui Spinner source: ${imgui_spinner_SOURCE_DIR}")
 message(STATUS "Imgui Sugar source: ${imgui_sugar_SOURCE_DIR}")
+message(STATUS "Imgui Toggle source: ${imgui_toggle_SOURCE_DIR}")
 
 if(TARGET cereal::cereal)
 	message(STATUS "Found cereal::cereal")

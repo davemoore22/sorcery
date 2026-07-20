@@ -4015,8 +4015,9 @@ auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 
 	// Black Background and Colour Foreground
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg);
-	ImGui::GetWindowDrawList()->AddRect(fr_min, fr_max, col, rounding,
-										ImDrawFlags_None, rounding);
+	ImGui::GetWindowDrawList()->AddRect(fr_min, fr_max, col,
+										static_cast<float>(rounding),
+										static_cast<float>(rounding));
 }
 
 auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
