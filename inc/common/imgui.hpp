@@ -50,8 +50,8 @@
 #include <misc/cpp/imgui_stdlib.h>
 #include <misc/freetype/imgui_freetype.h>
 #define IMSPINNER_DEMO
-#include <imgui_spinner/imspinner.h>
-#include <imgui_sugar/imgui_sugar.hpp>
+#include <imspinner.h>
+#include <imgui_sugar.hpp>
 #include <imgui_toggle/imgui_toggle.h>
 
 // clang-format on

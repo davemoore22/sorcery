@@ -87,7 +87,53 @@ target_include_directories(stb
         "${stb_SOURCE_DIR}"
 )
 
+# ---------------------------------------------------------------------------
+# Imgui Spinner
+# ---------------------------------------------------------------------------
+FetchContent_Declare(
+    imgui_spinner
+    GIT_REPOSITORY https://github.com/dalerank/imspinner.git
+    GIT_TAG        ffe57a9cf741a92bdb6042cd4f8eb152b9c95b1d
+    GIT_SHALLOW    FALSE
+)
+
+FetchContent_MakeAvailable(imgui_spinner)
+
+add_library(sorcery_imgui_spinner INTERFACE)
+add_library(imgui_spinner::imgui_spinner ALIAS sorcery_imgui_spinner)
+
+target_include_directories(sorcery_imgui_spinner
+    SYSTEM INTERFACE
+        "${imgui_spinner_SOURCE_DIR}"
+)
+
+# ---------------------------------------------------------------------------
+# Imgui Sugar
+# ---------------------------------------------------------------------------
+FetchContent_Declare(
+    imgui_sugar
+    GIT_REPOSITORY https://github.com/mnesarco/imgui_sugar.git
+    GIT_TAG        1092a7344cc528a533752fbccd69c270ad641e4f
+    GIT_SHALLOW    FALSE
+)
+
+FetchContent_MakeAvailable(imgui_sugar)
+
+add_library(sorcery_imgui_sugar INTERFACE)
+add_library(imgui_sugar::imgui_sugar ALIAS sorcery_imgui_sugar)
+
+target_include_directories(sorcery_imgui_sugar
+    SYSTEM INTERFACE
+        "${imgui_sugar_SOURCE_DIR}"
+)
+
+# ---------------------------------------------------------------------------
+# Messages
+# ---------------------------------------------------------------------------
+
 message(STATUS "Dear ImGui source: ${imgui_SOURCE_DIR}")
+message(STATUS "Imgui Spinner source: ${imgui_spinner_SOURCE_DIR}")
+message(STATUS "Imgui Sugar source: ${imgui_sugar_SOURCE_DIR}")
 
 if(TARGET cereal::cereal)
 	message(STATUS "Found cereal::cereal")

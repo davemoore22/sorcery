@@ -74,14 +74,17 @@ target_include_directories(dear_imgui PUBLIC
 	${GLUT_INCLUDE_DIRS}
 	${imgui_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/ext/imgui_toggle
-	${CMAKE_SOURCE_DIR}/ext/imgui_sugar
-	${CMAKE_SOURCE_DIR}/ext/imgui_spinner
 )
 
 target_link_libraries(dear_imgui PRIVATE
 	Freetype::Freetype
 	SDL2::SDL2
     OpenGL::GL
+)
+
+target_link_libraries(dear_imgui PUBLIC
+	imgui_spinner::imgui_spinner
+    imgui_sugar::imgui_sugar
 )
 
 target_compile_options(dear_imgui PRIVATE
