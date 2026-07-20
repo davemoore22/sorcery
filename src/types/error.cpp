@@ -24,6 +24,8 @@
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 
+#include <iomanip>
+#include <iostream>
 #include <regex>
 
 Sorcery::Error::Error(Enums::System::Error error_code,

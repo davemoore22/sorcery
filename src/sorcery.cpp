@@ -23,9 +23,21 @@
 #include "core/application.hpp"
 
 #include <memory>
+#include <meta>
+#include <string_view>
+
+struct Test {
+		int health;
+		int mana;
+};
 
 // Executablele Entry Point
 auto main(int argc, char *argv[]) -> int {
+
+	constexpr auto info = ^^Test;
+
+	static_assert(std::meta::is_type(info));
+	static_assert(std::meta::display_string_of(info) == "Test");
 
 	// Create an Application Instance
 	auto app{std::make_unique<Sorcery::Application>(argc, argv)};

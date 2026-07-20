@@ -1,6 +1,9 @@
 # Project Definition
 cmake_minimum_required(VERSION 3.22)
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 project(sorcery VERSION 0.1.0)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
@@ -128,6 +131,22 @@ target_link_libraries(sorcery_options INTERFACE
 	imgui_toggle::imgui_toggle
 )
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16)
+        message(FATAL_ERROR
+            "C++ reflection requires GCC 16 or later"
+        )
+    endif()
+
+    target_compile_options(sorcery_options INTERFACE
+        -freflection
+    )
+else()
+    message(WARNING
+        "Native C++ reflection is only configured for GCC 16 or later"
+    )
+endif()
+
 # Global Compile Options
 add_library(sorcery_warnings INTERFACE)
 target_compile_options(sorcery_warnings INTERFACE
@@ -169,6 +188,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-Wcast-align
 	-Wformat-nonliteral
 	-Wformat=2
+	-freflection
 	-Wsuggest-attribute=format
 	-Winvalid-pch
 	-Wmissing-declarations
@@ -219,7 +239,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	OpenGL::GL
 	GLEW
 	dl
-	backtrace
 	stdc++fs
 	stdc++exp
 	jsoncpp
