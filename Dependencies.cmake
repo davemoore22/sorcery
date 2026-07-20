@@ -1,5 +1,22 @@
 include_guard(GLOBAL)
 
+# ---------------------------------------------------------------------------
+# Dear ImGui
+# ---------------------------------------------------------------------------
+
+FetchContent_Declare(
+    imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git
+    GIT_TAG        6ded5230d043aa32c755e65c910c2af5002fb9f9
+    GIT_SHALLOW    FALSE
+)
+
+FetchContent_MakeAvailable(imgui)
+
+# ---------------------------------------------------------------------------
+# Cereal
+# ---------------------------------------------------------------------------
+
 set(BUILD_SANDBOX OFF CACHE BOOL
     "Disable cereal sandbox examples"
     FORCE
@@ -69,3 +86,23 @@ target_include_directories(stb
     SYSTEM INTERFACE
         "${stb_SOURCE_DIR}"
 )
+
+message(STATUS "Dear ImGui source: ${imgui_SOURCE_DIR}")
+
+if(TARGET cereal::cereal)
+	message(STATUS "Found cereal::cereal")
+else()
+	message(FATAL_ERROR "cereal::cereal target was not created")
+endif()
+
+if(TARGET magic_enum::magic_enum)
+	message(STATUS "Found magic_enum::magic_enum")
+else()
+	message(FATAL_ERROR "magic_enum::magic_enum target was not created")
+endif()
+
+if(TARGET SimpleIni::SimpleIni)
+	message(STATUS "Found SimpleIni::SimpleIni")
+else()
+	message(FATAL_ERROR "SimpleIni::SimpleIni target was not created")
+endif()

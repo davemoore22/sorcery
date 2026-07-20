@@ -13,25 +13,6 @@ endif()
 include(FetchContent)
 include(Dependencies.cmake)
 
-if(TARGET cereal::cereal)
-	message(STATUS "Found cereal::cereal")
-else()
-	message(FATAL_ERROR "cereal::cereal target was not created")
-endif()
-
-if(TARGET magic_enum::magic_enum)
-	message(STATUS "Found magic_enum::magic_enum")
-else()
-	message(FATAL_ERROR "magic_enum::magic_enum target was not created")
-endif()
-
-if(TARGET SimpleIni::SimpleIni)
-	message(STATUS "Found SimpleIni::SimpleIni")
-else()
-	message(FATAL_ERROR "SimpleIni::SimpleIni target was not created")
-endif()
-
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Paths
@@ -71,19 +52,19 @@ pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
 add_library(dear_imgui EXCLUDE_FROM_ALL)
 
 target_sources(dear_imgui PRIVATE
-	ext/imgui/imgui.cpp
-	ext/imgui/imgui_demo.cpp
-	ext/imgui/imgui_draw.cpp
-	ext/imgui/imgui_tables.cpp
-	ext/imgui/imgui_widgets.cpp
-	ext/imgui/backends/imgui_impl_sdl2.cpp
-	ext/imgui/backends/imgui_impl_opengl3.cpp
-	ext/imgui/misc/cpp/imgui_stdlib.cpp
+	${imgui_SOURCE_DIR}/imgui.cpp
+	${imgui_SOURCE_DIR}/imgui_demo.cpp
+	${imgui_SOURCE_DIR}/imgui_draw.cpp
+	${imgui_SOURCE_DIR}/imgui_tables.cpp
+	${imgui_SOURCE_DIR}/imgui_widgets.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+	${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
+	${imgui_SOURCE_DIR}/misc/freetype/imgui_freetype.cpp
 	ext/imgui_toggle/imgui_toggle.cpp
 	ext/imgui_toggle/imgui_toggle_palette.cpp
 	ext/imgui_toggle/imgui_toggle_presets.cpp
 	ext/imgui_toggle/imgui_toggle_renderer.cpp
-	ext/imgui/misc/freetype/imgui_freetype.cpp
 )
 
 target_include_directories(dear_imgui PUBLIC
@@ -91,15 +72,16 @@ target_include_directories(dear_imgui PUBLIC
 	${SDL2_IMAGE_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIR}
 	${GLUT_INCLUDE_DIRS}
-	${CMAKE_SOURCE_DIR}/ext/imgui
-	${CMAKE_SOURCE_DIR}/ext/imgui/backends
+	${imgui_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/ext/imgui_toggle
 	${CMAKE_SOURCE_DIR}/ext/imgui_sugar
-	${CMAKE_SOURCE_DIR}/ext/imgui/misc/freetype
+	${CMAKE_SOURCE_DIR}/ext/imgui_spinner
 )
 
 target_link_libraries(dear_imgui PRIVATE
 	Freetype::Freetype
+	SDL2::SDL2
+    OpenGL::GL
 )
 
 target_compile_options(dear_imgui PRIVATE
@@ -152,7 +134,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	${OPENGL_INCLUDE_DIR}
 	${GLUT_INCLUDE_DIRS}
 	${CMAKE_SOURCE_DIR}/ext
-	${CMAKE_SOURCE_DIR}/ext/imgui
 	${CMAKE_SOURCE_DIR}/inc)
 
 # Compiler Options
@@ -242,17 +223,13 @@ MESSAGE("Creating and Populating Post-Build Directories")
 set(SORCERY_DIST_DIR "${CMAKE_BINARY_DIR}/dist")
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E make_directory
-		"${SORCERY_DIST_DIR}"
-		"${SORCERY_DIST_DIR}/lib"
+
+  COMMAND ${CMAKE_COMMAND} -E make_directory
+        "${SORCERY_DIST_DIR}"
 
 	COMMAND ${CMAKE_COMMAND} -E copy_if_different
 		"$<TARGET_FILE:${PROJECT_NAME}>"
 		"${SORCERY_DIST_DIR}/"
-
-	COMMAND ${CMAKE_COMMAND} -E copy_directory
-		"${CMAKE_BINARY_DIR}/lib"
-		"${SORCERY_DIST_DIR}/lib"
 
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		"${CMAKE_SOURCE_DIR}/cfg"
@@ -270,17 +247,10 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 		"${CMAKE_SOURCE_DIR}/gfx"
 		"${SORCERY_DIST_DIR}/gfx"
 
+# Copying sav already includes sav/characters and sav/states.
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		"${CMAKE_SOURCE_DIR}/sav"
-		"${SORCERY_DIST_DIR}/sav"
-
-	COMMAND ${CMAKE_COMMAND} -E copy_directory
-		"${CMAKE_SOURCE_DIR}/sav/characters"
-		"${SORCERY_DIST_DIR}/sav/characters"
-
-	COMMAND ${CMAKE_COMMAND} -E copy_directory
-		"${CMAKE_SOURCE_DIR}/sav/characters"
-		"${SORCERY_DIST_DIR}/sav/states"
+	"${SORCERY_DIST_DIR}/sav"
 
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		"${CMAKE_SOURCE_DIR}/sfx"
