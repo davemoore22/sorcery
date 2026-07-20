@@ -25,6 +25,7 @@
 #include "common/macro.hpp"
 
 #include <regex>
+#include <iomanip>
 
 Sorcery::Error::Error(Enums::System::Error error_code,
 					  std::exception &exception, std::string notes)

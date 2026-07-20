@@ -219,7 +219,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	OpenGL::GL
 	GLEW
 	dl
-	backtrace
 	stdc++fs
 	stdc++exp
 	jsoncpp
