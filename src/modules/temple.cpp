@@ -58,9 +58,9 @@ auto Sorcery::Temple::start() -> int {
 
 	// Helper function to ensure that back events when a modal is open only
 	// close the modal as opposed to closing the whole module
-	auto has_modal_open = [](const std::vector<bool> flags) -> bool {
+	auto has_modal_open = [](const std::vector<bool> &flags) -> bool {
 		return std::ranges::any_of(flags, [](bool flag) {
-			return flag == true;
+			return flag;
 		});
 	};
 

@@ -40,7 +40,7 @@ class SpellStore {
 		auto get(Enums::Magic::SpellID spell_id) const -> Spell;
 		auto get(Enums::Magic::SpellCategory category) const
 			-> std::vector<Spell>;
-		auto get(std::string name) const -> Spell;
+		auto get(std::string_view name) const -> Spell;
 
 		// Public Methods
 		auto get_all() -> std::vector<Spell>;

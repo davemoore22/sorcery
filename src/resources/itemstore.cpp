@@ -324,13 +324,16 @@ auto Sorcery::ItemStore::get_item_type(
 	return _items.at(item_type_id);
 }
 
-auto Sorcery::ItemStore::get(std::string name) const -> ItemType {
+auto Sorcery::ItemStore::get(std::string_view name) const -> ItemType {
 
-	auto it{std::ranges::find_if(
-		_items.begin(), _items.end(), [&](const auto &item_type) {
-			return (item_type.second.get_display_name() == name);
-		})};
-	return (*it).second;
+	const auto it{std::ranges::find_if(_items, [name](const auto &item) {
+		return item.second.get_display_name() == name;
+	})};
+
+	if (it == _items.end())
+		throw std::out_of_range{"Item not found: " + std::string{name}};
+
+	return it->second;
 }
 
 auto Sorcery::ItemStore::get(const Enums::Items::Category category) const

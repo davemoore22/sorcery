@@ -130,18 +130,16 @@ auto Sorcery::Inventory::unequip_all() -> void {
 
 auto Sorcery::Inventory::has_unidentified_items() const -> bool {
 
-	return std::ranges::any_of(_items.begin(), _items.end(),
-							   [&](const auto &item) {
-								   return item.get_known() == false;
-							   });
+	return std::ranges::any_of(_items, [](const auto &item) {
+		return !item.get_known();
+	});
 }
 
 auto Sorcery::Inventory::has_cursed_items() const -> bool {
 
-	return std::ranges::any_of(_items.begin(), _items.end(),
-							   [&](const auto &item) {
-								   return item.get_cursed() == false;
-							   });
+	return std::ranges::any_of(_items, [](const auto &item) {
+		return item.get_cursed();
+	});
 }
 
 auto Sorcery::Inventory::is_equipped_cursed(const unsigned int slot) -> bool {
@@ -256,14 +254,12 @@ auto Sorcery::Inventory::discard_item(const unsigned int slot) -> bool {
 }
 
 auto Sorcery::Inventory::_has_equipped_item_category(
-	const Enums::Items::Category category) const -> bool {
+	Enums::Items::Category category) const -> bool {
 
-	return std::ranges::any_of(
-		_items.begin(), _items.end(), [&](const auto &item) {
-			return item.get_category() == category && item.get_equipped();
-		});
+	return std::ranges::any_of(_items, [category](const auto &item) {
+		return item.get_category() == category && item.get_equipped();
+	});
 }
-
 auto Sorcery::Inventory::has_cursed_equipped_item_category(
 	const Enums::Items::Category category) const -> bool {
 
@@ -271,13 +267,12 @@ auto Sorcery::Inventory::has_cursed_equipped_item_category(
 }
 
 auto Sorcery::Inventory::_has_cursed_equipped_item_category(
-	const Enums::Items::Category category) const -> bool {
+	Enums::Items::Category category) const -> bool {
 
-	return std::ranges::any_of(
-		_items.begin(), _items.end(), [&](const auto &item) {
-			return item.get_category() == category && item.get_equipped() &&
-				   item.get_cursed();
-		});
+	return std::ranges::any_of(_items, [category](const auto &item) {
+		return item.get_category() == category && item.get_equipped() &&
+			   item.get_cursed();
+	});
 }
 
 namespace Sorcery {

@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include <regex>
 #include <filesystem>
+#include <regex>
 
 #include "common/enum.hpp"
 #include "types/enum.hpp"
@@ -44,7 +44,7 @@ class ItemStore {
 		auto get(unsigned int item_type_id) const -> ItemType;
 		auto get(Enums::Items::Category category) const
 			-> std::vector<ItemType>;
-		auto get(std::string name) const -> ItemType;
+		auto get(std::string_view name) const -> ItemType;
 
 		auto get_item_type(const Enums::Items::TypeID item_type_id) const
 			-> ItemType;

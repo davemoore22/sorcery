@@ -101,15 +101,13 @@ auto Sorcery::Component::get(std::string_view key) const
 auto Sorcery::Component::set(std::string_view key, std::string_view value)
 	-> void {
 
-	auto it{std::ranges::find_if(_data.begin(), _data.end(),
-								 [&key](const auto &item) {
-									 return item.first == key;
-								 })};
+	const auto it = std::ranges::find(
+		_data, key, &std::pair<std::string, std::string>::first);
 
 	if (it == _data.end())
-		_data.emplace_back(std::string{key}, std::string{value});
+		_data.emplace_back(key, value);
 	else
-		it->second = std::string{value};
+		it->second = value;
 }
 
 auto Sorcery::Component::set_enabled(bool value) -> void {
@@ -135,18 +133,13 @@ auto Sorcery::Component::get_visible() const -> bool {
 auto Sorcery::Component::_get(std::string_view key) const
 	-> std::optional<std::string> {
 
-	if (_data.empty())
+	const auto it = std::ranges::find(
+		_data, key, &std::pair<std::string, std::string>::first);
+
+	if (it == _data.end())
 		return std::nullopt;
 
-	auto it{std::ranges::find_if(_data.begin(), _data.end(),
-								 [&key](const auto &item) {
-									 return item.first == key;
-								 })};
-
-	if (it != _data.end())
-		return it->second;
-	else
-		return std::nullopt;
+	return it->second;
 }
 
 auto Sorcery::Component::id() const -> long {

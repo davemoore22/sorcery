@@ -71,15 +71,15 @@ Sorcery::Application::Application(int argc, char **argv) {
 
 	// Get any command line arguments
 	_args.clear();
-	for (auto loop = 0; loop < argc; ++loop) {
-		std::string arg{argv[loop]};
-		std::ranges::transform(arg.begin(), arg.end(), arg.begin(),
-							   [](unsigned char c) -> unsigned char {
-								   return std::tolower(c);
-							   });
-		_args.push_back(arg);
-	}
+	_args.reserve(argc);
+	for (int i = 0; i < argc; ++i) {
+		_args.emplace_back(argv[i]);
 
+		std::ranges::transform(_args.back(), _args.back().begin(),
+							   [](unsigned char c) {
+								   return static_cast<char>(std::tolower(c));
+							   });
+	}
 	// And the Context object used for DI
 	ctx = Context{};
 	ctx.application = this;
@@ -614,10 +614,7 @@ auto Sorcery::Application::stop() -> void {
 // Check for a command line parameter
 auto Sorcery::Application::_check_param(std::string_view param) const -> bool {
 
-	return std::ranges::any_of(_args.begin(), _args.end(),
-							   [&](std::string_view arg) {
-								   return arg == param;
-							   });
+	return std::ranges::contains(_args, param);
 }
 
 auto Sorcery::Application::install_signal_handlers() -> void {

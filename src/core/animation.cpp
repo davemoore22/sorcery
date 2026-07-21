@@ -146,7 +146,7 @@ auto Sorcery::Animation::_change_wp(bool force) -> void {
 	else {
 
 		do {
-			_ctime_wp = std::chrono::system_clock::now();
+			_ctime_wp = std::chrono::steady_clock::now();
 			const auto elapsed{_ctime_wp - _last_wp};
 			if (const auto elapsed_ms{
 					std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -169,7 +169,7 @@ auto Sorcery::Animation::_animate_attract(bool force) -> void {
 		_do_attract();
 	else {
 		do {
-			_ctime_attract = std::chrono::system_clock::now();
+			_ctime_attract = std::chrono::steady_clock::now();
 			const auto elapsed{_ctime_attract - _last_attract};
 			if (const auto elapsed_ms{
 					std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -204,23 +204,26 @@ auto Sorcery::Animation::_do_wp() -> void {
 	std::scoped_lock<std::mutex> scoped_lock(_wp_mutex);
 
 	wp_idx = _random->get(Enums::System::Random::D165);
-	_last_wp = std::chrono::system_clock::now();
+	_last_wp = std::chrono::steady_clock::now();
 }
 
 auto Sorcery::Animation::_do_attract() -> void {
 
-	std::scoped_lock<std::mutex> scoped_lock(_attract_mutex);
-	auto index{0u};
-	const auto num{_random->get(Enums::System::Random::D4)};
+	std::scoped_lock lock{_attract_mutex};
+
+	const auto count{_random->get(Enums::System::Random::D4)};
+
 	_attract_mode.clear();
-	for (auto i = 0u; i < num; i++) {
-		do {
-			index = _random->get(Enums::System::Random::ZERO_TO_399);
-		} while (std::ranges::find(_attract_mode.begin(), _attract_mode.end(),
-								   index) != _attract_mode.end());
-		_attract_mode.push_back(index);
+	_attract_mode.reserve(count);
+
+	while (_attract_mode.size() < count) {
+		const auto index{_random->get(Enums::System::Random::ZERO_TO_399)};
+
+		if (!std::ranges::contains(_attract_mode, index))
+			_attract_mode.push_back(index);
 	}
-	_last_attract = std::chrono::system_clock::now();
+
+	_last_attract = std::chrono::steady_clock::now();
 }
 
 auto Sorcery::Animation::get_attract_data() -> std::vector<unsigned int> {

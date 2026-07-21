@@ -72,10 +72,10 @@ class Animation {
 		std::atomic<bool> _colcyc_dir;
 		std::atomic<bool> _finished;
 		std::atomic<bool> _attract_fade;
-		std::chrono::time_point<std::chrono::system_clock> _last_wp;
-		std::chrono::time_point<std::chrono::system_clock> _last_attract;
-		std::chrono::time_point<std::chrono::system_clock> _ctime_attract;
-		std::chrono::time_point<std::chrono::system_clock> _ctime_wp;
+		std::chrono::steady_clock::time_point _last_wp;
+		std::chrono::steady_clock::time_point _last_attract;
+		std::chrono::steady_clock::time_point _ctime_attract;
+		std::chrono::steady_clock::time_point _ctime_wp;
 		std::mutex _attract_mutex;
 		std::mutex _colcyc_mutex;
 		std::mutex _wp_mutex;

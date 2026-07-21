@@ -36,37 +36,29 @@ Sorcery::SpellStore::SpellStore(Context &ctx)
 
 auto Sorcery::SpellStore::get(Enums::Magic::SpellID spell_id) const -> Spell {
 
-	// Always assumes a spell can be found
-	auto it{std::ranges::find_if(_spells.begin(), _spells.end(),
-								 [&](const auto &spell) {
-									 return (spell.id == spell_id);
-								 })};
-	return (*it);
-}
+	const auto it = std::ranges::find(_spells, spell_id, &Spell::id);
 
+	// Always assumes a spell can be found
+	assert(it != _spells.end());
+
+	return *it;
+}
 auto Sorcery::SpellStore::get(Enums::Magic::SpellCategory category) const
 	-> std::vector<Spell> {
 
-	auto spells{_spells | std::views::filter([&](Spell spell) {
-					return spell.category == category;
-				})};
-
-	std::vector<Spell> filtered;
-	filtered.clear();
-	for (auto spell : spells)
-		filtered.emplace_back(spell);
-
-	return filtered;
+	return _spells | std::views::filter([category](const Spell &spell) {
+			   return spell.category == category;
+		   }) |
+		   std::ranges::to<std::vector>();
 }
 
-auto Sorcery::SpellStore::get(std::string name) const -> Spell {
+auto Sorcery::SpellStore::get(std::string_view name) const -> Spell {
+	const auto it = std::ranges::find(_spells, name, &Spell::name);
 
 	// Always assumes a spell can be found
-	auto it{std::ranges::find_if(_spells.begin(), _spells.end(),
-								 [&](const auto &spell) {
-									 return (spell.name == name);
-								 })};
-	return (*it);
+	assert(it != _spells.end());
+
+	return *it;
 }
 
 auto Sorcery::SpellStore::get_all() -> std::vector<Spell> {
