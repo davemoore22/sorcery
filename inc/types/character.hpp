@@ -63,10 +63,9 @@ class Character {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_location, coordinate, depth, _version, _name, _race,
 					_class, _alignment, _start_attr, _cur_attr, _max_attr,
-					_st_points, _portrait_index, _abilities, _priest_max_sp,
-					_priest_cur_sp, _mage_max_sp, _mage_cur_sp, _status,
-					_hidden, _spells_known, _legated, inventory,
-					_current_stage);
+					_st_points, _abilities, _priest_max_sp, _priest_cur_sp,
+					_mage_max_sp, _mage_cur_sp, _status, _hidden, _spells_known,
+					_legated, inventory, _current_stage);
 		}
 
 		// Public Methods
@@ -123,8 +122,6 @@ class Character {
 			-> unsigned int;
 		auto set_cur_attr(const Enums::Character::Attribute attribute,
 						  const int adjustment) -> void;
-		auto get_portrait_index() const -> unsigned int;
-		auto set_portrait_index(const unsigned int value) -> void;
 		auto get_spell_points(const Enums::Magic::SpellType type,
 							  const Enums::Magic::SpellPointType status) const
 			-> std::optional<std::map<unsigned int, unsigned int>>;
@@ -250,7 +247,6 @@ class Character {
 		std::map<Enums::Character::Class, bool> _pos_classes;
 		std::map<Enums::Character::Class, std::string> _class_list;
 		unsigned int _num_pos_classes;
-		unsigned int _portrait_index;
 		Enums::Character::Status _status;
 		bool _hidden;
 		bool _legated;

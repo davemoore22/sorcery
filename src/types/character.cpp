@@ -167,7 +167,6 @@ auto Sorcery::Character::set_stage(const Enums::Character::Stage stage)
 		_st_points = 0;
 		_pos_classes.clear();
 		_num_pos_classes = 0;
-		_portrait_index = 0;
 		_priest_max_sp.clear();
 		_priest_cur_sp.clear();
 		_mage_max_sp.clear();
@@ -303,16 +302,6 @@ auto Sorcery::Character::set_cur_attr(
 	const Enums::Character::Attribute attribute, const int adjustment) -> void {
 
 	_cur_attr.at(attribute) += adjustment;
-}
-
-auto Sorcery::Character::get_portrait_index() const -> unsigned int {
-
-	return _portrait_index;
-}
-
-auto Sorcery::Character::set_portrait_index(const unsigned int value) -> void {
-
-	_portrait_index = value;
 }
 
 auto Sorcery::Character::set_start_attr() -> void {
@@ -1981,10 +1970,9 @@ auto Sorcery::Character::create_class_alignment(
 	_cur_attr = _start_attr;
 
 	_name = _ctx->random->get_random_name();
-	_portrait_index = _ctx->get_random(Enums::System::Random::ZERO_TO_29);
 }
 
-// Enter Name and Portrait, rest is random
+// Enter Name, rest is random
 auto Sorcery::Character::create_quick() -> void {
 
 	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
@@ -2079,10 +2067,9 @@ auto Sorcery::Character::create_quick() -> void {
 // Create a (semi) random character
 auto Sorcery::Character::create_random() -> void {
 
-	// Random Name and Portrait
+	// Random Name
 	create_quick();
 	_name = _ctx->random->get_random_name();
-	_portrait_index = _ctx->get_random(Enums::System::Random::ZERO_TO_29);
 }
 
 auto Sorcery::Character::get_status() const -> Enums::Character::Status {
