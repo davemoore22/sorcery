@@ -61,6 +61,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"drop_menu", {"DROP_RETURN"}},
 	{"identify_menu", {"IDENTIFY_RETURN"}},
+	{"equip_menu", {"EQUIP_RETURN"}},
 	{"trade_menu", {"TRADE_RETURN"}},
 	{"use_menu", {"USE_RETURN"}},
 	{"invoke_menu", {"INVOKE_RETURN"}},
@@ -68,6 +69,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"modal_drop", {"DROP_RETURN"}},
 	{"modal_identify", {"IDENTIFY_RETURN"}},
+	{"modal_equip", {"EQUIP_RETURN"}},
 	{"modal_trade", {"TRADE_RETURN"}},
 	{"modal_use", {"USE_RETURN"}},
 	{"modal_invoke", {"INVOKE_RETURN"}},
@@ -359,7 +361,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 	if (menu_name == "modal_identify" || menu_name == "modal_drop" ||
 		menu_name == "modal_trade" || menu_name == "modal_use" ||
-		menu_name == "modal_invoke") {
+		menu_name == "modal_invoke" || menu_name == "modal_equip") {
 
 		_load_character_items(menu_name, items, data);
 		_load_fixed_menu(menu_name, width, items);
@@ -368,7 +370,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 	if (menu_name == "identify_menu" || menu_name == "drop_menu" ||
 		menu_name == "trade_menu" || menu_name == "use_menu" ||
-		menu_name == "invoke_menu") {
+		menu_name == "invoke_menu" || menu_name == "equip_menu") {
 
 		_load_fixed_menu(menu_name, width, items);
 		return;

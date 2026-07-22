@@ -138,6 +138,7 @@ class UI {
 		std::unique_ptr<Modal> modal_help;
 		std::unique_ptr<Modal> modal_tithe;
 		std::unique_ptr<Modal> modal_identify;
+		std::unique_ptr<Modal> modal_equip;
 		std::unique_ptr<Modal> modal_drop;
 		std::unique_ptr<Modal> modal_trade;
 		std::unique_ptr<Modal> modal_give;
