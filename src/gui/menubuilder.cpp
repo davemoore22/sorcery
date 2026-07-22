@@ -73,6 +73,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"modal_drop", {"DROP_RETURN"}},
 	{"modal_identify", {"IDENTIFY_RETURN"}},
 	{"modal_equip", {"EQUIP_RETURN"}},
+	{"modal_spell", {"SPELL_RETURN"}},
 	{"modal_trade", {"TRADE_RETURN"}},
 	{"modal_use", {"USE_RETURN"}},
 	{"modal_invoke", {"INVOKE_RETURN"}},
@@ -379,7 +380,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		return;
 	}
 
-	// -------- Enumerated menus --------
+	// Enumerated menus
 	if (menu_name == "bestiary_menu") {
 		_load_bestiary_menu(width, items);
 		return;
@@ -392,6 +393,12 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 	if (menu_name == "museum_menu") {
 		_load_museum_menu(width, items);
+		return;
+	}
+
+	if ((menu_name == "spell_menu") || (menu_name == "modal_spell")) {
+		_load_character_spells(menu_name, items, data);
+		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
@@ -463,32 +470,14 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 	auto castable_spells{
 		character.spells() |
 		std::views::filter([&character](const Spell &spell) {
-			if (!spell.known ||
-				(spell.category != Enums::Magic::SpellCategory::HEALING &&
-				 spell.category != Enums::Magic::SpellCategory::FIELD))
-				return false;
-
-			const std::map<unsigned int, unsigned int> *spell_points{};
-
-			switch (spell.type) {
-			case Enums::Magic::SpellType::DIVINE:
-				spell_points = &character.priest_cur_sp();
-				break;
-
-			case Enums::Magic::SpellType::ARCANE:
-				spell_points = &character.mage_cur_sp();
-				break;
-
-			default:
-				return false;
-			}
-
-			const auto it{spell_points->find(spell.level)};
-
-			return it != spell_points->end() && it->second > 0;
+			return (spell.known &&
+					(spell.category != Enums::Magic::SpellCategory::HEALING ||
+					 spell.category != Enums::Magic::SpellCategory::FIELD));
 		})};
 
-	// Build up the spell list
+	// Build up the spell list (note that spells that are unable to be currently
+	// cast due to lack of spell points are also included here, but are
+	// disabled)
 	for (const auto &spell : castable_spells) {
 
 		const auto spell_type{magic_enum::enum_name(spell.type)};
@@ -496,8 +485,11 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 		const auto spell_english{spell.translated_name};
 		const auto spell_name{spell.name};
 
-		std::string line{std::format("{:>9}/{:<13} {} {}", spell_name,
-									 spell_english, spell_type, spell_level)};
+		const auto spell_desc{
+			std::format("{} ({})", spell_name, spell_english)};
+
+		std::string line{
+			std::format("{:<22} {} {}", spell_desc, spell_type, spell_level)};
 
 		items.emplace_back(std::move(line));
 		data.emplace_back(unenum(spell.id));

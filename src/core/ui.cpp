@@ -151,6 +151,8 @@ Sorcery::UI::UI(Context &ctx)
 		std::make_unique<Modal>(_ctx, components->get("global:modal_use"));
 	modal_invoke =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_invoke"));
+	modal_spell =
+		std::make_unique<Modal>(_ctx, components->get("global:modal_spell"));
 
 	input_donate =
 		std::make_unique<Input>(_ctx, components->get("global:input_donate"));
@@ -363,6 +365,12 @@ auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
 		modal_equip = std::make_unique<Modal>(
 			_ctx, components->get("global:modal_equip"));
 		modal_equip->regenerate();
+	} else if (name == "modal_spell") {
+		if (modal_spell.get())
+			modal_spell.reset();
+		modal_spell = std::make_unique<Modal>(
+			_ctx, components->get("global:modal_spell"));
+		modal_spell->regenerate();
 	} else if (name == "modal_drop") {
 		if (modal_drop.get())
 			modal_drop.reset();
@@ -473,6 +481,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		output.append(get_popup_status((void *)modal_inspect.get(), "modal"));
 	if (modal_invoke)
 		output.append(get_popup_status((void *)modal_invoke.get(), "modal"));
+	if (modal_spell)
+		output.append(get_popup_status((void *)modal_spell.get(), "modal"));
 	if (modal_stay)
 		output.append(get_popup_status((void *)modal_stay.get(), "modal"));
 	if (modal_tithe)
@@ -597,6 +607,7 @@ auto Sorcery::UI::start() -> void {
 	modal_give->show = false;
 	modal_use->show = false;
 	modal_invoke->show = false;
+	modal_spell->show = false;
 	dialog_stairs_up->show = false;
 	dialog_stairs_down->show = false;
 	message_tile->show = false;
@@ -666,6 +677,8 @@ auto Sorcery::UI::display_engine() -> void {
 		modal_use->display(_ctx.get_flag_ref("want_use"));
 	if (modal_invoke->show)
 		modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
+	if (modal_spell->show)
+		modal_spell->display(_ctx.get_flag_ref("want_spell"));
 	if (notice_pool_gold->show)
 		notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
@@ -3619,6 +3632,8 @@ auto Sorcery::UI::_display_inspect(const int mode) -> void {
 		modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	if (modal_equip->show)
 		modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	if (modal_spell->show)
+		modal_spell->display(_ctx.get_flag_ref("want_spell"));
 	if (modal_drop->show)
 		modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	if (modal_trade->show)
@@ -3683,6 +3698,7 @@ auto Sorcery::UI::_display_inn() -> void {
 	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	modal_stay->display(_ctx.get_flag_ref("want_stay"));
 	modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	modal_spell->display(_ctx.get_flag_ref("want_spell"));
 	modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	modal_give->display(_ctx.get_flag_ref("want_give"));
@@ -3749,6 +3765,7 @@ auto Sorcery::UI::_display_tavern() -> void {
 	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	modal_spell->display(_ctx.get_flag_ref("want_spell"));
 	modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	modal_use->display(_ctx.get_flag_ref("want_use"));
@@ -3778,6 +3795,7 @@ auto Sorcery::UI::_display_temple() -> void {
 	modal_tithe->display(_ctx.get_flag_ref("want_tithe"));
 	modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	modal_spell->display(_ctx.get_flag_ref("want_spell"));
 	modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	modal_give->display(_ctx.get_flag_ref("want_give"));
@@ -4211,6 +4229,11 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 								{std::ref(modal_equip->show)}};
 							_ctx.controller->handle_menu_with_flags(
 								name, items, data_item, i, out_flags);
+						} else if (name == "spell_menu") {
+							std::vector<std::reference_wrapper<bool>> out_flags{
+								{std::ref(modal_spell->show)}};
+							_ctx.controller->handle_menu_with_flags(
+								name, items, data_item, i, out_flags);
 						} else if (name == "drop_menu") {
 							std::vector<std::reference_wrapper<bool>> out_flags{
 								{std::ref(modal_drop->show)}};
@@ -4389,6 +4412,9 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 	if (menu == "equip_menu")
 		return {std::ref(modal_equip->show)};
 
+	if (menu == "spell_menu")
+		return {std::ref(modal_spell->show)};
+
 	if (menu == "drop_menu")
 		return {std::ref(modal_drop->show)};
 
@@ -4463,6 +4489,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	add(modal_tithe);
 	add(modal_identify);
 	add(modal_equip);
+	add(modal_spell);
 	add(modal_drop);
 	add(modal_trade);
 	add(modal_give);

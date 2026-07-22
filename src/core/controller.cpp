@@ -102,7 +102,9 @@ auto Sorcery::Controller::initialise() -> void {
 	unset_flag("want_help");
 	unset_flag("want_inspect");
 	unset_flag("want_identify");
+	unset_flag("want_equip");
 	unset_flag("want_invoke");
+	unset_flag("want_spell");
 
 	unset_flag("want_name");
 	unset_flag("want_name_ok");
@@ -523,6 +525,45 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 #pragma GCC diagnostic pop
 		} else
 			return false;
+	} else if (component == "spell_menu" || component == "modal_spell") {
+
+		if (has_character("inspect")) {
+
+			// Work out from the Spell ID if we have enough sp to cast it
+			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto spell_id{
+				magic_enum::enum_cast<Enums::Magic::SpellID>(data)};
+
+			if (!spell_id)
+				return false;
+
+			const auto spell_it{
+				std::ranges::find(who.spells(), *spell_id, &Spell::id)};
+
+			if (spell_it == who.spells().end())
+				return false;
+
+			const auto &spell{*spell_it};
+			const std::map<unsigned int, unsigned int> *spell_points{};
+
+			switch (spell.type) {
+			case Enums::Magic::SpellType::ARCANE:
+				spell_points = &who.mage_cur_sp();
+				break;
+			case Enums::Magic::SpellType::DIVINE:
+				spell_points = &who.priest_cur_sp();
+				break;
+			default:
+				return false;
+			}
+
+			const auto points_it{spell_points->find(spell.level)};
+
+			return !(points_it != spell_points->end() && points_it->second > 0);
+
+		} else
+			return false;
+
 	} else if (component == "class_menu") {
 
 		const auto classes{_game->creation_candidate->get_pos_class()};
@@ -668,6 +709,15 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		// Flags = &_ui->modal_equip->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_equip"] = true;
+			in_flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+	} else if (component == "spell_menu" || component == "modal_spell") {
+
+		// Flags = &_ui->modalspell->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_flags["want_spell"] = true;
 			in_flags.at(0).get() = false;
 		} else {
 			// TODO
@@ -892,6 +942,8 @@ auto Sorcery::Controller::clear_modal_flags() -> void {
 			 "want_give",
 			 "want_use",
 			 "want_invoke",
+			 "want_equip",
+			 "want_spell",
 			 "want_take_stairs_up",
 			 "want_take_stairs_down",
 			 "after_tile_message",
@@ -1125,6 +1177,11 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		ui->modal_equip->regenerate();
 		ui->modal_equip->show = true;
 		set_flag("want_equip");
+	} else if (component == "button_spell") {
+		// Show Spell Modal
+		ui->modal_spell->regenerate();
+		ui->modal_spell->show = true;
+		set_flag("want_spell");
 	} else if (component == "button_invoke") {
 		// Show Invoke Modal
 		ui->modal_invoke->regenerate();
