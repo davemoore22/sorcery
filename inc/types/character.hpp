@@ -176,8 +176,13 @@ class Character {
 		auto abilities() const
 			-> const std::map<Enums::Character::Ability, int> &;
 		auto spells() -> std::vector<Spell> &;
+		auto spells() const -> const std::vector<Spell> &;
 		auto priest_cur_sp() -> std::map<unsigned int, unsigned int> &;
 		auto mage_cur_sp() -> std::map<unsigned int, unsigned int> &;
+		auto priest_cur_sp() const
+			-> const std::map<unsigned int, unsigned int> &;
+		auto mage_cur_sp() const
+			-> const std::map<unsigned int, unsigned int> &;
 		auto priest_max_sp() -> std::map<unsigned int, unsigned int> &;
 		auto mage_max_sp() -> std::map<unsigned int, unsigned int> &;
 

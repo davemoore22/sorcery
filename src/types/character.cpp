@@ -114,6 +114,11 @@ auto Sorcery::Character::spells() -> std::vector<Spell> & {
 	return _spells;
 }
 
+auto Sorcery::Character::spells() const -> const std::vector<Spell> & {
+
+	return _spells;
+}
+
 auto Sorcery::Character::attributes()
 	-> std::map<Enums::Character::Attribute, int> & {
 
@@ -129,6 +134,16 @@ auto Sorcery::Character::priest_cur_sp()
 auto Sorcery::Character::mage_cur_sp()
 	-> std::map<unsigned int, unsigned int> & {
 
+	return _mage_cur_sp;
+}
+
+auto Sorcery::Character::priest_cur_sp() const
+	-> const std::map<unsigned int, unsigned int> & {
+	return _priest_cur_sp;
+}
+
+auto Sorcery::Character::mage_cur_sp() const
+	-> const std::map<unsigned int, unsigned int> & {
 	return _mage_cur_sp;
 }
 

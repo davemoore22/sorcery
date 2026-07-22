@@ -55,6 +55,9 @@ class MenuBuilder {
 		auto _load_character_items(std::string_view menu_name,
 								   std::vector<std::string> &items,
 								   std::vector<int> &data) -> void;
+		auto _load_character_spells(std::string_view menu_name,
+									std::vector<std::string> &items,
+									std::vector<int> &data) -> void;
 		auto _load_fixed_menu(const std::string &menu_name, unsigned int width,
 							  std::vector<std::string> &items) -> void;
 		auto _load_bestiary_menu(unsigned int width,

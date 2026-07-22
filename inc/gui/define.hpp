@@ -130,4 +130,5 @@ inline constexpr auto MENU_INVOKE_ITEM{4};
 inline constexpr auto MENU_SHOP_IDENTIFY_ITEM{8};
 inline constexpr auto MENU_DROP_ITEM{16};
 inline constexpr auto MENU_TRADE_ITEM{32};
+inline constexpr auto MENU_EQUIP_ITEM{64};
 }

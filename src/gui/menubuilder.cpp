@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "gui/menubuilder.hpp"
+#include "common/enum.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
@@ -32,6 +33,8 @@
 #include "resources/stringstore.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
+
+#include <ranges>
 
 namespace {
 
@@ -433,8 +436,72 @@ auto Sorcery::MenuBuilder::_get_item_menu_flags(
 		return MENU_USE_ITEM;
 	if (menu_name == "modal_invoke")
 		return MENU_INVOKE_ITEM;
+	if (menu_name == "modal_equip")
+		return MENU_EQUIP_ITEM;
 
 	return NO_FLAGS;
+}
+
+auto Sorcery::MenuBuilder::_load_character_spells(
+	std::string_view menu_name, std::vector<std::string> &items,
+	std::vector<int> &data) -> void {
+
+	// Get the character that is currently being inspected, and then filter
+	// their known spells to only those that are castable (i.e. known, of the
+	// correct category, and with sufficient spell points for the relevant
+	// level).
+	if (!_ctx.game || _ctx.game->characters.empty())
+		return;
+
+	if (!_ctx.controller->has_character("inspect"))
+		return;
+
+	const auto char_id{_ctx.controller->get_character("inspect")};
+	auto &character{_ctx.game->characters.at(char_id)};
+
+	// Work out castable spells for the character, filtering out as above.
+	auto castable_spells{
+		character.spells() |
+		std::views::filter([&character](const Spell &spell) {
+			if (!spell.known ||
+				(spell.category != Enums::Magic::SpellCategory::HEALING &&
+				 spell.category != Enums::Magic::SpellCategory::FIELD))
+				return false;
+
+			const std::map<unsigned int, unsigned int> *spell_points{};
+
+			switch (spell.type) {
+			case Enums::Magic::SpellType::DIVINE:
+				spell_points = &character.priest_cur_sp();
+				break;
+
+			case Enums::Magic::SpellType::ARCANE:
+				spell_points = &character.mage_cur_sp();
+				break;
+
+			default:
+				return false;
+			}
+
+			const auto it{spell_points->find(spell.level)};
+
+			return it != spell_points->end() && it->second > 0;
+		})};
+
+	// Build up the spell list
+	for (const auto &spell : castable_spells) {
+
+		const auto spell_type{magic_enum::enum_name(spell.type)};
+		const auto spell_level{spell.level};
+		const auto spell_english{spell.translated_name};
+		const auto spell_name{spell.name};
+
+		std::string line{std::format("{:>9}/{:<13} {} {}", spell_name,
+									 spell_english, spell_type, spell_level)};
+
+		items.emplace_back(std::move(line));
+		data.emplace_back(unenum(spell.id));
+	}
 }
 
 auto Sorcery::MenuBuilder::_load_character_items(
@@ -474,6 +541,16 @@ auto Sorcery::MenuBuilder::_load_character_items(
 
 		// IDENTIFY
 		if (flags & MENU_IDENTIFY_ITEM) {
+			if (item.get_known()) {
+				line = std::format("{}){}{:<16}", slot, flag,
+								   item.get_display_name());
+			} else {
+				line = std::format("{}){}{:<16} {:>5}%", slot, flag,
+								   item.get_display_name(), chance);
+			}
+		}
+		// EQUIP
+		else if (flags & MENU_EQUIP_ITEM) {
 			if (item.get_known()) {
 				line = std::format("{}){}{:<16}", slot, flag,
 								   item.get_display_name());
