@@ -73,55 +73,64 @@ auto Sorcery::Controller::initialise() -> void {
 	_characters.clear();
 
 	// Set default state (these must all be present and set to false/-1)
-	clear_character("inspect");
-	clear_character("restart");
-	clear_character("stay");
-	clear_character("tithe");
-	clear_character("pay");
-	clear_character("help");
+	for (const auto character : {
+			 "inspect",
+			 "restart",
+			 "stay",
+			 "tithe",
+			 "pay",
+			 "help",
+		 })
+		clear_character(character);
 
 	// Note that the show_* flags don't need to be preset
-	unset_flag("after_tile_message");
-	unset_flag("napping_finished");
-	unset_flag("party_order_changed");
-	unset_flag("recuperating_finished");
-	unset_flag("select_previous_character");
-	unset_flag("select_next_character");
+	for (const auto flag : {
+			 "after_tile_message",
+			 "napping_finished",
+			 "party_order_changed",
+			 "recuperating_finished",
+			 "select_previous_character",
+			 "select_next_character",
 
-	unset_flag("want_camp");
-	unset_flag("want_elevator_top");
-	unset_flag("want_elevator_bottom");
-	unset_flag("want_cannot_donate");
-	unset_flag("want_continue_game");
-	unset_flag("want_divvy_gold");
-	unset_flag("want_donate");
-	unset_flag("want_donated_ok");
-	unset_flag("want_drop");
-	unset_flag("want_enter_maze");
-	unset_flag("want_exit_game");
-	unset_flag("want_help");
-	unset_flag("want_inspect");
-	unset_flag("want_identify");
-	unset_flag("want_equip");
-	unset_flag("want_invoke");
-	unset_flag("want_spell");
+			 "want_camp",
+			 "want_elevator_top",
+			 "want_elevator_bottom",
+			 "want_cannot_donate",
+			 "want_continue_game",
+			 "want_divvy_gold",
+			 "want_donate",
+			 "want_donated_ok",
+			 "want_drop",
+			 "want_enter_maze",
+			 "want_exit_game",
+			 "want_help",
+			 "want_inspect",
+			 "want_identify",
+			 "want_equip",
+			 "want_remove",
+			 "want_invoke",
+			 "want_spell",
 
-	unset_flag("want_name");
-	unset_flag("want_name_ok");
-	unset_flag("want_not_enough_gold");
-	unset_flag("want_new_game");
-	unset_flag("want_pool_gold");
-	unset_flag("want_quit_expedition");
-	unset_flag("want_stay");
-	unset_flag("want_take_stairs_down");
-	unset_flag("want_take_stairs_up");
-	unset_flag("want_tithe");
-	unset_flag("want_trade");
-	unset_flag("want_use");
+			 "want_name",
+			 "want_name_ok",
+			 "want_not_enough_gold",
+			 "want_new_game",
+			 "want_pool_gold",
+			 "want_quit_expedition",
+			 "want_stay",
+			 "want_take_stairs_down",
+			 "want_take_stairs_up",
+			 "want_tithe",
+			 "want_trade",
+			 "want_use",
 
-	unset_flag("debug_ui");
+			 "debug_ui",
 
-	unset_flag("in_engine");
+			 "in_engine",
+		 })
+		unset_flag(flag);
+
+	unset_text("heal_results");
 
 	unset_text("heal_results");
 
@@ -461,6 +470,23 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 		} else
 			return false;
 
+	} else if (component == "remove_menu" || component == "modal_remove") {
+
+		// Remember this is returning true if the item is meant to be disabled!
+		if (has_character("inspect")) {
+
+			const auto &who{_game->characters.at(_characters["inspect"])};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+				const auto item{who.inventory.items().at(selection)};
+				return !(item.get_equipped() && !item.get_cursed());
+			} else
+				return false;
+#pragma GCC diagnostic pop
+		} else
+			return false;
+
 	} else if (component == "drop_menu" || component == "modal_drop") {
 
 		if (has_character("inspect")) {
@@ -713,6 +739,15 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
+	} else if (component == "remove_menu" || component == "modal_remove") {
+
+		// Flags = &_ui->modal_remove->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_flags["want_remove"] = true;
+			in_flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
 	} else if (component == "spell_menu" || component == "modal_spell") {
 
 		// Flags = &_ui->modalspell->show
@@ -943,6 +978,7 @@ auto Sorcery::Controller::clear_modal_flags() -> void {
 			 "want_use",
 			 "want_invoke",
 			 "want_equip",
+			 "want_remove",
 			 "want_spell",
 			 "want_take_stairs_up",
 			 "want_take_stairs_down",
@@ -1177,6 +1213,11 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		ui->modal_equip->regenerate();
 		ui->modal_equip->show = true;
 		set_flag("want_equip");
+	} else if (component == "button_remove") {
+		// Show Remove Modal
+		ui->modal_remove->regenerate();
+		ui->modal_remove->show = true;
+		set_flag("want_remove");
 	} else if (component == "button_spell") {
 		// Show Spell Modal
 		ui->modal_spell->regenerate();

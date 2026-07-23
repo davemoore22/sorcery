@@ -64,6 +64,7 @@ auto Sorcery::Inn::start() -> int {
 	_ctx.ui->create_dynamic_modal("modal_stay");
 	_ctx.ui->create_dynamic_modal("modal_identify");
 	_ctx.ui->create_dynamic_modal("modal_equip");
+	_ctx.ui->create_dynamic_modal("modal_remove");
 	_ctx.ui->create_dynamic_modal("modal_spell");
 	_ctx.ui->create_dynamic_modal("modal_drop");
 	_ctx.ui->create_dynamic_modal("modal_trade");
@@ -74,6 +75,7 @@ auto Sorcery::Inn::start() -> int {
 	_ctx.ui->modal_stay->show = false;
 	_ctx.ui->modal_identify->show = false;
 	_ctx.ui->modal_equip->show = false;
+	_ctx.ui->modal_remove->show = false;
 	_ctx.ui->modal_spell->show = false;
 	_ctx.ui->modal_drop->show = false;
 	_ctx.ui->modal_give->show = false;

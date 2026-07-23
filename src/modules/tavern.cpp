@@ -66,6 +66,7 @@ auto Sorcery::Tavern::start() -> int {
 	_ctx.ui->create_dynamic_modal("modal_inspect");
 	_ctx.ui->create_dynamic_modal("modal_identify");
 	_ctx.ui->create_dynamic_modal("modal_equip");
+	_ctx.ui->create_dynamic_modal("modal_remove");
 	_ctx.ui->create_dynamic_modal("modal_spell");
 	_ctx.ui->create_dynamic_modal("modal_drop");
 	_ctx.ui->create_dynamic_modal("modal_give");
@@ -74,6 +75,7 @@ auto Sorcery::Tavern::start() -> int {
 	_ctx.ui->create_dynamic_modal("modal_invoke");
 	_ctx.ui->modal_inspect->show = false;
 	_ctx.ui->modal_equip->show = false;
+	_ctx.ui->modal_remove->show = false;
 	_ctx.ui->modal_spell->show = false;
 	_ctx.ui->modal_drop->show = false;
 	_ctx.ui->modal_trade->show = false;

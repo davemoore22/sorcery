@@ -73,6 +73,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"modal_drop", {"DROP_RETURN"}},
 	{"modal_identify", {"IDENTIFY_RETURN"}},
 	{"modal_equip", {"EQUIP_RETURN"}},
+	{"modal_remove", {"REMOVE_ITEM_RETURN"}},
 	{"modal_spell", {"SPELL_RETURN"}},
 	{"modal_trade", {"TRADE_RETURN"}},
 	{"modal_use", {"USE_RETURN"}},
@@ -365,7 +366,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 	if (menu_name == "modal_identify" || menu_name == "modal_drop" ||
 		menu_name == "modal_trade" || menu_name == "modal_use" ||
-		menu_name == "modal_invoke" || menu_name == "modal_equip") {
+		menu_name == "modal_invoke" || menu_name == "modal_equip" ||
+		menu_name == "modal_remove") {
 
 		_load_character_items(menu_name, items, data);
 		_load_fixed_menu(menu_name, width, items);
@@ -374,7 +376,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 	if (menu_name == "identify_menu" || menu_name == "drop_menu" ||
 		menu_name == "trade_menu" || menu_name == "use_menu" ||
-		menu_name == "invoke_menu" || menu_name == "equip_menu") {
+		menu_name == "invoke_menu" || menu_name == "equip_menu" ||
+		menu_name == "remove_menu") {
 
 		_load_fixed_menu(menu_name, width, items);
 		return;
@@ -445,6 +448,8 @@ auto Sorcery::MenuBuilder::_get_item_menu_flags(
 		return MENU_INVOKE_ITEM;
 	if (menu_name == "modal_equip")
 		return MENU_EQUIP_ITEM;
+	if (menu_name == "modal_remove")
+		return MENU_REMOVE_ITEM;
 
 	return NO_FLAGS;
 }
@@ -543,6 +548,16 @@ auto Sorcery::MenuBuilder::_load_character_items(
 		}
 		// EQUIP
 		else if (flags & MENU_EQUIP_ITEM) {
+			if (item.get_known()) {
+				line = std::format("{}){}{:<16}", slot, flag,
+								   item.get_display_name());
+			} else {
+				line = std::format("{}){}{:<16} {:>5}%", slot, flag,
+								   item.get_display_name(), chance);
+			}
+		}
+		// REMOVE
+		else if (flags & MENU_REMOVE_ITEM) {
 			if (item.get_known()) {
 				line = std::format("{}){}{:<16}", slot, flag,
 								   item.get_display_name());

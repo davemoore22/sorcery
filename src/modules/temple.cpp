@@ -71,6 +71,7 @@ auto Sorcery::Temple::start() -> int {
 	_ctx.ui->create_dynamic_modal("modal_inspect");
 	_ctx.ui->create_dynamic_modal("modal_identify");
 	_ctx.ui->create_dynamic_modal("modal_equip");
+	_ctx.ui->create_dynamic_modal("modal_remove");
 	_ctx.ui->create_dynamic_modal("modal_spell");
 	_ctx.ui->create_dynamic_modal("modal_drop");
 	_ctx.ui->create_dynamic_modal("modal_help");
@@ -84,6 +85,7 @@ auto Sorcery::Temple::start() -> int {
 	_ctx.ui->modal_tithe->show = false;
 	_ctx.ui->modal_identify->show = false;
 	_ctx.ui->modal_equip->show = false;
+	_ctx.ui->modal_remove->show = false;
 	_ctx.ui->modal_drop->show = false;
 	_ctx.ui->modal_trade->show = false;
 	_ctx.ui->modal_give->show = false;
@@ -128,6 +130,7 @@ auto Sorcery::Temple::start() -> int {
 						_ctx.controller->unset_flag("want_inspect");
 						_ctx.controller->unset_flag("want_identify");
 						_ctx.controller->unset_flag("want_equip");
+						_ctx.controller->unset_flag("want_remove");
 						_ctx.controller->unset_flag("want_drop");
 						_ctx.controller->unset_flag("want_trade");
 						_ctx.controller->unset_flag("want_give");

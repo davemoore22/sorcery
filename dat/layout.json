@@ -224,6 +224,26 @@
 					]
 				},
 				{
+					"name": "modal_remove",
+					"x": "centre",
+					"y": "8",
+					"w": "24",
+					"h": "15",
+					"font": "monospace",
+					"type": "choice",
+					"string": "MODAL_REMOVE",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"menu_name": "remove_menu",
+							"highlight": "0x6060c8"
+						}
+					]
+				},
+				{
 					"name": "modal_drop",
 					"x": "centre",
 					"y": "8",
@@ -4699,14 +4719,14 @@
 					"drawmode": "manual"
 				},
 				{
-					"name": "button_read",
+					"name": "button_remove",
 					"type": "button",
 					"x": "11",
-					"y": "26",
+					"y": "27",
 					"w": "8",
 					"h": "1",
 					"font": "monospace",
-					"string": "C_ACTION_READ",
+					"string": "C_ACTION_REMOVE",
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
@@ -4714,7 +4734,7 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"adjust_y": "-4"
+							"adjust_y": "4"
 						}
 					]
 				},
@@ -4722,7 +4742,7 @@
 					"name": "button_equip",
 					"type": "button",
 					"x": "11",
-					"y": "27",
+					"y": "26",
 					"w": "8",
 					"h": "1",
 					"font": "monospace",
@@ -4734,7 +4754,7 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"adjust_y": "4"
+							"adjust_y": "-4"
 						}
 					]
 				},
