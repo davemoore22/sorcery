@@ -42,14 +42,6 @@ inline constexpr auto ITEM_TILE_ROW_COUNT{15u};
 inline constexpr auto MAP_TILE_ROW_COUNT{10u};
 inline constexpr auto BACKGROUNDS_TILE_ROW_COUNT{15u};
 
-// Command Line Parameters
-inline constexpr auto CONTINUE_GAME_PARAM{"--continue"sv};
-inline constexpr auto NEW_GAME_PARAM{"--new"sv};
-inline constexpr auto QUICKSTART_PARAM{"--quickstart"sv};
-inline constexpr auto GO_TO_MAZE_PARAM{"--go-to-maze"sv};
-inline constexpr auto GO_TO_TRAINING_PARAM{"--go-to-training"sv};
-inline constexpr auto NO_IMAGES_PARAM{"--ni"sv};
-
 // Save State Defaults
 inline constexpr auto SAVE_STATE_VERSION{1u};
 

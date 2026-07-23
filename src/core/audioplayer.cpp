@@ -34,6 +34,8 @@ Sorcery::AudioPlayer::AudioPlayer() {
 
 	SDL_AudioSpec want{};
 
+	mute = false;
+
 	want.freq = 48000;
 	want.format = AUDIO_F32SYS;
 	want.channels = 2;
@@ -137,6 +139,9 @@ void Sorcery::AudioPlayer::load(const std::string &filename) {
 
 void Sorcery::AudioPlayer::play() {
 
+	if (mute)
+		return;
+
 	if (!_fmt)
 		return;
 
@@ -152,6 +157,9 @@ void Sorcery::AudioPlayer::play() {
 
 void Sorcery::AudioPlayer::stop() {
 
+	if (mute)
+		return;
+
 	_playing = false;
 	SDL_PauseAudioDevice(_device, 1);
 	SDL_ClearQueuedAudio(_device);
@@ -163,7 +171,11 @@ void Sorcery::AudioPlayer::set_volume(float v) {
 }
 
 void Sorcery::AudioPlayer::update() {
+
 	if (!_playing || !_fmt)
+		return;
+
+	if (mute)
 		return;
 
 	const Uint32 target_buffer{_spec.freq * _spec.channels * sizeof(float)};

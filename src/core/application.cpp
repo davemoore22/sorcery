@@ -363,6 +363,7 @@ auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 	constexpr auto PARAM_QUICKSTART{"--quickstart"sv};
 	constexpr auto PARAM_START_ENGINE{"--start-engine"sv};
 	constexpr auto PARAM_GO_TO{"--go-to"sv};
+	constexpr auto PARAM_MUTE{"--mute"sv};
 
 	const bool load_game{_check_param(PARAM_LOAD_GAME)};
 	const bool new_game{_check_param(PARAM_NEW_GAME)};
@@ -373,6 +374,8 @@ auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 	// Independent global modifier
 	if (_check_param(PARAM_NO_IMAGES))
 		ctx.images->show_images = false;
+	if (_check_param(PARAM_MUTE))
+		ctx.audio->mute = true;
 
 	// Validate mutually exclusive bootstrap options
 	const int bootstrap_count =

@@ -89,9 +89,10 @@
 	},
 	"cmake.debugConfig": {
 		"args": [
+			"--mute",
 			"--quickstart",
-			"--start-engine",
-			"--go-to"
+			"--Dstart-engine",
+			"--Dgo-to"
 		]
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",

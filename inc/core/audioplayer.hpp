@@ -45,6 +45,8 @@ class AudioPlayer {
 		void update(); // call every frame
 		void set_volume(float v);
 
+		bool mute;
+
 	private:
 		void free_resources();
 
