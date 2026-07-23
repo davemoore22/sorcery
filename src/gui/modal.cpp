@@ -73,6 +73,14 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 
 	_id = _component.name + "##modal";
 
+	if (_component.get_bool("dynamic")) {
+
+		const auto frame_rows{3};
+		const auto title_rows{_has_title ? 2 : 0};
+
+		_height = static_cast<int>(_items.size()) + frame_rows + title_rows;
+	}
+
 	// DEBUG_LOGF("Displaying modal: {}", _id);
 
 	const auto grid_sz{_ctx.ui->grid_sz};

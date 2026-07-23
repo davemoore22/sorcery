@@ -179,7 +179,8 @@
 					"data": [
 						{
 							"menu_name": "identify_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},
@@ -199,7 +200,8 @@
 					"data": [
 						{
 							"menu_name": "spell_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},
@@ -219,7 +221,8 @@
 					"data": [
 						{
 							"menu_name": "equip_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},
@@ -239,7 +242,8 @@
 					"data": [
 						{
 							"menu_name": "remove_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},
@@ -259,7 +263,8 @@
 					"data": [
 						{
 							"menu_name": "drop_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},
@@ -279,7 +284,8 @@
 					"data": [
 						{
 							"menu_name": "give_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},
@@ -299,7 +305,8 @@
 					"data": [
 						{
 							"menu_name": "trade_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},
@@ -319,7 +326,8 @@
 					"data": [
 						{
 							"menu_name": "use_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},
@@ -379,7 +387,8 @@
 					"data": [
 						{
 							"menu_name": "invoke_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"dynamic": "true"
 						}
 					]
 				},

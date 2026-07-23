@@ -164,3 +164,12 @@ auto Sorcery::Component::get_float(std::string_view key, float fallback) const
 	else
 		return fallback;
 }
+
+auto Sorcery::Component::get_bool(std::string_view key, bool fallback) const
+	-> bool {
+
+	if (_get(key))
+		return _get(key).value() == "true";
+	else
+		return fallback;
+}

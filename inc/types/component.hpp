@@ -59,6 +59,8 @@ class Component {
 		auto get_int(std::string_view key, int fallback = 0) const -> int;
 		auto get_float(std::string_view key, float fallback = 0.0f) const
 			-> float;
+		auto get_bool(std::string_view key, bool fallback = false) const
+			-> bool;
 
 		std::string form;
 		std::string name;
