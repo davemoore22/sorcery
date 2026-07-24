@@ -92,8 +92,8 @@ const ActionList EDGE_ACTIONS{
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
 
 const ActionList INN_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .ui_index = 1}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .ui_index = 0}},
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
 
 const ActionList TAVERN_ACTIONS{
@@ -105,9 +105,9 @@ const ActionList TAVERN_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
 
 const ActionList TEMPLE_ACTIONS{
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 2}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 2}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
 
 const ActionList CAMP_ACTIONS{

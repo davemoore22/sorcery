@@ -679,9 +679,10 @@ auto Sorcery::Controller::handle_menu_with_flags(
 	if (component == "stay_menu" || component == "modal_stay") {
 
 		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == (static_cast<int>(items.size()) - 1)) {
 			clear_character("stay");
-		else
+			go_back = true;
+		} else
 			set_character("stay", data);
 
 		// Remove the Modal
@@ -692,6 +693,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			clear_character("inspect");
 			set_flag("back_from_inspect");
+			go_back = true;
 		} else
 			set_character("inspect", data);
 
@@ -701,9 +703,10 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		// Flags = &_ui->modal_tithe->show, &_ui->input_donate->show,
 
 		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == (static_cast<int>(items.size()) - 1)) {
 			clear_character("tithe");
-		else {
+			go_back = true;
+		} else {
 			set_character("tithe", data);
 			_flags["want_donate"] = true;
 			in_flags.at(1).get() = true;
@@ -716,9 +719,10 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		// Flags = &_ui->modal_help->show
 
 		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == (static_cast<int>(items.size()) - 1)) {
 			clear_character("help");
-		else
+			go_back = true;
+		} else
 			set_character("help", data);
 
 		// Remove the Modal

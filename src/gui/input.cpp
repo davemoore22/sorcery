@@ -29,6 +29,7 @@
 #include "core/ui.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
+#include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"
 #include "types/game.hpp"
@@ -95,6 +96,10 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 	set_StyleVar(ImGuiStyleVar_WindowRounding, rounding);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
+
+	set_Font(
+		_ctx.ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
+			.value());
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
