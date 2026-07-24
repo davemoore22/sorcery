@@ -183,7 +183,6 @@ void Sorcery::AudioPlayer::update() {
 	while (SDL_GetQueuedAudioSize(_device) < target_buffer) {
 
 		if (av_read_frame(_fmt, _packet) < 0) {
-			// loop
 			av_seek_frame(_fmt, _stream_index, 0, AVSEEK_FLAG_BACKWARD);
 			avcodec_flush_buffers(_codec);
 			continue;

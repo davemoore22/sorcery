@@ -61,6 +61,8 @@ auto Sorcery::Controller::initialise() -> void {
 	_abort = false;
 	_leave = false;
 
+	go_back = false;
+
 	// Store these flags (if set)
 	// auto show_automap{_flags["show_automap"]};
 	auto show_party_panel{_flags["interface_party_panel"]};
@@ -1188,7 +1190,7 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 	} else if (component == "button_leave") {
 		// Leave Inspect
 		unset_flag("want_inspect");
-		unset_flag("show_inspect");
+		go_back = true;
 		ui->modal_inspect->show = false;
 	} else if (component == "button_drop") {
 		// Show Drop Modal

@@ -158,6 +158,7 @@ class Controller {
 			-> void;
 
 		// Public Members
+		bool go_back;
 
 	private:
 		// Private Members
