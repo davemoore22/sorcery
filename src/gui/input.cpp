@@ -29,6 +29,7 @@
 #include "core/ui.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
+#include "gui/modal.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"
@@ -173,6 +174,7 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 						character.grant_gold(0 - amount);
 						_ctx.ui->notice_donated_ok->show = true;
 						_ctx.controller->clear_character("tithe");
+						_ctx.ui->modal_tithe->regenerate();
 
 						// TODO: Check highest level XP and only allow tithing
 						// up to that amount!

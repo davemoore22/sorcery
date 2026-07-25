@@ -227,7 +227,7 @@
 					]
 				},
 				{
-					"name": "modal_remove",
+					"name": "modal_remove_item",
 					"x": "centre",
 					"y": "8",
 					"w": "24",
@@ -241,7 +241,7 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"menu_name": "remove_menu",
+							"menu_name": "remove_item_menu",
 							"highlight": "0x6060c8",
 							"dynamic": "true"
 						}
@@ -4344,7 +4344,7 @@
 					"drawmode": "automatic"
 				},
 				{
-					"name": "remove_menu",
+					"name": "remove_character_menu",
 					"x": "centre",
 					"y": "13",
 					"w": "21",
@@ -4360,7 +4360,7 @@
 						{
 							"width": "21",
 							"height": "7",
-							"menu_name": "remove_menu",
+							"menu_name": "remove_character_menu",
 							"highlight": "0x6060c8"
 						}
 					]

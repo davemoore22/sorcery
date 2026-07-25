@@ -337,6 +337,21 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 				break;
 			};
 		}
+	} else if (component == "temple_menu") {
+
+		// Check for Party Members
+		switch (selection) {
+		case 1: // Help
+			[[fallthrough]];
+		case 2: // Inspect
+			[[fallthrough]];
+		case 3: // Title
+			return !_game->state->party_has_members();
+			break;
+		default:
+			return false;
+		};
+
 	} else if (component == "edge_menu") {
 		if (_game != nullptr) {
 
@@ -440,7 +455,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			const auto &who{_game->characters[data]};
 			return help.get_cure_cost() > who.get_gold();
 		}
-	} else if (component == "identify_menu" || component == "modal_identify") {
+	} else if (component == "identify_menu") {
 
 		if (has_character("inspect")) {
 
@@ -455,7 +470,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 #pragma GCC diagnostic pop
 		} else
 			return false;
-	} else if (component == "equip_menu" || component == "modal_equip") {
+	} else if (component == "equip_menu") {
 
 		// Remember this is returning true if the item is meant to be disabled!
 		if (has_character("inspect")) {
@@ -471,8 +486,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 #pragma GCC diagnostic pop
 		} else
 			return false;
-
-	} else if (component == "remove_menu" || component == "modal_remove") {
+	} else if (component == "remove_item_menu") {
 
 		// Remember this is returning true if the item is meant to be disabled!
 		if (has_character("inspect")) {
@@ -488,23 +502,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 #pragma GCC diagnostic pop
 		} else
 			return false;
-
-	} else if (component == "drop_menu" || component == "modal_drop") {
-
-		if (has_character("inspect")) {
-
-			const auto &who{_game->characters.at(_characters["inspect"])};
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-			if (selection < who.inventory.items().size()) {
-				const auto item{who.inventory.items().at(selection)};
-				return item.get_equipped();
-			} else
-				return false;
-#pragma GCC diagnostic pop
-		} else
-			return false;
-	} else if (component == "trade_menu" || component == "modal_trade") {
+	} else if (component == "drop_menu") {
 
 		if (has_character("inspect")) {
 
@@ -519,7 +517,22 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 #pragma GCC diagnostic pop
 		} else
 			return false;
-	} else if (component == "use_menu" || component == "modal_use") {
+	} else if (component == "trade_menu") {
+
+		if (has_character("inspect")) {
+
+			const auto &who{_game->characters.at(_characters["inspect"])};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+				const auto item{who.inventory.items().at(selection)};
+				return item.get_equipped();
+			} else
+				return false;
+#pragma GCC diagnostic pop
+		} else
+			return false;
+	} else if (component == "use_menu") {
 
 		if (has_character("inspect")) {
 
@@ -536,7 +549,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 #pragma GCC diagnostic pop
 		} else
 			return false;
-	} else if (component == "invoke_menu" || component == "modal_invoke") {
+	} else if (component == "invoke_menu") {
 
 		if (has_character("inspect")) {
 
@@ -553,7 +566,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 #pragma GCC diagnostic pop
 		} else
 			return false;
-	} else if (component == "spell_menu" || component == "modal_spell") {
+	} else if (component == "spell_menu") {
 
 		if (has_character("inspect")) {
 
@@ -591,7 +604,6 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 
 		} else
 			return false;
-
 	} else if (component == "class_menu") {
 
 		const auto classes{_game->creation_candidate->get_pos_class()};
@@ -676,7 +688,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 	DEBUG_LOGF("Menu with Flags: {} {} {}", component, data, selection);
 
-	if (component == "stay_menu" || component == "modal_stay") {
+	if (component == "stay_menu") {
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -698,7 +710,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			set_character("inspect", data);
 
 		in_flags[0].get() = false;
-	} else if (component == "tithe_menu" || component == "modal_tithe") {
+	} else if (component == "tithe_menu") {
 
 		// Flags = &_ui->modal_tithe->show, &_ui->input_donate->show,
 
@@ -714,7 +726,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
-	} else if (component == "help_menu" || component == "modal_help") {
+	} else if (component == "help_menu") {
 
 		// Flags = &_ui->modal_help->show
 
@@ -727,7 +739,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
-	} else if (component == "identify_menu" || component == "modal_identify") {
+	} else if (component == "modal_identify") {
 
 		// Flags = &_ui->modal_identify->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -736,7 +748,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
-	} else if (component == "equip_menu" || component == "modal_equip") {
+	} else if (component == "modal_equip") {
 
 		// Flags = &_ui->modal_equip->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -745,7 +757,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
-	} else if (component == "remove_menu" || component == "modal_remove") {
+	} else if (component == "modal_remove") {
 
 		// Flags = &_ui->modal_remove->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -754,7 +766,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
-	} else if (component == "spell_menu" || component == "modal_spell") {
+	} else if (component == "modal_spell") {
 
 		// Flags = &_ui->modalspell->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -763,7 +775,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
-	} else if (component == "drop_menu" || component == "modal_drop") {
+	} else if (component == "modal_drop") {
 
 		// Flags = &_ui->modal_drop->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -771,7 +783,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			in_flags.at(0).get() = false;
 		} else {
 		}
-	} else if (component == "trade_menu" || component == "modal_trade") {
+	} else if (component == "modal_trade") {
 
 		// Flags = &_ui->modal_trade->show, &_ui->modal_give->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -786,7 +798,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 			// Handle Trade
 		}
-	} else if (component == "use_menu" || component == "modal_use") {
+	} else if (component == "modal_use") {
 
 		// Flags = &_ui->modal_use->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -794,7 +806,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			in_flags.at(0).get() = false;
 		} else {
 		}
-	} else if (component == "invoke_menu" || component == "modal_invoke") {
+	} else if (component == "modal_invoke") {
 
 		// Flags = &_ui->modal_invoke->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -1263,7 +1275,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 	DEBUG_LOGF("Menu: {} {} {}", component, data, selection);
 
-	if (component == "remove_menu") {
+	if (component == "remove_character_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::TAVERN);

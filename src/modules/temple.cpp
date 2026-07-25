@@ -146,7 +146,7 @@ auto Sorcery::Temple::start() -> int {
 						_ctx.controller->clear_character("tithe");
 						_ctx.controller->unset_flag("want_tithe");
 						_ctx.ui->modal_tithe->show = false;
-						_ctx.ui->input_donate->show = true;
+						_ctx.ui->input_donate->show = false;
 					} else if (_ctx.ui->input_donate->show) {
 						_ctx.controller->unset_flag("want_donate");
 						_ctx.ui->input_donate->show = false;

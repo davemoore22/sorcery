@@ -56,7 +56,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"roster_menu", {"ROSTER_RETURN"}},
 	{"choose_menu", {"CHOOSE_RETURN"}},
-	{"remove_menu", {"REMOVE_RETURN"}},
+	{"remove_character_menu", {"REMOVE_CHARACTER_RETURN"}},
 	{"reorder_menu", {"REORDER_RETURN"}},
 
 	{"inspect_menu", {"INSPECT_RETURN"}},
@@ -69,6 +69,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"use_menu", {"USE_RETURN"}},
 	{"invoke_menu", {"INVOKE_RETURN"}},
 	{"give_menu", {"GIVE_RETURN"}},
+	{"remove_item_menu", {"REMOVE_ITEM_RETURN, RETURN"}},
 
 	{"modal_drop", {"DROP_RETURN"}},
 	{"modal_identify", {"IDENTIFY_RETURN"}},
@@ -317,11 +318,11 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	items.clear();
 	data.clear();
 
-	// DEBUG_LOGF("Building menu: {}", menu_name);
+	DEBUG_LOGF("Building menu: {}", menu_name);
 
 	// -------- Dynamic menus --------
 	if (menu_name == "roster_menu" || menu_name == "choose_menu" ||
-		menu_name == "inspect_menu" || menu_name == "remove_menu" ||
+		menu_name == "inspect_menu" || menu_name == "remove_character_menu" ||
 		menu_name == "modal_inspect") {
 
 		_load_party_characters(items, data, NO_FLAGS, reorder);
@@ -338,6 +339,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 	if (menu_name == "reorder_menu") {
 		_load_party_characters(items, data, MENU_SHOW_POSITION, reorder);
+		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
@@ -361,6 +363,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 	if (menu_name == "modal_help") {
 		_load_sick_characters(items, data);
+		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
@@ -377,7 +380,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	if (menu_name == "identify_menu" || menu_name == "drop_menu" ||
 		menu_name == "trade_menu" || menu_name == "use_menu" ||
 		menu_name == "invoke_menu" || menu_name == "equip_menu" ||
-		menu_name == "remove_menu") {
+		menu_name == "remove_item_menu") {
 
 		_load_fixed_menu(menu_name, width, items);
 		return;

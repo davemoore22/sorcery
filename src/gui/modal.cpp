@@ -61,7 +61,7 @@ auto Sorcery::Modal::name() const -> std::string {
 
 auto Sorcery::Modal::regenerate() -> void {
 
-	_ctx.menubuilder->build(_component.name, _width, _items, _data, false);
+	_ctx.menubuilder->build(_menu_name, _width, _items, _data, false);
 }
 
 auto Sorcery::Modal::id() const -> std::string {
@@ -133,6 +133,6 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 		_ctx.ui->draw_menu(_menu_name, col, ImVec2{1, top}, sz, _font, _items,
 						   _data, false, false);
 
-		// DEBUG_LOGF("Displaying modal: {}", _menu_name);
+		DEBUG_LOGF("Displaying modal menu: {}", _menu_name);
 	}
 }

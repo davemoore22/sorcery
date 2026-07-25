@@ -143,8 +143,8 @@ Sorcery::UI::UI(Context &ctx)
 		std::make_unique<Modal>(_ctx, components->get("global:modal_identify"));
 	modal_equip =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_equip"));
-	modal_remove =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_remove"));
+	modal_remove = std::make_unique<Modal>(
+		_ctx, components->get("global:modal_remove_item"));
 	modal_trade =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_trade"));
 	modal_give =
@@ -331,6 +331,8 @@ auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 // the beginning as part of the Form/Module create
 auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
 
+	DEBUG_LOGF("Creating Dynamic Modal: {}", name);
+
 	if (name == "modal_inspect") {
 		if (modal_inspect.get())
 			modal_inspect.reset();
@@ -371,7 +373,7 @@ auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
 		if (modal_remove.get())
 			modal_remove.reset();
 		modal_remove = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_remove"));
+			_ctx, components->get("global:modal_remove_item"));
 		modal_remove->regenerate();
 	} else if (name == "modal_spell") {
 		if (modal_spell.get())
@@ -4247,7 +4249,7 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 								{std::ref(modal_equip->show)}};
 							_ctx.controller->handle_menu_with_flags(
 								name, items, data_item, i, out_flags);
-						} else if (name == "remove_menu") {
+						} else if (name == "remove_item_menu") {
 							std::vector<std::reference_wrapper<bool>> out_flags{
 								{std::ref(modal_remove->show)}};
 							_ctx.controller->handle_menu_with_flags(
@@ -4435,7 +4437,7 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 	if (menu == "equip_menu")
 		return {std::ref(modal_equip->show)};
 
-	if (menu == "remove_menu")
+	if (menu == "remove_item_menu")
 		return {std::ref(modal_remove->show)};
 
 	if (menu == "spell_menu")
