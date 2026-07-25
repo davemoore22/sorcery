@@ -41,6 +41,12 @@ set(SKIP_PERFORMANCE_COMPARISON ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(cereal)
 
+# ---------------------------------------------------------------------------
+# Magic Enum
+# ---------------------------------------------------------------------------
+
+MESSAGE("Grabbing Megic Enum from https://github.com/Neargye/magic_enum.git")
+
 FetchContent_Declare(
     magic_enum
     GIT_REPOSITORY https://github.com/Neargye/magic_enum.git

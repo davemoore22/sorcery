@@ -22,6 +22,7 @@
 
 #include "modules/levelup.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -30,6 +31,7 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
+#include "resources/define.hpp"
 #include "types/game.hpp"
 
 Sorcery::LevelUp::LevelUp(Context &ctx)
@@ -64,6 +66,16 @@ auto Sorcery::LevelUp::start(const int mode) -> int {
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_STAY;
+
+			// Check for Quicksave and Quickload
+			if (_ctx.controller->check_for_quicksave(event))
+				_ctx.application->save_state_to_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+			else if (_ctx.controller->check_for_quickload(event)) {
+				_ctx.application->load_state_from_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+				continue;
+			}
 		}
 
 		_ctx.ui->display(Enums::Screen::LEVELUP, mode);

@@ -22,6 +22,7 @@
 
 #include "modules/inspect.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -33,6 +34,7 @@
 #include "gui/dialog.hpp"
 #include "gui/modal.hpp"
 #include "gui/popup.hpp"
+#include "resources/define.hpp"
 #include "types/character.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
@@ -83,6 +85,16 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 					_ctx.controller->clear_modal_flags();
 				} else
 					return BACK_FROM_INSPECT;
+			}
+
+			// Check for Quicksave and Quickload
+			if (_ctx.controller->check_for_quicksave(event))
+				_ctx.application->save_state_to_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+			else if (_ctx.controller->check_for_quickload(event)) {
+				_ctx.application->load_state_from_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+				continue;
 			}
 		}
 

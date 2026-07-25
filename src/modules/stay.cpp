@@ -22,6 +22,7 @@
 
 #include "modules/stay.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -33,6 +34,7 @@
 #include "modules/levelup.hpp"
 #include "modules/nolevelup.hpp"
 #include "modules/recovery.hpp"
+#include "resources/define.hpp"
 #include "types/game.hpp"
 
 Sorcery::Stay::Stay(Context &ctx)
@@ -78,6 +80,16 @@ auto Sorcery::Stay::start() -> int {
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;
+
+			// Check for Quicksave and Quickload
+			if (_ctx.controller->check_for_quicksave(event))
+				_ctx.application->save_state_to_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+			else if (_ctx.controller->check_for_quickload(event)) {
+				_ctx.application->load_state_from_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+				continue;
+			}
 
 			// Check for Stay Selected (remember +1 to selection)
 			if (_ctx.controller->get_selected("stay_selected") > 0) {

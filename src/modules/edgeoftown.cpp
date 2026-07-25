@@ -35,6 +35,7 @@
 #include "gui/dialog.hpp"
 #include "modules/restart.hpp"
 #include "modules/training.hpp"
+#include "resources/define.hpp"
 #include "types/game.hpp"
 
 Sorcery::EdgeOfTown::EdgeOfTown(Context &ctx)
@@ -81,6 +82,16 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 
 			// Check for Debug
 			_ctx.controller->check_for_debug(event);
+
+			// Check for Quicksave and Quickload
+			if (_ctx.controller->check_for_quicksave(event))
+				_ctx.application->save_state_to_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+			else if (_ctx.controller->check_for_quickload(event)) {
+				_ctx.application->load_state_from_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+				continue;
+			}
 		}
 
 		_ctx.ui->display(Enums::Screen::EDGEOFTOWN, _ctx.game);

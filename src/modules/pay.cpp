@@ -22,6 +22,7 @@
 
 #include "modules/pay.hpp"
 #include "common/macro.hpp"
+#include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/display.hpp"
@@ -33,6 +34,7 @@
 #include "gui/input.hpp"
 #include "gui/modal.hpp"
 #include "modules/heal.hpp"
+#include "resources/define.hpp"
 #include "types/game.hpp"
 
 Sorcery::Pay::Pay(Context &ctx)
@@ -79,6 +81,16 @@ auto Sorcery::Pay::start() -> int {
 			// the Castle)
 			if (_ctx.controller->check_for_back(event))
 				return HEALED_NOT;
+
+			// Check for Quicksave and Quickload
+			if (_ctx.controller->check_for_quicksave(event))
+				_ctx.application->save_state_to_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+			else if (_ctx.controller->check_for_quickload(event)) {
+				_ctx.application->load_state_from_binary(
+					_ctx.get_file(SAVE_STATE_FILENAME));
+				continue;
+			}
 		}
 
 		_ctx.ui->display(Enums::Screen::PAY, _ctx.game);
