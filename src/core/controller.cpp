@@ -312,7 +312,7 @@ auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {
 		return MOVE_NONE;
 }
 
-// Special Handling for Disable or Enable Menu Items
+// Special Handling for Disable or Enable Menu Items (0-indexed!)
 auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 												const int selection,
 												const int data) -> bool {
@@ -330,6 +330,8 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			case 1: // Inn
 				[[fallthrough]];
 			case 2: // Shop
+				[[fallthrough]];
+			case 3: // Temple
 				return !_game->state->party_has_members();
 				break;
 			default:
@@ -341,11 +343,11 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 
 		// Check for Party Members
 		switch (selection) {
-		case 1: // Help
+		case 0: // Help
 			[[fallthrough]];
-		case 2: // Inspect
+		case 1: // Inspect
 			[[fallthrough]];
-		case 3: // Title
+		case 2: // Title
 			return !_game->state->party_has_members();
 			break;
 		default:
@@ -407,7 +409,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			else
 				return false;
 		}
-	} else if (component == "give_menu" || component == "modal_give") {
+	} else if (component == "give_menu") {
 
 		if (_game != nullptr) {
 
@@ -704,7 +706,6 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			clear_character("inspect");
-			set_flag("back_from_inspect");
 			go_back = true;
 		} else
 			set_character("inspect", data);
@@ -739,7 +740,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
-	} else if (component == "modal_identify") {
+	} else if (component == "identify_menu") {
 
 		// Flags = &_ui->modal_identify->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -748,7 +749,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
-	} else if (component == "modal_equip") {
+	} else if (component == "equip_menu") {
 
 		// Flags = &_ui->modal_equip->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -757,7 +758,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
-	} else if (component == "modal_remove") {
+	} else if (component == "remove_menu") {
 
 		// Flags = &_ui->modal_remove->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -766,7 +767,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
-	} else if (component == "modal_spell") {
+	} else if (component == "spell_menu") {
 
 		// Flags = &_ui->modalspell->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -775,7 +776,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 			// TODO
 		}
-	} else if (component == "modal_drop") {
+	} else if (component == "drop_menu") {
 
 		// Flags = &_ui->modal_drop->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -783,7 +784,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			in_flags.at(0).get() = false;
 		} else {
 		}
-	} else if (component == "modal_trade") {
+	} else if (component == "trade_menu") {
 
 		// Flags = &_ui->modal_trade->show, &_ui->modal_give->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -798,7 +799,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 
 			// Handle Trade
 		}
-	} else if (component == "modal_use") {
+	} else if (component == "use_menu") {
 
 		// Flags = &_ui->modal_use->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -806,7 +807,7 @@ auto Sorcery::Controller::handle_menu_with_flags(
 			in_flags.at(0).get() = false;
 		} else {
 		}
-	} else if (component == "modal_invoke") {
+	} else if (component == "invoke_menu") {
 
 		// Flags = &_ui->modal_invoke->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -1405,6 +1406,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["show_roster"] = false;
 			clear_character("inspect");
+			go_back = true;
 		} else {
 			set_character("inspect", data);
 			_flags["show_roster"] = false;
@@ -1413,8 +1415,10 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 
 		// Reorder has multiple entry points so need to rely upon calling
 		// screen to enable itself
-		if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["show_reorder"] = false;
+			go_back = true;
+		}
 	} else if (component == "pay_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))

@@ -50,10 +50,6 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	 {"CAMP_INSPECT", "CAMP_REORDER", "CAMP_OPTIONS", "CAMP_QUIT",
 	  "CAMP_LEAVE"}},
 
-	{"modal_camp",
-	 {"CAMP_INSPECT", "CAMP_REORDER", "CAMP_OPTIONS", "CAMP_QUIT",
-	  "CAMP_LEAVE"}},
-
 	{"roster_menu", {"ROSTER_RETURN"}},
 	{"choose_menu", {"CHOOSE_RETURN"}},
 	{"remove_character_menu", {"REMOVE_CHARACTER_RETURN"}},
@@ -71,24 +67,11 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"give_menu", {"GIVE_RETURN"}},
 	{"remove_item_menu", {"REMOVE_ITEM_RETURN, RETURN"}},
 
-	{"modal_drop", {"DROP_RETURN"}},
-	{"modal_identify", {"IDENTIFY_RETURN"}},
-	{"modal_equip", {"EQUIP_RETURN"}},
-	{"modal_remove", {"REMOVE_ITEM_RETURN"}},
-	{"modal_spell", {"SPELL_RETURN"}},
-	{"modal_trade", {"TRADE_RETURN"}},
-	{"modal_use", {"USE_RETURN"}},
-	{"modal_invoke", {"INVOKE_RETURN"}},
-	{"modal_give", {"GIVE_RETURN"}},
-
 	{"stay_menu", {"STAY_RETURN"}},
-	{"modal_stay", {"STAY_RETURN"}},
 
 	{"help_menu", {"HELP_RETURN"}},
-	{"modal_help", {"HELP_RETURN"}},
 
 	{"tithe_menu", {"TITHE_RETURN"}},
-	{"modal_tithe", {"TITHE_RETURN"}},
 
 	{"pay_menu", {"PAY_RETURN"}},
 
@@ -318,22 +301,22 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	items.clear();
 	data.clear();
 
-	DEBUG_LOGF("Building menu: {}", menu_name);
+	// DEBUG_LOGF("Building menu: {}", menu_name);
 
-	// -------- Dynamic menus --------
+	// Dynamic menus
 	if (menu_name == "roster_menu" || menu_name == "choose_menu" ||
 		menu_name == "inspect_menu" || menu_name == "remove_character_menu" ||
-		menu_name == "modal_inspect") {
+		menu_name == "inspect_menu") {
 
 		_load_party_characters(items, data, NO_FLAGS, reorder);
 		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
-	if (menu_name == "tithe_menu" || menu_name == "modal_tithe" ||
-		menu_name == "pay_menu") {
+	if (menu_name == "tithe_menu" || menu_name == "pay_menu") {
 
 		_load_party_characters(items, data, MENU_SHOW_GOLD, reorder);
+		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
@@ -343,7 +326,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		return;
 	}
 
-	if (menu_name == "give_menu" || menu_name == "modal_give") {
+	if (menu_name == "give_menu") {
 
 		_load_party_characters(items, data, MENU_SHOW_SPACE, reorder);
 		_load_fixed_menu(menu_name, width, items);
@@ -361,18 +344,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		return;
 	}
 
-	if (menu_name == "modal_help") {
+	if (menu_name == "help_menu") {
 		_load_sick_characters(items, data);
-		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
-
-	if (menu_name == "modal_identify" || menu_name == "modal_drop" ||
-		menu_name == "modal_trade" || menu_name == "modal_use" ||
-		menu_name == "modal_invoke" || menu_name == "modal_equip" ||
-		menu_name == "modal_remove") {
-
-		_load_character_items(menu_name, items, data);
 		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
@@ -402,21 +375,20 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		return;
 	}
 
-	if ((menu_name == "spell_menu") || (menu_name == "modal_spell")) {
+	if (menu_name == "spell_menu") {
 		_load_character_spells(menu_name, items, data);
 		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
-	if (menu_name == "top_elevator_menu" || menu_name == "modal_elevator_top" ||
-		menu_name == "bottom_elevator_menu" ||
-		menu_name == "modal_elevator_bottom") {
+	if (menu_name == "top_elevator_menu" ||
+		menu_name == "bottom_elevator_menu") {
 
 		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
-	// -------- Fixed menus --------
+	// Fixed menus
 	_load_fixed_menu(menu_name, width, items);
 }
 
@@ -439,19 +411,19 @@ auto Sorcery::MenuBuilder::_load_fixed_menu(const std::string &menu_name,
 auto Sorcery::MenuBuilder::_get_item_menu_flags(
 	std::string_view menu_name) const -> int {
 
-	if (menu_name == "modal_identify")
+	if (menu_name == "identify_menu")
 		return MENU_IDENTIFY_ITEM;
-	if (menu_name == "modal_drop")
+	if (menu_name == "drop_menu")
 		return MENU_DROP_ITEM;
-	if (menu_name == "modal_trade")
+	if (menu_name == "trade_menu")
 		return MENU_TRADE_ITEM;
-	if (menu_name == "modal_use")
+	if (menu_name == "use_menu")
 		return MENU_USE_ITEM;
-	if (menu_name == "modal_invoke")
+	if (menu_name == "invoke_menu")
 		return MENU_INVOKE_ITEM;
-	if (menu_name == "modal_equip")
+	if (menu_name == "equip_menu")
 		return MENU_EQUIP_ITEM;
-	if (menu_name == "modal_remove")
+	if (menu_name == "remove_menu")
 		return MENU_REMOVE_ITEM;
 
 	return NO_FLAGS;

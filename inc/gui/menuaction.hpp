@@ -100,8 +100,8 @@ const ActionList TAVERN_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ADD}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REMOVE}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REORDER}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
 
 const ActionList TEMPLE_ACTIONS{

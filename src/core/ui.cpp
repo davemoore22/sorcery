@@ -4186,8 +4186,8 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 
 						if (name == "tavern_menu") {
 							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(notice_divvy->show),
-								 std::ref(modal_inspect->show)}};
+								{std::ref(modal_inspect->show),
+								 std::ref(notice_divvy->show)}};
 							_ctx.controller->handle_menu_with_flags(
 								name, items, data_item, i, out_flags);
 						} else if (name == "inn_menu") {
@@ -4401,7 +4401,7 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 		return {std::ref(dialog_leave->show)};
 
 	if (menu == "tavern_menu")
-		return {std::ref(notice_divvy->show), std::ref(modal_inspect->show)};
+		return {std::ref(modal_inspect->show), std::ref(notice_divvy->show)};
 
 	if (menu == "inn_menu")
 		return {std::ref(modal_inspect->show), std::ref(modal_stay->show)};

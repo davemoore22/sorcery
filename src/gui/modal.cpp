@@ -133,6 +133,6 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 		_ctx.ui->draw_menu(_menu_name, col, ImVec2{1, top}, sz, _font, _items,
 						   _data, false, false);
 
-		DEBUG_LOGF("Displaying modal menu: {}", _menu_name);
+		// DEBUG_LOGF("Displaying modal menu: {}", _menu_name);
 	}
 }

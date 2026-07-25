@@ -68,7 +68,7 @@ auto Sorcery::Reorder::start(const int mode) -> int {
 
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event))
-				return BACK_FROM_ROSTER;
+				return BACK_FROM_REORDER;
 
 			// Check for Quicksave and Quickload
 			if (_ctx.controller->check_for_quicksave(event))
@@ -78,6 +78,11 @@ auto Sorcery::Reorder::start(const int mode) -> int {
 				_ctx.application->load_state_from_binary(
 					_ctx.get_file(SAVE_STATE_FILENAME));
 				continue;
+			}
+
+			if (_ctx.controller->go_back) {
+				_ctx.controller->go_back = false;
+				return BACK_FROM_REORDER;
 			}
 		}
 
