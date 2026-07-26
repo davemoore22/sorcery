@@ -305,17 +305,17 @@ auto Sorcery::FontStore::_sort_fonts_by_name(bool case_insensitive) -> void {
 
 	if (case_insensitive) {
 
-		const auto icompare = [](std::string_view lhs,
-								 std::string_view rhs) -> bool {
-			return std::ranges::lexicographical_compare(
-				lhs, rhs, {},
-				[](unsigned char c) {
-					return static_cast<char>(std::tolower(c));
-				},
-				[](unsigned char c) {
-					return static_cast<char>(std::tolower(c));
-				});
-		};
+		const auto icompare{
+			[](std::string_view lhs, std::string_view rhs) -> bool {
+				return std::ranges::lexicographical_compare(
+					lhs, rhs, {},
+					[](unsigned char c) {
+						return static_cast<char>(std::tolower(c));
+					},
+					[](unsigned char c) {
+						return static_cast<char>(std::tolower(c));
+					});
+			}};
 
 		std::ranges::sort(fonts, [&](const FontInfo &a, const FontInfo &b) {
 			return icompare(a.name, b.name);

@@ -2430,7 +2430,17 @@ auto Sorcery::Character::set_age(const int adjustment) -> void {
 		_abilities.at(Enums::Character::Ability::AGE) + adjustment;
 }
 
-auto Sorcery::Character::summary_text() -> std::string {
+auto Sorcery::Character::full_desc_text() const -> std::string {
+
+	auto name{_name};
+	const auto level{_abilities.at(Enums::Character::Ability::CURRENT_LEVEL)};
+
+	return std::format("{:<15} L {:>2} {}-{}", name, level,
+					   alignment_to_str(_alignment).substr(0, 1),
+					   class_to_str(_class).substr(0, 3));
+};
+
+auto Sorcery::Character::summary_text() const -> std::string {
 
 	auto name{_name};
 	// if (_display->get_upper())
@@ -2440,7 +2450,7 @@ auto Sorcery::Character::summary_text() -> std::string {
 	const auto level{_abilities.at(Enums::Character::Ability::CURRENT_LEVEL)};
 	switch (_current_stage) {
 		using enum Enums::Character::Stage;
-		;
+
 	case ENTER_NAME:
 		return std::format("{:<15} L ?? ?-??? ???", "???");
 		break;

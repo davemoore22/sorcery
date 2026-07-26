@@ -421,8 +421,7 @@ auto Sorcery::UI::_draw_window_menu() -> void {}
 // Not an ideal function, really need to maintain a pointer status map instead
 auto Sorcery::UI::_get_popups() const -> std::string {
 
-	auto get_popup_status = [](void *component,
-							   std::string type) -> std::string {
+	auto get_popup_status{[](void *component, std::string type) -> std::string {
 		if (component != nullptr) {
 			if (type == "modal") {
 				auto casted{(Modal *)component};
@@ -448,7 +447,7 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		}
 
 		return "";
-	};
+	}};
 
 	std::string output{};
 	if (dialog_exit)

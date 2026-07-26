@@ -166,19 +166,20 @@ auto Sorcery::MenuBuilder::_load_party_characters(
 		if (character.get_location() != Enums::Character::Location::PARTY)
 			continue;
 
+		const auto name_str{flags & MENU_FULL_NAME ? character.full_desc_text()
+												   : character.get_name()};
+
 		if (flags & MENU_SHOW_POSITION)
-			items.emplace_back(
-				std::format("{}:{:^19}", pos, character.get_name()));
+			items.emplace_back(std::format("{}:{:^19}", pos, name_str));
 		else if (flags & MENU_SHOW_GOLD)
-			items.emplace_back(std::format("{:<16} {:>8} G.P.",
-										   character.get_name(),
+			items.emplace_back(std::format("{:<16} {:>8} G.P.", name_str,
 										   character.get_gold()));
 		else if (flags & MENU_SHOW_SPACE) {
 			const auto slots_free{character.inventory.get_empty_slots()};
-			items.emplace_back(std::format("{:<21} ({:>1})",
-										   character.get_name(), slots_free));
+			items.emplace_back(
+				std::format("{:<21} ({:>1})", name_str, slots_free));
 		} else
-			items.emplace_back(std::format("{:^21}", character.get_name()));
+			items.emplace_back(std::format("{:^31}", name_str));
 
 		data.emplace_back(id);
 
@@ -302,50 +303,36 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	data.clear();
 
 	// DEBUG_LOGF("Building menu: {}", menu_name);
+	auto flags{_get_menu_flags(menu_name)};
 
 	// Dynamic menus
 	if (menu_name == "roster_menu" || menu_name == "choose_menu" ||
 		menu_name == "inspect_menu" || menu_name == "remove_character_menu" ||
-		menu_name == "inspect_menu") {
+		menu_name == "tithe_menu" || menu_name == "pay_menu" ||
+		menu_name == "give_menu") {
 
-		_load_party_characters(items, data, NO_FLAGS, reorder);
+		_load_party_characters(items, data, flags, reorder);
 		_load_fixed_menu(menu_name, width, items);
 		return;
-	}
-
-	if (menu_name == "tithe_menu" || menu_name == "pay_menu") {
-
-		_load_party_characters(items, data, MENU_SHOW_GOLD, reorder);
-		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
-
-	if (menu_name == "reorder_menu") {
+	} else if (menu_name == "reorder_menu") {
 		_load_party_characters(items, data, MENU_SHOW_POSITION, reorder);
 		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
-	if (menu_name == "give_menu") {
-
-		_load_party_characters(items, data, MENU_SHOW_SPACE, reorder);
-		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
-
 	if (menu_name == "add_menu") {
-		_load_tavern_characters(items, data);
+		_load_tavern_characters(items, data); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
 
 	if (menu_name == "restart_menu") {
-		_load_maze_characters(items, data);
+		_load_maze_characters(items, data); // MENU_FULL_NAME
 		return;
 	}
 
 	if (menu_name == "help_menu") {
-		_load_sick_characters(items, data);
+		_load_sick_characters(items, data); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
 		return;
 	}
@@ -408,23 +395,29 @@ auto Sorcery::MenuBuilder::_load_fixed_menu(const std::string &menu_name,
 	}
 }
 
-auto Sorcery::MenuBuilder::_get_item_menu_flags(
-	std::string_view menu_name) const -> int {
+auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
+	-> int {
 
-	if (menu_name == "identify_menu")
-		return MENU_IDENTIFY_ITEM;
-	if (menu_name == "drop_menu")
-		return MENU_DROP_ITEM;
-	if (menu_name == "trade_menu")
-		return MENU_TRADE_ITEM;
-	if (menu_name == "use_menu")
-		return MENU_USE_ITEM;
-	if (menu_name == "invoke_menu")
-		return MENU_INVOKE_ITEM;
-	if (menu_name == "equip_menu")
-		return MENU_EQUIP_ITEM;
-	if (menu_name == "remove_menu")
-		return MENU_REMOVE_ITEM;
+	constexpr std::array MENU_FLAG_MAP{
+		std::pair{"identify_menu", MENU_IDENTIFY_ITEM},
+		std::pair{"drop_menu", MENU_DROP_ITEM},
+		std::pair{"trade_menu", MENU_TRADE_ITEM},
+		std::pair{"use_menu", MENU_USE_ITEM},
+		std::pair{"invoke_menu", MENU_INVOKE_ITEM},
+		std::pair{"equip_menu", MENU_EQUIP_ITEM},
+		std::pair{"remove_menu", MENU_REMOVE_ITEM},
+		std::pair{"roster_menu", MENU_FULL_NAME},
+		std::pair{"choose_menu", MENU_FULL_NAME},
+		std::pair{"remove_character_menu", MENU_FULL_NAME},
+		std::pair{"tithe_menu", MENU_SHOW_GOLD},
+		std::pair{"pay_menu", MENU_SHOW_GOLD},
+		std::pair{"reorder_menu", MENU_SHOW_POSITION},
+	};
+
+	if (const auto it = std::ranges::find(MENU_FLAG_MAP, menu_name,
+										  &std::pair<const char *, int>::first);
+		it != MENU_FLAG_MAP.end())
+		return it->second;
 
 	return NO_FLAGS;
 }
@@ -486,7 +479,7 @@ auto Sorcery::MenuBuilder::_load_character_items(
 	if (!_ctx.controller->has_character("inspect"))
 		return;
 
-	const auto flags{_get_item_menu_flags(menu_name)};
+	const auto flags{_get_menu_flags(menu_name)};
 	const auto char_id{_ctx.controller->get_character("inspect")};
 	const auto &character{_ctx.game->characters.at(char_id)};
 

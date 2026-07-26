@@ -128,7 +128,8 @@ class Character {
 		auto get_gold() const -> unsigned int;
 		auto set_gold(const unsigned int value) -> void;
 		auto grant_gold(const int value) -> void;
-		auto summary_text() -> std::string;
+		auto summary_text() const -> std::string;
+		auto full_desc_text() const -> std::string;
 		auto get_summary() -> std::string;
 		auto create_spells() -> void;
 		auto reset_spells() -> void;

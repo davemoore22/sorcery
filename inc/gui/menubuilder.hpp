@@ -41,7 +41,7 @@ class MenuBuilder {
 	private:
 		Context &_ctx;
 
-		auto _get_item_menu_flags(std::string_view menu_name) const -> int;
+		auto _get_menu_flags(std::string_view menu_name) const -> int;
 
 		auto _load_party_characters(std::vector<std::string> &items,
 									std::vector<int> &data, int flags,

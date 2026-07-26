@@ -4321,7 +4321,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "10",
-					"w": "23",
+					"w": "33",
 					"h": "12",
 					"string": "",
 					"drawmode": "automatic",
@@ -4347,7 +4347,7 @@
 					"name": "remove_character_menu",
 					"x": "centre",
 					"y": "13",
-					"w": "21",
+					"w": "31",
 					"h": "7",
 					"font": "monospace",
 					"type": "menu",
@@ -4358,7 +4358,7 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "21",
+							"width": "31",
 							"height": "7",
 							"menu_name": "remove_character_menu",
 							"highlight": "0x6060c8"
