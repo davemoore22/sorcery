@@ -35,6 +35,7 @@ class Add;
 class Inspect;
 class Remove;
 class Reorder;
+class Roster;
 
 class Tavern {
 
@@ -56,6 +57,7 @@ class Tavern {
 		std::unique_ptr<Remove> _remove;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;
+		std::unique_ptr<Roster> _roster;
 };
 
 };

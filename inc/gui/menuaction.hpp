@@ -93,20 +93,25 @@ const ActionList EDGE_ACTIONS{
 
 const ActionList INN_ACTIONS{
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ROSTER}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
+
+const ActionList SHOP_ACTIONS{
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ROSTER}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
 
 const ActionList TAVERN_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ADD}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REMOVE}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REORDER}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ROSTER}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
 
 const ActionList TEMPLE_ACTIONS{
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ROSTER}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 2}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
 

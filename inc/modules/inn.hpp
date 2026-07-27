@@ -33,6 +33,7 @@ namespace Sorcery {
 struct Context;
 class Inspect;
 class Stay;
+class Roster;
 
 class Inn {
 
@@ -54,6 +55,7 @@ class Inn {
 		Context &_ctx;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Stay> _stay;
+		std::unique_ptr<Roster> _roster;
 };
 
 };

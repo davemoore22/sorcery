@@ -35,6 +35,7 @@
 #include "gui/modal.hpp"
 #include "modules/inspect.hpp"
 #include "modules/pay.hpp"
+#include "modules/roster.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
@@ -43,6 +44,7 @@ Sorcery::Temple::Temple(Context &ctx)
 
 	_inspect = std::make_unique<Inspect>(_ctx);
 	_pay = std::make_unique<Pay>(_ctx);
+	_roster = std::make_unique<Roster>(_ctx);
 
 	_initialise();
 };
@@ -186,6 +188,12 @@ auto Sorcery::Temple::start() -> int {
 							_ctx.controller->get_character("inspect"));
 			_inspect->stop(INSPECT_MODE_TEMPLE);
 			_ctx.controller->clear_character("inspect");
+		}
+
+		if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
+			_roster->start(ROSTER_MODE_TEMPLE);
+			_roster->stop();
+			_ctx.controller->go_to(Enums::Screen::SHOP);
 		}
 
 		if (_ctx.controller->has_character("help")) {

@@ -4055,7 +4055,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "12",
-					"w": "23",
+					"w": "28",
 					"h": "10",
 					"string": "",
 					"drawmode": "automatic",
@@ -4068,7 +4068,7 @@
 					"name": "roster_menu",
 					"x": "centre",
 					"y": "13",
-					"w": "21",
+					"w": "26",
 					"h": "7",
 					"font": "monospace",
 					"type": "menu",
@@ -4079,7 +4079,7 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "21",
+							"width": "26",
 							"height": "7",
 							"menu_name": "roster_menu",
 							"highlight": "0x6060c8"

@@ -1401,7 +1401,7 @@ auto Sorcery::Controller::handle_menu(const std::string &component,
 		};
 	} else if (component == "roster_menu") {
 
-		// Roster has multiple entry points so need to rely uponcalling
+		// Roster has multiple entry points so need to rely upon calling
 		// screen to enable itself
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["show_roster"] = false;
