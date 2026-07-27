@@ -166,11 +166,12 @@ auto Sorcery::MenuBuilder::_load_party_characters(
 		if (character.get_location() != Enums::Character::Location::PARTY)
 			continue;
 
-		const auto name_str{flags & MENU_FULL_NAME ? character.full_desc_text()
-												   : character.get_name()};
+		const auto name_str{flags & (MENU_FULL_NAME | MENU_SHOW_POSITION)
+								? character.full_desc_text()
+								: character.get_name()};
 
 		if (flags & MENU_SHOW_POSITION)
-			items.emplace_back(std::format("{}:{:^19}", pos, name_str));
+			items.emplace_back(std::format("{}:{:^28}", pos, name_str));
 		else if (flags & MENU_SHOW_GOLD)
 			items.emplace_back(std::format("{:<16} {:>8} G.P.", name_str,
 										   character.get_gold()));
@@ -179,7 +180,7 @@ auto Sorcery::MenuBuilder::_load_party_characters(
 			items.emplace_back(
 				std::format("{:<21} ({:>1})", name_str, slots_free));
 		} else
-			items.emplace_back(std::format("{:^31}", name_str));
+			items.emplace_back(std::format("{:^26}", name_str));
 
 		data.emplace_back(id);
 
@@ -215,7 +216,8 @@ auto Sorcery::MenuBuilder::_load_tavern_characters(
 	for (auto &[id, character] : _ctx.game->characters) {
 		if (character.get_location() == Enums::Character::Location::TAVERN) {
 
-			items.emplace_back(std::format("{:^21}", character.get_name()));
+			items.emplace_back(
+				std::format("{:^21}", character.full_desc_text()));
 			data.emplace_back(id);
 		}
 	}
