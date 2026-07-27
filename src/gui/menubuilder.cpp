@@ -308,77 +308,60 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	auto flags{_get_menu_flags(menu_name)};
 
 	// Dynamic menus
-	if (menu_name == "roster_menu" || menu_name == "choose_menu" ||
-		menu_name == "inspect_menu" || menu_name == "remove_character_menu" ||
-		menu_name == "tithe_menu" || menu_name == "pay_menu" ||
-		menu_name == "give_menu") {
+	if (menu_name == "choose_menu" || menu_name == "inspect_menu" ||
+		menu_name == "remove_character_menu" || menu_name == "tithe_menu" ||
+		menu_name == "pay_menu" || menu_name == "give_menu") {
 
 		_load_party_characters(items, data, flags, reorder);
 		_load_fixed_menu(menu_name, width, items);
-		return;
+	} else if (menu_name == "roster_menu") {
+
+		if (_ctx.controller->get_roster_mode() == ROSTER_MODE_TAVERN) {
+			_load_tavern_characters(items, data);
+			_load_fixed_menu(menu_name, width, items);
+		} else if (_ctx.controller->get_roster_mode() == ROSTER_MODE_TEMPLE) {
+			_load_sick_characters(items, data); // MENU_FULL_NAME
+			_load_fixed_menu(menu_name, width, items);
+		} else {
+			_load_party_characters(items, data, flags, reorder);
+			_load_fixed_menu(menu_name, width, items);
+		}
 	} else if (menu_name == "reorder_menu") {
+
 		_load_party_characters(items, data, MENU_SHOW_POSITION, reorder);
 		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
+	} else if (menu_name == "add_menu") {
 
-	if (menu_name == "add_menu") {
 		_load_tavern_characters(items, data); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
+	} else if (menu_name == "restart_menu") {
 
-	if (menu_name == "restart_menu") {
 		_load_maze_characters(items, data); // MENU_FULL_NAME
-		return;
-	}
+		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "help_menu") {
 
-	if (menu_name == "help_menu") {
 		_load_sick_characters(items, data); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
-
-	if (menu_name == "identify_menu" || menu_name == "drop_menu" ||
-		menu_name == "trade_menu" || menu_name == "use_menu" ||
-		menu_name == "invoke_menu" || menu_name == "equip_menu" ||
-		menu_name == "remove_item_menu") {
+	} else if (menu_name == "identify_menu" || menu_name == "drop_menu" ||
+			   menu_name == "trade_menu" || menu_name == "use_menu" ||
+			   menu_name == "invoke_menu" || menu_name == "equip_menu" ||
+			   menu_name == "remove_item_menu") {
 
 		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
-
-	// Enumerated menus
-	if (menu_name == "bestiary_menu") {
+	} else if (menu_name == "bestiary_menu") {
 		_load_bestiary_menu(width, items);
-		return;
-	}
-
-	if (menu_name == "spellbook_menu") {
+	} else if (menu_name == "spellbook_menu") {
 		_load_spellbook_menu(width, items);
-		return;
-	}
-
-	if (menu_name == "museum_menu") {
+	} else if (menu_name == "museum_menu") {
 		_load_museum_menu(width, items);
-		return;
-	}
-
-	if (menu_name == "spell_menu") {
+	} else if (menu_name == "spell_menu") {
 		_load_character_spells(menu_name, items, data);
 		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
-
-	if (menu_name == "top_elevator_menu" ||
-		menu_name == "bottom_elevator_menu") {
-
+	} else if (menu_name == "top_elevator_menu" ||
+			   menu_name == "bottom_elevator_menu") {
 		_load_fixed_menu(menu_name, width, items);
-		return;
-	}
-
-	// Fixed menus
-	_load_fixed_menu(menu_name, width, items);
+	} else
+		_load_fixed_menu(menu_name, width, items);
 }
 
 auto Sorcery::MenuBuilder::_load_fixed_menu(const std::string &menu_name,
@@ -429,9 +412,9 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 	std::vector<int> &data) -> void {
 
 	// Get the character that is currently being inspected, and then filter
-	// their known spells to only those that are castable (i.e. known, of the
-	// correct category, and with sufficient spell points for the relevant
-	// level).
+	// their known spells to only those that are castable (i.e. known, of
+	// the correct category, and with sufficient spell points for the
+	// relevant level).
 	if (!_ctx.game || _ctx.game->characters.empty())
 		return;
 
@@ -450,9 +433,9 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 					 spell.category != Enums::Magic::SpellCategory::FIELD));
 		})};
 
-	// Build up the spell list (note that spells that are unable to be currently
-	// cast due to lack of spell points are also included here, but are
-	// disabled)
+	// Build up the spell list (note that spells that are unable to be
+	// currently cast due to lack of spell points are also included here,
+	// but are disabled)
 	for (const auto &spell : castable_spells) {
 
 		const auto spell_type{magic_enum::enum_name(spell.type)};

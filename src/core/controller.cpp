@@ -1268,6 +1268,15 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 	}
 }
 
+auto Sorcery::Controller::get_roster_mode() const -> int {
+
+	return _roster_mode;
+}
+auto Sorcery::Controller::set_roster_mode(const int mode) -> void {
+
+	_roster_mode = mode;
+}
+
 // Menu Handling
 auto Sorcery::Controller::handle_menu(const std::string &component,
 									  const std::vector<std::string> &items,

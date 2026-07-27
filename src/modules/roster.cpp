@@ -51,6 +51,7 @@ auto Sorcery::Roster::start(const int mode) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::ROSTER);
 	_ctx.controller->initialise();
+	_ctx.controller->set_roster_mode(mode);
 
 	// Main loop
 	auto done{false};
@@ -93,6 +94,8 @@ auto Sorcery::Roster::start(const int mode) -> int {
 }
 
 auto Sorcery::Roster::stop() -> int {
+
+	_ctx.controller->set_roster_mode(ROSTER_MODE_NONE);
 
 	return 0;
 }

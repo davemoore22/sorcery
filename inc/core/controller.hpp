@@ -56,7 +56,7 @@ class Controller {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
 					_can_undo, _fullscreen, _candidate_party, _screen,
-					_characters, _flags, _texts, _monochrome);
+					_characters, _flags, _texts, _monochrome, _roster_mode);
 		}
 
 		// Overloaded Operator
@@ -139,6 +139,8 @@ class Controller {
 		auto get_input_buffer() -> std::string &;
 		auto set_input_buffer(const std::string &value) -> void;
 		auto clear_input_buffer() -> void;
+		auto get_roster_mode() const -> int;
+		auto set_roster_mode(const int mode) -> void;
 
 		auto initialise() -> void;
 		auto go_to(const Enums::Screen screen) -> void;
@@ -182,6 +184,7 @@ class Controller {
 		std::map<std::string, std::string> _texts;	// "Global" Texts
 		std::map<std::string, int> _selected;		// Menu Selections
 		std::string _input_buffer; // Input Buffer for Text Input
+		int _roster_mode;
 };
 
 };

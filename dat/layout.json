@@ -1869,7 +1869,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "10",
-					"w": "23",
+					"w": "29",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
@@ -1882,7 +1882,7 @@
 					"name": "tavern_menu",
 					"x": "centre",
 					"y": "11",
-					"w": "21",
+					"w": "27",
 					"h": "6",
 					"font": "monospace",
 					"type": "menu",
@@ -1893,7 +1893,7 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "21",
+							"width": "25",
 							"height": "6",
 							"menu_name": "tavern_menu",
 							"highlight": "0x6060c8"
@@ -2628,7 +2628,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "10",
-					"w": "23",
+					"w": "33",
 					"h": "7",
 					"string": "",
 					"drawmode": "automatic",
@@ -2641,7 +2641,7 @@
 					"name": "temple_menu",
 					"x": "centre",
 					"y": "11",
-					"w": "21",
+					"w": "31",
 					"h": "6",
 					"font": "monospace",
 					"type": "menu",
@@ -2652,7 +2652,7 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "21",
+							"width": "31",
 							"height": "6",
 							"menu_name": "temple_menu",
 							"highlight": "0x6060c8"

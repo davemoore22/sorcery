@@ -90,6 +90,7 @@ inline constexpr auto BACK_FROM_INSPECT{4};
 inline constexpr auto BACK_FROM_CHOOSE{4};
 inline constexpr auto BACK_FROM_GRAVEYARD{4};
 inline constexpr auto CHECK_FOR_LEVEL_GAIN{5};
+inline constexpr auto ROSTER_MODE_NONE{0};
 inline constexpr auto ROSTER_MODE_INN{1};
 inline constexpr auto ROSTER_MODE_SHOP{2};
 inline constexpr auto ROSTER_MODE_TAVERN{3};
