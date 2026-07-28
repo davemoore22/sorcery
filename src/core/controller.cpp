@@ -23,7 +23,6 @@
 #include "core/controller.hpp"
 #include "common/cereal.hpp"
 #include "common/enum.hpp"
-#include "common/opengl.hpp"
 #include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
@@ -956,17 +955,15 @@ auto Sorcery::Controller::check_for_back(const SDL_Event event) -> bool {
 auto Sorcery::Controller::check_for_resize(const SDL_Event event, UI *ui)
 	-> void {
 
-	if (event.type == SDL_WINDOWEVENT &&
-		event.window.event == SDL_WINDOWEVENT_RESIZED) {
+	if (event.type != SDL_WINDOWEVENT)
+		return;
 
-		// Handle Resizing of Windows
-		int w = event.window.data1;
-		int h = event.window.data2;
-		ui->adj_grid_w = w / ui->columns;
-		ui->adj_grid_h = h / ui->rows;
-		glViewport(0, 0, w, h);
-		ImGui::GetIO().DisplaySize = ImVec2((float)w, (float)h);
-	};
+	if (event.window.event != SDL_WINDOWEVENT_RESIZED &&
+		event.window.event != SDL_WINDOWEVENT_SIZE_CHANGED)
+		return;
+
+	_ctx.display->update_display_metrics();
+	_ctx.ui->update_grid_metrics(_ctx.display->get_display_metrics());
 }
 
 // Check if the SDL event is go-back-to-previous event (override to

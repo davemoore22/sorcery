@@ -32,6 +32,25 @@ namespace Sorcery {
 struct Context;
 class Size;
 
+struct DisplayMetrics {
+
+		int window_w{};
+		int window_h{};
+
+		int drawable_w{};
+		int drawable_h{};
+
+		float framebuffer_scale_x{1.0f};
+		float framebuffer_scale_y{1.0f};
+
+		float scale_x{1.0f};
+		float scale_y{1.0f};
+		float scale{1.0f};
+
+		float offset_x{};
+		float offset_y{};
+};
+
 class Display {
 
 	public:
@@ -42,6 +61,9 @@ class Display {
 		auto get_GL_context() -> SDL_GLContext;
 		auto get_GLSL_version() const -> const char *;
 
+		auto update_display_metrics() noexcept -> void;
+		auto get_display_metrics() const noexcept -> const DisplayMetrics &;
+
 	private:
 		auto initialise_SDL() -> int;
 
@@ -50,6 +72,9 @@ class Display {
 		SDL_GLContext _GL_context;
 		std::string _GLSL_version;
 		SDL_WindowFlags _SDL_window_flags;
+		DisplayMetrics _metrics;
+		int _base_window_w;
+		int _base_window_h;
 };
 
 }

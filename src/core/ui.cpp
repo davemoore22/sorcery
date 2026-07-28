@@ -20,6 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+#include <algorithm>
 #include <ranges>
 #include <regex>
 #include <vector>
@@ -324,6 +325,18 @@ auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 		SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), 0);
 
 	_ctx.controller->set_fullscreen(value);
+}
+
+auto Sorcery::UI::update_grid_metrics(const DisplayMetrics &metrics) noexcept
+	-> void {
+
+	const auto content_w{static_cast<float>(base_width) * metrics.scale};
+
+	const auto content_h{static_cast<float>(base_height) * metrics.scale};
+
+	adj_grid_w = content_w / static_cast<float>(columns);
+
+	adj_grid_h = content_h / static_cast<float>(rows);
 }
 
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for

@@ -49,6 +49,7 @@ class Component;
 class ComponentStore;
 class Dialog;
 class Display;
+class DisplayMetrics;
 class FontStore;
 class Frame;
 class Game;
@@ -109,6 +110,8 @@ class UI {
 		auto in_popup() const -> bool;
 		auto close_all_popups() -> void;
 		auto active_popup_count() const -> int;
+		auto update_grid_metrics(const DisplayMetrics &metrics) noexcept
+			-> void;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;
@@ -155,8 +158,8 @@ class UI {
 		unsigned int ui_rd;
 		unsigned int columns;
 		unsigned int rows;
-		unsigned int adj_grid_w;
-		unsigned int adj_grid_h;
+		float adj_grid_w;
+		float adj_grid_h;
 		ImVec4 ui_colour;
 		std::map<std::string, int> selected;
 		std::map<std::string, int> highlighted;
@@ -165,6 +168,9 @@ class UI {
 		std::array<bool, 29> ps_selected;
 		std::uint32_t ticks;
 		bool first_frame;
+
+		static constexpr int base_width{1440};
+		static constexpr int base_height{840};
 
 	private:
 		// Private Members

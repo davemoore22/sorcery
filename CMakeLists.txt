@@ -117,8 +117,8 @@ target_compile_options(sorcery_imgui_toggle PRIVATE
 
 # Global Ifdefs
 add_library(sorcery_options INTERFACE)
-#target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
-#target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
+target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
+target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
 
 target_link_libraries(sorcery_options INTERFACE
 	cereal::cereal

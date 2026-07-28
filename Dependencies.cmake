@@ -45,7 +45,7 @@ FetchContent_MakeAvailable(cereal)
 # Magic Enum
 # ---------------------------------------------------------------------------
 
-MESSAGE("Grabbing Megic Enum from https://github.com/Neargye/magic_enum.git")
+MESSAGE("Grabbing Magic Enum from https://github.com/Neargye/magic_enum.git")
 
 FetchContent_Declare(
     magic_enum
@@ -148,25 +148,13 @@ target_include_directories(sorcery_imgui_sugar
 # ---------------------------------------------------------------------------
 # Imgui Toggle
 # ---------------------------------------------------------------------------
-
-# Patch not needed since Commit 2c178f5
-
 MESSAGE("Grabbing Imgui Toggle from https://github.com/cmdwtf/imgui_toggle.git")
-#MESSAGE("Applying patch to Imgui Toggle for Dear ImGui 1.92.8 compatibility")
 
 FetchContent_Declare(
     imgui_toggle
     GIT_REPOSITORY https://github.com/cmdwtf/imgui_toggle.git
-    #GIT_TAG        bfd17d7e73558b1fb1ecf70fd0a6481c1b05cc69
     GIT_TAG        2c178f5
     GIT_SHALLOW    FALSE
-
-#   PATCH_COMMAND
-#        "${CMAKE_COMMAND}"
-#        "-DSOURCE_DIR=<SOURCE_DIR>"
-#        "-DPATCH_FILE=${CMAKE_SOURCE_DIR}/imgui_toggle-imgui-1.92.8.patch"
-#        -P
-#        "${CMAKE_SOURCE_DIR}/ApplyPatch.cmake"
 )
 
 FetchContent_MakeAvailable(imgui_toggle)
