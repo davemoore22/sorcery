@@ -177,10 +177,11 @@ Sorcery::UI::UI(Context &ctx)
 	grid_sz = std::stoi(_ctx.get_config("Grid", "size"));
 	columns = std::stoi(_ctx.get_config("Grid", "columns"));
 	rows = std::stoi(_ctx.get_config("Grid", "rows"));
-	adj_grid_w = grid_sz;
-	adj_grid_h = grid_sz;
 	frame_rd = std::stoi(_ctx.get_config("Frame", "rounding"));
 	ui_rd = std::stoi(_ctx.get_config("UI", "rounding"));
+
+	_ctx.display->update_display_metrics();
+	update_grid_metrics(_ctx.display->get_display_metrics());
 
 	// Render window
 	_render = std::make_unique<Render>(_ctx);
