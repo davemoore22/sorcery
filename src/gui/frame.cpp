@@ -76,12 +76,12 @@ Sorcery::Frame::Frame(Context &ctx, std::string_view name, const ImVec2 pos,
 
 auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
-	const auto grid_sz{_ctx.ui->grid_sz};
 	const auto font_sz{_ctx.ui->font_sz};
 	const auto rounding{_ctx.ui->frame_rd};
-	const auto outer_id{"##layer_frame_" + _name};
 
-	const auto size{_ctx.ui->grid_delta(_size.w, _size.h)};
+	const auto size{_ctx.ui->grid_delta(static_cast<float>(_size.w),
+										static_cast<float>(_size.h))};
+
 	const auto x{std::invoke([&] {
 		if (_pos.x == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
@@ -90,6 +90,7 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 		return _ctx.ui->grid_pos(_pos.x, 0.0f).x;
 	})};
+
 	const auto y{std::invoke([&] {
 		if (_pos.y == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
@@ -105,38 +106,46 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		if (_bg_image) {
-
 			// Optionally draw background
 		}
 
-		// Draw a Frame using the Direct Helper function on the Current Window
-		_ctx.ui->draw_frame(
-			ImVec2{x, y},
-			ImVec2{x + (grid_sz * _size.w), y + (grid_sz * _size.h)},
-			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-			rounding);
+		_ctx.ui->draw_frame(ImVec2{x, y}, ImVec2{x + size.x, y + size.y},
+							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+							rounding);
 
 		if (_title) {
-
 			set_Font(_ctx.ui->fontstore
 						 ->get_current_font(Enums::Layout::Font::MONOSPACE)
 						 .value());
+
 			const auto title_txt{_ctx.get_string(_title.value())};
+
+			const auto one_cell{_ctx.ui->grid_delta(1.0f, 1.0f)};
+
+			const auto title_height{_ctx.ui->grid_delta(0.0f, 3.0f).y};
+
 			const auto title_sz{
 				Size{ImGui::CalcTextSize(title_txt.c_str()).x + (font_sz * 2),
-					 grid_sz * 3}};
-			const auto title_pos{
-				ImVec2{(x + ((grid_sz * _size.w) / 2)) - (title_sz.w / 2),
-					   y - grid_sz}};
+					 title_height}};
+
+			const auto title_pos{ImVec2{
+				x + (size.x / 2.0f) - (static_cast<float>(title_sz.w) / 2.0f),
+
+				y - one_cell.y}};
+
 			const auto text_pos{
-				ImVec2{title_pos.x + grid_sz, title_pos.y + grid_sz}};
+				ImVec2{title_pos.x + one_cell.x, title_pos.y + one_cell.y}};
+
 			_ctx.ui->draw_frame(
 				title_pos,
-				ImVec2{title_pos.x + title_sz.w, title_pos.y + title_sz.h},
+				ImVec2{title_pos.x + static_cast<float>(title_sz.w),
+
+					   title_pos.y + static_cast<float>(title_sz.h)},
 				ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
 					   _ctx.ui->ui_colour.z, _ctx.animation->fade},
 				rounding);
+
 			_ctx.ui->draw_text(title_txt,
 							   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
 							   text_pos, Enums::Layout::Font::MONOSPACE);
