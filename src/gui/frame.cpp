@@ -79,22 +79,24 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 	const auto grid_sz{_ctx.ui->grid_sz};
 	const auto font_sz{_ctx.ui->font_sz};
 	const auto rounding{_ctx.ui->frame_rd};
-
 	const auto outer_id{"##layer_frame_" + _name};
 
+	const auto size{_ctx.ui->grid_delta(_size.w, _size.h)};
 	const auto x{std::invoke([&] {
 		if (_pos.x == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
-			return (viewport->Size.x - grid_sz * _size.w) / 2;
-		} else
-			return _ctx.ui->adj_grid_w * _pos.x;
+			return (viewport->Size.x - size.x) / 2.0f;
+		}
+
+		return _ctx.ui->grid_pos(_pos.x, 0.0f).x;
 	})};
 	const auto y{std::invoke([&] {
 		if (_pos.y == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
-			return (viewport->Size.y - grid_sz * _size.h) / 2;
-		} else
-			return _ctx.ui->adj_grid_h * _pos.y;
+			return (viewport->Size.y - size.y) / 2.0f;
+		}
+
+		return _ctx.ui->grid_pos(0.0f, _pos.y).y;
 	})};
 
 	const auto layer{foreground ? WINDOW_LAYER_TEXTS : WINDOW_LAYER_FRAMES};

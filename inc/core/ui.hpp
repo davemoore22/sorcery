@@ -162,8 +162,6 @@ class UI {
 		unsigned int ui_rd;
 		unsigned int columns;
 		unsigned int rows;
-		float adj_grid_w;
-		float adj_grid_h;
 		ImVec4 ui_colour;
 		std::map<std::string, int> selected;
 		std::map<std::string, int> highlighted;
@@ -191,6 +189,8 @@ class UI {
 		std::map<Enums::Screen, std::function<void(const std::string &)>>
 			_draw_modules_with_string;
 		std::string _imgui_ini_path;
+		float _adj_grid_w;
+		float _adj_grid_h;
 
 		// Private Methods
 		auto _display_atlas() -> void;
