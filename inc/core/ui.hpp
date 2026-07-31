@@ -112,6 +112,10 @@ class UI {
 		auto active_popup_count() const -> int;
 		auto update_grid_metrics(const DisplayMetrics &metrics) noexcept
 			-> void;
+		auto grid_pos(const float x, const float y) const noexcept -> ImVec2;
+		auto grid_delta(const float x, const float y) const noexcept -> ImVec2;
+		auto grid_x(const float x) const noexcept -> float;
+		auto grid_y(const float y) const noexcept -> float;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;

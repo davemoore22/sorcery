@@ -312,6 +312,33 @@ Sorcery::UI::UI(Context &ctx)
 
 Sorcery::UI::~UI() {}
 
+auto Sorcery::UI::grid_pos(const float x, const float y) const noexcept
+	-> ImVec2 {
+
+	const auto &metrics{_ctx.display->get_display_metrics()};
+
+	return {metrics.offset_x + (x * adj_grid_w),
+			metrics.offset_y + (y * adj_grid_h)};
+}
+
+auto Sorcery::UI::grid_delta(const float x, const float y) const noexcept
+	-> ImVec2 {
+
+	return {x * adj_grid_w, y * adj_grid_h};
+}
+
+auto Sorcery::UI::grid_x(const float x) const noexcept -> float {
+
+	const auto &metrics{_ctx.display->get_display_metrics()};
+	return metrics.offset_x + (x * adj_grid_w);
+}
+
+auto Sorcery::UI::grid_y(const float y) const noexcept -> float {
+
+	const auto &metrics{_ctx.display->get_display_metrics()};
+	return metrics.offset_y + (y * adj_grid_h);
+}
+
 auto Sorcery::UI::set_monochrome(const bool value) -> void {
 
 	_render->set_monochrome(value);
@@ -332,11 +359,9 @@ auto Sorcery::UI::update_grid_metrics(const DisplayMetrics &metrics) noexcept
 	-> void {
 
 	const auto content_w{static_cast<float>(base_width) * metrics.scale};
-
 	const auto content_h{static_cast<float>(base_height) * metrics.scale};
 
 	adj_grid_w = content_w / static_cast<float>(columns);
-
 	adj_grid_h = content_h / static_cast<float>(rows);
 }
 
@@ -969,14 +994,14 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 					const auto viewport{ImGui::GetMainViewport()};
 					return (viewport->Size.x - 200) / 2;
 				} else
-					return static_cast<float>(adj_grid_w * component->x);
+					return grid_pos(component->x, component->y).x;
 			})};
 			const auto y{std::invoke([&] {
 				if (component->y == -1) {
 					const auto viewport{ImGui::GetMainViewport()};
 					return (viewport->Size.y - 200) / 2;
 				} else
-					return static_cast<float>(adj_grid_h * component->y);
+					return grid_pos(component->x, component->y).y;
 			})};
 
 			ImGui::SetCursorPos(ImVec2{x, y});
@@ -1007,14 +1032,14 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 				const auto viewport{ImGui::GetMainViewport()};
 				return (viewport->Size.x - resized.w) / 2;
 			} else
-				return static_cast<float>(adj_grid_w * component->x);
+				return grid_pos(component->x, component->y).x;
 		})};
 		const auto y{std::invoke([&] {
 			if (component->y == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				return (viewport->Size.y - resized.h) / 2;
 			} else
-				return static_cast<float>(adj_grid_h * component->y);
+				return grid_pos(component->x, component->y).y;
 		})};
 
 		// Draw the Image
@@ -1268,8 +1293,7 @@ auto Sorcery::UI::_draw_paragraph(Component *component) -> void {
 
 		set_Font(fontstore->get_current_font(component->font).value());
 		const auto wrap{component->get_float("width") * font_sz};
-		auto p_min{
-			ImVec2{component->x * adj_grid_w, component->y * adj_grid_h}};
+		auto p_min{grid_pos(component->x, component->y)};
 
 		ImGui::SetCursorPos(p_min);
 		with_TextWrapPos(p_min.x + wrap) {
@@ -1356,7 +1380,7 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 				CSTR(_ctx.get_string(component->string_key)))};
 			return (viewport->Size.x - width.x) / 2;
 		} else
-			return static_cast<float>(adj_grid_w * component->x);
+			return grid_pos(component->x, component->y).x;
 	})};
 	auto y{std::invoke([&] {
 		if (component->y == -1) {
@@ -1365,7 +1389,7 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 				CSTR(_ctx.get_string(component->string_key)))};
 			return (viewport->Size.y - height.y) / 2;
 		} else
-			return static_cast<float>(adj_grid_h * component->y);
+			return grid_pos(component->x, component->y).y;
 	})};
 
 	if (component->get("adjust_x"))
@@ -1402,7 +1426,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
-				return static_cast<float>(adj_grid_w * component->x);
+				return grid_pos(component->x, component->y).x;
 		})};
 		auto y{std::invoke([&] {
 			if (component->y == -1) {
@@ -1411,7 +1435,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
-				return static_cast<float>(adj_grid_h * component->y);
+				return grid_pos(component->x, component->y).y;
 		})};
 		if (component->get("adjust_x"))
 			x += component->get_float("adjust_x");
@@ -2445,7 +2469,7 @@ auto Sorcery::UI::_draw_text(Component *component, const std::string &string)
 				const auto width{ImGui::CalcTextSize(CSTR(string))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
-				return static_cast<float>(adj_grid_w * component->x);
+				return grid_pos(component->x, component->y).x;
 		})};
 		const auto y{std::invoke([&] {
 			if (component->y == -1) {
@@ -2453,7 +2477,7 @@ auto Sorcery::UI::_draw_text(Component *component, const std::string &string)
 				const auto height{ImGui::CalcTextSize(CSTR(string))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
-				return static_cast<float>(adj_grid_h * component->y);
+				return grid_pos(component->x, component->y).y;
 		})};
 
 		// Adjust Alpha of Text
@@ -2576,7 +2600,7 @@ auto Sorcery::UI::_draw_automap_legend(Component *component) -> void {
 	const auto icon_size{component->get_int("tile_size")};
 	const auto row_gap{component->get_int("row_gap")};
 
-	auto pos{ImVec2{component->x * adj_grid_w, component->y * adj_grid_h}};
+	auto pos{grid_pos(component->x, component->y)};
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -2621,7 +2645,7 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
-				return static_cast<float>(adj_grid_w * component->x);
+				return grid_pos(component->x, component->y).x;
 		})};
 		const auto y{std::invoke([&] {
 			if (component->y == -1) {
@@ -2630,7 +2654,7 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
-				return static_cast<float>(adj_grid_h * component->y);
+				return grid_pos(component->x, component->y).y;
 		})};
 
 		// Adjust Alpha of Text
