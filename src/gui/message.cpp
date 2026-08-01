@@ -62,17 +62,16 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 
 	_id = _component.name + "##outer";
 	const auto continue_lbl{_ctx.get_string("MESSAGE_CONTINUE")};
-	const auto grid_sz{_ctx.ui->grid_sz};
 	const auto rounding{_ctx.ui->frame_rd};
-	const auto width{grid_sz * _component.w};
-	const auto height{(6 + _strings.size()) * grid_sz};
+	const auto width{_ctx.ui->grid_sz() * _component.w};
+	const auto height{(6 + _strings.size()) * _ctx.ui->grid_sz()};
 
 	// Work out where to draw the image
 	const auto y{std::invoke([&] {
 		if (_component.y == -1) {
 			return 0.5f;
 		} else
-			return static_cast<float>(_ctx.ui->grid_sz * _component.y);
+			return static_cast<float>(_ctx.ui->grid_sz() * _component.y);
 	})};
 	const auto pivot_y{std::invoke([&] {
 		if (_component.y == -1) {
@@ -111,19 +110,19 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
-		auto y_pos{grid_sz * 2};
+		auto y_pos{_ctx.ui->grid_sz() * 2};
 		for (const auto &string : _strings) {
-			ImGui::SetCursorPos(ImVec2{grid_sz * 2, y_pos});
+			ImGui::SetCursorPos(ImVec2{_ctx.ui->grid_sz() * 2, y_pos});
 			auto str{_ctx.get_string(string)};
 			ImGui::Text(str.c_str());
-			y_pos += grid_sz;
+			y_pos += _ctx.ui->grid_sz();
 		}
 #pragma GCC diagnostic pop
 
 		ImVec2 btn_size{ImGui::GetFontSize() * 8.0f, 0.0f};
 		const auto centre{(width / 2)};
-		ImGui::SetCursorPos(
-			ImVec2{centre - (btn_size.x / 2), (3 + _strings.size()) * grid_sz});
+		ImGui::SetCursorPos(ImVec2{centre - (btn_size.x / 2),
+								   (3 + _strings.size()) * _ctx.ui->grid_sz()});
 		if (ImGui::Button(continue_lbl.c_str(), btn_size)) {
 			is_yes = true;
 			show = false;

@@ -116,6 +116,7 @@ class UI {
 		auto grid_delta(const float x, const float y) const noexcept -> ImVec2;
 		auto grid_x(const float x) const noexcept -> float;
 		auto grid_y(const float y) const noexcept -> float;
+		auto grid_sz() const noexcept -> unsigned int;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;
@@ -157,7 +158,6 @@ class UI {
 		std::unique_ptr<Modal> modal_elevator_bottom;
 		std::unique_ptr<VideoPlayer> vfx_player;
 		unsigned int font_sz;
-		unsigned int grid_sz;
 		unsigned int frame_rd;
 		unsigned int ui_rd;
 		unsigned int columns;
@@ -191,6 +191,7 @@ class UI {
 		std::string _imgui_ini_path;
 		float _adj_grid_w;
 		float _adj_grid_h;
+		unsigned int _grid_sz;
 
 		// Private Methods
 		auto _display_atlas() -> void;

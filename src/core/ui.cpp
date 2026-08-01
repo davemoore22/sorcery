@@ -174,12 +174,12 @@ Sorcery::UI::UI(Context &ctx)
 
 	// Window and Display Settings
 	font_sz = std::stoi(_ctx.get_config("Font", "size"));
-	grid_sz = std::stoi(_ctx.get_config("Grid", "size"));
 	columns = std::stoi(_ctx.get_config("Grid", "columns"));
 	rows = std::stoi(_ctx.get_config("Grid", "rows"));
 	frame_rd = std::stoi(_ctx.get_config("Frame", "rounding"));
 	ui_rd = std::stoi(_ctx.get_config("UI", "rounding"));
 
+	// Updates _adj_grid_w, _adj_grid_h, and _grid_sz
 	_ctx.display->update_display_metrics();
 	update_grid_metrics(_ctx.display->get_display_metrics());
 
@@ -339,6 +339,11 @@ auto Sorcery::UI::grid_y(const float y) const noexcept -> float {
 	return metrics.offset_y + (y * _adj_grid_h);
 }
 
+auto Sorcery::UI::grid_sz() const noexcept -> unsigned int {
+
+	return _grid_sz;
+}
+
 auto Sorcery::UI::set_monochrome(const bool value) -> void {
 
 	_render->set_monochrome(value);
@@ -363,6 +368,7 @@ auto Sorcery::UI::update_grid_metrics(const DisplayMetrics &metrics) noexcept
 
 	_adj_grid_w = content_w / static_cast<float>(columns);
 	_adj_grid_h = content_h / static_cast<float>(rows);
+	_grid_sz = std::min(_adj_grid_w, _adj_grid_h);
 }
 
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for
@@ -601,8 +607,6 @@ auto Sorcery::UI::start() -> void {
 								_ctx.get_config("Font", "monospace"));
 	fontstore->set_current_font(PROPORTIONAL,
 								_ctx.get_config("Font", "proportional"));
-
-	grid_sz = std::stoi(_ctx.get_config("Grid", "size"));
 
 	// Set the styles
 	ImGuiStyle &style = ImGui::GetStyle();
@@ -2303,7 +2307,7 @@ auto Sorcery::UI::_draw_current_character([[maybe_unused]] const int mode)
 		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 		ImGui::SetCursorPos(pos);
 		with_Child("character_tab_bar_child",
-				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
+				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
 			auto char_cmp{components->get("inspect:character_tab_data")};
 			set_Font(fontstore->get_current_font(cmp.font).value());
@@ -2729,7 +2733,7 @@ auto Sorcery::UI::_draw_item_info() -> void {
 		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 		ImGui::SetCursorPos(pos);
 		with_Child("museum_tab_bar_child",
-				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
+				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			with_TabBar("museum_tab_bar", tb_flags) {
@@ -2833,7 +2837,7 @@ auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
 
 		// To adjust for Window Resizing etc
 		const auto x{std::invoke([&] {
-			const auto width{grid_sz * component->get_float("grid_width")};
+			const auto width{grid_sz() * component->get_float("grid_width")};
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		})};
@@ -2841,7 +2845,7 @@ auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
 		const auto pos{ImVec2{x, grid_y(component->y)}};
 		ImGui::SetNextWindowPos(pos);
 		with_Child("license_child",
-				   ImVec2(grid_sz * component->w, grid_sz * component->h),
+				   ImVec2(grid_sz() * component->w, grid_sz() * component->h),
 				   ImGuiChildFlags_NavFlattened,
 				   ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
@@ -3064,7 +3068,7 @@ auto Sorcery::UI::_draw_options() -> void {
 
 		// To adjust for Window Resizing etc
 		const auto x{std::invoke([&] {
-			const auto width{grid_sz * component.get_float("grid_width")};
+			const auto width{grid_sz() * component.get_float("grid_width")};
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		})};
@@ -3075,8 +3079,8 @@ auto Sorcery::UI::_draw_options() -> void {
 		// Now draw tab bar
 		UIStyle::set_faded(_ctx);
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
-		const auto tabs_width{component.w * grid_sz};
-		const auto tabs_height{component.h * grid_sz};
+		const auto tabs_width{component.w * grid_sz()};
+		const auto tabs_height{component.h * grid_sz()};
 		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 		with_Child("options_tab_bar_child", ImVec2(tabs_width, tabs_height)) {
 			UIStyle::set_tab_black(_ctx);
@@ -3151,7 +3155,7 @@ auto Sorcery::UI::_draw_options() -> void {
 
 					// Font Selection dropdown
 					ImGui::Separator();
-					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + grid_sz);
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + grid_sz());
 					const auto item_height{
 						ImGui::GetTextLineHeightWithSpacing()};
 					const auto max_visible_items{10};
@@ -3203,8 +3207,8 @@ auto Sorcery::UI::_draw_options() -> void {
 			set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{col});
 			set_StyleColor(ImGuiCol_ButtonActive, (ImVec4)col);
 
-			ImGui::SetCursorPos(
-				ImVec2{centre - (btn_size.x + grid_sz), button_y * grid_sz});
+			ImGui::SetCursorPos(ImVec2{centre - (btn_size.x + grid_sz()),
+									   button_y * grid_sz()});
 			if (ImGui::Button(save_lbl.c_str(), btn_size)) {
 				_ctx.system->config->save();
 
@@ -3215,7 +3219,8 @@ auto Sorcery::UI::_draw_options() -> void {
 
 				//_ctx.controller->unset_flag("show_options");
 			}
-			ImGui::SetCursorPos(ImVec2{centre + grid_sz, button_y * grid_sz});
+			ImGui::SetCursorPos(
+				ImVec2{centre + grid_sz(), button_y * grid_sz()});
 			if (ImGui::Button(cancel_lbl.c_str(), btn_size)) {
 				_ctx.system->config->load();
 
@@ -3234,8 +3239,8 @@ auto Sorcery::UI::_draw_buffbar() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	auto y{grid_y(cmp.y)};
-	const auto width{cmp.w * grid_sz};
-	const auto height{cmp.h * grid_sz};
+	const auto width{cmp.w * grid_sz()};
+	const auto height{cmp.h * grid_sz()};
 
 	auto tint{_ctx.controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
@@ -3266,8 +3271,8 @@ auto Sorcery::UI::_draw_icons() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	auto y{grid_y(cmp.y)};
-	const auto width{cmp.w * grid_sz};
-	const auto height{cmp.h * grid_sz};
+	const auto width{cmp.w * grid_sz()};
+	const auto height{cmp.h * grid_sz()};
 
 	auto tint{_ctx.controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
@@ -3292,8 +3297,8 @@ auto Sorcery::UI::_draw_save() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	const auto y{grid_y(cmp.y)};
-	const auto width{cmp.w * grid_sz};
-	const auto height{cmp.h * grid_sz};
+	const auto width{cmp.w * grid_sz()};
+	const auto height{cmp.h * grid_sz()};
 
 	auto tint{_ctx.controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
@@ -3322,8 +3327,8 @@ auto Sorcery::UI::_draw_compass() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	const auto y{grid_y(cmp.y)};
-	const auto width{cmp.w * grid_sz};
-	const auto height{cmp.h * grid_sz};
+	const auto width{cmp.w * grid_sz()};
+	const auto height{cmp.h * grid_sz()};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -3361,8 +3366,8 @@ auto Sorcery::UI::_draw_party_panel() -> void {
 	auto cmp{components->get("global:party_panel")};
 	auto frame_cmp{components->get("engine_base_ui:party_frame")};
 
-	const auto width{cmp.w * grid_sz};
-	const auto height{cmp.h * grid_sz};
+	const auto width{cmp.w * grid_sz()};
+	const auto height{cmp.h * grid_sz()};
 	const auto x{std::invoke([&] {
 		if (cmp.x == -1) {
 			const auto viewport{ImGui::GetMainViewport()};
@@ -3385,7 +3390,7 @@ auto Sorcery::UI::_draw_party_panel() -> void {
 				auto position{1u};
 				for (const auto party{_ctx.game->state->get_party_characters()};
 					 auto char_id : party) {
-					auto p_y{0 + (position * grid_sz)};
+					auto p_y{0 + (position * grid_sz())};
 					auto character{_ctx.game->characters.at(char_id)};
 					auto colour{_get_status_color(&character)};
 					auto summary{character.get_party_panel_text(position)};
@@ -3456,7 +3461,8 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 	auto pos{grid_pos(cmp.x, cmp.y)};
 	ImGui::SetNextWindowPos(pos);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
-		with_Child("spell_child", ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
+		with_Child("spell_child",
+				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
 
 			auto spell{_ctx.resources->spells->get(
 				magic_enum::enum_cast<Enums::Magic::SpellID>(idx).value())};
@@ -3520,7 +3526,7 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 									mon.get_unknown_name())};
 		ImGui::SetCursorPos(pos);
 		with_Child("bestiary_tab_bar_child",
-				   ImVec2(grid_sz * cmp.w, grid_sz * cmp.h)) {
+				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
 			set_Font(fontstore->get_current_font(cmp.font).value());
 			ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
@@ -4017,7 +4023,7 @@ auto Sorcery::UI::_draw_loading_progress() -> void {
 
 	auto pb_c{components->get("splash:progress_bar")};
 
-	const auto width{pb_c.w * grid_sz};
+	const auto width{pb_c.w * grid_sz()};
 	const float progress{static_cast<float>(images->progress - 1) /
 						 static_cast<float>(images->capacity)};
 	const auto x{std::invoke([&] {

@@ -52,12 +52,13 @@ auto Sorcery::Popup::display() -> void {
 
 	_id = _component.name + "##outer";
 	const auto text{_ctx.get_string(_component.string_key)};
-	const auto grid_sz{_ctx.ui->grid_sz};
 	const auto rounding{_ctx.ui->frame_rd};
 
 	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value());
-	const auto width{ImGui::CalcTextSize(text.c_str()).x + (grid_sz * 4)};
-	const auto height{_component.h * grid_sz};
+	const auto width{ImGui::CalcTextSize(text.c_str()).x +
+					 (_ctx.ui->grid_sz() * 4)};
+	const auto height{_component.h * _ctx.ui->grid_sz() +
+					  (_ctx.ui->grid_sz() * 4)};
 
 	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
@@ -88,7 +89,8 @@ auto Sorcery::Popup::display() -> void {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
-		ImGui::SetCursorPos(ImVec2{grid_sz * 2, grid_sz * 2});
+		ImGui::SetCursorPos(
+			ImVec2{_ctx.ui->grid_sz() * 2, _ctx.ui->grid_sz() * 2});
 		ImGui::Text(text.c_str());
 #pragma GCC diagnostic pop
 	}

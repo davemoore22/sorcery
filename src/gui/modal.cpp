@@ -83,10 +83,9 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 
 	// DEBUG_LOGF("Displaying modal: {}", _id);
 
-	const auto grid_sz{_ctx.ui->grid_sz};
 	const auto rounding{_ctx.ui->frame_rd};
-	const auto width{(_width + 4) * grid_sz};
-	const auto height{_height * grid_sz};
+	const auto width{(_width + 4) * _ctx.ui->grid_sz()};
+	const auto height{_height * _ctx.ui->grid_sz()};
 
 	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
@@ -123,10 +122,10 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 		if (_has_title) {
 			const auto title{_ctx.get_string(_component.string_key)};
 			auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) *
-						  grid_sz};
+						  _ctx.ui->grid_sz()};
 			_ctx.ui->draw_text(_ctx.get_string(_component.string_key),
 							   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
-							   ImVec2{centre_x, grid_sz}, _font);
+							   ImVec2{centre_x, _ctx.ui->grid_sz()}, _font);
 		}
 
 		// Note that pos is in grid units whereas sz is in pixels!
