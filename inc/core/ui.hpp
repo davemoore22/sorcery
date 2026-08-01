@@ -119,6 +119,8 @@ class UI {
 		auto grid_sz() const noexcept -> unsigned int;
 		auto font_sz() const noexcept -> float;
 		auto base_font_sz() const noexcept -> float;
+		auto columns() const noexcept -> unsigned int;
+		auto rows() const noexcept -> unsigned int;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;
@@ -161,8 +163,6 @@ class UI {
 		std::unique_ptr<VideoPlayer> vfx_player;
 		unsigned int frame_rd;
 		unsigned int ui_rd;
-		unsigned int columns;
-		unsigned int rows;
 		ImVec4 ui_colour;
 		std::map<std::string, int> selected;
 		std::map<std::string, int> highlighted;
@@ -172,10 +172,7 @@ class UI {
 		std::uint32_t ticks;
 		bool first_frame;
 
-		static constexpr int base_width{1440};
-		static constexpr int base_height{840};
-
-	private:
+		private:
 		// Private Members
 		Context &_ctx;
 		ImGuiIO *_io;
@@ -194,7 +191,11 @@ class UI {
 		float _adj_grid_h;
 		unsigned int _grid_sz;
 		float _font_sz;
-		float _base_font_sz{24};
+		float _base_font_sz;
+		static constexpr unsigned int _columns{60};
+		static constexpr unsigned int _rows{35};
+		static constexpr unsigned int _base_width{1024};
+		static constexpr unsigned int _base_height{600};
 
 		// Private Methods
 		auto _display_atlas() -> void;

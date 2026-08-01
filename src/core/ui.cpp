@@ -173,14 +173,10 @@ Sorcery::UI::UI(Context &ctx)
 		_ctx, components->get("engine_base_ui:message_tile"));
 
 	// Window, Font, and Display Settings
-	_base_font_sz = std::stof(_ctx.get_config("Font", "size"));
-	_font_sz = _base_font_sz;
-	columns = std::stoi(_ctx.get_config("Grid", "columns"));
-	rows = std::stoi(_ctx.get_config("Grid", "rows"));
 	frame_rd = std::stoi(_ctx.get_config("Frame", "rounding"));
 	ui_rd = std::stoi(_ctx.get_config("UI", "rounding"));
 
-	// Updates _adj_grid_w, _adj_grid_h, and _grid_sz
+	// Updates _font_sz, _adj_grid_w, _adj_grid_h, and _grid_sz
 	_ctx.display->update_display_metrics();
 	update_grid_metrics(_ctx.display->get_display_metrics());
 
@@ -345,6 +341,16 @@ auto Sorcery::UI::grid_sz() const noexcept -> unsigned int {
 	return _grid_sz;
 }
 
+auto Sorcery::UI::columns() const noexcept -> unsigned int {
+
+	return _columns;
+}
+
+auto Sorcery::UI::rows() const noexcept -> unsigned int {
+
+	return _rows;
+}
+
 auto Sorcery::UI::set_monochrome(const bool value) -> void {
 
 	_render->set_monochrome(value);
@@ -364,12 +370,13 @@ auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 auto Sorcery::UI::update_grid_metrics(const DisplayMetrics &metrics) noexcept
 	-> void {
 
-	const auto content_w{static_cast<float>(base_width) * metrics.scale};
-	const auto content_h{static_cast<float>(base_height) * metrics.scale};
+	const auto content_w{static_cast<float>(_base_width) * metrics.scale};
+	const auto content_h{static_cast<float>(_base_height) * metrics.scale};
 
-	_adj_grid_w = content_w / static_cast<float>(columns);
-	_adj_grid_h = content_h / static_cast<float>(rows);
+	_adj_grid_w = content_w / static_cast<float>(_columns);
+	_adj_grid_h = content_h / static_cast<float>(_rows);
 	_grid_sz = std::min(_adj_grid_w, _adj_grid_h);
+	_base_font_sz = _base_width / static_cast<float>(_columns);
 	_font_sz = _base_font_sz * metrics.scale;
 }
 
@@ -1010,9 +1017,10 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 					return grid_pos(component->x, component->y).y;
 			})};
 
-			ImGui::SetCursorPos(ImVec2{x, y});
+			ImGui::SetCursorPos(grid_pos(x, y));
+			const auto scaling{_ctx.display->get_display_metrics().scale};
 			ImGui::GetWindowDrawList()->AddRectFilled(
-				ImVec2{x, y}, ImVec2(x + 200, y + 200),
+				grid_pos(x, y), grid_pos(x + 200 * scaling, y + 200 * scaling),
 				ImColor{ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade}});
 		}
 
@@ -1028,9 +1036,10 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 			images->load_image(source);
 
 		// Work out any scaling if needed
+		const auto scaling{_ctx.display->get_display_metrics().scale};
 		auto src_image{images->get(source)};
-		const auto resized{Size{(intptr_t)src_image.width * scale,
-								(intptr_t)src_image.height * scale}};
+		const auto resized{Size{(intptr_t)src_image.width * scale * scaling,
+								(intptr_t)src_image.height * scale * scaling}};
 
 		// Work out where to draw the image
 		const auto x{std::invoke([&] {
@@ -1179,19 +1188,21 @@ auto Sorcery::UI::_draw_ui_status() -> void {
 		const auto tint{_ctx.controller->get_monochrome()
 							? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
 							: ImVec4{1.0f, 0.0f, 1.0f, _ctx.animation->fade}};
-		auto pos{ImVec2{4, 4}};
-		auto size{ImVec2{32, 32}};
+
+		const auto scale{_ctx.display->get_display_metrics().scale};
+		auto pos{ImVec2{4 * scale, 4 * scale}};
+		auto size{ImVec2{32 * scale, 32 * scale}};
 
 		with_Window(WINDOW_LAYER_TEXTS, nullptr,
 					ImGuiWindowFlags_NoDecoration) {
 
 			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE,
 									music_icon, pos, size, tint);
-			pos.x += 32;
+			pos.x += 32 * scale;
 			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE,
 									sound_icon, pos, size, tint);
 
-			pos.x += 32;
+			pos.x += 32 * scale;
 			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, cga_icon,
 									pos, size, tint);
 		}
@@ -1220,7 +1231,8 @@ auto Sorcery::UI::_draw_cursor() -> void {
 		auto src_image{images->get(std::string{ICONS_TEXTURE})};
 		const auto icon_sz{src_image.width / ICONS_TILE_ROW_COUNT};
 		const auto texture_sz{ImVec2{src_image.width, src_image.height}};
-		const auto dest_sz{ImVec2{32, 32}};
+		const auto scale{_ctx.display->get_display_metrics().scale};
+		const auto dest_sz{ImVec2{32 * scale, 32 * scale}};
 		const auto cursor_idx{_ctx.controller->get_busy() ? ICON_HOURGLASS
 														  : ICON_CURSOR};
 		const auto cursor_col{_ctx.controller->get_busy()
@@ -2516,11 +2528,12 @@ auto Sorcery::UI::_draw_party_wipe() -> void {
 	constexpr auto max_cols{3};
 
 	const auto grave_idx{GRAVESTONE_GFX_ID};
-	const auto grave_w{grave_cmp.get_float("tile_width")};
-	const auto grave_h{grave_cmp.get_float("tile_height")};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto grave_w{grave_cmp.get_float("tile_width") * scale};
+	const auto grave_h{grave_cmp.get_float("tile_height") * scale};
 
-	const auto gap{grid_delta(grave_cmp.get_float("spacing_x"),
-							  grave_cmp.get_float("spacing_y"))};
+	const auto gap{grid_delta(grave_cmp.get_float("spacing_x") * scale,
+							  grave_cmp.get_float("spacing_y") * scale)};
 
 	std::vector<std::string> names;
 
@@ -2617,8 +2630,9 @@ auto Sorcery::UI::_draw_automap_legend(Component *component) -> void {
 		MapLegendItem{EXCLAMATION, "Message"},
 	};
 
-	const auto icon_size{component->get_int("tile_size")};
-	const auto row_gap{component->get_int("row_gap")};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto icon_size{component->get_int("tile_size") * scale};
+	const auto row_gap{component->get_int("row_gap") * scale};
 
 	auto pos{grid_pos(component->x, component->y)};
 
@@ -2737,9 +2751,10 @@ auto Sorcery::UI::_draw_item_info() -> void {
 	const auto item{_ctx.resources->items->get(idx + 1)};
 	auto item_c{components->get("museum:item_graphic")};
 	auto item_pos{grid_pos(item_c.x, item_c.y)};
-	_draw_fg_image_with_idx(
-		ITEMS_TEXTURE, idx, item_pos,
-		ImVec2{item_c.get_float("tile_width"), item_c.get_float("tile_width")});
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	_draw_fg_image_with_idx(ITEMS_TEXTURE, idx, item_pos,
+							ImVec2{item_c.get_float("tile_width") * scale,
+								   item_c.get_float("tile_width") * scale});
 
 	auto cmp{components->get("museum:item_data")};
 	auto pos{grid_pos(cmp.x, cmp.y)};
@@ -3260,7 +3275,8 @@ auto Sorcery::UI::_draw_buffbar() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	auto y{grid_y(cmp.y)};
-	const auto width{cmp.w * grid_sz()};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto width{cmp.w * grid_sz() * scale};
 	const auto height{cmp.h * grid_sz()};
 
 	auto tint{_ctx.controller->get_monochrome()
@@ -3292,8 +3308,9 @@ auto Sorcery::UI::_draw_icons() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	auto y{grid_y(cmp.y)};
-	const auto width{cmp.w * grid_sz()};
-	const auto height{cmp.h * grid_sz()};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto width{cmp.w * grid_sz() * scale};
+	const auto height{cmp.h * grid_sz() * scale};
 
 	auto tint{_ctx.controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
@@ -3318,8 +3335,9 @@ auto Sorcery::UI::_draw_save() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	const auto y{grid_y(cmp.y)};
-	const auto width{cmp.w * grid_sz()};
-	const auto height{cmp.h * grid_sz()};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto width{cmp.w * grid_sz() * scale};
+	const auto height{cmp.h * grid_sz() * scale};
 
 	auto tint{_ctx.controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
@@ -3348,8 +3366,9 @@ auto Sorcery::UI::_draw_compass() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	const auto y{grid_y(cmp.y)};
-	const auto width{cmp.w * grid_sz()};
-	const auto height{cmp.h * grid_sz()};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto width{cmp.w * grid_sz() * scale};
+	const auto height{cmp.h * grid_sz() * scale};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -3533,12 +3552,13 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 	auto u_mg_c{components->get("bestiary:unknown_monster_graphic")};
 	auto k_mg_pos{grid_pos(k_mg_c.x, k_mg_c.y)};
 	auto u_mg_pos{grid_pos(u_mg_c.x, u_mg_c.y)};
-	_draw_fg_image_with_idx(
-		KNOWN_CREATURES_TEXTURE, k_gfx, k_mg_pos,
-		ImVec2{k_mg_c.get_float("tile_width"), k_mg_c.get_float("tile_width")});
-	_draw_fg_image_with_idx(
-		UNKNOWN_CREATURES_TEXTURE, u_gfx, u_mg_pos,
-		ImVec2{u_mg_c.get_float("tile_width"), u_mg_c.get_float("tile_width")});
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	_draw_fg_image_with_idx(KNOWN_CREATURES_TEXTURE, k_gfx, k_mg_pos,
+							ImVec2{k_mg_c.get_float("tile_width") * scale,
+								   k_mg_c.get_float("tile_width") * scale});
+	_draw_fg_image_with_idx(UNKNOWN_CREATURES_TEXTURE, u_gfx, u_mg_pos,
+							ImVec2{u_mg_c.get_float("tile_width") * scale,
+								   u_mg_c.get_float("tile_width") * scale});
 
 	auto cmp{components->get("bestiary:monster_data")};
 	auto pos{grid_pos(cmp.x, cmp.y)};
@@ -3943,9 +3963,11 @@ auto Sorcery::UI::_draw_current_level_map() -> void {
 	constexpr auto tc{20};
 	const auto map_c{components->get("automap:map_graphic")};
 	const ImVec2 top_left_pos{grid_pos(map_c.x, map_c.y)};
-	const auto spacing{map_c.get_int("tile_spacing")};
-	const ImVec2 tile_sz{map_c.get_int("tile_size"),
-						 map_c.get_int("tile_size")};
+
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto spacing{map_c.get_int("tile_spacing") * scale};
+	const ImVec2 tile_sz{map_c.get_int("tile_size") * scale,
+						 map_c.get_int("tile_size") * scale};
 
 	// Remember to flip in Y-direction as (0,0) is at bottom left of map
 	const auto reverse_y{(tile_sz.x * tc) + ((tc - 1) * spacing) + 2};
@@ -4018,7 +4040,9 @@ auto Sorcery::UI::_draw_level_no_player() -> void {
 	const auto map_c{components->get("atlas:map_graphic")};
 	ImVec2 top_left_pos{grid_pos(map_c.x, map_c.y)};
 	const auto spacing{map_c.get_int("tile_spacing")};
-	ImVec2 tile_sz{map_c.get_int("tile_size"), map_c.get_int("tile_size")};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	ImVec2 tile_sz{map_c.get_int("tile_size") * scale,
+				   map_c.get_int("tile_size") * scale};
 
 	// Remember to flip in Y-direction as (0,0) is at bottom left of map
 	const auto reverse_y{(tile_sz.x * tc) + ((tc - 1) * spacing) + 2};
@@ -4103,21 +4127,23 @@ auto Sorcery::UI::_draw_attract_mode() -> void {
 	_attract_data = _ctx.animation->get_attract_data();
 
 	// Work out the size and this where to draw it- (as its centred)!
+	const auto scale{_ctx.display->get_display_metrics().scale};
 	auto am_size{_attract_data.size() *
-				 std::stoi(attract.get("tile_width").value())};
+				 std::stoi(attract.get("tile_width").value()) * scale};
 	am_size += (_attract_data.size() - 1) *
-			   std::stoi(attract.get("tile_spacing").value());
+			   std::stoi(attract.get("tile_spacing").value()) * scale;
 	const auto viewport{ImGui::GetMainViewport()};
 	auto tile_pos{ImVec2{(viewport->Size.x - am_size) / 2, grid_y(attract.y)}};
 
 	// And draw each tile (this will draw to the correct layer)
 	for (auto idx : _attract_data) {
 
-		_draw_fg_image_with_idx(KNOWN_CREATURES_TEXTURE, idx, tile_pos,
-								ImVec2{attract.get_float("tile_width"),
-									   attract.get_float("tile_width")});
-		tile_pos.x += (attract.get_float("tile_width") +
-					   attract.get_float("tile_spacing"));
+		_draw_fg_image_with_idx(
+			KNOWN_CREATURES_TEXTURE, idx, tile_pos,
+			ImVec2{attract.get_float("tile_width") * scale,
+				   attract.get_float("tile_width") * scale});
+		tile_pos.x += (attract.get_float("tile_width") * scale +
+					   attract.get_float("tile_spacing") * scale);
 	}
 }
 
