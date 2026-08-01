@@ -1921,7 +1921,7 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 		character->mage_cur_sp().at(6), character->mage_cur_sp().at(7))};
 	ImGui::TextUnformatted(std::format("Mage {}", mage).c_str());
 
-	pos = grid_pos(left_col, component->y);
+	pos = grid_pos(middle_col, component->y);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:<6} {:>10}", "Gold", character->get_gold()).c_str());

@@ -618,8 +618,8 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 
 	const auto player_pos{_ctx.game->state->get_player_pos()};
 	const auto player_facing{_ctx.game->state->get_player_facing()};
-	// const auto scale{std::stof((*component)["scale"].value())};
-	const auto scale{1.0f};
+	const auto &metrics{_ctx.display->get_display_metrics()};
+	const auto scale{metrics.scale};
 	const auto width{scale * _pane_size.x};
 	const auto height{scale * _pane_size.y};
 	const auto x{std::invoke([&] {
