@@ -54,7 +54,8 @@ auto Sorcery::Popup::display() -> void {
 	const auto text{_ctx.get_string(_component.string_key)};
 	const auto rounding{_ctx.ui->frame_rd};
 
-	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value());
+	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
+			 _ctx.ui->font_sz());
 	const auto width{ImGui::CalcTextSize(text.c_str()).x +
 					 (_ctx.ui->grid_sz() * 4)};
 	const auto height{_component.h * _ctx.ui->grid_sz() +
@@ -73,7 +74,8 @@ auto Sorcery::Popup::display() -> void {
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 	UIStyle::set_faded(_ctx);
 
-	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value());
+	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
+			 _ctx.ui->font_sz());
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 

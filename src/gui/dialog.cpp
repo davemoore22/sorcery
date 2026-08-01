@@ -57,7 +57,8 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 	const auto no_lbl{_ctx.get_string("DIALOG_NO")};
 	const auto ok_lbl{_ctx.get_string("DIALOG_OK")};
 	const auto rounding{_ctx.ui->frame_rd};
-	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value());
+	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
+			 _ctx.ui->font_sz());
 	const auto width{
 		ImGui::CalcTextSize(_ctx.get_string(_component.string_key).c_str()).x +
 		(_ctx.ui->grid_sz() * 4)};

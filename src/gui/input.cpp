@@ -99,7 +99,8 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 
 	set_Font(
 		_ctx.ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
-			.value());
+			.value(),
+		_ctx.ui->font_sz());
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
@@ -113,8 +114,8 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 
 		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
 		const auto sz{
-			ImVec2{static_cast<float>((_width + 2) * _ctx.ui->font_sz),
-				   static_cast<float>(_height * _ctx.ui->font_sz)}};
+			ImVec2{static_cast<float>((_width + 2) * _ctx.ui->font_sz()),
+				   static_cast<float>(_height * _ctx.ui->font_sz())}};
 
 		_ctx.ui->draw_frame(p_min, p_max,
 							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,

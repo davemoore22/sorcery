@@ -117,6 +117,8 @@ class UI {
 		auto grid_x(const float x) const noexcept -> float;
 		auto grid_y(const float y) const noexcept -> float;
 		auto grid_sz() const noexcept -> unsigned int;
+		auto font_sz() const noexcept -> float;
+		auto base_font_sz() const noexcept -> float;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;
@@ -157,7 +159,6 @@ class UI {
 		std::unique_ptr<Modal> modal_elevator_top;
 		std::unique_ptr<Modal> modal_elevator_bottom;
 		std::unique_ptr<VideoPlayer> vfx_player;
-		unsigned int font_sz;
 		unsigned int frame_rd;
 		unsigned int ui_rd;
 		unsigned int columns;
@@ -192,6 +193,8 @@ class UI {
 		float _adj_grid_w;
 		float _adj_grid_h;
 		unsigned int _grid_sz;
+		float _font_sz;
+		float _base_font_sz{24};
 
 		// Private Methods
 		auto _display_atlas() -> void;

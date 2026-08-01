@@ -172,8 +172,9 @@ Sorcery::UI::UI(Context &ctx)
 	message_tile = std::make_unique<Message>(
 		_ctx, components->get("engine_base_ui:message_tile"));
 
-	// Window and Display Settings
-	font_sz = std::stoi(_ctx.get_config("Font", "size"));
+	// Window, Font, and Display Settings
+	_base_font_sz = std::stof(_ctx.get_config("Font", "size"));
+	_font_sz = _base_font_sz;
 	columns = std::stoi(_ctx.get_config("Grid", "columns"));
 	rows = std::stoi(_ctx.get_config("Grid", "rows"));
 	frame_rd = std::stoi(_ctx.get_config("Frame", "rounding"));
@@ -369,6 +370,7 @@ auto Sorcery::UI::update_grid_metrics(const DisplayMetrics &metrics) noexcept
 	_adj_grid_w = content_w / static_cast<float>(columns);
 	_adj_grid_h = content_h / static_cast<float>(rows);
 	_grid_sz = std::min(_adj_grid_w, _adj_grid_h);
+	_font_sz = _base_font_sz * metrics.scale;
 }
 
 // Create a Modal on Demand (used whenever data items on it aren't fixed - for
@@ -1261,6 +1263,16 @@ auto Sorcery::UI::_draw_menu(Component *component) -> void {
 	_menus.emplace_back(std::move(menu));
 }
 
+auto Sorcery::UI::font_sz() const noexcept -> float {
+
+	return _font_sz;
+}
+
+auto Sorcery::UI::base_font_sz() const noexcept -> float {
+
+	return _base_font_sz;
+}
+
 auto Sorcery::UI::_draw_debug() -> void {
 
 	if (!_ctx.controller->get_flag("debug_ui"))
@@ -1269,7 +1281,7 @@ auto Sorcery::UI::_draw_debug() -> void {
 	with_Window(WINDOW_LAYER_MENUS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		set_Font(_io->FontDefault);
+		set_Font(_io->FontDefault, font_sz());
 		ImGui::SetCursorPos(ImVec2{8, 8});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		ImGui::TextUnformatted(_ctx.controller->get_flags().c_str());
@@ -1295,8 +1307,9 @@ auto Sorcery::UI::_draw_paragraph(Component *component) -> void {
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		set_Font(fontstore->get_current_font(component->font).value());
-		const auto wrap{component->get_float("width") * font_sz};
+		set_Font(fontstore->get_current_font(component->font).value(),
+				 font_sz());
+		const auto wrap{component->get_float("width") * font_sz()};
 		auto p_min{grid_pos(component->x, component->y)};
 
 		ImGui::SetCursorPos(p_min);
@@ -1316,7 +1329,7 @@ auto Sorcery::UI::draw_text_with_layer(const std::string string,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
 					ImGuiWindowFlags_NoBackground) {
 
-		set_Font(fontstore->get_current_font(font).value());
+		set_Font(fontstore->get_current_font(font).value(), font_sz());
 
 		const auto x{std::invoke([&] {
 			if (pos.x == -1) {
@@ -1345,7 +1358,7 @@ auto Sorcery::UI::draw_text(const std::string string, const ImColor colour,
 							const ImVec2 pos, const Enums::Layout::Font font)
 	-> void {
 
-	set_Font(fontstore->get_current_font(font).value());
+	set_Font(fontstore->get_current_font(font).value(), font_sz());
 
 	const auto x{std::invoke([&] {
 		if (pos.x == -1) {
@@ -1374,7 +1387,7 @@ auto Sorcery::UI::_draw_button_click(Component *component, bool &flag,
 
 	// Need to push font first before calculating size else it will
 	// assume monospace font size!
-	set_Font(fontstore->get_current_font(component->font).value());
+	set_Font(fontstore->get_current_font(component->font).value(), font_sz());
 	const auto name{component->name};
 	const auto col{get_hl_colour(_ctx.animation->lerp)};
 	auto x{std::invoke([&] {
@@ -1420,7 +1433,8 @@ auto Sorcery::UI::_draw_button(Component *component,
 
 		// Need to push font first before calculating size else it will
 		// assume monospace font size!
-		set_Font(fontstore->get_current_font(component->font).value());
+		set_Font(fontstore->get_current_font(component->font).value(),
+				 font_sz());
 		const auto name{component->name};
 		const auto col{get_hl_colour(_ctx.animation->lerp)};
 		auto x{std::invoke([&] {
@@ -2019,7 +2033,7 @@ auto Sorcery::UI::_draw_create_confirm([[maybe_unused]] const int mode)
 	auto cmp_char{components->get("create_confirm:character_data")};
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-		set_Font(fontstore->get_current_font(cmp_char.font).value());
+		set_Font(fontstore->get_current_font(cmp_char.font).value(), font_sz());
 		_draw_character_summary(&cmp_char, _ctx.controller->get_character());
 	}
 }
@@ -2310,7 +2324,7 @@ auto Sorcery::UI::_draw_current_character([[maybe_unused]] const int mode)
 				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
 			auto char_cmp{components->get("inspect:character_tab_data")};
-			set_Font(fontstore->get_current_font(cmp.font).value());
+			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
 			with_TabBar("character_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					_draw_character_summary(&char_cmp, &character);
@@ -2342,7 +2356,8 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 		auto pos{grid_pos(component->x, component->x)};
 		ImGui::SetCursorPos(pos);
 
-		set_Font(fontstore->get_current_font(component->font).value());
+		set_Font(fontstore->get_current_font(component->font).value(),
+				 font_sz());
 
 		const auto stepper_name{std::format("##{}", name)};
 		const auto stepper_minus{std::format("##{}_minus", name)};
@@ -2423,7 +2438,8 @@ auto Sorcery::UI::_draw_input(Component *component, std::string *input)
 		auto pos{grid_pos(component->x, component->y)};
 		ImGui::SetCursorPos(pos);
 
-		set_Font(fontstore->get_current_font(component->font).value());
+		set_Font(fontstore->get_current_font(component->font).value(),
+				 font_sz());
 
 		ImGuiInputTextFlags flags{ImGuiInputTextFlags_AutoSelectAll |
 								  ImGuiInputTextFlags_EnterReturnsTrue};
@@ -2462,7 +2478,8 @@ auto Sorcery::UI::_draw_text(Component *component, const std::string &string)
 
 		// Need to push font first before calculating size else it will
 		// assume monospace font size!
-		set_Font(fontstore->get_current_font(component->font).value());
+		set_Font(fontstore->get_current_font(component->font).value(),
+				 font_sz());
 
 		const auto x{std::invoke([&] {
 			if (component->x == -1) {
@@ -2559,7 +2576,8 @@ auto Sorcery::UI::_draw_party_wipe() -> void {
 
 			const auto &name{names.at(index)};
 
-			set_Font(fontstore->get_current_font(text_cmp.font).value());
+			set_Font(fontstore->get_current_font(text_cmp.font).value(),
+					 font_sz());
 
 			const auto text_size{ImGui::CalcTextSize(name.c_str())};
 
@@ -2606,7 +2624,8 @@ auto Sorcery::UI::_draw_automap_legend(Component *component) -> void {
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
-		set_Font(fontstore->get_current_font(component->font).value());
+		set_Font(fontstore->get_current_font(component->font).value(),
+				 font_sz());
 
 		auto cmp_level{components->get("automap:automap_level")};
 		_draw_text(&cmp_level, _ctx.game->state->level->name());
@@ -2639,7 +2658,8 @@ auto Sorcery::UI::_draw_text(Component *component) -> void {
 
 		// Need to push font first before calculating size else it will
 		// assume monospace font size!
-		set_Font(fontstore->get_current_font(component->font).value());
+		set_Font(fontstore->get_current_font(component->font).value(),
+				 font_sz());
 
 		const auto x{std::invoke([&] {
 			if (component->x == -1) {
@@ -2735,7 +2755,7 @@ auto Sorcery::UI::_draw_item_info() -> void {
 		with_Child("museum_tab_bar_child",
 				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
-			set_Font(fontstore->get_current_font(cmp.font).value());
+			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
 			with_TabBar("museum_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					{
@@ -2850,7 +2870,8 @@ auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
 				   ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
 			UIStyle::set_text_dim(_ctx);
-			set_Font(fontstore->get_current_font(component->font).value());
+			set_Font(fontstore->get_current_font(component->font).value(),
+					 font_sz());
 			with_TextWrapPos(ImGui::GetFontSize() * component->w) {
 				ImGui::TextUnformatted(string.c_str());
 			}
@@ -3062,7 +3083,7 @@ auto Sorcery::UI::_draw_options() -> void {
 
 	const auto save_lbl{_ctx.get_string("DIALOG_SAVE")};
 	const auto cancel_lbl{_ctx.get_string("DIALOG_CANCEL")};
-	set_Font(fontstore->get_current_font(component.font).value());
+	set_Font(fontstore->get_current_font(component.font).value(), font_sz());
 	const auto col{get_hl_colour(_ctx.animation->lerp)};
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -3169,7 +3190,7 @@ auto Sorcery::UI::_draw_options() -> void {
 							const bool is_selected{
 								font.name ==
 								fontstore->get_current_monospace_font_name()};
-							set_Font(font.font);
+							set_Font(font.font, font_sz());
 							auto selectable_name{
 								std::format("{}##{}", font.name, font_idx)};
 							if (ImGui::Selectable(selectable_name.c_str(),
@@ -3381,7 +3402,7 @@ auto Sorcery::UI::_draw_party_panel() -> void {
 		_draw_frame(&frame_cmp);
 		ImGui::SetCursorPos(ImVec2{x, y});
 		with_Child("party_panel_child", ImVec2(width, height)) {
-			set_Font(fontstore->get_current_font(cmp.font).value());
+			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
 			const auto hl_col{get_hl_colour(_ctx.animation->lerp)};
 			UIStyle::set_text_bright(_ctx);
 			ImGui::TextUnformatted(
@@ -3483,14 +3504,15 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 
 			{
 				UIStyle::set_text_bright(_ctx);
-				set_Font(fontstore->get_current_font(cmp.font).value());
+				set_Font(fontstore->get_current_font(cmp.font).value(),
+						 font_sz());
 				ImGui::TextUnformatted(spell_name.c_str());
 				ImGui::NewLine();
 				ImGui::TextUnformatted(summary.c_str());
 				ImGui::NewLine();
 			}
 
-			set_Font(fontstore->get_current_font(cmp.font).value());
+			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
 			UIStyle::set_text_dim(_ctx);
 
 #pragma GCC diagnostic push
@@ -3528,7 +3550,7 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 		with_Child("bestiary_tab_bar_child",
 				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
-			set_Font(fontstore->get_current_font(cmp.font).value());
+			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
 			ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 			with_TabBar("bestiary_tab_bar", tb_flags) {
 				with_TabItem("Info") {
@@ -4037,8 +4059,7 @@ auto Sorcery::UI::_draw_loading_progress() -> void {
 
 	with_Window(WINDOW_LAYER_IMAGES, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
-		// set_Font(fonts.at(Enums::Layout::Font::DEFAULT));
-		set_Font(fontstore->get_default_font());
+		set_Font(fontstore->get_default_font(), font_sz());
 		set_StyleColor(ImGuiCol_PlotHistogram,
 					   ImGui::GetColorU32(ImGuiCol_ButtonHovered));
 		ImGui::SetCursorPos(ImVec2{x, y});
@@ -4147,7 +4168,7 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 	set_StyleColor(ImGuiCol_HeaderHovered, (ImVec4)sel_color);
 	UIStyle::set_faded_with_disabled(_ctx);
 
-	set_Font(fontstore->get_current_font(font).value());
+	set_Font(fontstore->get_current_font(font).value(), font_sz());
 	ImGui::SetCursorPos(ImVec2{x, y});
 	const auto start_pos{ImVec2{x, y}};
 	auto cursor_pos{ImVec2{x, y}};

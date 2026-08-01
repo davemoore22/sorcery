@@ -96,7 +96,8 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 	set_StyleVar(ImGuiStyleVar_WindowRounding, rounding);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
-	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value());
+	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
+			 _ctx.ui->font_sz());
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
@@ -110,7 +111,7 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 
 		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
 		const auto sz{ImVec2{
-			static_cast<float>((_width + 2) * _ctx.ui->font_sz),
+			static_cast<float>((_width + 2) * _ctx.ui->font_sz()),
 			static_cast<float>(
 				(_items.size() * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
 

@@ -94,7 +94,8 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 	UIStyle::set_faded(_ctx);
 
-	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value());
+	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
+			 _ctx.ui->font_sz());
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 

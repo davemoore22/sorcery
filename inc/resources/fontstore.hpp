@@ -52,8 +52,7 @@ class FontStore {
 		FontStore(Context &ctx, ImGuiIO *io);
 		~FontStore();
 
-		auto scan_and_load(const std::string &directory,
-						   float font_size = 16.0f) -> void;
+		auto scan_and_load(const std::string &directory) -> void;
 		auto get_font_by_name(const std::string &name) const
 			-> std::optional<ImFont *>;
 		auto set_current_font(Enums::Layout::Font type, ImFont *font) -> void;
@@ -81,7 +80,7 @@ class FontStore {
 		auto _get_font_full_name(const std::vector<unsigned char> &buffer)
 			-> std::string;
 		auto _get_fonts() const -> const std::vector<FontInfo> &;
-		auto _load_font(const std::string &path, float size, bool is_monospace,
+		auto _load_font(const std::string &path, bool is_monospace,
 						Enums::Layout::Font font_type) -> void;
 		auto _sort_fonts_by_name(bool case_insensitive = true) -> void;
 };

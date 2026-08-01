@@ -35,12 +35,9 @@ Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO *io)
 
 	FT_Init_FreeType(&_ft);
 
-	// Get the Font Size from config
-	auto font_size{std::stof(_ctx.get_config("Font", "size"))};
-
-	// Now scan the data directory for TTF fonts
+	// San the data directory for TTF fonts
 	const std::filesystem::path file_path{DATA_DIR};
-	scan_and_load(file_path.string(), font_size);
+	scan_and_load(file_path.string());
 	_sort_fonts_by_name();
 }
 
@@ -69,8 +66,7 @@ auto Sorcery::FontStore::get_default_font() const -> ImFont * {
 	return _default_font;
 }
 
-auto Sorcery::FontStore::scan_and_load(const std::string &directory,
-									   float font_size) -> void {
+auto Sorcery::FontStore::scan_and_load(const std::string &directory) -> void {
 
 	fonts.clear();
 	current_fonts.clear();
@@ -98,7 +94,7 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory,
 			const auto font_path{entry.path().string()};
 			if (_is_valid_ttf(font_path)) {
 				auto mono{_is_monospace_ttf(font_path)};
-				_load_font(font_path, font_size, mono, font_type);
+				_load_font(font_path, mono, font_type);
 			} else {
 				std::cerr << "Invalid font skipped: " << font_path << "\n";
 			}
@@ -119,8 +115,7 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory,
 	_io->Fonts->Build();
 }
 
-auto Sorcery::FontStore::_load_font(const std::string &path, float size,
-									bool is_monospace,
+auto Sorcery::FontStore::_load_font(const std::string &path, bool is_monospace,
 									Enums::Layout::Font font_type) -> void {
 
 	std::ifstream file(path, std::ios::binary);
@@ -139,7 +134,9 @@ auto Sorcery::FontStore::_load_font(const std::string &path, float size,
 	config.OversampleV = 3;
 	config.PixelSnapH = false;
 
-	ImFont *font{_io->Fonts->AddFontFromFileTTF(path.c_str(), size, &config)};
+	// Make the font available to ImGui at different sizes by setting the size
+	// to 0.0f and using ImGui::SetFontScale() when rendering text.
+	ImFont *font{_io->Fonts->AddFontFromFileTTF(path.c_str(), 0.0f, &config)};
 	if (!font) {
 
 		std::cerr << "Failed to load font: " << path << "\n";

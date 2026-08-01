@@ -76,9 +76,7 @@ Sorcery::Frame::Frame(Context &ctx, std::string_view name, const ImVec2 pos,
 
 auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
-	const auto font_sz{_ctx.ui->font_sz};
 	const auto rounding{_ctx.ui->frame_rd};
-
 	const auto size{_ctx.ui->grid_delta(static_cast<float>(_size.w),
 										static_cast<float>(_size.h))};
 
@@ -117,23 +115,18 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 		if (_title) {
 			set_Font(_ctx.ui->fontstore
 						 ->get_current_font(Enums::Layout::Font::MONOSPACE)
-						 .value());
+						 .value(),
+					 _ctx.ui->font_sz());
 
 			const auto title_txt{_ctx.get_string(_title.value())};
-
 			const auto one_cell{_ctx.ui->grid_delta(1.0f, 1.0f)};
-
 			const auto title_height{_ctx.ui->grid_delta(0.0f, 3.0f).y};
-
-			const auto title_sz{
-				Size{ImGui::CalcTextSize(title_txt.c_str()).x + (font_sz * 2),
-					 title_height}};
-
+			const auto title_sz{Size{ImGui::CalcTextSize(title_txt.c_str()).x +
+										 (_ctx.ui->font_sz() * 2),
+									 title_height}};
 			const auto title_pos{ImVec2{
 				x + (size.x / 2.0f) - (static_cast<float>(title_sz.w) / 2.0f),
-
 				y - one_cell.y}};
-
 			const auto text_pos{
 				ImVec2{title_pos.x + one_cell.x, title_pos.y + one_cell.y}};
 
