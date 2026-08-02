@@ -347,6 +347,7 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 			   menu_name == "invoke_menu" || menu_name == "equip_menu" ||
 			   menu_name == "remove_item_menu") {
 
+		_load_character_items(menu_name, items, data);
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "bestiary_menu") {
 		_load_bestiary_menu(width, items);

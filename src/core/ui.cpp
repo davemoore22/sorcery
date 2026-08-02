@@ -4164,234 +4164,199 @@ auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 										static_cast<float>(rounding));
 }
 
+auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
+	-> std::vector<std::reference_wrapper<bool>> {
+
+	using Flags = std::vector<std::reference_wrapper<bool>>;
+
+	if (name == "tavern_menu")
+		return Flags{std::ref(modal_inspect->show),
+					 std::ref(notice_divvy->show)};
+
+	if (name == "inn_menu")
+		return Flags{std::ref(modal_inspect->show), std::ref(modal_stay->show)};
+
+	if (name == "temple_menu")
+		return Flags{std::ref(modal_inspect->show), std::ref(modal_help->show),
+					 std::ref(modal_tithe->show)};
+
+	if (name == "camp_menu")
+		return Flags{std::ref(modal_camp->show)};
+
+	if (name == "top_elevator_menu")
+		return Flags{std::ref(modal_elevator_top->show)};
+
+	if (name == "bottom_elevator_menu")
+		return Flags{std::ref(modal_elevator_bottom->show)};
+
+	if (name == "inspect_menu")
+		return Flags{std::ref(modal_inspect->show)};
+
+	if (name == "stay_menu")
+		return Flags{std::ref(modal_stay->show)};
+
+	if (name == "help_menu")
+		return Flags{std::ref(modal_help->show)};
+
+	if (name == "tithe_menu")
+		return Flags{std::ref(modal_tithe->show), std::ref(input_donate->show)};
+
+	if (name == "identify_menu")
+		return Flags{std::ref(modal_identify->show)};
+
+	if (name == "equip_menu")
+		return Flags{std::ref(modal_equip->show)};
+
+	if (name == "remove_item_menu")
+		return Flags{std::ref(modal_remove->show)};
+
+	if (name == "spell_menu")
+		return Flags{std::ref(modal_spell->show)};
+
+	if (name == "drop_menu")
+		return Flags{std::ref(modal_drop->show)};
+
+	if (name == "use_menu")
+		return Flags{std::ref(modal_use->show)};
+
+	if (name == "invoke_menu")
+		return Flags{std::ref(modal_invoke->show)};
+
+	if (name == "trade_menu")
+		return Flags{std::ref(modal_trade->show), std::ref(modal_give->show)};
+
+	if (name == "give_menu")
+		return Flags{std::ref(modal_give->show)};
+
+	return {};
+}
+
+auto Sorcery::UI::_handle_menu_reordering(const std::string_view name,
+										  std::vector<std::string> &items,
+										  std::vector<int> &data,
+										  const std::size_t index,
+										  const int data_item) -> void {
+
+	if (name != "reorder_menu" || data_item == -1)
+		return;
+
+	const auto source_index{static_cast<int>(index)};
+
+	with_DragDropSource(ImGuiDragDropFlags_None) {
+		ImGui::SetDragDropPayload("REORDER_CELL", &source_index,
+								  sizeof(source_index));
+	}
+
+	with_DragDropTarget {
+		const auto payload{ImGui::AcceptDragDropPayload("REORDER_CELL")};
+
+		if (payload == nullptr)
+			return;
+
+		const auto payload_index{*static_cast<const int *>(payload->Data)};
+
+		const auto from{static_cast<std::size_t>(payload_index)};
+
+		if (from >= items.size() || from >= data.size() || index >= data.size())
+			return;
+
+		std::swap(items[index], items[from]);
+		std::swap(data[index], data[from]);
+
+		_ctx.controller->clear_candidate_party();
+
+		for (const auto character_id : data)
+			_ctx.controller->add_to_candidate_party(character_id);
+
+		_ctx.controller->set_flag("party_order_changed");
+	}
+}
+
+auto Sorcery::UI::_activate_menu_item(const std::string_view name,
+									  const int selection, const int data_item,
+									  const std::vector<std::string> &items)
+	-> void {
+
+	auto ui_flags{_get_menu_ui_flags(name)};
+
+	if (_ctx.controller->handle_menu(name, selection, data_item, ui_flags))
+		return;
+
+	_ctx.controller->handle_legacy_menu(name, items, data_item, selection);
+}
+
 auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 							const ImVec2 pos, const ImVec2 sz,
 							const Enums::Layout::Font font,
 							std::vector<std::string> &items,
 							std::vector<int> &data, const bool reorder,
 							[[maybe_unused]] const bool across) -> void {
+
 	const std::string display_name{"##" + name};
 
-	// Note that pos is in grid units whereas sz is in pixels!
-	const auto x{std::invoke([&] {
-		if (pos.x == -1) {
-			const auto viewport{ImGui::GetMainViewport()};
-			return (viewport->Size.x - sz.x) / 2;
-		} else
-			return grid_x(pos.x);
-	})};
-	const auto y{std::invoke([&] {
-		if (pos.y == -1) {
-			const auto viewport{ImGui::GetMainViewport()};
-			return (viewport->Size.y - sz.y) / 2;
-		} else
-			return grid_y(pos.y);
-	})};
+	// pos is in grid units, whereas sz is in pixels.
+	const auto x{pos.x == -1.0f
+					 ? (ImGui::GetMainViewport()->Size.x - sz.x) / 2.0f
+					 : grid_x(pos.x)};
+
+	const auto y{pos.y == -1.0f
+					 ? (ImGui::GetMainViewport()->Size.y - sz.y) / 2.0f
+					 : grid_y(pos.y)};
 
 	set_StyleColor(ImGuiCol_FrameBg,
 				   ImVec4{0.0f, 0.0f, 0.0f, 1.0f - _ctx.animation->fade});
-	set_StyleColor(ImGuiCol_HeaderActive, (ImVec4)sel_color);
-	set_StyleColor(ImGuiCol_HeaderHovered, (ImVec4)sel_color);
+
+	set_StyleColor(ImGuiCol_HeaderActive, ImVec4{sel_color});
+	set_StyleColor(ImGuiCol_HeaderHovered, ImVec4{sel_color});
+
 	UIStyle::set_faded_with_disabled(_ctx);
 
 	set_Font(fontstore->get_current_font(font).value(), font_sz());
-	ImGui::SetCursorPos(ImVec2{x, y});
-	const auto start_pos{ImVec2{x, y}};
-	auto cursor_pos{ImVec2{x, y}};
+
+	const ImVec2 menu_pos{x, y};
+	ImGui::SetCursorPos(menu_pos);
 
 	with_ListBox(display_name.c_str(), sz) {
-		for (auto i = 0; i < static_cast<int>(items.size()); i++) {
+		for (std::size_t i{0}; i < items.size(); ++i) {
+			const auto index{static_cast<int>(i)};
+			const auto is_selected{selected[name] == index};
 
-			bool is_selected{selected[name] == i};
-			ImGuiSelectableFlags flags{
-				is_selected ? ImGuiSelectableFlags_Highlight : 0};
+			const auto flags{is_selected ? ImGuiSelectableFlags_Highlight
+										 : ImGuiSelectableFlags_None};
 
-// Special Handling for Disabled Menus here
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-			std::string output;
-			const auto data_item{data.size() > i ? data.at(i) : -1};
-#pragma GCC diagnostic pop
-			auto disabled{
-				_ctx.controller->is_menu_item_disabled(name, i, data_item)};
+			const auto data_item{i < data.size() ? data[i] : -1};
+
+			const auto disabled{
+				_ctx.controller->is_menu_item_disabled(name, index, data_item)};
+
 			if (disabled)
 				ImGui::BeginDisabled();
 
-			if (reorder) {
+			const auto activated{
+				ImGui::Selectable(items[i].c_str(), is_selected, flags)};
 
-				if (ImGui::Selectable(items[i].c_str(), is_selected, flags)) {
-
-					_ctx.controller->handle_menu(name, items, data_item, i);
+			if (activated) {
+				if (reorder) {
+					_ctx.controller->handle_legacy_menu(name, items, data_item,
+														index);
+				} else {
+					_activate_menu_item(name, index, data_item, items);
 				}
-
-				if (ImGui::IsItemHovered()) {
-					selected[name] = i;
-					highlighted[name] = i;
-				}
-
-				if (is_selected)
-					ImGui::SetItemDefaultFocus();
-
-				if (disabled)
-					ImGui::EndDisabled();
-
-				if (name == "reorder_menu") {
-
-					// Handle Drag-and-drop reordering via ImGUI
-					if (data_item != -1) {
-						with_DragDropSource(ImGuiDragDropFlags_None) {
-							ImGui::SetDragDropPayload("REORDER_CELL", &i,
-													  sizeof(int));
-						}
-						with_DragDropTarget {
-
-							if (const ImGuiPayload *payload =
-									ImGui::AcceptDragDropPayload(
-										"REORDER_CELL")) {
-								int payload_i = *(const int *)payload->Data;
-								std::swap(data.at(i), data.at(payload_i));
-								std::swap(items.at(i), items.at(payload_i));
-
-								_ctx.controller->clear_candidate_party();
-								for (auto char_id : data)
-									_ctx.controller->add_to_candidate_party(
-										char_id);
-								_ctx.controller->set_flag(
-									"party_order_changed");
-							}
-						}
-					}
-				}
-			} else {
-
-				if (ImGui::Selectable(items[i].c_str(), is_selected, flags)) {
-
-					auto ui_flags{_get_menu_ui_flags(name)};
-					if (_ctx.controller->handle_menu(name, i, data_item,
-													 ui_flags)) {
-
-					} else {
-
-						if (name == "tavern_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_inspect->show),
-								 std::ref(notice_divvy->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "inn_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_inspect->show),
-								 std::ref(modal_stay->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "temple_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_inspect->show),
-								 std::ref(modal_help->show),
-								 std::ref(modal_tithe->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "camp_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_camp->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "top_elevator_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_elevator_top->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "bottom_elevator_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_elevator_bottom->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "inspect_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_inspect->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "stay_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_stay->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "help_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_help->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "tithe_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_tithe->show),
-								 std::ref(input_donate->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "identify_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_identify->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "equip_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_equip->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "remove_item_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_remove->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "spell_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_spell->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "drop_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_drop->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "use_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_use->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "invoke_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_invoke->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "trade_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_trade->show),
-								 std::ref(modal_give->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else if (name == "give_menu") {
-							std::vector<std::reference_wrapper<bool>> out_flags{
-								{std::ref(modal_give->show)}};
-							_ctx.controller->handle_menu_with_flags(
-								name, items, data_item, i, out_flags);
-						} else
-
-							// Any other menus
-							_ctx.controller->handle_menu(name, items, data_item,
-														 i);
-					}
-				}
-
-				if (ImGui::IsItemHovered()) {
-					selected[name] = i;
-					highlighted[name] = i;
-				}
-
-				if (is_selected)
-					ImGui::SetItemDefaultFocus();
-
-				if (disabled)
-					ImGui::EndDisabled();
 			}
+
+			if (ImGui::IsItemHovered()) {
+				selected[name] = index;
+				highlighted[name] = index;
+			}
+
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			if (reorder && !disabled)
+				_handle_menu_reordering(name, items, data, i, data_item);
+
+			if (disabled)
+				ImGui::EndDisabled();
 		}
 	}
 }

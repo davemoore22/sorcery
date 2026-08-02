@@ -682,7 +682,7 @@ auto Sorcery::Controller::set_last_screen(const Enums::Screen value) -> void {
 // - note that we need to use this instead of the normal handle_menu method
 // for any menus that has an option for a confirm/notice from it
 auto Sorcery::Controller::handle_menu_with_flags(
-	const std::string &component,
+	std::string_view component,
 	[[maybe_unused]] const std::vector<std::string> &items,
 	[[maybe_unused]] const int data, const int selection,
 	std::vector<std::reference_wrapper<bool>> in_flags) -> void {
@@ -1275,10 +1275,9 @@ auto Sorcery::Controller::set_roster_mode(const int mode) -> void {
 }
 
 // Menu Handling
-auto Sorcery::Controller::handle_menu(const std::string &component,
-									  const std::vector<std::string> &items,
-									  const int data, const int selection)
-	-> void {
+auto Sorcery::Controller::handle_legacy_menu(
+	std::string_view component, const std::vector<std::string> &items,
+	const int data, const int selection) -> void {
 
 	DEBUG_LOGF("Menu: {} {} {}", component, data, selection);
 

@@ -79,13 +79,6 @@ class Controller {
 								 const int data) -> void;
 		auto handle_input_button_click(const std::string &component, UI *ui,
 									   std::string *data) -> void;
-		auto handle_menu(const std::string &component,
-						 const std::vector<std::string> &items, const int data,
-						 const int selection) -> void;
-		auto handle_menu_with_flags(
-			const std::string &component, const std::vector<std::string> &items,
-			const int data, const int selection,
-			std::vector<std::reference_wrapper<bool>> in_flags) -> void;
 		auto handle_stepper_button_click(const std::string &component, UI *ui,
 										 const bool positive, int *data)
 			-> void;
@@ -152,12 +145,20 @@ class Controller {
 		auto want_to_leave_game() -> bool &;
 		auto clear_modal_flags() -> void;
 
-		auto handle_menu(std::string_view menu, int selection, int data,
-						 std::vector<std::reference_wrapper<bool>> &ui_flags)
-			-> bool;
 		auto execute_action(const MenuAction &action, int data,
 							std::vector<std::reference_wrapper<bool>> &ui_flags)
 			-> void;
+
+		auto handle_legacy_menu(std::string_view component,
+								const std::vector<std::string> &items,
+								const int data, const int selection) -> void;
+		auto handle_menu(std::string_view menu, int selection, int data,
+						 std::vector<std::reference_wrapper<bool>> &ui_flags)
+			-> bool;
+		auto handle_menu_with_flags(
+			std::string_view, const std::vector<std::string> &items,
+			const int data, const int selection,
+			std::vector<std::reference_wrapper<bool>> in_flags) -> void;
 
 		// Public Members
 		bool go_back;

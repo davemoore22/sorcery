@@ -172,7 +172,7 @@ class UI {
 		std::uint32_t ticks;
 		bool first_frame;
 
-		private:
+	private:
 		// Private Members
 		Context &_ctx;
 		ImGuiIO *_io;
@@ -329,5 +329,16 @@ class UI {
 		auto _priest_spell_index(Enums::Magic::SpellID id) -> std::size_t;
 
 		auto _popup_states() const -> std::vector<bool *>;
+
+		auto _activate_menu_item(const std::string_view name,
+								 const int selection, const int data_item,
+								 const std::vector<std::string> &items) -> void;
+		auto _get_legacy_menu_ui_flags(const std::string_view name)
+			-> std::vector<std::reference_wrapper<bool>>;
+		auto _handle_menu_reordering(const std::string_view name,
+									 std::vector<std::string> &items,
+									 std::vector<int> &data,
+									 const std::size_t index,
+									 const int data_item) -> void;
 };
 };
