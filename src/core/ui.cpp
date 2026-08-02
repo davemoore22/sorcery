@@ -4279,10 +4279,15 @@ auto Sorcery::UI::_activate_menu_item(const std::string_view name,
 
 	auto ui_flags{_get_menu_ui_flags(name)};
 
-	if (_ctx.controller->handle_menu(name, selection, data_item, ui_flags))
+	if (_ctx.controller->handle_action_table_menu(name, selection, data_item,
+												  ui_flags))
 		return;
 
-	_ctx.controller->handle_legacy_menu(name, items, data_item, selection);
+	if (_ctx.controller->handle_dynamic_menu(name, items, data_item, selection,
+											 ui_flags))
+		return;
+
+	_ctx.controller->handle_standard_menu(name, items, data_item, selection);
 }
 
 auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
@@ -4337,8 +4342,8 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 
 			if (activated) {
 				if (reorder) {
-					_ctx.controller->handle_legacy_menu(name, items, data_item,
-														index);
+					_ctx.controller->handle_standard_menu(name, items,
+														  data_item, index);
 				} else {
 					_activate_menu_item(name, index, data_item, items);
 				}

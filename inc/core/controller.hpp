@@ -149,16 +149,16 @@ class Controller {
 							std::vector<std::reference_wrapper<bool>> &ui_flags)
 			-> void;
 
-		auto handle_legacy_menu(std::string_view component,
-								const std::vector<std::string> &items,
-								const int data, const int selection) -> void;
-		auto handle_menu(std::string_view menu, int selection, int data,
-						 std::vector<std::reference_wrapper<bool>> &ui_flags)
-			-> bool;
-		auto handle_menu_with_flags(
+		auto handle_standard_menu(std::string_view component,
+								  const std::vector<std::string> &items,
+								  const int data, const int selection) -> void;
+		auto handle_action_table_menu(
+			std::string_view menu, int selection, int data,
+			std::vector<std::reference_wrapper<bool>> &ui_flags) -> bool;
+		auto handle_dynamic_menu(
 			std::string_view, const std::vector<std::string> &items,
 			const int data, const int selection,
-			std::vector<std::reference_wrapper<bool>> in_flags) -> void;
+			std::vector<std::reference_wrapper<bool>> in_flags) -> bool;
 
 		// Public Members
 		bool go_back;

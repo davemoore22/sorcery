@@ -33,6 +33,7 @@ struct MenuAction {
 		enum class Type {
 			NONE,
 			GOTOSCREEN,
+			GO_BACK,
 			SETFLAG,
 			CLEARFLAG,
 			SETCHARACTER,

@@ -681,11 +681,11 @@ auto Sorcery::Controller::set_last_screen(const Enums::Screen value) -> void {
 // Menu Setting but with Flags (used with a temporary vector of references)
 // - note that we need to use this instead of the normal handle_menu method
 // for any menus that has an option for a confirm/notice from it
-auto Sorcery::Controller::handle_menu_with_flags(
+auto Sorcery::Controller::handle_dynamic_menu(
 	std::string_view component,
 	[[maybe_unused]] const std::vector<std::string> &items,
 	[[maybe_unused]] const int data, const int selection,
-	std::vector<std::reference_wrapper<bool>> in_flags) -> void {
+	std::vector<std::reference_wrapper<bool>> in_flags) -> bool {
 
 	DEBUG_LOGF("Menu with Flags: {} {} {}", component, data, selection);
 
@@ -815,6 +815,8 @@ auto Sorcery::Controller::handle_menu_with_flags(
 		} else {
 		}
 	}
+
+	return true;
 }
 
 auto Sorcery::Controller::get_flag_ref(const std::string &flag) -> bool & {
@@ -1275,7 +1277,7 @@ auto Sorcery::Controller::set_roster_mode(const int mode) -> void {
 }
 
 // Menu Handling
-auto Sorcery::Controller::handle_legacy_menu(
+auto Sorcery::Controller::handle_standard_menu(
 	std::string_view component, const std::vector<std::string> &items,
 	const int data, const int selection) -> void {
 
@@ -1517,7 +1519,7 @@ auto Sorcery::Controller::is_at() const -> Enums::Screen {
 	return _screen;
 }
 
-auto Sorcery::Controller::handle_menu(
+auto Sorcery::Controller::handle_action_table_menu(
 	std::string_view menu, int selection, int data,
 	std::vector<std::reference_wrapper<bool>> &ui_flags) -> bool {
 
@@ -1575,6 +1577,9 @@ auto Sorcery::Controller::execute_action(
 
 	case MenuAction::Type::CLEARCHARACTER:
 		clear_character(action.character_key);
+		break;
+	case MenuAction::Type::GO_BACK:
+		go_back = true;
 		break;
 
 	default:
