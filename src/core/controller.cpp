@@ -819,6 +819,12 @@ auto Sorcery::Controller::handle_dynamic_menu(
 	return true;
 }
 
+auto Sorcery::Controller::inspect_party_member(const int character_id) -> void {
+
+	set_character("inspect", character_id);
+	go_to(Enums::Screen::INSPECT);
+}
+
 auto Sorcery::Controller::get_flag_ref(const std::string &flag) -> bool & {
 
 	if (!_flags.contains(flag))

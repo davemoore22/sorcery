@@ -3406,39 +3406,95 @@ auto Sorcery::UI::_draw_party_panel() -> void {
 	auto cmp{components->get("global:party_panel")};
 	auto frame_cmp{components->get("engine_base_ui:party_frame")};
 
-	const auto width{cmp.w * grid_sz()};
-	const auto height{cmp.h * grid_sz()};
-	const auto x{std::invoke([&] {
-		if (cmp.x == -1) {
-			const auto viewport{ImGui::GetMainViewport()};
-			return (viewport->Size.x - width) / 2;
-		} else
-			return grid_x(cmp.x);
-	})};
+	const auto width{static_cast<float>(cmp.w * grid_sz())};
+	const auto height{static_cast<float>(cmp.h * grid_sz())};
+
+	const auto x{cmp.x == -1 ? (ImGui::GetMainViewport()->Size.x - width) / 2.0f
+							 : grid_x(cmp.x)};
+
 	const auto y{grid_y(cmp.y)};
-	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
+	const ImVec2 panel_pos{x, y};
+	const ImVec2 panel_size{width, height};
+
+	// The frame itself is passive.
+	with_Window(WINDOW_LAYER_TEXTS, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		_draw_frame(&frame_cmp);
-		ImGui::SetCursorPos(ImVec2{x, y});
-		with_Child("party_panel_child", ImVec2(width, height)) {
-			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
-			const auto hl_col{get_hl_colour(_ctx.animation->lerp)};
+	}
+
+	// Interactive panel content must be on the menu/input layer.
+	with_Window(WINDOW_LAYER_MENUS, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
+
+		ImGui::SetCursorPos(panel_pos);
+
+		with_Child("party_panel_child", panel_size, ImGuiChildFlags_None,
+				   ImGuiWindowFlags_NoScrollbar |
+					   ImGuiWindowFlags_NoScrollWithMouse) {
+
+			const auto font{fontstore->get_current_font(cmp.font).value()};
+
+			set_Font(font, font_sz());
+
 			UIStyle::set_text_bright(_ctx);
+
 			ImGui::TextUnformatted(
 				_ctx.get_string("PARTY_PANEL_LEGEND").c_str());
-			if (_ctx.game->state->get_party_size() > 0) {
-				auto position{1u};
-				for (const auto party{_ctx.game->state->get_party_characters()};
-					 auto char_id : party) {
-					auto p_y{0 + (position * grid_sz())};
-					auto character{_ctx.game->characters.at(char_id)};
-					auto colour{_get_status_color(&character)};
-					auto summary{character.get_party_panel_text(position)};
-					set_StyleColor(ImGuiCol_Text, colour);
-					ImGui::SetCursorPos(ImVec2{0, p_y});
-					ImGui::TextUnformatted(summary.c_str());
-					++position;
-				}
+
+			if (!_ctx.game->state->party_has_members())
+				return;
+
+			const auto row_height{static_cast<float>(grid_sz())};
+			const auto highlight_colour{
+				ImVec4{get_hl_colour(_ctx.animation->lerp)}};
+
+			set_StyleColor(ImGuiCol_HeaderHovered, highlight_colour);
+
+			set_StyleColor(ImGuiCol_HeaderActive, highlight_colour);
+
+			auto position{1u};
+
+			for (const auto party{_ctx.game->state->get_party_characters()};
+				 const auto character_id : party) {
+
+				auto &character{_ctx.game->characters.at(character_id)};
+
+				const auto summary{character.get_party_panel_text(position)};
+
+				const auto text_colour{_get_status_color(&character)};
+
+				// Preserve the original fixed row positions.
+				ImGui::SetCursorPosY(static_cast<float>(position) * row_height);
+
+				const auto row_screen_pos{ImGui::GetCursorScreenPos()};
+
+				ImGui::PushID(character_id);
+
+				const auto activated{
+					ImGui::Selectable("##party_member", false,
+									  ImGuiSelectableFlags_SpanAvailWidth,
+									  ImVec2{0.0f, row_height})};
+
+				ImGui::PopID();
+
+				// Draw after the Selectable so the text appears above its
+				// hover background.
+				const auto text_size{ImGui::CalcTextSize(summary.c_str())};
+
+				const ImVec2 text_pos{row_screen_pos.x,
+									  row_screen_pos.y +
+										  ((row_height - text_size.y) / 2.0f)};
+
+				ImGui::GetWindowDrawList()->AddText(
+					font, font_sz(), text_pos,
+					ImGui::ColorConvertFloat4ToU32(ImVec4{text_colour}),
+					summary.c_str());
+
+				if (activated)
+					_ctx.controller->inspect_party_member(character_id);
+
+				++position;
 			}
 		}
 	}

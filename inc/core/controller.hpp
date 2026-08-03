@@ -160,6 +160,8 @@ class Controller {
 			const int data, const int selection,
 			std::vector<std::reference_wrapper<bool>> in_flags) -> bool;
 
+		auto inspect_party_member(const int character_id) -> void;
+
 		// Public Members
 		bool go_back;
 
