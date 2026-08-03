@@ -3303,27 +3303,59 @@ auto Sorcery::UI::_draw_icons() -> void {
 	auto cmp{components->get("engine_base_ui:icons")};
 	auto frame_cmp{components->get("engine_base_ui:icons_frame")};
 
-	const auto icons = {ICON_CAMP, ICON_PARTY, ICON_MAP,
-						ICON_LOOK, ICON_CAST,  ICON_USE};
+	constexpr std::array icons{
+		ICON_CAMP, ICON_PARTY, ICON_MAP, ICON_LOOK, ICON_CAST, ICON_USE,
+	};
 
 	const auto x{grid_x(cmp.x)};
-	auto y{grid_y(cmp.y)};
+	const auto start_y{grid_y(cmp.y)};
+
 	const auto scale{_ctx.display->get_display_metrics().scale};
-	const auto width{cmp.w * grid_sz() * scale};
-	const auto height{cmp.h * grid_sz() * scale};
+	const auto width{static_cast<float>(cmp.w * grid_sz()) * scale};
+	const auto height{static_cast<float>(cmp.h * grid_sz()) * scale};
 
-	auto tint{_ctx.controller->get_monochrome()
-				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-				  : ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
+	const ImVec2 icon_size{width, height};
 
-	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
+	const auto normal_tint{
+		_ctx.controller->get_monochrome()
+			? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+			: ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
+
+	const auto hovered_tint{ImVec4{get_hl_colour(_ctx.animation->lerp)}};
+
+	// Passive frame.
+	with_Window(WINDOW_LAYER_TEXTS, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+
 		_draw_frame(&frame_cmp);
+	}
+
+	// Interactive icons.
+	with_Window(WINDOW_LAYER_MENUS, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
+
+		auto y{start_y};
 
 		for (const auto icon_idx : icons) {
-			ImGui::SetCursorPos(ImVec2{x, y});
-			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, icon_idx,
-									ImVec2{x, y}, ImVec2{width, height}, tint);
-			y += (height + 3);
+			const ImVec2 icon_pos{x, y};
+
+			ImGui::SetCursorPos(icon_pos);
+			ImGui::PushID(icon_idx);
+
+			const auto activated{ImGui::InvisibleButton("##icon", icon_size)};
+
+			const auto hovered{ImGui::IsItemHovered()};
+			const auto tint{hovered ? hovered_tint : normal_tint};
+
+			_draw_fg_image_with_idx(WINDOW_LAYER_MENUS, ICONS_TEXTURE, icon_idx,
+									icon_pos, icon_size, tint);
+
+			if (activated)
+				_ctx.controller->handle_icon_click(icon_idx);
+
+			ImGui::PopID();
+
+			y += height + 3.0f;
 		}
 	}
 }
@@ -3335,23 +3367,44 @@ auto Sorcery::UI::_draw_save() -> void {
 
 	const auto x{grid_x(cmp.x)};
 	const auto y{grid_y(cmp.y)};
-	const auto scale{_ctx.display->get_display_metrics().scale};
-	const auto width{cmp.w * grid_sz() * scale};
-	const auto height{cmp.h * grid_sz() * scale};
 
-	auto tint{_ctx.controller->get_monochrome()
-				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-				  : ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
+	const auto width{static_cast<float>(cmp.w * grid_sz())};
+	const auto height{static_cast<float>(cmp.h * grid_sz())};
 
-	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
+	const ImVec2 save_pos{x, y};
+	const ImVec2 save_size{width, height};
+
+	const auto normal_tint{
+		_ctx.controller->get_monochrome()
+			? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+			: ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
+
+	const auto hovered_tint{ImVec4{get_hl_colour(_ctx.animation->lerp)}};
+
+	// Passive frame.
+	with_Window(WINDOW_LAYER_TEXTS, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		_draw_frame(&frame_cmp);
-		ImGui::SetCursorPos(ImVec2{x, y});
-		with_Child("save_child", ImVec2(width, height)) {
-			_draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE,
-									ICON_SAVE_AND_QUIT, ImVec2{x, y},
-									ImVec2{width, height}, tint);
-		}
+	}
+
+	// Interactive save icon.
+	with_Window(WINDOW_LAYER_MENUS, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
+
+		ImGui::SetCursorPos(save_pos);
+
+		const auto activated{
+			ImGui::InvisibleButton("##save_and_quit", save_size)};
+
+		const auto hovered{ImGui::IsItemHovered()};
+		const auto tint{hovered ? hovered_tint : normal_tint};
+
+		_draw_fg_image_with_idx(WINDOW_LAYER_MENUS, ICONS_TEXTURE,
+								ICON_SAVE_AND_QUIT, save_pos, save_size, tint);
+
+		if (activated)
+			_ctx.game->save_game();
 	}
 }
 

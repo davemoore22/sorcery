@@ -161,6 +161,7 @@ class Controller {
 			std::vector<std::reference_wrapper<bool>> in_flags) -> bool;
 
 		auto inspect_party_member(const int character_id) -> void;
+		auto handle_icon_click(const int icon_idx) -> void;
 
 		// Public Members
 		bool go_back;

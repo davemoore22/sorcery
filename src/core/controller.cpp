@@ -819,6 +819,38 @@ auto Sorcery::Controller::handle_dynamic_menu(
 	return true;
 }
 
+auto Sorcery::Controller::handle_icon_click(const int icon_idx) -> void {
+
+	switch (icon_idx) {
+	case ICON_CAMP:
+		_ctx.ui->modal_camp->show = true;
+		break;
+
+	case ICON_PARTY:
+		go_to(Enums::Screen::ROSTER);
+		break;
+
+	case ICON_MAP:
+		set_flag("want_automap");
+		break;
+
+	case ICON_LOOK:
+		set_flag("want_look");
+		break;
+
+	case ICON_CAST:
+		set_flag("want_spell");
+		break;
+
+	case ICON_USE:
+		set_flag("want_use");
+		break;
+
+	default:
+		break;
+	}
+}
+
 auto Sorcery::Controller::inspect_party_member(const int character_id) -> void {
 
 	set_character("inspect", character_id);
