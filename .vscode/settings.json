@@ -91,7 +91,7 @@
 		"args": [
 			"--mute",
 			"--quickstart",
-			"--start-engine",
+			"--Dstart-engine",
 			"--Dgo-to"
 		]
 	},

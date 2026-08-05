@@ -1870,7 +1870,7 @@
 					"x": "centre",
 					"y": "10",
 					"w": "29",
-					"h": "9",
+					"h": "8",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
@@ -1883,7 +1883,7 @@
 					"x": "centre",
 					"y": "11",
 					"w": "27",
-					"h": "6",
+					"h": "5",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -1959,7 +1959,7 @@
 					"x": "centre",
 					"y": "10",
 					"w": "23",
-					"h": "6",
+					"h": "5",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
@@ -1972,7 +1972,7 @@
 					"x": "centre",
 					"y": "11",
 					"w": "21",
-					"h": "6",
+					"h": "5",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -1983,7 +1983,7 @@
 					"data": [
 						{
 							"width": "21",
-							"height": "6",
+							"height": "5",
 							"menu_name": "inn_menu",
 							"highlight": "0x6060c8"
 						}
@@ -2629,7 +2629,7 @@
 					"x": "centre",
 					"y": "10",
 					"w": "33",
-					"h": "7",
+					"h": "6",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
@@ -2642,7 +2642,7 @@
 					"x": "centre",
 					"y": "11",
 					"w": "31",
-					"h": "6",
+					"h": "5",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -2653,7 +2653,7 @@
 					"data": [
 						{
 							"width": "31",
-							"height": "6",
+							"height": "5",
 							"menu_name": "temple_menu",
 							"highlight": "0x6060c8"
 						}
@@ -3980,7 +3980,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "12",
-					"w": "23",
+					"w": "29",
 					"h": "10",
 					"string": "",
 					"drawmode": "automatic",
@@ -3993,7 +3993,7 @@
 					"name": "restart_menu",
 					"x": "centre",
 					"y": "13",
-					"w": "21",
+					"w": "26",
 					"h": "7",
 					"font": "monospace",
 					"type": "menu",
@@ -4004,7 +4004,7 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "21",
+							"width": "26",
 							"height": "7",
 							"menu_name": "restart_menu",
 							"highlight": "0x6060c8"
@@ -4321,8 +4321,8 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "10",
-					"w": "28",
-					"h": "11",
+					"w": "32",
+					"h": "13",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
@@ -4347,7 +4347,7 @@
 					"name": "remove_character_menu",
 					"x": "centre",
 					"y": "13",
-					"w": "26",
+					"w": "30",
 					"h": "7",
 					"font": "monospace",
 					"type": "menu",
@@ -4358,7 +4358,7 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "26",
+							"width": "30",
 							"height": "7",
 							"menu_name": "remove_character_menu",
 							"highlight": "0x6060c8"
@@ -4409,7 +4409,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "6",
-					"w": "28",
+					"w": "32",
 					"h": "24",
 					"string": "",
 					"drawmode": "automatic",
@@ -4435,7 +4435,7 @@
 					"name": "add_menu",
 					"x": "centre",
 					"y": "9",
-					"w": "26",
+					"w": "29",
 					"h": "13",
 					"font": "monospace",
 					"type": "menu",
@@ -4446,7 +4446,7 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "26",
+							"width": "30",
 							"height": "13",
 							"menu_name": "add_menu",
 							"highlight": "0x6060c8"

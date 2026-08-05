@@ -344,9 +344,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 		switch (selection) {
 		case 0: // Help
 			[[fallthrough]];
-		case 1: // Inspect
-			[[fallthrough]];
-		case 2: // Title
+		case 1: // Title
 			return !_game->state->party_has_members();
 			break;
 		default:
@@ -380,9 +378,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 				[[fallthrough]];
 			case 2: // Reorder Party
 				[[fallthrough]];
-			case 3: // Inspect Party
-				[[fallthrough]];
-			case 4: // Divvy Gold
+			case 3: // Divvy Gold
 				return !_game->state->party_has_members();
 				break;
 			default:
@@ -700,6 +696,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
+		return true;
 	} else if (component == "inspect_menu") {
 
 		// Get the Character ID of the Selected Character and set it
@@ -710,6 +707,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 			set_character("inspect", data);
 
 		in_flags[0].get() = false;
+		return true;
 	} else if (component == "tithe_menu") {
 
 		// Flags = &_ui->modal_tithe->show, &_ui->input_donate->show,
@@ -726,6 +724,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
+		return true;
 	} else if (component == "help_menu") {
 
 		// Flags = &_ui->modal_help->show
@@ -739,6 +738,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
+		return true;
 	} else if (component == "identify_menu") {
 
 		// Flags = &_ui->modal_identify->show
@@ -748,6 +748,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		} else {
 			// TODO
 		}
+		return true;
 	} else if (component == "equip_menu") {
 
 		// Flags = &_ui->modal_equip->show
@@ -757,6 +758,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		} else {
 			// TODO
 		}
+		return true;
 	} else if (component == "remove_menu") {
 
 		// Flags = &_ui->modal_remove->show
@@ -766,6 +768,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		} else {
 			// TODO
 		}
+		return true;
 	} else if (component == "spell_menu") {
 
 		// Flags = &_ui->modalspell->show
@@ -775,6 +778,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		} else {
 			// TODO
 		}
+		return true;
 	} else if (component == "drop_menu") {
 
 		// Flags = &_ui->modal_drop->show
@@ -783,6 +787,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 			in_flags.at(0).get() = false;
 		} else {
 		}
+		return true;
 	} else if (component == "trade_menu") {
 
 		// Flags = &_ui->modal_trade->show, &_ui->modal_give->show
@@ -798,6 +803,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 			// Handle Trade
 		}
+		return true;
 	} else if (component == "use_menu") {
 
 		// Flags = &_ui->modal_use->show
@@ -806,6 +812,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 			in_flags.at(0).get() = false;
 		} else {
 		}
+		return true;
 	} else if (component == "invoke_menu") {
 
 		// Flags = &_ui->modal_invoke->show
@@ -814,9 +821,10 @@ auto Sorcery::Controller::handle_dynamic_menu(
 			in_flags.at(0).get() = false;
 		} else {
 		}
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 auto Sorcery::Controller::handle_icon_click(const int icon_idx) -> void {
@@ -1454,6 +1462,7 @@ auto Sorcery::Controller::handle_standard_menu(
 			go_back = true;
 		} else {
 			set_character("inspect", data);
+
 			_flags["show_roster"] = false;
 		}
 	} else if (component == "reorder_menu") {
@@ -1473,16 +1482,14 @@ auto Sorcery::Controller::handle_standard_menu(
 	} else if (component == "shop_menu") {
 
 		// Shop
-		if (selection == SHOP_INSPECT)
-			go_to(Enums::Screen::ROSTER);
-		else if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::CASTLE);
+		else {
+		}
 	} else if (component == "temple_menu") {
 
 		// Temple
-		if (selection == TEMPLE_INSPECT)
-			go_to(Enums::Screen::ROSTER);
-		else if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::CASTLE);
 	} else if (component == "training_menu") {
 

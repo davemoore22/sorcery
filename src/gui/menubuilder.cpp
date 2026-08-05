@@ -87,14 +87,13 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"tavern_menu",
 	 {"TAVERN_ADD_TO_PARTY", "TAVERN_REMOVE_FROM_PARTY", "TAVERN_REORDER_PARTY",
-	  "TAVERN_INSPECT", "TAVERN_DIVVY_GOLD", "TAVERN_CASTLE"}},
+	  "TAVERN_DIVVY_GOLD", "TAVERN_CASTLE"}},
 
-	{"inn_menu", {"INN_STAY", "INN_INSPECT", "INN_CASTLE"}},
+	{"inn_menu", {"INN_STAY", "INN_CASTLE"}},
 
-	{"temple_menu",
-	 {"TEMPLE_HELP", "TEMPLE_INSPECT", "TEMPLE_TITHE", "TEMPLE_CASTLE"}},
+	{"temple_menu", {"TEMPLE_HELP", "TEMPLE_TITHE", "TEMPLE_CASTLE"}},
 
-	{"shop_menu", {"SHOP_ENTER", "SHOP_INSPECT", "SHOP_CASTLE"}},
+	{"shop_menu", {"SHOP_ENTER", "SHOP_CASTLE"}},
 
 	{"edge_menu",
 	 {"EDGE_OF_TOWN_TRAIN", "EDGE_OF_TOWN_MAZE", "EDGE_OF_TOWN_RESTART",
@@ -201,7 +200,8 @@ auto Sorcery::MenuBuilder::_load_maze_characters(
 		if (character.get_location() == Enums::Character::Location::MAZE &&
 			character.get_status() == Enums::Character::Status::OK) {
 
-			items.emplace_back(std::format("{:^21}", character.get_name()));
+			items.emplace_back(
+				std::format("{:^24}", character.full_desc_text()));
 			data.emplace_back(id);
 		}
 	}
@@ -217,7 +217,7 @@ auto Sorcery::MenuBuilder::_load_tavern_characters(
 		if (character.get_location() == Enums::Character::Location::TAVERN) {
 
 			items.emplace_back(
-				std::format("{:^21}", character.full_desc_text()));
+				std::format("{:^24}", character.full_desc_text()));
 			data.emplace_back(id);
 		}
 	}

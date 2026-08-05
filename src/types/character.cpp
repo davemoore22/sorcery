@@ -2435,9 +2435,10 @@ auto Sorcery::Character::full_desc_text() const -> std::string {
 	auto name{_name};
 	const auto level{_abilities.at(Enums::Character::Ability::CURRENT_LEVEL)};
 
-	return std::format("{:<15} L {:>2} {}-{}", name, level,
+	return std::format("{:<15} L {:>2} {}-{} {}", name, level,
 					   alignment_to_str(_alignment).substr(0, 1),
-					   class_to_str(_class).substr(0, 3));
+					   class_to_str(_class).substr(0, 3),
+					   race_to_str(_race).substr(0, 3));
 };
 
 auto Sorcery::Character::summary_text() const -> std::string {

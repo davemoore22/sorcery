@@ -4279,15 +4279,13 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
 	if (name == "tavern_menu")
-		return Flags{std::ref(modal_inspect->show),
-					 std::ref(notice_divvy->show)};
+		return Flags{std::ref(notice_divvy->show)};
 
 	if (name == "inn_menu")
-		return Flags{std::ref(modal_inspect->show), std::ref(modal_stay->show)};
+		return Flags{std::ref(modal_stay->show)};
 
 	if (name == "temple_menu")
-		return Flags{std::ref(modal_inspect->show), std::ref(modal_help->show),
-					 std::ref(modal_tithe->show)};
+		return Flags{std::ref(modal_help->show), std::ref(modal_tithe->show)};
 
 	if (name == "camp_menu")
 		return Flags{std::ref(modal_camp->show)};
