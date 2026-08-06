@@ -92,10 +92,6 @@ const ActionList EDGE_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
 
-const ActionList INN_ACTIONS{
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
-
 const ActionList SHOP_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
@@ -128,7 +124,6 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"castle_menu", CASTLE_ACTIONS},
 	{"main_menu", MAIN_MENU_ACTIONS},
 	{"edge_menu", EDGE_ACTIONS},
-	{"inn_menu", INN_ACTIONS},
 	{"tavern_menu", TAVERN_ACTIONS},
 	{"temple_menu", TEMPLE_ACTIONS},
 	{"camp_menu", CAMP_ACTIONS}

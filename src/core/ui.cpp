@@ -393,12 +393,6 @@ auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
 		modal_inspect = std::make_unique<Modal>(
 			_ctx, components->get("global:modal_inspect"));
 		modal_inspect->regenerate();
-	} else if (name == "modal_stay") {
-		if (modal_stay.get())
-			modal_stay.reset();
-		modal_stay =
-			std::make_unique<Modal>(_ctx, components->get("global:modal_stay"));
-		modal_stay->regenerate();
 	} else if (name == "modal_help") {
 		if (modal_help.get())
 			modal_help.reset();
@@ -548,8 +542,6 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		output.append(get_popup_status((void *)modal_remove.get(), "modal"));
 	if (modal_spell)
 		output.append(get_popup_status((void *)modal_spell.get(), "modal"));
-	if (modal_stay)
-		output.append(get_popup_status((void *)modal_stay.get(), "modal"));
 	if (modal_tithe)
 		output.append(get_popup_status((void *)modal_tithe.get(), "modal"));
 	if (modal_trade)
@@ -3906,7 +3898,6 @@ auto Sorcery::UI::_display_inn() -> void {
 	_draw_components("inn");
 	_draw_party_panel();
 	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	modal_stay->display(_ctx.get_flag_ref("want_stay"));
 	modal_equip->display(_ctx.get_flag_ref("want_equip"));
 	modal_remove->display(_ctx.get_flag_ref("want_remove"));
 	modal_spell->display(_ctx.get_flag_ref("want_spell"));
@@ -4281,9 +4272,6 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 	if (name == "tavern_menu")
 		return Flags{std::ref(notice_divvy->show)};
 
-	if (name == "inn_menu")
-		return Flags{std::ref(modal_stay->show)};
-
 	if (name == "temple_menu")
 		return Flags{std::ref(modal_help->show), std::ref(modal_tithe->show)};
 
@@ -4298,9 +4286,6 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	if (name == "inspect_menu")
 		return Flags{std::ref(modal_inspect->show)};
-
-	if (name == "stay_menu")
-		return Flags{std::ref(modal_stay->show)};
 
 	if (name == "help_menu")
 		return Flags{std::ref(modal_help->show)};
@@ -4384,7 +4369,7 @@ auto Sorcery::UI::_activate_menu_item(const std::string_view name,
 									  const std::vector<std::string> &items)
 	-> void {
 
-	auto ui_flags{_get_menu_ui_flags(name)};
+	auto ui_flags{_get_legacy_menu_ui_flags(name)};
 
 	if (_ctx.controller->handle_action_table_menu(name, selection, data_item,
 												  ui_flags))
@@ -4566,10 +4551,7 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 		return {std::ref(dialog_leave->show)};
 
 	if (menu == "tavern_menu")
-		return {std::ref(modal_inspect->show), std::ref(notice_divvy->show)};
-
-	if (menu == "inn_menu")
-		return {std::ref(modal_inspect->show), std::ref(modal_stay->show)};
+		return {std::ref(notice_divvy->show)};
 
 	if (menu == "temple_menu")
 		return {std::ref(modal_inspect->show), std::ref(modal_help->show),
@@ -4586,9 +4568,6 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 
 	if (menu == "inspect_menu")
 		return {std::ref(modal_inspect->show)};
-
-	if (menu == "stay_menu")
-		return {std::ref(modal_stay->show)};
 
 	if (menu == "help_menu")
 		return {std::ref(modal_help->show)};
@@ -4677,7 +4656,6 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	add(modal_elevator_bottom);
 	add(message_tile);
 	add(modal_inspect);
-	add(modal_stay);
 	add(modal_help);
 	add(modal_tithe);
 	add(modal_identify);

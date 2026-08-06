@@ -65,7 +65,6 @@ auto Sorcery::Inn::start() -> int {
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
-	_ctx.ui->create_dynamic_modal("modal_stay");
 	_ctx.ui->create_dynamic_modal("modal_identify");
 	_ctx.ui->create_dynamic_modal("modal_equip");
 	_ctx.ui->create_dynamic_modal("modal_remove");
@@ -76,7 +75,6 @@ auto Sorcery::Inn::start() -> int {
 	_ctx.ui->create_dynamic_modal("modal_give");
 	_ctx.ui->create_dynamic_modal("modal_invoke");
 	_ctx.ui->modal_inspect->show = false;
-	_ctx.ui->modal_stay->show = false;
 	_ctx.ui->modal_identify->show = false;
 	_ctx.ui->modal_equip->show = false;
 	_ctx.ui->modal_remove->show = false;

@@ -64,26 +64,6 @@
 					]
 				},
 				{
-					"name": "modal_stay",
-					"x": "centre",
-					"y": "8",
-					"w": "21",
-					"h": "12",
-					"font": "monospace",
-					"type": "choice",
-					"string": "MODAL_STAY",
-					"drawmode": "manual",
-					"alpha": "1.0",
-					"colour": "0xffffff",
-					"bg_colour": "0x000000",
-					"data": [
-						{
-							"menu_name": "stay_menu",
-							"highlight": "0x6060c8"
-						}
-					]
-				},
-				{
 					"name": "modal_help",
 					"x": "centre",
 					"y": "8",
@@ -1958,8 +1938,8 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "10",
-					"w": "23",
-					"h": "5",
+					"w": "32",
+					"h": "13",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
@@ -1968,11 +1948,24 @@
 					"alpha": "1.0"
 				},
 				{
-					"name": "inn_menu",
+					"name": "inn_subtitle",
 					"x": "centre",
 					"y": "11",
-					"w": "21",
-					"h": "5",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "INN_SUBTITLE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "inn_menu",
+					"x": "centre",
+					"y": "13",
+					"w": "30",
+					"h": "8",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -1982,8 +1975,8 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "21",
-							"height": "5",
+							"width": "30",
+							"height": "8",
 							"menu_name": "inn_menu",
 							"highlight": "0x6060c8"
 						}
@@ -2101,7 +2094,7 @@
 					"x": "centre",
 					"y": "11",
 					"w": "28",
-					"h": "6",
+					"h": "7",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -2112,7 +2105,7 @@
 					"data": [
 						{
 							"width": "28",
-							"height": "6",
+							"height": "7",
 							"menu_name": "rest_menu",
 							"highlight": "0x6060c8"
 						}
@@ -4230,7 +4223,7 @@
 				{
 					"name": "reorder_subtitle",
 					"x": "centre",
-					"y": "10",
+					"y": "11",
 					"font": "monospace",
 					"colour": "0xffffffff",
 					"size": "24",
@@ -4244,9 +4237,9 @@
 					"name": "menu_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "12",
-					"w": "30",
-					"h": "10",
+					"y": "10",
+					"w": "34",
+					"h": "13",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
@@ -4258,8 +4251,8 @@
 					"name": "reorder_menu",
 					"x": "centre",
 					"y": "13",
-					"w": "28",
-					"h": "7",
+					"w": "32",
+					"h": "8",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -4269,8 +4262,8 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "28",
-							"height": "7",
+							"width": "32",
+							"height": "8",
 							"menu_name": "reorder_menu",
 							"highlight": "0x6060c8",
 							"reorder": "yes"
@@ -4348,7 +4341,7 @@
 					"x": "centre",
 					"y": "13",
 					"w": "30",
-					"h": "7",
+					"h": "8",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -4359,7 +4352,7 @@
 					"data": [
 						{
 							"width": "30",
-							"height": "7",
+							"height": "8",
 							"menu_name": "remove_character_menu",
 							"highlight": "0x6060c8"
 						}

@@ -683,21 +683,9 @@ auto Sorcery::Controller::handle_dynamic_menu(
 	[[maybe_unused]] const int data, const int selection,
 	std::vector<std::reference_wrapper<bool>> in_flags) -> bool {
 
-	DEBUG_LOGF("Menu with Flags: {} {} {}", component, data, selection);
+	DEBUG_LOGF("Dynamic Menu: {} {} {}", component, data, selection);
 
-	if (component == "stay_menu") {
-
-		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character("stay");
-			go_back = true;
-		} else
-			set_character("stay", data);
-
-		// Remove the Modal
-		in_flags.at(0).get() = false;
-		return true;
-	} else if (component == "inspect_menu") {
+	if (component == "inspect_menu") {
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -828,6 +816,8 @@ auto Sorcery::Controller::handle_dynamic_menu(
 }
 
 auto Sorcery::Controller::handle_icon_click(const int icon_idx) -> void {
+
+	DEBUG_LOGF("Icon Click: {}", icon_idx);
 
 	switch (icon_idx) {
 	case ICON_CAMP:
@@ -1310,6 +1300,14 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 
 		// Return to Castle on a wipe
 		go_to(Enums::Screen::CASTLE);
+	} else if (component == "nolevelup_leave") {
+
+		// No Level Up Notice - Return to Inn
+		go_to(Enums::Screen::INN);
+	} else if (component == "levelup_leave") {
+
+		// No Level Up Notice - C Return to Inn
+		go_to(Enums::Screen::INN);
 	}
 }
 
@@ -1327,7 +1325,7 @@ auto Sorcery::Controller::handle_standard_menu(
 	std::string_view component, const std::vector<std::string> &items,
 	const int data, const int selection) -> void {
 
-	DEBUG_LOGF("Menu: {} {} {}", component, data, selection);
+	DEBUG_LOGF("Standard Menu: {} {} {}", component, data, selection);
 
 	if (component == "remove_character_menu") {
 
@@ -1341,6 +1339,15 @@ auto Sorcery::Controller::handle_standard_menu(
 			_game->state->remove_character_by_id(data);
 			_game->save_game();
 		}
+
+	} else if (component == "inn_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character("stay");
+			go_to(Enums::Screen::CASTLE);
+		} else
+			set_character("stay", data);
 
 	} else if (component == "restart_menu") {
 
@@ -1533,8 +1540,8 @@ auto Sorcery::Controller::handle_standard_menu(
 	} else if (component == "rest_menu") {
 
 		// Resting
-		_selected["stay_selected"] = selection + 1;
-		if (selection == (static_cast<int>(items.size()) - 1 + 1))
+		_selected["stay_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::INN);
 		else
 			go_to(Enums::Screen::RECOVERY);
@@ -1568,7 +1575,7 @@ auto Sorcery::Controller::handle_action_table_menu(
 	std::string_view menu, int selection, int data,
 	std::vector<std::reference_wrapper<bool>> &ui_flags) -> bool {
 
-	DEBUG_LOGF("Handle Menu: {} {} {}", menu, selection, data);
+	DEBUG_LOGF("Action Table Menu: {} {} {}", menu, selection, data);
 
 	const auto it{MENU_ACTIONS.find(menu)};
 	if (it == MENU_ACTIONS.end())

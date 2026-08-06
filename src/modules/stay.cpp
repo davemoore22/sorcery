@@ -51,7 +51,7 @@ Sorcery::Stay::~Stay() {}
 
 auto Sorcery::Stay::_initialise() -> bool {
 
-	_ctx.controller->set_selected("stay_selected", 0);
+	_ctx.controller->set_selected("stay_selected", -1);
 
 	return true;
 }
@@ -92,7 +92,7 @@ auto Sorcery::Stay::start() -> int {
 			}
 
 			// Check for Stay Selected (remember +1 to selection)
-			if (_ctx.controller->get_selected("stay_selected") > 0) {
+			if (_ctx.controller->get_selected("stay_selected") > -1) {
 
 				// Get Age beforehand
 				auto &character{_ctx.game->characters.at(
@@ -162,7 +162,7 @@ auto Sorcery::Stay::start() -> int {
 
 auto Sorcery::Stay::stop() -> int {
 
-	_ctx.controller->set_selected("stay_selected", 0);
+	_ctx.controller->set_selected("stay_selected", -1);
 	_ctx.controller->go_to(Enums::Screen::INN);
 
 	return 0;

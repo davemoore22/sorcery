@@ -146,7 +146,6 @@ class UI {
 		std::unique_ptr<Modal> modal_camp;
 		std::unique_ptr<Message> message_tile;
 		std::unique_ptr<Modal> modal_inspect;
-		std::unique_ptr<Modal> modal_stay;
 		std::unique_ptr<Modal> modal_help;
 		std::unique_ptr<Modal> modal_tithe;
 		std::unique_ptr<Modal> modal_identify;
