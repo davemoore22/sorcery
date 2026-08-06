@@ -1349,6 +1349,15 @@ auto Sorcery::Controller::handle_standard_menu(
 		} else
 			set_character("stay", data);
 
+	} else if (component == "shop_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character("shop");
+			go_to(Enums::Screen::CASTLE);
+		} else
+			set_character("shop", data);
+
 	} else if (component == "restart_menu") {
 
 		// Restart Menu

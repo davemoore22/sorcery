@@ -2532,8 +2532,8 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "10",
-					"w": "23",
-					"h": "6",
+					"w": "32",
+					"h": "13",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
@@ -2542,11 +2542,24 @@
 					"alpha": "1.0"
 				},
 				{
-					"name": "shop_menu",
+					"name": "shop_subtitle",
 					"x": "centre",
 					"y": "11",
-					"w": "21",
-					"h": "6",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "SHOP_SUBTITLE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "shop_menu",
+					"x": "centre",
+					"y": "13",
+					"w": "30",
+					"h": "8",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -2556,8 +2569,8 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "21",
-							"height": "6",
+							"width": "30",
+							"height": "8",
 							"menu_name": "shop_menu",
 							"highlight": "0x6060c8"
 						}

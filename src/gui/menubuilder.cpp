@@ -69,6 +69,8 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"inn_menu", {"INN_RETURN"}},
 
+	{"shop_menu", {"SHOP_RETURN"}},
+
 	{"help_menu", {"HELP_RETURN"}},
 
 	{"tithe_menu", {"TITHE_RETURN"}},
@@ -90,8 +92,6 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	  "TAVERN_DIVVY_GOLD", "TAVERN_CASTLE"}},
 
 	{"temple_menu", {"TEMPLE_HELP", "TEMPLE_TITHE", "TEMPLE_CASTLE"}},
-
-	{"shop_menu", {"SHOP_ENTER", "SHOP_CASTLE"}},
 
 	{"edge_menu",
 	 {"EDGE_OF_TOWN_TRAIN", "EDGE_OF_TOWN_MAZE", "EDGE_OF_TOWN_RESTART",
@@ -331,6 +331,9 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	} else if (menu_name == "inn_menu") {
 		_load_party_characters(items, data, flags, reorder); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "shop_menu") {
+		_load_party_characters(items, data, flags, reorder); // MENU_FULL_NAME
+		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "add_menu") {
 
 		_load_tavern_characters(items, data); // MENU_FULL_NAME
@@ -396,6 +399,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"roster_menu", MENU_FULL_NAME},
 		std::pair{"choose_menu", MENU_FULL_NAME},
 		std::pair{"inn_menu", MENU_FULL_NAME},
+		std::pair{"shop_menu", MENU_FULL_NAME},
 		std::pair{"remove_character_menu", MENU_FULL_NAME},
 		std::pair{"tithe_menu", MENU_SHOW_GOLD},
 		std::pair{"pay_menu", MENU_SHOW_GOLD},
