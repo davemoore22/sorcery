@@ -43,6 +43,7 @@
 #include "modules/roster.hpp"
 #include "modules/shop.hpp"
 #include "modules/stay.hpp"
+#include "modules/store.hpp"
 #include "modules/tavern.hpp"
 #include "modules/temple.hpp"
 #include "resources/define.hpp"

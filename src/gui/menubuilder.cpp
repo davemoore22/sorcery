@@ -87,6 +87,10 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"rest_menu",
 	 {"STAY_1", "STAY_2", "STAY_3", "STAY_4", "STAY_5", "STAY_RETURN"}},
 
+	{"store_menu",
+	 {"STORE_BUY", "STORE_SELL", "STORE_UNCURSE", "STORE_IDENTIFY",
+	  "STORE_POOL", "STORE_RETURN"}},
+
 	{"tavern_menu",
 	 {"TAVERN_ADD_TO_PARTY", "TAVERN_REMOVE_FROM_PARTY", "TAVERN_REORDER_PARTY",
 	  "TAVERN_DIVVY_GOLD", "TAVERN_CASTLE"}},

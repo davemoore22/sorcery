@@ -215,6 +215,7 @@ class UI {
 		auto _display_restart() -> void;
 		auto _display_shop() -> void;
 		auto _display_stay() -> void;
+		auto _display_store() -> void;
 		auto _display_tavern() -> void;
 		auto _display_temple() -> void;
 		auto _display_training_grounds() -> void;
@@ -304,6 +305,7 @@ class UI {
 		auto _draw_recovery(const int mode) -> void;
 		auto _draw_save() -> void;
 		auto _draw_stay() -> void;
+		auto _draw_store() -> void;
 		auto _draw_automap_legend(Component *component) -> void;
 		auto _draw_spell_info() -> void;
 		auto _draw_stepper(Component *component, const std::string &name,

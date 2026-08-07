@@ -62,6 +62,7 @@ enum class Screen {
 	PAY,
 	HEAL,
 	RESULTS,
+	STORE,
 
 	CREATE,
 	ROSTER,

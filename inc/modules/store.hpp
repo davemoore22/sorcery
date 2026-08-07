@@ -26,17 +26,19 @@
 #include "types/enum.hpp"
 
 #include <memory>
+
 namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Store;
 
-class Shop {
+class Store {
 
 	public:
 		// Standard Constructor
-		Shop(Context &ctx);
+		Store(Context &ctx);
+
+		~Store();
 
 		// Public Methods
 		auto start() -> int;
@@ -48,7 +50,6 @@ class Shop {
 
 		// Private Members
 		Context &_ctx;
-		std::unique_ptr<Store> _store;
 };
 
 };

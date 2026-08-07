@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/shop.hpp"
+#include "modules/store.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/context.hpp"
@@ -31,29 +31,33 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
-#include "modules/store.hpp"
+#include "modules/levelup.hpp"
+#include "modules/nolevelup.hpp"
+#include "modules/recovery.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
-Sorcery::Shop::Shop(Context &ctx)
+Sorcery::Store::Store(Context &ctx)
 	: _ctx{ctx} {
-
-	_store = std::make_unique<Store>(_ctx);
 
 	_initialise();
 };
 
-auto Sorcery::Shop::_initialise() -> bool {
+Sorcery::Store::~Store() {}
 
-	_ctx.controller->set_selected("party_panel_selected", 0);
+auto Sorcery::Store::_initialise() -> bool {
+
+	_ctx.controller->set_selected("store_selected", -1);
 
 	return true;
 }
 
-auto Sorcery::Shop::start() -> int {
+auto Sorcery::Store::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::SHOP);
-	_ctx.controller->initialise();
+	// Unlike what happens in the start() methods in other modules, we don't
+	// call controller->initialise() here, as this module requires we know what
+	// character we have selected to stay at the inn!
+	_ctx.controller->go_to(Enums::Screen::STORE);
 
 	// Main loop
 	auto done{false};
@@ -82,26 +86,31 @@ auto Sorcery::Shop::start() -> int {
 					_ctx.get_file(SAVE_STATE_FILENAME));
 				continue;
 			}
+
+			// Check for Stay Selected (remember +1 to selection)
+			if (_ctx.controller->get_selected("store_selected") > -1) {
+
+				// Get what do we want to do with the selected character
+			}
 		}
 
-		_ctx.ui->display(Enums::Screen::SHOP, _ctx.game);
+		_ctx.ui->display(Enums::Screen::STORE, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::SHOP) &&
-			_ctx.controller->wants(Enums::Screen::CASTLE))
-			return BACK_TO_CASTLE;
-		else if (_ctx.controller->has_character("store")) {
-			_store->start();
-			_store->stop();
-			_ctx.controller->clear_character("store");
-		}
+		if (!_ctx.controller->wants(Enums::Screen::STORE) &&
+			_ctx.controller->wants(Enums::Screen::SHOP))
+			return BACK_TO_INN;
 	}
 
 	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
 
-auto Sorcery::Shop::stop() -> int {
+auto Sorcery::Store::stop() -> int {
+
+	_ctx.controller->unset_flag("want_pool_gold");
+	_ctx.controller->clear_character("store");
+	_ctx.controller->go_to(Enums::Screen::SHOP);
 
 	return 0;
 }

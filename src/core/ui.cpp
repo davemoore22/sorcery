@@ -245,6 +245,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::STAY] = [this]() {
 		_display_stay();
 	};
+	_draw_modules[Enums::Screen::STORE] = [this]() {
+		_display_store();
+	};
 	_draw_modules[Enums::Screen::TAVERN] = [this]() {
 		_display_tavern();
 	};
@@ -2303,6 +2306,24 @@ auto Sorcery::UI::_draw_stay() -> void {
 	_draw_text(&cmp_gold, gold_text);
 }
 
+auto Sorcery::UI::_draw_store() -> void {
+
+	const auto character{
+		_ctx.game->characters.at(_ctx.controller->get_character("store"))};
+
+	auto cmp_welcome{components->get("store:store_welcome")};
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STORE_WELCOME_P"),
+								  character.get_name(),
+								  _ctx.get_string("STORE_WELCOME_S"))};
+	_draw_text(&cmp_welcome, welcome_text);
+
+	auto cmp_gold{components->get("store:store_gold")};
+	auto gold_text{std::format("{}{}{}", _ctx.get_string("STORE_GOLD_P"),
+							   character.get_gold(),
+							   _ctx.get_string("STORE_GOLD_S"))};
+	_draw_text(&cmp_gold, gold_text);
+}
+
 auto Sorcery::UI::_draw_current_character([[maybe_unused]] const int mode)
 	-> void {
 
@@ -3927,6 +3948,15 @@ auto Sorcery::UI::_display_stay() -> void {
 	_draw_cursor();
 }
 
+auto Sorcery::UI::_display_store() -> void {
+	_draw_components("store");
+	_draw_store();
+	_draw_party_panel();
+	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	_draw_debug();
+	_draw_cursor();
+}
+
 auto Sorcery::UI::_display_recovery(const int mode) -> void {
 	_draw_components("recovery");
 	_draw_recovery(mode);
@@ -4272,6 +4302,9 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 	if (name == "tavern_menu")
 		return Flags{std::ref(notice_divvy->show)};
 
+	if (name == "store_menu")
+		return Flags{std::ref(notice_pool_gold->show)};
+
 	if (name == "temple_menu")
 		return Flags{std::ref(modal_help->show), std::ref(modal_tithe->show)};
 
@@ -4552,6 +4585,9 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 
 	if (menu == "tavern_menu")
 		return {std::ref(notice_divvy->show)};
+
+	if (menu == "store_menu")
+		return {std::ref(notice_pool_gold->show)};
 
 	if (menu == "temple_menu")
 		return {std::ref(modal_inspect->show), std::ref(modal_help->show),

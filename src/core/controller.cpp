@@ -610,7 +610,33 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 					.value());
 		} else
 			return false;
-	}
+	} else if (component == "store_menu") {
+
+		// No gold, can't buy anything
+		// No items, can't sell anything
+		// no cursed items, can't uncurse anything
+		// no unidentified items, can't identify anything
+		if (has_character("store")) {
+			const auto &who{_game->characters.at(_characters["store"])};
+			switch (selection) {
+			case 0: // Buy
+				return who.get_gold() == 0;
+				break;
+			case 1: // Sell
+				return who.inventory.items().empty();
+				break;
+			case 2: // Uncurse
+				return !who.inventory.has_cursed_items();
+				break;
+			case 3: // Identify
+				return !who.inventory.has_unidentified_items();
+				break;
+			default:
+				return false;
+			};
+		} else
+			return false;
+	};
 
 	return false;
 }
@@ -1353,10 +1379,10 @@ auto Sorcery::Controller::handle_standard_menu(
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character("shop");
+			clear_character("store");
 			go_to(Enums::Screen::CASTLE);
 		} else
-			set_character("shop", data);
+			set_character("store", data);
 
 	} else if (component == "restart_menu") {
 
@@ -1554,6 +1580,20 @@ auto Sorcery::Controller::handle_standard_menu(
 			go_to(Enums::Screen::INN);
 		else
 			go_to(Enums::Screen::RECOVERY);
+	} else if (component == "shop_menu") {
+
+		// Resting
+		_selected["store_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
+			go_to(Enums::Screen::SHOP);
+		else
+			go_to(Enums::Screen::STORE);
+	} else if (component == "store_menu") {
+
+		// Store
+		_selected["store_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
+			go_to(Enums::Screen::SHOP);
 	}
 }
 

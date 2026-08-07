@@ -92,9 +92,18 @@ const ActionList EDGE_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
 
-const ActionList SHOP_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
+const ActionList STORE_ACTIONS{
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::STORE}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::STORE}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::STORE}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::STORE}},
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}}};
+// Buy
+// Sell
+// Uncurse
+// Identify
+// Pool Gold
 
 const ActionList TAVERN_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ADD}},
@@ -125,6 +134,7 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"main_menu", MAIN_MENU_ACTIONS},
 	{"edge_menu", EDGE_ACTIONS},
 	{"tavern_menu", TAVERN_ACTIONS},
+	{"store_menu", STORE_ACTIONS},
 	{"temple_menu", TEMPLE_ACTIONS},
 	{"camp_menu", CAMP_ACTIONS}
 
