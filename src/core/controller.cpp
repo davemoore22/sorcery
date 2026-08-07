@@ -1682,6 +1682,13 @@ auto Sorcery::Controller::execute_action(
 	case MenuAction::Type::GO_BACK:
 		go_back = true;
 		break;
+	case MenuAction::Type::CUSTOM:
+		// Handle custom actions here if needed
+		if (action.custom_function == "handle_pool_gold") {
+			_game->pool_party_gold(get_character("store"));
+		}
+
+		break;
 
 	default:
 		break;

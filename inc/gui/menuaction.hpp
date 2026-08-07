@@ -51,6 +51,7 @@ struct MenuAction {
 		std::string character_slot;
 		std::size_t ui_index{0};
 		std::string character_key;
+		std::string custom_function;
 };
 
 using ActionList = std::vector<std::vector<MenuAction>>;
@@ -93,17 +94,17 @@ const ActionList EDGE_ACTIONS{
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
 
 const ActionList STORE_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::STORE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::STORE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::STORE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::STORE}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
+	{{.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::STORE}}, // Buy
+	{{.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::STORE}}, // Sell
+	{{.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::STORE}}, // Uncurse
+	{{.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::STORE}}, // Identify
+	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
+	 {.type = MenuAction::Type::CUSTOM, .custom_function = "handle_pool_gold"}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}}};
-// Buy
-// Sell
-// Uncurse
-// Identify
-// Pool Gold
 
 const ActionList TAVERN_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ADD}},
