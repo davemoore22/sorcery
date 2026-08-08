@@ -26,6 +26,7 @@ target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/recovery.cpp
 	${CMAKE_CURRENT_LIST_DIR}/reorder.cpp
 	${CMAKE_CURRENT_LIST_DIR}/restart.cpp
+	${CMAKE_CURRENT_LIST_DIR}/roster.cpp
 	${CMAKE_CURRENT_LIST_DIR}/shop.cpp
 	${CMAKE_CURRENT_LIST_DIR}/stay.cpp
 	${CMAKE_CURRENT_LIST_DIR}/store.cpp

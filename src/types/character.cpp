@@ -223,6 +223,17 @@ auto Sorcery::Character::get_name_and_loc() const -> std::string {
 					   coordinate.value().x);
 }
 
+auto Sorcery::Character::get_name_status_and_loc() const -> std::string {
+
+	const auto out{_location == Enums::Character::Location::MAZE ? "(OUT)"
+																 : ""};
+	const auto status{
+		_status != Enums::Character::Status::OK ? get_status_string() : ""};
+	const auto desc{full_desc_text()};
+
+	return std::format("{:<24} {:<9} {:^5}", desc, status, out);
+}
+
 auto Sorcery::Character::set_name(std::string_view value) -> void {
 
 	_name = value;

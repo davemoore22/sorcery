@@ -103,6 +103,7 @@ inline constexpr auto INSPECT_MODE_TAVERN{1};
 inline constexpr auto INSPECT_MODE_CAMP{2};
 inline constexpr auto INSPECT_MODE_INN{3};
 inline constexpr auto INSPECT_MODE_TEMPLE{4};
+inline constexpr auto INSPECT_MODE_ROSTER{5};
 inline constexpr auto GO_TO_MAZE{-3};
 inline constexpr auto RESTART_MAZE{-4};
 inline constexpr auto GO_TO_FRONT_END{-1};

@@ -31,16 +31,14 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Create;
-class Roster;
 
-class Training {
+class Roster {
 
 	public:
 		// Standard Constructor
-		Training(Context &ctx);
+		Roster(Context &ctx);
 
-		~Training();
+		~Roster();
 
 		// Public Methods
 		auto start() -> int;
@@ -52,8 +50,6 @@ class Training {
 
 		// Private Members
 		Context &_ctx;
-		std::unique_ptr<Create> _create;
-		std::unique_ptr<Roster> _roster;
 };
 
 };

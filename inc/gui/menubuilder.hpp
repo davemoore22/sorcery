@@ -46,6 +46,8 @@ class MenuBuilder {
 		auto _load_party_characters(std::vector<std::string> &items,
 									std::vector<int> &data, int flags,
 									bool reorder) -> void;
+		auto _load_roster_characters(std::vector<std::string> &items,
+									 std::vector<int> &data) -> void;
 		auto _load_tavern_characters(std::vector<std::string> &items,
 									 std::vector<int> &data) -> void;
 		auto _load_maze_characters(std::vector<std::string> &items,

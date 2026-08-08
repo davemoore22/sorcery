@@ -242,6 +242,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::RESTART] = [this]() {
 		_display_restart();
 	};
+	_draw_modules[Enums::Screen::ROSTER] = [this]() {
+		_display_roster();
+	};
 	_draw_modules[Enums::Screen::SHOP] = [this]() {
 		_display_shop();
 	};
@@ -3841,6 +3844,11 @@ auto Sorcery::UI::_display_castle() -> void {
 
 auto Sorcery::UI::_display_training_grounds() -> void {
 	_draw_components("training_grounds");
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_roster() -> void {
+	_draw_components("roster");
 	_draw_cursor();
 }
 

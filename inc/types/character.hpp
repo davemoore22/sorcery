@@ -93,6 +93,7 @@ class Character {
 		auto get_name() const -> std::string;
 		auto get_name_and_loc() const -> std::string;
 		auto get_name_and_status() const -> std::string;
+		auto get_name_status_and_loc() const -> std::string;
 		auto set_name(std::string_view value) -> void;
 		auto get_race() const -> Enums::Character::Race;
 		auto set_race(const Enums::Character::Race &value) -> void;

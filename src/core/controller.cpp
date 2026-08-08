@@ -1529,14 +1529,15 @@ auto Sorcery::Controller::handle_standard_menu(
 		// Temple
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::CASTLE);
-	} else if (component == "training_menu") {
+	} /*/ else if (component == "training_menu") {
 
 		// Training Grounds
 		if (selection == TRAINING_CREATE)
 			go_to(Enums::Screen::CREATE);
 		else if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::EDGEOFTOWN);
-	} else if (component == "bestiary_menu") {
+	} */
+	else if (component == "bestiary_menu") {
 
 		// Bestiary
 		_selected["bestiary_selected"] = selection;

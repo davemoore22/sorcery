@@ -118,6 +118,14 @@ const ActionList TEMPLE_ACTIONS{
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
 
+const ActionList TRAINING_ACTIONS{
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ROSTER}},
+	{{.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::EDGEOFTOWN}}};
+
 const ActionList CAMP_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INSPECT},
 	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
@@ -135,6 +143,7 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"main_menu", MAIN_MENU_ACTIONS},
 	{"edge_menu", EDGE_ACTIONS},
 	{"tavern_menu", TAVERN_ACTIONS},
+	{"training_menu", TRAINING_ACTIONS},
 	{"store_menu", STORE_ACTIONS},
 	{"temple_menu", TEMPLE_ACTIONS},
 	{"camp_menu", CAMP_ACTIONS}

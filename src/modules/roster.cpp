@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/training.hpp"
+#include "modules/roster.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/audioplayer.hpp"
@@ -34,29 +34,25 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "modules/create.hpp"
-#include "modules/roster.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
-Sorcery::Training::Training(Context &ctx)
+Sorcery::Roster::Roster(Context &ctx)
 	: _ctx{ctx} {
 
 	_initialise();
-
-	_create = std::make_unique<Create>(_ctx);
-	_roster = std::make_unique<Roster>(_ctx);
 };
 
-Sorcery::Training::~Training() {}
+Sorcery::Roster::~Roster() {}
 
-auto Sorcery::Training::_initialise() -> bool {
+auto Sorcery::Roster::_initialise() -> bool {
 
 	return true;
 }
 
-auto Sorcery::Training::start() -> int {
+auto Sorcery::Roster::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::TRAINING);
+	_ctx.controller->go_to(Enums::Screen::ROSTER);
 	_ctx.controller->initialise();
 
 	_ctx.audio->set_volume(1.0f);
@@ -77,35 +73,17 @@ auto Sorcery::Training::start() -> int {
 
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event)) {
-				return BACK_TO_EDGE_OF_TOWN;
-			}
-
-			if (_ctx.controller->wants(Enums::Screen::CREATE)) {
-				_create->start();
-				_create->stop();
-			} else if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
-				_roster->start();
-				_roster->stop();
-			}
-
-			// Check for Quicksave and Quickload
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-				continue;
+				return BACK_TO_TRAINING_GROUNDS;
 			}
 		}
 
-		_ctx.ui->display(Enums::Screen::TRAINING, _ctx.game);
+		_ctx.ui->display(Enums::Screen::ROSTER, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::TRAINING) &&
-			_ctx.controller->wants(Enums::Screen::EDGEOFTOWN)) {
+		if (!_ctx.controller->wants(Enums::Screen::ROSTER) &&
+			_ctx.controller->wants(Enums::Screen::TRAINING)) {
 			_ctx.game->save_game();
-			return BACK_TO_EDGE_OF_TOWN;
+			return BACK_TO_TRAINING_GROUNDS;
 		}
 	}
 
@@ -113,7 +91,7 @@ auto Sorcery::Training::start() -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Training::stop() -> int {
+auto Sorcery::Roster::stop() -> int {
 
 	return 0;
 }

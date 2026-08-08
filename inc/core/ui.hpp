@@ -237,6 +237,7 @@ class UI {
 		auto _display_no_level_up(const int mode) -> void;
 		auto _display_recovery(const int mode) -> void;
 		auto _display_reorder(const int mode) -> void;
+		auto _display_roster() -> void;
 
 		auto _display_license(const std::string &string) -> void;
 

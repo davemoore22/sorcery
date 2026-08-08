@@ -4317,7 +4317,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "2",
-					"w": "38",
+					"w": "52",
 					"h": "31",
 					"string": "",
 					"drawmode": "automatic",
@@ -4335,9 +4335,9 @@
 					"name": "menu_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "12",
-					"w": "28",
-					"h": "10",
+					"y": "6",
+					"w": "48",
+					"h": "18",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
@@ -4348,9 +4348,9 @@
 				{
 					"name": "roster_menu",
 					"x": "centre",
-					"y": "13",
-					"w": "26",
-					"h": "7",
+					"y": "7",
+					"w": "46",
+					"h": "18",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -4360,8 +4360,8 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "26",
-							"height": "7",
+							"width": "46",
+							"height": "18",
 							"menu_name": "roster_menu",
 							"highlight": "0x6060c8"
 						}
