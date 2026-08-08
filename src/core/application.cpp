@@ -578,6 +578,11 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 		case BISHOP:
 			pc.inventory.add_type(ctx.resources->items->get(ROBES), true);
 			pc.inventory.add_type(ctx.resources->items->get(STAFF), true);
+			pc.inventory.add_type(ctx.resources->items->get(POTION_OF_DIOS),
+								  false);
+			pc.inventory.add_type(ctx.resources->items->get(LONG_SWORD_PLUS_2),
+								  false);
+
 			break;
 		case THIEF:
 		case NINJA:

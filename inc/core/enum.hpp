@@ -65,6 +65,7 @@ enum class Screen {
 	STORE,
 	BUY,
 	SELL,
+	IDENTIFY,
 
 	CREATE,
 	ROSTER,

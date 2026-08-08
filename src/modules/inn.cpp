@@ -128,9 +128,9 @@ auto Sorcery::Inn::start() -> int {
 
 		if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
 			_inspect->start(
-				INSPECT_MODE_INN,
+				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
 				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
-			_inspect->stop(INSPECT_MODE_INN);
+			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		} else if (_ctx.controller->has_character(Enums::CharacterSlot::STAY)) {
 			_stay->start();

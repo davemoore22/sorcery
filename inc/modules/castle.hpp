@@ -35,6 +35,7 @@ class Shop;
 class Tavern;
 class Temple;
 class Inn;
+class Inspect;
 
 class Castle {
 
@@ -58,6 +59,7 @@ class Castle {
 		std::unique_ptr<Shop> _shop;
 		std::unique_ptr<Tavern> _tavern;
 		std::unique_ptr<Temple> _temple;
+		std::unique_ptr<Inspect> _inspect;
 };
 
 };

@@ -33,6 +33,7 @@ namespace Sorcery {
 struct Context;
 class Restart;
 class Training;
+class Inspect;
 
 class EdgeOfTown {
 
@@ -54,6 +55,7 @@ class EdgeOfTown {
 		Context &_ctx;
 		std::unique_ptr<Training> _training_grounds;
 		std::unique_ptr<Restart> _restart;
+		std::unique_ptr<Inspect> _inspect;
 };
 
 };

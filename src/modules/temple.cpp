@@ -190,9 +190,9 @@ auto Sorcery::Temple::start() -> int {
 
 		if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
 			_inspect->start(
-				INSPECT_MODE_TEMPLE,
+				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
 				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
-			_inspect->stop(INSPECT_MODE_TEMPLE);
+			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}
 
@@ -221,6 +221,8 @@ auto Sorcery::Temple::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
+	_ctx.controller->clear_character(Enums::CharacterSlot::TITHE);
+	_ctx.controller->clear_character(Enums::CharacterSlot::HELP);
 
 	return 0;
 }

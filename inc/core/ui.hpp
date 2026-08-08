@@ -211,6 +211,7 @@ class UI {
 		auto _display_buy() -> void;
 		auto _display_castle() -> void;
 		auto _display_edge_of_town() -> void;
+		auto _display_identify() -> void;
 		auto _display_inn() -> void;
 		auto _display_pay() -> void;
 		auto _display_remove() -> void;
@@ -288,6 +289,7 @@ class UI {
 		auto _draw_frame(Component *component) -> void;
 		auto _draw_heal(const int stage) -> void;
 		auto _draw_icons() -> void;
+		auto _draw_identify() -> void;
 		auto _draw_input(Component *component, std::string *input) -> void;
 		auto _draw_item_info() -> void;
 		auto _draw_license(Component *component, const std::string &string)

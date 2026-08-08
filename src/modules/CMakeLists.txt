@@ -17,6 +17,7 @@ target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/create.cpp
 	${CMAKE_CURRENT_LIST_DIR}/edgeoftown.cpp
 	${CMAKE_CURRENT_LIST_DIR}/heal.cpp
+	${CMAKE_CURRENT_LIST_DIR}/identify.cpp
 	${CMAKE_CURRENT_LIST_DIR}/inn.cpp
 	${CMAKE_CURRENT_LIST_DIR}/inspect.cpp
 	${CMAKE_CURRENT_LIST_DIR}/levelup.cpp

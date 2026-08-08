@@ -101,7 +101,7 @@ const ActionList STORE_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::STORE}}, // Uncurse
 	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::STORE}}, // Identify
+	  .screen = Enums::Screen::IDENTIFY}}, // Identify
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
 	 {.type = MenuAction::Type::CUSTOM, .custom_function = "handle_pool_gold"}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}}};

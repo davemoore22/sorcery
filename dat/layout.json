@@ -2321,7 +2321,7 @@
 					"font": "monospace",
 					"colour": "0xffffffff",
 					"size": "24",
-					"string": "BUY_WELCOME",
+					"string": "SELL_WELCOME",
 					"justification": "centre",
 					"type": "text",
 					"priority": "5",
@@ -2372,6 +2372,136 @@
 							"width": "42",
 							"height": "9",
 							"menu_name": "sell_menu",
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
+						}
+					]
+				},
+				{
+					"name": "party_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "24",
+					"w": "40",
+					"h": "9",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				}
+			]
+		},
+		{
+			"name": "identify",
+			"component": [
+				{
+					"name": "background_image",
+					"x": "0",
+					"y": "0",
+					"type": "image_bg",
+					"drawmode": "automatic",
+					"priority": "0",
+					"alpha": "1.0",
+					"data": [
+						{
+							"source": "backgrounds.tga",
+							"scale": "0.7"
+						}
+					]
+				},
+				{
+					"name": "outer_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "2",
+					"w": "52",
+					"h": "24",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"title": "IDENTIFY_TITLE"
+						}
+					]
+				},
+				{
+					"name": "inner_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "6",
+					"w": "48",
+					"h": "17",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "identify_welcome",
+					"x": "centre",
+					"y": "7",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "IDENTIFY_WELCOME",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "manual"
+				},
+				{
+					"name": "identify_gold",
+					"x": "centre",
+					"y": "19",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "IDENTIFY_GOLD",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "manual"
+				},
+				{
+					"name": "identify_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "9",
+					"w": "44",
+					"h": "12",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "shop_identify_menu",
+					"x": "centre",
+					"y": "10",
+					"w": "42",
+					"h": "9",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "automatic",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "42",
+							"height": "9",
+							"menu_name": "shop_identify_menu",
 							"highlight": "0x6060c8",
 							"numeric_input": "true"
 						}
@@ -5053,20 +5183,6 @@
 					"alpha": "1.0"
 				},
 				{
-					"name": "character_manu_frame",
-					"type": "frame",
-					"x": "centre",
-					"y": "25",
-					"w": "40",
-					"h": "4",
-					"string": "",
-					"drawmode": "automatic",
-					"priority": "3",
-					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
-					"alpha": "1.0"
-				},
-				{
 					"name": "character_data",
 					"type": "other",
 					"x": "11",
@@ -5140,6 +5256,31 @@
 					"drawmode": "manual"
 				},
 				{
+					"name": "button_leave",
+					"type": "button",
+					"x": "42",
+					"y": "27",
+					"w": "8",
+					"h": "1",
+					"font": "monospace",
+					"string": "C_ACTION_LEAVE",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"adjust_y": "4"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "inspect_actions",
+			"component": [
+				{
 					"name": "button_remove",
 					"type": "button",
 					"x": "11",
@@ -5158,6 +5299,20 @@
 							"adjust_y": "4"
 						}
 					]
+				},
+				{
+					"name": "character_menu_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "25",
+					"w": "40",
+					"h": "4",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "3",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
 				},
 				{
 					"name": "button_equip",
@@ -5316,26 +5471,6 @@
 					"data": [
 						{
 							"adjust_y": "-4"
-						}
-					]
-				},
-				{
-					"name": "button_leave",
-					"type": "button",
-					"x": "42",
-					"y": "27",
-					"w": "8",
-					"h": "1",
-					"font": "monospace",
-					"string": "C_ACTION_LEAVE",
-					"drawmode": "automatic",
-					"priority": "1",
-					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
-					"alpha": "1.0",
-					"data": [
-						{
-							"adjust_y": "4"
 						}
 					]
 				}

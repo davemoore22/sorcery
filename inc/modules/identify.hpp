@@ -31,17 +31,14 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Buy;
-class Sell;
-class Identify;
 
-class Store {
+class Identify {
 
 	public:
 		// Standard Constructor
-		Store(Context &ctx);
+		Identify(Context &ctx);
 
-		~Store();
+		~Identify();
 
 		// Public Methods
 		auto start() -> int;
@@ -53,9 +50,6 @@ class Store {
 
 		// Private Members
 		Context &_ctx;
-		std::unique_ptr<Buy> _buy;
-		std::unique_ptr<Sell> _sell;
-		std::unique_ptr<Identify> _identify;
 };
 
 };

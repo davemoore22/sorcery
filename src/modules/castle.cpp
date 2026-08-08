@@ -33,6 +33,7 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
+#include "gui/modal.hpp"
 #include "modules/add.hpp"
 #include "modules/choose.hpp"
 #include "modules/inn.hpp"
@@ -55,6 +56,7 @@ Sorcery::Castle::Castle(Context &ctx)
 	_inn = std::make_unique<Inn>(_ctx);
 	_shop = std::make_unique<Shop>(_ctx);
 	_temple = std::make_unique<Temple>(_ctx);
+	_inspect = std::make_unique<Inspect>(_ctx);
 
 	_initialise();
 };
@@ -72,6 +74,30 @@ auto Sorcery::Castle::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->initialise();
+
+	// Need this before accessing modal_inspect!
+	_ctx.ui->create_dynamic_modal("modal_inspect");
+	_ctx.ui->create_dynamic_modal("modal_identify");
+	_ctx.ui->create_dynamic_modal("modal_equip");
+	_ctx.ui->create_dynamic_modal("modal_remove");
+	_ctx.ui->create_dynamic_modal("modal_spell");
+	_ctx.ui->create_dynamic_modal("modal_drop");
+	_ctx.ui->create_dynamic_modal("modal_trade");
+	_ctx.ui->create_dynamic_modal("modal_use");
+	_ctx.ui->create_dynamic_modal("modal_give");
+	_ctx.ui->create_dynamic_modal("modal_invoke");
+	_ctx.ui->modal_inspect->show = false;
+	_ctx.ui->modal_identify->show = false;
+	_ctx.ui->modal_equip->show = false;
+	_ctx.ui->modal_remove->show = false;
+	_ctx.ui->modal_spell->show = false;
+	_ctx.ui->modal_drop->show = false;
+	_ctx.ui->modal_give->show = false;
+	_ctx.ui->modal_trade->show = false;
+	_ctx.ui->modal_use->show = false;
+	_ctx.ui->modal_invoke->show = false;
+
+	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	_ctx.audio->set_volume(1.0f);
 
@@ -136,6 +162,13 @@ auto Sorcery::Castle::start() -> int {
 		} else if (_ctx.controller->wants(Enums::Screen::TEMPLE)) {
 			_temple->start();
 			_temple->stop();
+		} else if (_ctx.controller->has_character(
+					   Enums::CharacterSlot::INSPECT)) {
+			_inspect->start(
+				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
+			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
+			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}
 	}
 

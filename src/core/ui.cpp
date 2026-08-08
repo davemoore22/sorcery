@@ -230,6 +230,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::GRAVEYARD] = [this]() {
 		_display_graveyard();
 	};
+	_draw_modules[Enums::Screen::IDENTIFY] = [this]() {
+		_display_identify();
+	};
 	_draw_modules[Enums::Screen::INN] = [this]() {
 		_display_inn();
 	};
@@ -2354,6 +2357,27 @@ auto Sorcery::UI::_draw_sell() -> void {
 	//_draw_menu
 }
 
+auto Sorcery::UI::_draw_identify() -> void {
+
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
+
+	auto cmp_welcome{components->get("identify:identify_welcome")};
+	auto welcome_text{std::format(
+		"{}{}{}", _ctx.get_string("IDENTIFY_WELCOME_P"), character.get_name(),
+		_ctx.get_string("IDENTIFY_WELCOME_S"))};
+	_draw_text(&cmp_welcome, welcome_text);
+
+	auto cmp_gold{components->get("identify:identify_gold")};
+	auto gold_text{std::format("{}{}{}", _ctx.get_string("IDENTIFY_GOLD_P"),
+							   character.get_gold(),
+							   _ctx.get_string("IDENTIFY_GOLD_S"))};
+	_draw_text(&cmp_gold, gold_text);
+
+	// And regenerate sell menu
+	//_draw_menu
+}
+
 auto Sorcery::UI::_draw_store() -> void {
 
 	const auto character{_ctx.game->characters.at(
@@ -3898,6 +3922,8 @@ auto Sorcery::UI::_display_choose(const int mode) -> void {
 auto Sorcery::UI::_display_inspect(const int mode) -> void {
 
 	_draw_components("inspect", mode);
+	if (mode & INSPECT_MODE_ACTIONS)
+		_draw_components("inspect_actions", mode);
 	_draw_current_character(mode);
 	if (modal_identify->show)
 		modal_identify->display(_ctx.get_flag_ref("want_identify"));
@@ -4009,6 +4035,14 @@ auto Sorcery::UI::_display_buy() -> void {
 auto Sorcery::UI::_display_sell() -> void {
 	_draw_components("sell");
 	_draw_sell();
+	_draw_party_panel();
+	_draw_debug();
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_identify() -> void {
+	_draw_components("identify");
+	_draw_identify();
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();

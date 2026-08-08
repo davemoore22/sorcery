@@ -31,6 +31,7 @@ namespace Sorcery {
 // Forward Declarations
 struct Context;
 class Store;
+class Inspect;
 
 class Shop {
 
@@ -49,6 +50,7 @@ class Shop {
 		// Private Members
 		Context &_ctx;
 		std::unique_ptr<Store> _store;
+		std::unique_ptr<Inspect> _inspect;
 };
 
 };

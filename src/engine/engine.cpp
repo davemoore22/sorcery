@@ -219,9 +219,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				_reorder->start(REORDER_MODE_CAMP);
 				_reorder->stop(REORDER_MODE_CAMP);
 			} else if (_ctx.controller->wants(Enums::Screen::INSPECT)) {
-				_inspect->start(INSPECT_MODE_CAMP,
+				_inspect->start(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
 								_ctx.game->state->get_party_char(1).value());
-				_inspect->stop(INSPECT_MODE_CAMP);
+				_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			}
 
 			if (_ctx.controller->has_flag("want_take_stairs_up")) {

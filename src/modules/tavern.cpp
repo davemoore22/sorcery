@@ -142,9 +142,9 @@ auto Sorcery::Tavern::start() -> int {
 		} else if (_ctx.controller->has_character(
 					   Enums::CharacterSlot::INSPECT)) {
 			_inspect->start(
-				INSPECT_MODE_TAVERN,
+				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
 				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
-			_inspect->stop(INSPECT_MODE_TAVERN);
+			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			_ctx.controller->go_to(Enums::Screen::TAVERN);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}
@@ -155,6 +155,8 @@ auto Sorcery::Tavern::start() -> int {
 }
 
 auto Sorcery::Tavern::stop() -> int {
+
+	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	return 0;
 }
