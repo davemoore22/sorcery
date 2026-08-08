@@ -208,6 +208,7 @@ class UI {
 		auto _display_splash() -> void;
 
 		auto _display_add() -> void;
+		auto _display_buy() -> void;
 		auto _display_castle() -> void;
 		auto _display_edge_of_town() -> void;
 		auto _display_inn() -> void;
@@ -245,6 +246,7 @@ class UI {
 		auto _draw_bg_video() -> void;
 
 		auto _draw_buffbar() -> void;
+		auto _draw_buy() -> void;
 		auto _draw_button(Component *component,
 						  std::optional<bool *> is_clicked = std::nullopt)
 			-> void;

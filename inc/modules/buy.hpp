@@ -31,15 +31,14 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Buy;
 
-class Store {
+class Buy {
 
 	public:
 		// Standard Constructor
-		Store(Context &ctx);
+		Buy(Context &ctx);
 
-		~Store();
+		~Buy();
 
 		// Public Methods
 		auto start() -> int;
@@ -51,7 +50,6 @@ class Store {
 
 		// Private Members
 		Context &_ctx;
-		std::unique_ptr<Buy> _buy;
 };
 
 };

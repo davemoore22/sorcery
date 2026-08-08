@@ -66,9 +66,8 @@ class MenuBuilder {
 								  std::vector<std::string> &items) -> void;
 		auto _load_museum_menu(unsigned int width,
 							   std::vector<std::string> &items) -> void;
-		auto _load_store_menu(unsigned int width,
-							  std::vector<std::string> &items,
-							  std::vector<int> &data) -> void;
+		auto _load_buy_menu(unsigned int width, std::vector<std::string> &items,
+							std::vector<int> &data) -> void;
 };
 
 }

@@ -610,6 +610,19 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 					.value());
 		} else
 			return false;
+	} else if (component == "buy_menu") {
+
+		if (has_character("store")) {
+			const auto &who{_game->characters.at(_characters["store"])};
+			const auto gold{who.get_gold()};
+
+			// Data is the item type
+			const auto item_type{_ctx.resources->items->get_item_type(
+				magic_enum::enum_cast<Enums::Items::TypeID>(data).value())};
+			if (gold < item_type.get_value())
+				return true;
+		};
+
 	} else if (component == "store_menu") {
 
 		// No gold, can't buy anything
@@ -1317,6 +1330,11 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 
 		// Don't save Character
 		_ctx.controller->set_flag("confirm_discard_character");
+
+	} else if (component == "button_buy_leave") {
+
+		// Return to the Store
+		go_to(Enums::Screen::STORE);
 
 	} else if (component == "license_return") {
 

@@ -2114,6 +2114,156 @@
 			]
 		},
 		{
+			"name": "buy",
+			"component": [
+				{
+					"name": "background_image",
+					"x": "0",
+					"y": "0",
+					"type": "image_bg",
+					"drawmode": "automatic",
+					"priority": "0",
+					"alpha": "1.0",
+					"data": [
+						{
+							"source": "backgrounds.tga",
+							"scale": "0.7"
+						}
+					]
+				},
+				{
+					"name": "outer_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "2",
+					"w": "52",
+					"h": "24",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"title": "BUY_TITLE"
+						}
+					]
+				},
+				{
+					"name": "inner_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "6",
+					"w": "48",
+					"h": "17",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "buy_welcome",
+					"x": "centre",
+					"y": "8",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "BUY_WELCOME",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "manual"
+				},
+				{
+					"name": "buy_gold",
+					"x": "centre",
+					"y": "20",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "BUY_GOLD",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "manual"
+				},
+				{
+					"name": "menu_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "10",
+					"w": "44",
+					"h": "9",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "buy_menu",
+					"x": "centre",
+					"y": "11",
+					"w": "42",
+					"h": "6",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "automatic",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "42",
+							"height": "6",
+							"menu_name": "buy_menu",
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
+						}
+					]
+				},
+				{
+					"name": "button_buy_leave",
+					"type": "button",
+					"x": "44",
+					"y": "20",
+					"w": "8",
+					"h": "1",
+					"font": "monospace",
+					"string": "BUY_RETURN",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"adjust_y": "-4"
+						}
+					]
+				},
+				{
+					"name": "party_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "24",
+					"w": "40",
+					"h": "9",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				}
+			]
+		},
+		{
 			"name": "stay",
 			"component": [
 				{

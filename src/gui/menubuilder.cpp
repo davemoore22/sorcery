@@ -77,8 +77,6 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"pay_menu", {"PAY_RETURN"}},
 
-	{"buy_menu", {"BUY_RETURN"}},
-
 	{"sell_menu", {"SELL_RETURN"}},
 
 	{"uncurse_menu", {"UNCURSE_RETURN"}},
@@ -284,17 +282,21 @@ auto Sorcery::MenuBuilder::_load_spellbook_menu(unsigned int width,
 		std::format("{:^{}}", _ctx.get_string("SPELLBOOK_RETURN"), width));
 }
 
-auto Sorcery::MenuBuilder::_load_store_menu(unsigned int width,
-											std::vector<std::string> &items,
-											std::vector<int> &data) -> void {
+auto Sorcery::MenuBuilder::_load_buy_menu(unsigned int width,
+										  std::vector<std::string> &items,
+										  std::vector<int> &data) -> void {
 
 	const auto char_id{_ctx.controller->get_character("store")};
 	auto &character{_ctx.game->characters.at(char_id)};
 
 	for (const auto &item_type : _ctx.resources->items->get_all_types()) {
 
-		if (_ctx.game->state->check_shop_stock(item_type.get_type_id()) > 0 &&
-			_ctx.game->state->check_shop_will_sell(item_type.get_type_id())) {
+		// Either has a fixed amount (> 0) or endless supply (-1)
+		const auto in_stock{
+			_ctx.game->state->check_shop_stock(item_type.get_type_id()) != 0};
+		const auto will_sell{
+			_ctx.game->state->check_shop_will_sell(item_type.get_type_id())};
+		if (in_stock && will_sell) {
 
 			const auto suffix{
 				item_type.is_class_usable(character.get_class())
@@ -302,7 +304,7 @@ auto Sorcery::MenuBuilder::_load_store_menu(unsigned int width,
 						  item_type.get_category())
 					: " (Not Usable)"};
 			const auto price{item_type.get_value()};
-			const auto entry{std::format("{:<16} {:>6} {:<13}",
+			const auto entry{std::format("{:<20} {:>6} {:<13}",
 										 item_type.get_known_name(), price,
 										 suffix)};
 
@@ -366,8 +368,9 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	} */
 	else if (menu_name == "buy_menu") {
 
-		_load_store_menu(width, items, data);
-		_load_fixed_menu(menu_name, width, items);
+		// No fixed menu for this one, as the items are dynamic and depend on
+		// the store stock, and to leave the screen click on a button.
+		_load_buy_menu(width, items, data);
 
 	} else if (menu_name == "reorder_menu") {
 

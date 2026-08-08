@@ -95,7 +95,7 @@ const ActionList EDGE_ACTIONS{
 
 const ActionList STORE_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::STORE}}, // Buy
+	  .screen = Enums::Screen::BUY}}, // Buy
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::STORE}}, // Sell
 	{{.type = MenuAction::Type::GOTOSCREEN,
