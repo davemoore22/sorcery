@@ -36,7 +36,6 @@
 #include "modules/inspect.hpp"
 #include "modules/remove.hpp"
 #include "modules/reorder.hpp"
-#include "modules/roster.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
@@ -48,7 +47,6 @@ Sorcery::Tavern::Tavern(Context &ctx)
 	_remove = std::make_unique<Remove>(_ctx);
 	_reorder = std::make_unique<Reorder>(_ctx);
 	_inspect = std::make_unique<Inspect>(_ctx);
-	_roster = std::make_unique<Roster>(_ctx);
 
 	_initialise();
 };
@@ -146,10 +144,6 @@ auto Sorcery::Tavern::start() -> int {
 			_inspect->stop(INSPECT_MODE_TAVERN);
 			_ctx.controller->go_to(Enums::Screen::TAVERN);
 			_ctx.controller->clear_character("inspect");
-		} else if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
-			_roster->start(ROSTER_MODE_TAVERN);
-			_roster->stop();
-			_ctx.controller->go_to(Enums::Screen::SHOP);
 		}
 	}
 

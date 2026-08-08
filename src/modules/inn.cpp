@@ -33,7 +33,6 @@
 #include "gui/dialog.hpp"
 #include "gui/modal.hpp"
 #include "modules/inspect.hpp"
-#include "modules/roster.hpp"
 #include "modules/stay.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
@@ -44,7 +43,6 @@ Sorcery::Inn::Inn(Context &ctx)
 
 	_inspect = std::make_unique<Inspect>(_ctx);
 	_stay = std::make_unique<Stay>(_ctx);
-	_roster = std::make_unique<Roster>(_ctx);
 
 	_initialise();
 };
@@ -126,12 +124,6 @@ auto Sorcery::Inn::start() -> int {
 		if (!_ctx.controller->wants(Enums::Screen::INN) &&
 			_ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
-
-		if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
-			_roster->start(ROSTER_MODE_INN);
-			_roster->stop();
-			_ctx.controller->go_to(Enums::Screen::SHOP);
-		}
 
 		if (_ctx.controller->has_character("inspect")) {
 			_inspect->start(INSPECT_MODE_INN,

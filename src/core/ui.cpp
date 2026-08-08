@@ -258,10 +258,6 @@ Sorcery::UI::UI(Context &ctx)
 		_display_training_grounds();
 	};
 
-	_draw_modules_with_int[Enums::Screen::ROSTER] = [this](int n) {
-		_display_roster(n);
-	};
-
 	_draw_modules_with_int[Enums::Screen::CREATE_NAME] = [this](int n) {
 		_display_create_name(n);
 	};
@@ -299,9 +295,6 @@ Sorcery::UI::UI(Context &ctx)
 	};
 	_draw_modules_with_int[Enums::Screen::REORDER] = [this](int n) {
 		_display_reorder(n);
-	};
-	_draw_modules_with_int[Enums::Screen::ROSTER] = [this](int n) {
-		_display_roster(n);
 	};
 
 	_draw_modules_with_string[Enums::Screen::LICENSE] =
@@ -3832,11 +3825,6 @@ auto Sorcery::UI::_display_training_grounds() -> void {
 
 auto Sorcery::UI::_display_reorder(const int mode) -> void {
 	_draw_components("reorder", mode);
-	_draw_cursor();
-}
-
-auto Sorcery::UI::_display_roster(const int mode) -> void {
-	_draw_components("roster", mode);
 	_draw_cursor();
 }
 

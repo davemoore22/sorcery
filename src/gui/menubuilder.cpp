@@ -50,7 +50,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	 {"CAMP_INSPECT", "CAMP_REORDER", "CAMP_OPTIONS", "CAMP_QUIT",
 	  "CAMP_LEAVE"}},
 
-	{"roster_menu", {"ROSTER_RETURN"}},
+	//{"roster_menu", {"ROSTER_RETURN"}},
 	{"choose_menu", {"CHOOSE_RETURN"}},
 	{"remove_character_menu", {"REMOVE_CHARACTER_RETURN"}},
 	{"reorder_menu", {"REORDER_RETURN"}},
@@ -350,7 +350,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 		_load_party_characters(items, data, flags, reorder);
 		_load_fixed_menu(menu_name, width, items);
-	} else if (menu_name == "roster_menu") {
+	}
+	/* else if (menu_name == "roster_menu") {
 
 		if (_ctx.controller->get_roster_mode() == ROSTER_MODE_TAVERN) {
 			_load_tavern_characters(items, data);
@@ -362,7 +363,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 			_load_party_characters(items, data, flags, reorder);
 			_load_fixed_menu(menu_name, width, items);
 		}
-	} else if (menu_name == "buy_menu") {
+	} */
+	else if (menu_name == "buy_menu") {
 
 		_load_store_menu(width, items, data);
 		_load_fixed_menu(menu_name, width, items);
@@ -441,7 +443,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"invoke_menu", MENU_INVOKE_ITEM},
 		std::pair{"equip_menu", MENU_EQUIP_ITEM},
 		std::pair{"remove_menu", MENU_REMOVE_ITEM},
-		std::pair{"roster_menu", MENU_FULL_NAME},
+		// std::pair{"roster_menu", MENU_FULL_NAME},
 		std::pair{"choose_menu", MENU_FULL_NAME},
 		std::pair{"inn_menu", MENU_FULL_NAME},
 		std::pair{"shop_menu", MENU_FULL_NAME},

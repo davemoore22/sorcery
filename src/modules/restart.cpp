@@ -68,7 +68,7 @@ auto Sorcery::Restart::start() -> int {
 
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event))
-				return BACK_FROM_ROSTER;
+				return BACK_TO_EDGE_OF_TOWN;
 
 			// Check for Quicksave and Quickload
 			if (_ctx.controller->check_for_quicksave(event))

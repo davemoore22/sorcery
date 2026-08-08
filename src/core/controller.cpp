@@ -620,7 +620,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			const auto &who{_game->characters.at(_characters["store"])};
 			switch (selection) {
 			case 0: // Buy
-				return who.get_gold() == 0;
+				return who.get_gold() == 0 || who.inventory.is_full();
 				break;
 			case 1: // Sell
 				return who.inventory.items().empty();
@@ -851,7 +851,7 @@ auto Sorcery::Controller::handle_icon_click(const int icon_idx) -> void {
 		break;
 
 	case ICON_PARTY:
-		go_to(Enums::Screen::ROSTER);
+		set_flag("want_inspect");
 		break;
 
 	case ICON_MAP:
@@ -1337,15 +1337,6 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 	}
 }
 
-auto Sorcery::Controller::get_roster_mode() const -> int {
-
-	return _roster_mode;
-}
-auto Sorcery::Controller::set_roster_mode(const int mode) -> void {
-
-	_roster_mode = mode;
-}
-
 // Menu Handling
 auto Sorcery::Controller::handle_standard_menu(
 	std::string_view component, const std::vector<std::string> &items,
@@ -1494,19 +1485,6 @@ auto Sorcery::Controller::handle_standard_menu(
 				unset_flag("want_choose_class");
 			}
 		};
-	} else if (component == "roster_menu") {
-
-		// Roster has multiple entry points so need to rely upon calling
-		// screen to enable itself
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_flags["show_roster"] = false;
-			clear_character("inspect");
-			go_back = true;
-		} else {
-			set_character("inspect", data);
-
-			_flags["show_roster"] = false;
-		}
 	} else if (component == "reorder_menu") {
 
 		// Reorder has multiple entry points so need to rely upon calling

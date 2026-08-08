@@ -40,7 +40,6 @@
 #include "modules/recovery.hpp"
 #include "modules/remove.hpp"
 #include "modules/reorder.hpp"
-#include "modules/roster.hpp"
 #include "modules/shop.hpp"
 #include "modules/stay.hpp"
 #include "modules/store.hpp"

@@ -33,7 +33,6 @@ namespace Sorcery {
 struct Context;
 class Inspect;
 class Pay;
-class Roster;
 
 class Temple {
 
@@ -55,7 +54,6 @@ class Temple {
 		Context &_ctx;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Pay> _pay;
-		std::unique_ptr<Roster> _roster;
 };
 
 };
