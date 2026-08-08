@@ -4306,7 +4306,8 @@ auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 	const ImU32 bg{ImColor{ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade}}};
 
 	// Black Background and Colour Foreground
-	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg);
+	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg,
+											  static_cast<float>(rounding));
 	ImGui::GetWindowDrawList()->AddRect(fr_min, fr_max, col,
 										static_cast<float>(rounding),
 										static_cast<float>(rounding));
