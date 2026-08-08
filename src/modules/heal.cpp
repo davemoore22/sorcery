@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -69,8 +70,8 @@ auto Sorcery::Heal::start() -> int {
 
 	_heal_tick = SDL_AddTimer(2000, &Heal::_callback_heal_tick, this);
 
-	_character =
-		&_ctx.game->characters.at(_ctx.controller->get_character("help"));
+	_character = &_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::HELP));
 
 	// Main loop
 	auto done{false};
@@ -107,8 +108,9 @@ auto Sorcery::Heal::start() -> int {
 		if (_stage <= 0) {
 
 			// Handle Healing
-			_try_heal(_ctx.controller->get_character("help"),
-					  _ctx.controller->get_character("pay"));
+			_try_heal(
+				_ctx.controller->get_character(Enums::CharacterSlot::HELP),
+				_ctx.controller->get_character(Enums::CharacterSlot::PAY));
 			_ctx.controller->set_flag("heal_finished");
 		}
 

@@ -20,41 +20,41 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/shop.hpp"
+#include "modules/sell.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
-#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
-#include "modules/store.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
-Sorcery::Shop::Shop(Context &ctx)
+Sorcery::Sell::Sell(Context &ctx)
 	: _ctx{ctx} {
-
-	_store = std::make_unique<Store>(_ctx);
 
 	_initialise();
 };
 
-auto Sorcery::Shop::_initialise() -> bool {
+Sorcery::Sell::~Sell() {}
 
-	_ctx.controller->set_selected("party_panel_selected", 0);
+auto Sorcery::Sell::_initialise() -> bool {
+
+	_ctx.controller->set_selected("sell_selected", -1);
 
 	return true;
 }
 
-auto Sorcery::Shop::start() -> int {
+auto Sorcery::Sell::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::SHOP);
-	_ctx.controller->initialise();
+	// Unlike what happens in the start() methods in other modules, we don't
+	// call controller->initialise() here, as this module requires we know what
+	// character we have selected to stay at the inn!
+	_ctx.controller->go_to(Enums::Screen::SELL);
 
 	// Main loop
 	auto done{false};
@@ -70,42 +70,35 @@ auto Sorcery::Shop::start() -> int {
 			// Check for Window Resize
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 
-			// Check for Menu Key
-			_ctx.controller->check_for_menu_key(event);
-
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event))
-				return BACK_TO_CASTLE;
+				return BACK_TO_STORE;
 
-			// Check for Quicksave and Quickload
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-				continue;
+			// Check for Buy Selected (remember +1 to selection)
+			if (_ctx.controller->get_selected("sell_selected") > -1) {
+
+				// Work out if we can sell the item (and if we can, do it!)
+
+				// return BACK_TO_INN;
 			}
 		}
 
-		_ctx.ui->display(Enums::Screen::SHOP, _ctx.game);
+		_ctx.ui->display(Enums::Screen::SELL, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::SHOP) &&
-			_ctx.controller->wants(Enums::Screen::CASTLE))
-			return BACK_TO_CASTLE;
-		else if (_ctx.controller->has_character(Enums::CharacterSlot::STORE)) {
-			_store->start();
-			_store->stop();
-			_ctx.controller->clear_character(Enums::CharacterSlot::STORE);
-		}
+		if (!_ctx.controller->wants(Enums::Screen::SELL) &&
+			_ctx.controller->wants(Enums::Screen::STORE))
+			return BACK_TO_STORE;
 	}
 
 	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
 
-auto Sorcery::Shop::stop() -> int {
+auto Sorcery::Sell::stop() -> int {
+
+	_ctx.controller->set_selected("sell_selected", -1);
+	_ctx.controller->go_to(Enums::Screen::STORE);
 
 	return 0;
 }

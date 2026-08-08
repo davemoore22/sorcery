@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -95,8 +96,9 @@ auto Sorcery::Stay::start() -> int {
 			if (_ctx.controller->get_selected("stay_selected") > -1) {
 
 				// Get Age beforehand
-				auto &character{_ctx.game->characters.at(
-					_ctx.controller->get_character("stay"))};
+				auto &character{
+					_ctx.game->characters.at(_ctx.controller->get_character(
+						Enums::CharacterSlot::STAY))};
 				const auto before_age{character.get_age() % 52};
 
 				// Remember in this case its +1 the usual offset

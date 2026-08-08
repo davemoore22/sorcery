@@ -75,7 +75,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 	_ctx.controller->go_to(Enums::Screen::ENGINE);
 	if (_ctx.game->state->get_party_size() > 0)
 		_ctx.controller->set_character(
-			"inspect", _ctx.game->state->get_party_char(1).value());
+			Enums::CharacterSlot::INSPECT,
+			_ctx.game->state->get_party_char(1).value());
 
 	_start_expedition(mode);
 

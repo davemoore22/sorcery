@@ -215,6 +215,7 @@ class UI {
 		auto _display_pay() -> void;
 		auto _display_remove() -> void;
 		auto _display_restart() -> void;
+		auto _display_sell() -> void;
 		auto _display_shop() -> void;
 		auto _display_stay() -> void;
 		auto _display_store() -> void;
@@ -307,6 +308,7 @@ class UI {
 		auto _draw_options() -> void;
 		auto _draw_recovery(const int mode) -> void;
 		auto _draw_save() -> void;
+		auto _draw_sell() -> void;
 		auto _draw_stay() -> void;
 		auto _draw_store() -> void;
 		auto _draw_automap_legend(Component *component) -> void;

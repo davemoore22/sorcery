@@ -88,10 +88,11 @@ class Controller {
 		auto is_menu_item_disabled(const std::string &component,
 								   const int selection, const int data) -> bool;
 		auto set_game(Game *game) -> void;
-		auto clear_character(const std::string &flag) -> void;
-		auto get_character(const std::string &flag) const -> int;
-		auto has_character(const std::string &flag) const -> bool;
-		auto set_character(const std::string &flag, const int value) -> void;
+		auto clear_character(const Enums::CharacterSlot flag) -> void;
+		auto has_character(const Enums::CharacterSlot flag) const -> bool;
+		auto get_character(const Enums::CharacterSlot flag) const -> int;
+		auto set_character(const Enums::CharacterSlot flag, const int value)
+			-> void;
 		auto get_flag(const std::string &flag) const -> bool;
 		auto get_flag_ref(const std::string &flag) -> bool &;
 		auto set_flag(const std::string &flag) -> void;
@@ -128,7 +129,7 @@ class Controller {
 		auto clear_candidate_party() -> void;
 		auto get_candidate_party() -> std::vector<unsigned int> &;
 		auto get_candidate_party() const -> const std::vector<unsigned int> &;
-		auto get_character() const -> Character *;
+		auto get_candidate_character() const -> Character *;
 		auto get_input_buffer() -> std::string &;
 		auto set_input_buffer(const std::string &value) -> void;
 		auto clear_input_buffer() -> void;
@@ -185,10 +186,10 @@ class Controller {
 		std::vector<unsigned int> _candidate_party; // Used for Reordering
 		Enums::Map::Event _last_event;				// Last event in dungeon
 		Enums::Map::Direction _last_dir;			// Last movement in dungeon
-		std::map<std::string, int> _characters;		// Character Selections
-		std::map<std::string, bool> _flags;			// Logic Flags
-		std::map<std::string, std::string> _texts;	// "Global" Texts
-		std::map<std::string, int> _selected;		// Menu Selections
+		std::map<Enums::CharacterSlot, int> _characters; // Character Selections
+		std::map<std::string, bool> _flags;				 // Logic Flags
+		std::map<std::string, std::string> _texts;		 // "Global" Texts
+		std::map<std::string, int> _selected;			 // Menu Selections
 		std::string _input_buffer; // Input Buffer for Text Input
 		std::optional<int> _menu_key;
 };

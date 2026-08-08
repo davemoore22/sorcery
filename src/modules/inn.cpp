@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -83,8 +84,8 @@ auto Sorcery::Inn::start() -> int {
 	_ctx.ui->modal_use->show = false;
 	_ctx.ui->modal_invoke->show = false;
 
-	_ctx.controller->clear_character("inspect");
-	_ctx.controller->clear_character("stay");
+	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
+	_ctx.controller->clear_character(Enums::CharacterSlot::STAY);
 
 	// Main loop
 	auto done{false};
@@ -125,15 +126,16 @@ auto Sorcery::Inn::start() -> int {
 			_ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 
-		if (_ctx.controller->has_character("inspect")) {
-			_inspect->start(INSPECT_MODE_INN,
-							_ctx.controller->get_character("inspect"));
+		if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
+			_inspect->start(
+				INSPECT_MODE_INN,
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
 			_inspect->stop(INSPECT_MODE_INN);
-			_ctx.controller->clear_character("inspect");
-		} else if (_ctx.controller->has_character("stay")) {
+			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
+		} else if (_ctx.controller->has_character(Enums::CharacterSlot::STAY)) {
 			_stay->start();
 			_stay->stop();
-			_ctx.controller->clear_character("stay");
+			_ctx.controller->clear_character(Enums::CharacterSlot::STAY);
 		}
 	}
 
@@ -144,8 +146,8 @@ auto Sorcery::Inn::start() -> int {
 auto Sorcery::Inn::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
-	_ctx.controller->clear_character("inspect");
-	_ctx.controller->clear_character("stay");
+	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
+	_ctx.controller->clear_character(Enums::CharacterSlot::STAY);
 
 	return 0;
 }

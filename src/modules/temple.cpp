@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -98,9 +99,9 @@ auto Sorcery::Temple::start() -> int {
 	_ctx.ui->input_donate->show = false;
 	_ctx.ui->input_donate->initialise(_ctx.game);
 
-	_ctx.controller->clear_character("inspect");
-	_ctx.controller->clear_character("help");
-	_ctx.controller->clear_character("tithe");
+	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
+	_ctx.controller->clear_character(Enums::CharacterSlot::HELP);
+	_ctx.controller->clear_character(Enums::CharacterSlot::TITHE);
 
 	// Main loop
 	auto done{false};
@@ -131,7 +132,8 @@ auto Sorcery::Temple::start() -> int {
 
 					// Close Modals
 					if (_ctx.ui->modal_inspect->show) {
-						_ctx.controller->clear_character("inspect");
+						_ctx.controller->clear_character(
+							Enums::CharacterSlot::INSPECT);
 						_ctx.controller->unset_flag("want_inspect");
 						_ctx.controller->unset_flag("want_identify");
 						_ctx.controller->unset_flag("want_equip");
@@ -142,11 +144,13 @@ auto Sorcery::Temple::start() -> int {
 						_ctx.controller->unset_flag("want_pool_gold");
 						_ctx.ui->modal_inspect->show = false;
 					} else if (_ctx.ui->modal_help->show) {
-						_ctx.controller->clear_character("help");
+						_ctx.controller->clear_character(
+							Enums::CharacterSlot::HELP);
 						_ctx.controller->unset_flag("want_help");
 						_ctx.ui->modal_help->show = false;
 					} else if (_ctx.ui->modal_tithe->show) {
-						_ctx.controller->clear_character("tithe");
+						_ctx.controller->clear_character(
+							Enums::CharacterSlot::TITHE);
 						_ctx.controller->unset_flag("want_tithe");
 						_ctx.ui->modal_tithe->show = false;
 						_ctx.ui->input_donate->show = false;
@@ -184,14 +188,15 @@ auto Sorcery::Temple::start() -> int {
 			_ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 
-		if (_ctx.controller->has_character("inspect")) {
-			_inspect->start(INSPECT_MODE_TEMPLE,
-							_ctx.controller->get_character("inspect"));
+		if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
+			_inspect->start(
+				INSPECT_MODE_TEMPLE,
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
 			_inspect->stop(INSPECT_MODE_TEMPLE);
-			_ctx.controller->clear_character("inspect");
+			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}
 
-		if (_ctx.controller->has_character("help")) {
+		if (_ctx.controller->has_character(Enums::CharacterSlot::HELP)) {
 			auto heal_result{_pay->start()};
 			if (heal_result == HEALED_NOT)
 				_pay->stop(false);
@@ -199,10 +204,10 @@ auto Sorcery::Temple::start() -> int {
 				_pay->stop(true);
 			}
 
-			_ctx.controller->clear_character("help");
+			_ctx.controller->clear_character(Enums::CharacterSlot::HELP);
 		}
 
-		if (_ctx.controller->has_character("tithe")) {
+		if (_ctx.controller->has_character(Enums::CharacterSlot::TITHE)) {
 			// We cannot clear the tithe character here, as we are still on the
 			// same screen, only to display the donate popup
 		}
@@ -215,7 +220,7 @@ auto Sorcery::Temple::start() -> int {
 auto Sorcery::Temple::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
-	_ctx.controller->clear_character("inspect");
+	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	return 0;
 }

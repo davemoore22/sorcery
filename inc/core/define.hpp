@@ -82,5 +82,4 @@ inline constexpr auto SAVE_STATE_VERSION{1u};
 inline constexpr auto EXPEDITION_START{1};
 inline constexpr auto EXPEDITION_RESTART{2};
 inline constexpr auto EXPEDITION_GOTO{16};
-
 };

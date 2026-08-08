@@ -74,15 +74,14 @@ auto Sorcery::Controller::initialise() -> void {
 	_characters.clear();
 
 	// Set default state (these must all be present and set to false/-1)
-	for (const auto character : {
-			 "inspect",
-			 "restart",
-			 "stay",
-			 "tithe",
-			 "pay",
-			 "help",
-		 })
-		clear_character(character);
+
+	clear_character(Enums::CharacterSlot::INSPECT);
+	clear_character(Enums::CharacterSlot::RESTART);
+	clear_character(Enums::CharacterSlot::STAY);
+	clear_character(Enums::CharacterSlot::STORE);
+	clear_character(Enums::CharacterSlot::TITHE);
+	clear_character(Enums::CharacterSlot::PAY);
+	clear_character(Enums::CharacterSlot::HELP);
 
 	// Note that the show_* flags don't need to be preset
 	for (const auto flag : {
@@ -201,8 +200,10 @@ auto Sorcery::Controller::get_characters() const -> std::string {
 
 	std::string output{};
 	for (const auto &character : _characters)
-		output.append(
-			std::format("{:>26}: {}\n", character.first, character.second));
+		output.append(std::format(
+			"{:>26}: {}\n",
+			magic_enum::enum_name<Enums::CharacterSlot>(character.first),
+			character.second));
 
 	return output;
 }
@@ -408,7 +409,8 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 
 		if (_game != nullptr) {
 
-			const auto current_char_id{_characters["inspect"]};
+			const auto current_char_id{
+				_characters[Enums::CharacterSlot::INSPECT]};
 
 			if (current_char_id == data)
 				return true;
@@ -422,7 +424,8 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 		if (_game != nullptr) {
 
 			// Work out what menu items are disabled due to lack of money
-			const auto character{_game->characters.at(_characters["stay"])};
+			const auto character{
+				_game->characters.at(_characters[Enums::CharacterSlot::STAY])};
 			const auto gold{character.get_gold()};
 
 			switch (selection) {
@@ -448,15 +451,17 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 	} else if (component == "pay_menu") {
 		if (_game != nullptr) {
 
-			const auto &help{_game->characters.at(_characters["help"])};
+			const auto &help{
+				_game->characters.at(_characters[Enums::CharacterSlot::HELP])};
 			const auto &who{_game->characters[data]};
 			return help.get_cure_cost() > who.get_gold();
 		}
 	} else if (component == "identify_menu") {
 
-		if (has_character("inspect")) {
+		if (has_character(Enums::CharacterSlot::INSPECT)) {
 
-			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto &who{_game->characters.at(
+				_characters[Enums::CharacterSlot::INSPECT])};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
@@ -470,9 +475,10 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 	} else if (component == "equip_menu") {
 
 		// Remember this is returning true if the item is meant to be disabled!
-		if (has_character("inspect")) {
+		if (has_character(Enums::CharacterSlot::INSPECT)) {
 
-			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto &who{_game->characters.at(
+				_characters[Enums::CharacterSlot::INSPECT])};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
@@ -486,9 +492,10 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 	} else if (component == "remove_item_menu") {
 
 		// Remember this is returning true if the item is meant to be disabled!
-		if (has_character("inspect")) {
+		if (has_character(Enums::CharacterSlot::INSPECT)) {
 
-			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto &who{_game->characters.at(
+				_characters[Enums::CharacterSlot::INSPECT])};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
@@ -499,11 +506,28 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 #pragma GCC diagnostic pop
 		} else
 			return false;
+	} else if (component == "sell_menu") {
+
+		if (has_character(Enums::CharacterSlot::STORE)) {
+
+			const auto &who{
+				_game->characters.at(_characters[Enums::CharacterSlot::STORE])};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+				const auto item{who.inventory.items().at(selection)};
+				return item.get_equipped() && item.get_cursed();
+			} else
+				return false;
+#pragma GCC diagnostic pop
+		} else
+			return false;
 	} else if (component == "drop_menu") {
 
-		if (has_character("inspect")) {
+		if (has_character(Enums::CharacterSlot::INSPECT)) {
 
-			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto &who{_game->characters.at(
+				_characters[Enums::CharacterSlot::INSPECT])};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
@@ -516,9 +540,10 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			return false;
 	} else if (component == "trade_menu") {
 
-		if (has_character("inspect")) {
+		if (has_character(Enums::CharacterSlot::INSPECT)) {
 
-			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto &who{_game->characters.at(
+				_characters[Enums::CharacterSlot::INSPECT])};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
@@ -531,9 +556,10 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			return false;
 	} else if (component == "use_menu") {
 
-		if (has_character("inspect")) {
+		if (has_character(Enums::CharacterSlot::INSPECT)) {
 
-			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto &who{_game->characters.at(
+				_characters[Enums::CharacterSlot::INSPECT])};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
@@ -548,9 +574,10 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			return false;
 	} else if (component == "invoke_menu") {
 
-		if (has_character("inspect")) {
+		if (has_character(Enums::CharacterSlot::INSPECT)) {
 
-			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto &who{_game->characters.at(
+				_characters[Enums::CharacterSlot::INSPECT])};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
@@ -565,10 +592,11 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			return false;
 	} else if (component == "spell_menu") {
 
-		if (has_character("inspect")) {
+		if (has_character(Enums::CharacterSlot::INSPECT)) {
 
 			// Work out from the Spell ID if we have enough sp to cast it
-			const auto &who{_game->characters.at(_characters["inspect"])};
+			const auto &who{_game->characters.at(
+				_characters[Enums::CharacterSlot::INSPECT])};
 			const auto spell_id{
 				magic_enum::enum_cast<Enums::Magic::SpellID>(data)};
 
@@ -612,8 +640,9 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			return false;
 	} else if (component == "buy_menu") {
 
-		if (has_character("store")) {
-			const auto &who{_game->characters.at(_characters["store"])};
+		if (has_character(Enums::CharacterSlot::STORE)) {
+			const auto &who{
+				_game->characters.at(_characters[Enums::CharacterSlot::STORE])};
 			const auto gold{who.get_gold()};
 
 			// Data is the item type
@@ -622,15 +651,15 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			if (gold < item_type.get_value())
 				return true;
 		};
-
 	} else if (component == "store_menu") {
 
 		// No gold, can't buy anything
 		// No items, can't sell anything
 		// no cursed items, can't uncurse anything
 		// no unidentified items, can't identify anything
-		if (has_character("store")) {
-			const auto &who{_game->characters.at(_characters["store"])};
+		if (has_character(Enums::CharacterSlot::STORE)) {
+			const auto &who{
+				_game->characters.at(_characters[Enums::CharacterSlot::STORE])};
 			switch (selection) {
 			case 0: // Buy
 				return who.get_gold() == 0 || who.inventory.is_full();
@@ -728,10 +757,10 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character("inspect");
+			clear_character(Enums::CharacterSlot::INSPECT);
 			go_back = true;
 		} else
-			set_character("inspect", data);
+			set_character(Enums::CharacterSlot::INSPECT, data);
 
 		in_flags[0].get() = false;
 		return true;
@@ -741,10 +770,10 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character("tithe");
+			clear_character(Enums::CharacterSlot::TITHE);
 			go_back = true;
 		} else {
-			set_character("tithe", data);
+			set_character(Enums::CharacterSlot::TITHE, data);
 			_flags["want_donate"] = true;
 			in_flags.at(1).get() = true;
 		}
@@ -758,10 +787,10 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character("help");
+			clear_character(Enums::CharacterSlot::HELP);
 			go_back = true;
 		} else
-			set_character("help", data);
+			set_character(Enums::CharacterSlot::HELP, data);
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
@@ -890,7 +919,7 @@ auto Sorcery::Controller::handle_icon_click(const int icon_idx) -> void {
 
 auto Sorcery::Controller::inspect_party_member(const int character_id) -> void {
 
-	set_character("inspect", character_id);
+	set_character(Enums::CharacterSlot::INSPECT, character_id);
 	go_to(Enums::Screen::INSPECT);
 }
 
@@ -988,7 +1017,8 @@ auto Sorcery::Controller::get_text(const std::string &flag) const
 	return "";
 }
 
-auto Sorcery::Controller::get_character(const std::string &flag) const -> int {
+auto Sorcery::Controller::get_character(const Enums::CharacterSlot flag) const
+	-> int {
 
 	if (_characters.contains(flag))
 		return _characters.at(flag);
@@ -996,7 +1026,8 @@ auto Sorcery::Controller::get_character(const std::string &flag) const -> int {
 		return -1;
 }
 
-auto Sorcery::Controller::has_character(const std::string &flag) const -> bool {
+auto Sorcery::Controller::has_character(const Enums::CharacterSlot flag) const
+	-> bool {
 
 	if (_characters.contains(flag))
 		if (_characters.at(flag) != -1)
@@ -1004,13 +1035,15 @@ auto Sorcery::Controller::has_character(const std::string &flag) const -> bool {
 
 	return false;
 }
-auto Sorcery::Controller::set_character(const std::string &flag,
+
+auto Sorcery::Controller::set_character(const Enums::CharacterSlot flag,
 										const int value) -> void {
 
 	_characters[flag] = value;
 }
 
-auto Sorcery::Controller::clear_character(const std::string &flag) -> void {
+auto Sorcery::Controller::clear_character(const Enums::CharacterSlot flag)
+	-> void {
 
 	_characters[flag] = -1;
 }
@@ -1277,7 +1310,7 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		// Show Pool Gold Notice
 		ui->notice_pool_gold->show = true;
 		set_flag("want_pool_gold");
-		_game->pool_party_gold(get_character("inspect"));
+		_game->pool_party_gold(get_character(Enums::CharacterSlot::INSPECT));
 	} else if (component == "button_leave") {
 		// Leave Inspect
 		unset_flag("want_inspect");
@@ -1379,19 +1412,19 @@ auto Sorcery::Controller::handle_standard_menu(
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character("stay");
+			clear_character(Enums::CharacterSlot::STAY);
 			go_to(Enums::Screen::CASTLE);
 		} else
-			set_character("stay", data);
+			set_character(Enums::CharacterSlot::STAY, data);
 
 	} else if (component == "shop_menu") {
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character("store");
+			clear_character(Enums::CharacterSlot::STORE);
 			go_to(Enums::Screen::CASTLE);
 		} else
-			set_character("store", data);
+			set_character(Enums::CharacterSlot::STORE, data);
 
 	} else if (component == "restart_menu") {
 
@@ -1402,7 +1435,7 @@ auto Sorcery::Controller::handle_standard_menu(
 
 			// Get the ID of the Character if we can, add the character to
 			// the party
-			set_character("restart", data);
+			set_character(Enums::CharacterSlot::RESTART, data);
 			_flags["want_restart_expedition"] = true;
 		}
 
@@ -1566,9 +1599,9 @@ auto Sorcery::Controller::handle_standard_menu(
 		// Character Selection
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["show_choose"] = false;
-			clear_character("choose");
+			clear_character(Enums::CharacterSlot::CHOOSE);
 		} else
-			set_character("choose", data);
+			set_character(Enums::CharacterSlot::CHOOSE, data);
 	} else if (component == "rest_menu") {
 
 		// Resting
@@ -1594,7 +1627,7 @@ auto Sorcery::Controller::handle_standard_menu(
 	}
 }
 
-auto Sorcery::Controller::get_character() const -> Character * {
+auto Sorcery::Controller::get_candidate_character() const -> Character * {
 
 	return _game->creation_candidate.get();
 }
@@ -1682,7 +1715,7 @@ auto Sorcery::Controller::execute_action(
 	case MenuAction::Type::CUSTOM:
 		// Handle custom actions here if needed
 		if (action.custom_function == "handle_pool_gold") {
-			_game->pool_party_gold(get_character("store"));
+			_game->pool_party_gold(get_character(Enums::CharacterSlot::STORE));
 		}
 
 		break;
@@ -1784,9 +1817,10 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
 		out_stream << "  Selected: " << s.first << " = " << s.second
 				   << std::endl;
 
-	for (const auto &t : controller._characters)
-		out_stream << "  Character: " << t.first << " = " << t.second
-				   << std::endl;
+	for (const auto &[slot, character_id] : controller._characters) {
+		out_stream << std::format("  Character: {:>26} = {}\n",
+								  magic_enum::enum_name(slot), character_id);
+	}
 
 	return out_stream << std::endl;
 }

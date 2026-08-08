@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -120,8 +121,8 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 	_ctx.controller->unset_flag("napping_finished");
 	_ctx.controller->unset_flag("recuperating_finished");
 
-	_character =
-		&_ctx.game->characters.at(_ctx.controller->get_character("stay"));
+	_character = &_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STAY));
 	_character->mode = mode;
 	if (mode & RECOVERY_MODE_FREE)
 		_rest_tick = SDL_AddTimer(1000, &Recovery::_callback_napping, this);

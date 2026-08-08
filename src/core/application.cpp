@@ -336,7 +336,8 @@ auto Sorcery::Application::_run_maze(const int mode) -> AppFlow {
 
 auto Sorcery::Application::_run_restart_maze(const int mode) -> AppFlow {
 
-	ctx.game->restart_maze(ctx.controller->get_character("restart"));
+	ctx.game->restart_maze(
+		ctx.controller->get_character(Enums::CharacterSlot::RESTART));
 
 	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
 	ctx.audio->set_volume(0.0f);
@@ -464,7 +465,8 @@ auto Sorcery::Application::_run_main_menu() -> AppFlow {
 
 auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 
-	ctx.game->restart_maze(ctx.controller->get_character("restart"));
+	ctx.game->restart_maze(
+		ctx.controller->get_character(Enums::CharacterSlot::RESTART));
 
 	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
 	ctx.audio->set_volume(0.0f);

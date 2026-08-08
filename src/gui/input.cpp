@@ -156,8 +156,9 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 				// reference to the input flags)
 				if (_component.name == "input_donate") {
 
-					auto &character{_game->characters.at(
-						_ctx.controller->get_character("tithe"))};
+					auto &character{
+						_game->characters.at(_ctx.controller->get_character(
+							Enums::CharacterSlot::TITHE))};
 					const unsigned int amount{std::stoi(_input)};
 					if (amount > character.get_gold()) {
 
@@ -166,17 +167,20 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 						_ctx.controller->unset_flag("want_gold");
 						_ctx.controller->set_flag("want_not_enough_gold");
 						_ctx.ui->notice_not_enough_gold->show = true;
-						_ctx.controller->clear_character("tithe");
+						_ctx.controller->clear_character(
+							Enums::CharacterSlot::TITHE);
 					} else {
 
 						_ctx.controller->unset_flag("want_tithe");
 						_ctx.controller->unset_flag("want_gold");
 						_ctx.controller->set_flag("want_donated_ok");
-						_ctx.controller->clear_character("tithe");
+						_ctx.controller->clear_character(
+							Enums::CharacterSlot::TITHE);
 						character.grant_xp(amount);
 						character.grant_gold(0 - amount);
 						_ctx.ui->notice_donated_ok->show = true;
-						_ctx.controller->clear_character("tithe");
+						_ctx.controller->clear_character(
+							Enums::CharacterSlot::TITHE);
 						_ctx.ui->modal_tithe->regenerate();
 
 						// TODO: Check highest level XP and only allow tithing

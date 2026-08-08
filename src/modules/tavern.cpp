@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -84,7 +85,7 @@ auto Sorcery::Tavern::start() -> int {
 	_ctx.ui->modal_give->show = false;
 	_ctx.ui->modal_trade->show = false;
 	_ctx.ui->modal_invoke->show = false;
-	_ctx.controller->clear_character("inspect");
+	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	// Main loop
 	auto done{false};
@@ -138,12 +139,14 @@ auto Sorcery::Tavern::start() -> int {
 			_reorder->start(REORDER_MODE_TAVERN);
 			_reorder->stop(REORDER_MODE_TAVERN);
 			_ctx.controller->go_to(Enums::Screen::TAVERN);
-		} else if (_ctx.controller->has_character("inspect")) {
-			_inspect->start(INSPECT_MODE_TAVERN,
-							_ctx.controller->get_character("inspect"));
+		} else if (_ctx.controller->has_character(
+					   Enums::CharacterSlot::INSPECT)) {
+			_inspect->start(
+				INSPECT_MODE_TAVERN,
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
 			_inspect->stop(INSPECT_MODE_TAVERN);
 			_ctx.controller->go_to(Enums::Screen::TAVERN);
-			_ctx.controller->clear_character("inspect");
+			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}
 	}
 

@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -42,7 +43,7 @@ Sorcery::Choose::Choose(Context &ctx)
 
 auto Sorcery::Choose::_initialise() -> bool {
 
-	_ctx.controller->clear_character("choose");
+	_ctx.controller->clear_character(Enums::CharacterSlot::CHOOSE);
 
 	return true;
 }
@@ -86,7 +87,7 @@ auto Sorcery::Choose::start(const int mode) -> int {
 
 		if (!_ctx.controller->wants(Enums::Screen::CHOOSE))
 			return BACK_FROM_CHOOSE;
-		if (_ctx.controller->get_character("choose"))
+		if (_ctx.controller->get_character(Enums::CharacterSlot::CHOOSE))
 			return BACK_FROM_CHOOSE;
 	}
 

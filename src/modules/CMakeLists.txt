@@ -28,6 +28,7 @@ target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/restart.cpp
 	${CMAKE_CURRENT_LIST_DIR}/roster.cpp
 	${CMAKE_CURRENT_LIST_DIR}/shop.cpp
+	${CMAKE_CURRENT_LIST_DIR}/sell.cpp
 	${CMAKE_CURRENT_LIST_DIR}/stay.cpp
 	${CMAKE_CURRENT_LIST_DIR}/store.cpp
 	${CMAKE_CURRENT_LIST_DIR}/tavern.cpp

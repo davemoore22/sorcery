@@ -50,7 +50,7 @@ struct MenuAction {
 		std::string flag;
 		std::string character_slot;
 		std::size_t ui_index{0};
-		std::string character_key;
+		Enums::CharacterSlot character_key;
 		std::string custom_function;
 };
 
@@ -97,7 +97,7 @@ const ActionList STORE_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::BUY}}, // Buy
 	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::STORE}}, // Sell
+	  .screen = Enums::Screen::SELL}}, // Sell
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::STORE}}, // Uncurse
 	{{.type = MenuAction::Type::GOTOSCREEN,

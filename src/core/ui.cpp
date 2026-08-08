@@ -245,6 +245,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::ROSTER] = [this]() {
 		_display_roster();
 	};
+	_draw_modules[Enums::Screen::SELL] = [this]() {
+		_display_sell();
+	};
 	_draw_modules[Enums::Screen::SHOP] = [this]() {
 		_display_shop();
 	};
@@ -2025,7 +2028,8 @@ auto Sorcery::UI::_draw_create_alignment([[maybe_unused]] const int mode)
 	-> void {
 
 	auto cmp_summary{components->get("create_alignment:summary_text")};
-	auto summary_text{_ctx.controller->get_character()->summary_text()};
+	auto summary_text{
+		_ctx.controller->get_candidate_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 }
 
@@ -2033,33 +2037,37 @@ auto Sorcery::UI::_draw_create_confirm([[maybe_unused]] const int mode)
 	-> void {
 
 	auto cmp_summary{components->get("create_confirm:summary_text")};
-	auto summary_text{_ctx.controller->get_character()->summary_text()};
+	auto summary_text{
+		_ctx.controller->get_candidate_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 
 	auto cmp_char{components->get("create_confirm:character_data")};
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		set_Font(fontstore->get_current_font(cmp_char.font).value(), font_sz());
-		_draw_character_summary(&cmp_char, _ctx.controller->get_character());
+		_draw_character_summary(&cmp_char,
+								_ctx.controller->get_candidate_character());
 	}
 }
 
 auto Sorcery::UI::_draw_create_class([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{components->get("create_class:summary_text")};
-	auto summary_text{_ctx.controller->get_character()->summary_text()};
+	auto summary_text{
+		_ctx.controller->get_candidate_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 
 	auto cmp_points_left{components->get("create_class:points_left_text")};
 	const auto points_left_text{std::format(
-		"{:>2}", _ctx.controller->get_character()->get_points_left())};
+		"{:>2}",
+		_ctx.controller->get_candidate_character()->get_points_left())};
 	_draw_text(&cmp_points_left, points_left_text);
 
 	// Now draw the class buttons
 	using enum Enums::Character::Attribute;
 	auto cmp_attribute{components->get("create_class:current_stats")};
 	for (auto i = unenum(STRENGTH); i <= unenum(LUCK); ++i) {
-		auto attribute{_ctx.controller->get_character()->get_attr_ptr(
+		auto attribute{_ctx.controller->get_candidate_character()->get_attr_ptr(
 			magic_enum::enum_cast<Enums::Character::Attribute>(i).value())};
 		auto cmp_name{std::format("stepper_attribute_{}", i)};
 		_draw_stepper(&cmp_attribute, cmp_name, attribute);
@@ -2070,14 +2078,16 @@ auto Sorcery::UI::_draw_create_class([[maybe_unused]] const int mode) -> void {
 auto Sorcery::UI::_draw_create_race([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{components->get("create_race:summary_text")};
-	auto summary_text{_ctx.controller->get_character()->summary_text()};
+	auto summary_text{
+		_ctx.controller->get_candidate_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 }
 
 auto Sorcery::UI::_draw_create_name([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{components->get("create_name:summary_text")};
-	auto summary_text{_ctx.controller->get_character()->summary_text()};
+	auto summary_text{
+		_ctx.controller->get_candidate_character()->summary_text()};
 	_draw_text(&cmp_summary, summary_text);
 
 	// As next custom component is a text box, focus on that initially
@@ -2137,8 +2147,8 @@ auto Sorcery::UI::_draw_choose(const int mode) -> void {
 
 auto Sorcery::UI::_draw_level_up(const int mode) -> void {
 
-	auto &character{
-		_ctx.game->characters.at(_ctx.controller->get_character("restart"))};
+	auto &character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::RESTART))};
 
 	if (mode & RECOVERY_BIRTHDAY) {
 
@@ -2168,8 +2178,8 @@ auto Sorcery::UI::_draw_level_up(const int mode) -> void {
 auto Sorcery::UI::_draw_pay_info() -> void {
 
 	// Work out healing cost
-	const auto character{
-		_ctx.game->characters.at(_ctx.controller->get_character("help"))};
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::HELP))};
 	const auto cost(character.get_cure_cost());
 	const auto cost_text{std::format("{} {} {}",
 									 _ctx.get_string("PAY_COST_PREFIX"), cost,
@@ -2180,8 +2190,8 @@ auto Sorcery::UI::_draw_pay_info() -> void {
 
 auto Sorcery::UI::_draw_no_level_up(const int mode) -> void {
 
-	const auto character{
-		_ctx.game->characters.at(_ctx.controller->get_character("stay"))};
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 	const auto birth_text{_ctx.get_string("REST_BIRTHDAY_YOU")};
 	const auto needed{character.get_next_xp() - character.get_cur_xp()};
 	const auto need_text{std::format("{}{}{}", _ctx.get_string("REST_NEED_1_P"),
@@ -2254,8 +2264,8 @@ auto Sorcery::UI::_draw_heal(int stage) -> void {
 
 auto Sorcery::UI::_draw_recovery(const int mode) -> void {
 
-	const auto character{
-		_ctx.game->characters.at(_ctx.controller->get_character("stay"))};
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 	if (mode & RECOVERY_MODE_FREE) {
 
 		auto cmp{components->get("recovery:recovery_napping")};
@@ -2289,8 +2299,8 @@ auto Sorcery::UI::_draw_recovery(const int mode) -> void {
 
 auto Sorcery::UI::_draw_stay() -> void {
 
-	const auto character{
-		_ctx.game->characters.at(_ctx.controller->get_character("stay"))};
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 
 	auto cmp_welcome{components->get("stay:stay_welcome")};
 	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STAY_WELCOME_P"),
@@ -2307,8 +2317,8 @@ auto Sorcery::UI::_draw_stay() -> void {
 
 auto Sorcery::UI::_draw_buy() -> void {
 
-	const auto character{
-		_ctx.game->characters.at(_ctx.controller->get_character("store"))};
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
 
 	auto cmp_welcome{components->get("buy:buy_welcome")};
 	auto welcome_text{std::format("{}{}{}", _ctx.get_string("BUY_WELCOME_P"),
@@ -2323,10 +2333,31 @@ auto Sorcery::UI::_draw_buy() -> void {
 	_draw_text(&cmp_gold, gold_text);
 }
 
+auto Sorcery::UI::_draw_sell() -> void {
+
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
+
+	auto cmp_welcome{components->get("sell:sell_welcome")};
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("SELL_WELCOME_P"),
+								  character.get_name(),
+								  _ctx.get_string("SELL_WELCOME_S"))};
+	_draw_text(&cmp_welcome, welcome_text);
+
+	auto cmp_gold{components->get("sell:sell_gold")};
+	auto gold_text{std::format("{}{}{}", _ctx.get_string("SELL_GOLD_P"),
+							   character.get_gold(),
+							   _ctx.get_string("SELL_GOLD_S"))};
+	_draw_text(&cmp_gold, gold_text);
+
+	// And regenerate sell menu
+	//_draw_menu
+}
+
 auto Sorcery::UI::_draw_store() -> void {
 
-	const auto character{
-		_ctx.game->characters.at(_ctx.controller->get_character("store"))};
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
 
 	auto cmp_welcome{components->get("store:store_welcome")};
 	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STORE_WELCOME_P"),
@@ -2344,8 +2375,8 @@ auto Sorcery::UI::_draw_store() -> void {
 auto Sorcery::UI::_draw_current_character([[maybe_unused]] const int mode)
 	-> void {
 
-	auto character{
-		_ctx.game->characters.at(_ctx.controller->get_character("inspect"))};
+	auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
 
 	auto title{components->get("inspect:character_title")};
 	_draw_text(&title, character.summary_text());
@@ -2411,7 +2442,8 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 
 		if (component->name == "current_stats") {
 			using enum Enums::Character::Attribute;
-			const auto mins{_ctx.controller->get_character()->get_start_attr()};
+			const auto mins{
+				_ctx.controller->get_candidate_character()->get_start_attr()};
 			if (name == "stepper_attribute_1")
 				disabled = !(*value > mins.at(STRENGTH));
 			else if (name == "stepper_attribute_2")
@@ -2439,7 +2471,7 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 		}
 
 		// const auto
-		// classes{_ctx.controller->get_character()->get_pos_class()};
+		// classes{_ctx.controller->get_candidate_character()->get_pos_class()};
 
 		pos.x += grid_delta(1, 0).x;
 
@@ -2452,8 +2484,8 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 
 		disabled = false;
 		if (component->name == "current_stats") {
-			if ((*value >= 18) ||
-				(_ctx.controller->get_character()->get_points_left() == 0))
+			if ((*value >= 18) || (_ctx.controller->get_candidate_character()
+									   ->get_points_left() == 0))
 				disabled = true;
 		};
 
@@ -3969,6 +4001,14 @@ auto Sorcery::UI::_display_stay() -> void {
 auto Sorcery::UI::_display_buy() -> void {
 	_draw_components("buy");
 	_draw_buy();
+	_draw_party_panel();
+	_draw_debug();
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_sell() -> void {
+	_draw_components("sell");
+	_draw_sell();
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();

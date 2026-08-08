@@ -60,7 +60,7 @@ auto Sorcery::Pay::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::PAY);
 
 	// Need this before accessing dynamic modals!
-	_ctx.controller->clear_character("pay");
+	_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
 	_ctx.controller->unset_selected("pay_selected");
 
 	// Main loop
@@ -114,10 +114,10 @@ auto Sorcery::Pay::stop(const bool paid) -> int {
 
 	if (paid) {
 		_ctx.controller->go_to(Enums::Screen::RESULTS);
-		_ctx.controller->clear_character("pay");
+		_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
 	} else {
 		_ctx.controller->go_to(Enums::Screen::TEMPLE);
-		_ctx.controller->clear_character("pay");
+		_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
 	}
 
 	return 0;

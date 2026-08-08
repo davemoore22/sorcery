@@ -25,6 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
+#include "core/define.hpp"
 #include "core/resources.hpp"
 #include "gui/define.hpp"
 #include "resources/itemstore.hpp"
@@ -307,7 +308,8 @@ auto Sorcery::MenuBuilder::_load_buy_menu(unsigned int width,
 										  std::vector<std::string> &items,
 										  std::vector<int> &data) -> void {
 
-	const auto char_id{_ctx.controller->get_character("store")};
+	const auto char_id{
+		_ctx.controller->get_character(Enums::CharacterSlot::STORE)};
 	auto &character{_ctx.game->characters.at(char_id)};
 
 	for (const auto &item_type : _ctx.resources->items->get_all_types()) {
@@ -412,7 +414,12 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 			   menu_name == "invoke_menu" || menu_name == "equip_menu" ||
 			   menu_name == "remove_item_menu") {
 
-		_load_character_items(menu_name, items, data);
+		_load_character_items(menu_name, items, data,
+							  Enums::CharacterSlot::INSPECT);
+		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "sell_menu") {
+		_load_character_items(menu_name, items, data,
+							  Enums::CharacterSlot::STORE);
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "bestiary_menu") {
 		_load_bestiary_menu(width, items);
@@ -452,6 +459,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 	constexpr std::array MENU_FLAG_MAP{
 		std::pair{"identify_menu", MENU_IDENTIFY_ITEM},
 		std::pair{"drop_menu", MENU_DROP_ITEM},
+		std::pair{"sell_menu", MENU_SHOP_SELL_ITEM},
 		std::pair{"trade_menu", MENU_TRADE_ITEM},
 		std::pair{"use_menu", MENU_USE_ITEM},
 		std::pair{"invoke_menu", MENU_INVOKE_ITEM},
@@ -464,7 +472,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"tithe_menu", MENU_SHOW_GOLD},
 		std::pair{"pay_menu", MENU_SHOW_GOLD},
 		std::pair{"reorder_menu", MENU_SHOW_POSITION},
-	};
+		std::pair{"sell_menu", MENU_SHOP_SELL_ITEM}};
 
 	if (const auto it = std::ranges::find(MENU_FLAG_MAP, menu_name,
 										  &std::pair<const char *, int>::first);
@@ -485,10 +493,11 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 	if (!_ctx.game || _ctx.game->characters.empty())
 		return;
 
-	if (!_ctx.controller->has_character("inspect"))
+	if (!_ctx.controller->has_character(Enums::CharacterSlot::INSPECT))
 		return;
 
-	const auto char_id{_ctx.controller->get_character("inspect")};
+	const auto char_id{
+		_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
 	auto &character{_ctx.game->characters.at(char_id)};
 
 	// Work out castable spells for the character, filtering out as above.
@@ -523,16 +532,16 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 
 auto Sorcery::MenuBuilder::_load_character_items(
 	std::string_view menu_name, std::vector<std::string> &items,
-	std::vector<int> &data) -> void {
+	std::vector<int> &data, const Enums::CharacterSlot source) -> void {
 
 	if (!_ctx.game || _ctx.game->characters.empty())
 		return;
 
-	if (!_ctx.controller->has_character("inspect"))
+	if (!_ctx.controller->has_character(source))
 		return;
 
 	const auto flags{_get_menu_flags(menu_name)};
-	const auto char_id{_ctx.controller->get_character("inspect")};
+	const auto char_id{_ctx.controller->get_character(source)};
 	const auto &character{_ctx.game->characters.at(char_id)};
 
 	const auto chance{
@@ -601,6 +610,15 @@ auto Sorcery::MenuBuilder::_load_character_items(
 				line = std::format("{}){}{:<16}", slot, flag,
 								   item.get_display_name());
 			}
+		}
+		// SELL
+		else if (flags & MENU_SHOP_SELL_ITEM) {
+			const auto sell_to_shop_value{
+				_ctx.resources->items->get_item_type(item.get_type_id())
+					.get_value() /
+				2};
+			line = std::format("{}){}{:<16} {:>8} G.P.", slot, flag,
+							   item.get_display_name(), sell_to_shop_value);
 		}
 		// INVOKE
 		else if (flags & MENU_INVOKE_ITEM) {

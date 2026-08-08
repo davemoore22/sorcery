@@ -56,7 +56,8 @@ class MenuBuilder {
 								   std::vector<int> &data) -> void;
 		auto _load_character_items(std::string_view menu_name,
 								   std::vector<std::string> &items,
-								   std::vector<int> &data) -> void;
+								   std::vector<int> &data,
+								   const Enums::CharacterSlot source) -> void;
 		auto _load_character_spells(std::string_view menu_name,
 									std::vector<std::string> &items,
 									std::vector<int> &data) -> void;

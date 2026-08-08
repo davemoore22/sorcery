@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -32,6 +33,7 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "modules/buy.hpp"
+#include "modules/sell.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
@@ -41,6 +43,7 @@ Sorcery::Store::Store(Context &ctx)
 	_initialise();
 
 	_buy = std::make_unique<Buy>(_ctx);
+	_sell = std::make_unique<Sell>(_ctx);
 };
 
 Sorcery::Store::~Store() {}
@@ -95,6 +98,10 @@ auto Sorcery::Store::start() -> int {
 				_buy->start();
 				_buy->stop();
 				_ctx.controller->go_to(Enums::Screen::STORE);
+			} else if (_ctx.controller->wants(Enums::Screen::SELL)) {
+				_sell->start();
+				_sell->stop();
+				_ctx.controller->go_to(Enums::Screen::STORE);
 			}
 		}
 
@@ -113,7 +120,7 @@ auto Sorcery::Store::start() -> int {
 auto Sorcery::Store::stop() -> int {
 
 	_ctx.controller->unset_flag("want_pool_gold");
-	_ctx.controller->clear_character("store");
+	_ctx.controller->clear_character(Enums::CharacterSlot::STORE);
 	_ctx.controller->go_to(Enums::Screen::SHOP);
 
 	return 0;
