@@ -4421,11 +4421,15 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 							const Enums::Layout::Font font,
 							std::vector<std::string> &items,
 							std::vector<int> &data, const bool reorder,
-							[[maybe_unused]] const bool across) -> void {
+							[[maybe_unused]] const bool across,
+							[[maybe_unused]] const bool numeric_shortcuts)
+	-> void {
 
+	// Work out size and positon of the menu, and the display name (which is
+	// used for the ImGui ID)
 	const std::string display_name{"##" + name};
 
-	// pos is in grid units, whereas sz is in pixels.
+	// Note that pos is in grid units, whereas sz is in pixels.
 	const auto x{pos.x == -1.0f
 					 ? (ImGui::GetMainViewport()->Size.x - sz.x) / 2.0f
 					 : grid_x(pos.x)};
@@ -4434,19 +4438,24 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 					 ? (ImGui::GetMainViewport()->Size.y - sz.y) / 2.0f
 					 : grid_y(pos.y)};
 
+	// Set the Style for the Menu (this is a bit of a hack, but it works)
 	set_StyleColor(ImGuiCol_FrameBg,
 				   ImVec4{0.0f, 0.0f, 0.0f, 1.0f - _ctx.animation->fade});
-
 	set_StyleColor(ImGuiCol_HeaderActive, ImVec4{sel_color});
 	set_StyleColor(ImGuiCol_HeaderHovered, ImVec4{sel_color});
-
 	UIStyle::set_faded_with_disabled(_ctx);
-
 	set_Font(fontstore->get_current_font(font).value(), font_sz());
 
 	const ImVec2 menu_pos{x, y};
 	ImGui::SetCursorPos(menu_pos);
 
+	// Look for a Key Selection (if numeric_shortcuts is true, then we will
+	// consume a key from the controller)
+	const auto key_selection{
+		numeric_shortcuts ? _ctx.controller->consume_menu_key(items.size())
+						  : std::nullopt};
+
+	// Draw the Menu (as a ListBox)
 	with_ListBox(display_name.c_str(), sz) {
 		for (std::size_t i{0}; i < items.size(); ++i) {
 			const auto index{static_cast<int>(i)};
@@ -4463,10 +4472,13 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 			if (disabled)
 				ImGui::BeginDisabled();
 
-			const auto activated{
+			// Handle the Menu Item being clicked or selected via a key press
+			const auto clicked{
 				ImGui::Selectable(items[i].c_str(), is_selected, flags)};
+			const auto keyed{key_selection && *key_selection == i};
+			const auto activated{clicked || keyed};
 
-			if (activated) {
+			if (activated && !disabled) {
 				if (reorder) {
 					_ctx.controller->handle_standard_menu(name, items,
 														  data_item, index);

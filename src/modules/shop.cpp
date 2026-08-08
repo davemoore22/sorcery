@@ -69,6 +69,9 @@ auto Sorcery::Shop::start() -> int {
 			// Check for Window Resize
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 
+			// Check for Menu Key
+			_ctx.controller->check_for_menu_key(event);
+
 			// Check for Back Event
 			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;

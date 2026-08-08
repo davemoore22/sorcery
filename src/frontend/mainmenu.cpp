@@ -72,13 +72,20 @@ auto Sorcery::MainMenu::start() -> int {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
+			// Check for SDL/ImGui Events
 			ImGui_ImplSDL2_ProcessEvent(&event);
+
+			// Check for Abort Event
 			done = _ctx.controller->check_for_abort(event);
 
-			// Check for Back Event
+			// Check for Window Resize
 			_ctx.controller->check_for_resize(event, _ctx.ui);
+
+			// Check for Back Event
 			_ctx.controller->check_for_back(event, _ctx.ui->dialog_exit->show);
+
+			// Check for Menu Key
+			_ctx.controller->check_for_menu_key(event);
 		}
 
 		_ctx.tick();

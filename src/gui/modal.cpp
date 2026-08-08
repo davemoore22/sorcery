@@ -131,7 +131,7 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 
 		// Note that pos is in grid units whereas sz is in pixels!
 		_ctx.ui->draw_menu(_menu_name, col, ImVec2{1, top}, sz, _font, _items,
-						   _data, false, false);
+						   _data, false, false, false);
 
 		// DEBUG_LOGF("Displaying modal menu: {}", _menu_name);
 	}

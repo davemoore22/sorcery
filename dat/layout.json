@@ -1450,7 +1450,8 @@
 							"width": "21",
 							"height": "6",
 							"menu_name": "compendium_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				}
@@ -1553,7 +1554,8 @@
 						{
 							"width": "38",
 							"height": "8",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -1598,26 +1600,6 @@
 					"alpha": "1.0",
 					"colour": "0xffffff",
 					"bg_colour": "0x000000"
-				},
-				{
-					"name": "choice_compendium",
-					"x": "centre",
-					"y": "centre",
-					"w": "21",
-					"h": "9",
-					"font": "monospace",
-					"type": "choice",
-					"string": "",
-					"drawmode": "manual",
-					"alpha": "1.0",
-					"colour": "0xffffff",
-					"bg_colour": "0x000000",
-					"data": [
-						{
-							"menu_name": "compendium_menu",
-							"highlight": "0x6060c8"
-						}
-					]
 				},
 				{
 					"name": "options_popup",
@@ -1787,7 +1769,8 @@
 							"width": "21",
 							"height": "6",
 							"menu_name": "castle_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -1876,7 +1859,8 @@
 							"width": "25",
 							"height": "6",
 							"menu_name": "tavern_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -1978,7 +1962,8 @@
 							"width": "30",
 							"height": "8",
 							"menu_name": "inn_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -2107,7 +2092,8 @@
 							"width": "28",
 							"height": "7",
 							"menu_name": "store_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -2236,7 +2222,8 @@
 							"width": "28",
 							"height": "7",
 							"menu_name": "rest_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -2701,7 +2688,8 @@
 							"width": "30",
 							"height": "8",
 							"menu_name": "shop_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -2790,7 +2778,8 @@
 							"width": "31",
 							"height": "5",
 							"menu_name": "temple_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -2905,7 +2894,8 @@
 							"width": "30",
 							"height": "7",
 							"menu_name": "pay_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -3102,7 +3092,8 @@
 							"width": "21",
 							"height": "6",
 							"menu_name": "edge_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -3191,7 +3182,8 @@
 							"width": "21",
 							"height": "6",
 							"menu_name": "training_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				}
@@ -3631,7 +3623,8 @@
 							"width": "13",
 							"height": "6",
 							"menu_name": "race_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				}
@@ -3767,7 +3760,8 @@
 							"width": "13",
 							"height": "6",
 							"menu_name": "alignment_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				}
@@ -3915,7 +3909,8 @@
 							"width": "13",
 							"height": "9",
 							"menu_name": "class_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				},
@@ -4142,7 +4137,8 @@
 							"width": "26",
 							"height": "7",
 							"menu_name": "restart_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				}
@@ -4496,7 +4492,8 @@
 							"width": "30",
 							"height": "8",
 							"menu_name": "remove_character_menu",
-							"highlight": "0x6060c8"
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				}

@@ -77,6 +77,9 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			// Check for Window Resize
 			_ctx.controller->check_for_resize(event, _ctx.ui);
 
+			// Check for Menu Key
+			_ctx.controller->check_for_menu_key(event);
+
 			// Check for Back Event
 			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
 

@@ -63,6 +63,10 @@ Sorcery::Menu::Menu(Context &ctx, Component *component, Game *game)
 		_across = component->get("across").value() == "yes";
 	else
 		_across = false;
+	if (component->get("numeric_input"))
+		_numeric_input = component->get("numeric_input").value() == "true";
+	else
+		_numeric_input = false;
 }
 
 Sorcery::Menu::~Menu() {}
@@ -89,7 +93,7 @@ auto Sorcery::Menu::draw() -> void {
 
 		// Note that _pos is in grid units whereas sz is in pixels!
 		_ctx.ui->draw_menu(_name, col, _pos, sz, _font, _items, _data, _reorder,
-						   _across);
+						   _across, _numeric_input);
 
 		// Handle SpecialEvents such as Reordering Party Menu
 		if (_ctx.controller->has_flag("party_order_changed")) {

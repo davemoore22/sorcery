@@ -59,6 +59,7 @@ class Menu {
 		std::vector<int> _data;
 		bool _reorder;
 		bool _across;
+		bool _numeric_input;
 };
 
 };
