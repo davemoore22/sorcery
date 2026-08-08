@@ -1695,6 +1695,86 @@ auto Sorcery::Controller::execute_action(
 	}
 }
 
+auto Sorcery::Controller::consume_menu_key(const std::size_t item_count)
+	-> std::optional<std::size_t> {
+
+	if (!_menu_key || item_count == 0)
+		return std::nullopt;
+
+	const auto key{std::exchange(_menu_key, std::nullopt)};
+
+	if (*key == 0)
+		return item_count - 1;
+
+	const auto index{static_cast<std::size_t>(*key - 1)};
+
+	if (index >= item_count)
+		return std::nullopt;
+
+	return index;
+}
+
+auto Sorcery::Controller::check_for_menu_key(const SDL_Event &event) -> void {
+
+	if (event.type != SDL_KEYDOWN)
+		return;
+
+	switch (event.key.keysym.sym) {
+
+	case SDLK_1:
+	case SDLK_KP_1:
+		_menu_key = 1;
+		break;
+
+	case SDLK_2:
+	case SDLK_KP_2:
+		_menu_key = 2;
+		break;
+
+	case SDLK_3:
+	case SDLK_KP_3:
+		_menu_key = 3;
+		break;
+
+	case SDLK_4:
+	case SDLK_KP_4:
+		_menu_key = 4;
+		break;
+
+	case SDLK_5:
+	case SDLK_KP_5:
+		_menu_key = 5;
+		break;
+
+	case SDLK_6:
+	case SDLK_KP_6:
+		_menu_key = 6;
+		break;
+
+	case SDLK_7:
+	case SDLK_KP_7:
+		_menu_key = 7;
+		break;
+
+	case SDLK_8:
+	case SDLK_KP_8:
+		_menu_key = 8;
+		break;
+
+	case SDLK_9:
+	case SDLK_KP_9:
+		_menu_key = 9;
+		break;
+
+	case SDLK_0:
+	case SDLK_KP_0:
+		_menu_key = 0;
+		break;
+
+	default:
+		break;
+	}
+}
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)

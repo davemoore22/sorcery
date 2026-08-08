@@ -77,6 +77,12 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"pay_menu", {"PAY_RETURN"}},
 
+	{"buy_menu", {"BUY_RETURN"}},
+
+	{"sell_menu", {"SELL_RETURN"}},
+
+	{"uncurse_menu", {"UNCURSE_RETURN"}},
+
 	{"add_menu", {"ADD_RETURN"}},
 	{"restart_menu", {"RESTART_RETURN"}},
 
@@ -278,6 +284,34 @@ auto Sorcery::MenuBuilder::_load_spellbook_menu(unsigned int width,
 		std::format("{:^{}}", _ctx.get_string("SPELLBOOK_RETURN"), width));
 }
 
+auto Sorcery::MenuBuilder::_load_store_menu(unsigned int width,
+											std::vector<std::string> &items,
+											std::vector<int> &data) -> void {
+
+	const auto char_id{_ctx.controller->get_character("store")};
+	auto &character{_ctx.game->characters.at(char_id)};
+
+	for (const auto &item_type : _ctx.resources->items->get_all_types()) {
+
+		if (_ctx.game->state->check_shop_stock(item_type.get_type_id()) > 0 &&
+			_ctx.game->state->check_shop_will_sell(item_type.get_type_id())) {
+
+			const auto suffix{
+				item_type.is_class_usable(character.get_class())
+					? magic_enum::enum_name<Enums::Items::Category>(
+						  item_type.get_category())
+					: " (Not Usable)"};
+			const auto price{item_type.get_value()};
+			const auto entry{std::format("{:<16} {:>6} {:<13}",
+										 item_type.get_known_name(), price,
+										 suffix)};
+
+			items.emplace_back(entry);
+			data.emplace_back(unenum(item_type.get_type_id()));
+		}
+	}
+}
+
 auto Sorcery::MenuBuilder::_load_museum_menu(unsigned int width,
 											 std::vector<std::string> &items)
 	-> void {
@@ -328,15 +362,22 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 			_load_party_characters(items, data, flags, reorder);
 			_load_fixed_menu(menu_name, width, items);
 		}
+	} else if (menu_name == "buy_menu") {
+
+		_load_store_menu(width, items, data);
+		_load_fixed_menu(menu_name, width, items);
+
 	} else if (menu_name == "reorder_menu") {
 
 		_load_party_characters(items, data, MENU_SHOW_POSITION, reorder);
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "inn_menu") {
-		_load_party_characters(items, data, flags, reorder); // MENU_FULL_NAME
+		_load_party_characters(items, data, flags,
+							   reorder); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "shop_menu") {
-		_load_party_characters(items, data, flags, reorder); // MENU_FULL_NAME
+		_load_party_characters(items, data, flags,
+							   reorder); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "add_menu") {
 

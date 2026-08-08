@@ -2794,7 +2794,8 @@ auto Sorcery::UI::_draw_item_info() -> void {
 					UIStyle::set_text_dim(_ctx);
 
 					std::string item_category{
-						magic_enum::enum_name(item.get_category())};
+						magic_enum::enum_name<Enums::Items::Category>(
+							item.get_category())};
 					if (item_category == "SPECIAL_ITEM")
 						item_category = "Quest Item";
 

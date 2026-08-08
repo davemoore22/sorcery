@@ -163,6 +163,10 @@ class Controller {
 		auto inspect_party_member(const int character_id) -> void;
 		auto handle_icon_click(const int icon_idx) -> void;
 
+		auto check_for_menu_key(const SDL_Event &event) -> void;
+		auto consume_menu_key(const std::size_t item_count)
+			-> std::optional<std::size_t>;
+
 		// Public Members
 		bool go_back;
 
@@ -189,6 +193,7 @@ class Controller {
 		std::map<std::string, int> _selected;		// Menu Selections
 		std::string _input_buffer; // Input Buffer for Text Input
 		int _roster_mode;
+		std::optional<int> _menu_key;
 };
 
 };
