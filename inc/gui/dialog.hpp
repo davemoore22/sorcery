@@ -25,6 +25,8 @@
 #include "common/enum.hpp"
 #include "types/enum.hpp"
 
+#include <string>
+
 namespace Sorcery {
 
 struct Context;

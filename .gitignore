@@ -48,9 +48,6 @@ obj/*
 bin/Debug/sorcery-sfml
 bin/Debug/dat/strings.json
 profiler_analysis.stats
-inc/3rdparty/cereal
-inc/3rdparty/simpleini
-inc/3rdparty/magic_enum
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake

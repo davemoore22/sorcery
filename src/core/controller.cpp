@@ -650,8 +650,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			// Work out from the Spell ID if we have enough sp to cast it
 			const auto &who{_game->characters.at(
 				_characters[Enums::CharacterSlot::INSPECT])};
-			const auto spell_id{
-				magic_enum::enum_cast<Enums::Magic::SpellID>(data)};
+			const auto spell_id{enum_cast<Enums::Magic::SpellID>(data)};
 
 			if (!spell_id)
 				return false;
@@ -687,8 +686,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 		const auto classes{_game->creation_candidate->get_pos_class()};
 		if (selection >= 0 && selection < 8) {
 			return !classes.at(
-				magic_enum::enum_cast<Enums::Character::Class>(selection + 1)
-					.value());
+				enum_cast<Enums::Character::Class>(selection + 1).value());
 		} else
 			return false;
 	} else if (component == "buy_menu") {
@@ -700,7 +698,7 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 
 			// Data is the item type
 			const auto item_type{_ctx.resources->items->get_item_type(
-				magic_enum::enum_cast<Enums::Items::TypeID>(data).value())};
+				enum_cast<Enums::Items::TypeID>(data).value())};
 			if (gold < item_type.get_value())
 				return true;
 		};
@@ -1511,8 +1509,7 @@ auto Sorcery::Controller::handle_standard_menu(
 			go_to(Enums::Screen::TRAINING);
 		else {
 			_game->creation_candidate->set_race(
-				magic_enum::enum_cast<Enums::Character::Race>(selection + 1)
-					.value());
+				enum_cast<Enums::Character::Race>(selection + 1).value());
 			_game->creation_candidate->set_stage(
 				Enums::Character::Stage::CHOOSE_ALIGNMENT);
 			_game->creation_candidate->set_start_attr();
@@ -1524,8 +1521,7 @@ auto Sorcery::Controller::handle_standard_menu(
 			go_to(Enums::Screen::TRAINING);
 		else {
 			_game->creation_candidate->set_alignment(
-				magic_enum::enum_cast<Enums::Character::Align>(selection + 1)
-					.value());
+				enum_cast<Enums::Character::Align>(selection + 1).value());
 			_game->creation_candidate->set_stage(
 				Enums::Character::Stage::CHOOSE_CLASS);
 			_game->creation_candidate->set_start_attr();
@@ -1540,9 +1536,7 @@ auto Sorcery::Controller::handle_standard_menu(
 			if (candidate->get_points_left() == 0) {
 
 				candidate->set_class(
-					magic_enum::enum_cast<Enums::Character::Class>(selection +
-																   1)
-						.value());
+					enum_cast<Enums::Character::Class>(selection + 1).value());
 				candidate->set_stage(
 					Enums::Character::Stage::REVIEW_AND_CONFIRM);
 				candidate->finalise();

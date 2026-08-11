@@ -29,6 +29,8 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 
+#include <utility>
+
 Sorcery::SpellBook::SpellBook(Context &ctx)
 	: _ctx{ctx} {
 

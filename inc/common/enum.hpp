@@ -24,13 +24,6 @@
 
 #include <cstdint>
 
-// https://github.com/Neargye/magic_enum/blob/master/doc/limitations.md
-#define MAGIC_ENUM_RANGE_MIN -1
-#define MAGIC_ENUM_RANGE_MAX 255
-#include <magic_enum/magic_enum.hpp>
-#undef MAGIC_ENUM_RANGE_MIN
-#undef MAGIC_ENUM_RANGE_MAX
-
 // Enums
 namespace Sorcery {
 

@@ -344,7 +344,7 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 		 i++) {
 		if (_defensive_effects[i]) {
 			const auto eff_enum{
-				magic_enum::enum_value<Enums::Items::Effects::Defensive>(i)};
+				enum_cast<Enums::Items::Effects::Defensive>(i).value()};
 			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
@@ -358,7 +358,7 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 		 i++) {
 		if (_defensive_effects[i]) {
 			const auto eff_enum{
-				magic_enum::enum_value<Enums::Items::Effects::Defensive>(i)};
+				enum_cast<Enums::Items::Effects::Defensive>(i).value()};
 			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
@@ -378,7 +378,7 @@ auto Sorcery::ItemType::get_eff_off_str() const -> std::string {
 		 i++) {
 		if (_offensive_effects[i]) {
 			const auto eff_enum{
-				magic_enum::enum_value<Enums::Items::Effects::Offensive>(i)};
+				enum_cast<Enums::Items::Effects::Offensive>(i).value()};
 			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);

@@ -59,8 +59,8 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
 			for (auto i = 0u; i < items.size(); i++) {
 
 				// Some fields are always present
-				const auto id{magic_enum::enum_cast<Enums::Monsters::TypeID>(
-					items[i]["id"].asInt())};
+				const auto id{
+					enum_cast<Enums::Monsters::TypeID>(items[i]["id"].asInt())};
 				const std::string known_name{items[i]["known name"].asString()};
 				const std::string unknown_name{
 					items[i]["unknown name"].asString()};
@@ -82,8 +82,7 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
 					using enum Enums::Monsters::Category;
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
-							auto category{magic_enum::enum_cast<
-								Enums::Monsters::Category>(
+							auto category{enum_cast<Enums::Monsters::Category>(
 								items[i]["category"].asString())};
 							return category.value_or(HUMANOID);
 						} else
@@ -94,9 +93,8 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
 				const auto mclass{std::invoke([&] {
 					using enum Enums::Monsters::Class;
 					if (category == Enums::Monsters::Category::HUMANOID) {
-						auto mclass{
-							magic_enum::enum_cast<Enums::Monsters::Class>(
-								items[i]["category"].asString())};
+						auto mclass{enum_cast<Enums::Monsters::Class>(
+							items[i]["category"].asString())};
 						return mclass.value_or(NO_CLASS);
 					} else
 						return NO_CLASS;
@@ -236,8 +234,7 @@ auto Sorcery::MonsterStore::get(Enums::Monsters::TypeID monster_type_id) const
 auto Sorcery::MonsterStore::get(int monster_type_id) const -> MonsterType {
 
 	return _items.at(
-		magic_enum::enum_cast<Enums::Monsters::TypeID>(monster_type_id)
-			.value());
+		enum_cast<Enums::Monsters::TypeID>(monster_type_id).value());
 }
 
 auto Sorcery::MonsterStore::get_all_types() const -> std::vector<MonsterType> {

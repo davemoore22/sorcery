@@ -59,15 +59,14 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 			for (auto i = 0u; i < items.size(); i++) {
 
 				// Some fields are always present
-				const auto id{magic_enum::enum_cast<Enums::Items::TypeID>(
-					items[i]["id"].asInt())};
+				const auto id{
+					enum_cast<Enums::Items::TypeID>(items[i]["id"].asInt())};
 				const auto category{std::invoke([&] {
 					using enum Enums::Items::Category;
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
-							auto category{
-								magic_enum::enum_cast<Enums::Items::Category>(
-									items[i]["category"].asString())};
+							auto category{enum_cast<Enums::Items::Category>(
+								items[i]["category"].asString())};
 							return category.value_or(NO_ITEM_CATEGORY);
 						} else
 							return NO_ITEM_CATEGORY;
@@ -130,9 +129,8 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					using enum Enums::Magic::SpellID;
 					if (items[i].isMember("use")) {
 						if (items[i]["use"].asString().length() > 0) {
-							auto use{
-								magic_enum::enum_cast<Enums::Magic::SpellID>(
-									items[i]["use"].asString())};
+							auto use{enum_cast<Enums::Magic::SpellID>(
+								items[i]["use"].asString())};
 							return use.value_or(NO_SPELL);
 						} else
 							return NO_SPELL;
@@ -165,9 +163,9 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					using enum Enums::Items::Effects::Invoke;
 					if (items[i].isMember("invoke")) {
 						if (items[i]["invoke"].asString().length() > 0) {
-							auto invoke{magic_enum::enum_cast<
-								Enums::Items::Effects::Invoke>(
-								items[i]["invoke"].asString())};
+							auto invoke{
+								enum_cast<Enums::Items::Effects::Invoke>(
+									items[i]["invoke"].asString())};
 							return invoke.value_or(NO_INV_EFFECT);
 						} else
 							return NO_INV_EFFECT;
@@ -315,8 +313,7 @@ auto Sorcery::ItemStore::get(Enums::Items::TypeID item_type_id) const
 
 auto Sorcery::ItemStore::get(unsigned int item_type_id) const -> ItemType {
 
-	return _items.at(
-		magic_enum::enum_cast<Enums::Items::TypeID>(item_type_id).value());
+	return _items.at(enum_cast<Enums::Items::TypeID>(item_type_id).value());
 }
 
 auto Sorcery::ItemStore::get_item_type(
@@ -395,8 +392,8 @@ auto Sorcery::ItemStore::get_random_item(
 	auto item_type_id{_ctx.random->get(std::to_underlying(min_item_type_id),
 									   std::to_underlying(max_item_type_id))};
 
-	return Item{_items.at(
-		magic_enum::enum_cast<Enums::Items::TypeID>(item_type_id).value())};
+	return Item{
+		_items.at(enum_cast<Enums::Items::TypeID>(item_type_id).value())};
 }
 
 auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
@@ -437,8 +434,7 @@ auto Sorcery::ItemStore::_get_defensive_effects(
 					 i <= std::to_underlying(PROTECTION_VS_WERE); i++)
 					effects[i] = true;
 			};
-			auto def{
-				magic_enum::enum_cast<Enums::Items::Effects::Defensive>(term)};
+			auto def{enum_cast<Enums::Items::Effects::Defensive>(term)};
 			if (def.has_value())
 				effects[std::to_underlying(def.value())] =
 					term.starts_with('!') ? false : true;
@@ -466,8 +462,7 @@ auto Sorcery::ItemStore::_get_offensive_effects(
 					split.end());
 
 		for (const auto &term : split) {
-			auto off{
-				magic_enum::enum_cast<Enums::Items::Effects::Offensive>(term)};
+			auto off{enum_cast<Enums::Items::Effects::Offensive>(term)};
 			if (off.has_value())
 				effects[std::to_underlying(off.value())] =
 					term.starts_with('!') ? false : true;

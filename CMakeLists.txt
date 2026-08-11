@@ -124,7 +124,6 @@ target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
 
 target_link_libraries(sorcery_options INTERFACE
 	cereal::cereal
-	magic_enum::magic_enum
 	stb::stb
 	SimpleIni::SimpleIni
 	imgui_toggle::imgui_toggle
@@ -238,7 +237,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_types
 	sorcery_warnings
 	cereal::cereal
-	magic_enum::magic_enum
 	stb::stb
 	SimpleIni::SimpleIni
 )

@@ -42,21 +42,6 @@ set(SKIP_PERFORMANCE_COMPARISON ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(cereal)
 
 # ---------------------------------------------------------------------------
-# Magic Enum
-# ---------------------------------------------------------------------------
-
-MESSAGE("Grabbing Magic Enum from https://github.com/Neargye/magic_enum.git")
-
-FetchContent_Declare(
-    magic_enum
-    GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
-    GIT_TAG        b233b96e49d371bad00300f59b5ba581100b8745
-    GIT_SHALLOW    FALSE
-)
-
-FetchContent_MakeAvailable(magic_enum)
-
-# ---------------------------------------------------------------------------
 # SimpleIni
 # ---------------------------------------------------------------------------
 
@@ -172,12 +157,6 @@ if(TARGET cereal::cereal)
 	message(STATUS "Found cereal::cereal")
 else()
 	message(FATAL_ERROR "cereal::cereal target was not created")
-endif()
-
-if(TARGET magic_enum::magic_enum)
-	message(STATUS "Found magic_enum::magic_enum")
-else()
-	message(FATAL_ERROR "magic_enum::magic_enum target was not created")
 endif()
 
 if(TARGET SimpleIni::SimpleIni)

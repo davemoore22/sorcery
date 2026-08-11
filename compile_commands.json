@@ -13,7 +13,6 @@
       "-I/home/dave/Development/Wizardry/Sorcery/ext/imgui_sugar",
       "-I/home/dave/Development/Wizardry/Sorcery/ext/imgui/misc/freetype",
       "-I/home/dave/Development/Wizardry/Sorcery/_deps/cereal-src/include",
-      "-I/home/dave/Development/Wizardry/Sorcery/_deps/magic_enum-src/include",
       "-isystem",
       "/usr/include/SDL2",
       "-isystem",
