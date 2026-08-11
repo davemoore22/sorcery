@@ -2072,7 +2072,8 @@ auto Sorcery::UI::_draw_create_class([[maybe_unused]] const int mode) -> void {
 	// Now draw the class buttons
 	using enum Enums::Character::Attribute;
 	auto cmp_attribute{components->get("create_class:current_stats")};
-	for (auto i = unenum(STRENGTH); i <= unenum(LUCK); ++i) {
+	for (auto i = std::to_underlying(STRENGTH); i <= std::to_underlying(LUCK);
+		 ++i) {
 		auto attribute{_ctx.controller->get_candidate_character()->get_attr_ptr(
 			magic_enum::enum_cast<Enums::Character::Attribute>(i).value())};
 		auto cmp_name{std::format("stepper_attribute_{}", i)};
@@ -2756,7 +2757,7 @@ auto Sorcery::UI::_draw_automap_legend(Component *component) -> void {
 
 		for (const auto &item : legend) {
 			_draw_fg_image_with_idx(WINDOW_LAYER_MENUS, MAPS_TEXTURE,
-									unenum(item.feature), pos,
+									std::to_underlying(item.feature), pos,
 									ImVec2{static_cast<float>(icon_size),
 										   static_cast<float>(icon_size)});
 
@@ -4643,75 +4644,96 @@ auto Sorcery::UI::_draw_map_tile(const Tile &tile, const ImVec2 pos,
 	using enum Enums::Tile::Properties;
 
 	// Background Graphic
-	_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(FLOOR), pos, sz);
+	_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(FLOOR), pos, sz);
 
 	// Darkness
 	if (tile.is(Enums::Tile::Properties::DARKNESS))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_DARKNESS), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(MAP_DARKNESS),
+								pos, sz);
 
 	// Walls for all 4 directions
 	using enum Enums::Tile::Edge;
 	using enum Enums::Map::Direction;
 	if (tile.has(NORTH, SECRET_DOOR) || tile.has(NORTH, ONE_WAY_HIDDEN_DOOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(NORTH_SECRET), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(NORTH_SECRET),
+								pos, sz);
 	else if (tile.has(NORTH, UNLOCKED_DOOR) || tile.has(NORTH, ONE_WAY_DOOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(NORTH_DOOR), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(NORTH_DOOR),
+								pos, sz);
 	else if (tile.has(NORTH, ONE_WAY_WALL))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(NORTH_ONE_WAY_WALL), pos,
-								sz);
+		_draw_fg_image_with_idx(
+			MAPS_TEXTURE, std::to_underlying(NORTH_ONE_WAY_WALL), pos, sz);
 	else if (tile.has(NORTH))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(NORTH_WALL), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(NORTH_WALL),
+								pos, sz);
 
 	if (tile.has(SOUTH, SECRET_DOOR) || tile.has(SOUTH, ONE_WAY_HIDDEN_DOOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(SOUTH_SECRET), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(SOUTH_SECRET),
+								pos, sz);
 	else if (tile.has(SOUTH, UNLOCKED_DOOR) || tile.has(SOUTH, ONE_WAY_DOOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(SOUTH_DOOR), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(SOUTH_DOOR),
+								pos, sz);
 	else if (tile.has(SOUTH, ONE_WAY_WALL))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(SOUTH_ONE_WAY_WALL), pos,
-								sz);
+		_draw_fg_image_with_idx(
+			MAPS_TEXTURE, std::to_underlying(SOUTH_ONE_WAY_WALL), pos, sz);
 	else if (tile.has(SOUTH))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(SOUTH_WALL), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(SOUTH_WALL),
+								pos, sz);
 
 	if (tile.has(EAST, SECRET_DOOR) || tile.has(EAST, ONE_WAY_HIDDEN_DOOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(EAST_SECRET), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(EAST_SECRET),
+								pos, sz);
 	else if (tile.has(EAST, UNLOCKED_DOOR) || tile.has(EAST, ONE_WAY_DOOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(EAST_DOOR), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(EAST_DOOR),
+								pos, sz);
 	else if (tile.has(EAST, ONE_WAY_WALL))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(EAST_ONE_WAY_WALL), pos,
-								sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE,
+								std::to_underlying(EAST_ONE_WAY_WALL), pos, sz);
 	else if (tile.has(EAST))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(EAST_WALL), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(EAST_WALL),
+								pos, sz);
 
 	if (tile.has(WEST, SECRET_DOOR) || tile.has(WEST, ONE_WAY_HIDDEN_DOOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(WEST_SECRET), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(WEST_SECRET),
+								pos, sz);
 	else if (tile.has(WEST, UNLOCKED_DOOR) || tile.has(WEST, ONE_WAY_DOOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(WEST_DOOR), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(WEST_DOOR),
+								pos, sz);
 	else if (tile.has(WEST, ONE_WAY_WALL))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(WEST_ONE_WAY_WALL), pos,
-								sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE,
+								std::to_underlying(WEST_ONE_WAY_WALL), pos, sz);
 	else if (tile.has(WEST))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(WEST_WALL), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(WEST_WALL),
+								pos, sz);
 
 	// And Tile Contents
 	if (tile.has(STAIRS_UP) || tile.has(LADDER_UP))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_STAIRS_UP), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(MAP_STAIRS_UP),
+								pos, sz);
 	else if (tile.has(STAIRS_DOWN) || tile.has(LADDER_DOWN))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_STAIRS_DOWN), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE,
+								std::to_underlying(MAP_STAIRS_DOWN), pos, sz);
 	else if (tile.has(ELEVATOR))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_ELEVATOR), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(MAP_ELEVATOR),
+								pos, sz);
 	else if (tile.has(SPINNER))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_SPINNER), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(MAP_SPINNER),
+								pos, sz);
 	else if (tile.has(PIT))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_PIT), pos, sz);
-	else if (tile.has(CHUTE))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_CHUTE), pos, sz);
-	else if (tile.has(TELEPORT_TO))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_TELEPORT_TO), pos, sz);
-	else if (tile.has(TELEPORT_FROM))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(MAP_TELEPORT_FROM), pos,
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(MAP_PIT), pos,
 								sz);
+	else if (tile.has(CHUTE))
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(MAP_CHUTE),
+								pos, sz);
+	else if (tile.has(TELEPORT_TO))
+		_draw_fg_image_with_idx(MAPS_TEXTURE,
+								std::to_underlying(MAP_TELEPORT_TO), pos, sz);
+	else if (tile.has(TELEPORT_FROM))
+		_draw_fg_image_with_idx(MAPS_TEXTURE,
+								std::to_underlying(MAP_TELEPORT_FROM), pos, sz);
 	else if (tile.has(MESSAGE) || tile.has(NOTICE))
-		_draw_fg_image_with_idx(MAPS_TEXTURE, unenum(EXCLAMATION), pos, sz);
+		_draw_fg_image_with_idx(MAPS_TEXTURE, std::to_underlying(EXCLAMATION),
+								pos, sz);
 }
 
 auto Sorcery::UI::_to_imgui(GLuint tex) -> ImTextureID {
@@ -4781,12 +4803,13 @@ auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
 }
 
 auto Sorcery::UI::_mage_spell_index(Enums::Magic::SpellID id) -> std::size_t {
-	return static_cast<std::size_t>(unenum(id));
+	return static_cast<std::size_t>(std::to_underlying(id));
 }
 
 auto Sorcery::UI::_priest_spell_index(Enums::Magic::SpellID id) -> std::size_t {
-	return static_cast<std::size_t>(unenum(id) -
-									unenum(Enums::Magic::SpellID::BADIOS));
+	return static_cast<std::size_t>(
+		std::to_underlying(id) -
+		std::to_underlying(Enums::Magic::SpellID::BADIOS));
 }
 
 auto Sorcery::UI::in_popup() const -> bool {

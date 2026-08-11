@@ -233,31 +233,31 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				std::array<bool, 9> item_usable{};
 				item_usable.fill(false);
 				if (allowed_classes_s.contains('f'))
-					item_usable[unenum(FIGHTER)] = true;
+					item_usable[std::to_underlying(FIGHTER)] = true;
 				if (allowed_classes_s.contains('m'))
-					item_usable[unenum(MAGE)] = true;
+					item_usable[std::to_underlying(MAGE)] = true;
 				if (allowed_classes_s.contains('p'))
-					item_usable[unenum(PRIEST)] = true;
+					item_usable[std::to_underlying(PRIEST)] = true;
 				if (allowed_classes_s.contains('t'))
-					item_usable[unenum(THIEF)] = true;
+					item_usable[std::to_underlying(THIEF)] = true;
 				if (allowed_classes_s.contains('b'))
-					item_usable[unenum(BISHOP)] = true;
+					item_usable[std::to_underlying(BISHOP)] = true;
 				if (allowed_classes_s.contains('s'))
-					item_usable[unenum(SAMURAI)] = true;
+					item_usable[std::to_underlying(SAMURAI)] = true;
 				if (allowed_classes_s.contains('l'))
-					item_usable[unenum(LORD)] = true;
+					item_usable[std::to_underlying(LORD)] = true;
 				if (allowed_classes_s.contains('n'))
-					item_usable[unenum(NINJA)] = true;
+					item_usable[std::to_underlying(NINJA)] = true;
 
 				using enum Enums::Character::Align;
 				std::array<bool, 4> item_alignment{};
 				item_alignment.fill(false);
 				if (allowed_alignments_s.contains('g'))
-					item_alignment[unenum(GOOD)] = true;
+					item_alignment[std::to_underlying(GOOD)] = true;
 				if (allowed_alignments_s.contains('n'))
-					item_alignment[unenum(NEUTRAL)] = true;
+					item_alignment[std::to_underlying(NEUTRAL)] = true;
 				if (allowed_alignments_s.contains('e'))
-					item_alignment[unenum(EVIL)] = true;
+					item_alignment[std::to_underlying(EVIL)] = true;
 
 				ItemType item_type{};
 				item_type.set_type_id(id.value());
@@ -391,8 +391,8 @@ auto Sorcery::ItemStore::get_random_item(
 	const Enums::Items::TypeID min_item_type_id,
 	const Enums::Items::TypeID max_item_type_id) const -> Item {
 
-	auto item_type_id{
-		_ctx.random->get(unenum(min_item_type_id), unenum(max_item_type_id))};
+	auto item_type_id{_ctx.random->get(std::to_underlying(min_item_type_id),
+									   std::to_underlying(max_item_type_id))};
 
 	return Item{_items.at(
 		magic_enum::enum_cast<Enums::Items::TypeID>(item_type_id).value())};
@@ -427,19 +427,19 @@ auto Sorcery::ItemStore::_get_defensive_effects(
 		for (const auto &term : split) {
 			using enum Enums::Items::Effects::Defensive;
 			if (term == "RESIST_ALL") {
-				for (auto i = unenum(RESIST_COLD);
-					 i <= unenum(PREVENT_DECAPITATION); i++)
+				for (auto i = std::to_underlying(RESIST_COLD);
+					 i <= std::to_underlying(PREVENT_DECAPITATION); i++)
 					effects[i] = true;
 			}
 			if (term == "PROTECT_VS_ALL") {
-				for (auto i = unenum(PROTECTION_VS_ANIMAL);
-					 i <= unenum(PROTECTION_VS_WERE); i++)
+				for (auto i = std::to_underlying(PROTECTION_VS_ANIMAL);
+					 i <= std::to_underlying(PROTECTION_VS_WERE); i++)
 					effects[i] = true;
 			};
 			auto def{
 				magic_enum::enum_cast<Enums::Items::Effects::Defensive>(term)};
 			if (def.has_value())
-				effects[unenum(def.value())] =
+				effects[std::to_underlying(def.value())] =
 					term.starts_with('!') ? false : true;
 		}
 	}
@@ -468,7 +468,7 @@ auto Sorcery::ItemStore::_get_offensive_effects(
 			auto off{
 				magic_enum::enum_cast<Enums::Items::Effects::Offensive>(term)};
 			if (off.has_value())
-				effects[unenum(off.value())] =
+				effects[std::to_underlying(off.value())] =
 					term.starts_with('!') ? false : true;
 		}
 	}

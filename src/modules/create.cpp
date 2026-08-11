@@ -97,7 +97,7 @@ auto Sorcery::Create::start() -> int {
 		switch (candidate->get_stage()) {
 		case ENTER_NAME:
 			_ctx.ui->display(Enums::Screen::CREATE_NAME,
-							 unenum(candidate->get_stage()));
+							 std::to_underlying(candidate->get_stage()));
 
 			if (candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
 				candidate->set_stage(CHOOSE_RACE);
@@ -105,7 +105,7 @@ auto Sorcery::Create::start() -> int {
 			break;
 		case CHOOSE_RACE:
 			_ctx.ui->display(Enums::Screen::CREATE_RACE,
-							 unenum(candidate->get_stage()));
+							 std::to_underlying(candidate->get_stage()));
 			if (candidate->get_stage() !=
 				Enums::Character::Stage::CHOOSE_RACE) {
 				candidate->set_stage(CHOOSE_ALIGNMENT);
@@ -113,7 +113,7 @@ auto Sorcery::Create::start() -> int {
 			break;
 		case CHOOSE_ALIGNMENT:
 			_ctx.ui->display(Enums::Screen::CREATE_ALIGNMENT,
-							 unenum(candidate->get_stage()));
+							 std::to_underlying(candidate->get_stage()));
 			if (candidate->get_stage() !=
 				Enums::Character::Stage::CHOOSE_ALIGNMENT) {
 				candidate->set_stage(CHOOSE_CLASS);
@@ -121,7 +121,7 @@ auto Sorcery::Create::start() -> int {
 			break;
 		case CHOOSE_CLASS:
 			_ctx.ui->display(Enums::Screen::CREATE_CLASS,
-							 unenum(candidate->get_stage()));
+							 std::to_underlying(candidate->get_stage()));
 			if (candidate->get_stage() !=
 				Enums::Character::Stage::CHOOSE_CLASS) {
 				candidate->finalise();
@@ -137,7 +137,7 @@ auto Sorcery::Create::start() -> int {
 			}
 
 			_ctx.ui->display(Enums::Screen::CREATE_CONFIRM,
-							 unenum(candidate->get_stage()));
+							 std::to_underlying(candidate->get_stage()));
 
 			if (_ctx.controller->has_flag("confirm_keep_character")) {
 

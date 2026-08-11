@@ -282,7 +282,7 @@ auto Sorcery::MonsterType::set_properties(std::array<bool, 7> value) -> void {
 auto Sorcery::MonsterType::has_resistance(Enums::Monsters::Resistance value)
 	-> bool {
 
-	const auto res{unenum(value)};
+	const auto res{std::to_underlying(value)};
 
 	return _resistances[res];
 }
@@ -290,7 +290,7 @@ auto Sorcery::MonsterType::has_resistance(Enums::Monsters::Resistance value)
 auto Sorcery::MonsterType::has_property(Enums::Monsters::Property value)
 	-> bool {
 
-	const auto prop{unenum(value)};
+	const auto prop{std::to_underlying(value)};
 
 	return _properties[prop];
 }
@@ -364,7 +364,7 @@ namespace Sorcery {
 auto operator<<(std::ostream &out_stream,
 				const Sorcery::MonsterType &monstertype) -> std::ostream & {
 
-	const auto type{unenum(monstertype.get_type_id())};
+	const auto type{std::to_underlying(monstertype.get_type_id())};
 	const auto name{monstertype.get_known_name()};
 
 	const auto text{std::format("{}: {}", type, name)};

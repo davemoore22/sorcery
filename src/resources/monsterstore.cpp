@@ -320,19 +320,19 @@ auto Sorcery::MonsterStore::_parse_resistances(const std::string value) const
 	using enum Enums::Monsters::Resistance;
 	std::array<bool, 7> res;
 	if (value.contains("Cold"))
-		res[unenum(RESIST_COLD)] = true;
+		res[std::to_underlying(RESIST_COLD)] = true;
 	if (value.contains("Drain"))
-		res[unenum(RESIST_LEVEL_DRAIN)] = true;
+		res[std::to_underlying(RESIST_LEVEL_DRAIN)] = true;
 	if (value.contains("Fire"))
-		res[unenum(RESIST_FIRE)] = true;
+		res[std::to_underlying(RESIST_FIRE)] = true;
 	if (value.contains("Magic"))
-		res[unenum(RESIST_MAGIC)] = true;
+		res[std::to_underlying(RESIST_MAGIC)] = true;
 	if (value.contains("Poison"))
-		res[unenum(RESIST_POISON)] = true;
+		res[std::to_underlying(RESIST_POISON)] = true;
 	if (value.contains("Physical"))
-		res[unenum(RESIST_PHYSICAL)] = true;
+		res[std::to_underlying(RESIST_PHYSICAL)] = true;
 	if (value.contains("Stone"))
-		res[unenum(RESIST_STONING)] = true;
+		res[std::to_underlying(RESIST_STONING)] = true;
 
 	return res;
 }
@@ -343,19 +343,19 @@ auto Sorcery::MonsterStore::_parse_properties(const std::string value) const
 	using enum Enums::Monsters::Property;
 	std::array<bool, 7> props;
 	if (value.contains("Critical"))
-		props[unenum(CAN_AUTOKILL)] = true;
+		props[std::to_underlying(CAN_AUTOKILL)] = true;
 	if (value.contains("Sleep"))
-		props[unenum(CAN_BE_SLEPT)] = true;
+		props[std::to_underlying(CAN_BE_SLEPT)] = true;
 	if (value.contains("Call"))
-		props[unenum(CAN_CALL_FOR_OTHERS)] = true;
+		props[std::to_underlying(CAN_CALL_FOR_OTHERS)] = true;
 	if (value.contains("Run"))
-		props[unenum(CAN_FLEE)] = true;
+		props[std::to_underlying(CAN_FLEE)] = true;
 	if (value.contains("Paralyse"))
-		props[unenum(CAN_PARALYSE)] = true;
+		props[std::to_underlying(CAN_PARALYSE)] = true;
 	if (value.contains("Stone"))
-		props[unenum(CAN_PETRIFY)] = true;
+		props[std::to_underlying(CAN_PETRIFY)] = true;
 	if (value.contains("Poison"))
-		props[unenum(CAN_POISON)] = true;
+		props[std::to_underlying(CAN_POISON)] = true;
 
 	return props;
 }

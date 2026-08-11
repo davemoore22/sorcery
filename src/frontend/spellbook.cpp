@@ -37,8 +37,9 @@ Sorcery::SpellBook::SpellBook(Context &ctx)
 
 auto Sorcery::SpellBook::_initialise() -> bool {
 
-	_ctx.controller->set_selected("spellbook_selected",
-								  unenum(Enums::Magic::SpellID::DUMAPIC));
+	_ctx.controller->set_selected(
+		"spellbook_selected",
+		std::to_underlying(Enums::Magic::SpellID::DUMAPIC));
 
 	return true;
 }

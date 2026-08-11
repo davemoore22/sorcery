@@ -491,7 +491,7 @@ auto Sorcery::Character::alignment_to_str(
 		_ctx->get_string("CHARACTER_ALIGNMENT_NEUTRAL"),
 		_ctx->get_string("CHARACTER_ALIGNMENT_EVIL")};
 
-	return alignments[unenum(character_alignment)];
+	return alignments[std::to_underlying(character_alignment)];
 }
 
 auto Sorcery::Character::race_to_str(
@@ -505,7 +505,7 @@ auto Sorcery::Character::race_to_str(
 		_ctx->get_string("CHARACTER_RACE_GNOME"),
 		_ctx->get_string("CHARACTER_RACE_HOBBIT")};
 
-	return races[unenum(character_race)];
+	return races[std::to_underlying(character_race)];
 }
 
 auto Sorcery::Character::class_to_str(
@@ -522,7 +522,7 @@ auto Sorcery::Character::class_to_str(
 		_ctx->get_string("CHARACTER_CLASS_LORD"),
 		_ctx->get_string("CHARACTER_CLASS_NINJA")};
 
-	return classes[unenum(character_class)];
+	return classes[std::to_underlying(character_class)];
 }
 
 // Last step of creating new a character
@@ -1871,7 +1871,7 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 	// http://www.the-spoiler.com/RPG/Sir-Tech/wizardry.1.2.html
 
 	auto xp_needed{0};
-	auto c_index{unenum(_class) - 1};
+	auto c_index{std::to_underlying(_class) - 1};
 	if (level <= 13)
 		xp_needed = levels[c_index, level];
 	else
@@ -2196,8 +2196,8 @@ auto Sorcery::Character::set_status(Enums::Character::Status value) -> void {
 	if (value == Enums::Character::Status::OK)
 		_status = value;
 	else {
-		auto candidate{unenum(value)};
-		auto current{unenum(_status)};
+		auto candidate{std::to_underlying(value)};
+		auto current{std::to_underlying(_status)};
 		if (candidate > current)
 			_status = value;
 	}

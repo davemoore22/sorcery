@@ -216,7 +216,7 @@ auto Sorcery::ItemType::get_gfx() const -> unsigned int {
 auto Sorcery::ItemType::is_class_usable(
 	const Enums::Character::Class cclass) const -> bool {
 
-	auto cc{unenum(cclass)};
+	auto cc{std::to_underlying(cclass)};
 
 	return _usable[cc];
 }
@@ -224,7 +224,7 @@ auto Sorcery::ItemType::is_class_usable(
 auto Sorcery::ItemType::is_align_usable(
 	const Enums::Character::Align calign) const -> bool {
 
-	auto ca{unenum(calign)};
+	auto ca{std::to_underlying(calign)};
 
 	return _alignment[ca];
 }
@@ -336,8 +336,10 @@ auto Sorcery::ItemType::set_eff_inv(const Enums::Items::Effects::Invoke value)
 auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 
 	std::string effects{""};
-	for (auto i = unenum(Enums::Items::Effects::Defensive::RESIST_COLD);
-		 i <= unenum(Enums::Items::Effects::Defensive::PREVENT_DECAPITATION);
+	for (auto i =
+			 std::to_underlying(Enums::Items::Effects::Defensive::RESIST_COLD);
+		 i <= std::to_underlying(
+				  Enums::Items::Effects::Defensive::PREVENT_DECAPITATION);
 		 i++) {
 		if (_defensive_effects[i]) {
 			const auto eff_enum{
@@ -350,9 +352,10 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 			effects.append(", ");
 		}
 	}
-	for (auto i =
-			 unenum(Enums::Items::Effects::Defensive::PROTECTION_VS_ANIMAL);
-		 i <= unenum(Enums::Items::Effects::Defensive::PROTECTION_VS_WERE);
+	for (auto i = std::to_underlying(
+			 Enums::Items::Effects::Defensive::PROTECTION_VS_ANIMAL);
+		 i <= std::to_underlying(
+				  Enums::Items::Effects::Defensive::PROTECTION_VS_WERE);
 		 i++) {
 		if (_defensive_effects[i]) {
 			const auto eff_enum{
@@ -372,8 +375,10 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 auto Sorcery::ItemType::get_eff_off_str() const -> std::string {
 
 	std::string effects{""};
-	for (auto i = unenum(Enums::Items::Effects::Offensive::PURPOSED_VS_ANIMAL);
-		 i <= unenum(Enums::Items::Effects::Offensive::AUTOKILL); i++) {
+	for (auto i = std::to_underlying(
+			 Enums::Items::Effects::Offensive::PURPOSED_VS_ANIMAL);
+		 i <= std::to_underlying(Enums::Items::Effects::Offensive::AUTOKILL);
+		 i++) {
 		if (_offensive_effects[i]) {
 			const auto eff_enum{
 				magic_enum::enum_value<Enums::Items::Effects::Offensive>(i)};
@@ -464,28 +469,28 @@ auto Sorcery::ItemType::get_equippable_display() const -> std::string {
 
 	std::string equippable{"--------/---"};
 
-	if (_usable[unenum(Enums::Character::Class::FIGHTER)])
+	if (_usable[std::to_underlying(Enums::Character::Class::FIGHTER)])
 		equippable[0] = 'F';
-	if (_usable[unenum(Enums::Character::Class::MAGE)])
+	if (_usable[std::to_underlying(Enums::Character::Class::MAGE)])
 		equippable[1] = 'M';
-	if (_usable[unenum(Enums::Character::Class::PRIEST)])
+	if (_usable[std::to_underlying(Enums::Character::Class::PRIEST)])
 		equippable[2] = 'P';
-	if (_usable[unenum(Enums::Character::Class::THIEF)])
+	if (_usable[std::to_underlying(Enums::Character::Class::THIEF)])
 		equippable[3] = 'T';
-	if (_usable[unenum(Enums::Character::Class::BISHOP)])
+	if (_usable[std::to_underlying(Enums::Character::Class::BISHOP)])
 		equippable[4] = 'B';
-	if (_usable[unenum(Enums::Character::Class::SAMURAI)])
+	if (_usable[std::to_underlying(Enums::Character::Class::SAMURAI)])
 		equippable[5] = 'S';
-	if (_usable[unenum(Enums::Character::Class::LORD)])
+	if (_usable[std::to_underlying(Enums::Character::Class::LORD)])
 		equippable[6] = 'L';
-	if (_usable[unenum(Enums::Character::Class::NINJA)])
+	if (_usable[std::to_underlying(Enums::Character::Class::NINJA)])
 		equippable[7] = 'N';
 
-	if (_alignment[unenum(Enums::Character::Align::GOOD)])
+	if (_alignment[std::to_underlying(Enums::Character::Align::GOOD)])
 		equippable[9] = 'g';
-	if (_alignment[unenum(Enums::Character::Align::NEUTRAL)])
+	if (_alignment[std::to_underlying(Enums::Character::Align::NEUTRAL)])
 		equippable[10] = 'n';
-	if (_alignment[unenum(Enums::Character::Align::EVIL)])
+	if (_alignment[std::to_underlying(Enums::Character::Align::EVIL)])
 		equippable[11] = 'e';
 
 	return equippable;
@@ -496,7 +501,7 @@ namespace Sorcery {
 auto operator<<(std::ostream &out_stream, const Sorcery::ItemType &itemtype)
 	-> std::ostream & {
 
-	const auto type{unenum(itemtype.get_type_id())};
+	const auto type{std::to_underlying(itemtype.get_type_id())};
 	const auto name{itemtype.get_known_name()};
 
 	const auto text{std::format("{}: {}", type, name)};

@@ -505,7 +505,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			const auto event_type{
 				_ctx.game->state->level->at(at).has_event().value()};
 
-			DEBUG_LOGF("Player triggered event: {}", unenum(event_type));
+			DEBUG_LOGF("Player triggered event: {}",
+					   std::to_underlying(event_type));
 
 			// const auto dungeon_event{_ctx.game->get_event(event_type)};
 

@@ -285,8 +285,8 @@ auto Sorcery::MenuBuilder::_load_bestiary_menu(unsigned int width,
 		const auto padded{
 			std::format("{:^{}}", monster.get_known_name(), width)};
 
-		items.emplace_back(
-			std::format("{}##{}", padded, unenum(monster.get_type_id())));
+		items.emplace_back(std::format(
+			"{}##{}", padded, std::to_underlying(monster.get_type_id())));
 	}
 
 	items.emplace_back(
@@ -334,7 +334,7 @@ auto Sorcery::MenuBuilder::_load_buy_menu(unsigned int width,
 										 suffix)};
 
 			items.emplace_back(entry);
-			data.emplace_back(unenum(item_type.get_type_id()));
+			data.emplace_back(std::to_underlying(item_type.get_type_id()));
 		}
 	}
 }
@@ -351,8 +351,8 @@ auto Sorcery::MenuBuilder::_load_museum_menu(unsigned int width,
 		const auto padded{
 			std::format("{:^{}}", item_type.get_known_name(), width)};
 
-		items.emplace_back(
-			std::format("{}##{}", padded, unenum(item_type.get_type_id())));
+		items.emplace_back(std::format(
+			"{}##{}", padded, std::to_underlying(item_type.get_type_id())));
 	}
 
 	items.emplace_back(
@@ -538,7 +538,7 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 			std::format("{:<22} {} {}", spell_desc, spell_type, spell_level)};
 
 		items.emplace_back(std::move(line));
-		data.emplace_back(unenum(spell.id));
+		data.emplace_back(std::to_underlying(spell.id));
 	}
 }
 

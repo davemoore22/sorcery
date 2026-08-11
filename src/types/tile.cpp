@@ -153,12 +153,12 @@ auto Sorcery::Tile::has(const Enums::Map::Direction direction,
 
 auto Sorcery::Tile::has(const Enums::Tile::Features feature) const -> bool {
 
-	return _features[unenum(feature)];
+	return _features[std::to_underlying(feature)];
 }
 
 auto Sorcery::Tile::is(const Enums::Tile::Properties property) const -> bool {
 
-	return _properties[unenum(property)];
+	return _properties[std::to_underlying(property)];
 }
 
 auto Sorcery::Tile::walkable(const Enums::Map::Direction direction) const
@@ -233,12 +233,12 @@ auto Sorcery::Tile::reset() -> void {
 
 auto Sorcery::Tile::reset(const Enums::Tile::Features feature) -> void {
 
-	_features[unenum(feature)] = false;
+	_features[std::to_underlying(feature)] = false;
 }
 
 auto Sorcery::Tile::reset(const Enums::Tile::Properties property) -> void {
 
-	_properties[unenum(property)] = false;
+	_properties[std::to_underlying(property)] = false;
 }
 
 auto Sorcery::Tile::reset(const Enums::Map::Direction direction) -> void {
@@ -278,12 +278,12 @@ auto Sorcery::Tile::set(const std::optional<Enums::Map::Event> event) -> void {
 
 auto Sorcery::Tile::set(const Enums::Tile::Features feature) -> void {
 
-	_features[unenum(feature)] = true;
+	_features[std::to_underlying(feature)] = true;
 }
 
 auto Sorcery::Tile::set(const Enums::Tile::Properties property) -> void {
 
-	_properties[unenum(property)] = true;
+	_properties[std::to_underlying(property)] = true;
 }
 
 auto Sorcery::Tile::set(const Enums::Map::Direction direction,
@@ -343,7 +343,7 @@ auto Sorcery::Tile::has_stairs() const -> std::optional<Teleport> {
 
 auto Sorcery::Tile::has_pit() const -> bool {
 
-	return _features[unenum(Enums::Tile::Features::PIT)];
+	return _features[std::to_underlying(Enums::Tile::Features::PIT)];
 }
 
 auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
@@ -353,7 +353,7 @@ auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
 
 auto Sorcery::Tile::has_spinner() const -> bool {
 
-	return _features[unenum(Enums::Tile::Features::SPINNER)];
+	return _features[std::to_underlying(Enums::Tile::Features::SPINNER)];
 }
 
 auto Sorcery::Tile::set_stairs(Teleport stairs) -> void {

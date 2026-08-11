@@ -368,26 +368,26 @@ auto Sorcery::State::get_log_messages(unsigned int last) const
 auto Sorcery::State::check_shop_stock(
 	const Enums::Items::TypeID item_type) const -> int {
 
-	return _shop[unenum(item_type)].current_stock;
+	return _shop[std::to_underlying(item_type)].current_stock;
 }
 
 auto Sorcery::State::check_shop_will_sell(
 	const Enums::Items::TypeID item_type) const -> bool {
 
-	return _shop[unenum(item_type)].sellable;
+	return _shop[std::to_underlying(item_type)].sellable;
 }
 
 auto Sorcery::State::check_shop_will_buy(
 	const Enums::Items::TypeID item_type) const -> bool {
 
-	return _shop[unenum(item_type)].buyable;
+	return _shop[std::to_underlying(item_type)].buyable;
 }
 
 auto Sorcery::State::sell_to_shop(ItemStore *itemstore,
 								  const Enums::Items::TypeID item_type) -> int {
 
-	if (_shop[unenum(item_type)].current_stock != -1) {
-		++_shop[unenum(item_type)].current_stock;
+	if (_shop[std::to_underlying(item_type)].current_stock != -1) {
+		++_shop[std::to_underlying(item_type)].current_stock;
 		return itemstore->get(item_type).get_value() / 2;
 	} else
 		return 0;
@@ -397,8 +397,8 @@ auto Sorcery::State::buy_from_shop(ItemStore *itemstore,
 								   const Enums::Items::TypeID item_type)
 	-> int {
 
-	if (_shop[unenum(item_type)].current_stock > 0) {
-		--_shop[unenum(item_type)].current_stock;
+	if (_shop[std::to_underlying(item_type)].current_stock > 0) {
+		--_shop[std::to_underlying(item_type)].current_stock;
 		return 0 - itemstore->get(item_type).get_value();
 	} else
 		return 0;
@@ -410,10 +410,11 @@ auto Sorcery::State::get_shop_display(ItemStore *itemstore,
 
 	const auto item{itemstore->get(item_type)};
 	const std::string flag{std::invoke([&] {
-		if (_shop[unenum(item_type)].current_stock == -1)
+		if (_shop[std::to_underlying(item_type)].current_stock == -1)
 			return std::string{"(*)"};
 		else
-			return std::format("({})", _shop[unenum(item_type)].current_stock);
+			return std::format(
+				"({})", _shop[std::to_underlying(item_type)].current_stock);
 	})};
 
 	const std::string line{std::format("{:>16} {:<5} {:>7} GP",

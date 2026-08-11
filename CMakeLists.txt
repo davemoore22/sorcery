@@ -138,6 +138,7 @@ target_compile_options(sorcery_warnings INTERFACE
 	-Wpedantic
 	-Wno-narrowing
 	-Wno-unused-parameter
+	-freflection
 )
 
 # Main Source Files

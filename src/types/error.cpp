@@ -24,8 +24,8 @@
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 
-#include <regex>
 #include <iomanip>
+#include <regex>
 
 Sorcery::Error::Error(Enums::System::Error error_code,
 					  std::exception &exception, std::string notes)
@@ -36,7 +36,7 @@ Sorcery::Error::Error(Enums::System::Error error_code,
 	_timestamp = std::chrono::system_clock::now();
 
 	_details.clear();
-	_details.emplace_back(std::to_string(unenum(_error_code)));
+	_details.emplace_back(std::to_string(std::to_underlying(_error_code)));
 	_details.emplace_back(magic_enum::enum_name(_error_code));
 	_details.emplace_back(_exception.what());
 	_details.emplace_back(get_when());
