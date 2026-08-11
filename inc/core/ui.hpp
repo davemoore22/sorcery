@@ -223,6 +223,7 @@ class UI {
 		auto _display_tavern() -> void;
 		auto _display_temple() -> void;
 		auto _display_training_grounds() -> void;
+		auto _display_uncurse() -> void;
 
 		auto _display_automap() -> void;
 		auto _display_graveyard() -> void;
@@ -320,6 +321,7 @@ class UI {
 		auto _draw_text(Component *component) -> void;
 		auto _draw_text(Component *component, const std::string &string)
 			-> void;
+		auto _draw_uncurse() -> void;
 		auto _get_status_color(Character *character) const -> ImVec4;
 		auto _get_popups() const -> std::string;
 		auto _setup_windows() -> void;

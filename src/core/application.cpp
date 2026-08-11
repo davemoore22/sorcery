@@ -571,8 +571,11 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 			pc.inventory.add_type(ctx.resources->items->get(LONG_SWORD), true);
 			break;
 		case MAGE:
-			pc.inventory.add_type(ctx.resources->items->get(ROBES), true);
+			pc.inventory.add_type(ctx.resources->items->get(ROBE_OF_CURSES),
+								  true);
 			pc.inventory.add_type(ctx.resources->items->get(DAGGER), true);
+			pc.inventory.equip_item(1); // 1-indexed
+			pc.inventory.equip_item(2);
 			break;
 		case PRIEST:
 		case BISHOP:

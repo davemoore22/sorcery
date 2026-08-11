@@ -136,4 +136,6 @@ inline constexpr auto MENU_EQUIP_ITEM{64};
 inline constexpr auto MENU_REMOVE_ITEM{128};
 inline constexpr auto MENU_FULL_NAME{256};
 inline constexpr auto MENU_SHOP_SELL_ITEM{512};
+inline constexpr auto MENU_SHOP_UNCURSE_ITEM{1024};
+
 }

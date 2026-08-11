@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/identify.hpp"
+#include "modules/uncurse.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/context.hpp"
@@ -34,24 +34,24 @@
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
-Sorcery::Identify::Identify(Context &ctx)
+Sorcery::Uncurse::Uncurse(Context &ctx)
 	: _ctx{ctx} {
 
 	_initialise();
 };
 
-Sorcery::Identify::~Identify() {}
+Sorcery::Uncurse::~Uncurse() {}
 
-auto Sorcery::Identify::_initialise() -> bool {
+auto Sorcery::Uncurse::_initialise() -> bool {
 
-	_ctx.controller->set_selected("identify_selected", -1);
+	_ctx.controller->set_selected("uncurse_selected", -1);
 
 	return true;
 }
 
-auto Sorcery::Identify::start() -> int {
+auto Sorcery::Uncurse::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::IDENTIFY);
+	_ctx.controller->go_to(Enums::Screen::UNCURSE);
 
 	// Main loop
 	auto done{false};
@@ -72,7 +72,7 @@ auto Sorcery::Identify::start() -> int {
 				return BACK_TO_STORE;
 
 			// Check for Buy Selected (remember +1 to selection)
-			if (_ctx.controller->get_selected("identify_selected") > -1) {
+			if (_ctx.controller->get_selected("uncurse_selected") > -1) {
 
 				// Work out if we can sell the item (and if we can, do it!)
 
@@ -80,10 +80,10 @@ auto Sorcery::Identify::start() -> int {
 			}
 		}
 
-		_ctx.ui->display(Enums::Screen::IDENTIFY, _ctx.game);
+		_ctx.ui->display(Enums::Screen::UNCURSE, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::IDENTIFY) &&
+		if (!_ctx.controller->wants(Enums::Screen::UNCURSE) &&
 			_ctx.controller->wants(Enums::Screen::STORE))
 			return BACK_TO_STORE;
 	}
@@ -92,9 +92,9 @@ auto Sorcery::Identify::start() -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Identify::stop() -> int {
+auto Sorcery::Uncurse::stop() -> int {
 
-	_ctx.controller->set_selected("identify_selected", -1);
+	_ctx.controller->set_selected("uncurse_selected", -1);
 	_ctx.controller->go_to(Enums::Screen::STORE);
 
 	return 0;

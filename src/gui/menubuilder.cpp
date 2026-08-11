@@ -83,7 +83,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"shop_identify_menu", {"SHOP_IDENTIFY_RETURN"}},
 
-	{"uncurse_menu", {"UNCURSE_RETURN"}},
+	{"shop_uncurse_menu", {"SHOP_UNCURSE_RETURN"}},
 
 	{"add_menu", {"ADD_RETURN"}},
 	{"restart_menu", {"RESTART_RETURN"}},
@@ -427,6 +427,10 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		_load_character_items(menu_name, items, data,
 							  Enums::CharacterSlot::STORE);
 		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "shop_uncurse_menu") {
+		_load_character_items(menu_name, items, data,
+							  Enums::CharacterSlot::STORE);
+		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "bestiary_menu") {
 		_load_bestiary_menu(width, items);
 	} else if (menu_name == "spellbook_menu") {
@@ -467,6 +471,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"drop_menu", MENU_DROP_ITEM},
 		std::pair{"sell_menu", MENU_SHOP_SELL_ITEM},
 		std::pair{"shop_identify_menu", MENU_SHOP_IDENTIFY_ITEM},
+		std::pair{"shop_uncurse_menu", MENU_SHOP_UNCURSE_ITEM},
 		std::pair{"trade_menu", MENU_TRADE_ITEM},
 		std::pair{"use_menu", MENU_USE_ITEM},
 		std::pair{"invoke_menu", MENU_INVOKE_ITEM},
@@ -628,6 +633,13 @@ auto Sorcery::MenuBuilder::_load_character_items(
 							   item.get_display_name(), sell_to_shop_value);
 		} // SELL
 		else if (flags & MENU_SHOP_IDENTIFY_ITEM) {
+			const auto sell_to_shop_value{
+				_ctx.resources->items->get_item_type(item.get_type_id())
+					.get_value()};
+			line = std::format("{}){}{:<16} {:>8} G.P.", slot, flag,
+							   item.get_display_name(), sell_to_shop_value);
+		} // UNCURSE
+		else if (flags & MENU_SHOP_UNCURSE_ITEM) {
 			const auto sell_to_shop_value{
 				_ctx.resources->items->get_item_type(item.get_type_id())
 					.get_value()};

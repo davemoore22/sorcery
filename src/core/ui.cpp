@@ -269,6 +269,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::TRAINING] = [this]() {
 		_display_training_grounds();
 	};
+	_draw_modules[Enums::Screen::UNCURSE] = [this]() {
+		_display_uncurse();
+	};
 
 	_draw_modules_with_int[Enums::Screen::CREATE_NAME] = [this](int n) {
 		_display_create_name(n);
@@ -2378,6 +2381,27 @@ auto Sorcery::UI::_draw_identify() -> void {
 	//_draw_menu
 }
 
+auto Sorcery::UI::_draw_uncurse() -> void {
+
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
+
+	auto cmp_welcome{components->get("uncurse:uncurse_welcome")};
+	auto welcome_text{std::format(
+		"{}{}{}", _ctx.get_string("UNCURSE_WELCOME_P"), character.get_name(),
+		_ctx.get_string("UNCURSE_WELCOME_S"))};
+	_draw_text(&cmp_welcome, welcome_text);
+
+	auto cmp_gold{components->get("uncurse:uncurse_gold")};
+	auto gold_text{std::format("{}{}{}", _ctx.get_string("UNCURSE_GOLD_P"),
+							   character.get_gold(),
+							   _ctx.get_string("UNCURSE_GOLD_S"))};
+	_draw_text(&cmp_gold, gold_text);
+
+	// And regenerate sell menu
+	//_draw_menu
+}
+
 auto Sorcery::UI::_draw_store() -> void {
 
 	const auto character{_ctx.game->characters.at(
@@ -4043,6 +4067,14 @@ auto Sorcery::UI::_display_sell() -> void {
 auto Sorcery::UI::_display_identify() -> void {
 	_draw_components("identify");
 	_draw_identify();
+	_draw_party_panel();
+	_draw_debug();
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_uncurse() -> void {
+	_draw_components("uncurse");
+	_draw_uncurse();
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();

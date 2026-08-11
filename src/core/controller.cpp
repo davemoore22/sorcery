@@ -499,6 +499,33 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 				return false;
 		}
 
+	} else if (component == "shop_uncurse_menu") {
+
+		if (has_character(Enums::CharacterSlot::STORE)) {
+			const auto &who{
+				_game->characters.at(_characters[Enums::CharacterSlot::STORE])};
+			const auto gold{who.get_gold()};
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+
+				// Data is not the item type here - its the slot so we can't use
+				// it to work out what is disabled or not!
+				const auto item{who.inventory.items().at(selection)};
+				const auto item_type{
+					_ctx.resources->items->get_item_type(item.get_type_id())};
+				if (gold < item_type.get_value())
+					return true;
+				else if (!(item.get_cursed() && item.get_equipped()))
+					return true;
+				else
+					return false;
+#pragma GCC diagnostic pop
+			} else
+				return false;
+		}
+
 	} else if (component == "equip_menu") {
 
 		// Remember this is returning true if the item is meant to be disabled!

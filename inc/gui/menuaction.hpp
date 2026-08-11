@@ -99,7 +99,7 @@ const ActionList STORE_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::SELL}}, // Sell
 	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::STORE}}, // Uncurse
+	  .screen = Enums::Screen::UNCURSE}}, // Uncurse
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::IDENTIFY}}, // Identify
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},

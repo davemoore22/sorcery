@@ -35,6 +35,7 @@
 #include "modules/buy.hpp"
 #include "modules/identify.hpp"
 #include "modules/sell.hpp"
+#include "modules/uncurse.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
@@ -46,6 +47,7 @@ Sorcery::Store::Store(Context &ctx)
 	_buy = std::make_unique<Buy>(_ctx);
 	_sell = std::make_unique<Sell>(_ctx);
 	_identify = std::make_unique<Identify>(_ctx);
+	_uncurse = std::make_unique<Uncurse>(_ctx);
 };
 
 Sorcery::Store::~Store() {}
@@ -107,6 +109,10 @@ auto Sorcery::Store::start() -> int {
 			} else if (_ctx.controller->wants(Enums::Screen::IDENTIFY)) {
 				_identify->start();
 				_identify->stop();
+				_ctx.controller->go_to(Enums::Screen::STORE);
+			} else if (_ctx.controller->wants(Enums::Screen::UNCURSE)) {
+				_uncurse->start();
+				_uncurse->stop();
 				_ctx.controller->go_to(Enums::Screen::STORE);
 			}
 		}

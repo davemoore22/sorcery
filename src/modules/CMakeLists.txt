@@ -35,4 +35,5 @@ target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/tavern.cpp
 	${CMAKE_CURRENT_LIST_DIR}/temple.cpp
 	${CMAKE_CURRENT_LIST_DIR}/training.cpp
+	${CMAKE_CURRENT_LIST_DIR}/uncurse.cpp
 )
