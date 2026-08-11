@@ -4,7 +4,7 @@ Introduction
 
 Compilation notes for Sorcery on Linux.
 
-Updated 20th July 2026.
+Updated 11th August 2026
 
 My development environment is Ubuntu 26.04 LTS.
 
@@ -14,11 +14,11 @@ Tested Compilers
 
 Sorcery is currently tested using:
 
-* GCC 15.2
-* CMake 3.22 or later
+* GCC 16.2
+* CMake 4 or later
 
-The project targets C++23 and should compile with any reasonably recent GCC
-release that provides suitable C++23 support. GCC 14 or later is recommended.
+The project targets C++26 (it makes use of reflection), and thus requires at
+minimum GCC16.1
 
 =======
 Git LFS

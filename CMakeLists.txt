@@ -1,6 +1,8 @@
 # Project Definition
 cmake_minimum_required(VERSION 3.22)
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 project(sorcery VERSION 0.1.0)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
@@ -177,6 +179,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-Wredundant-decls
 	-Wodr
 	-Wfatal-errors
+	-freflection
 	-fdiagnostics-color=always
 	-Wno-narrowing
 	-pthread
@@ -184,7 +187,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-g)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-	BUILD_RPATH "$ORIGIN/lib"
+	BUILD_RPATH "$ORIGIN/lib;/opt/gcc-16.2/lib64"
 )
 
 target_link_libraries(sorcery_types PRIVATE

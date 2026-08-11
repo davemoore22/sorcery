@@ -2,9 +2,9 @@
 
 An open source remake/remaster initially of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord, then hopefully of the Sequels II (The Diamond Knight), III (Legacy of Llylgamyn), and V (Heart of the Maelstrom). Currently under heavy development with a release hopefully later in 2026.
 
-Written using ImGui/SDL2/OpenGL and C++
+Written using ImGui/SDL2/OpenGL and C++ (**C++26 required**)
 
-**(Updated 20th July 2026)**
+**(Updated 11th August 2026)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
@@ -18,7 +18,6 @@ Written using ImGui/SDL2/OpenGL and C++
 * ~~Load/Save/New Game~~ (DONE)
 * ~~Town/Castle Menus~~ (DONE)
 * ~~Character Creation~~ (DONE)
-* ~~Character Editing~~ (DONE)
 * ~~Party/Expedition Management~~ (DONE)
 * ~~Maze Generation and Navigation~~ (DONE)
 * ~~Dungeon Features~~ (DONE)
@@ -34,9 +33,10 @@ Written using ImGui/SDL2/OpenGL and C++
 * ~~Compendium~~ (DONE)
 * ~~Music~~ (DONE)
 * ~~Automap~~ (DONE)
-* **Inventory and Item Manipulation (DOING)**
+* ~~Inventory and Item Manipulation (DONE)~~
 * **Special Item Powers and Handling (DOING)**
 * **Boltac's Equipment Shop (DOING)**
+* **Character Editing/Legating~~ (DOING)**
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
 * Victory Handling (TO DO)
@@ -55,11 +55,11 @@ Written using ImGui/SDL2/OpenGL and C++
 
 Currently adding Item Usage/Invocation, as well as buying, selling, uncursing, and identifying at Boltac's. Normal inventory management has been mosty completed!
 
-Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru>.
+Initially I am planning to remake Wizardry 1, then adding 2 and 3, and then subsequently providing infinite procedurally-generated content like that of Diablo for example. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru> or Sshoecraft's recreation in the terminal of the original trilogy, again for Apple II at <https://github.com/sshoecraft/wizardry>>.
 
 ## Compilation
 
-I'm currently developing solely on Linux (Ubuntu 26) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date. Full compliation instructions for Linux are in the doc/COMPILE.md file, but in brief, CMake is used to test for needed system libraries, fetch needed third-party headers, and to produce an appropriate makefile.
+I'm currently developing solely on Linux (Ubuntu 26) so compilation instructions are currently Linux-specific. Windows instructions and releases will of course be supported at a later date. Full compliation instructions for Linux are in the doc/COMPILE.md file, but in brief, CMake is used to test for needed system libraries, fetch needed third-party headers, and to produce an appropriate makefile. Please note that C++26 is required, so GCC 16.1 is the minimum recommended compiler.
 
 All code is released under the GPLv2 - see the doc/LICENSE.md file for full details.
 
