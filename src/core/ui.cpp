@@ -1673,14 +1673,12 @@ auto Sorcery::UI::_draw_character_mage_spells(Component *component,
 		for (auto spell_order = {0,	 4,	 6,	 1,	 5,	 7,	 2,	 -1, -1, 3,	 -1,
 								 -1, -1, -1, -1, 8,	 11, 14, 9,	 12, 15, 10,
 								 13, 16, -1, -1, 17, -1, -1, -1, 18, 19, 20};
-			 const auto index : spell_order) {
+			 const int index : spell_order) {
 			comp_id = std::format("##spell_{}", spell_idx);
 			if (index != -1) {
 				ImGui::TableNextColumn();
 
-				auto spell_id{
-					magic_enum::enum_cast<Enums::Magic::SpellID>(index)
-						.value()};
+				auto spell_id{enum_cast<Enums::Magic::SpellID>(index).value()};
 				auto spells{character->spells() |
 							std::views::filter([&](Spell spell) {
 								return (spell.id == spell_id);
@@ -1731,9 +1729,7 @@ auto Sorcery::UI::_draw_character_priest_spells(Component *component,
 			if (index != -1) {
 				ImGui::TableNextColumn();
 
-				auto spell_id{
-					magic_enum::enum_cast<Enums::Magic::SpellID>(index)
-						.value()};
+				auto spell_id{enum_cast<Enums::Magic::SpellID>(index).value()};
 				auto spells{character->spells() |
 							std::views::filter([&](Spell spell) {
 								return (spell.id == spell_id);
@@ -2076,7 +2072,7 @@ auto Sorcery::UI::_draw_create_class([[maybe_unused]] const int mode) -> void {
 	for (auto i = std::to_underlying(STRENGTH); i <= std::to_underlying(LUCK);
 		 ++i) {
 		auto attribute{_ctx.controller->get_candidate_character()->get_attr_ptr(
-			magic_enum::enum_cast<Enums::Character::Attribute>(i).value())};
+			enum_cast<Enums::Character::Attribute>(i).value())};
 		auto cmp_name{std::format("stepper_attribute_{}", i)};
 		_draw_stepper(&cmp_attribute, cmp_name, attribute);
 		++cmp_attribute.y;
@@ -3725,7 +3721,7 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
 
 			auto spell{_ctx.resources->spells->get(
-				magic_enum::enum_cast<Enums::Magic::SpellID>(idx).value())};
+				enum_cast<Enums::Magic::SpellID>(idx).value())};
 
 			const auto spell_name{
 				std::format("{} \"{}\"", spell.name, spell.translated_name)};

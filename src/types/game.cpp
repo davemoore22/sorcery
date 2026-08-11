@@ -605,7 +605,7 @@ auto Sorcery::Game::_debug_give_party_random_status() -> void {
 		auto &cur_char{characters.at(idx)};
 
 		cur_char.set_status(
-			magic_enum::enum_cast<Enums::Character::Status>(
+			enum_cast<Enums::Character::Status>(
 				_ctx.get_random(Enums::System::Random::ZERO_TO_8))
 				.value());
 		using enum Enums::Character::Status;

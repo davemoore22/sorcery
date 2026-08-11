@@ -22,6 +22,7 @@
 
 #include "core/random.hpp"
 #include "common/enum.hpp"
+#include "common/meta.hpp"
 #include <format>
 #include <random>
 
@@ -99,7 +100,7 @@ auto Sorcery::Random::get(const Enums::System::Random random_type)
 
 auto Sorcery::Random::get_type(const int num) const -> Enums::System::Random {
 
-	return magic_enum::enum_cast<Enums::System::Random>(num).value_or(
+	return enum_cast<Enums::System::Random>(num).value_or(
 		Enums::System::Random::NO_DICE);
 }
 

@@ -24,6 +24,7 @@
 
 #include "common/enum.hpp"
 #include "common/macro.hpp"
+#include "common/meta.hpp"
 #include "core/context.hpp"
 #include "core/random.hpp"
 #include "resources/itemstore.hpp"

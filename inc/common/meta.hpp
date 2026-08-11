@@ -69,7 +69,9 @@ constexpr auto enum_cast(T value) -> std::optional<E> {
 	template for (constexpr auto enumerator :
 				  std::define_static_array(std::meta::enumerators_of(^^E))) {
 
-		if (std::to_underlying([:enumerator:]) == value)
+		using U = std::underlying_type_t<E>;
+
+		if (std::to_underlying([:enumerator:]) == static_cast<U>(value))
 			return [:enumerator:];
 	}
 

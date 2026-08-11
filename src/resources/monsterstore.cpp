@@ -25,6 +25,7 @@
 
 #include "common/enum.hpp"
 #include "common/macro.hpp"
+#include "common/meta.hpp"
 #include "resources/define.hpp"
 #include "resources/monsterstore.hpp"
 #include "types/monstertype.hpp"

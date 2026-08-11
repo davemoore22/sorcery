@@ -22,6 +22,7 @@
 
 #include "types/state.hpp"
 #include "common/enum.hpp"
+#include "common/meta.hpp"
 #include "core/context.hpp"
 #include "core/system.hpp"
 #include "resources/itemstore.hpp"
@@ -42,8 +43,8 @@ Sorcery::State::State(Context *ctx)
 auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
 
 	for (int id = 0; id < 101; id++) {
-		const auto item_type{itemstore->get(
-			magic_enum::enum_cast<Enums::Items::TypeID>(id).value())};
+		const auto item_type{
+			itemstore->get(enum_cast<Enums::Items::TypeID>(id).value())};
 		_shop[id] = {item_type.get_shop_inital_stock(),
 					 item_type.get_shop_inital_stock(), item_type.get_buy(),
 					 item_type.get_sell()};
