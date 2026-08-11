@@ -23,6 +23,7 @@
 #include "core/controller.hpp"
 #include "common/cereal.hpp"
 #include "common/enum.hpp"
+#include "common/meta.hpp"
 #include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
@@ -200,10 +201,8 @@ auto Sorcery::Controller::get_characters() const -> std::string {
 
 	std::string output{};
 	for (const auto &character : _characters)
-		output.append(std::format(
-			"{:>26}: {}\n",
-			magic_enum::enum_name<Enums::CharacterSlot>(character.first),
-			character.second));
+		output.append(std::format("{:>26}: {}\n", enum_name(character.first),
+								  character.second));
 
 	return output;
 }
@@ -1688,7 +1687,7 @@ auto Sorcery::Controller::get_candidate_character() const -> Character * {
 
 auto Sorcery::Controller::go_to(const Enums::Screen screen) -> void {
 
-	DEBUG_LOGF("Go To Screen: {}", magic_enum::enum_name(screen));
+	DEBUG_LOGF("Go To Screen: {}", enum_name(screen));
 
 	_last_screen = _screen;
 	_screen = screen;
@@ -1872,8 +1871,8 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
 				   << std::endl;
 
 	for (const auto &[slot, character_id] : controller._characters) {
-		out_stream << std::format("  Character: {:>26} = {}\n",
-								  magic_enum::enum_name(slot), character_id);
+		out_stream << std::format("  Character: {:>26} = {}\n", enum_name(slot),
+								  character_id);
 	}
 
 	return out_stream << std::endl;

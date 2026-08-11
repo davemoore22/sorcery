@@ -22,6 +22,7 @@
 
 #include "gui/menubuilder.hpp"
 #include "common/enum.hpp"
+#include "common/meta.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
@@ -323,11 +324,9 @@ auto Sorcery::MenuBuilder::_load_buy_menu(unsigned int width,
 			_ctx.game->state->check_shop_will_sell(item_type.get_type_id())};
 		if (in_stock && will_sell) {
 
-			const auto suffix{
-				item_type.is_class_usable(character.get_class())
-					? magic_enum::enum_name<Enums::Items::Category>(
-						  item_type.get_category())
-					: " (Not Usable)"};
+			const auto suffix{item_type.is_class_usable(character.get_class())
+								  ? enum_name(item_type.get_category())
+								  : " (Not Usable)"};
 			const auto price{item_type.get_value()};
 			const auto entry{std::format("{:<20} {:>6} {:<13}",
 										 item_type.get_known_name(), price,
@@ -526,7 +525,7 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 	// but are disabled)
 	for (const auto &spell : castable_spells) {
 
-		const auto spell_type{magic_enum::enum_name(spell.type)};
+		const auto spell_type{enum_name(spell.type)};
 		const auto spell_level{spell.level};
 		const auto spell_english{spell.translated_name};
 		const auto spell_name{spell.name};

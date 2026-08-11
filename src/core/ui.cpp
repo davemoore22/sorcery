@@ -28,6 +28,7 @@
 #include "common/enum.hpp"
 #include "common/imgui.hpp"
 #include "common/macro.hpp"
+#include "common/meta.hpp"
 #include "common/opengl.hpp"
 #include "common/sdl2.hpp"
 #include "common/types.hpp"
@@ -2891,9 +2892,7 @@ auto Sorcery::UI::_draw_item_info() -> void {
 
 					UIStyle::set_text_dim(_ctx);
 
-					std::string item_category{
-						magic_enum::enum_name<Enums::Items::Category>(
-							item.get_category())};
+					std::string item_category{enum_name(item.get_category())};
 					if (item_category == "SPECIAL_ITEM")
 						item_category = "Quest Item";
 
@@ -3734,9 +3733,7 @@ auto Sorcery::UI::_draw_spell_info() -> void {
 									  ? "Mage"
 									  : "Priest"};
 
-			std::string spell_cat{
-				magic_enum::enum_name<Enums::Magic::SpellCategory>(
-					spell.category)};
+			std::string spell_cat{enum_name(spell.category)};
 			std::transform(spell_cat.begin(), spell_cat.end(),
 						   spell_cat.begin(), ::tolower);
 			auto summary{std::format("Level {} {} {} spell", spell.level,
@@ -3802,12 +3799,11 @@ auto Sorcery::UI::_draw_monster_info() -> void {
 
 					UIStyle::set_text_dim(_ctx);
 
-					const std::string mon_type{
-						magic_enum::enum_name(mon.get_category())};
+					const std::string mon_type{enum_name(mon.get_category())};
 					auto mon_t{CAPITALISE(mon_type)};
 					const std::string mon_class{
 						mon.get_class() != Enums::Monsters::Class::NO_CLASS
-							? magic_enum::enum_name(mon.get_class())
+							? enum_name(mon.get_class())
 							: ""};
 					auto mon_c{CAPITALISE(mon_class)};
 					std::string type;

@@ -23,6 +23,7 @@
 #include "types/game.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
+#include "common/meta.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
 #include "core/resources.hpp"
@@ -559,7 +560,7 @@ auto Sorcery::Game::print() -> void {
 
 	for (const auto &[char_id, character] : characters) {
 		auto line{std::format("{}){:>16} {}", char_id, character.get_name(),
-							  magic_enum::enum_name(character.get_location()))};
+							  enum_name(character.get_location()))};
 		text.append(line);
 		text.append("\n");
 	}

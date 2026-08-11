@@ -25,6 +25,7 @@
 #include "types/itemtype.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
+#include "common/meta.hpp"
 
 std::random_device Sorcery::ItemType::_device;
 std::mt19937_64 Sorcery::ItemType::_random(_device());
@@ -344,9 +345,7 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 		if (_defensive_effects[i]) {
 			const auto eff_enum{
 				magic_enum::enum_value<Enums::Items::Effects::Defensive>(i)};
-			std::string str{
-				magic_enum::enum_name<Enums::Items::Effects::Defensive>(
-					eff_enum)};
+			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
 			effects.append(", ");
@@ -360,9 +359,7 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 		if (_defensive_effects[i]) {
 			const auto eff_enum{
 				magic_enum::enum_value<Enums::Items::Effects::Defensive>(i)};
-			std::string str{
-				magic_enum::enum_name<Enums::Items::Effects::Defensive>(
-					eff_enum)};
+			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
 			effects.append(", ");
@@ -382,9 +379,7 @@ auto Sorcery::ItemType::get_eff_off_str() const -> std::string {
 		if (_offensive_effects[i]) {
 			const auto eff_enum{
 				magic_enum::enum_value<Enums::Items::Effects::Offensive>(i)};
-			std::string str{
-				magic_enum::enum_name<Enums::Items::Effects::Offensive>(
-					eff_enum)};
+			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
 			effects.append(", ");

@@ -23,6 +23,7 @@
 #include "types/error.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
+#include "common/meta.hpp"
 
 #include <iomanip>
 #include <regex>
@@ -37,7 +38,7 @@ Sorcery::Error::Error(Enums::System::Error error_code,
 
 	_details.clear();
 	_details.emplace_back(std::to_string(std::to_underlying(_error_code)));
-	_details.emplace_back(magic_enum::enum_name(_error_code));
+	_details.emplace_back(enum_name(_error_code));
 	_details.emplace_back(_exception.what());
 	_details.emplace_back(get_when());
 	_details.emplace_back(_notes);
