@@ -23,7 +23,6 @@
 #include "types/game.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
-#include "common/meta.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
 #include "core/resources.hpp"
@@ -32,6 +31,7 @@
 #include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
 #include "resources/savestore.hpp"
+#include "types/meta.hpp"
 #include "types/scopedtimer.hpp"
 #include "types/state.hpp"
 

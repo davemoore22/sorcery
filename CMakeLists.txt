@@ -137,7 +137,6 @@ target_compile_options(sorcery_warnings INTERFACE
 	-Wpedantic
 	-Wno-narrowing
 	-Wno-unused-parameter
-	-freflection
 )
 
 # Main Source Files
@@ -179,7 +178,6 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-Wredundant-decls
 	-Wodr
 	-Wfatal-errors
-	-freflection
 	-fdiagnostics-color=always
 	-Wno-narrowing
 	-pthread

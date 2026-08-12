@@ -22,7 +22,6 @@
 
 #include "gui/menubuilder.hpp"
 #include "common/enum.hpp"
-#include "common/meta.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
@@ -34,6 +33,7 @@
 #include "resources/spellstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/game.hpp"
+#include "types/meta.hpp"
 #include "types/state.hpp"
 
 #include <algorithm>

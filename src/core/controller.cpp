@@ -23,7 +23,6 @@
 #include "core/controller.hpp"
 #include "common/cereal.hpp"
 #include "common/enum.hpp"
-#include "common/meta.hpp"
 #include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
@@ -44,6 +43,7 @@
 #include "types/config.hpp"
 #include "types/game.hpp"
 #include "types/item.hpp"
+#include "types/meta.hpp"
 #include "types/state.hpp"
 
 Sorcery::Controller::Controller(Context &ctx)

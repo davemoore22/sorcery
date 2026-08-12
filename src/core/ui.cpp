@@ -28,7 +28,6 @@
 #include "common/enum.hpp"
 #include "common/imgui.hpp"
 #include "common/macro.hpp"
-#include "common/meta.hpp"
 #include "common/opengl.hpp"
 #include "common/sdl2.hpp"
 #include "common/types.hpp"
@@ -70,6 +69,7 @@
 #include "types/error.hpp"
 #include "types/game.hpp"
 #include "types/image.hpp"
+#include "types/meta.hpp"
 #include "types/state.hpp"
 #include "types/tile.hpp"
 

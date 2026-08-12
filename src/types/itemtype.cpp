@@ -25,7 +25,7 @@
 #include "types/itemtype.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
-#include "common/meta.hpp"
+#include "types/meta.hpp"
 
 std::random_device Sorcery::ItemType::_device;
 std::mt19937_64 Sorcery::ItemType::_random(_device());

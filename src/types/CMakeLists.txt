@@ -25,9 +25,16 @@ target_sources(sorcery_types PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/item.cpp
 	${CMAKE_CURRENT_LIST_DIR}/itemtype.cpp
 	${CMAKE_CURRENT_LIST_DIR}/level.cpp
+	${CMAKE_CURRENT_LIST_DIR}/meta.cpp
 	${CMAKE_CURRENT_LIST_DIR}/monster.cpp
 	${CMAKE_CURRENT_LIST_DIR}/monstertype.cpp
 	${CMAKE_CURRENT_LIST_DIR}/scopedtimer.cpp
 	${CMAKE_CURRENT_LIST_DIR}/state.cpp
 	${CMAKE_CURRENT_LIST_DIR}/tile.cpp
+)
+
+set_source_files_properties(
+    ${CMAKE_CURRENT_LIST_DIR}/meta.cpp
+    PROPERTIES
+        COMPILE_OPTIONS "-freflection"
 )

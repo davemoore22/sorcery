@@ -61,7 +61,6 @@ auto Sorcery::Splash::start() -> int {
 		_ctx.ui->display(Enums::Screen::SPLASH);
 		_ctx.tick();
 
-		// done = _ui->images->load_next();
 		done = true;
 	}
 

@@ -22,10 +22,10 @@
 
 #include "types/state.hpp"
 #include "common/enum.hpp"
-#include "common/meta.hpp"
 #include "core/context.hpp"
 #include "core/system.hpp"
 #include "resources/itemstore.hpp"
+#include "types/meta.hpp"
 
 using namespace std::literals;
 

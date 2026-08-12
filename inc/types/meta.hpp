@@ -23,11 +23,10 @@
 #pragma once
 
 #include <concepts>
-#include <meta>
+#include <cstdint>
 #include <optional>
 #include <string_view>
 #include <type_traits>
-#include <utility>
 
 namespace Sorcery {
 
@@ -36,46 +35,28 @@ concept Enum = std::is_enum_v<T>;
 
 template <Enum E>
 [[nodiscard]]
-constexpr auto enum_name(E value) -> std::string_view {
-
-	template for (constexpr auto enumerator :
-				  std::define_static_array(std::meta::enumerators_of(^^E))) {
-
-		if (value == [:enumerator:])
-			return std::meta::identifier_of(enumerator);
-	}
-
-	return {};
-}
+auto enum_name(E value) -> std::string_view;
 
 template <Enum E>
 [[nodiscard]]
-constexpr auto enum_cast(std::string_view name) -> std::optional<E> {
+auto enum_cast(std::string_view name) -> std::optional<E>;
 
-	template for (constexpr auto enumerator :
-				  std::define_static_array(std::meta::enumerators_of(^^E))) {
+template <Enum E>
+[[nodiscard]]
+auto enum_cast_signed(std::intmax_t value) -> std::optional<E>;
 
-		if (name == std::meta::identifier_of(enumerator))
-			return [:enumerator:];
-	}
-
-	return std::nullopt;
-}
+template <Enum E>
+[[nodiscard]]
+auto enum_cast_unsigned(std::uintmax_t value) -> std::optional<E>;
 
 template <Enum E, std::integral T>
 [[nodiscard]]
-constexpr auto enum_cast(T value) -> std::optional<E> {
+auto enum_cast(T value) -> std::optional<E> {
 
-	template for (constexpr auto enumerator :
-				  std::define_static_array(std::meta::enumerators_of(^^E))) {
-
-		using U = std::underlying_type_t<E>;
-
-		if (std::to_underlying([:enumerator:]) == static_cast<U>(value))
-			return [:enumerator:];
-	}
-
-	return std::nullopt;
+	if constexpr (std::signed_integral<T>)
+		return enum_cast_signed<E>(static_cast<std::intmax_t>(value));
+	else
+		return enum_cast_unsigned<E>(static_cast<std::uintmax_t>(value));
 }
 
 } // namespace Sorcery
