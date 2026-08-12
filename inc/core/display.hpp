@@ -72,7 +72,9 @@ class Display {
 		auto set_fade(float fade) -> void;
 
 	private:
-		auto initialise_SDL() -> int;
+		auto _initialise_SDL() -> int;
+		auto _create_post_processor() -> void;
+		auto _compile_shader(const GLenum type, const char *source) -> GLuint;
 
 		Context &_ctx;
 		SDL_Window *_SDL_window;
@@ -83,9 +85,11 @@ class Display {
 		int _base_window_w;
 		int _base_window_h;
 		FrameBuffer _framebuffer;
-		GLuint _post_program{};
-		GLuint _post_vao{};
-		float _fade{};
+		GLuint _post_program;
+		GLuint _post_vao;
+		float _fade;
+		GLint _screen_texture_location{-1};
+		GLint _fade_location{-1};
 };
 
 }

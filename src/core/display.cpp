@@ -85,10 +85,12 @@ constexpr auto fragment_shader{R"(
 Sorcery::Display::Display(Context &ctx)
 	: _ctx{ctx} {
 
-	initialise_SDL();
+	_initialise_SDL();
+
+	_fade = 0.0f;
 };
 
-auto Sorcery::Display::initialise_SDL() -> int {
+auto Sorcery::Display::_initialise_SDL() -> int {
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) !=
 		0) {
@@ -103,7 +105,7 @@ auto Sorcery::Display::initialise_SDL() -> int {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
 						SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -158,11 +160,26 @@ auto Sorcery::Display::initialise_SDL() -> int {
 		return -1;
 	}
 
+	glewExperimental = GL_TRUE;
+
+	const auto glew_status{glewInit()};
+	if (glew_status != GLEW_OK) {
+		std::println(
+			"GLEW initialisation failed: {}",
+			reinterpret_cast<const char *>(glewGetErrorString(glew_status)));
+
+		return -1;
+	}
+
 	if (SDL_GL_SetSwapInterval(1) != 0) {
 		std::println("Warning: unable to enable VSync: {}", SDL_GetError());
 	}
 
 	update_display_metrics();
+
+	_framebuffer.create(_metrics.drawable_w, _metrics.drawable_h);
+
+	_create_post_processor();
 
 	int gl_major{};
 	int gl_minor{};
@@ -243,26 +260,32 @@ auto Sorcery::Display::update_display_metrics() noexcept -> void {
 
 	_metrics.offset_y =
 		(static_cast<float>(_metrics.window_h) - content_h) / 2.0f;
-
-	glViewport(0, 0, _metrics.drawable_w, _metrics.drawable_h);
 }
 
 auto Sorcery::Display::resize() -> void {
 
-	int width{};
-	int height{};
+	update_display_metrics();
 
-	SDL_GL_GetDrawableSize(_SDL_window, &width, &height);
+	if (_metrics.drawable_w <= 0 || _metrics.drawable_h <= 0)
+		return;
 
-	_framebuffer.resize(width, height);
+	_framebuffer.resize(_metrics.drawable_w, _metrics.drawable_h);
 }
 
 auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 
-	int width{};
-	int height{};
+	const auto width{_metrics.drawable_w};
+	const auto height{_metrics.drawable_h};
 
-	SDL_GL_GetDrawableSize(_SDL_window, &width, &height);
+	if (width <= 0 || height <= 0)
+		return;
+
+	/*
+	 * Pass 1:
+	 * Render ImGui into the offscreen framebuffer.
+	 */
+
+	_framebuffer.bind();
 
 	glViewport(0, 0, width, height);
 
@@ -272,6 +295,42 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 
 	ImGui_ImplOpenGL3_RenderDrawData(draw_data);
 
+	/*
+	 * Pass 2:
+	 * Render framebuffer texture to the window through
+	 * the post-processing shader.
+	 */
+
+	FrameBuffer::unbind();
+
+	glViewport(0, 0, width, height);
+
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glDisable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_SCISSOR_TEST);
+
+	glUseProgram(_post_program);
+
+	glActiveTexture(GL_TEXTURE0);
+
+	glBindTexture(GL_TEXTURE_2D, _framebuffer.texture());
+
+	glUniform1i(_screen_texture_location, 0);
+
+	glUniform1f(_fade_location, _fade);
+
+	glBindVertexArray(_post_vao);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUseProgram(0);
+
 	SDL_GL_SwapWindow(_SDL_window);
 }
 
@@ -280,7 +339,7 @@ auto Sorcery::Display::set_fade(const float fade) -> void {
 	_fade = std::clamp(fade, 0.0f, 1.0f);
 }
 
-auto Sorcery::Display::compile_shader(const GLenum type, const char *source)
+auto Sorcery::Display::_compile_shader(const GLenum type, const char *source)
 	-> GLuint {
 
 	const auto shader{glCreateShader(type)};
@@ -303,4 +362,45 @@ auto Sorcery::Display::compile_shader(const GLenum type, const char *source)
 	}
 
 	return shader;
+}
+
+auto Sorcery::Display::_create_post_processor() -> void {
+
+	const auto vertex{_compile_shader(GL_VERTEX_SHADER, vertex_shader)};
+
+	const auto fragment{_compile_shader(GL_FRAGMENT_SHADER, fragment_shader)};
+
+	_post_program = glCreateProgram();
+
+	glAttachShader(_post_program, vertex);
+	glAttachShader(_post_program, fragment);
+
+	glLinkProgram(_post_program);
+
+	glDeleteShader(vertex);
+	glDeleteShader(fragment);
+
+	GLint success{};
+	glGetProgramiv(_post_program, GL_LINK_STATUS, &success);
+
+	if (!success) {
+		GLchar log[1024]{};
+
+		glGetProgramInfoLog(_post_program, sizeof(log), nullptr, log);
+
+		throw std::runtime_error{std::string{"Shader link failed: "} + log};
+	}
+
+	glGenVertexArrays(1, &_post_vao);
+
+	_screen_texture_location =
+		glGetUniformLocation(_post_program, "screen_texture");
+
+	_fade_location = glGetUniformLocation(_post_program, "fade");
+
+	if (_screen_texture_location == -1 || _fade_location == -1) {
+
+		throw std::runtime_error{
+			"Unable to find post-processing shader uniforms."};
+	}
 }
