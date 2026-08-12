@@ -39,6 +39,49 @@
 #include <print>
 #include <string>
 
+constexpr auto vertex_shader{R"(
+	#version 330 core
+
+	out vec2 uv;
+
+	void main() {
+
+		vec2 pos = vec2(
+			(gl_VertexID << 1) & 2,
+			gl_VertexID & 2);
+
+		uv = pos;
+
+		gl_Position = vec4(
+			pos * 2.0 - 1.0,
+			0.0,
+			1.0);
+	}
+)"};
+
+constexpr auto fragment_shader{R"(
+	#version 330 core
+
+	in vec2 uv;
+
+	out vec4 frag_colour;
+
+	uniform sampler2D screen_texture;
+	uniform float fade;
+
+	void main() {
+
+		vec4 colour = texture(screen_texture, uv);
+
+		colour.rgb = mix(
+			colour.rgb,
+			vec3(0.0),
+			fade);
+
+		frag_colour = colour;
+	}
+)"};
+
 Sorcery::Display::Display(Context &ctx)
 	: _ctx{ctx} {
 
@@ -230,4 +273,34 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 	ImGui_ImplOpenGL3_RenderDrawData(draw_data);
 
 	SDL_GL_SwapWindow(_SDL_window);
+}
+
+auto Sorcery::Display::set_fade(const float fade) -> void {
+
+	_fade = std::clamp(fade, 0.0f, 1.0f);
+}
+
+auto Sorcery::Display::compile_shader(const GLenum type, const char *source)
+	-> GLuint {
+
+	const auto shader{glCreateShader(type)};
+
+	glShaderSource(shader, 1, &source, nullptr);
+	glCompileShader(shader);
+
+	GLint success{};
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+
+	if (!success) {
+		GLchar log[1024]{};
+
+		glGetShaderInfoLog(shader, sizeof(log), nullptr, log);
+
+		glDeleteShader(shader);
+
+		throw std::runtime_error{std::string{"Shader compilation failed: "} +
+								 log};
+	}
+
+	return shader;
 }

@@ -68,6 +68,9 @@ class Display {
 		auto update_display_metrics() noexcept -> void;
 		auto get_display_metrics() const noexcept -> const DisplayMetrics &;
 
+		// Simple OpenGL Shaders
+		auto set_fade(float fade) -> void;
+
 	private:
 		auto initialise_SDL() -> int;
 
@@ -80,6 +83,9 @@ class Display {
 		int _base_window_w;
 		int _base_window_h;
 		FrameBuffer _framebuffer;
+		GLuint _post_program{};
+		GLuint _post_vao{};
+		float _fade{};
 };
 
 }
