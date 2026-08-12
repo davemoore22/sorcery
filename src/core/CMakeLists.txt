@@ -20,6 +20,7 @@ target_sources(sorcery_core PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/context.cpp
 	${CMAKE_CURRENT_LIST_DIR}/display.cpp
 	${CMAKE_CURRENT_LIST_DIR}/framebuffer.cpp
+	${CMAKE_CURRENT_LIST_DIR}/module.cpp
 	${CMAKE_CURRENT_LIST_DIR}/random.cpp
 	${CMAKE_CURRENT_LIST_DIR}/render.cpp
 	${CMAKE_CURRENT_LIST_DIR}/resources.cpp

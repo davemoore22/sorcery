@@ -86,8 +86,6 @@ Sorcery::Display::Display(Context &ctx)
 	: _ctx{ctx} {
 
 	_initialise_SDL();
-
-	_fade = 0.0f;
 };
 
 auto Sorcery::Display::_initialise_SDL() -> int {

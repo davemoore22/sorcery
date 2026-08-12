@@ -4,6 +4,10 @@ target_include_directories(sorcery_frontend PUBLIC
 	${CMAKE_SOURCE_DIR}/inc
 )
 
+target_link_libraries(sorcery_frontend PRIVATE
+    sorcery_core
+)
+
 target_link_libraries(sorcery_frontend PUBLIC
 	dear_imgui
 	${SDL2_LIBRARIES}

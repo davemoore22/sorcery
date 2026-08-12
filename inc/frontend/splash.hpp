@@ -22,22 +22,22 @@
 
 #pragma once
 
+#include "core/module.hpp"
+
 namespace Sorcery {
 
 struct Context;
 
-class Splash {
+class Splash final : public Module {
 
 	public:
-		Splash(Context &ctx);
+		explicit Splash(Context &ctx);
 
-		auto start() -> int;
-		auto stop() -> int;
+		auto start() -> int override;
+		auto stop() -> int override;
 
 	private:
 		auto _initialise() -> bool;
-
-		Context &_ctx;
 };
 
 };

@@ -35,9 +35,10 @@
 #include "gui/dialog.hpp"
 
 #include <chrono>
+#include <print>
 
 Sorcery::MainMenu::MainMenu(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_options = std::make_unique<Options>(_ctx);
 	_license = std::make_unique<License>(_ctx);
@@ -55,12 +56,16 @@ auto Sorcery::MainMenu::_initialise() -> bool {
 
 auto Sorcery::MainMenu::start() -> int {
 
+	using namespace std::chrono_literals;
+
 	// Clear all controller and flow flags
 	_ctx.controller->initialise();
 
 	// Start relevant animation worker threads
 	_ctx.animation->refresh_attract();
 	_ctx.animation->start_attract_th();
+
+	fade_in(Enums::Screen::MAINMENU, 500ms);
 
 	_ctx.audio->set_volume(1.0f);
 

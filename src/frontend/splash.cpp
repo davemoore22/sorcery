@@ -29,8 +29,10 @@
 #include "resources/define.hpp"
 #include "resources/imagestore.hpp"
 
+#include <chrono>
+
 Sorcery::Splash::Splash(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };
@@ -45,10 +47,14 @@ auto Sorcery::Splash::_initialise() -> bool {
 
 auto Sorcery::Splash::start() -> int {
 
+	using namespace std::chrono_literals;
+
 	ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 
 	_ctx.controller->initialise();
 	_ctx.controller->set_busy(true);
+
+	fade_in(Enums::Screen::SPLASH, 500ms);
 
 	// Main loop
 	auto done{false};
@@ -70,6 +76,10 @@ auto Sorcery::Splash::start() -> int {
 }
 
 auto Sorcery::Splash::stop() -> int {
+
+	using namespace std::chrono_literals;
+
+	fade_out(Enums::Screen::SPLASH, 500ms);
 
 	return 0;
 }

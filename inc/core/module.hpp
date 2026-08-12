@@ -22,31 +22,36 @@
 
 #pragma once
 
-#include <memory>
-
-#include "core/module.hpp"
+#include "core/enum.hpp"
+#include <chrono>
 
 namespace Sorcery {
 
-struct Context;
-class Compendium;
-class License;
-class Options;
+class Context;
 
-class MainMenu final : public Module {
+class Module {
 
 	public:
-		explicit MainMenu(Context &ctx);
-		~MainMenu();
+		explicit Module(Context &ctx)
+			: _ctx{ctx} {}
 
-		auto start() -> int override;
-		auto stop() -> int override;
+		virtual ~Module() = default;
+
+		virtual auto start() -> int = 0;
+		virtual auto stop() -> int = 0;
+
+	protected:
+		auto fade_in(Enums::Screen screen, std::chrono::milliseconds duration)
+			-> void;
+
+		auto fade_out(Enums::Screen screen, std::chrono::milliseconds duration)
+			-> void;
+
+		Context &_ctx;
 
 	private:
-		auto _initialise() -> bool;
+		auto _fade(Enums::Screen screen, float from, float to,
+				   std::chrono::milliseconds duration) -> void;
+};
 
-		std::unique_ptr<Compendium> _compendium;
-		std::unique_ptr<License> _license;
-		std::unique_ptr<Options> _options;
-};
-};
+}
