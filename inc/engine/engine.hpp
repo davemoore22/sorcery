@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/types.hpp"
+#include "core/module.hpp"
 #include "engine/enum.hpp"
 #include <cstdint>
 #include <memory>
@@ -37,7 +38,7 @@ class Application;
 class Automap;
 class Graveyard;
 
-class Engine {
+class Engine final : public Module {
 
 	public:
 		// Standard Constructor
@@ -51,7 +52,7 @@ class Engine {
 
 		// Public Methods
 		auto start(const int mode) -> int;
-		auto stop() -> void;
+		auto stop() -> int;
 
 	private:
 		// Private Methods
@@ -80,8 +81,6 @@ class Engine {
 
 		// Private Members
 		Application *_application;
-
-		Context &_ctx;
 
 		std::unique_ptr<Options> _options;
 		std::unique_ptr<Reorder> _reorder;

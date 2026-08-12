@@ -50,7 +50,7 @@
 #include <string>
 
 Sorcery::Engine::Engine(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_options = std::make_unique<Options>(_ctx);
 	_reorder = std::make_unique<Reorder>(_ctx);
@@ -70,6 +70,8 @@ auto Sorcery::Engine::_initialise() -> bool {
 
 auto Sorcery::Engine::start(const int mode) -> int {
 
+	using namespace std::chrono_literals;
+
 	_ctx.controller->initialise();
 	_ctx.controller->set_flag("in_engine");
 	_ctx.controller->go_to(Enums::Screen::ENGINE);
@@ -81,6 +83,12 @@ auto Sorcery::Engine::start(const int mode) -> int {
 	_start_expedition(mode);
 
 	_ctx.audio->set_volume(1.0f);
+
+	fade_in(
+		[this] {
+			_ctx.ui->display_engine();
+		},
+		500ms);
 
 	// Main loop
 	auto done{false};
@@ -131,6 +139,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			}
 
 			if (_check_for_wipe()) {
+
 				_graveyard->start();
 				_graveyard->stop();
 
@@ -266,9 +275,17 @@ auto Sorcery::Engine::start(const int mode) -> int {
 	return LEAVE_MAZE;
 }
 
-auto Sorcery::Engine::stop() -> void {
+auto Sorcery::Engine::stop() -> int {
 
 	_ctx.controller->unset_flag("in_engine");
+
+	// fade_in(
+	//	[this] {
+	//		_ctx.ui->display_engine();
+	//	},
+	//	500ms);
+
+	return 0;
 }
 
 auto Sorcery::Engine::_tile_explored(const Coordinate loc) const -> bool {

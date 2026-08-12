@@ -714,6 +714,11 @@ auto Sorcery::UI::display_engine() -> void {
 	// Background
 	_draw_components("engine_base_ui");
 
+	if (!_ctx.controller->get_monochrome()) {
+		auto bg_c{components->get("engine_base_ui:background_image")};
+		_draw_tiled_bg(&bg_c);
+	}
+
 	dialog_leave->display(_ctx.controller->want_to_leave_game());
 	dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
 	dialog_stairs_down->display(_ctx.get_flag_ref("want_take_stairs_down"));

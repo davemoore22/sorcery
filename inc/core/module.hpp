@@ -24,6 +24,7 @@
 
 #include "core/enum.hpp"
 #include <chrono>
+#include <functional>
 
 namespace Sorcery {
 
@@ -37,9 +38,6 @@ class Module {
 
 		virtual ~Module() = default;
 
-		virtual auto start() -> int = 0;
-		virtual auto stop() -> int = 0;
-
 	protected:
 		auto fade_in(Enums::Screen screen, std::chrono::milliseconds duration)
 			-> void;
@@ -47,10 +45,16 @@ class Module {
 		auto fade_out(Enums::Screen screen, std::chrono::milliseconds duration)
 			-> void;
 
+		auto fade_in(const std::function<void()> &draw,
+					 std::chrono::milliseconds duration) -> void;
+
+		auto fade_out(const std::function<void()> &draw,
+					  std::chrono::milliseconds duration) -> void;
+
 		Context &_ctx;
 
 	private:
-		auto _fade(Enums::Screen screen, float from, float to,
+		auto _fade(const std::function<void()> &draw, float from, float to,
 				   std::chrono::milliseconds duration) -> void;
 };
 

@@ -50,7 +50,7 @@
 #include "types/game.hpp"
 
 Sorcery::Castle::Castle(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_tavern = std::make_unique<Tavern>(_ctx);
 	_inn = std::make_unique<Inn>(_ctx);
@@ -74,6 +74,8 @@ auto Sorcery::Castle::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::CASTLE, 500ms);
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");

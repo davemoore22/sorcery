@@ -25,6 +25,7 @@
 #include <memory>
 
 #include "common/define.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
@@ -37,11 +38,11 @@ class Temple;
 class Inn;
 class Inspect;
 
-class Castle {
+class Castle final : public Module {
 
 	public:
 		// Standard Constructor
-		Castle(Context &ctx);
+		explicit Castle(Context &ctx);
 
 		~Castle();
 
@@ -54,7 +55,6 @@ class Castle {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Context &_ctx;
 		std::unique_ptr<Inn> _inn;
 		std::unique_ptr<Shop> _shop;
 		std::unique_ptr<Tavern> _tavern;

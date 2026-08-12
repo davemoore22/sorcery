@@ -29,13 +29,15 @@
 #include <chrono>
 #include <cmath>
 
-auto Sorcery::Module::_fade(const Enums::Screen screen, const float from,
+auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from,
 							const float to,
 							const std::chrono::milliseconds duration) -> void {
 
 	using clock = std::chrono::steady_clock;
 
 	const auto start{clock::now()};
+
+	_ctx.display->set_fade(from);
 
 	while (true) {
 
@@ -44,19 +46,17 @@ auto Sorcery::Module::_fade(const Enums::Screen screen, const float from,
 		while (SDL_PollEvent(&event))
 			ImGui_ImplSDL2_ProcessEvent(&event);
 
-		const auto elapsed{
-			std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() -
-																  start)};
+		const auto elapsed{std::chrono::duration<float>(clock::now() - start)};
 
-		const auto progress{std::clamp(static_cast<float>(elapsed.count()) /
-										   static_cast<float>(duration.count()),
-									   0.0f, 1.0f)};
+		const auto total{std::chrono::duration<float>(duration)};
 
-		const auto fade{std::lerp(from, to, progress)};
+		const auto progress{
+			std::clamp(elapsed.count() / total.count(), 0.0f, 1.0f)};
 
-		_ctx.display->set_fade(fade);
+		_ctx.display->set_fade(std::lerp(from, to, progress));
 
-		_ctx.ui->display(screen);
+		draw();
+
 		_ctx.tick();
 
 		if (progress >= 1.0f)
@@ -64,18 +64,42 @@ auto Sorcery::Module::_fade(const Enums::Screen screen, const float from,
 	}
 
 	_ctx.display->set_fade(to);
+
+	draw();
 }
 
 auto Sorcery::Module::fade_in(const Enums::Screen screen,
 							  const std::chrono::milliseconds duration)
 	-> void {
 
-	_fade(screen, 1.0f, 0.0f, duration);
+	_fade(
+		[this, screen] {
+			_ctx.ui->display(screen);
+		},
+		1.0f, 0.0f, duration);
 }
 
 auto Sorcery::Module::fade_out(const Enums::Screen screen,
 							   const std::chrono::milliseconds duration)
 	-> void {
 
-	_fade(screen, 0.0f, 1.0f, duration);
+	_fade(
+		[this, screen] {
+			_ctx.ui->display(screen);
+		},
+		0.0f, 1.0f, duration);
+}
+
+auto Sorcery::Module::fade_in(const std::function<void()> &draw,
+							  const std::chrono::milliseconds duration)
+	-> void {
+
+	_fade(draw, 1.0f, 0.0f, duration);
+}
+
+auto Sorcery::Module::fade_out(const std::function<void()> &draw,
+							   const std::chrono::milliseconds duration)
+	-> void {
+
+	_fade(draw, 0.0f, 1.0f, duration);
 }

@@ -33,8 +33,8 @@ class Splash final : public Module {
 	public:
 		explicit Splash(Context &ctx);
 
-		auto start() -> int override;
-		auto stop() -> int override;
+		auto start() -> int;
+		auto stop() -> int;
 
 	private:
 		auto _initialise() -> bool;

@@ -39,8 +39,8 @@ class MainMenu final : public Module {
 		explicit MainMenu(Context &ctx);
 		~MainMenu();
 
-		auto start() -> int override;
-		auto stop() -> int override;
+		auto start() -> int;
+		auto stop() -> int;
 
 	private:
 		auto _initialise() -> bool;
