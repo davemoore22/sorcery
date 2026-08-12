@@ -774,13 +774,9 @@ auto Sorcery::UI::display_engine() -> void {
 	// ImGui::ShowDemoWindow(&show);
 	// ImGui::PopFont();
 
-	// And finally clear and render everything
 	ImGui::Render();
-	glViewport(0, 0, (int)_io->DisplaySize.x, (int)_io->DisplaySize.y);
-	glClearColor(0, 0, 0, 255);
-	glClear(GL_COLOR_BUFFER_BIT);
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	SDL_GL_SwapWindow(_ctx.display->get_SDL_window());
+
+	_ctx.display->present(ImGui::GetDrawData());
 }
 
 auto Sorcery::UI::display(Enums::Screen screen, std::any payload) -> void {
@@ -794,7 +790,6 @@ auto Sorcery::UI::display(Enums::Screen screen, std::any payload) -> void {
 	ImGui::NewFrame();
 
 	_setup_windows();
-	//_draw_window_menu();
 
 	if (payload.type() == typeid(std::string)) {
 		if (auto it = _draw_modules_with_string.find(screen);
@@ -811,13 +806,9 @@ auto Sorcery::UI::display(Enums::Screen screen, std::any payload) -> void {
 
 	_draw_cursor();
 
-	// And finally clear and render everything
 	ImGui::Render();
-	glViewport(0, 0, (int)_io->DisplaySize.x, (int)_io->DisplaySize.y);
-	glClearColor(0, 0, 0, 255);
-	glClear(GL_COLOR_BUFFER_BIT);
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	SDL_GL_SwapWindow(_ctx.display->get_SDL_window());
+
+	_ctx.display->present(ImGui::GetDrawData());
 }
 
 // Preset all the (transparent) windows we will need (this should be called

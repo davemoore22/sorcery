@@ -23,9 +23,11 @@
 #include "core/display.hpp"
 #include "common/types.hpp"
 
+#include "common/imgui.hpp"
 #include "common/opengl.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
+#include "core/framebuffer.hpp"
 #include "core/system.hpp"
 #include "resources/stringstore.hpp"
 #include "types/config.hpp"
@@ -200,4 +202,32 @@ auto Sorcery::Display::update_display_metrics() noexcept -> void {
 		(static_cast<float>(_metrics.window_h) - content_h) / 2.0f;
 
 	glViewport(0, 0, _metrics.drawable_w, _metrics.drawable_h);
+}
+
+auto Sorcery::Display::resize() -> void {
+
+	int width{};
+	int height{};
+
+	SDL_GL_GetDrawableSize(_SDL_window, &width, &height);
+
+	_framebuffer.resize(width, height);
+}
+
+auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
+
+	int width{};
+	int height{};
+
+	SDL_GL_GetDrawableSize(_SDL_window, &width, &height);
+
+	glViewport(0, 0, width, height);
+
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	ImGui_ImplOpenGL3_RenderDrawData(draw_data);
+
+	SDL_GL_SwapWindow(_SDL_window);
 }
