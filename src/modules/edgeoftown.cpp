@@ -41,7 +41,7 @@
 #include "types/game.hpp"
 
 Sorcery::EdgeOfTown::EdgeOfTown(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 
@@ -63,6 +63,8 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::EDGEOFTOWN);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::EDGEOFTOWN, QUICK_FADE);
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
@@ -97,31 +99,19 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(event, {.menu_key = true, .debug = true})) {
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Menu Key
-			_ctx.controller->check_for_menu_key(event);
-
-			// Check for Back Event
-			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
-
-			// Check for Debug
-			_ctx.controller->check_for_debug(event);
-
-			// Check for Quicksave and Quickload
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
+			case ModuleEvent::QUICKLOAD:
 				continue;
+
+			case ModuleEvent::NONE:
+				break;
 			}
+			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
 		}
 
 		_ctx.ui->display(Enums::Screen::EDGEOFTOWN, _ctx.game);
@@ -144,6 +134,9 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			_ctx.game->save_game();
 			_training_grounds->start();
 			_training_grounds->stop();
+
+			// Needs a fade in here
+			fade_in(Enums::Screen::EDGEOFTOWN, QUICK_FADE);
 		} else if (_ctx.controller->wants(Enums::Screen::RESTART)) {
 			_restart->start();
 			_restart->stop();
@@ -166,6 +159,8 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 }
 
 auto Sorcery::EdgeOfTown::stop() -> int {
+
+	fade_out(Enums::Screen::EDGEOFTOWN, QUICK_FADE);
 
 	return 0;
 }

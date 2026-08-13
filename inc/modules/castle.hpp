@@ -44,6 +44,7 @@ class Castle final : public Module {
 		// Standard Constructor
 		explicit Castle(Context &ctx);
 
+		// Standard Destructor
 		~Castle();
 
 		// Public Methods

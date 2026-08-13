@@ -65,7 +65,7 @@ auto Sorcery::MainMenu::start() -> int {
 	_ctx.animation->refresh_attract();
 	_ctx.animation->start_attract_th();
 
-	fade_in(Enums::Screen::MAINMENU, 500ms);
+	fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 
 	_ctx.audio->set_volume(1.0f);
 

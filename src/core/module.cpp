@@ -21,10 +21,13 @@
 // the resulting work.
 
 #include "core/module.hpp"
-
+#include "core/application.hpp"
 #include "core/context.hpp"
+#include "core/controller.hpp"
 #include "core/display.hpp"
 #include "core/ui.hpp"
+#include "resources/define.hpp"
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -102,4 +105,38 @@ auto Sorcery::Module::fade_out(const std::function<void()> &draw,
 	-> void {
 
 	_fade(draw, 0.0f, 1.0f, duration);
+}
+
+auto Sorcery::Module::process_event(const SDL_Event &event,
+									const EventOptions &options)
+	-> ModuleEvent {
+
+	ImGui_ImplSDL2_ProcessEvent(&event);
+
+	if (_ctx.controller->check_for_abort(event))
+		return ModuleEvent::ABORT;
+
+	_ctx.controller->check_for_resize(event, _ctx.ui);
+
+	if (options.menu_key)
+		_ctx.controller->check_for_menu_key(event);
+
+	if (options.debug)
+		_ctx.controller->check_for_debug(event);
+
+	if (options.quicksave && _ctx.controller->check_for_quicksave(event)) {
+
+		_ctx.application->save_state_to_binary(
+			_ctx.get_file(SAVE_STATE_FILENAME));
+
+	} else if (options.quickload &&
+			   _ctx.controller->check_for_quickload(event)) {
+
+		_ctx.application->load_state_from_binary(
+			_ctx.get_file(SAVE_STATE_FILENAME));
+
+		return ModuleEvent::QUICKLOAD;
+	}
+
+	return ModuleEvent::NONE;
 }

@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/define.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 #include <memory>
@@ -34,12 +35,13 @@ struct Context;
 class Create;
 class Roster;
 
-class Training {
+class Training final : public Module {
 
 	public:
 		// Standard Constructor
 		Training(Context &ctx);
 
+		// Standard Destructor
 		~Training();
 
 		// Public Methods
@@ -51,7 +53,6 @@ class Training {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Context &_ctx;
 		std::unique_ptr<Create> _create;
 		std::unique_ptr<Roster> _roster;
 };

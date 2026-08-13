@@ -23,10 +23,28 @@
 #pragma once
 
 #include "core/enum.hpp"
+#include <SDL2/SDL.h>
 #include <chrono>
 #include <functional>
 
 namespace Sorcery {
+
+enum class ModuleEvent {
+	NONE,
+	ABORT,
+	QUICKLOAD
+};
+
+struct EventOptions {
+		bool menu_key{};
+		bool debug{};
+		bool quicksave{true};
+		bool quickload{true};
+};
+
+using namespace std::chrono_literals;
+
+inline constexpr auto QUICK_FADE{500ms};
 
 class Context;
 
@@ -41,15 +59,14 @@ class Module {
 	protected:
 		auto fade_in(Enums::Screen screen, std::chrono::milliseconds duration)
 			-> void;
-
 		auto fade_out(Enums::Screen screen, std::chrono::milliseconds duration)
 			-> void;
-
 		auto fade_in(const std::function<void()> &draw,
 					 std::chrono::milliseconds duration) -> void;
-
 		auto fade_out(const std::function<void()> &draw,
 					  std::chrono::milliseconds duration) -> void;
+		auto process_event(const SDL_Event &event,
+						   const EventOptions &options = {}) -> ModuleEvent;
 
 		Context &_ctx;
 

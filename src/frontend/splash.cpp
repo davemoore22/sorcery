@@ -54,7 +54,7 @@ auto Sorcery::Splash::start() -> int {
 	_ctx.controller->initialise();
 	_ctx.controller->set_busy(true);
 
-	fade_in(Enums::Screen::SPLASH, 500ms);
+	fade_in(Enums::Screen::SPLASH, QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -79,7 +79,7 @@ auto Sorcery::Splash::stop() -> int {
 
 	using namespace std::chrono_literals;
 
-	fade_out(Enums::Screen::SPLASH, 500ms);
+	fade_out(Enums::Screen::SPLASH, QUICK_FADE);
 
 	return 0;
 }

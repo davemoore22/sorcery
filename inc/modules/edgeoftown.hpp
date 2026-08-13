@@ -25,6 +25,7 @@
 #include <memory>
 
 #include "common/define.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
@@ -35,12 +36,13 @@ class Restart;
 class Training;
 class Inspect;
 
-class EdgeOfTown {
+class EdgeOfTown final : public Module {
 
 	public:
 		// Standard Constructor
 		EdgeOfTown(Context &ctx);
 
+		// Standard Destructor
 		~EdgeOfTown();
 
 		// Public Methods
@@ -52,7 +54,6 @@ class EdgeOfTown {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Context &_ctx;
 		std::unique_ptr<Training> _training_grounds;
 		std::unique_ptr<Restart> _restart;
 		std::unique_ptr<Inspect> _inspect;

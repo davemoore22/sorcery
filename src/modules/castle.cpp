@@ -75,7 +75,7 @@ auto Sorcery::Castle::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->initialise();
 
-	fade_in(Enums::Screen::CASTLE, 500ms);
+	fade_in(Enums::Screen::CASTLE, QUICK_FADE);
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
@@ -107,34 +107,23 @@ auto Sorcery::Castle::start() -> int {
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(event, {.menu_key = true, .debug = true})) {
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Menu Key
-			_ctx.controller->check_for_menu_key(event);
-
-			// Check for Back Event
-			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
-
-			// Check for Debug
-			_ctx.controller->check_for_debug(event);
-
-			// Check for Quicksave and Quickload
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
+			case ModuleEvent::QUICKLOAD:
 				continue;
+
+			case ModuleEvent::NONE:
+				break;
 			}
+
+			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
 		}
 
 		_ctx.ui->display(Enums::Screen::CASTLE, _ctx.game);
@@ -145,10 +134,8 @@ auto Sorcery::Castle::start() -> int {
 			_ctx.game->save_game();
 			_ctx.controller->set_game(nullptr);
 			return LEAVE_GAME;
-		} else if (_ctx.controller->want_to_abort())
-			return ABORT_GAME;
-		else if (!_ctx.controller->wants(Enums::Screen::CASTLE) &&
-				 _ctx.controller->wants(Enums::Screen::EDGEOFTOWN))
+		} else if (!_ctx.controller->wants(Enums::Screen::CASTLE) &&
+				   _ctx.controller->wants(Enums::Screen::EDGEOFTOWN))
 			return CASTLE_GO_TO_EDGE_OF_TOWN;
 
 		// Check for the results of something being selected from a menu
@@ -179,6 +166,8 @@ auto Sorcery::Castle::start() -> int {
 }
 
 auto Sorcery::Castle::stop() -> int {
+
+	fade_out(Enums::Screen::CASTLE, QUICK_FADE);
 
 	return 0;
 }
