@@ -258,6 +258,10 @@ auto Sorcery::Display::update_display_metrics() noexcept -> void {
 
 	_metrics.offset_y =
 		(static_cast<float>(_metrics.window_h) - content_h) / 2.0f;
+
+	DEBUG_LOGF("window={}x{} drawable={}x{} fbscale={}x{}", _metrics.window_w,
+			   _metrics.window_h, _metrics.drawable_w, _metrics.drawable_h,
+			   _metrics.framebuffer_scale_x, _metrics.framebuffer_scale_y);
 }
 
 auto Sorcery::Display::resize() -> void {
@@ -278,11 +282,11 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 	if (width <= 0 || height <= 0)
 		return;
 
-	/*
-	 * Pass 1:
-	 * Render ImGui into the offscreen framebuffer.
-	 */
+	if (_framebuffer.width() != width || _framebuffer.height() != height) {
+		_framebuffer.resize(width, height);
+	}
 
+	// Pass 1: Render ImGui into the offscreen framebuffer.
 	_framebuffer.bind();
 
 	glViewport(0, 0, width, height);
@@ -293,11 +297,8 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 
 	ImGui_ImplOpenGL3_RenderDrawData(draw_data);
 
-	/*
-	 * Pass 2:
-	 * Render framebuffer texture to the window through
-	 * the post-processing shader.
-	 */
+	// Pass 2: Render framebuffer texture to the window throughthe
+	// post-processing shader.
 
 	FrameBuffer::unbind();
 
@@ -330,6 +331,10 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 	glUseProgram(0);
 
 	SDL_GL_SwapWindow(_SDL_window);
+
+	// std::println("present: drawable={}x{} framebuffer={}x{}",
+	//			 _metrics.drawable_w, _metrics.drawable_h, _framebuffer.width(),
+	//			 _framebuffer.height());
 }
 
 auto Sorcery::Display::set_fade(const float fade) -> void {

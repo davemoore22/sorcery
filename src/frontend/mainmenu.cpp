@@ -71,26 +71,27 @@ auto Sorcery::MainMenu::start() -> int {
 
 	// Main loop
 	auto done{false};
-	auto lastFrameTime{std::chrono::steady_clock::now()};
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			// Check for SDL/ImGui Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
-			// Check for Abort Event
-			done = _ctx.controller->check_for_abort(event);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::QUICKLOAD:
+				continue;
 
-			// Check for Back Event
+			case ModuleEvent::NONE:
+				break;
+			}
+
 			_ctx.controller->check_for_back(event, _ctx.ui->dialog_exit->show);
-
-			// Check for Menu Key
-			_ctx.controller->check_for_menu_key(event);
 		}
 
 		_ctx.tick();
@@ -128,6 +129,8 @@ auto Sorcery::MainMenu::start() -> int {
 }
 
 auto Sorcery::MainMenu::stop() -> int {
+
+	fade_out(Enums::Screen::MAINMENU, QUICK_FADE);
 
 	return 0;
 }
