@@ -35,7 +35,7 @@
 #include "types/game.hpp"
 
 Sorcery::Identify::Identify(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };

@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/types.hpp"
+#include "core/module.hpp"
 #include "engine/define.hpp"
 #include "engine/enum.hpp"
 #include "engine/types.hpp"
@@ -32,7 +33,7 @@ namespace Sorcery {
 // Forward Declarations
 struct Context;
 
-class Inspect {
+class Inspect final : public Module {
 
 	public:
 		// Standard Constructor
@@ -51,9 +52,6 @@ class Inspect {
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
-
-		// Private Members
-		Context &_ctx;
 };
 
 }

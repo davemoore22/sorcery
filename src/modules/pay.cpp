@@ -38,7 +38,7 @@
 #include "types/game.hpp"
 
 Sorcery::Pay::Pay(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_heal = std::make_unique<Heal>(_ctx);
 

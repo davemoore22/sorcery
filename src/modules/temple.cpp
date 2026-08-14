@@ -40,7 +40,7 @@
 #include "types/game.hpp"
 
 Sorcery::Temple::Temple(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_inspect = std::make_unique<Inspect>(_ctx);
 	_pay = std::make_unique<Pay>(_ctx);

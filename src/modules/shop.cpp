@@ -39,7 +39,7 @@
 #include "types/game.hpp"
 
 Sorcery::Shop::Shop(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_store = std::make_unique<Store>(_ctx);
 	_inspect = std::make_unique<Inspect>(_ctx);

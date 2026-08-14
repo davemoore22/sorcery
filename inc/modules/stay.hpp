@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/define.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 #include <memory>
@@ -35,7 +36,7 @@ class Recovery;
 class NoLevelUp;
 class LevelUp;
 
-class Stay {
+class Stay final : public Module {
 
 	public:
 		// Standard Constructor
@@ -52,7 +53,6 @@ class Stay {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Context &_ctx;
 		std::unique_ptr<Recovery> _recovery;
 		std::unique_ptr<NoLevelUp> _no_level_up;
 		std::unique_ptr<LevelUp> _level_up;

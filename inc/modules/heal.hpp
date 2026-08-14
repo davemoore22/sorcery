@@ -24,6 +24,7 @@
 
 #include "common/define.hpp"
 #include "common/sdl2.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 #include <cstdint>
@@ -35,7 +36,7 @@ namespace Sorcery {
 struct Context;
 class Character;
 
-class Heal {
+class Heal final : public Module {
 
 	public:
 		// Standard Constructor
@@ -53,7 +54,7 @@ class Heal {
 		auto _try_heal(int heal_char_id, int pay_char_id) -> bool;
 
 		// Private Members
-		Context &_ctx;
+
 		int _stage;
 		SDL_TimerID _heal_tick;
 		Character *_character;

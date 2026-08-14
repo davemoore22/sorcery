@@ -38,7 +38,7 @@
 #include "types/game.hpp"
 
 Sorcery::Roster::Roster(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };

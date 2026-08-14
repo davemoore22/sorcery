@@ -35,7 +35,7 @@
 #include "types/game.hpp"
 
 Sorcery::Add::Add(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };

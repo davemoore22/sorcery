@@ -39,7 +39,7 @@
 #include "types/game.hpp"
 
 Sorcery::Stay::Stay(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_recovery = std::make_unique<Recovery>(_ctx);
 	_no_level_up = std::make_unique<NoLevelUp>(_ctx);

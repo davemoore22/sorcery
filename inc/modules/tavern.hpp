@@ -25,6 +25,7 @@
 #include <memory>
 
 #include "common/define.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
@@ -36,7 +37,7 @@ class Inspect;
 class Remove;
 class Reorder;
 
-class Tavern {
+class Tavern final : public Module {
 
 	public:
 		// Standard Constructor
@@ -51,7 +52,6 @@ class Tavern {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Context &_ctx;
 		std::unique_ptr<Add> _add;
 		std::unique_ptr<Remove> _remove;
 		std::unique_ptr<Reorder> _reorder;

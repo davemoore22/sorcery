@@ -36,7 +36,7 @@
 #include "types/game.hpp"
 
 Sorcery::Heal::Heal(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };

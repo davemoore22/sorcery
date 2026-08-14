@@ -35,7 +35,7 @@
 #include "types/game.hpp"
 
 Sorcery::NoLevelUp::NoLevelUp(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };

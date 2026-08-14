@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/define.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {
@@ -30,7 +31,7 @@ namespace Sorcery {
 // Forward Declarations
 struct Context;
 
-class Reorder {
+class Reorder final : public Module {
 
 	public:
 		// Standard Constructor
@@ -43,9 +44,6 @@ class Reorder {
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
-
-		// Private Members
-		Context &_ctx;
 };
 
 };

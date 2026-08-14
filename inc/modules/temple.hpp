@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/define.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 #include <memory>
@@ -34,7 +35,7 @@ struct Context;
 class Inspect;
 class Pay;
 
-class Temple {
+class Temple final : public Module {
 
 	public:
 		// Standard Constructor
@@ -51,7 +52,6 @@ class Temple {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Context &_ctx;
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Pay> _pay;
 };

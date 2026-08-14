@@ -24,6 +24,7 @@
 
 #include "common/define.hpp"
 #include "common/sdl2.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 #include <cstdint>
@@ -34,7 +35,7 @@ namespace Sorcery {
 struct Context;
 class Character;
 
-class Recovery {
+class Recovery final : public Module {
 
 	public:
 		// Standard Constructor
@@ -53,7 +54,6 @@ class Recovery {
 			-> std::uint32_t;
 
 		// Private Members
-		Context &_ctx;
 		SDL_TimerID _rest_tick;
 		Character *_character;
 };

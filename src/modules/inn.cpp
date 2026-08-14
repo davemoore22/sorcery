@@ -40,7 +40,7 @@
 #include "types/state.hpp"
 
 Sorcery::Inn::Inn(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_inspect = std::make_unique<Inspect>(_ctx);
 	_stay = std::make_unique<Stay>(_ctx);

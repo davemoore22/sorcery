@@ -38,7 +38,7 @@
 #include "types/game.hpp"
 
 Sorcery::Create::Create(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };

@@ -42,7 +42,7 @@
 #include "types/state.hpp"
 
 Sorcery::Tavern::Tavern(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_add = std::make_unique<Add>(_ctx);
 	_remove = std::make_unique<Remove>(_ctx);

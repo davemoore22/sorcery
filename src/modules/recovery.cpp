@@ -37,7 +37,7 @@
 #include "types/game.hpp"
 
 Sorcery::Recovery::Recovery(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };

@@ -41,7 +41,7 @@
 #include "types/state.hpp"
 
 Sorcery::Inspect::Inspect(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };

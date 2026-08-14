@@ -24,6 +24,7 @@
 
 #include "common/enum.hpp"
 #include "common/types.hpp"
+#include "core/module.hpp"
 #include "engine/define.hpp"
 #include "engine/enum.hpp"
 
@@ -33,7 +34,7 @@ namespace Sorcery {
 struct Context;
 class Character;
 
-class Create {
+class Create final : public Module {
 
 	public:
 		// Standard Constructor
@@ -54,7 +55,6 @@ class Create {
 		auto _go_back_stage() -> bool;
 
 		// Private Members
-		Context &_ctx;
 		std::vector<Character> _stages;
 };
 

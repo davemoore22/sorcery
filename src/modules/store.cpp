@@ -40,7 +40,7 @@
 #include "types/game.hpp"
 
 Sorcery::Store::Store(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 

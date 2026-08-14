@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/define.hpp"
+#include "core/module.hpp"
 #include "types/enum.hpp"
 
 #include <memory>
@@ -32,7 +33,7 @@ namespace Sorcery {
 struct Context;
 class Heal;
 
-class Pay {
+class Pay final : public Module {
 
 	public:
 		// Standard Constructor
@@ -49,7 +50,6 @@ class Pay {
 		auto _initialise() -> bool;
 
 		// Private Members
-		Context &_ctx;
 		std::unique_ptr<Heal> _heal;
 };
 
