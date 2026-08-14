@@ -114,12 +114,15 @@ auto Sorcery::MainMenu::start() -> int {
 			if (_ctx.controller->wants(Enums::Screen::COMPENDIUM)) {
 				_compendium->start();
 				_compendium->stop();
+				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 			} else if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
 				_options->start(false);
 				_options->stop();
+				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 			} else if (_ctx.controller->wants(Enums::Screen::LICENSE)) {
 				_license->start();
 				_license->stop();
+				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 			}
 		}
 	}

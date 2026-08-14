@@ -22,11 +22,13 @@
 
 #pragma once
 
+#include "core/module.hpp"
+
 namespace Sorcery {
 
 struct Context;
 
-class Atlas {
+class Atlas final : public Module {
 
 	public:
 		Atlas(Context &ctx);
@@ -36,8 +38,6 @@ class Atlas {
 
 	private:
 		auto _initialise() -> bool;
-
-		Context &_ctx;
 };
 
 };

@@ -22,11 +22,13 @@
 
 #pragma once
 
+#include "core/module.hpp"
+
 namespace Sorcery {
 
 struct Context;
 
-class Options {
+class Options final : public Module {
 
 	public:
 		Options(Context &ctx);
@@ -37,7 +39,6 @@ class Options {
 	private:
 		auto _initialise() -> bool;
 
-		Context &_ctx;
 		bool _is_in_game;
 		bool _fullscreen_before;
 		bool _monochrome_before;

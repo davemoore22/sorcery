@@ -29,7 +29,7 @@
 #include "gui/define.hpp"
 
 Sorcery::Options::Options(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };
@@ -46,6 +46,8 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 	_is_in_game = is_in_game;
 	_ctx.controller->go_to(Enums::Screen::OPTIONS);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::OPTIONS, QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -93,6 +95,8 @@ auto Sorcery::Options::stop() -> int {
 		_ctx.controller->go_to(Enums::Screen::ENGINE);
 	else
 		_ctx.controller->go_to(Enums::Screen::MAINMENU);
+
+	fade_out(Enums::Screen::OPTIONS, QUICK_FADE);
 
 	return 0;
 }

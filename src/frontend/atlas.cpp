@@ -29,7 +29,7 @@
 #include "gui/define.hpp"
 
 Sorcery::Atlas::Atlas(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };
@@ -45,6 +45,8 @@ auto Sorcery::Atlas::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::ATLAS);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::ATLAS, QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -77,6 +79,8 @@ auto Sorcery::Atlas::start() -> int {
 auto Sorcery::Atlas::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
+
+	fade_out(Enums::Screen::ATLAS, QUICK_FADE);
 
 	return 0;
 }

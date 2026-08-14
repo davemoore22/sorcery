@@ -23,6 +23,9 @@
 #pragma once
 
 #include <memory>
+
+#include "core/module.hpp"
+
 namespace Sorcery {
 
 struct Context;
@@ -32,7 +35,7 @@ class Bestiary;
 class SpellBook;
 class Museum;
 
-class Compendium {
+class Compendium final : public Module {
 
 	public:
 		Compendium(Context &ctx);
@@ -44,7 +47,6 @@ class Compendium {
 	private:
 		auto _initialise() -> bool;
 
-		Context &_ctx;
 		std::unique_ptr<Atlas> _atlas;
 		std::unique_ptr<Bestiary> _bestiary;
 		std::unique_ptr<License> _license;

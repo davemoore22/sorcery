@@ -32,7 +32,7 @@
 #include <utility>
 
 Sorcery::SpellBook::SpellBook(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };
@@ -50,6 +50,8 @@ auto Sorcery::SpellBook::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::SPELLBOOK);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::SPELLBOOK, QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -85,6 +87,8 @@ auto Sorcery::SpellBook::start() -> int {
 auto Sorcery::SpellBook::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
+
+	fade_out(Enums::Screen::SPELLBOOK, QUICK_FADE);
 
 	return 0;
 }

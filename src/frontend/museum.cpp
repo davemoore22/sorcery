@@ -29,7 +29,7 @@
 #include "gui/define.hpp"
 
 Sorcery::Museum::Museum(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };
@@ -45,6 +45,8 @@ auto Sorcery::Museum::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::MUSEUM);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::MUSEUM, QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -81,6 +83,8 @@ auto Sorcery::Museum::start() -> int {
 auto Sorcery::Museum::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
+
+	fade_out(Enums::Screen::MUSEUM, QUICK_FADE);
 
 	return 0;
 }

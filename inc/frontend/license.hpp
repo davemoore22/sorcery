@@ -22,12 +22,14 @@
 
 #pragma once
 
+#include "core/module.hpp"
+
 #include <string>
 namespace Sorcery {
 
 struct Context;
 
-class License {
+class License final : public Module {
 
 	public:
 		License(Context &ctx);
@@ -38,7 +40,6 @@ class License {
 	private:
 		auto _initialise() -> bool;
 
-		Context &_ctx;
 		std::string _license_text;
 };
 

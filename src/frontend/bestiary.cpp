@@ -29,7 +29,7 @@
 #include "gui/define.hpp"
 
 Sorcery::Bestiary::Bestiary(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };
@@ -45,6 +45,8 @@ auto Sorcery::Bestiary::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::BESTIARY);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::BESTIARY, QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -81,6 +83,8 @@ auto Sorcery::Bestiary::start() -> int {
 auto Sorcery::Bestiary::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
+
+	fade_out(Enums::Screen::BESTIARY, QUICK_FADE);
 
 	return 0;
 }

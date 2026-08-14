@@ -34,7 +34,7 @@
 #include "gui/define.hpp"
 
 Sorcery::Compendium::Compendium(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_bestiary = std::make_unique<Bestiary>(_ctx);
 	_museum = std::make_unique<Museum>(_ctx);
@@ -57,6 +57,8 @@ auto Sorcery::Compendium::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -92,15 +94,19 @@ auto Sorcery::Compendium::start() -> int {
 		if (_ctx.controller->wants(Enums::Screen::BESTIARY)) {
 			_bestiary->start();
 			_bestiary->stop();
+			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		} else if (_ctx.controller->wants(Enums::Screen::MUSEUM)) {
 			_museum->start();
 			_museum->stop();
+			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		} else if (_ctx.controller->wants(Enums::Screen::ATLAS)) {
 			_atlas->start();
 			_atlas->stop();
+			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		} else if (_ctx.controller->wants(Enums::Screen::SPELLBOOK)) {
 			_spellbook->start();
 			_spellbook->stop();
+			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		}
 
 		if (_ctx.controller->want_to_abort())
@@ -116,6 +122,8 @@ auto Sorcery::Compendium::start() -> int {
 auto Sorcery::Compendium::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::MAINMENU);
+
+	fade_out(Enums::Screen::COMPENDIUM, QUICK_FADE);
 
 	return 0;
 }

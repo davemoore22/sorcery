@@ -22,11 +22,13 @@
 
 #pragma once
 
+#include "core/module.hpp"
+
 namespace Sorcery {
 
 struct Context;
 
-class Bestiary {
+class Bestiary final : public Module {
 
 	public:
 		Bestiary(Context &ctx);
@@ -36,8 +38,6 @@ class Bestiary {
 
 	private:
 		auto _initialise() -> bool;
-
-		Context &_ctx;
 };
 
 };
