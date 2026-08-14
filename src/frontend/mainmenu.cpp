@@ -112,16 +112,22 @@ auto Sorcery::MainMenu::start() -> int {
 
 			// Check for the results of something being selected from a menu
 			if (_ctx.controller->wants(Enums::Screen::COMPENDIUM)) {
-				_compendium->start();
+				const auto result{_compendium->start()};
 				_compendium->stop();
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
 				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 			} else if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
-				_options->start(false);
+				const auto result{_options->start(false)};
 				_options->stop();
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
 				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 			} else if (_ctx.controller->wants(Enums::Screen::LICENSE)) {
-				_license->start();
+				const auto result{_license->start()};
 				_license->stop();
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
 				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 			}
 		}

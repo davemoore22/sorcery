@@ -109,7 +109,7 @@ auto Sorcery::Shop::start() -> int {
 
 			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;
-				}
+		}
 
 		_ctx.ui->display(Enums::Screen::SHOP, _ctx.game);
 		_ctx.tick();
@@ -118,14 +118,18 @@ auto Sorcery::Shop::start() -> int {
 			_ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 		else if (_ctx.controller->has_character(Enums::CharacterSlot::STORE)) {
-			_store->start();
+			const auto result{_store->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_store->stop();
 			_ctx.controller->clear_character(Enums::CharacterSlot::STORE);
 		} else if (_ctx.controller->has_character(
 					   Enums::CharacterSlot::INSPECT)) {
-			_inspect->start(
+			const auto result{_inspect->start(
 				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}

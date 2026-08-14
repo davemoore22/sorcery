@@ -132,8 +132,10 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			continue;
 
 		if (_ctx.controller->check_for_automap(event)) {
-			_automap->start();
+			const auto result{_automap->start()};
 			_automap->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			fade_in(
 				[this] {
 					_ctx.ui->display_engine();
@@ -144,8 +146,10 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 		if (_check_for_wipe()) {
 
-			_graveyard->start();
+			const auto result{_graveyard->start()};
 			_graveyard->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			fade_in(
 				[this] {
 					_ctx.ui->display_engine();
@@ -226,19 +230,26 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 		if (!_ctx.ui->in_popup()) {
 			if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
-				_options->start(true);
+				const auto result{_options->start(true)};
 				_options->stop();
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
 				fade_in(
 					[this] {
 						_ctx.ui->display_engine();
 					},
 					QUICK_FADE);
 			} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
-				_reorder->start(REORDER_MODE_CAMP);
+				const auto result{_reorder->start(REORDER_MODE_CAMP)};
 				_reorder->stop(REORDER_MODE_CAMP);
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
 			} else if (_ctx.controller->wants(Enums::Screen::INSPECT)) {
-				_inspect->start(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-								_ctx.game->state->get_party_char(1).value());
+				const auto result{_inspect->start(
+					INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
+					_ctx.game->state->get_party_char(1).value())};
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
 				_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			}
 

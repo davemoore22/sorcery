@@ -96,19 +96,27 @@ auto Sorcery::Store::start() -> int {
 
 		// Check for the results of something being selected from a menu
 		if (_ctx.controller->wants(Enums::Screen::BUY)) {
-			_buy->start();
+			const auto result{_buy->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_buy->stop();
 			_ctx.controller->go_to(Enums::Screen::STORE);
 		} else if (_ctx.controller->wants(Enums::Screen::SELL)) {
-			_sell->start();
+			const auto result{_sell->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_sell->stop();
 			_ctx.controller->go_to(Enums::Screen::STORE);
 		} else if (_ctx.controller->wants(Enums::Screen::IDENTIFY)) {
-			_identify->start();
+			const auto result{_identify->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_identify->stop();
 			_ctx.controller->go_to(Enums::Screen::STORE);
 		} else if (_ctx.controller->wants(Enums::Screen::UNCURSE)) {
-			_uncurse->start();
+			const auto result{_uncurse->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_uncurse->stop();
 			_ctx.controller->go_to(Enums::Screen::STORE);
 		}

@@ -98,7 +98,9 @@ auto Sorcery::Pay::start() -> int {
 			_ctx.controller->wants(Enums::Screen::TEMPLE))
 			return HEALED_NOT;
 		else if (_ctx.controller->has_selected("pay_selected")) {
-			_heal->start();
+			const auto result{_heal->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_heal->stop();
 			return HEALED_OK;
 		}

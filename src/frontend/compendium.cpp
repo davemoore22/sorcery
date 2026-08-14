@@ -94,20 +94,28 @@ auto Sorcery::Compendium::start() -> int {
 		// calling object, or handle front-end stuff like options, license, or
 		// compendium here
 		if (_ctx.controller->wants(Enums::Screen::BESTIARY)) {
-			_bestiary->start();
+			const auto result{_bestiary->start()};
 			_bestiary->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		} else if (_ctx.controller->wants(Enums::Screen::MUSEUM)) {
-			_museum->start();
+			const auto result{_museum->start()};
 			_museum->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		} else if (_ctx.controller->wants(Enums::Screen::ATLAS)) {
-			_atlas->start();
+			const auto result{_atlas->start()};
 			_atlas->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		} else if (_ctx.controller->wants(Enums::Screen::SPELLBOOK)) {
-			_spellbook->start();
+			const auto result{_spellbook->start()};
 			_spellbook->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		}
 

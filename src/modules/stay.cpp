@@ -103,30 +103,26 @@ auto Sorcery::Stay::start() -> int {
 				_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 			const auto before_age{character.get_age() % 52};
 
-			// Remember in this case its +1 the usual offset
-			switch (_ctx.controller->get_selected("stay_selected")) {
-			case 1:
-				_recovery->start(RECOVERY_MODE_FREE);
+			// Work out recovery mode
+			constexpr std::array recovery_modes{
+				RECOVERY_MODE_FREE,		RECOVERY_MODE_COST_10,
+				RECOVERY_MODE_COST_50,	RECOVERY_MODE_COST_200,
+				RECOVERY_MODE_COST_500,
+			};
+
+			const auto selection{
+				_ctx.controller->get_selected("stay_selected")};
+
+			if (selection >= 1 &&
+				selection <= static_cast<int>(recovery_modes.size())) {
+
+				const auto result{
+					_recovery->start(recovery_modes[selection - 1])};
+
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
+
 				_recovery->stop();
-				break;
-			case 2:
-				_recovery->start(RECOVERY_MODE_COST_10);
-				_recovery->stop();
-				break;
-			case 3:
-				_recovery->start(RECOVERY_MODE_COST_50);
-				_recovery->stop();
-				break;
-			case 4:
-				_recovery->start(RECOVERY_MODE_COST_200);
-				_recovery->stop();
-				break;
-			case 5:
-				_recovery->start(RECOVERY_MODE_COST_500);
-				_recovery->stop();
-				break;
-			default:
-				break;
 			}
 
 			// Now check for Level up!
@@ -136,15 +132,19 @@ auto Sorcery::Stay::start() -> int {
 			if (next_xp - current_xp > 0) {
 
 				// No Level Up!
-				_no_level_up->start(after_age > before_age ? RECOVERY_BIRTHDAY
-														   : 0);
+				const auto result{_no_level_up->start(
+					after_age > before_age ? RECOVERY_BIRTHDAY : 0)};
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
 				_no_level_up->stop();
 			} else {
 
 				// Level Up!
 				character.level_up();
-				_level_up->start(after_age > before_age ? RECOVERY_BIRTHDAY
-														: 0);
+				const auto result{_level_up->start(
+					after_age > before_age ? RECOVERY_BIRTHDAY : 0)};
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
 				_level_up->stop();
 			}
 

@@ -132,13 +132,17 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 		if (_ctx.controller->wants(Enums::Screen::TRAINING)) {
 			_ctx.game->move_party_to_tavern();
 			_ctx.game->save_game();
-			_training_grounds->start();
+			const auto result{_training_grounds->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_training_grounds->stop();
 
 			// Needs a fade in here
 			fade_in(Enums::Screen::EDGEOFTOWN, QUICK_FADE);
 		} else if (_ctx.controller->wants(Enums::Screen::RESTART)) {
-			_restart->start();
+			const auto result{_restart->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_restart->stop();
 			if (_ctx.controller->has_flag("want_restart_expedition"))
 				return RESTART_MAZE;
@@ -146,9 +150,11 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			return EDGE_OF_TOWN_GO_TO_MAZE;
 		else if (_ctx.controller->has_character(
 					 Enums::CharacterSlot::INSPECT)) {
-			_inspect->start(
+			const auto result{_inspect->start(
 				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}

@@ -183,16 +183,20 @@ auto Sorcery::Temple::start() -> int {
 			return BACK_TO_CASTLE;
 
 		if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
-			_inspect->start(
+			const auto result{_inspect->start(
 				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}
 
 		if (_ctx.controller->has_character(Enums::CharacterSlot::HELP)) {
-			auto heal_result{_pay->start()};
-			if (heal_result == HEALED_NOT)
+			auto result{_pay->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+			else if (result == HEALED_NOT)
 				_pay->stop(false);
 			else {
 				_pay->stop(true);

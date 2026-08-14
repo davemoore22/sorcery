@@ -140,22 +140,30 @@ auto Sorcery::Castle::start() -> int {
 
 		// Check for the results of something being selected from a menu
 		if (_ctx.controller->wants(Enums::Screen::TAVERN)) {
-			_tavern->start();
+			const auto result{_tavern->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_tavern->stop();
 		} else if (_ctx.controller->wants(Enums::Screen::INN)) {
-			_inn->start();
+			const auto result{_inn->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_inn->stop();
 		} else if (_ctx.controller->wants(Enums::Screen::SHOP)) {
-			_shop->start();
+			const auto result{_shop->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_shop->stop();
 		} else if (_ctx.controller->wants(Enums::Screen::TEMPLE)) {
-			_temple->start();
+			const auto result{_temple->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_temple->stop();
 		} else if (_ctx.controller->has_character(
 					   Enums::CharacterSlot::INSPECT)) {
-			_inspect->start(
+			const auto result{_inspect->start(
 				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}

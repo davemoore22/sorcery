@@ -124,22 +124,30 @@ auto Sorcery::Tavern::start() -> int {
 
 		// Check for the results of something being selected from a menu
 		if (_ctx.controller->wants(Enums::Screen::REMOVE)) {
-			_remove->start();
+			const auto result{_remove->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_remove->stop();
 			_ctx.controller->go_to(Enums::Screen::TAVERN);
 		} else if (_ctx.controller->wants(Enums::Screen::ADD)) {
-			_add->start();
+			const auto result{_add->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_add->stop();
 			_ctx.controller->go_to(Enums::Screen::TAVERN);
 		} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
-			_reorder->start(REORDER_MODE_TAVERN);
+			const auto result{_reorder->start(REORDER_MODE_TAVERN)};
 			_reorder->stop(REORDER_MODE_TAVERN);
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_ctx.controller->go_to(Enums::Screen::TAVERN);
 		} else if (_ctx.controller->has_character(
 					   Enums::CharacterSlot::INSPECT)) {
-			_inspect->start(
+			const auto result{_inspect->start(
 				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			_ctx.controller->go_to(Enums::Screen::TAVERN);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);

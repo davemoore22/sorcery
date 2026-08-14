@@ -102,13 +102,19 @@ auto Sorcery::Training::start() -> int {
 		}
 
 		if (_ctx.controller->wants(Enums::Screen::CREATE)) {
-			_create->start();
+			const auto result{_create->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_create->stop();
 		} else if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
-			_roster->start();
+			const auto result{_roster->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_roster->stop();
 		} else if (_ctx.controller->wants(Enums::Screen::EDIT)) {
-			_edit->start();
+			const auto result{_edit->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_edit->stop();
 		}
 	}

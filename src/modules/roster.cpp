@@ -99,9 +99,11 @@ auto Sorcery::Roster::start() -> int {
 			return BACK_TO_TRAINING_GROUNDS;
 		} else if (_ctx.controller->has_character(
 					   Enums::CharacterSlot::INSPECT)) {
-			_inspect->start(
+			const auto result{_inspect->start(
 				INSPECT_MODE_BASE,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
+				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE);
 			_ctx.controller->go_to(Enums::Screen::ROSTER);
 			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
