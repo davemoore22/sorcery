@@ -55,6 +55,8 @@ auto Sorcery::Roster::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::ROSTER);
 	_ctx.controller->initialise();
 
+	show_immediately();
+
 	_ctx.audio->set_volume(1.0f);
 
 	// Main loop

@@ -53,6 +53,8 @@ auto Sorcery::Uncurse::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::UNCURSE);
 
+	show_immediately();
+
 	// Main loop
 	auto done{false};
 	while (!done) {

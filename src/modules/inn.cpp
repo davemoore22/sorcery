@@ -59,6 +59,8 @@ auto Sorcery::Inn::_initialise() -> bool {
 
 auto Sorcery::Inn::start() -> int {
 
+	show_immediately();
+
 	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::INN);
 

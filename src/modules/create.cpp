@@ -55,6 +55,8 @@ auto Sorcery::Create::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::CREATE);
 	_ctx.controller->initialise();
 
+	show_immediately();
+
 	_ctx.game->creation_candidate = std::make_shared<Character>(&_ctx);
 	_ctx.game->creation_candidate->reset(Enums::Character::Stage::ENTER_NAME);
 

@@ -67,6 +67,8 @@ auto Sorcery::Temple::start() -> int {
 		});
 	}};
 
+	show_immediately();
+
 	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::TEMPLE);
 

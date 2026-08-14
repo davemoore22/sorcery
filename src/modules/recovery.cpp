@@ -121,6 +121,8 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 	_ctx.controller->unset_flag("napping_finished");
 	_ctx.controller->unset_flag("recuperating_finished");
 
+	show_immediately();
+
 	_character = &_ctx.game->characters.at(
 		_ctx.controller->get_character(Enums::CharacterSlot::STAY));
 	_character->mode = mode;

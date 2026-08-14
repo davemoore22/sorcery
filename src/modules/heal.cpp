@@ -68,6 +68,8 @@ auto Sorcery::Heal::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::HEAL);
 	_ctx.controller->unset_flag("heal_finished");
 
+	show_immediately();
+
 	_heal_tick = SDL_AddTimer(2000, &Heal::_callback_heal_tick, this);
 
 	_character = &_ctx.game->characters.at(

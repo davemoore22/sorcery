@@ -38,7 +38,7 @@
 #include "types/state.hpp"
 
 Sorcery::Graveyard::Graveyard(Context &ctx)
-	: _ctx{ctx} {
+	: Module{ctx} {
 
 	_initialise();
 };
@@ -54,6 +54,8 @@ auto Sorcery::Graveyard::start(void) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::GRAVEYARD);
 	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::GRAVEYARD, QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -84,5 +86,5 @@ auto Sorcery::Graveyard::start(void) -> int {
 
 auto Sorcery::Graveyard::stop(void) -> void {
 
-	// Nothing to do here
+	fade_out(Enums::Screen::GRAVEYARD, QUICK_FADE);
 }

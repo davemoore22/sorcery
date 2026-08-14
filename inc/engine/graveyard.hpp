@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/types.hpp"
+#include "core/module.hpp"
 #include "engine/define.hpp"
 #include "engine/enum.hpp"
 #include "engine/types.hpp"
@@ -32,7 +33,7 @@ namespace Sorcery {
 // Forward Declarations
 struct Context;
 
-class Graveyard {
+class Graveyard final : public Module {
 
 	public:
 		// Standard Constructor
@@ -50,9 +51,6 @@ class Graveyard {
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
-
-		// Private Members
-		Context &_ctx;
 };
 
 }

@@ -88,7 +88,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		[this] {
 			_ctx.ui->display_engine();
 		},
-		500ms);
+		QUICK_FADE);
 
 	// Main loop
 	auto done{false};
@@ -135,6 +135,11 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (_ctx.controller->check_for_automap(event)) {
 				_automap->start();
 				_automap->stop();
+				fade_in(
+					[this] {
+						_ctx.ui->display_engine();
+					},
+					QUICK_FADE);
 				continue;
 			}
 
@@ -142,6 +147,11 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				_graveyard->start();
 				_graveyard->stop();
+				fade_in(
+					[this] {
+						_ctx.ui->display_engine();
+					},
+					QUICK_FADE);
 
 				const auto party{_ctx.game->state->get_party_characters()};
 				for (auto &[id, character] : _ctx.game->characters) {
@@ -224,6 +234,11 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
 				_options->start(true);
 				_options->stop();
+				fade_in(
+					[this] {
+						_ctx.ui->display_engine();
+					},
+					QUICK_FADE);
 			} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
 				_reorder->start(REORDER_MODE_CAMP);
 				_reorder->stop(REORDER_MODE_CAMP);
@@ -278,12 +293,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 auto Sorcery::Engine::stop() -> int {
 
 	_ctx.controller->unset_flag("in_engine");
-
-	// fade_in(
-	//	[this] {
-	//		_ctx.ui->display_engine();
-	//	},
-	//	500ms);
 
 	return 0;
 }

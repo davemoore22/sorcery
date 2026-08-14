@@ -64,6 +64,8 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 	_ctx.controller->initialise();
 	_ctx.controller->set_character(Enums::CharacterSlot::INSPECT, start_char);
 
+	show_immediately();
+
 	// Main loop
 	auto done{false};
 	while (!done) {

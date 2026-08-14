@@ -67,6 +67,7 @@ class Module {
 					  std::chrono::milliseconds duration) -> void;
 		auto process_event(const SDL_Event &event,
 						   const EventOptions &options = {}) -> ModuleEvent;
+		auto show_immediately() -> void;
 
 		Context &_ctx;
 

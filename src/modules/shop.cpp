@@ -59,6 +59,8 @@ auto Sorcery::Shop::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::SHOP);
 	_ctx.controller->initialise();
 
+	show_immediately();
+
 	// Need this before accessing modal_inspect!
 	_ctx.ui->create_dynamic_modal("modal_inspect");
 	_ctx.ui->create_dynamic_modal("modal_identify");

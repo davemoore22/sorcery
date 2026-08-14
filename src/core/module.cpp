@@ -140,3 +140,8 @@ auto Sorcery::Module::process_event(const SDL_Event &event,
 
 	return ModuleEvent::NONE;
 }
+
+auto Sorcery::Module::show_immediately() -> void {
+
+	_ctx.display->set_fade(0.0f);
+}

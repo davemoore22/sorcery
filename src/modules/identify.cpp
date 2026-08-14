@@ -53,6 +53,8 @@ auto Sorcery::Identify::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::IDENTIFY);
 
+	show_immediately();
+
 	// Main loop
 	auto done{false};
 	while (!done) {

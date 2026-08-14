@@ -59,6 +59,8 @@ auto Sorcery::Pay::start() -> int {
 	// Don't initialise here
 	_ctx.controller->go_to(Enums::Screen::PAY);
 
+	show_immediately();
+
 	// Need this before accessing dynamic modals!
 	_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
 	_ctx.controller->unset_selected("pay_selected");

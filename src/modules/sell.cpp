@@ -56,6 +56,8 @@ auto Sorcery::Sell::start() -> int {
 	// character we have selected to stay at the inn!
 	_ctx.controller->go_to(Enums::Screen::SELL);
 
+	show_immediately();
+
 	// Main loop
 	auto done{false};
 	while (!done) {

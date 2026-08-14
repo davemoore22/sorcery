@@ -52,6 +52,8 @@ auto Sorcery::Reorder::start(const int mode) -> int {
 	_ctx.controller->go_to(Enums::Screen::REORDER);
 	_ctx.controller->initialise();
 
+	show_immediately();
+
 	// Main loop
 	auto done{false};
 	while (!done) {

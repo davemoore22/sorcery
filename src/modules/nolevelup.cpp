@@ -49,6 +49,8 @@ auto Sorcery::NoLevelUp::start(const int mode) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::NOLEVELUP);
 
+	show_immediately();
+
 	// Main loop
 	auto done{false};
 	while (!done) {
