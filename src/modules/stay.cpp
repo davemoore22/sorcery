@@ -73,87 +73,83 @@ auto Sorcery::Stay::start() -> int {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Back Event
+			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::NONE:
+				break;
+			}
+
 			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;
-
-			// Check for Quicksave and Quickload
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-				continue;
-			}
-
-			// Check for Stay Selected (remember +1 to selection)
-			if (_ctx.controller->get_selected("stay_selected") > -1) {
-
-				// Get Age beforehand
-				auto &character{
-					_ctx.game->characters.at(_ctx.controller->get_character(
-						Enums::CharacterSlot::STAY))};
-				const auto before_age{character.get_age() % 52};
-
-				// Remember in this case its +1 the usual offset
-				switch (_ctx.controller->get_selected("stay_selected")) {
-				case 1:
-					_recovery->start(RECOVERY_MODE_FREE);
-					_recovery->stop();
-					break;
-				case 2:
-					_recovery->start(RECOVERY_MODE_COST_10);
-					_recovery->stop();
-					break;
-				case 3:
-					_recovery->start(RECOVERY_MODE_COST_50);
-					_recovery->stop();
-					break;
-				case 4:
-					_recovery->start(RECOVERY_MODE_COST_200);
-					_recovery->stop();
-					break;
-				case 5:
-					_recovery->start(RECOVERY_MODE_COST_500);
-					_recovery->stop();
-					break;
-				default:
-					break;
-				}
-
-				// Now check for Level up!
-				const auto after_age{character.get_age() % 52};
-				const auto current_xp{character.get_cur_xp()};
-				const auto next_xp{character.get_next_xp()};
-				if (next_xp - current_xp > 0) {
-
-					// No Level Up!
-					_no_level_up->start(
-						after_age > before_age ? RECOVERY_BIRTHDAY : 0);
-					_no_level_up->stop();
-				} else {
-
-					// Level Up!
-					character.level_up();
-					_level_up->start(after_age > before_age ? RECOVERY_BIRTHDAY
-															: 0);
-					_level_up->stop();
-				}
-
-				return BACK_TO_INN;
-			}
 		}
 
 		_ctx.ui->display(Enums::Screen::STAY, _ctx.game);
 		_ctx.tick();
+
+		// Check for Stay Selected (remember +1 to selection)
+		if (_ctx.controller->get_selected("stay_selected") > -1) {
+
+			// Get Age beforehand
+			auto &character{_ctx.game->characters.at(
+				_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
+			const auto before_age{character.get_age() % 52};
+
+			// Remember in this case its +1 the usual offset
+			switch (_ctx.controller->get_selected("stay_selected")) {
+			case 1:
+				_recovery->start(RECOVERY_MODE_FREE);
+				_recovery->stop();
+				break;
+			case 2:
+				_recovery->start(RECOVERY_MODE_COST_10);
+				_recovery->stop();
+				break;
+			case 3:
+				_recovery->start(RECOVERY_MODE_COST_50);
+				_recovery->stop();
+				break;
+			case 4:
+				_recovery->start(RECOVERY_MODE_COST_200);
+				_recovery->stop();
+				break;
+			case 5:
+				_recovery->start(RECOVERY_MODE_COST_500);
+				_recovery->stop();
+				break;
+			default:
+				break;
+			}
+
+			// Now check for Level up!
+			const auto after_age{character.get_age() % 52};
+			const auto current_xp{character.get_cur_xp()};
+			const auto next_xp{character.get_next_xp()};
+			if (next_xp - current_xp > 0) {
+
+				// No Level Up!
+				_no_level_up->start(after_age > before_age ? RECOVERY_BIRTHDAY
+														   : 0);
+				_no_level_up->stop();
+			} else {
+
+				// Level Up!
+				character.level_up();
+				_level_up->start(after_age > before_age ? RECOVERY_BIRTHDAY
+														: 0);
+				_level_up->stop();
+			}
+
+			return BACK_TO_INN;
+		}
 
 		if (!_ctx.controller->wants(Enums::Screen::STAY) &&
 			_ctx.controller->wants(Enums::Screen::INN))

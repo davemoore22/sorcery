@@ -62,24 +62,30 @@ auto Sorcery::Uncurse::start() -> int {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Back Event
+			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::NONE:
+				break;
+			}
+
 			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_STORE;
+		}
 
-			// Check for Buy Selected (remember +1 to selection)
-			if (_ctx.controller->get_selected("uncurse_selected") > -1) {
+		if (_ctx.controller->get_selected("uncurse_selected") > -1) {
 
-				// Work out if we can sell the item (and if we can, do it!)
+			// Work out if we can sell the item (and if we can, do it!)
 
-				// return BACK_TO_INN;
-			}
+			// return BACK_TO_INN;
 		}
 
 		_ctx.ui->display(Enums::Screen::UNCURSE, _ctx.game);

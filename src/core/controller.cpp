@@ -823,7 +823,6 @@ auto Sorcery::Controller::handle_dynamic_menu(
 			go_to(Enums::Screen::TRAINING);
 		} else
 			set_character(Enums::CharacterSlot::INSPECT, data);
-
 		return true;
 	} else if (component == "tithe_menu") {
 

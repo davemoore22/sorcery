@@ -109,77 +109,69 @@ auto Sorcery::Temple::start() -> int {
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event{};
+		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(event)) {
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Menu Key
-			_ctx.controller->check_for_menu_key(event);
-
-			// Check for Back Event (close a Modal if present, else return to
-			// the Castle)
-			if (_ctx.controller->check_for_back(event)) {
-				if (!has_modal_open({_ctx.ui->modal_inspect->show,
-									 _ctx.ui->modal_help->show,
-									 _ctx.ui->modal_tithe->show,
-									 _ctx.ui->input_donate->show}))
-					return BACK_TO_CASTLE;
-				else {
-
-					// Close Modals
-					if (_ctx.ui->modal_inspect->show) {
-						_ctx.controller->clear_character(
-							Enums::CharacterSlot::INSPECT);
-						_ctx.controller->unset_flag("want_inspect");
-						_ctx.controller->unset_flag("want_identify");
-						_ctx.controller->unset_flag("want_equip");
-						_ctx.controller->unset_flag("want_remove");
-						_ctx.controller->unset_flag("want_drop");
-						_ctx.controller->unset_flag("want_trade");
-						_ctx.controller->unset_flag("want_give");
-						_ctx.controller->unset_flag("want_pool_gold");
-						_ctx.ui->modal_inspect->show = false;
-					} else if (_ctx.ui->modal_help->show) {
-						_ctx.controller->clear_character(
-							Enums::CharacterSlot::HELP);
-						_ctx.controller->unset_flag("want_help");
-						_ctx.ui->modal_help->show = false;
-					} else if (_ctx.ui->modal_tithe->show) {
-						_ctx.controller->clear_character(
-							Enums::CharacterSlot::TITHE);
-						_ctx.controller->unset_flag("want_tithe");
-						_ctx.ui->modal_tithe->show = false;
-						_ctx.ui->input_donate->show = false;
-					} else if (_ctx.ui->input_donate->show) {
-						_ctx.controller->unset_flag("want_donate");
-						_ctx.ui->input_donate->show = false;
-					} else if (_ctx.ui->notice_cannot_donate->show) {
-						_ctx.controller->unset_flag("want_cannot_donate");
-						_ctx.ui->notice_cannot_donate->show = false;
-					} else if (_ctx.ui->notice_donated_ok->show) {
-						_ctx.controller->unset_flag("want_donated_ok");
-						_ctx.ui->notice_donated_ok->show = false;
-					} else if (_ctx.ui->notice_not_enough_gold->show) {
-						_ctx.controller->unset_flag("want_not_enough_gold");
-						_ctx.ui->notice_not_enough_gold->show = false;
-					}
-				}
-			}
-
-			// Check for Quicksave and Quickload
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
+			case ModuleEvent::QUICKLOAD:
 				continue;
+
+			case ModuleEvent::NONE:
+				break;
+			}
+		}
+
+		// Check for Back Event (close a Modal if present, else return to
+		// the Castle)
+		if (_ctx.controller->check_for_back(event)) {
+			if (!has_modal_open(
+					{_ctx.ui->modal_inspect->show, _ctx.ui->modal_help->show,
+					 _ctx.ui->modal_tithe->show, _ctx.ui->input_donate->show}))
+				return BACK_TO_CASTLE;
+			else {
+
+				// Close Modals
+				if (_ctx.ui->modal_inspect->show) {
+					_ctx.controller->clear_character(
+						Enums::CharacterSlot::INSPECT);
+					_ctx.controller->unset_flag("want_inspect");
+					_ctx.controller->unset_flag("want_identify");
+					_ctx.controller->unset_flag("want_equip");
+					_ctx.controller->unset_flag("want_remove");
+					_ctx.controller->unset_flag("want_drop");
+					_ctx.controller->unset_flag("want_trade");
+					_ctx.controller->unset_flag("want_give");
+					_ctx.controller->unset_flag("want_pool_gold");
+					_ctx.ui->modal_inspect->show = false;
+				} else if (_ctx.ui->modal_help->show) {
+					_ctx.controller->clear_character(
+						Enums::CharacterSlot::HELP);
+					_ctx.controller->unset_flag("want_help");
+					_ctx.ui->modal_help->show = false;
+				} else if (_ctx.ui->modal_tithe->show) {
+					_ctx.controller->clear_character(
+						Enums::CharacterSlot::TITHE);
+					_ctx.controller->unset_flag("want_tithe");
+					_ctx.ui->modal_tithe->show = false;
+					_ctx.ui->input_donate->show = false;
+				} else if (_ctx.ui->input_donate->show) {
+					_ctx.controller->unset_flag("want_donate");
+					_ctx.ui->input_donate->show = false;
+				} else if (_ctx.ui->notice_cannot_donate->show) {
+					_ctx.controller->unset_flag("want_cannot_donate");
+					_ctx.ui->notice_cannot_donate->show = false;
+				} else if (_ctx.ui->notice_donated_ok->show) {
+					_ctx.controller->unset_flag("want_donated_ok");
+					_ctx.ui->notice_donated_ok->show = false;
+				} else if (_ctx.ui->notice_not_enough_gold->show) {
+					_ctx.controller->unset_flag("want_not_enough_gold");
+					_ctx.ui->notice_not_enough_gold->show = false;
+				}
 			}
 		}
 
@@ -210,8 +202,8 @@ auto Sorcery::Temple::start() -> int {
 		}
 
 		if (_ctx.controller->has_character(Enums::CharacterSlot::TITHE)) {
-			// We cannot clear the tithe character here, as we are still on the
-			// same screen, only to display the donate popup
+			// We cannot clear the tithe character here, as we are still on
+			// the same screen, only to display the donate popup
 		}
 	}
 
