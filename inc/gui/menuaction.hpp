@@ -120,11 +120,18 @@ const ActionList TEMPLE_ACTIONS{
 
 const ActionList TRAINING_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::EDIT}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::DELETE}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ROSTER}},
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::EDGEOFTOWN}}};
+
+const ActionList EDIT_ACTIONS{
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::EDIT}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::EDIT}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::EDIT}},
+	{{.type = MenuAction::Type::GOTOSCREEN,
+	  .screen = Enums::Screen::TRAINING}}};
 
 const ActionList CAMP_ACTIONS{
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INSPECT},
@@ -146,7 +153,8 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"training_menu", TRAINING_ACTIONS},
 	{"store_menu", STORE_ACTIONS},
 	{"temple_menu", TEMPLE_ACTIONS},
-	{"camp_menu", CAMP_ACTIONS}
+	{"camp_menu", CAMP_ACTIONS},
+	{"edit_menu", EDIT_ACTIONS}
 
 };
 #pragma GCC diagnostic pop

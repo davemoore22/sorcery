@@ -34,6 +34,7 @@ namespace Sorcery {
 struct Context;
 class Create;
 class Roster;
+class Edit;
 
 class Training final : public Module {
 
@@ -55,6 +56,7 @@ class Training final : public Module {
 		// Private Members
 		std::unique_ptr<Create> _create;
 		std::unique_ptr<Roster> _roster;
+		std::unique_ptr<Edit> _edit;
 };
 
 };

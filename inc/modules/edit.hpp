@@ -32,15 +32,17 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Inspect;
+class Create;
+class Roster;
 
-class Roster final : public Module {
+class Edit final : public Module {
 
 	public:
 		// Standard Constructor
-		Roster(Context &ctx);
+		Edit(Context &ctx);
 
-		~Roster();
+		// Standard Destructor
+		~Edit();
 
 		// Public Methods
 		auto start() -> int;
@@ -50,7 +52,7 @@ class Roster final : public Module {
 		// Private Methods
 		auto _initialise() -> bool;
 
-		std::unique_ptr<Inspect> _inspect;
+		// Private Members
 };
 
 };

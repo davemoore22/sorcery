@@ -210,6 +210,7 @@ class UI {
 		auto _display_add() -> void;
 		auto _display_buy() -> void;
 		auto _display_castle() -> void;
+		auto _display_edit() -> void;
 		auto _display_edge_of_town() -> void;
 		auto _display_identify() -> void;
 		auto _display_inn() -> void;

@@ -70,6 +70,11 @@ enum class Screen {
 
 	CREATE,
 	ROSTER,
+	EDIT,
+	CHANGE_CLASS,
+	RENAME,
+	LEGATE,
+	DELETE,
 
 	CREATE_NAME,
 	CREATE_RACE,
@@ -86,7 +91,10 @@ enum class CharacterSlot {
 	RESTART,
 	STORE,
 	TITHE,
-	PAY
+	PAY,
+	EDIT,
+	LEGATE,
+	DELETE
 };
 
 }

@@ -225,6 +225,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::EDGEOFTOWN] = [this]() {
 		_display_edge_of_town();
 	};
+	_draw_modules[Enums::Screen::EDIT] = [this]() {
+		_display_edit();
+	};
 	_draw_modules[Enums::Screen::AUTOMAP] = [this]() {
 		_display_automap();
 	};
@@ -3916,6 +3919,11 @@ auto Sorcery::UI::_display_training_grounds() -> void {
 	_draw_cursor();
 }
 
+auto Sorcery::UI::_display_edit() -> void {
+	_draw_components("edit");
+	_draw_cursor();
+}
+
 auto Sorcery::UI::_display_roster() -> void {
 	_draw_components("roster");
 	_draw_cursor();
@@ -4421,7 +4429,9 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	const std::array<std::pair<std::string_view, Flags>, 20> flags{{
+	constexpr auto UI_FLAGS_COUNT{21};
+
+	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
 		{"tavern_menu", {std::ref(notice_divvy->show)}},
 		{"store_menu", {std::ref(notice_pool_gold->show)}},
 		{"temple_menu",
@@ -4430,6 +4440,7 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 		{"top_elevator_menu", {std::ref(modal_elevator_top->show)}},
 		{"bottom_elevator_menu", {std::ref(modal_elevator_bottom->show)}},
 		{"inspect_menu", {std::ref(modal_inspect->show)}},
+		{"roster_menu", {std::ref(modal_inspect->show)}},
 		{"help_menu", {std::ref(modal_help->show)}},
 		{"tithe_menu",
 		 {std::ref(modal_tithe->show), std::ref(input_donate->show)}},

@@ -815,6 +815,16 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		in_flags[0].get() = false;
 		return true;
+	} else if (component == "roster_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character(Enums::CharacterSlot::INSPECT);
+			go_to(Enums::Screen::TRAINING);
+		} else
+			set_character(Enums::CharacterSlot::INSPECT, data);
+
+		return true;
 	} else if (component == "tithe_menu") {
 
 		// Flags = &_ui->modal_tithe->show, &_ui->input_donate->show,
@@ -1514,7 +1524,6 @@ auto Sorcery::Controller::handle_standard_menu(
 				Enums::Character::Stage::CHOOSE_ALIGNMENT);
 			_game->creation_candidate->set_start_attr();
 		}
-
 	} else if (component == "alignment_menu") {
 
 		if (selection == (static_cast<int>(items.size()) - 1))
@@ -1609,15 +1618,7 @@ auto Sorcery::Controller::handle_standard_menu(
 		// Temple
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::CASTLE);
-	} /*/ else if (component == "training_menu") {
-
-		// Training Grounds
-		if (selection == TRAINING_CREATE)
-			go_to(Enums::Screen::CREATE);
-		else if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::EDGEOFTOWN);
-	} */
-	else if (component == "bestiary_menu") {
+	} else if (component == "bestiary_menu") {
 
 		// Bestiary
 		_selected["bestiary_selected"] = selection;

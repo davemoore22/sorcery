@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/roster.hpp"
+#include "modules/edit.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/audioplayer.hpp"
@@ -33,44 +33,40 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
-#include "modules/create.hpp"
-#include "modules/inspect.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
-Sorcery::Roster::Roster(Context &ctx)
+Sorcery::Edit::Edit(Context &ctx)
 	: Module{ctx} {
 
 	_initialise();
 
-	_inspect = std::make_unique<Inspect>(_ctx);
+	//_create = std::make_unique<Create>(_ctx);
+	//_roster = std::make_unique<Roster>(_ctx);
 };
 
-Sorcery::Roster::~Roster() {}
+Sorcery::Edit::~Edit() {}
 
-auto Sorcery::Roster::_initialise() -> bool {
+auto Sorcery::Edit::_initialise() -> bool {
 
 	return true;
 }
 
-auto Sorcery::Roster::start() -> int {
+auto Sorcery::Edit::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::ROSTER);
+	_ctx.controller->go_to(Enums::Screen::EDIT);
 	_ctx.controller->initialise();
-
-	// Note that we do not create any inspect character modals here as the
-	// inspection is read only
 
 	show_immediately();
 
 	_ctx.audio->set_volume(1.0f);
-	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	// Main loop
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
+
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
@@ -90,29 +86,31 @@ auto Sorcery::Roster::start() -> int {
 				return BACK_TO_TRAINING_GROUNDS;
 		}
 
-		_ctx.ui->display(Enums::Screen::ROSTER, _ctx.game);
+		_ctx.ui->display(Enums::Screen::EDIT, _ctx.game);
+
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::ROSTER) &&
+		if (!_ctx.controller->wants(Enums::Screen::EDIT) &&
 			_ctx.controller->wants(Enums::Screen::TRAINING)) {
-			_ctx.game->save_game();
+
 			return BACK_TO_TRAINING_GROUNDS;
-		} else if (_ctx.controller->has_character(
-					   Enums::CharacterSlot::INSPECT)) {
-			_inspect->start(
-				INSPECT_MODE_BASE,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT));
-			_inspect->stop(INSPECT_MODE_BASE);
-			_ctx.controller->go_to(Enums::Screen::ROSTER);
-			_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 		}
+
+		// if (_ctx.controller->wants(Enums::Screen::CREATE)) {
+		//	_create->start();
+		//	_create->stop();
+		//
+		//} else if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
+		//_roster->start();
+		//	_roster->stop();
+		//}
 	}
 
 	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
 
-auto Sorcery::Roster::stop() -> int {
+auto Sorcery::Edit::stop() -> int {
 
 	return 0;
 }

@@ -34,6 +34,7 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "modules/create.hpp"
+#include "modules/edit.hpp"
 #include "modules/roster.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
@@ -45,6 +46,7 @@ Sorcery::Training::Training(Context &ctx)
 
 	_create = std::make_unique<Create>(_ctx);
 	_roster = std::make_unique<Roster>(_ctx);
+	_edit = std::make_unique<Edit>(_ctx);
 };
 
 Sorcery::Training::~Training() {}
@@ -89,7 +91,6 @@ auto Sorcery::Training::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::TRAINING, _ctx.game);
-
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::TRAINING) &&
@@ -100,16 +101,15 @@ auto Sorcery::Training::start() -> int {
 			return BACK_TO_EDGE_OF_TOWN;
 		}
 
-		_ctx.ui->display(Enums::Screen::TRAINING, _ctx.game);
-		_ctx.tick();
-
 		if (_ctx.controller->wants(Enums::Screen::CREATE)) {
 			_create->start();
 			_create->stop();
-
 		} else if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
 			_roster->start();
 			_roster->stop();
+		} else if (_ctx.controller->wants(Enums::Screen::EDIT)) {
+			_edit->start();
+			_edit->stop();
 		}
 	}
 
