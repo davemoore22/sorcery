@@ -55,10 +55,21 @@ auto Sorcery::Museum::start() -> int {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit or Back Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			_ctx.controller->check_for_resize(event, _ctx.ui);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
+
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
+
+			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::NONE:
+				break;
+			}
+
 			if (_ctx.controller->check_for_back(event))
 				return GO_TO_COMPENDIUM;
 		}
@@ -67,12 +78,7 @@ auto Sorcery::Museum::start() -> int {
 
 		_ctx.tick();
 
-		// If we have selected something, let's action it - either return to the
-		// calling object, or handle front-end stuff like options, license, or
-		// compendium here
-		if (_ctx.controller->want_to_abort())
-			return ABORT_GAME;
-		else if (!_ctx.controller->wants(Enums::Screen::MUSEUM))
+		if (!_ctx.controller->wants(Enums::Screen::MUSEUM))
 			return GO_TO_COMPENDIUM;
 	}
 

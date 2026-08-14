@@ -67,19 +67,21 @@ auto Sorcery::Compendium::start() -> int {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for SDL Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Menu Key
-			_ctx.controller->check_for_menu_key(event);
+			case ModuleEvent::QUICKLOAD:
+				continue;
 
-			// Check for Abort Event
-			done = _ctx.controller->check_for_abort(event);
+			case ModuleEvent::NONE:
+				break;
+			}
 
-			// Check for Back Event
 			if (_ctx.controller->check_for_back(event))
 				return GO_TO_FRONT_END;
 		}

@@ -51,13 +51,25 @@ auto Sorcery::Atlas::start() -> int {
 	// Main loop
 	auto done{false};
 	while (!done) {
+
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit or Back Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			_ctx.controller->check_for_resize(event, _ctx.ui);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
+
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
+
+			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::NONE:
+				break;
+			}
+
 			if (_ctx.controller->check_for_back(event))
 				return GO_TO_COMPENDIUM;
 		}

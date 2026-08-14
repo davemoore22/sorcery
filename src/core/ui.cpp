@@ -4421,59 +4421,39 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	if (name == "tavern_menu")
-		return Flags{std::ref(notice_divvy->show)};
+	const std::array<std::pair<std::string_view, Flags>, 20> flags{{
+		{"tavern_menu", {std::ref(notice_divvy->show)}},
+		{"store_menu", {std::ref(notice_pool_gold->show)}},
+		{"temple_menu",
+		 {std::ref(modal_help->show), std::ref(modal_tithe->show)}},
+		{"camp_menu", {std::ref(modal_camp->show)}},
+		{"top_elevator_menu", {std::ref(modal_elevator_top->show)}},
+		{"bottom_elevator_menu", {std::ref(modal_elevator_bottom->show)}},
+		{"inspect_menu", {std::ref(modal_inspect->show)}},
+		{"help_menu", {std::ref(modal_help->show)}},
+		{"tithe_menu",
+		 {std::ref(modal_tithe->show), std::ref(input_donate->show)}},
+		{"identify_menu", {std::ref(modal_identify->show)}},
+		{"equip_menu", {std::ref(modal_equip->show)}},
+		{"remove_item_menu", {std::ref(modal_remove->show)}},
+		{"spell_menu", {std::ref(modal_spell->show)}},
+		{"drop_menu", {std::ref(modal_drop->show)}},
+		{"use_menu", {std::ref(modal_use->show)}},
+		{"invoke_menu", {std::ref(modal_invoke->show)}},
+		{"trade_menu",
+		 {std::ref(modal_trade->show), std::ref(modal_give->show)}},
+		{"give_menu", {std::ref(modal_give->show)}},
+		{"main_menu",
+		 {std::ref(dialog_new->show), std::ref(dialog_exit->show)}},
+		{"edge_menu", {std::ref(dialog_leave->show)}},
+	}};
 
-	if (name == "store_menu")
-		return Flags{std::ref(notice_pool_gold->show)};
+	if (const auto it{std::ranges::find(flags, name,
+										&decltype(flags)::value_type::first)};
+		it != flags.end()) {
 
-	if (name == "temple_menu")
-		return Flags{std::ref(modal_help->show), std::ref(modal_tithe->show)};
-
-	if (name == "camp_menu")
-		return Flags{std::ref(modal_camp->show)};
-
-	if (name == "top_elevator_menu")
-		return Flags{std::ref(modal_elevator_top->show)};
-
-	if (name == "bottom_elevator_menu")
-		return Flags{std::ref(modal_elevator_bottom->show)};
-
-	if (name == "inspect_menu")
-		return Flags{std::ref(modal_inspect->show)};
-
-	if (name == "help_menu")
-		return Flags{std::ref(modal_help->show)};
-
-	if (name == "tithe_menu")
-		return Flags{std::ref(modal_tithe->show), std::ref(input_donate->show)};
-
-	if (name == "identify_menu")
-		return Flags{std::ref(modal_identify->show)};
-
-	if (name == "equip_menu")
-		return Flags{std::ref(modal_equip->show)};
-
-	if (name == "remove_item_menu")
-		return Flags{std::ref(modal_remove->show)};
-
-	if (name == "spell_menu")
-		return Flags{std::ref(modal_spell->show)};
-
-	if (name == "drop_menu")
-		return Flags{std::ref(modal_drop->show)};
-
-	if (name == "use_menu")
-		return Flags{std::ref(modal_use->show)};
-
-	if (name == "invoke_menu")
-		return Flags{std::ref(modal_invoke->show)};
-
-	if (name == "trade_menu")
-		return Flags{std::ref(modal_trade->show), std::ref(modal_give->show)};
-
-	if (name == "give_menu")
-		return Flags{std::ref(modal_give->show)};
+		return it->second;
+	}
 
 	return {};
 }
@@ -4727,67 +4707,6 @@ auto Sorcery::UI::_draw_map_tile(const Tile &tile, const ImVec2 pos,
 auto Sorcery::UI::_to_imgui(GLuint tex) -> ImTextureID {
 
 	return (ImTextureID)(uintptr_t)tex;
-}
-
-auto Sorcery::UI::_get_menu_ui_flags(std::string_view menu)
-	-> std::vector<std::reference_wrapper<bool>> {
-
-	if (menu == "main_menu")
-		return {std::ref(dialog_new->show), std::ref(dialog_exit->show)};
-
-	if (menu == "edge_menu")
-		return {std::ref(dialog_leave->show)};
-
-	if (menu == "tavern_menu")
-		return {std::ref(notice_divvy->show)};
-
-	if (menu == "store_menu")
-		return {std::ref(notice_pool_gold->show)};
-
-	if (menu == "temple_menu")
-		return {std::ref(modal_inspect->show), std::ref(modal_help->show),
-				std::ref(modal_tithe->show)};
-
-	if (menu == "camp_menu")
-		return {std::ref(modal_camp->show)};
-
-	if (menu == "top_elevator_menu")
-		return {std::ref(modal_elevator_top->show)};
-
-	if (menu == "bottom_elevator_menu")
-		return {std::ref(modal_elevator_bottom->show)};
-
-	if (menu == "inspect_menu")
-		return {std::ref(modal_inspect->show)};
-
-	if (menu == "help_menu")
-		return {std::ref(modal_help->show)};
-
-	if (menu == "tithe_menu")
-		return {std::ref(modal_tithe->show), std::ref(input_donate->show)};
-
-	if (menu == "identify_menu")
-		return {std::ref(modal_identify->show)};
-
-	if (menu == "equip_menu")
-		return {std::ref(modal_equip->show)};
-
-	if (menu == "remove_item_menu")
-		return {std::ref(modal_remove->show)};
-
-	if (menu == "spell_menu")
-		return {std::ref(modal_spell->show)};
-
-	if (menu == "drop_menu")
-		return {std::ref(modal_drop->show)};
-
-	if (menu == "use_menu")
-		return {std::ref(modal_use->show)};
-
-	if (menu == "invoke_menu")
-		return {std::ref(modal_invoke->show)};
-
-	return {};
 }
 
 auto Sorcery::UI::_mage_spell_index(Enums::Magic::SpellID id) -> std::size_t {

@@ -330,9 +330,6 @@ class UI {
 		auto _draw_window_menu() -> void;
 		auto _draw_ui_status() -> void;
 
-		auto _get_menu_ui_flags(std::string_view menu)
-			-> std::vector<std::reference_wrapper<bool>>;
-
 		auto _to_imgui(GLuint tex) -> ImTextureID;
 
 		auto _mage_spell_index(Enums::Magic::SpellID id) -> std::size_t;
