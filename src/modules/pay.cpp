@@ -72,27 +72,23 @@ auto Sorcery::Pay::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Back Event (close a Modal if present, else return to
-			// the Castle)
-			if (_ctx.controller->check_for_back(event))
-				return HEALED_NOT;
-
-			// Check for Quicksave and Quickload
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
+			case ModuleEvent::QUICKLOAD:
 				continue;
+
+			case ModuleEvent::NONE:
+				break;
 			}
+
+			if (_ctx.controller->check_for_back(event))
+				return BACK_TO_STAY;
 		}
 
 		_ctx.ui->display(Enums::Screen::PAY, _ctx.game);

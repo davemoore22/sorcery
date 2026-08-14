@@ -96,29 +96,23 @@ auto Sorcery::Inn::start() -> int {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
-			// Check for Quit Events
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			done = _ctx.controller->check_for_abort(event);
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
-			// Check for Window Resize
-			_ctx.controller->check_for_resize(event, _ctx.ui);
+			case ModuleEvent::ABORT:
+				done = true;
+				break;
 
-			// Check for Menu Key
-			_ctx.controller->check_for_menu_key(event);
+			case ModuleEvent::QUICKLOAD:
+				continue;
 
-			// Check for Back Event
+			case ModuleEvent::NONE:
+				break;
+			}
+
 			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_CASTLE;
-
-			// Check for Quicksave and Quickload
-			if (_ctx.controller->check_for_quicksave(event))
-				_ctx.application->save_state_to_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-			else if (_ctx.controller->check_for_quickload(event)) {
-				_ctx.application->load_state_from_binary(
-					_ctx.get_file(SAVE_STATE_FILENAME));
-				continue;
-			}
 		}
 
 		_ctx.ui->display(Enums::Screen::INN, _ctx.game);
