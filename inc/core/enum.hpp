@@ -47,8 +47,6 @@ enum class Screen {
 	RESTART,
 	ADD,
 	REMOVE,
-	TEMPLE_NEW,
-	PAY_NEW,
 
 	ENGINE,
 	INSPECT,

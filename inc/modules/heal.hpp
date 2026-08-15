@@ -25,10 +25,9 @@
 #include "common/define.hpp"
 #include "common/sdl2.hpp"
 #include "core/module.hpp"
-#include "types/enum.hpp"
 
+#include <atomic>
 #include <cstdint>
-#include <string>
 
 namespace Sorcery {
 
@@ -50,15 +49,13 @@ class Heal final : public Module {
 		// Private Methods
 		static auto _callback_heal_tick(std::uint32_t, void *param)
 			-> std::uint32_t;
-		auto _initialise() -> bool;
+
 		auto _try_heal(int heal_char_id, int pay_char_id) -> bool;
 
 		// Private Members
-
-		int _stage;
-		SDL_TimerID _heal_tick;
-		Character *_character;
-		std::string _results;
+		std::atomic_int _stage{4};
+		SDL_TimerID _heal_tick{};
+		bool _healing_done{false};
 };
 
-};
+} // namespace Sorcery

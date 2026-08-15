@@ -32,27 +32,20 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Inspect;
 class Pay;
 
 class Temple final : public Module {
 
 	public:
-		// Standard Constructor
 		Temple(Context &ctx);
-
 		~Temple();
 
-		// Public Methods
 		auto start() -> int;
 		auto stop() -> int;
 
 	private:
-		// Private Methods
 		auto _initialise() -> bool;
 
-		// Private Members
-		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Pay> _pay;
 };
 

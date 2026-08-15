@@ -38,7 +38,7 @@
 #include "modules/choose.hpp"
 #include "modules/inn.hpp"
 #include "modules/inspect.hpp"
-#include "modules/paynew.hpp"
+#include "modules/pay.hpp"
 #include "modules/recovery.hpp"
 #include "modules/remove.hpp"
 #include "modules/reorder.hpp"
@@ -46,7 +46,7 @@
 #include "modules/stay.hpp"
 #include "modules/store.hpp"
 #include "modules/tavern.hpp"
-#include "modules/templenew.hpp"
+#include "modules/temple.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
@@ -56,7 +56,7 @@ Sorcery::Castle::Castle(Context &ctx)
 	_tavern = std::make_unique<Tavern>(_ctx);
 	_inn = std::make_unique<Inn>(_ctx);
 	_shop = std::make_unique<Shop>(_ctx);
-	_temple = std::make_unique<TempleNew>(_ctx);
+	_temple = std::make_unique<Temple>(_ctx);
 	_inspect = std::make_unique<Inspect>(_ctx);
 
 	_initialise();

@@ -21,65 +21,46 @@
 // the resulting work.
 
 #include "modules/heal.hpp"
-#include "common/macro.hpp"
-#include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/define.hpp"
-#include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
-#include "resources/define.hpp"
 #include "types/character.hpp"
 #include "types/game.hpp"
 
 Sorcery::Heal::Heal(Context &ctx)
-	: Module{ctx} {
+	: Module{ctx} {}
 
-	_initialise();
-};
-
-auto Sorcery::Heal::_initialise() -> bool {
-
-	_ctx.controller->unset_flag("heal_finished");
-	_stage = 5;
-	_results = "";
-
-	return true;
-}
-
-// Heal timer will return non-zero as long as there are stages left
 auto Sorcery::Heal::_callback_heal_tick(std::uint32_t, void *param)
 	-> std::uint32_t {
 
-	auto &current_stage{static_cast<Heal *>(param)->_stage};
-	--current_stage;
+	auto *heal{static_cast<Heal *>(param)};
 
-	if (current_stage == 0)
-		return 0;
-	else
-		return 2000;
+	const auto stage{--heal->_stage};
+
+	return stage == 0 ? 0 : 2000;
 }
 
 auto Sorcery::Heal::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::HEAL);
+	_stage = 4;
+	_healing_done = false;
+	_heal_tick = 0;
+
 	_ctx.controller->unset_flag("heal_finished");
+	_ctx.controller->unset_text("heal_results");
+	_ctx.controller->go_to(Enums::Screen::HEAL);
 
 	show_immediately();
 
 	_heal_tick = SDL_AddTimer(2000, &Heal::_callback_heal_tick, this);
 
-	_character = &_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::HELP));
+	while (true) {
 
-	// Main loop
-	auto done{false};
-	while (!done) {
-
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(
@@ -87,8 +68,7 @@ auto Sorcery::Heal::start() -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return ABORT_GAME;
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -101,116 +81,126 @@ auto Sorcery::Heal::start() -> int {
 				return BACK_TO_TEMPLE;
 		}
 
-		_ctx.ui->display(Enums::Screen::HEAL, _stage);
-		_ctx.tick();
+		const auto stage{_stage.load()};
 
-		if (_stage <= 0) {
+		if (stage <= 0 && !_healing_done) {
 
-			// Handle Healing
 			_try_heal(
 				_ctx.controller->get_character(Enums::CharacterSlot::HELP),
 				_ctx.controller->get_character(Enums::CharacterSlot::PAY));
+
+			_healing_done = true;
+
 			_ctx.controller->set_flag("heal_finished");
 		}
+
+		_ctx.ui->display(Enums::Screen::HEAL, stage);
+
+		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::HEAL))
 			return BACK_TO_TEMPLE;
 	}
-
-	// Exit if we get to here having broken out of the loop
-	return ABORT_GAME;
 }
 
-// If we get here we can afford to heal
 auto Sorcery::Heal::_try_heal(int heal_char_id, int pay_char_id) -> bool {
 
-	auto &pay_char{_ctx.game->characters[pay_char_id]};
-	auto &heal_char{_ctx.game->characters[heal_char_id]};
+	auto &heal_char{_ctx.game->characters.at(heal_char_id)};
 
-	auto results{""s};
+	auto &pay_char{_ctx.game->characters.at(pay_char_id)};
 
-	// Subtract money cost from selected character
-	const auto cost{heal_char.get_cure_cost()};
-	pay_char.grant_gold(0 - cost);
-
-	using enum Enums::Character::Status;
+	using enum Enums::Character::Attribute;
 	using enum Enums::Character::Location;
+	using enum Enums::Character::Status;
 	using enum Enums::System::Random;
-	if (heal_char.get_status() == DEAD) {
 
-		const auto chance{heal_char.get_ress_chance(false)};
-		const auto roll(_ctx.get_random(D100));
+	const auto cost{heal_char.get_cure_cost()};
 
-		if (roll < chance) {
+	pay_char.grant_gold(-cost);
 
-			results = std::format(
-				"{} {} {}", _ctx.get_string("TEMPLE_HEALED_PREFIX"),
-				heal_char.get_name(), _ctx.get_string("TEMPLE_HEALED_SUFFIX"));
-			heal_char.set_status(OK);
-			heal_char.set_current_hp(1);
-			heal_char.set_location(TAVERN);
-			_ctx.controller->set_text("heal_results", results);
+	const auto old_status{heal_char.get_status()};
+	const auto vitality{heal_char.get_cur_attr(VITALITY)};
 
-			return true;
-		} else {
-
-			results = std::format("{} {} {}",
-								  _ctx.get_string("TEMPLE_OOPS_DEAD_PREFIX"),
-								  heal_char.get_name(),
-								  _ctx.get_string("TEMPLE_OOPS_DEAD_SUFFIX"));
-			heal_char.set_status(ASHES);
-			_ctx.controller->set_text("heal_results", results);
-
-			return false;
-		}
-
-	} else if (heal_char.get_status() == ASHES) {
-
-		const auto chance{heal_char.get_ress_chance(false)};
-		const auto roll(_ctx.get_random(D100));
-
-		if (roll < chance) {
-
-			results = std::format(
-				"{} {} {}", _ctx.get_string("TEMPLE_HEALED_PREFIX"),
-				heal_char.get_name(), _ctx.get_string("TEMPLE_HEALED_SUFFIX"));
-			heal_char.set_status(OK);
-			heal_char.set_current_hp(1);
-			heal_char.set_location(TAVERN);
-			_ctx.controller->set_text("heal_results", results);
-
-			return true;
-
-		} else {
-
-			results = std::format("{} {} {}",
-								  _ctx.get_string("TEMPLE_OOPS_ASHES_PREFIX"),
-								  heal_char.get_name(),
-								  _ctx.get_string("TEMPLE_OOPS_ASHES_SUFFIX"));
-			heal_char.set_status(LOST);
-			heal_char.set_location(TRAINING);
-			heal_char.set_current_hp(0);
-			_ctx.controller->set_text("heal_results", results);
-
-			return false;
-		}
-
-	} else {
-
-		results = std::format(
-			"{} {} {}", _ctx.get_string("TEMPLE_HEALED_PREFIX"),
-			heal_char.get_name(), _ctx.get_string("TEMPLE_HEALED_SUFFIX"));
+	auto success = [&](const int hp) {
 		heal_char.set_status(OK);
-		_ctx.controller->set_text("heal_results", results);
+		heal_char.set_current_hp(hp);
+		heal_char.set_location(TAVERN);
+
+		heal_char.set_age(heal_char.get_age() + _ctx.get_random(D52));
+
+		_ctx.controller->set_text(
+			"heal_results",
+			std::format("{} {} {}", _ctx.get_string("TEMPLE_HEALED_PREFIX"),
+						heal_char.get_name(),
+						_ctx.get_string("TEMPLE_HEALED_SUFFIX")));
 
 		return true;
 	};
+
+	if (old_status == HELD || old_status == STONED) {
+
+		return success(heal_char.get_current_hp());
+	}
+
+	if (old_status == DEAD) {
+
+		const auto roll{_ctx.get_random(D100)};
+
+		const auto threshold{50 + (3 * vitality)};
+
+		if (roll > threshold) {
+
+			heal_char.set_status(ASHES);
+
+			_ctx.controller->set_text(
+				"heal_results",
+				std::format("{} {} {}",
+							_ctx.get_string("TEMPLE_OOPS_DEAD_PREFIX"),
+							heal_char.get_name(),
+							_ctx.get_string("TEMPLE_OOPS_DEAD_SUFFIX")));
+
+			return false;
+		}
+
+		return success(1);
+	}
+
+	if (old_status == ASHES) {
+
+		const auto roll{_ctx.get_random(D100)};
+
+		const auto threshold{40 + (3 * vitality)};
+
+		if (roll > threshold) {
+
+			heal_char.set_status(LOST);
+			heal_char.set_current_hp(0);
+			heal_char.set_location(TRAINING);
+
+			_ctx.controller->set_text(
+				"heal_results",
+				std::format("{} {} {}",
+							_ctx.get_string("TEMPLE_OOPS_ASHES_PREFIX"),
+							heal_char.get_name(),
+							_ctx.get_string("TEMPLE_OOPS_ASHES_SUFFIX")));
+
+			return false;
+		}
+
+		return success(heal_char.get_max_hp());
+	}
+
+	return false;
 }
 
 auto Sorcery::Heal::stop() -> int {
 
-	SDL_RemoveTimer(_heal_tick);
+	if (_heal_tick != 0) {
+		SDL_RemoveTimer(_heal_tick);
+		_heal_tick = 0;
+	}
 
+	_ctx.controller->unset_flag("heal_finished");
 	_ctx.controller->go_to(Enums::Screen::TEMPLE);
 
 	return 0;

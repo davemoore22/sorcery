@@ -27,30 +27,24 @@
 #include "types/enum.hpp"
 
 #include <memory>
+
 namespace Sorcery {
 
-// Forward Declarations
 struct Context;
 class Heal;
 
 class Pay final : public Module {
 
 	public:
-		// Standard Constructor
 		Pay(Context &ctx);
-
 		~Pay();
 
-		// Public Methods
 		auto start() -> int;
-		auto stop(const bool paid) -> int;
+		auto stop() -> int;
 
 	private:
-		// Private Methods
 		auto _initialise() -> bool;
-
-		// Private Members
 		std::unique_ptr<Heal> _heal;
 };
 
-};
+} // namespace Sorcery

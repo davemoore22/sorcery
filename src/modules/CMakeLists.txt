@@ -21,7 +21,7 @@ target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/identify.cpp
 	${CMAKE_CURRENT_LIST_DIR}/inn.cpp
 	${CMAKE_CURRENT_LIST_DIR}/inspect.cpp
-	${CMAKE_CURRENT_LIST_DIR}/paynew.cpp
+	${CMAKE_CURRENT_LIST_DIR}/pay.cpp
 	${CMAKE_CURRENT_LIST_DIR}/recovery.cpp
 	${CMAKE_CURRENT_LIST_DIR}/remove.cpp
 	${CMAKE_CURRENT_LIST_DIR}/reorder.cpp
@@ -33,7 +33,7 @@ target_sources(sorcery_modules PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/stay.cpp
 	${CMAKE_CURRENT_LIST_DIR}/store.cpp
 	${CMAKE_CURRENT_LIST_DIR}/tavern.cpp
-	${CMAKE_CURRENT_LIST_DIR}/templenew.cpp
+	${CMAKE_CURRENT_LIST_DIR}/temple.cpp
 	${CMAKE_CURRENT_LIST_DIR}/training.cpp
 	${CMAKE_CURRENT_LIST_DIR}/uncurse.cpp
 )

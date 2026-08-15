@@ -240,8 +240,8 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::INN] = [this]() {
 		_display_inn();
 	};
-	_draw_modules[Enums::Screen::PAY_NEW] = [this]() {
-		_display_pay_new();
+	_draw_modules[Enums::Screen::PAY] = [this]() {
+		_display_pay();
 	};
 	_draw_modules[Enums::Screen::REMOVE] = [this]() {
 		_display_remove();
@@ -267,8 +267,8 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::TAVERN] = [this]() {
 		_display_tavern();
 	};
-	_draw_modules[Enums::Screen::TEMPLE_NEW] = [this]() {
-		_display_temple_new();
+	_draw_modules[Enums::Screen::TEMPLE] = [this]() {
+		_display_temple();
 	};
 	_draw_modules[Enums::Screen::TRAINING] = [this]() {
 		_display_training_grounds();
@@ -2187,7 +2187,7 @@ auto Sorcery::UI::_draw_pay_info() -> void {
 	const auto cost_text{std::format("{} {} {}",
 									 _ctx.get_string("PAY_COST_PREFIX"), cost,
 									 _ctx.get_string("PAY_COST_SUFFIX"))};
-	auto cmp{components->get("pay_new:pay_cost")};
+	auto cmp{components->get("pay:pay_cost")};
 	_draw_text(&cmp, cost_text);
 }
 
@@ -2227,40 +2227,41 @@ auto Sorcery::UI::_draw_heal(int stage) -> void {
 
 	auto cmp{components->get("heal:heal_status")};
 	auto text{""s};
+
 	switch (stage) {
 	case 4:
 		text = _ctx.get_string("TEMPLE_HEAL_1");
 		break;
+
 	case 3:
 		text = _ctx.get_string("TEMPLE_HEAL_2");
 		break;
+
 	case 2:
 		text = _ctx.get_string("TEMPLE_HEAL_3");
 		break;
+
 	case 1:
 		text = _ctx.get_string("TEMPLE_HEAL_4");
 		break;
-	case 0:
-		text = _ctx.get_string("TEMPLE_HEAL_4");
-		break;
+
 	default:
 		break;
 	}
-	_draw_text(&cmp, text);
 
-	if (_ctx.controller->has_flag("heal_finished")) {
+	if (!text.empty())
+		_draw_text(&cmp, text);
 
-		if (_ctx.controller->has_text("heal_results")) {
-			auto summary{components->get("heal:heal_results")};
-			auto results{_ctx.controller->get_text("heal_results")};
-			_draw_text(&summary, results);
+	if (_ctx.controller->has_flag("heal_finished") &&
+		_ctx.controller->has_text("heal_results")) {
 
-			with_Window(WINDOW_LAYER_MENUS, nullptr,
-						ImGuiWindowFlags_NoTitleBar) {
-				auto leave{components->get("heal:heal_return")};
-				_draw_button_click(&leave, _ctx.get_flag_ref("show_heal"),
-								   true);
-			}
+		auto summary{components->get("heal:heal_results")};
+		const auto results{_ctx.controller->get_text("heal_results")};
+		_draw_text(&summary, results);
+		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
+
+			auto leave{components->get("heal:button_heal_return")};
+			_draw_button_click(&leave, _ctx.get_flag_ref("heal_return"), true);
 		}
 	}
 }
@@ -4148,43 +4149,9 @@ auto Sorcery::UI::_display_pay() -> void {
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_pay_new() -> void {
-
-	_draw_components("pay_new");
-	_draw_pay_info();
-	_draw_party_panel();
-	_draw_debug();
-	_draw_cursor();
-}
-
 auto Sorcery::UI::_display_temple() -> void {
 
 	_draw_components("temple");
-	_draw_party_panel();
-	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	modal_help->display(_ctx.get_flag_ref("want_help"));
-	modal_tithe->display(_ctx.get_flag_ref("want_tithe"));
-	modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	modal_drop->display(_ctx.get_flag_ref("want_drop"));
-	modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	modal_give->display(_ctx.get_flag_ref("want_give"));
-	modal_use->display(_ctx.get_flag_ref("want_use"));
-	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
-	input_donate->display(_ctx.get_flag_ref("want_donate"));
-	notice_donated_ok->display(_ctx.get_flag_ref("want_donated_ok"));
-	notice_cannot_donate->display(_ctx.get_flag_ref("want_cannot_donate"));
-	notice_not_enough_gold->display(_ctx.get_flag_ref("want_not_enough_gold"));
-	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
-	_draw_debug();
-	_draw_cursor();
-}
-
-auto Sorcery::UI::_display_temple_new() -> void {
-
-	_draw_components("temple_new");
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();

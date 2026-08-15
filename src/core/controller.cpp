@@ -1460,6 +1460,10 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		// Return to the Store
 		go_to(Enums::Screen::STORE);
 
+	} else if (component == "button_heal_return") {
+
+		go_to(Enums::Screen::TEMPLE);
+
 	} else if (component == "license_return") {
 
 		// Return to Main Menu

@@ -25,13 +25,13 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
+#include "core/define.hpp"
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
-#include "gui/input.hpp"
 #include "gui/modal.hpp"
 #include "modules/heal.hpp"
 #include "resources/define.hpp"
@@ -45,29 +45,23 @@ Sorcery::Pay::Pay(Context &ctx)
 	_initialise();
 };
 
-Sorcery::Pay::~Pay() {}
+Sorcery::Pay::~Pay() = default;
 
 auto Sorcery::Pay::_initialise() -> bool {
 
-	_ctx.controller->set_selected("pay_selected", 0);
+	_ctx.controller->set_selected("party_panel_selected", 0);
 
 	return true;
 }
 
 auto Sorcery::Pay::start() -> int {
 
-	// Don't initialise here
 	_ctx.controller->go_to(Enums::Screen::PAY);
+	_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
 
 	show_immediately();
 
-	// Need this before accessing dynamic modals!
-	_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
-	_ctx.controller->unset_selected("pay_selected");
-
-	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
@@ -77,8 +71,7 @@ auto Sorcery::Pay::start() -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return ABORT_GAME;
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -88,37 +81,34 @@ auto Sorcery::Pay::start() -> int {
 			}
 
 			if (_ctx.controller->check_for_back(event))
-				return BACK_TO_STAY;
+				return BACK_TO_TEMPLE;
 		}
 
 		_ctx.ui->display(Enums::Screen::PAY, _ctx.game);
+
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::PAY) &&
-			_ctx.controller->wants(Enums::Screen::TEMPLE))
-			return HEALED_NOT;
-		else if (_ctx.controller->has_selected("pay_selected")) {
+		if (_ctx.controller->wants(Enums::Screen::TEMPLE))
+			return BACK_TO_TEMPLE;
+
+		if (_ctx.controller->has_character(Enums::CharacterSlot::PAY)) {
+
 			const auto result{_heal->start()};
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
+
 			_heal->stop();
+
 			return HEALED_OK;
 		}
 	}
-
-	// Exit if we get to here having broken out of the loop
-	return ABORT_GAME;
 }
 
-auto Sorcery::Pay::stop(const bool paid) -> int {
+auto Sorcery::Pay::stop() -> int {
 
-	if (paid) {
-		_ctx.controller->go_to(Enums::Screen::RESULTS);
-		_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
-	} else {
-		_ctx.controller->go_to(Enums::Screen::TEMPLE);
-		_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
-	}
+	_ctx.controller->clear_character(Enums::CharacterSlot::PAY);
+
+	_ctx.controller->go_to(Enums::Screen::TEMPLE);
 
 	return 0;
 }
