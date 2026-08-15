@@ -22,81 +22,30 @@
 
 #pragma once
 
-namespace Sorcery::Enums {
+#include "common/define.hpp"
+#include "core/module.hpp"
+#include "types/enum.hpp"
 
-enum class Screen {
-	NONE = 0,
+#include <memory>
 
-	SPLASH,
+namespace Sorcery {
 
-	MAINMENU,
-	OPTIONS,
-	LICENSE,
-	COMPENDIUM,
-	ATLAS,
-	BESTIARY,
-	MUSEUM,
-	SPELLBOOK,
-	CASTLE,
-	EDGEOFTOWN,
-	TAVERN,
-	INN,
-	TEMPLE,
-	SHOP,
-	TRAINING,
-	RESTART,
-	ADD,
-	REMOVE,
-	TEMPLE_NEW,
-	PAY_NEW,
+// Forward Declarations
+struct Context;
+class PayNew;
 
-	ENGINE,
-	INSPECT,
-	REORDER,
-	AUTOMAP,
-	GRAVEYARD,
+class TempleNew final : public Module {
 
-	STAY,
-	CHOOSE,
-	RECOVERY,
-	LEVELUP,
-	NOLEVELUP,
-	PAY,
-	HEAL,
-	RESULTS,
-	STORE,
-	BUY,
-	SELL,
-	IDENTIFY,
-	UNCURSE,
+	public:
+		TempleNew(Context &ctx);
 
-	CREATE,
-	ROSTER,
-	EDIT,
-	CHANGE_CLASS,
-	RENAME,
-	LEGATE,
-	DELETE,
+		auto start() -> int;
+		auto stop() -> int;
 
-	CREATE_NAME,
-	CREATE_RACE,
-	CREATE_ALIGNMENT,
-	CREATE_CLASS,
-	CREATE_CONFIRM,
+	private:
+		auto _initialise() -> bool;
+
+		std::unique_ptr<PayNew> _pay;
 };
 
-enum class CharacterSlot {
-	INSPECT,
-	STAY,
-	CHOOSE,
-	HELP,
-	RESTART,
-	STORE,
-	TITHE,
-	PAY,
-	EDIT,
-	LEGATE,
-	DELETE
 };
-
-}

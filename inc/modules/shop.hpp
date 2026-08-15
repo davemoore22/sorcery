@@ -27,6 +27,7 @@
 #include "types/enum.hpp"
 
 #include <memory>
+
 namespace Sorcery {
 
 // Forward Declarations

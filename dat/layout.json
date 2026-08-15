@@ -3340,6 +3340,238 @@
 			]
 		},
 		{
+			"name": "temple_new",
+			"component": [
+				{
+					"name": "background_image",
+					"x": "0",
+					"y": "0",
+					"type": "image_bg",
+					"drawmode": "automatic",
+					"priority": "0",
+					"alpha": "1.0",
+					"data": [
+						{
+							"source": "backgrounds.tga",
+							"scale": "0.7"
+						}
+					]
+				},
+				{
+					"name": "outer_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "2",
+					"w": "38",
+					"h": "24",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"title": "TEMPLE_TITLE"
+						}
+					]
+				},
+				{
+					"name": "menu_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "8",
+					"w": "32",
+					"h": "15",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "temple_subtitle_1",
+					"x": "centre",
+					"y": "9",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "TEMPLE_SUBTITLE_1",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "temple_subtitle_2",
+					"x": "centre",
+					"y": "11",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "TEMPLE_SUBTITLE_2",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "temple_heal_menu",
+					"x": "centre",
+					"y": "13",
+					"w": "25",
+					"h": "8",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "automatic",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "25",
+							"height": "5",
+							"menu_name": "temple_heal_menu",
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
+						}
+					]
+				},
+				{
+					"name": "party_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "24",
+					"w": "40",
+					"h": "9",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				}
+			]
+		},
+		{
+			"name": "pay_new",
+			"component": [
+				{
+					"name": "background_image",
+					"x": "0",
+					"y": "0",
+					"type": "image_bg",
+					"drawmode": "automatic",
+					"priority": "0",
+					"alpha": "1.0",
+					"data": [
+						{
+							"source": "backgrounds.tga",
+							"scale": "0.7"
+						}
+					]
+				},
+				{
+					"name": "outer_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "2",
+					"w": "38",
+					"h": "24",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"title": "PAY_TITLE"
+						}
+					]
+				},
+				{
+					"name": "menu_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "8",
+					"w": "33",
+					"h": "15",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "pay_cost",
+					"x": "centre",
+					"y": "9",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "PAY_SUBTITLE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "manual"
+				},
+				{
+					"name": "pay_tithe",
+					"x": "centre",
+					"y": "11",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "PAY_SUBTITLE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "5",
+					"drawmode": "automatic"
+				},
+				{
+					"name": "temple_pay_menu",
+					"x": "centre",
+					"y": "13",
+					"w": "31",
+					"h": "8",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "automatic",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "31",
+							"height": "7",
+							"menu_name": "temple_pay_menu",
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
+						}
+					]
+				},
+				{
+					"name": "party_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "24",
+					"w": "40",
+					"h": "9",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				}
+			]
+		},
+		{
 			"name": "pay",
 			"component": [
 				{

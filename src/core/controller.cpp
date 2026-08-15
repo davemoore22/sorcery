@@ -450,8 +450,11 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			// can be selected
 			return character.get_status() != Enums::Character::Status::OK;
 		}
-	} else if (component == "pay_menu") {
+	} else if (component == "temple_pay_menu") {
 		if (_game != nullptr) {
+
+			if (data == -1)
+				return false;
 
 			const auto &help{
 				_game->characters.at(_characters[Enums::CharacterSlot::HELP])};
@@ -857,6 +860,31 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		// Remove the Modal
 		in_flags.at(0).get() = false;
+		return true;
+	} else if (component == "temple_heal_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			clear_character(Enums::CharacterSlot::HELP);
+
+			go_to(Enums::Screen::CASTLE);
+
+		} else {
+
+			set_character(Enums::CharacterSlot::HELP, data);
+		}
+
+		return true;
+	} else if (component == "temple_pay_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			clear_character(Enums::CharacterSlot::PAY);
+			go_to(Enums::Screen::TEMPLE);
+		} else {
+			set_character(Enums::CharacterSlot::PAY, data);
+		}
+
 		return true;
 	} else if (component == "identify_menu") {
 

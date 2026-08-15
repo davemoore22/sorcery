@@ -240,8 +240,8 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::INN] = [this]() {
 		_display_inn();
 	};
-	_draw_modules[Enums::Screen::PAY] = [this]() {
-		_display_pay();
+	_draw_modules[Enums::Screen::PAY_NEW] = [this]() {
+		_display_pay_new();
 	};
 	_draw_modules[Enums::Screen::REMOVE] = [this]() {
 		_display_remove();
@@ -267,8 +267,8 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::TAVERN] = [this]() {
 		_display_tavern();
 	};
-	_draw_modules[Enums::Screen::TEMPLE] = [this]() {
-		_display_temple();
+	_draw_modules[Enums::Screen::TEMPLE_NEW] = [this]() {
+		_display_temple_new();
 	};
 	_draw_modules[Enums::Screen::TRAINING] = [this]() {
 		_display_training_grounds();
@@ -2187,7 +2187,7 @@ auto Sorcery::UI::_draw_pay_info() -> void {
 	const auto cost_text{std::format("{} {} {}",
 									 _ctx.get_string("PAY_COST_PREFIX"), cost,
 									 _ctx.get_string("PAY_COST_SUFFIX"))};
-	auto cmp{components->get("pay:pay_cost")};
+	auto cmp{components->get("pay_new:pay_cost")};
 	_draw_text(&cmp, cost_text);
 }
 
@@ -4148,6 +4148,15 @@ auto Sorcery::UI::_display_pay() -> void {
 	_draw_cursor();
 }
 
+auto Sorcery::UI::_display_pay_new() -> void {
+
+	_draw_components("pay_new");
+	_draw_pay_info();
+	_draw_party_panel();
+	_draw_debug();
+	_draw_cursor();
+}
+
 auto Sorcery::UI::_display_temple() -> void {
 
 	_draw_components("temple");
@@ -4169,6 +4178,14 @@ auto Sorcery::UI::_display_temple() -> void {
 	notice_cannot_donate->display(_ctx.get_flag_ref("want_cannot_donate"));
 	notice_not_enough_gold->display(_ctx.get_flag_ref("want_not_enough_gold"));
 	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	_draw_debug();
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_temple_new() -> void {
+
+	_draw_components("temple_new");
+	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
 }

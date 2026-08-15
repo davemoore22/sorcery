@@ -72,6 +72,10 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"inn_menu", {"INN_RETURN"}},
 
+	{"temple_heal_menu", {"TEMPLE_RETURN"}},
+
+	{"temple_pay_menu", {"TEMPLE_RETURN"}},
+
 	{"shop_menu", {"SHOP_RETURN"}},
 
 	{"help_menu", {"HELP_RETURN"}},
@@ -398,6 +402,10 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		_load_party_characters(items, data, flags,
 							   reorder); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "temple_pay_menu") {
+		_load_party_characters(items, data, flags,
+							   reorder); // MENU_SHOW_GOLD
+		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "shop_menu") {
 		_load_party_characters(items, data, flags,
 							   reorder); // MENU_FULL_NAME
@@ -411,6 +419,10 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		_load_maze_characters(items, data); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "help_menu") {
+
+		_load_sick_characters(items, data); // MENU_FULL_NAME
+		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "temple_heal_menu") {
 
 		_load_sick_characters(items, data); // MENU_FULL_NAME
 		_load_fixed_menu(menu_name, width, items);
@@ -485,6 +497,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"shop_menu", MENU_FULL_NAME},
 		std::pair{"remove_character_menu", MENU_FULL_NAME},
 		std::pair{"tithe_menu", MENU_SHOW_GOLD},
+		std::pair{"temple_pay_menu", MENU_SHOW_GOLD},
 		std::pair{"pay_menu", MENU_SHOW_GOLD},
 		std::pair{"reorder_menu", MENU_SHOW_POSITION},
 		std::pair{"sell_menu", MENU_SHOP_SELL_ITEM}};

@@ -215,6 +215,7 @@ class UI {
 		auto _display_identify() -> void;
 		auto _display_inn() -> void;
 		auto _display_pay() -> void;
+		auto _display_pay_new() -> void;
 		auto _display_remove() -> void;
 		auto _display_restart() -> void;
 		auto _display_sell() -> void;
@@ -223,6 +224,7 @@ class UI {
 		auto _display_store() -> void;
 		auto _display_tavern() -> void;
 		auto _display_temple() -> void;
+		auto _display_temple_new() -> void;
 		auto _display_training_grounds() -> void;
 		auto _display_uncurse() -> void;
 
