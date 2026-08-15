@@ -36,107 +36,131 @@
 #include "types/character.hpp"
 #include "types/game.hpp"
 
+#include <algorithm>
+
+namespace {
+
+struct RecoveryRate {
+		int cost;
+		int hp;
+};
+
+constexpr auto recovery_rate(const int mode) -> RecoveryRate {
+
+	switch (mode) {
+	case Sorcery::RECOVERY_MODE_COST_10:
+		return {10, 1};
+
+	case Sorcery::RECOVERY_MODE_COST_50:
+		return {50, 3};
+
+	case Sorcery::RECOVERY_MODE_COST_200:
+		return {200, 7};
+
+	case Sorcery::RECOVERY_MODE_COST_500:
+		return {500, 10};
+
+	default:
+		return {};
+	}
+}
+
+} // namespace
+
 Sorcery::Recovery::Recovery(Context &ctx)
 	: Module{ctx} {
 
 	_initialise();
-};
+}
 
 auto Sorcery::Recovery::_initialise() -> bool {
 
-	_ctx.controller->unset_flag("napping_finished");
-	_ctx.controller->unset_flag("recuperating_finished");
+	_character = nullptr;
+	_mode = 0;
+	_finished = false;
+	_rest_tick = 0;
 
 	return true;
 }
 
-// Napping timer only ever runs once, thus 0 is returned which cancels it
+// Napping timer only ever runs once.
 auto Sorcery::Recovery::_callback_napping(std::uint32_t, void *param)
 	-> std::uint32_t {
 
-	((Recovery *)param)->_ctx.controller->set_flag("napping_finished");
+	auto *recovery{static_cast<Recovery *>(param)};
+
+	recovery->_finished = true;
 
 	return 0;
 }
 
-// Recuperating timer will return non-zero as long as there are hit points left
-// to heal and there is enough gold, or if the recuperation is cancelled
+// Recuperation continues while the character needs healing and can afford
+// another week.
 auto Sorcery::Recovery::_callback_recuperating(std::uint32_t, void *param)
 	-> std::uint32_t {
 
-	auto character{static_cast<Character *>(param)};
+	auto *recovery{static_cast<Recovery *>(param)};
+	auto *character{recovery->_character};
 
-	auto can_continue{
-		[](Character *character, int weekly_cost, int hp_per_week) -> bool {
-			auto current_hp{character->get_current_hp()};
-			const auto max_hp{character->get_max_hp()};
-			int current_gold{character->get_gold()};
-			if ((current_hp < max_hp) && (current_gold >= weekly_cost)) {
-				character->set_current_hp(current_hp + hp_per_week);
-				character->set_gold(current_gold - weekly_cost);
-				if (current_hp > max_hp)
-					character->set_current_hp(max_hp);
-				return true;
-			} else
-				return false;
-		}};
+	const auto [cost, hp]{recovery_rate(recovery->_mode)};
 
-	switch (character->mode) {
-	case RECOVERY_MODE_COST_10:
-		if (!can_continue(character, 10, 1)) {
-			character->mode = -1;
-			return 0;
-		}
-		break;
-	case RECOVERY_MODE_COST_50:
-		if (!can_continue(character, 50, 3)) {
-			character->mode = -1;
-			return 0;
-		}
-		break;
-	case RECOVERY_MODE_COST_200:
-		if (!can_continue(character, 200, 5)) {
-			character->mode = -1;
-			return 0;
-		}
-		break;
-	case RECOVERY_MODE_COST_500:
-		if (!can_continue(character, 500, 10)) {
-			character->mode = -1;
-			return 0;
-		}
-		break;
-	default:
+	if (cost == 0) {
+		recovery->_finished = true;
 		return 0;
 	}
 
-	const auto current_age{character->get_age()};
-	character->set_age(current_age + 1);
+	const auto current_hp{character->get_current_hp()};
+	const auto max_hp{character->get_max_hp()};
+	const auto current_gold{character->get_gold()};
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+	// Cannot buy another week's recuperation.
+	if (current_hp >= max_hp || current_gold < cost) {
+		recovery->_finished = true;
+		return 0;
+	}
+#pragma GCC diagnostic pop
+
+	// One week passes.
+	character->set_current_hp(std::min(current_hp + hp, max_hp));
+
+	character->set_gold(current_gold - cost);
+	character->set_age(character->get_age() + 1);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+	// Stop immediately if no further week is required/affordable.
+	if (character->get_current_hp() >= max_hp || character->get_gold() < cost) {
+
+		recovery->_finished = true;
+		return 0;
+	}
+#pragma GCC diagnostic pop
 	return 1000;
 }
 
 auto Sorcery::Recovery::start(const int mode) -> int {
 
 	_ctx.controller->go_to(Enums::Screen::RECOVERY);
-	_ctx.controller->unset_flag("napping_finished");
-	_ctx.controller->unset_flag("recuperating_finished");
 
 	show_immediately();
 
 	_character = &_ctx.game->characters.at(
 		_ctx.controller->get_character(Enums::CharacterSlot::STAY));
-	_character->mode = mode;
-	if (mode & RECOVERY_MODE_FREE)
+
+	_mode = mode;
+	_finished = false;
+
+	if (mode == RECOVERY_MODE_FREE)
 		_rest_tick = SDL_AddTimer(1000, &Recovery::_callback_napping, this);
 	else
 		_rest_tick =
-			SDL_AddTimer(1000, &Recovery::_callback_recuperating, _character);
+			SDL_AddTimer(1000, &Recovery::_callback_recuperating, this);
 
-	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(
@@ -144,8 +168,7 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return ABORT_GAME;
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -161,23 +184,17 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 		_ctx.ui->display(Enums::Screen::RECOVERY, mode);
 		_ctx.tick();
 
-		if (_character->mode == -1)
-			_ctx.controller->set_flag("recuperating_finished");
-		if (!_ctx.controller->wants(Enums::Screen::RECOVERY))
-			return CHECK_FOR_LEVEL_GAIN;
-		if (_ctx.controller->has_flag("napping_finished"))
-			return CHECK_FOR_LEVEL_GAIN;
-		if (_ctx.controller->has_flag("recuperating_finished"))
+		if (_finished || !_ctx.controller->wants(Enums::Screen::RECOVERY))
 			return CHECK_FOR_LEVEL_GAIN;
 	}
-
-	// Exit if we get to here having broken out of the loop
-	return ABORT_GAME;
 }
 
 auto Sorcery::Recovery::stop() -> int {
 
-	SDL_RemoveTimer(_rest_tick);
+	if (_rest_tick != 0) {
+		SDL_RemoveTimer(_rest_tick);
+		_rest_tick = 0;
+	}
 
 	_ctx.controller->go_to(Enums::Screen::STAY);
 

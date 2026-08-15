@@ -672,7 +672,7 @@ auto Sorcery::Game::_debug_give_party_gold() -> void {
 
 	for (const auto party{state->get_party_characters()}; auto idx : party) {
 		auto &cur_char{characters.at(idx)};
-		cur_char.set_gold(1000);
+		cur_char.set_gold(10000);
 	}
 }
 

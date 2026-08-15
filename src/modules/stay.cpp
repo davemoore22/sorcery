@@ -32,9 +32,8 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
-#include "modules/levelup.hpp"
-#include "modules/nolevelup.hpp"
 #include "modules/recovery.hpp"
+#include "modules/result.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
@@ -42,8 +41,7 @@ Sorcery::Stay::Stay(Context &ctx)
 	: Module{ctx} {
 
 	_recovery = std::make_unique<Recovery>(_ctx);
-	_no_level_up = std::make_unique<NoLevelUp>(_ctx);
-	_level_up = std::make_unique<LevelUp>(_ctx);
+	_result = std::make_unique<Result>(_ctx);
 
 	_initialise();
 };
@@ -56,7 +54,6 @@ auto Sorcery::Stay::_initialise() -> bool {
 
 	return true;
 }
-
 auto Sorcery::Stay::start() -> int {
 
 	// Unlike what happens in the start() methods in other modules, we don't
@@ -98,12 +95,11 @@ auto Sorcery::Stay::start() -> int {
 		// Check for Stay Selected (remember +1 to selection)
 		if (_ctx.controller->get_selected("stay_selected") > -1) {
 
-			// Get Age beforehand
 			auto &character{_ctx.game->characters.at(
 				_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
-			const auto before_age{character.get_age() % 52};
 
-			// Work out recovery mode
+			const auto before_age{character.get_age() / 52};
+
 			constexpr std::array recovery_modes{
 				RECOVERY_MODE_FREE,		RECOVERY_MODE_COST_10,
 				RECOVERY_MODE_COST_50,	RECOVERY_MODE_COST_200,
@@ -116,37 +112,34 @@ auto Sorcery::Stay::start() -> int {
 			if (selection >= 1 &&
 				selection <= static_cast<int>(recovery_modes.size())) {
 
-				const auto result{
-					_recovery->start(recovery_modes[selection - 1])};
-
+				const auto mode{recovery_modes[selection - 1]};
+				const auto result{_recovery->start(mode)};
 				if (result == ABORT_GAME)
 					return ABORT_GAME;
-
 				_recovery->stop();
 			}
 
-			// Now check for Level up!
-			const auto after_age{character.get_age() % 52};
-			const auto current_xp{character.get_cur_xp()};
-			const auto next_xp{character.get_next_xp()};
-			if (next_xp - current_xp > 0) {
+			// All forms of rest replenish spells, including napping.
+			character.replenish_spells();
 
-				// No Level Up!
-				const auto result{_no_level_up->start(
-					after_age > before_age ? RECOVERY_BIRTHDAY : 0)};
-				if (result == ABORT_GAME)
-					return ABORT_GAME;
-				_no_level_up->stop();
-			} else {
+			// Do we have a birthday?
+			const auto after_age{character.get_age() / 52};
+			const auto recovery_flags{after_age > before_age ? RECOVERY_BIRTHDAY
+															 : 0};
 
-				// Level Up!
+			// And do we have a level up?
+			auto result_type{ResultType::NO_LEVEL_UP};
+			if (character.get_cur_xp() >= character.get_next_xp()) {
 				character.level_up();
-				const auto result{_level_up->start(
-					after_age > before_age ? RECOVERY_BIRTHDAY : 0)};
-				if (result == ABORT_GAME)
-					return ABORT_GAME;
-				_level_up->stop();
+				result_type = ResultType::LEVEL_UP;
 			}
+
+			// Display the results of the rest appropriately
+			const auto result{_result->start(result_type, recovery_flags)};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+
+			_result->stop();
 
 			return BACK_TO_INN;
 		}
@@ -156,7 +149,6 @@ auto Sorcery::Stay::start() -> int {
 			return BACK_TO_INN;
 	}
 
-	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
 

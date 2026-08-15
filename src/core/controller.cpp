@@ -426,7 +426,6 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			const auto character{
 				_game->characters.at(_characters[Enums::CharacterSlot::STAY])};
 			const auto gold{character.get_gold()};
-
 			switch (selection) {
 			case 0:
 				// The Stables
@@ -446,6 +445,10 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			default:
 				return false;
 			};
+
+			// And although we will never reach here really, onlu OK characters
+			// can be selected
+			return character.get_status() != Enums::Character::Status::OK;
 		}
 	} else if (component == "pay_menu") {
 		if (_game != nullptr) {

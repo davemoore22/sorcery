@@ -22,41 +22,30 @@
 
 #pragma once
 
-#include "common/define.hpp"
-#include "common/sdl2.hpp"
-#include "core/module.hpp"
-#include "types/enum.hpp"
+#pragma once
 
-#include <atomic>
-#include <cstdint>
+#include "core/module.hpp"
 
 namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Character;
 
-class Recovery final : public Module {
+enum class ResultType {
+	NO_LEVEL_UP,
+	LEVEL_UP
+};
+
+class Result final : public Module {
 
 	public:
-		Recovery(Context &ctx);
+		Result(Context &ctx);
 
-		auto start(int mode) -> int;
+		auto start(ResultType type, int mode) -> int;
 		auto stop() -> int;
 
 	private:
 		auto _initialise() -> bool;
-
-		static auto _callback_napping(std::uint32_t, void *param)
-			-> std::uint32_t;
-		static auto _callback_recuperating(std::uint32_t, void *param)
-			-> std::uint32_t;
-
-		SDL_TimerID _rest_tick{};
-		Character *_character{nullptr};
-
-		int _mode{};
-		std::atomic_bool _finished{false};
 };
 
 } // namespace Sorcery

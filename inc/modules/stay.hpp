@@ -33,8 +33,7 @@ namespace Sorcery {
 // Forward Declarations
 struct Context;
 class Recovery;
-class NoLevelUp;
-class LevelUp;
+class Result;
 
 class Stay final : public Module {
 
@@ -54,8 +53,7 @@ class Stay final : public Module {
 
 		// Private Members
 		std::unique_ptr<Recovery> _recovery;
-		std::unique_ptr<NoLevelUp> _no_level_up;
-		std::unique_ptr<LevelUp> _level_up;
+		std::unique_ptr<Result> _result;
 };
 
 };

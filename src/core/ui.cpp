@@ -2151,7 +2151,7 @@ auto Sorcery::UI::_draw_choose(const int mode) -> void {
 auto Sorcery::UI::_draw_level_up(const int mode) -> void {
 
 	auto &character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::RESTART))};
+		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 
 	if (mode & RECOVERY_BIRTHDAY) {
 
@@ -2269,7 +2269,7 @@ auto Sorcery::UI::_draw_recovery(const int mode) -> void {
 
 	const auto character{_ctx.game->characters.at(
 		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
-	if (mode & RECOVERY_MODE_FREE) {
+	if (mode == RECOVERY_MODE_FREE) {
 
 		auto cmp{components->get("recovery:recovery_napping")};
 		auto text{std::format("{}{}", character.get_name(),
