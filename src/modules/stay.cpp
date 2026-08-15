@@ -50,10 +50,11 @@ Sorcery::Stay::~Stay() {}
 
 auto Sorcery::Stay::_initialise() -> bool {
 
-	_ctx.controller->set_selected("stay_selected", -1);
+	_ctx.controller->set_selected("room_selected", -1);
 
 	return true;
 }
+
 auto Sorcery::Stay::start() -> int {
 
 	// Unlike what happens in the start() methods in other modules, we don't
@@ -63,9 +64,7 @@ auto Sorcery::Stay::start() -> int {
 
 	show_immediately();
 
-	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -75,8 +74,7 @@ auto Sorcery::Stay::start() -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return ABORT_GAME;
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -86,56 +84,61 @@ auto Sorcery::Stay::start() -> int {
 			}
 
 			if (_ctx.controller->check_for_back(event))
-				return BACK_TO_CASTLE;
+				return BACK_TO_INN;
 		}
 
 		_ctx.ui->display(Enums::Screen::STAY, _ctx.game);
 		_ctx.tick();
 
-		// Check for Stay Selected (remember +1 to selection)
-		if (_ctx.controller->get_selected("stay_selected") > -1) {
+		const auto room{_ctx.controller->get_selected("room_selected")};
+
+		constexpr std::array recovery_modes{
+			RECOVERY_MODE_FREE,		RECOVERY_MODE_COST_10,
+			RECOVERY_MODE_COST_50,	RECOVERY_MODE_COST_200,
+			RECOVERY_MODE_COST_500,
+		};
+
+		// A room has been selected.
+		if (room >= 0 && room < static_cast<int>(recovery_modes.size())) {
 
 			auto &character{_ctx.game->characters.at(
 				_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 
+			// Age is stored in weeks; remember the current year so we can
+			// detect whether paid recovery crosses a birthday.
 			const auto before_age{character.get_age() / 52};
 
-			constexpr std::array recovery_modes{
-				RECOVERY_MODE_FREE,		RECOVERY_MODE_COST_10,
-				RECOVERY_MODE_COST_50,	RECOVERY_MODE_COST_200,
-				RECOVERY_MODE_COST_500,
-			};
+			// Carry out the selected form of recovery.
+			const auto mode{recovery_modes[room]};
 
-			const auto selection{
-				_ctx.controller->get_selected("stay_selected")};
+			const auto recovery_result{_recovery->start(mode)};
 
-			if (selection >= 1 &&
-				selection <= static_cast<int>(recovery_modes.size())) {
+			if (recovery_result == ABORT_GAME)
+				return ABORT_GAME;
 
-				const auto mode{recovery_modes[selection - 1]};
-				const auto result{_recovery->start(mode)};
-				if (result == ABORT_GAME)
-					return ABORT_GAME;
-				_recovery->stop();
-			}
+			_recovery->stop();
 
 			// All forms of rest replenish spells, including napping.
 			character.replenish_spells();
 
-			// Do we have a birthday?
+			// Only paid recovery advances age, so a nap can never cause
+			// this condition to become true.
 			const auto after_age{character.get_age() / 52};
+
 			const auto recovery_flags{after_age > before_age ? RECOVERY_BIRTHDAY
 															 : 0};
 
-			// And do we have a level up?
+			// Work out which result screen is required.
 			auto result_type{ResultType::NO_LEVEL_UP};
+
 			if (character.get_cur_xp() >= character.get_next_xp()) {
 				character.level_up();
 				result_type = ResultType::LEVEL_UP;
 			}
 
-			// Display the results of the rest appropriately
+			// Display the result of the stay.
 			const auto result{_result->start(result_type, recovery_flags)};
+
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
 
@@ -144,17 +147,17 @@ auto Sorcery::Stay::start() -> int {
 			return BACK_TO_INN;
 		}
 
+		// Selecting Return from rest_menu sets room_selected to -1 and
+		// changes the requested screen back to the Inn.
 		if (!_ctx.controller->wants(Enums::Screen::STAY) &&
 			_ctx.controller->wants(Enums::Screen::INN))
 			return BACK_TO_INN;
 	}
-
-	return ABORT_GAME;
 }
 
 auto Sorcery::Stay::stop() -> int {
 
-	_ctx.controller->set_selected("stay_selected", -1);
+	_ctx.controller->set_selected("room_selected", -1);
 	_ctx.controller->go_to(Enums::Screen::INN);
 
 	return 0;

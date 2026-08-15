@@ -40,6 +40,7 @@ struct MenuAction {
 			CLEARCHARACTER,
 			SET_UI_BOOL,
 			CLEAR_UI_BOOL,
+			SET_SELECTED,
 			CUSTOM
 		};
 
@@ -47,11 +48,13 @@ struct MenuAction {
 
 		// Payload
 		Enums::Screen screen{};
-		std::string flag;
-		std::string character_slot;
-		std::size_t ui_index{0};
-		Enums::CharacterSlot character_key;
-		std::string custom_function;
+		std::string flag{};
+		std::string character_slot{};
+		std::size_t ui_index{};
+		Enums::CharacterSlot character_key{};
+		std::string custom_function{};
+		std::string selected_key{};
+		int selected_value{};
 };
 
 using ActionList = std::vector<std::vector<MenuAction>>;
@@ -144,6 +147,43 @@ const ActionList CAMP_ACTIONS{
 	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
 	{{.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
 
+const ActionList REST_ACTIONS{
+	// Stables
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "room_selected",
+	  .selected_value = 0},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+
+	// Cot
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "room_selected",
+	  .selected_value = 1},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+
+	// Economy Rooms
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "room_selected",
+	  .selected_value = 2},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+
+	// Merchant Suites
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "room_selected",
+	  .selected_value = 3},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+
+	// Royal Suite
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "room_selected",
+	  .selected_value = 4},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+
+	// Return
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "room_selected",
+	  .selected_value = -1},
+	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INN}}};
+
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},
 	{"castle_menu", CASTLE_ACTIONS},
@@ -154,7 +194,8 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"store_menu", STORE_ACTIONS},
 	{"temple_menu", TEMPLE_ACTIONS},
 	{"camp_menu", CAMP_ACTIONS},
-	{"edit_menu", EDIT_ACTIONS}
+	{"edit_menu", EDIT_ACTIONS},
+	{"rest_menu", REST_ACTIONS}
 
 };
 #pragma GCC diagnostic pop

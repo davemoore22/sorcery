@@ -1652,17 +1652,9 @@ auto Sorcery::Controller::handle_standard_menu(
 			clear_character(Enums::CharacterSlot::CHOOSE);
 		} else
 			set_character(Enums::CharacterSlot::CHOOSE, data);
-	} else if (component == "rest_menu") {
-
-		// Resting
-		_selected["stay_selected"] = selection;
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::INN);
-		else
-			go_to(Enums::Screen::RECOVERY);
 	} else if (component == "shop_menu") {
 
-		// Resting
+		// Boltacs
 		_selected["store_selected"] = selection;
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::SHOP);
@@ -1724,9 +1716,6 @@ auto Sorcery::Controller::execute_action(
 	const MenuAction &action, int data,
 	std::vector<std::reference_wrapper<bool>> &ui_flags) -> void {
 	switch (action.type) {
-	case MenuAction::Type::GOTOSCREEN:
-		go_to(action.screen);
-		break;
 	case MenuAction::Type::SETFLAG:
 		_flags[action.flag] = true;
 		break;
@@ -1764,12 +1753,15 @@ auto Sorcery::Controller::execute_action(
 		break;
 	case MenuAction::Type::CUSTOM:
 		// Handle custom actions here if needed
-		if (action.custom_function == "handle_pool_gold") {
+		if (action.custom_function == "handle_pool_gold")
 			_game->pool_party_gold(get_character(Enums::CharacterSlot::STORE));
-		}
-
 		break;
-
+	case MenuAction::Type::SET_SELECTED:
+		set_selected(action.selected_key, action.selected_value);
+		break;
+	case MenuAction::Type::GOTOSCREEN:
+		go_to(action.screen);
+		break;
 	default:
 		break;
 	}

@@ -93,6 +93,7 @@ class Controller {
 		auto get_character(const Enums::CharacterSlot flag) const -> int;
 		auto set_character(const Enums::CharacterSlot flag, const int value)
 			-> void;
+		auto set_selected(const std::string &flag, int value) -> void;
 		auto get_flag(const std::string &flag) const -> bool;
 		auto get_flag_ref(const std::string &flag) -> bool &;
 		auto set_flag(const std::string &flag) -> void;
@@ -107,7 +108,6 @@ class Controller {
 		auto get_text(const std::string &flag) const -> const std::string;
 		auto unset_text(const std::string &flag) -> void;
 		auto has_selected(const std::string &flag) const -> bool;
-		auto set_selected(const std::string &flag, const int value) -> void;
 		auto get_selected(const std::string &flag) const -> int;
 		auto unset_selected(const std::string &flag) -> void;
 
