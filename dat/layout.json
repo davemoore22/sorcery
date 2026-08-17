@@ -441,6 +441,20 @@
 					"alpha": "1.0",
 					"colour": "0xffffff",
 					"bg_colour": "0x000000"
+				},
+				{
+					"name": "notice_renamed_ok",
+					"x": "centre",
+					"y": "centre",
+					"w": "30",
+					"h": "7",
+					"font": "monospace",
+					"type": "dialog",
+					"string": "NOTICE_RENAMED_OK",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000"
 				}
 			]
 		},

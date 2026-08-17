@@ -137,6 +137,7 @@ class UI {
 		std::unique_ptr<Dialog> notice_donated_ok;
 		std::unique_ptr<Dialog> notice_not_enough_gold;
 		std::unique_ptr<Dialog> notice_divvy;
+		std::unique_ptr<Dialog> notice_renamed_ok;
 		std::unique_ptr<Dialog> notice_pool_gold;
 		std::unique_ptr<Dialog> dialog_stairs_up;
 		std::unique_ptr<Dialog> dialog_stairs_down;

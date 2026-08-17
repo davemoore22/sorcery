@@ -109,6 +109,7 @@ auto Sorcery::Controller::initialise() -> void {
 			 "want_identify",
 			 "want_equip",
 			 "want_remove",
+			 "want_renamed_ok",
 			 "want_invoke",
 			 "want_spell",
 
@@ -1393,16 +1394,22 @@ auto Sorcery::Controller::handle_input_button_click(
 		}
 	} else if (component == "rename_input_ok") {
 
-		if (data->length() > 0) {
+		if (!data->empty()) {
 
 			auto &character{_game->characters.at(
 				get_character(Enums::CharacterSlot::EDIT))};
+
 			character.set_name(*data);
 
 			_game->save_game();
-			go_to(Enums::Screen::EDIT);
+
+			unset_flag("want_renamed_ok");
+			ui->notice_renamed_ok->show = true;
+
 		} else {
+
 			clear_character(Enums::CharacterSlot::EDIT);
+
 			go_to(Enums::Screen::EDIT);
 		}
 	}

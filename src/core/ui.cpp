@@ -113,6 +113,9 @@ Sorcery::UI::UI(Context &ctx)
 	notice_divvy =
 		std::make_unique<Dialog>(_ctx, components->get("global:notice_divvy"),
 								 Enums::Layout::DialogType::OK);
+	notice_renamed_ok = std::make_unique<Dialog>(
+		_ctx, components->get("global:notice_renamed_ok"),
+		Enums::Layout::DialogType::OK);
 	notice_pool_gold = std::make_unique<Dialog>(
 		_ctx, components->get("global:notice_pool_gold"),
 		Enums::Layout::DialogType::OK);
@@ -588,6 +591,9 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 	if (notice_pool_gold)
 		output.append(
 			get_popup_status((void *)notice_pool_gold.get(), "dialog"));
+	if (notice_renamed_ok)
+		output.append(
+			get_popup_status((void *)notice_renamed_ok.get(), "dialog"));
 
 	return output;
 }
@@ -669,6 +675,7 @@ auto Sorcery::UI::start() -> void {
 	notice_cannot_donate->show = false;
 	notice_not_enough_gold->show = false;
 	notice_pool_gold->show = false;
+	notice_renamed_ok->show = false;
 	input_donate->show = false;
 	input_name->show = false;
 	popup_ouch->show = false;
@@ -3952,6 +3959,7 @@ auto Sorcery::UI::_display_edit() -> void {
 auto Sorcery::UI::_display_rename() -> void {
 	_draw_components("rename");
 	_draw_rename();
+	notice_renamed_ok->display(_ctx.get_flag_ref("want_renamed_ok"));
 	_draw_cursor();
 }
 
@@ -4786,6 +4794,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	add(notice_not_enough_gold);
 	add(notice_divvy);
 	add(notice_pool_gold);
+	add(notice_renamed_ok);
 	add(dialog_stairs_up);
 	add(dialog_stairs_down);
 	add(input_donate);

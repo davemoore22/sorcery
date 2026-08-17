@@ -52,16 +52,16 @@ auto Sorcery::Rename::_initialise() -> bool {
 auto Sorcery::Rename::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::RENAME);
+	_ctx.controller->unset_flag("want_renamed_ok");
 
 	show_immediately();
 
 	_ctx.audio->set_volume(1.0f);
 
-	// Main loop
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
@@ -82,19 +82,23 @@ auto Sorcery::Rename::start() -> int {
 		}
 
 		_ctx.ui->display(Enums::Screen::RENAME, _ctx.game);
+
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::RENAME) &&
-			_ctx.controller->wants(Enums::Screen::EDIT)) {
-			_ctx.game->save_game();
+		if (_ctx.controller->has_flag("want_renamed_ok")) {
+
+			_ctx.controller->unset_flag("want_renamed_ok");
+
 			return BACK_TO_EDIT;
 		}
+
+		if (!_ctx.controller->wants(Enums::Screen::RENAME) &&
+			_ctx.controller->wants(Enums::Screen::EDIT))
+			return BACK_TO_EDIT;
 	}
 
-	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
-
 auto Sorcery::Rename::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::EDIT);
