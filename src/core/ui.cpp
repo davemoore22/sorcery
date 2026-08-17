@@ -2506,7 +2506,7 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
-		auto pos{grid_pos(component->x, component->x)};
+		auto pos{grid_pos(component->x, component->y)};
 		ImGui::SetCursorPos(pos);
 
 		set_Font(fontstore->get_current_font(component->font).value(),

@@ -209,7 +209,7 @@ auto Sorcery::MenuBuilder::_load_retrainable_characters(
 
 	for (const auto &it : sorted) {
 		auto &[id, character] = *it;
-		const auto name{character.get_name_and_status()};
+		const auto name{character.get_name_status_and_loc()};
 		const auto possible_classes{character.get_possible_classes_display()};
 		const auto menu_value{std::format("{} {}", name, possible_classes)};
 		items.emplace_back(menu_value);

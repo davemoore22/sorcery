@@ -495,7 +495,7 @@ auto Sorcery::Character::get_possible_classes_display() -> std::string {
 
 	set_pos_class();
 
-	std::string classes{"        "};
+	std::string classes{"--------"};
 
 	using enum Enums::Character::Class;
 
