@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "modules/edit.hpp"
+#include "training/training.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/audioplayer.hpp"
@@ -34,30 +34,34 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "resources/define.hpp"
+#include "training/create.hpp"
+#include "training/edit.hpp"
+#include "training/roster.hpp"
 #include "types/game.hpp"
 
-Sorcery::Edit::Edit(Context &ctx)
+Sorcery::Training::Training(Context &ctx)
 	: Module{ctx} {
 
 	_initialise();
 
-	//_create = std::make_unique<Create>(_ctx);
-	//_roster = std::make_unique<Roster>(_ctx);
+	_create = std::make_unique<Create>(_ctx);
+	_roster = std::make_unique<Roster>(_ctx);
+	_edit = std::make_unique<Edit>(_ctx);
 };
 
-Sorcery::Edit::~Edit() {}
+Sorcery::Training::~Training() {}
 
-auto Sorcery::Edit::_initialise() -> bool {
+auto Sorcery::Training::_initialise() -> bool {
 
 	return true;
 }
 
-auto Sorcery::Edit::start() -> int {
+auto Sorcery::Training::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::EDIT);
+	_ctx.controller->go_to(Enums::Screen::TRAINING);
 	_ctx.controller->initialise();
 
-	show_immediately();
+	fade_in(Enums::Screen::TRAINING, QUICK_FADE);
 
 	_ctx.audio->set_volume(1.0f);
 
@@ -83,34 +87,45 @@ auto Sorcery::Edit::start() -> int {
 			}
 
 			if (_ctx.controller->check_for_back(event))
-				return BACK_TO_TRAINING_GROUNDS;
+				return BACK_TO_EDGE_OF_TOWN;
 		}
 
-		_ctx.ui->display(Enums::Screen::EDIT, _ctx.game);
-
+		_ctx.ui->display(Enums::Screen::TRAINING, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::EDIT) &&
-			_ctx.controller->wants(Enums::Screen::TRAINING)) {
+		if (!_ctx.controller->wants(Enums::Screen::TRAINING) &&
+			_ctx.controller->wants(Enums::Screen::EDGEOFTOWN)) {
 
-			return BACK_TO_TRAINING_GROUNDS;
+			_ctx.game->save_game();
+
+			return BACK_TO_EDGE_OF_TOWN;
 		}
 
-		// if (_ctx.controller->wants(Enums::Screen::CREATE)) {
-		//	_create->start();
-		//	_create->stop();
-		//
-		//} else if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
-		//_roster->start();
-		//	_roster->stop();
-		//}
+		if (_ctx.controller->wants(Enums::Screen::CREATE)) {
+			const auto result{_create->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+			_create->stop();
+		} else if (_ctx.controller->wants(Enums::Screen::ROSTER)) {
+			const auto result{_roster->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+			_roster->stop();
+		} else if (_ctx.controller->wants(Enums::Screen::EDIT)) {
+			const auto result{_edit->start()};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+			_edit->stop();
+		}
 	}
 
 	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
 
-auto Sorcery::Edit::stop() -> int {
+auto Sorcery::Training::stop() -> int {
+
+	fade_out(Enums::Screen::TRAINING, QUICK_FADE);
 
 	return 0;
 }

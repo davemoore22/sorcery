@@ -36,8 +36,8 @@
 #include "gui/modal.hpp"
 #include "modules/inspect.hpp"
 #include "modules/restart.hpp"
-#include "modules/training.hpp"
 #include "resources/define.hpp"
+#include "training/training.hpp"
 #include "types/game.hpp"
 
 Sorcery::EdgeOfTown::EdgeOfTown(Context &ctx)

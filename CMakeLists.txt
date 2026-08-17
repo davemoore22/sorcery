@@ -146,6 +146,7 @@ include(src/frontend/CMakeLists.txt)
 include(src/gui/CMakeLists.txt)
 include(src/modules/CMakeLists.txt)
 include(src/resources/CMakeLists.txt)
+include(src/training//CMakeLists.txt)
 include(src/types/CMakeLists.txt)
 add_executable(${PROJECT_NAME}
 	src/sorcery.cpp
@@ -209,6 +210,9 @@ target_link_libraries(sorcery_modules PRIVATE
 target_link_libraries(sorcery_resources PRIVATE
 	sorcery_warnings
 	sorcery_options)
+target_link_libraries(sorcery_training PRIVATE
+	sorcery_warnings
+	sorcery_options)
 
 # Link Libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -232,6 +236,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_gui
 	sorcery_modules
 	sorcery_resources
+	sorcery_training
 	sorcery_types
 	sorcery_warnings
 	cereal::cereal
