@@ -228,6 +228,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::EDIT] = [this]() {
 		_display_edit();
 	};
+	_draw_modules[Enums::Screen::RENAME] = [this]() {
+		_display_rename();
+	};
 	_draw_modules[Enums::Screen::AUTOMAP] = [this]() {
 		_display_automap();
 	};
@@ -251,6 +254,9 @@ Sorcery::UI::UI(Context &ctx)
 	};
 	_draw_modules[Enums::Screen::ROSTER] = [this]() {
 		_display_roster();
+	};
+	_draw_modules[Enums::Screen::SELECT] = [this]() {
+		_display_select();
 	};
 	_draw_modules[Enums::Screen::SELL] = [this]() {
 		_display_sell();
@@ -2103,6 +2109,24 @@ auto Sorcery::UI::_draw_create_name([[maybe_unused]] const int mode) -> void {
 	_draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
 }
 
+auto Sorcery::UI::_draw_rename() -> void {
+
+	auto cmp_summary{components->get("rename:summary_text")};
+	auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+	auto summary_text{character.summary_text()};
+	_draw_text(&cmp_summary, summary_text);
+
+	// As next custom component is a text box, focus on that initially
+	if (first_frame) {
+		ImGui::SetKeyboardFocusHere();
+		first_frame = false;
+	}
+
+	auto cmp_name{components->get("rename:rename_input")};
+	_draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
+}
+
 auto Sorcery::UI::_display_create_alignment(const int mode) -> void {
 
 	_draw_components("create_alignment", mode);
@@ -3925,8 +3949,19 @@ auto Sorcery::UI::_display_edit() -> void {
 	_draw_cursor();
 }
 
+auto Sorcery::UI::_display_rename() -> void {
+	_draw_components("rename");
+	_draw_rename();
+	_draw_cursor();
+}
+
 auto Sorcery::UI::_display_roster() -> void {
 	_draw_components("roster");
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_select() -> void {
+	_draw_components("select");
 	_draw_cursor();
 }
 

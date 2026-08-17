@@ -216,6 +216,7 @@ class UI {
 		auto _display_inn() -> void;
 		auto _display_pay() -> void;
 		auto _display_remove() -> void;
+		auto _display_rename() -> void;
 		auto _display_restart() -> void;
 		auto _display_sell() -> void;
 		auto _display_shop() -> void;
@@ -242,6 +243,7 @@ class UI {
 		auto _display_recovery(const int mode) -> void;
 		auto _display_reorder(const int mode) -> void;
 		auto _display_roster() -> void;
+		auto _display_select() -> void;
 
 		auto _display_license(const std::string &string) -> void;
 
@@ -311,6 +313,7 @@ class UI {
 		auto _draw_pay_info() -> void;
 		auto _draw_options() -> void;
 		auto _draw_recovery(const int mode) -> void;
+		auto _draw_rename() -> void;
 		auto _draw_save() -> void;
 		auto _draw_sell() -> void;
 		auto _draw_stay() -> void;

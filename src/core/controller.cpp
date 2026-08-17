@@ -830,6 +830,15 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		} else
 			set_character(Enums::CharacterSlot::INSPECT, data);
 		return true;
+	} else if (component == "select_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character(Enums::CharacterSlot::EDIT);
+			go_to(Enums::Screen::EDIT);
+		} else
+			set_character(Enums::CharacterSlot::EDIT, data);
+		return true;
 	} else if (component == "tithe_menu") {
 
 		// Flags = &_ui->modal_tithe->show, &_ui->input_donate->show,
@@ -1382,6 +1391,20 @@ auto Sorcery::Controller::handle_input_button_click(
 			_game->creation_candidate->set_stage(
 				Enums::Character::Stage::CHOOSE_RACE);
 		}
+	} else if (component == "rename_input_ok") {
+
+		if (data->length() > 0) {
+
+			auto &character{_game->characters.at(
+				get_character(Enums::CharacterSlot::EDIT))};
+			character.set_name(*data);
+
+			_game->save_game();
+			go_to(Enums::Screen::EDIT);
+		} else {
+			clear_character(Enums::CharacterSlot::EDIT);
+			go_to(Enums::Screen::EDIT);
+		}
 	}
 }
 
@@ -1773,11 +1796,11 @@ auto Sorcery::Controller::execute_action(
 
 #pragma GCC diagnostic pop
 
-	case MenuAction::Type::SETCHARACTER:
+	case MenuAction::Type::SET_CHARACTER:
 		set_character(action.character_key, data);
 		break;
 
-	case MenuAction::Type::CLEARCHARACTER:
+	case MenuAction::Type::CLEAR_CHARACTER:
 		clear_character(action.character_key);
 		break;
 	case MenuAction::Type::GO_BACK:

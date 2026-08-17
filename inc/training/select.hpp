@@ -22,80 +22,37 @@
 
 #pragma once
 
-namespace Sorcery::Enums {
+#include "common/define.hpp"
+#include "core/module.hpp"
+#include "types/enum.hpp"
 
-enum class Screen {
-	NONE = 0,
+#include <memory>
 
-	SPLASH,
+namespace Sorcery {
 
-	MAINMENU,
-	OPTIONS,
-	LICENSE,
-	COMPENDIUM,
-	ATLAS,
-	BESTIARY,
-	MUSEUM,
-	SPELLBOOK,
-	CASTLE,
-	EDGEOFTOWN,
-	TAVERN,
-	INN,
-	TEMPLE,
-	SHOP,
-	TRAINING,
-	RESTART,
-	ADD,
-	REMOVE,
+// Forward Declarations
+struct Context;
+class Rename;
 
-	ENGINE,
-	INSPECT,
-	REORDER,
-	AUTOMAP,
-	GRAVEYARD,
+class Select final : public Module {
 
-	STAY,
-	CHOOSE,
-	RECOVERY,
-	LEVELUP,
-	NOLEVELUP,
-	PAY,
-	HEAL,
-	RESULTS,
-	STORE,
-	BUY,
-	SELL,
-	IDENTIFY,
-	UNCURSE,
+	public:
+		// Standard Constructor
+		Select(Context &ctx);
 
-	CREATE,
-	ROSTER,
-	SELECT,
-	EDIT,
-	RECLASS,
-	RENAME,
-	LEGATE,
-	DELETE,
+		// Standard Destructor
+		~Select();
 
-	CREATE_NAME,
-	CREATE_RACE,
-	CREATE_ALIGNMENT,
-	CREATE_CLASS,
-	CREATE_CONFIRM,
+		// Public Methods
+		auto start(const int mode) -> int;
+		auto stop() -> int;
+
+	private:
+		// Private Methods
+		auto _initialise() -> bool;
+
+		// Private Members
+		std::unique_ptr<Rename> _rename;
 };
 
-enum class CharacterSlot {
-	INSPECT,
-	STAY,
-	CHOOSE,
-	HELP,
-	RESTART,
-	STORE,
-	TITHE,
-	PAY,
-	EDIT,
-	LEGATE,
-	DELETE
 };
-
-}

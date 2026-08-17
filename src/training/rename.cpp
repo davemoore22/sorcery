@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "training/edit.hpp"
+#include "training/rename.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/audioplayer.hpp"
@@ -34,31 +34,24 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "resources/define.hpp"
-#include "training/select.hpp"
 #include "types/game.hpp"
 
-Sorcery::Edit::Edit(Context &ctx)
+Sorcery::Rename::Rename(Context &ctx)
 	: Module{ctx} {
 
 	_initialise();
+}
 
-	_select = std::make_unique<Select>(_ctx);
-};
+Sorcery::Rename::~Rename() {}
 
-Sorcery::Edit::~Edit() {}
-
-auto Sorcery::Edit::_initialise() -> bool {
+auto Sorcery::Rename::_initialise() -> bool {
 
 	return true;
 }
 
-auto Sorcery::Edit::start() -> int {
+auto Sorcery::Rename::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::EDIT);
-	_ctx.controller->initialise();
-	_ctx.controller->unset_flag("want_rename");
-	_ctx.controller->unset_flag("want_reclass");
-	_ctx.controller->unset_flag("want_legate");
+	_ctx.controller->go_to(Enums::Screen::RENAME);
 
 	show_immediately();
 
@@ -68,8 +61,7 @@ auto Sorcery::Edit::start() -> int {
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event{};
-
+		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
@@ -86,24 +78,16 @@ auto Sorcery::Edit::start() -> int {
 			}
 
 			if (_ctx.controller->check_for_back(event))
-				return BACK_TO_TRAINING_GROUNDS;
+				return BACK_TO_EDIT;
 		}
 
-		_ctx.ui->display(Enums::Screen::EDIT, _ctx.game);
-
+		_ctx.ui->display(Enums::Screen::RENAME, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::EDIT) &&
-			_ctx.controller->wants(Enums::Screen::TRAINING)) {
-
-			return BACK_TO_TRAINING_GROUNDS;
-		}
-
-		if (_ctx.controller->wants(Enums::Screen::SELECT)) {
-			const auto result{_select->start(EDIT_MODE_RENAME)};
-			_select->stop();
-			if (result == ABORT_GAME)
-				return ABORT_GAME;
+		if (!_ctx.controller->wants(Enums::Screen::RENAME) &&
+			_ctx.controller->wants(Enums::Screen::EDIT)) {
+			_ctx.game->save_game();
+			return BACK_TO_EDIT;
 		}
 	}
 
@@ -111,9 +95,9 @@ auto Sorcery::Edit::start() -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Edit::stop() -> int {
+auto Sorcery::Rename::stop() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::TRAINING);
+	_ctx.controller->go_to(Enums::Screen::EDIT);
 
 	return 0;
 }

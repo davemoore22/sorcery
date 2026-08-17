@@ -54,6 +54,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	  "CAMP_LEAVE"}},
 
 	{"roster_menu", {"ROSTER_RETURN"}},
+	{"select_menu", {"SELECT_RETURN"}},
 	{"choose_menu", {"CHOOSE_RETURN"}},
 	{"remove_character_menu", {"REMOVE_CHARACTER_RETURN"}},
 	{"reorder_menu", {"REORDER_RETURN"}},
@@ -385,6 +386,10 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		_load_party_characters(items, data, flags, reorder);
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "roster_menu") {
+
+		_load_roster_characters(items, data);
+		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "select_menu") {
 
 		_load_roster_characters(items, data);
 		_load_fixed_menu(menu_name, width, items);

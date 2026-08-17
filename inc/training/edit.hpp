@@ -32,8 +32,7 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Create;
-class Roster;
+class Select;
 
 class Edit final : public Module {
 
@@ -53,6 +52,7 @@ class Edit final : public Module {
 		auto _initialise() -> bool;
 
 		// Private Members
+		std::unique_ptr<Select> _select;
 };
 
 };

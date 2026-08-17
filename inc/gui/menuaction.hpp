@@ -36,8 +36,8 @@ struct MenuAction {
 			GO_BACK,
 			SETFLAG,
 			CLEARFLAG,
-			SETCHARACTER,
-			CLEARCHARACTER,
+			SET_CHARACTER,
+			CLEAR_CHARACTER,
 			SET_UI_BOOL,
 			CLEAR_UI_BOOL,
 			SET_SELECTED,
@@ -130,9 +130,12 @@ const ActionList TRAINING_ACTIONS{
 	  .screen = Enums::Screen::EDGEOFTOWN}}};
 
 const ActionList EDIT_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::EDIT}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::EDIT}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::EDIT}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELECT},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_rename"}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELECT},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_reclass"}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELECT},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_legate"}},
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::TRAINING}}};
 
