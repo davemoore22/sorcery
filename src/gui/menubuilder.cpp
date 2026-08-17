@@ -55,6 +55,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 	{"roster_menu", {"ROSTER_RETURN"}},
 	{"select_menu", {"SELECT_RETURN"}},
+	{"retrain_menu", {"RETRAIN_RETURN"}},
 	{"choose_menu", {"CHOOSE_RETURN"}},
 	{"remove_character_menu", {"REMOVE_CHARACTER_RETURN"}},
 	{"reorder_menu", {"REORDER_RETURN"}},
@@ -189,6 +190,29 @@ auto Sorcery::MenuBuilder::_load_roster_characters(
 	for (const auto &it : sorted) {
 		const auto &[id, character] = *it;
 		items.emplace_back(character.get_name_status_and_loc());
+		data.emplace_back(id);
+	}
+}
+
+auto Sorcery::MenuBuilder::_load_retrainable_characters(
+	std::vector<std::string> &items, std::vector<int> &data) -> void {
+
+	// Alphabetically Sort Characters
+	std::vector<decltype(_ctx.game->characters)::iterator> sorted;
+	sorted.reserve(_ctx.game->characters.size());
+	for (auto it = _ctx.game->characters.begin();
+		 it != _ctx.game->characters.end(); ++it)
+		sorted.push_back(it);
+	std::ranges::sort(sorted, {}, [](const auto &it) {
+		return it->second.get_name_and_status();
+	});
+
+	for (const auto &it : sorted) {
+		auto &[id, character] = *it;
+		const auto name{character.get_name_and_status()};
+		const auto possible_classes{character.get_possible_classes_display()};
+		const auto menu_value{std::format("{} {}", name, possible_classes)};
+		items.emplace_back(menu_value);
 		data.emplace_back(id);
 	}
 }
@@ -393,10 +417,14 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 		_load_roster_characters(items, data);
 		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "retrain_menu") {
+
+		_load_retrainable_characters(items, data);
+		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "buy_menu") {
 
-		// No fixed menu for this one, as the items are dynamic and depend on
-		// the store stock, and to leave the screen click on a button.
+		// No fixed menu for this one, as the items are dynamic and depend
+		// on the store stock, and to leave the screen click on a button.
 		_load_buy_menu(width, items, data);
 
 	} else if (menu_name == "reorder_menu") {

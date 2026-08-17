@@ -108,6 +108,8 @@ class Character {
 		auto get_cur_attr() const -> std::map<Enums::Character::Attribute, int>;
 		auto get_attr_ptr(Enums::Character::Attribute attribute) -> int *;
 		auto get_pos_class() const -> std::map<Enums::Character::Class, bool>;
+		auto get_possible_classes_display() -> std::string;
+		auto can_change_class() -> bool;
 		auto get_start_attr() const
 			-> std::map<Enums::Character::Attribute, int>;
 		auto get_points_left() const -> unsigned int;

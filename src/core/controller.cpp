@@ -709,6 +709,15 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			if (gold < item_type.get_value())
 				return true;
 		};
+	} else if (component == "retrain_menu") {
+
+		if (_game == nullptr || data == -1)
+			return false;
+
+		auto &character{_game->characters.at(data)};
+
+		return !character.can_change_class();
+
 	} else if (component == "store_menu") {
 
 		// No gold, can't buy anything
@@ -832,6 +841,15 @@ auto Sorcery::Controller::handle_dynamic_menu(
 			set_character(Enums::CharacterSlot::INSPECT, data);
 		return true;
 	} else if (component == "select_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character(Enums::CharacterSlot::EDIT);
+			go_to(Enums::Screen::EDIT);
+		} else
+			set_character(Enums::CharacterSlot::EDIT, data);
+		return true;
+	} else if (component == "retrain_menu") {
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {

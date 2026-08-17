@@ -48,6 +48,8 @@ class MenuBuilder {
 									bool reorder) -> void;
 		auto _load_roster_characters(std::vector<std::string> &items,
 									 std::vector<int> &data) -> void;
+		auto _load_retrainable_characters(std::vector<std::string> &items,
+										  std::vector<int> &data) -> void;
 		auto _load_tavern_characters(std::vector<std::string> &items,
 									 std::vector<int> &data) -> void;
 		auto _load_maze_characters(std::vector<std::string> &items,

@@ -482,6 +482,47 @@ auto Sorcery::Character::set_pos_class() -> void {
 									 });
 }
 
+auto Sorcery::Character::can_change_class() -> bool {
+
+	set_pos_class();
+
+	return std::ranges::any_of(_pos_classes, [this](const auto &entry) {
+		return entry.first != _class && entry.second;
+	});
+}
+
+auto Sorcery::Character::get_possible_classes_display() -> std::string {
+
+	set_pos_class();
+
+	std::string classes{"        "};
+
+	using enum Enums::Character::Class;
+
+	const auto possible = [&](const auto cls) {
+		return cls != _class && _pos_classes.at(cls);
+	};
+
+	if (possible(FIGHTER))
+		classes[0] = 'F';
+	if (possible(MAGE))
+		classes[1] = 'M';
+	if (possible(PRIEST))
+		classes[2] = 'P';
+	if (possible(THIEF))
+		classes[3] = 'T';
+	if (possible(BISHOP))
+		classes[4] = 'B';
+	if (possible(SAMURAI))
+		classes[5] = 'S';
+	if (possible(LORD))
+		classes[6] = 'L';
+	if (possible(NINJA))
+		classes[7] = 'N';
+
+	return classes;
+}
+
 // Enum to String functions
 auto Sorcery::Character::alignment_to_str(
 	Enums::Character::Align character_alignment) const -> std::string {

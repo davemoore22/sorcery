@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "training/edit.hpp"
+#include "training/retrain.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/audioplayer.hpp"
@@ -34,44 +34,39 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "resources/define.hpp"
-#include "training/retrain.hpp"
-#include "training/select.hpp"
+// #include "training/rename.hpp"
 #include "types/game.hpp"
 
-Sorcery::Edit::Edit(Context &ctx)
+Sorcery::Retrain::Retrain(Context &ctx)
 	: Module{ctx} {
 
 	_initialise();
 
-	_select = std::make_unique<Select>(_ctx);
-	_retrain = std::make_unique<Retrain>(_ctx);
+	//_rename = std::make_unique<Rename>(_ctx);
 };
 
-Sorcery::Edit::~Edit() {}
+Sorcery::Retrain::~Retrain() {}
 
-auto Sorcery::Edit::_initialise() -> bool {
+auto Sorcery::Retrain::_initialise() -> bool {
 
 	return true;
 }
 
-auto Sorcery::Edit::start() -> int {
+auto Sorcery::Retrain::start(const int mode) -> int {
 
-	_ctx.controller->go_to(Enums::Screen::EDIT);
+	_ctx.controller->go_to(Enums::Screen::RETRAIN);
 	_ctx.controller->initialise();
-	_ctx.controller->unset_flag("want_rename");
-	_ctx.controller->unset_flag("want_reclass");
-	_ctx.controller->unset_flag("want_legate");
 
 	show_immediately();
 
 	_ctx.audio->set_volume(1.0f);
+	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
 	// Main loop
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event{};
-
+		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
@@ -88,29 +83,30 @@ auto Sorcery::Edit::start() -> int {
 			}
 
 			if (_ctx.controller->check_for_back(event))
-				return BACK_TO_TRAINING_GROUNDS;
+				return BACK_TO_EDIT;
 		}
 
-		_ctx.ui->display(Enums::Screen::EDIT, _ctx.game);
-
+		_ctx.ui->display(Enums::Screen::RETRAIN, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::EDIT) &&
-			_ctx.controller->wants(Enums::Screen::TRAINING)) {
-
+		if (!_ctx.controller->wants(Enums::Screen::RETRAIN) &&
+			_ctx.controller->wants(Enums::Screen::EDIT)) {
+			_ctx.game->save_game();
+			_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 			return BACK_TO_TRAINING_GROUNDS;
-		}
+		} else if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
+			if (mode == EDIT_MODE_RECLASS) {
 
-		if (_ctx.controller->wants(Enums::Screen::SELECT)) {
-			const auto result{_select->start(EDIT_MODE_RENAME)};
-			_select->stop();
-			if (result == ABORT_GAME)
-				return ABORT_GAME;
-		} else if (_ctx.controller->wants(Enums::Screen::RETRAIN)) {
-			const auto result{_retrain->start(EDIT_MODE_RECLASS)};
-			_retrain->stop();
-			if (result == ABORT_GAME)
-				return ABORT_GAME;
+				// const auto result{_rename->start()};
+				// if (result == ABORT_GAME)
+				//	return ABORT_GAME;
+				//_rename->stop();
+				//_ctx.controller->go_to(Enums::Screen::EDIT);
+				//} else if (mode == EDIT_MODE_RECLASS) {
+				//
+				//} else if (mode == EDIT_MODE_LEGATE) {
+				//}
+			}
 		}
 	}
 
@@ -118,9 +114,9 @@ auto Sorcery::Edit::start() -> int {
 	return ABORT_GAME;
 }
 
-auto Sorcery::Edit::stop() -> int {
+auto Sorcery::Retrain::stop() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::TRAINING);
+	//_ctx.controller->go_to(Enums::Screen::TRAINING);
 
 	return 0;
 }
