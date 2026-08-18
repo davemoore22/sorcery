@@ -75,6 +75,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 	_ctx.controller->initialise();
 	_ctx.controller->set_flag("in_engine");
 	_ctx.controller->go_to(Enums::Screen::ENGINE);
+
 	if (_ctx.game->state->get_party_size() > 0)
 		_ctx.controller->set_character(
 			Enums::CharacterSlot::INSPECT,
@@ -94,7 +95,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
+
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
@@ -109,189 +111,275 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			case ModuleEvent::NONE:
 				break;
 			}
-		}
 
-		// Check for Debug
-		_ctx.controller->check_for_debug(event);
+			if (done)
+				break;
 
-		// Back closes popup first, otherwise opens camp.
-		if (_ctx.controller->check_for_back(event)) {
-			if (_ctx.ui->in_popup()) {
-				_ctx.ui->close_all_popups();
-				_ctx.controller->clear_modal_flags();
-			} else {
-				_ctx.ui->modal_camp->show = true;
-				_ctx.controller->set_flag("want_camp");
-			}
+			// Check for Debug
+			_ctx.controller->check_for_debug(event);
 
-			continue;
-		}
+			// Back closes popup first, otherwise opens camp.
+			if (_ctx.controller->check_for_back(event)) {
 
-		// From here down, no gameplay input while active popup/modal/dialog
-		if (_ctx.ui->in_popup())
-			continue;
+				if (_ctx.ui->in_popup()) {
 
-		if (_ctx.controller->check_for_automap(event)) {
-			const auto result{_automap->start()};
-			_automap->stop();
-			if (result == ABORT_GAME)
-				return ABORT_GAME;
-			fade_in(
-				[this] {
-					_ctx.ui->display_engine();
-				},
-				QUICK_FADE);
-			continue;
-		}
+					_ctx.ui->close_all_popups();
+					_ctx.controller->clear_modal_flags();
 
-		if (_check_for_wipe()) {
-
-			const auto result{_graveyard->start()};
-			_graveyard->stop();
-			if (result == ABORT_GAME)
-				return ABORT_GAME;
-			fade_in(
-				[this] {
-					_ctx.ui->display_engine();
-				},
-				QUICK_FADE);
-
-			const auto party{_ctx.game->state->get_party_characters()};
-			for (auto &[id, character] : _ctx.game->characters) {
-				if (std::find(party.begin(), party.end(), id) != party.end()) {
-					character.set_location(Enums::Character::Location::MAZE);
-					character.set_current_hp(0);
-				}
-			}
-			_ctx.game->state->clear_party();
-			_ctx.game->save_game();
-			return LEAVE_MAZE;
-		}
-
-		auto old_monochrome{_ctx.controller->get_monochrome()};
-		_ctx.controller->check_for_ui_toggle(event);
-		if (old_monochrome != _ctx.controller->get_monochrome())
-			_ctx.ui->set_monochrome(_ctx.controller->get_monochrome());
-
-		if (const auto movement{_ctx.controller->check_for_movement(event)};
-			movement != MOVE_NONE) {
-
-			switch (movement) {
-			case MOVE_FORWARD:
-				_ctx.game->pass_turn();
-				if (auto has_moved{_move_forward()}; !has_moved) {
-
-					// Can't move forwards
 				} else {
 
-					// Move forward
-					_ctx.ui->popup_ouch->show = false;
-					//_ctx.ui->popup_pit->show = false;
-					if (!_tile_explored(_ctx.game->state->get_player_pos()))
-						_set_tile_explored(_ctx.game->state->get_player_pos());
+					_ctx.ui->modal_camp->show = true;
+					_ctx.controller->set_flag("want_camp");
 				}
-				break;
-			case MOVE_BACKWARD:
-				_ctx.game->pass_turn();
-				_ctx.ui->popup_ouch->show = false;
-				//_ctx.ui->popup_pit->show = false;
-				if (auto has_moved{_move_backward()}; !has_moved) {
 
-					// Can't move backwards
-				} else {
-
-					// Move backwards
-					if (!_tile_explored(_ctx.game->state->get_player_pos()))
-						_set_tile_explored(_ctx.game->state->get_player_pos());
-				}
-				break;
-			case MOVE_TURN_LEFT:
-				_ctx.ui->popup_ouch->show = false;
-				_ctx.ui->popup_pit->show = false;
-				_turn_left();
-				_ctx.game->pass_turn();
-				break;
-			case MOVE_TURN_RIGHT:
-				_ctx.ui->popup_ouch->show = false;
-				_ctx.ui->popup_pit->show = false;
-				_turn_right();
-				_ctx.game->pass_turn();
-				break;
-			case MOVE_TURN_AROUND:
-				_ctx.ui->popup_ouch->show = false;
-				_ctx.ui->popup_pit->show = false;
-				_turn_around();
-				_ctx.game->pass_turn();
-				break;
-			default:
-				break;
+				continue;
 			}
-		}
 
-		if (!_ctx.ui->in_popup()) {
-			if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
-				const auto result{_options->start(true)};
-				_options->stop();
+			// From here down, no gameplay input while an active
+			// popup/modal/dialog is displayed.
+			if (_ctx.ui->in_popup())
+				continue;
+
+			// Check for Automap
+			if (_ctx.controller->check_for_automap(event)) {
+
+				const auto result{_automap->start()};
+
+				_automap->stop();
+
 				if (result == ABORT_GAME)
 					return ABORT_GAME;
+
 				fade_in(
 					[this] {
 						_ctx.ui->display_engine();
 					},
 					QUICK_FADE);
-			} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
-				const auto result{_reorder->start(REORDER_MODE_CAMP)};
-				_reorder->stop(REORDER_MODE_CAMP);
+
+				continue;
+			}
+
+			// Check for UI toggle
+			const auto old_monochrome{_ctx.controller->get_monochrome()};
+
+			_ctx.controller->check_for_ui_toggle(event);
+
+			if (old_monochrome != _ctx.controller->get_monochrome())
+				_ctx.ui->set_monochrome(_ctx.controller->get_monochrome());
+
+			// Check for movement
+			if (const auto movement{_ctx.controller->check_for_movement(event)};
+				movement != MOVE_NONE) {
+
+				switch (movement) {
+
+				case MOVE_FORWARD:
+
+					_ctx.game->pass_turn();
+
+					if (const auto has_moved{_move_forward()}; has_moved) {
+
+						_ctx.ui->popup_ouch->show = false;
+						// _ctx.ui->popup_pit->show = false;
+
+						if (!_tile_explored(_ctx.game->state->get_player_pos()))
+							_set_tile_explored(
+								_ctx.game->state->get_player_pos());
+					}
+
+					break;
+
+				case MOVE_BACKWARD:
+
+					_ctx.game->pass_turn();
+
+					_ctx.ui->popup_ouch->show = false;
+					// _ctx.ui->popup_pit->show = false;
+
+					if (const auto has_moved{_move_backward()}; has_moved) {
+
+						if (!_tile_explored(_ctx.game->state->get_player_pos()))
+							_set_tile_explored(
+								_ctx.game->state->get_player_pos());
+					}
+
+					break;
+
+				case MOVE_TURN_LEFT:
+
+					_ctx.ui->popup_ouch->show = false;
+					_ctx.ui->popup_pit->show = false;
+
+					_turn_left();
+					_ctx.game->pass_turn();
+
+					break;
+
+				case MOVE_TURN_RIGHT:
+
+					_ctx.ui->popup_ouch->show = false;
+					_ctx.ui->popup_pit->show = false;
+
+					_turn_right();
+					_ctx.game->pass_turn();
+
+					break;
+
+				case MOVE_TURN_AROUND:
+
+					_ctx.ui->popup_ouch->show = false;
+					_ctx.ui->popup_pit->show = false;
+
+					_turn_around();
+					_ctx.game->pass_turn();
+
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+
+		if (done)
+			break;
+
+		//
+		// Frame/game-state processing
+		//
+		// Popups block gameplay and module transitions, but they MUST NOT
+		// block rendering/ticking.
+		//
+		if (!_ctx.ui->in_popup()) {
+
+			// Check for party wipe
+			if (_check_for_wipe()) {
+
+				const auto result{_graveyard->start()};
+
+				_graveyard->stop();
+
 				if (result == ABORT_GAME)
 					return ABORT_GAME;
+
+				fade_in(
+					[this] {
+						_ctx.ui->display_engine();
+					},
+					QUICK_FADE);
+
+				const auto party{_ctx.game->state->get_party_characters()};
+
+				for (auto &[id, character] : _ctx.game->characters) {
+
+					if (std::find(party.begin(), party.end(), id) !=
+						party.end()) {
+
+						character.set_location(
+							Enums::Character::Location::MAZE);
+
+						character.set_current_hp(0);
+					}
+				}
+
+				_ctx.game->state->clear_party();
+				_ctx.game->save_game();
+
+				return LEAVE_MAZE;
+			}
+
+			// Check for child modules
+			if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
+
+				const auto result{_options->start(true)};
+
+				_options->stop();
+
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
+
+				fade_in(
+					[this] {
+						_ctx.ui->display_engine();
+					},
+					QUICK_FADE);
+
+			} else if (_ctx.controller->wants(Enums::Screen::REORDER)) {
+
+				const auto result{_reorder->start(REORDER_MODE_CAMP)};
+
+				_reorder->stop(REORDER_MODE_CAMP);
+
+				if (result == ABORT_GAME)
+					return ABORT_GAME;
+
 			} else if (_ctx.controller->wants(Enums::Screen::INSPECT)) {
+
 				const auto result{_inspect->start(
 					INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
 					_ctx.game->state->get_party_char(1).value())};
+
 				if (result == ABORT_GAME)
 					return ABORT_GAME;
+
 				_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			}
 
+			// Check for stairs
 			if (_ctx.controller->has_flag("want_take_stairs_up")) {
+
 				if (_ctx.game->state->get_depth() == -1)
 					return _go_back_to_town();
-				else
-					_go_up_a_level();
-			} else if (_ctx.controller->has_flag("want_take_stairs_down"))
+
+				_go_up_a_level();
+
+			} else if (_ctx.controller->has_flag("want_take_stairs_down")) {
+
 				_go_down_a_level();
+			}
 
-			if (_ctx.controller->has_flag("want_quit_expedition") &&
-				!_ctx.ui->modal_camp->show) {
+			// Handle quitting expedition
+			if (_ctx.controller->has_flag("want_quit_expedition")) {
 
-				// Handle quitting expedition
 				auto party{_ctx.game->state->get_party_characters()};
+
 				for (auto &[id, character] : _ctx.game->characters) {
+
 					if (std::find(party.begin(), party.end(), id) !=
 						party.end()) {
+
 						character.set_location(
 							Enums::Character::Location::MAZE);
 					}
 				}
+
 				_ctx.controller->set_busy(true);
 				_ctx.game->save_game();
 				_ctx.controller->set_busy(false);
+
 				_ctx.game->state->clear_party();
+
 				return LEAVE_MAZE;
 			}
 		}
 
+		// Clear completed tile message state
 		if (_ctx.controller->has_flag("after_tile_message") &&
 			!_ctx.ui->message_tile->show) {
+
 			_ctx.controller->unset_flag("after_tile_message");
+
 			_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 		}
 
+		//
+		// ALWAYS render/tick, including while a popup/modal/dialog
+		// is active.
+		//
 		_ctx.ui->display_engine();
 		_ctx.tick();
 	}
 
-	// Exit if we get to here having broken out of the loop
 	return LEAVE_MAZE;
 }
 

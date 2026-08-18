@@ -4789,42 +4789,48 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 
 	std::vector<bool *> states;
 
-	auto add = [&](const auto &ptr) {
-		if (ptr)
+	auto add = [&](const auto &ptr, const std::string_view name) {
+		if (ptr) {
+			DEBUG_LOGF("Popup state: {:<24} {}", name, ptr->show);
 			states.emplace_back(&ptr->show);
+		}
 	};
 
-	add(dialog_exit);
-	add(dialog_new);
-	add(dialog_leave);
-	add(notice_cannot_donate);
-	add(notice_donated_ok);
-	add(notice_not_enough_gold);
-	add(notice_divvy);
-	add(notice_pool_gold);
-	add(notice_renamed_ok);
-	add(dialog_stairs_up);
-	add(dialog_stairs_down);
-	add(input_donate);
-	add(input_name);
-	add(popup_ouch);
-	add(popup_pit);
-	add(modal_camp);
-	add(modal_elevator_top);
-	add(modal_elevator_bottom);
-	add(message_tile);
-	add(modal_inspect);
-	add(modal_help);
-	add(modal_tithe);
-	add(modal_identify);
-	add(modal_equip);
-	add(modal_remove);
-	add(modal_spell);
-	add(modal_drop);
-	add(modal_trade);
-	add(modal_give);
-	add(modal_use);
-	add(modal_invoke);
+#define ADD_POPUP(popup) add(popup, #popup)
+
+	ADD_POPUP(dialog_exit);
+	ADD_POPUP(dialog_new);
+	ADD_POPUP(dialog_leave);
+	ADD_POPUP(notice_cannot_donate);
+	ADD_POPUP(notice_donated_ok);
+	ADD_POPUP(notice_not_enough_gold);
+	ADD_POPUP(notice_divvy);
+	ADD_POPUP(notice_pool_gold);
+	ADD_POPUP(notice_renamed_ok);
+	ADD_POPUP(dialog_stairs_up);
+	ADD_POPUP(dialog_stairs_down);
+	ADD_POPUP(input_donate);
+	ADD_POPUP(input_name);
+	ADD_POPUP(popup_ouch);
+	ADD_POPUP(popup_pit);
+	ADD_POPUP(modal_camp);
+	ADD_POPUP(modal_elevator_top);
+	ADD_POPUP(modal_elevator_bottom);
+	ADD_POPUP(message_tile);
+	ADD_POPUP(modal_inspect);
+	ADD_POPUP(modal_help);
+	ADD_POPUP(modal_tithe);
+	ADD_POPUP(modal_identify);
+	ADD_POPUP(modal_equip);
+	ADD_POPUP(modal_remove);
+	ADD_POPUP(modal_spell);
+	ADD_POPUP(modal_drop);
+	ADD_POPUP(modal_trade);
+	ADD_POPUP(modal_give);
+	ADD_POPUP(modal_use);
+	ADD_POPUP(modal_invoke);
+
+#undef ADD_POPUP
 
 	return states;
 }
