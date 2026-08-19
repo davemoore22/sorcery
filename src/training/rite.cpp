@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "training/retrain.hpp"
+#include "training/rite.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/audioplayer.hpp"
@@ -34,39 +34,33 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "resources/define.hpp"
-#include "training/reclass.hpp"
 #include "types/game.hpp"
 
-Sorcery::Retrain::Retrain(Context &ctx)
+Sorcery::Rite::Rite(Context &ctx)
 	: Module{ctx} {
 
 	_initialise();
+}
 
-	_reclass = std::make_unique<Reclass>(_ctx);
-};
+Sorcery::Rite::~Rite() {}
 
-Sorcery::Retrain::~Retrain() {}
-
-auto Sorcery::Retrain::_initialise() -> bool {
+auto Sorcery::Rite::_initialise() -> bool {
 
 	return true;
 }
 
-auto Sorcery::Retrain::start(const int mode) -> int {
+auto Sorcery::Rite::start() -> int {
 
-	_ctx.controller->go_to(Enums::Screen::RETRAIN);
-	_ctx.controller->initialise();
+	_ctx.controller->go_to(Enums::Screen::RITE);
 
 	show_immediately();
 
 	_ctx.audio->set_volume(1.0f);
-	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
-	// Main loop
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
@@ -86,33 +80,20 @@ auto Sorcery::Retrain::start(const int mode) -> int {
 				return BACK_TO_EDIT;
 		}
 
-		_ctx.ui->display(Enums::Screen::RETRAIN, _ctx.game);
+		_ctx.ui->display(Enums::Screen::RITE, _ctx.game);
+
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::RETRAIN) &&
-			_ctx.controller->wants(Enums::Screen::EDIT)) {
-			_ctx.game->save_game();
-			_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
-			return BACK_TO_TRAINING_GROUNDS;
-		} else if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
-			if (mode == EDIT_MODE_RECLASS) {
-
-				const auto result{_reclass->start()};
-				if (result == ABORT_GAME)
-					return ABORT_GAME;
-				_reclass->stop();
-				_ctx.controller->go_to(Enums::Screen::EDIT);
-			}
-		}
+		if (!_ctx.controller->wants(Enums::Screen::RITE) &&
+			_ctx.controller->wants(Enums::Screen::EDIT))
+			return BACK_TO_EDIT;
 	}
 
-	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
+auto Sorcery::Rite::stop() -> int {
 
-auto Sorcery::Retrain::stop() -> int {
-
-	//_ctx.controller->go_to(Enums::Screen::TRAINING);
+	_ctx.controller->go_to(Enums::Screen::EDIT);
 
 	return 0;
 }

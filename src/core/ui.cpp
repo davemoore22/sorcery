@@ -231,6 +231,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::EDGEOFTOWN] = [this]() {
 		_display_edge_of_town();
 	};
+	_draw_modules[Enums::Screen::RITE] = [this]() {
+		_display_rite();
+	};
 	_draw_modules[Enums::Screen::EDIT] = [this]() {
 		_display_edit();
 	};
@@ -252,6 +255,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::INN] = [this]() {
 		_display_inn();
 	};
+	_draw_modules[Enums::Screen::LEGATE] = [this]() {
+		_display_legate();
+	};
 	_draw_modules[Enums::Screen::PAY] = [this]() {
 		_display_pay();
 	};
@@ -263,6 +269,9 @@ Sorcery::UI::UI(Context &ctx)
 	};
 	_draw_modules[Enums::Screen::RETRAIN] = [this]() {
 		_display_retrain();
+	};
+	_draw_modules[Enums::Screen::RITE] = [this]() {
+		_display_rite();
 	};
 	_draw_modules[Enums::Screen::ROSTER] = [this]() {
 		_display_roster();
@@ -2138,6 +2147,15 @@ auto Sorcery::UI::_draw_reclass() -> void {
 	_draw_text(&cmp_summary, summary_text);
 }
 
+auto Sorcery::UI::_draw_rite() -> void {
+
+	auto cmp_summary{components->get("rite:summary_text")};
+	auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+	auto summary_text{character.summary_text()};
+	_draw_text(&cmp_summary, summary_text);
+}
+
 auto Sorcery::UI::_draw_rename() -> void {
 
 	auto cmp_summary{components->get("rename:summary_text")};
@@ -3975,6 +3993,12 @@ auto Sorcery::UI::_display_edit() -> void {
 	_draw_cursor();
 }
 
+auto Sorcery::UI::_display_rite() -> void {
+	_draw_components("rite");
+	_draw_rite();
+	_draw_cursor();
+}
+
 auto Sorcery::UI::_display_reclass() -> void {
 	_draw_components("change_class");
 	_draw_reclass();
@@ -4001,6 +4025,11 @@ auto Sorcery::UI::_display_select() -> void {
 
 auto Sorcery::UI::_display_retrain() -> void {
 	_draw_components("retrain");
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_legate() -> void {
+	_draw_components("legate");
 	_draw_cursor();
 }
 

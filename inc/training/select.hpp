@@ -24,6 +24,7 @@
 
 #include "common/define.hpp"
 #include "core/module.hpp"
+#include "training/enum.hpp"
 #include "types/enum.hpp"
 
 #include <memory>
@@ -32,7 +33,6 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Rename;
 
 class Select final : public Module {
 
@@ -44,15 +44,13 @@ class Select final : public Module {
 		~Select();
 
 		// Public Methods
-		auto start(const int mode) -> int;
+		auto start(const Enums::Selection::Edit mode) -> int;
 		auto stop() -> int;
 
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
-
-		// Private Members
-		std::unique_ptr<Rename> _rename;
+		auto _screen(Enums::Selection::Edit mode) const -> Enums::Screen;
 };
 
 };

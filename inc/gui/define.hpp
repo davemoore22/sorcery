@@ -122,6 +122,7 @@ inline constexpr auto COMPENDIUM_ATLAS{0};
 inline constexpr auto COMPENDIUM_BESTIARY{1};
 inline constexpr auto COMPENDIUM_MUSEUM{3};
 inline constexpr auto COMPENDIUM_SPELLBOOK{4};
+inline constexpr auto CHARACTER_SELECTED{5};
 
 // Party Menu Mode
 inline constexpr auto NO_FLAGS{0};

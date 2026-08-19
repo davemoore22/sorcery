@@ -216,11 +216,13 @@ class UI {
 		auto _display_edge_of_town() -> void;
 		auto _display_identify() -> void;
 		auto _display_inn() -> void;
+		auto _display_legate() -> void;
 		auto _display_pay() -> void;
 		auto _display_remove() -> void;
 		auto _display_reclass() -> void;
 		auto _display_rename() -> void;
 		auto _display_restart() -> void;
+		auto _display_rite() -> void;
 		auto _display_sell() -> void;
 		auto _display_shop() -> void;
 		auto _display_stay() -> void;
@@ -308,6 +310,7 @@ class UI {
 		auto _draw_level_no_player() -> void;
 		auto _draw_party_wipe() -> void;
 		auto _draw_level_up(const int mode) -> void;
+		auto _draw_rite() -> void;
 		auto _draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz)
 			-> void;
 		auto _draw_menu(Component *component) -> void;

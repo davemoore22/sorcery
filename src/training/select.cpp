@@ -34,15 +34,12 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "resources/define.hpp"
-#include "training/rename.hpp"
 #include "types/game.hpp"
 
 Sorcery::Select::Select(Context &ctx)
 	: Module{ctx} {
 
 	_initialise();
-
-	_rename = std::make_unique<Rename>(_ctx);
 };
 
 Sorcery::Select::~Select() {}
@@ -52,24 +49,41 @@ auto Sorcery::Select::_initialise() -> bool {
 	return true;
 }
 
-auto Sorcery::Select::start(const int mode) -> int {
+auto Sorcery::Select::_screen(Enums::Selection::Edit mode) const
+	-> Enums::Screen {
 
-	_ctx.controller->go_to(Enums::Screen::SELECT);
+	using enum Enums::Selection::Edit;
+
+	switch (mode) {
+	case RENAME:
+		return Enums::Screen::SELECT;
+	case RECLASS:
+		return Enums::Screen::RETRAIN;
+	case LEGATE:
+		return Enums::Screen::LEGATE;
+	}
+
+	return Enums::Screen::EDIT;
+}
+
+auto Sorcery::Select::start(const Enums::Selection::Edit mode) -> int {
+
+	const auto screen{_screen(mode)};
+
+	_ctx.controller->go_to(screen);
 	_ctx.controller->initialise();
-
-	// Note that we do not create any inspect character modals here as the
-	// inspection is read only
 
 	show_immediately();
 
 	_ctx.audio->set_volume(1.0f);
+
 	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
-	// Main loop
 	auto done{false};
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
+
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
@@ -89,36 +103,24 @@ auto Sorcery::Select::start(const int mode) -> int {
 				return BACK_TO_EDIT;
 		}
 
-		_ctx.ui->display(Enums::Screen::SELECT, _ctx.game);
+		_ctx.ui->display(screen, _ctx.game);
+
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::SELECT) &&
-			_ctx.controller->wants(Enums::Screen::EDIT)) {
-			_ctx.game->save_game();
-			_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
-			return BACK_TO_TRAINING_GROUNDS;
-		} else if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
-			if (mode == EDIT_MODE_RENAME) {
+		// Character selected.
+		if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT))
+			return CHARACTER_SELECTED;
 
-				const auto result{_rename->start()};
-				if (result == ABORT_GAME)
-					return ABORT_GAME;
-				_rename->stop();
-				_ctx.controller->go_to(Enums::Screen::EDIT);
-			} else if (mode == EDIT_MODE_RECLASS) {
-
-			} else if (mode == EDIT_MODE_LEGATE) {
-			}
-		}
+		// Return menu item selected.
+		if (!_ctx.controller->wants(screen) &&
+			_ctx.controller->wants(Enums::Screen::EDIT))
+			return BACK_TO_EDIT;
 	}
 
-	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
 
 auto Sorcery::Select::stop() -> int {
-
-	//_ctx.controller->go_to(Enums::Screen::TRAINING);
 
 	return 0;
 }

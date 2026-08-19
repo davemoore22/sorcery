@@ -32,27 +32,22 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Reclass;
 
-class Retrain final : public Module {
+class Rite final : public Module {
 
 	public:
 		// Standard Constructor
-		Retrain(Context &ctx);
+		Rite(Context &ctx);
 
-		// Standard Destructor
-		~Retrain();
+		~Rite();
 
 		// Public Methods
-		auto start(const int mode) -> int;
+		auto start() -> int;
 		auto stop() -> int;
 
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
-
-		// Private Members
-		std::unique_ptr<Reclass> _reclass;
 };
 
 };

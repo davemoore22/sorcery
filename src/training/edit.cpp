@@ -34,7 +34,10 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "resources/define.hpp"
-#include "training/retrain.hpp"
+#include "training/enum.hpp"
+#include "training/reclass.hpp"
+#include "training/rename.hpp"
+#include "training/rite.hpp"
 #include "training/select.hpp"
 #include "types/game.hpp"
 
@@ -44,7 +47,9 @@ Sorcery::Edit::Edit(Context &ctx)
 	_initialise();
 
 	_select = std::make_unique<Select>(_ctx);
-	_retrain = std::make_unique<Retrain>(_ctx);
+	_rename = std::make_unique<Rename>(_ctx);
+	_reclass = std::make_unique<Reclass>(_ctx);
+	_rite = std::make_unique<Rite>(_ctx);
 };
 
 Sorcery::Edit::~Edit() {}
@@ -58,9 +63,6 @@ auto Sorcery::Edit::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::EDIT);
 	_ctx.controller->initialise();
-	_ctx.controller->unset_flag("want_rename");
-	_ctx.controller->unset_flag("want_reclass");
-	_ctx.controller->unset_flag("want_legate");
 
 	show_immediately();
 
@@ -102,15 +104,58 @@ auto Sorcery::Edit::start() -> int {
 		}
 
 		if (_ctx.controller->wants(Enums::Screen::SELECT)) {
-			const auto result{_select->start(EDIT_MODE_RENAME)};
+
+			const auto result{_select->start(Enums::Selection::Edit::RENAME)};
+
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+
+			if (result == CHARACTER_SELECTED) {
+				const auto rename_result{_rename->start()};
+
+				if (rename_result == ABORT_GAME)
+					return ABORT_GAME;
+
+				_rename->stop();
+			}
+
 			_select->stop();
-			if (result == ABORT_GAME)
-				return ABORT_GAME;
+
 		} else if (_ctx.controller->wants(Enums::Screen::RETRAIN)) {
-			const auto result{_retrain->start(EDIT_MODE_RECLASS)};
-			_retrain->stop();
+
+			const auto result{_select->start(Enums::Selection::Edit::RECLASS)};
+
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
+
+			if (result == CHARACTER_SELECTED) {
+				const auto reclass_result{_reclass->start()};
+
+				if (reclass_result == ABORT_GAME)
+					return ABORT_GAME;
+
+				_reclass->stop();
+			}
+
+			_select->stop();
+
+		} else if (_ctx.controller->wants(Enums::Screen::LEGATE)) {
+
+			const auto result{_select->start(Enums::Selection::Edit::LEGATE)};
+
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+
+			if (result == CHARACTER_SELECTED) {
+				const auto rite_result{_rite->start()};
+
+				if (rite_result == ABORT_GAME)
+					return ABORT_GAME;
+
+				_rite->stop();
+			}
+
+			_select->stop();
 		}
 	}
 

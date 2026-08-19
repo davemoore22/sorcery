@@ -130,12 +130,9 @@ const ActionList TRAINING_ACTIONS{
 	  .screen = Enums::Screen::EDGEOFTOWN}}};
 
 const ActionList EDIT_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELECT},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_rename"}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RETRAIN},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_reclass"}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELECT},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_legate"}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELECT}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RETRAIN}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::LEGATE}},
 	{{.type = MenuAction::Type::GOTOSCREEN,
 	  .screen = Enums::Screen::TRAINING}}};
 
