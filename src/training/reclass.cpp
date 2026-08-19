@@ -85,9 +85,9 @@ auto Sorcery::Reclass::start() -> int {
 
 		_ctx.tick();
 
-		if (_ctx.controller->has_flag("want_reclass_ok")) {
+		if (_ctx.controller->has_flag("want_reclassed_ok")) {
 
-			_ctx.controller->unset_flag("want_reclass_ok");
+			_ctx.controller->unset_flag("want_reclassed_ok");
 
 			return BACK_TO_EDIT;
 		}

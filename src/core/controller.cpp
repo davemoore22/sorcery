@@ -831,6 +831,26 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		in_flags[0].get() = false;
 		return true;
+	} else if (component == "change_class_menu") {
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character(Enums::CharacterSlot::EDIT);
+			go_to(Enums::Screen::EDIT);
+		} else {
+
+			auto &character{_game->characters.at(
+				get_character(Enums::CharacterSlot::EDIT))};
+			const auto class_to_change_to{
+				enum_cast<Enums::Character::Class>(data).value()};
+			character.change_class(class_to_change_to);
+
+			_game->save_game();
+
+			unset_flag("want_reclassed_ok");
+			_ctx.ui->notice_reclassed_ok->show = true;
+		}
+
+		return true;
+
 	} else if (component == "roster_menu") {
 
 		// Get the Character ID of the Selected Character and set it
