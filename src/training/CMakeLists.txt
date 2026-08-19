@@ -13,6 +13,7 @@ target_sources(sorcery_training PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/create.cpp
 	${CMAKE_CURRENT_LIST_DIR}/edit.cpp
 	${CMAKE_CURRENT_LIST_DIR}/rename.cpp
+	${CMAKE_CURRENT_LIST_DIR}/reclass.cpp
 	${CMAKE_CURRENT_LIST_DIR}/retrain.cpp
 	${CMAKE_CURRENT_LIST_DIR}/roster.cpp
 	${CMAKE_CURRENT_LIST_DIR}/select.cpp

@@ -116,6 +116,9 @@ Sorcery::UI::UI(Context &ctx)
 	notice_renamed_ok = std::make_unique<Dialog>(
 		_ctx, components->get("global:notice_renamed_ok"),
 		Enums::Layout::DialogType::OK);
+	notice_reclassed_ok = std::make_unique<Dialog>(
+		_ctx, components->get("global:notice_reclassed_ok"),
+		Enums::Layout::DialogType::OK);
 	notice_pool_gold = std::make_unique<Dialog>(
 		_ctx, components->get("global:notice_pool_gold"),
 		Enums::Layout::DialogType::OK);
@@ -233,6 +236,9 @@ Sorcery::UI::UI(Context &ctx)
 	};
 	_draw_modules[Enums::Screen::RENAME] = [this]() {
 		_display_rename();
+	};
+	_draw_modules[Enums::Screen::RECLASS] = [this]() {
+		_display_reclass();
 	};
 	_draw_modules[Enums::Screen::AUTOMAP] = [this]() {
 		_display_automap();
@@ -597,6 +603,9 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 	if (notice_renamed_ok)
 		output.append(
 			get_popup_status((void *)notice_renamed_ok.get(), "dialog"));
+	if (notice_reclassed_ok)
+		output.append(
+			get_popup_status((void *)notice_reclassed_ok.get(), "dialog"));
 
 	return output;
 }
@@ -679,6 +688,7 @@ auto Sorcery::UI::start() -> void {
 	notice_not_enough_gold->show = false;
 	notice_pool_gold->show = false;
 	notice_renamed_ok->show = false;
+	notice_reclassed_ok->show = false;
 	input_donate->show = false;
 	input_name->show = false;
 	popup_ouch->show = false;
@@ -2119,6 +2129,15 @@ auto Sorcery::UI::_draw_create_name([[maybe_unused]] const int mode) -> void {
 	_draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
 }
 
+auto Sorcery::UI::_draw_reclass() -> void {
+
+	auto cmp_summary{components->get("change_class:summary_text")};
+	auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+	auto summary_text{character.summary_text()};
+	_draw_text(&cmp_summary, summary_text);
+}
+
 auto Sorcery::UI::_draw_rename() -> void {
 
 	auto cmp_summary{components->get("rename:summary_text")};
@@ -2549,9 +2568,6 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 			if (disabled)
 				ImGui::EndDisabled();
 		}
-
-		// const auto
-		// classes{_ctx.controller->get_candidate_character()->get_pos_class()};
 
 		pos.x += grid_delta(1, 0).x;
 
@@ -3959,6 +3975,13 @@ auto Sorcery::UI::_display_edit() -> void {
 	_draw_cursor();
 }
 
+auto Sorcery::UI::_display_reclass() -> void {
+	_draw_components("change_class");
+	_draw_reclass();
+	notice_reclassed_ok->display(_ctx.get_flag_ref("want_reclassed_ok"));
+	_draw_cursor();
+}
+
 auto Sorcery::UI::_display_rename() -> void {
 	_draw_components("rename");
 	_draw_rename();
@@ -4807,6 +4830,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(notice_divvy);
 	ADD_POPUP(notice_pool_gold);
 	ADD_POPUP(notice_renamed_ok);
+	ADD_POPUP(notice_reclassed_ok);
 	ADD_POPUP(dialog_stairs_up);
 	ADD_POPUP(dialog_stairs_down);
 	ADD_POPUP(input_donate);

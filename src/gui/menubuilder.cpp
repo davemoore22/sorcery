@@ -93,7 +93,10 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"shop_uncurse_menu", {"SHOP_UNCURSE_RETURN"}},
 
 	{"add_menu", {"ADD_RETURN"}},
+
 	{"restart_menu", {"RESTART_RETURN"}},
+
+	{"change_class_menu", {"CHANGE_CLASS_RETURN"}},
 
 	{"castle_menu",
 	 {"CASTLE_TAVERN", "CASTLE_INN", "CASTLE_SHOP", "CASTLE_TEMPLE",
@@ -409,6 +412,12 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 
 		_load_party_characters(items, data, flags, reorder);
 		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "change_class_menu") {
+
+		_load_possible_classes(menu_name, items, data,
+							   Enums::CharacterSlot::EDIT);
+		_load_fixed_menu(menu_name, width, items);
+
 	} else if (menu_name == "roster_menu") {
 
 		_load_roster_characters(items, data);
@@ -589,6 +598,32 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 		items.emplace_back(std::move(line));
 		data.emplace_back(std::to_underlying(spell.id));
 	}
+}
+
+auto Sorcery::MenuBuilder::_load_possible_classes(
+	std::string_view menu_name, std::vector<std::string> &items,
+	std::vector<int> &data, const Enums::CharacterSlot source) -> void {
+
+	if (!_ctx.game || _ctx.game->characters.empty())
+		return;
+
+	if (!_ctx.controller->has_character(source))
+		return;
+
+	const auto char_id{_ctx.controller->get_character(source)};
+	auto &character{_ctx.game->characters.at(char_id)};
+
+	const auto classes{character.get_pos_class()};
+	for (const auto &[class_name, possible] : classes) {
+		if (possible) {
+
+			auto class_str{enum_name(class_name)};
+
+			auto line{std::format("{:^11}", class_str)};
+			items.emplace_back(std::move(line));
+			data.emplace_back(std::to_underlying(class_name));
+		}
+	};
 }
 
 auto Sorcery::MenuBuilder::_load_character_items(

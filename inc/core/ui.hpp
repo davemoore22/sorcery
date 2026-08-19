@@ -138,6 +138,7 @@ class UI {
 		std::unique_ptr<Dialog> notice_not_enough_gold;
 		std::unique_ptr<Dialog> notice_divvy;
 		std::unique_ptr<Dialog> notice_renamed_ok;
+		std::unique_ptr<Dialog> notice_reclassed_ok;
 		std::unique_ptr<Dialog> notice_pool_gold;
 		std::unique_ptr<Dialog> dialog_stairs_up;
 		std::unique_ptr<Dialog> dialog_stairs_down;
@@ -217,6 +218,7 @@ class UI {
 		auto _display_inn() -> void;
 		auto _display_pay() -> void;
 		auto _display_remove() -> void;
+		auto _display_reclass() -> void;
 		auto _display_rename() -> void;
 		auto _display_restart() -> void;
 		auto _display_sell() -> void;
@@ -295,6 +297,7 @@ class UI {
 		auto _draw_frame(Component *component) -> void;
 		auto _draw_heal(const int stage) -> void;
 		auto _draw_icons() -> void;
+		auto _draw_reclass() -> void;
 		auto _draw_identify() -> void;
 		auto _draw_input(Component *component, std::string *input) -> void;
 		auto _draw_item_info() -> void;

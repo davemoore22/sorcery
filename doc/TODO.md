@@ -1,9 +1,22 @@
 
-# TECHNICAL TODOs
+# TECHNICAL TODOs (18/07/2026)
 
-1. Refactor Handle Menu into Single Method
-2. Change Layout for Sizes of Images to use Relative Positions (Column Widths)
-3. (DONE) Change Temple to use new non-Modal Windows (same as Shop etc)
-4. (DONE) Add Read-Only Inspect mode to allow inspection of characters without the ability to do anything (like in roster)
-5. Make Wireframe Render more efficient.
-6. Set Teleports to allow vision through.
+Rite / Legacy character module
+
+- optional LOST rebirth path
+- Wizardry III-derived legacy transformation
+- alignment handling
+- stat/spell/inventory reset
+- timed/ritual presentation similar in spirit to Heal
+
+Overlay system
+
+- replace the current scattered show flags / modal state checks
+- central overlay lifecycle and input blocking
+- migrate dialogs/modals incrementally
+
+Map / tile handling optimisation
+
+- revisit how levels/maps are stored and loaded
+- clean up the Grid Cartographer JSON peculiarities
+- then optimise tile/event/lookups and rendering-side usage
