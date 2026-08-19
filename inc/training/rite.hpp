@@ -26,12 +26,15 @@
 #include "core/module.hpp"
 #include "types/enum.hpp"
 
+#include <atomic>
+#include <cstdint>
 #include <memory>
 
 namespace Sorcery {
 
 // Forward Declarations
 struct Context;
+class Inspect;
 
 class Rite final : public Module {
 
@@ -47,7 +50,17 @@ class Rite final : public Module {
 
 	private:
 		// Private Methods
-		auto _initialise() -> bool;
-};
+		static auto _callback_rite_tick(std::uint32_t interval, void *param)
+			-> std::uint32_t;
 
+		auto _initialise() -> bool;
+
+		// Private Members
+		std::atomic_int _stage{1};
+		std::atomic_bool _stage_visible{true};
+		std::atomic_bool _rite_ready{false};
+		SDL_TimerID _rite_tick{};
+
+		std::unique_ptr<Inspect> _inspect;
+};
 };

@@ -33,6 +33,7 @@
 #include "core/ui.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
+#include "modules/inspect.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
 
@@ -40,6 +41,8 @@ Sorcery::Rite::Rite(Context &ctx)
 	: Module{ctx} {
 
 	_initialise();
+
+	_inspect = std::make_unique<Inspect>(_ctx);
 }
 
 Sorcery::Rite::~Rite() {}
@@ -55,7 +58,11 @@ auto Sorcery::Rite::start() -> int {
 
 	show_immediately();
 
+	_ctx.controller->unset_flag("want_rite_ok");
+	_ctx.ui->dialog_rite->show = true;
+
 	_ctx.audio->set_volume(1.0f);
+	_stage = 0;
 
 	auto done{false};
 	while (!done) {
@@ -76,24 +83,136 @@ auto Sorcery::Rite::start() -> int {
 				break;
 			}
 
+			if (_ctx.controller->check_for_back(event)) {
+				_ctx.ui->dialog_rite->show = false;
+				_ctx.controller->unset_flag("want_rite_ok");
+				return BACK_TO_EDIT;
+			}
+		}
+		const auto stage{_stage.load()};
+		_ctx.ui->display(Enums::Screen::RITE, stage);
+
+		_ctx.tick();
+
+		// Yes
+		if (_ctx.controller->has_flag("want_rite_ok")) {
+			_ctx.controller->unset_flag("want_rite_ok");
+			break;
+		}
+
+		// No
+		if (!_ctx.ui->dialog_rite->show)
+			return BACK_TO_EDIT;
+	}
+
+	// Rite proper starts here.
+	_stage = 1;
+	_stage_visible = true;
+	_rite_ready = false;
+	_rite_tick = 0;
+
+	_rite_tick = SDL_AddTimer(2000, &Rite::_callback_rite_tick, this);
+
+	while (true) {
+
+		SDL_Event event{};
+
+		while (SDL_PollEvent(&event)) {
+
+			switch (process_event(
+				event,
+				{.menu_key = true, .quicksave = false, .quickload = false})) {
+
+			case ModuleEvent::ABORT:
+				return ABORT_GAME;
+
+			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::NONE:
+				break;
+			}
+
 			if (_ctx.controller->check_for_back(event))
 				return BACK_TO_EDIT;
 		}
 
-		_ctx.ui->display(Enums::Screen::RITE, _ctx.game);
+		const auto stage{_stage_visible.load() ? _stage.load() : 0};
+
+		_ctx.ui->display(Enums::Screen::RITE, stage);
 
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::RITE) &&
-			_ctx.controller->wants(Enums::Screen::EDIT))
+		// Ceremony complete, perform the actual rite on the selected character
+		if (_rite_ready.load()) {
+
+			_rite_tick = 0;
+
+			auto &character{_ctx.game->characters.at(
+				_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+
+			const auto alignment{character.get_alignment()};
+
+			character.legate(alignment);
+
+			_ctx.game->save_game();
+
+			const auto result{_inspect->start(
+				INSPECT_MODE_BASE,
+				_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+			_inspect->stop(INSPECT_MODE_BASE);
+
 			return BACK_TO_EDIT;
+		}
 	}
 
 	return ABORT_GAME;
 }
+
 auto Sorcery::Rite::stop() -> int {
 
+	if (_rite_tick != 0) {
+		SDL_RemoveTimer(_rite_tick);
+		_rite_tick = 0;
+	}
+
+	_ctx.ui->dialog_rite->show = false;
+
+	_ctx.controller->unset_flag("want_rite_ok");
+
 	_ctx.controller->go_to(Enums::Screen::EDIT);
+	;
 
 	return 0;
+}
+
+auto Sorcery::Rite::_callback_rite_tick(std::uint32_t, void *param)
+	-> std::uint32_t {
+
+	auto *rite{static_cast<Rite *>(param)};
+
+	// Current message has finished its two-second display.
+	if (rite->_stage_visible.load()) {
+
+		// Stage 5 is the final message. No trailing blank period;
+		// the Rite can now be applied.
+		if (rite->_stage.load() == 5) {
+
+			rite->_rite_ready = true;
+			return 0;
+		}
+
+		// Half-second blank interval before the next stage.
+		rite->_stage_visible = false;
+
+		return 500;
+	}
+
+	// Blank interval has finished: advance to the next message.
+	++rite->_stage;
+	rite->_stage_visible = true;
+
+	return 2000;
 }

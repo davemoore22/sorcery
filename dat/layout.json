@@ -4141,11 +4141,25 @@
 					]
 				},
 				{
+					"name": "dialog_rite",
+					"x": "centre",
+					"y": "centre",
+					"w": "40",
+					"h": "7",
+					"font": "monospace",
+					"type": "dialog",
+					"string": "DIALOG_RITE",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000"
+				},
+				{
 					"name": "outer_frame",
 					"type": "frame",
 					"x": "centre",
 					"y": "2",
-					"w": "44",
+					"w": "54",
 					"h": "31",
 					"string": "",
 					"drawmode": "automatic",
@@ -4164,7 +4178,7 @@
 					"type": "frame",
 					"x": "centre",
 					"y": "5",
-					"w": "38",
+					"w": "48",
 					"h": "26",
 					"string": "",
 					"drawmode": "automatic",
@@ -4175,7 +4189,7 @@
 				},
 				{
 					"name": "summary_frame",
-					"w": "40",
+					"w": "50",
 					"h": "3",
 					"x": "centre",
 					"y": "5",
@@ -4186,7 +4200,7 @@
 				},
 				{
 					"name": "old_frame",
-					"w": "40",
+					"w": "48",
 					"h": "3",
 					"x": "centre",
 					"y": "28",
@@ -4210,17 +4224,30 @@
 					"drawmode": "manual"
 				},
 				{
-					"name": "prompt_text",
+					"name": "rite_stage",
+					"x": "centre",
+					"y": "12",
+					"font": "monospace",
+					"colour": "0xffffffff",
+					"size": "24",
+					"string": "RITE_TITLE",
+					"justification": "centre",
+					"type": "text",
+					"priority": "3",
+					"drawmode": "manual"
+				},
+				{
+					"name": "progress_text",
 					"x": "centre",
 					"y": "29",
 					"font": "monospace",
 					"colour": "0xffffffff",
 					"size": "24",
-					"string": "RITE_PROMPT",
+					"string": "RITE_PROGRESS",
 					"justification": "centre",
 					"type": "text",
 					"priority": "3",
-					"drawmode": "automatic"
+					"drawmode": "manual"
 				}
 			]
 		},

@@ -3,11 +3,11 @@
 
 Rite / Legacy character module
 
-- optional LOST rebirth path
-- Wizardry III-derived legacy transformation
+- ~~optional LOST rebirth path~~
+- ~~Wizardry III-derived legacy transformation~~
 - alignment handling
-- stat/spell/inventory reset
-- timed/ritual presentation similar in spirit to Heal
+- ~~stat/spell/inventory reset~~
+- ~~timed/ritual presentation similar in spirit to Heal~~
 
 Overlay system
 

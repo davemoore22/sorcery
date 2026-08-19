@@ -110,6 +110,9 @@ Sorcery::UI::UI(Context &ctx)
 	dialog_leave = std::make_unique<Dialog>(
 		_ctx, components->get("main_menu:dialog_leave"),
 		Enums::Layout::DialogType::CONFIRM);
+	dialog_rite =
+		std::make_unique<Dialog>(_ctx, components->get("rite:dialog_rite"),
+								 Enums::Layout::DialogType::CONFIRM);
 	notice_divvy =
 		std::make_unique<Dialog>(_ctx, components->get("global:notice_divvy"),
 								 Enums::Layout::DialogType::OK);
@@ -231,9 +234,6 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::EDGEOFTOWN] = [this]() {
 		_display_edge_of_town();
 	};
-	_draw_modules[Enums::Screen::RITE] = [this]() {
-		_display_rite();
-	};
 	_draw_modules[Enums::Screen::EDIT] = [this]() {
 		_display_edit();
 	};
@@ -269,9 +269,6 @@ Sorcery::UI::UI(Context &ctx)
 	};
 	_draw_modules[Enums::Screen::RETRAIN] = [this]() {
 		_display_retrain();
-	};
-	_draw_modules[Enums::Screen::RITE] = [this]() {
-		_display_rite();
 	};
 	_draw_modules[Enums::Screen::ROSTER] = [this]() {
 		_display_roster();
@@ -326,6 +323,9 @@ Sorcery::UI::UI(Context &ctx)
 
 	_draw_modules_with_int[Enums::Screen::HEAL] = [this](int n) {
 		_display_heal(n);
+	};
+	_draw_modules_with_int[Enums::Screen::RITE] = [this](int n) {
+		_display_rite(n);
 	};
 	_draw_modules_with_int[Enums::Screen::INSPECT] = [this](int n) {
 		_display_inspect(n);
@@ -546,6 +546,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		output.append(get_popup_status((void *)dialog_leave.get(), "dialog"));
 	if (dialog_new)
 		output.append(get_popup_status((void *)dialog_new.get(), "dialog"));
+	if (dialog_rite)
+		output.append(get_popup_status((void *)dialog_rite.get(), "dialog"));
 	if (dialog_stairs_down)
 		output.append(
 			get_popup_status((void *)dialog_stairs_down.get(), "dialog"));
@@ -691,6 +693,7 @@ auto Sorcery::UI::start() -> void {
 	dialog_exit->show = false;
 	dialog_new->show = false;
 	dialog_leave->show = false;
+	dialog_rite->show = false;
 	notice_divvy->show = false;
 	notice_donated_ok->show = false;
 	notice_cannot_donate->show = false;
@@ -2147,15 +2150,6 @@ auto Sorcery::UI::_draw_reclass() -> void {
 	_draw_text(&cmp_summary, summary_text);
 }
 
-auto Sorcery::UI::_draw_rite() -> void {
-
-	auto cmp_summary{components->get("rite:summary_text")};
-	auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
-	auto summary_text{character.summary_text()};
-	_draw_text(&cmp_summary, summary_text);
-}
-
 auto Sorcery::UI::_draw_rename() -> void {
 
 	auto cmp_summary{components->get("rename:summary_text")};
@@ -2292,6 +2286,56 @@ auto Sorcery::UI::_draw_no_level_up(const int mode) -> void {
 		auto leave{components->get("nolevelup:nolevelup_leave")};
 		_draw_button_click(&leave, _ctx.get_flag_ref("show_nolevelup"), true);
 	}
+}
+
+auto Sorcery::UI::_draw_rite(const int stage) -> void {
+
+	auto cmp_summary{components->get("rite:summary_text")};
+	auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+	auto summary_text{character.summary_text()};
+	_draw_text(&cmp_summary, summary_text);
+
+	if (stage == 0)
+		return;
+
+	auto cmp_progress{components->get("rite:progress_text")};
+	auto progress_text{_ctx.get_string("RITE_PROGRESS")};
+
+	auto cmp{components->get("rite:rite_stage")};
+
+	std::string text;
+
+	switch (stage) {
+
+	case 1:
+		text = _ctx.get_string("RITE_STAGE_1");
+		break;
+
+	case 2:
+		text = _ctx.get_string("RITE_STAGE_2");
+		_draw_text(&cmp_progress, progress_text);
+		break;
+
+	case 3:
+		text = _ctx.get_string("RITE_STAGE_3");
+		_draw_text(&cmp_progress, progress_text);
+		break;
+
+	case 4:
+		text = _ctx.get_string("RITE_STAGE_4");
+		_draw_text(&cmp_progress, progress_text);
+		break;
+
+	case 5:
+		text = _ctx.get_string("RITE_STAGE_5");
+		break;
+
+	default:
+		return;
+	}
+
+	_draw_text(&cmp, text);
 }
 
 auto Sorcery::UI::_draw_heal(int stage) -> void {
@@ -2506,7 +2550,7 @@ auto Sorcery::UI::_draw_current_character([[maybe_unused]] const int mode)
 		_draw_button_click(&next, _ctx.get_flag_ref("select_next_character"));
 
 		auto cmp{components->get("inspect:character_data")};
-		auto pos{grid_pos(cmp.x, cmp.x)};
+		auto pos{grid_pos(cmp.x, cmp.y)};
 
 		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 		ImGui::SetCursorPos(pos);
@@ -3993,12 +4037,6 @@ auto Sorcery::UI::_display_edit() -> void {
 	_draw_cursor();
 }
 
-auto Sorcery::UI::_display_rite() -> void {
-	_draw_components("rite");
-	_draw_rite();
-	_draw_cursor();
-}
-
 auto Sorcery::UI::_display_reclass() -> void {
 	_draw_components("change_class");
 	_draw_reclass();
@@ -4203,6 +4241,14 @@ auto Sorcery::UI::_display_heal(int stage) -> void {
 	_draw_heal(stage);
 	_draw_party_panel();
 	_draw_debug();
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_rite(int stage) -> void {
+	_draw_components("rite");
+	if (dialog_rite->show)
+		dialog_rite->display(_ctx.get_flag_ref("want_rite_ok"));
+	_draw_rite(stage);
 	_draw_cursor();
 }
 
@@ -4853,6 +4899,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(dialog_exit);
 	ADD_POPUP(dialog_new);
 	ADD_POPUP(dialog_leave);
+	ADD_POPUP(dialog_rite);
 	ADD_POPUP(notice_cannot_donate);
 	ADD_POPUP(notice_donated_ok);
 	ADD_POPUP(notice_not_enough_gold);

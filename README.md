@@ -4,7 +4,7 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 
 Written using ImGui/SDL2/OpenGL and C++ (**C++26 required**)
 
-**(Updated 11th August 2026)**
+**(Updated 19th August 2026)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
@@ -23,7 +23,6 @@ Written using ImGui/SDL2/OpenGL and C++ (**C++26 required**)
 * ~~Dungeon Features~~ (DONE)
 * ~~Automapping~~ (DONE)
 * ~~Keyboard/Mouse/Gamepad Control~~ (DONE)
-* ~~Context-Sensitive-Help~~ (DONE)
 * ~~Gilgamesh's Tavern~~ (DONE)
 * ~~Adventurer's Inn~~ (DONE)
 * ~~Levelling up/Changing Class~~ (DONE)
@@ -33,15 +32,17 @@ Written using ImGui/SDL2/OpenGL and C++ (**C++26 required**)
 * ~~Compendium~~ (DONE)
 * ~~Music~~ (DONE)
 * ~~Automap~~ (DONE)
+* ~~Character Editing/Legating (DONE)~~I
 * ~~Inventory and Item Manipulation (DONE)~~
 * **Special Item Powers and Handling (DOING)**
 * **Boltac's Equipment Shop (DOING)**
-* **Character Editing/Legating~~ (DOING)**
+* Context-Sensitive-Help (TO DO)
 * Creatures and NPCs (TO DO)
 * Magic and Combat (TO DO)
 * Victory Handling (TO DO)
 * Strict (Legacy) Mode (TO DO)
 * Achivements (TO DO)
+* Enhanced (Optional) Quality-of-Life features (TO DO)
 * Optional Textured/Rendered 3D View (TO DO)
 
 ## Wishlist

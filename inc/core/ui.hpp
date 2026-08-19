@@ -133,6 +133,7 @@ class UI {
 		std::unique_ptr<Dialog> dialog_exit;
 		std::unique_ptr<Dialog> dialog_new;
 		std::unique_ptr<Dialog> dialog_leave;
+		std::unique_ptr<Dialog> dialog_rite;
 		std::unique_ptr<Dialog> notice_cannot_donate;
 		std::unique_ptr<Dialog> notice_donated_ok;
 		std::unique_ptr<Dialog> notice_not_enough_gold;
@@ -222,7 +223,6 @@ class UI {
 		auto _display_reclass() -> void;
 		auto _display_rename() -> void;
 		auto _display_restart() -> void;
-		auto _display_rite() -> void;
 		auto _display_sell() -> void;
 		auto _display_shop() -> void;
 		auto _display_stay() -> void;
@@ -242,6 +242,7 @@ class UI {
 		auto _display_create_class(const int stage) -> void;
 		auto _display_create_confirm(const int stage) -> void;
 		auto _display_heal(const int stage) -> void;
+		auto _display_rite(const int stage) -> void;
 		auto _display_inspect(const int mode) -> void;
 		auto _display_level_up(const int mode) -> void;
 		auto _display_no_level_up(const int mode) -> void;
@@ -298,6 +299,7 @@ class UI {
 										 1.0f, 1.0f, 1.0f, 1.0f}) -> void;
 		auto _draw_frame(Component *component) -> void;
 		auto _draw_heal(const int stage) -> void;
+		auto _draw_rite(const int stage) -> void;
 		auto _draw_icons() -> void;
 		auto _draw_reclass() -> void;
 		auto _draw_identify() -> void;
@@ -310,7 +312,6 @@ class UI {
 		auto _draw_level_no_player() -> void;
 		auto _draw_party_wipe() -> void;
 		auto _draw_level_up(const int mode) -> void;
-		auto _draw_rite() -> void;
 		auto _draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz)
 			-> void;
 		auto _draw_menu(Component *component) -> void;
