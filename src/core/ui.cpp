@@ -433,7 +433,7 @@ auto Sorcery::UI::update_grid_metrics(const DisplayMetrics &metrics) noexcept
 // the beginning as part of the Form/Module create
 auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
 
-	DEBUG_LOGF("Creating Dynamic Modal: {}", name);
+	// DEBUG_LOGF("Creating Dynamic Modal: {}", name);
 
 	if (name == "modal_inspect") {
 		if (modal_inspect.get())
@@ -4905,7 +4905,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 
 	auto add = [&](const auto &ptr, const std::string_view name) {
 		if (ptr) {
-			DEBUG_LOGF("Popup state: {:<24} {}", name, ptr->show);
+			// DEBUG_LOGF("Popup state: {:<24} {}", name, ptr->show);
 			states.emplace_back(&ptr->show);
 		}
 	};

@@ -79,6 +79,17 @@ class Engine final : public Module {
 		auto _pit_oops() -> void;
 		auto _check_for_wipe() const -> bool;
 
+		[[nodiscard]] auto
+		_movement_destination(Coordinate origin,
+							  Enums::Map::Direction direction) const
+			-> Coordinate;
+		[[nodiscard]] auto
+		_opposite_direction(Enums::Map::Direction direction) const
+			-> Enums::Map::Direction;
+		auto _move_player_to(Coordinate destination) -> void;
+
+		auto _take_elevator(int depth) -> void;
+
 		// Private Members
 		Application *_application;
 

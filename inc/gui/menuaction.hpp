@@ -180,6 +180,84 @@ const ActionList REST_ACTIONS{
 	  .selected_value = -1},
 	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INN}}};
 
+const ActionList TOP_ELEVATOR_ACTIONS{
+	// A - B1F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -1},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// B - B2F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -2},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// C - B3F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -3},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// D - B4F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -4},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// Leave
+	{{.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
+
+const ActionList BOTTOM_ELEVATOR_ACTIONS{
+	// A - B4F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -4},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// B - B5F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -5},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// C - B6F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -6},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// D - B7F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -7},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// E - B8F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -8},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// F - B9F
+	{{.type = MenuAction::Type::SET_SELECTED,
+	  .selected_key = "elevator_selected",
+	  .selected_value = -9},
+	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
+	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+
+	// Leave
+	{{.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
+
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},
 	{"castle_menu", CASTLE_ACTIONS},
@@ -191,6 +269,8 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"temple_menu", TEMPLE_ACTIONS},
 	{"camp_menu", CAMP_ACTIONS},
 	{"edit_menu", EDIT_ACTIONS},
+	{"top_elevator_menu", TOP_ELEVATOR_ACTIONS},
+	{"bottom_elevator_menu", BOTTOM_ELEVATOR_ACTIONS},
 	{"rest_menu", REST_ACTIONS}
 
 };
