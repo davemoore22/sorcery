@@ -90,6 +90,8 @@ class Engine final : public Module {
 
 		auto _take_elevator(int depth) -> void;
 
+		auto _handle_completed_tile_event() -> std::optional<int>;
+
 		// Private Members
 		Application *_application;
 

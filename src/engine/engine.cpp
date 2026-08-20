@@ -380,7 +380,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 			_ctx.controller->unset_flag("after_tile_message");
 
-			_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+			if (const auto result{_handle_completed_tile_event()})
+				return *result;
 		}
 
 		//
@@ -1016,4 +1017,32 @@ auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 	_go_to_location(depth, loc, facing);
 
 	_ctx.controller->set_can_undo(false);
+}
+
+auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
+
+	const auto event_type{_ctx.controller->get_last_event()};
+
+	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
+	if (event_type == Enums::Map::Event::NO_EVENT)
+		return std::nullopt;
+
+	const auto event{_ctx.game->get_event(event_type)};
+
+	if (event.go_town_after)
+		return _go_back_to_town();
+
+	if (event.go_back_after)
+		_move_backward();
+
+	if (event.combat_after) {
+		// start encounter
+	}
+
+	if (event.search_after) {
+		// perform/search event
+	}
+
+	return std::nullopt;
 }
