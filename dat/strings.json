@@ -307,6 +307,8 @@
 	"ROSTER_RETURN": "<Return>",
 	"CHOOSE_RETURN": "<Return>",
 	"CHOOSE_TITLE": "Choose",
+	"DELETE_RETURN": "<Return>",
+	"DELETE_TITLE": "Delete Character",
 	"CHOOSE_STAY": "Who will stay at the Inn?",
 	"NOTICE_DIVVY_GOLD": "Done!",
 	"NOTICE_POOL_GOLD": "Done!",

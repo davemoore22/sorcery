@@ -246,6 +246,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::AUTOMAP] = [this]() {
 		_display_automap();
 	};
+	_draw_modules[Enums::Screen::DELETE] = [this]() {
+		_display_delete();
+	};
 	_draw_modules[Enums::Screen::GRAVEYARD] = [this]() {
 		_display_graveyard();
 	};
@@ -4063,6 +4066,11 @@ auto Sorcery::UI::_display_select() -> void {
 
 auto Sorcery::UI::_display_retrain() -> void {
 	_draw_components("retrain");
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_delete() -> void {
+	_draw_components("delete");
 	_draw_cursor();
 }
 

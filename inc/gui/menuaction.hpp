@@ -97,14 +97,10 @@ const ActionList EDGE_ACTIONS{
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
 
 const ActionList STORE_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::BUY}}, // Buy
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::SELL}}, // Sell
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::UNCURSE}}, // Uncurse
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::IDENTIFY}}, // Identify
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::BUY}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELL}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::UNCURSE}},
+	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::IDENTIFY}},
 	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
 	 {.type = MenuAction::Type::CUSTOM, .custom_function = "handle_pool_gold"}},
 	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}}};

@@ -32,19 +32,14 @@ namespace Sorcery {
 
 // Forward Declarations
 struct Context;
-class Create;
-class Roster;
-class Edit;
-class Delete;
 
-class Training final : public Module {
+class Delete final : public Module {
 
 	public:
 		// Standard Constructor
-		Training(Context &ctx);
+		Delete(Context &ctx);
 
-		// Standard Destructor
-		~Training();
+		~Delete();
 
 		// Public Methods
 		auto start() -> int;
@@ -53,12 +48,6 @@ class Training final : public Module {
 	private:
 		// Private Methods
 		auto _initialise() -> bool;
-
-		// Private Members
-		std::unique_ptr<Create> _create;
-		std::unique_ptr<Roster> _roster;
-		std::unique_ptr<Edit> _edit;
-		std::unique_ptr<Delete> _delete;
 };
 
 };

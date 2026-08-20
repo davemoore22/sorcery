@@ -5438,6 +5438,81 @@
 			]
 		},
 		{
+			"name": "delete",
+			"component": [
+				{
+					"name": "background_image",
+					"x": "0",
+					"y": "0",
+					"type": "image_bg",
+					"drawmode": "automatic",
+					"priority": "0",
+					"alpha": "1.0",
+					"data": [
+						{
+							"source": "backgrounds.tga",
+							"scale": "0.7"
+						}
+					]
+				},
+				{
+					"name": "outer_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "2",
+					"w": "60",
+					"h": "31",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "1",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0",
+					"data": [
+						{
+							"title": "DELETE_TITLE"
+						}
+					]
+				},
+				{
+					"name": "menu_frame",
+					"type": "frame",
+					"x": "centre",
+					"y": "6",
+					"w": "58",
+					"h": "25",
+					"string": "",
+					"drawmode": "automatic",
+					"priority": "2",
+					"colour": "0xffffffff",
+					"bg_colour": "0x000000",
+					"alpha": "1.0"
+				},
+				{
+					"name": "delete_menu",
+					"x": "centre",
+					"y": "7",
+					"w": "56",
+					"h": "18",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "automatic",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "56",
+							"height": "18",
+							"menu_name": "delete_menu",
+							"highlight": "0x6060c8"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "legate",
 			"component": [
 				{

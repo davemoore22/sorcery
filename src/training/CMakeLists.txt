@@ -11,6 +11,7 @@ target_link_libraries(sorcery_training PUBLIC
 
 target_sources(sorcery_training PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/create.cpp
+	${CMAKE_CURRENT_LIST_DIR}/delete.cpp
 	${CMAKE_CURRENT_LIST_DIR}/edit.cpp
 	${CMAKE_CURRENT_LIST_DIR}/rite.cpp
 	${CMAKE_CURRENT_LIST_DIR}/rename.cpp

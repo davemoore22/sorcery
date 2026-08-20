@@ -241,6 +241,7 @@ class UI {
 		auto _display_create_alignment(const int stage) -> void;
 		auto _display_create_class(const int stage) -> void;
 		auto _display_create_confirm(const int stage) -> void;
+		auto _display_delete() -> void;
 		auto _display_heal(const int stage) -> void;
 		auto _display_rite(const int stage) -> void;
 		auto _display_inspect(const int mode) -> void;

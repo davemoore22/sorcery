@@ -417,11 +417,10 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		_load_possible_classes(menu_name, items, data,
 							   Enums::CharacterSlot::EDIT);
 		_load_fixed_menu(menu_name, width, items);
-	} else if (menu_name == "roster_menu") {
+	} else if (menu_name == "roster_menu" || menu_name == "delete_menu") {
 		_load_roster_characters(items, data);
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "select_menu") {
-
 		_load_roster_characters(items, data);
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "retrain_menu") {
