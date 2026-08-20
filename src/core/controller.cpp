@@ -860,6 +860,20 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		return true;
 
+	} else if (component == "delete_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			clear_character(Enums::CharacterSlot::EDIT);
+
+			go_to(Enums::Screen::TRAINING);
+
+		} else {
+
+			set_character(Enums::CharacterSlot::EDIT, data);
+		}
+
+		return true;
 	} else if (component == "roster_menu") {
 
 		// Get the Character ID of the Selected Character and set it

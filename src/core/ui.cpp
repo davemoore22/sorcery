@@ -113,6 +113,9 @@ Sorcery::UI::UI(Context &ctx)
 	dialog_rite =
 		std::make_unique<Dialog>(_ctx, components->get("rite:dialog_rite"),
 								 Enums::Layout::DialogType::CONFIRM);
+	dialog_delete =
+		std::make_unique<Dialog>(_ctx, components->get("delete:dialog_delete"),
+								 Enums::Layout::DialogType::CONFIRM);
 	notice_divvy =
 		std::make_unique<Dialog>(_ctx, components->get("global:notice_divvy"),
 								 Enums::Layout::DialogType::OK);
@@ -551,6 +554,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		output.append(get_popup_status((void *)dialog_new.get(), "dialog"));
 	if (dialog_rite)
 		output.append(get_popup_status((void *)dialog_rite.get(), "dialog"));
+	if (dialog_delete)
+		output.append(get_popup_status((void *)dialog_delete.get(), "dialog"));
 	if (dialog_stairs_down)
 		output.append(
 			get_popup_status((void *)dialog_stairs_down.get(), "dialog"));
@@ -697,6 +702,7 @@ auto Sorcery::UI::start() -> void {
 	dialog_new->show = false;
 	dialog_leave->show = false;
 	dialog_rite->show = false;
+	dialog_delete->show = false;
 	notice_divvy->show = false;
 	notice_donated_ok->show = false;
 	notice_cannot_donate->show = false;
@@ -4071,6 +4077,8 @@ auto Sorcery::UI::_display_retrain() -> void {
 
 auto Sorcery::UI::_display_delete() -> void {
 	_draw_components("delete");
+	if (dialog_delete->show)
+		dialog_delete->display(_ctx.get_flag_ref("want_delete_ok"));
 	_draw_cursor();
 }
 
@@ -4908,6 +4916,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(dialog_new);
 	ADD_POPUP(dialog_leave);
 	ADD_POPUP(dialog_rite);
+	ADD_POPUP(dialog_delete);
 	ADD_POPUP(notice_cannot_donate);
 	ADD_POPUP(notice_donated_ok);
 	ADD_POPUP(notice_not_enough_gold);

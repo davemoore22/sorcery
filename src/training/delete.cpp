@@ -56,16 +56,23 @@ auto Sorcery::Delete::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::DELETE);
 	_ctx.controller->initialise();
 
+	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
+
+	_ctx.controller->unset_flag("want_delete_ok");
+
+	_ctx.ui->dialog_delete->show = false;
+
 	show_immediately();
 
 	_ctx.audio->set_volume(1.0f);
-	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
-	// Main loop
 	auto done{false};
+	auto confirming{false};
+
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
+
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
@@ -81,31 +88,77 @@ auto Sorcery::Delete::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
-				return BACK_TO_TRAINING_GROUNDS;
+			if (_ctx.controller->check_for_back(event)) {
+
+				if (confirming) {
+
+					_ctx.ui->dialog_delete->show = false;
+
+					_ctx.controller->unset_flag("want_delete_ok");
+
+					_ctx.controller->clear_character(
+						Enums::CharacterSlot::EDIT);
+
+					confirming = false;
+
+				} else {
+
+					return BACK_TO_TRAINING_GROUNDS;
+				}
+			}
 		}
 
 		_ctx.ui->display(Enums::Screen::DELETE, _ctx.game);
+
 		_ctx.tick();
 
+		// Return selected from the menu.
 		if (!_ctx.controller->wants(Enums::Screen::DELETE) &&
-			_ctx.controller->wants(Enums::Screen::EDIT)) {
-			_ctx.game->save_game();
-			return BACK_TO_EDIT;
-		} else if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
-			// Handle Deletion
-			// const auto result{_inspect->start(
-			//	INSPECT_MODE_BASE,
-			//	_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
-			// if (result == ABORT_GAME)
-			//	return ABORT_GAME;
-			//_inspect->stop(INSPECT_MODE_BASE);
-			_ctx.controller->go_to(Enums::Screen::EDIT);
-			_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
+			_ctx.controller->wants(Enums::Screen::TRAINING))
+			return BACK_TO_TRAINING_GROUNDS;
+
+		// A character has just been selected: open confirmation.
+		if (!confirming &&
+			_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
+
+			_ctx.controller->unset_flag("want_delete_ok");
+
+			_ctx.ui->dialog_delete->show = true;
+
+			confirming = true;
+
+			continue;
+		}
+
+		if (confirming) {
+
+			// Yes
+			if (_ctx.controller->has_flag("want_delete_ok")) {
+
+				_ctx.controller->unset_flag("want_delete_ok");
+
+				_ctx.ui->dialog_delete->show = false;
+
+				_ctx.game->delete_character(
+					_ctx.controller->get_character(Enums::CharacterSlot::EDIT));
+
+				_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
+
+				_ctx.controller->go_to(Enums::Screen::TRAINING);
+
+				return BACK_TO_TRAINING_GROUNDS;
+			}
+
+			// No
+			if (!_ctx.ui->dialog_delete->show) {
+
+				_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
+
+				confirming = false;
+			}
 		}
 	}
 
-	// Exit if we get to here having broken out of the loop
 	return ABORT_GAME;
 }
 

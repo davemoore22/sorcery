@@ -5456,6 +5456,20 @@
 					]
 				},
 				{
+					"name": "dialog_delete",
+					"x": "centre",
+					"y": "centre",
+					"w": "40",
+					"h": "7",
+					"font": "monospace",
+					"type": "dialog",
+					"string": "DIALOG_DELETE",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000"
+				},
+				{
 					"name": "outer_frame",
 					"type": "frame",
 					"x": "centre",

@@ -295,6 +295,13 @@ auto Sorcery::Game::restart_maze(unsigned int char_id) -> void {
 
 auto Sorcery::Game::delete_character(unsigned int char_id) -> void {
 
+	if (!characters.contains(char_id))
+		return;
+
+	characters.erase(char_id);
+
+	save_game();
+
 	_ctx.saves->delete_character(_id, char_id);
 }
 

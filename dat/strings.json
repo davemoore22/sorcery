@@ -15,6 +15,7 @@
 	"DIALOG_NEW_GAME": "Are you sure you want to start a new game?",
 	"DIALOG_LEAVE_GAME": "Are you sure you want to leave this game?",
 	"DIALOG_RITE": "Are you sure? Legating cannot be undone!",
+	"DIALOG_DELETE": "Are you sure? Deleting cannot be undone!",
 	"DIALOG_YES": "Yes",
 	"DIALOG_NO": "No",
 	"DIALOG_SAVE": "Save",
