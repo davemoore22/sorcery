@@ -113,6 +113,9 @@ Sorcery::UI::UI(Context &ctx)
 	dialog_rite =
 		std::make_unique<Dialog>(_ctx, components->get("rite:dialog_rite"),
 								 Enums::Layout::DialogType::CONFIRM);
+	dialog_search = std::make_unique<Dialog>(
+		_ctx, components->get("engine_base_ui:dialog_search"),
+		Enums::Layout::DialogType::CONFIRM);
 	dialog_delete =
 		std::make_unique<Dialog>(_ctx, components->get("delete:dialog_delete"),
 								 Enums::Layout::DialogType::CONFIRM);
@@ -554,6 +557,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		output.append(get_popup_status((void *)dialog_new.get(), "dialog"));
 	if (dialog_rite)
 		output.append(get_popup_status((void *)dialog_rite.get(), "dialog"));
+	if (dialog_search)
+		output.append(get_popup_status((void *)dialog_search.get(), "dialog"));
 	if (dialog_delete)
 		output.append(get_popup_status((void *)dialog_delete.get(), "dialog"));
 	if (dialog_stairs_down)
@@ -702,6 +707,7 @@ auto Sorcery::UI::start() -> void {
 	dialog_new->show = false;
 	dialog_leave->show = false;
 	dialog_rite->show = false;
+	dialog_search->show = false;
 	dialog_delete->show = false;
 	notice_divvy->show = false;
 	notice_donated_ok->show = false;
@@ -786,6 +792,8 @@ auto Sorcery::UI::display_engine() -> void {
 			_ctx.get_flag_ref("want_elevator_bottom"));
 	if (modal_inspect->show)
 		modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+	if (dialog_search->show)
+		dialog_search->display(_ctx.get_flag_ref("want_search"));
 	if (modal_identify->show)
 		modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	if (modal_equip->show)
@@ -3143,13 +3151,13 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 				"GAME_MESSAGE_MAN_TELEPORT_CASTLE_5",
 				"GAME_MESSAGE_MAN_TELEPORT_CASTLE_6"};
 		break;
-	case SILVER_KEY:
+	case OBTAIN_SILVER_KEY:
 		return {"GAME_MESSAGE_SILVER_KEY_1", "GAME_MESSAGE_SILVER_KEY_2",
 				"GAME_MESSAGE_SILVER_KEY_3", "GAME_MESSAGE_SILVER_KEY_4",
 				"GAME_MESSAGE_SILVER_KEY_5", "GAME_MESSAGE_SILVER_KEY_6",
 				"GAME_MESSAGE_SILVER_KEY_7", "GAME_MESSAGE_SILVER_KEY_8"};
 		break;
-	case BRONZE_KEY:
+	case OBTAIN_BRONZE_KEY:
 		return {"GAME_MESSAGE_BRONZE_KEY_1", "GAME_MESSAGE_BRONZE_KEY_2",
 				"GAME_MESSAGE_BRONZE_KEY_3", "GAME_MESSAGE_BRONZE_KEY_4",
 				"GAME_MESSAGE_BRONZE_KEY_5", "GAME_MESSAGE_BRONZE_KEY_6"};
@@ -3160,15 +3168,15 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 			"GAME_MESSAGE_MURPHYS_GHOSTS_3", "GAME_MESSAGE_MURPHYS_GHOSTS_4",
 			"GAME_MESSAGE_MURPHYS_GHOSTS_5"};
 		break;
-	case BEAR_STATUE:
+	case OBTAIN_BEAR_STATUE:
 		return {"GAME_MESSAGE_BEAR_STATUE_1", "GAME_MESSAGE_BEAR_STATUE_2",
 				"GAME_MESSAGE_BEAR_STATUE_3"};
 		break;
-	case FROG_STATUE:
+	case OBTAIN_FROG_STATUE:
 		return {"GAME_MESSAGE_FROG_STATUE_1", "GAME_MESSAGE_FROG_STATUE_2",
 				"GAME_MESSAGE_FROG_STATUE_3", "GAME_MESSAGE_FROG_STATUE_4"};
 		break;
-	case GOLD_KEY:
+	case OBTAIN_GOLD_KEY:
 		return {"GAME_MESSAGE_GOLD_KEY_1", "GAME_MESSAGE_GOLD_KEY_2",
 				"GAME_MESSAGE_GOLD_KEY_3", "GAME_MESSAGE_GOLD_KEY_4",
 				"GAME_MESSAGE_GOLD_KEY_5", "GAME_MESSAGE_GOLD_KEY_6"};
@@ -4916,6 +4924,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(dialog_new);
 	ADD_POPUP(dialog_leave);
 	ADD_POPUP(dialog_rite);
+	ADD_POPUP(dialog_search);
 	ADD_POPUP(dialog_delete);
 	ADD_POPUP(notice_cannot_donate);
 	ADD_POPUP(notice_donated_ok);

@@ -260,12 +260,12 @@ auto Sorcery::Level::_add_event_mappings() -> void {
 	_event_mappings["AREA_OUT_OF_BOUNDS"] = AREA_OF_OUT_BOUNDS;
 
 	_event_mappings["MAN_TELEPORT_CASTLE"] = MAN_TELEPORT_CASTLE;
-	_event_mappings["SILVER_KEY"] = SILVER_KEY;
-	_event_mappings["BRONZE_KEY"] = BRONZE_KEY;
+	_event_mappings["SILVER_KEY"] = OBTAIN_SILVER_KEY;
+	_event_mappings["BRONZE_KEY"] = OBTAIN_BRONZE_KEY;
 	_event_mappings["MURPHYS_GHOSTS"] = MURPHYS_GHOSTS;
-	_event_mappings["BEAR_STATUE"] = BEAR_STATUE;
-	_event_mappings["FROG_STATUE"] = FROG_STATUE;
-	_event_mappings["GOLD_KEY"] = GOLD_KEY;
+	_event_mappings["BEAR_STATUE"] = OBTAIN_BEAR_STATUE;
+	_event_mappings["FROG_STATUE"] = OBTAIN_FROG_STATUE;
+	_event_mappings["GOLD_KEY"] = OBTAIN_GOLD_KEY;
 	_event_mappings["NEED_SILVER_KEY"] = NEED_SILVER_KEY;
 	_event_mappings["NEED_BRONZE_KEY"] = NEED_BRONZE_KEY;
 	_event_mappings["NEED_BEAR_STATUE"] = NEED_BEAR_STATUE;

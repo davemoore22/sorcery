@@ -92,6 +92,8 @@ class Engine final : public Module {
 
 		auto _handle_completed_tile_event() -> std::optional<int>;
 
+		auto _search_event() -> void;
+
 		// Private Members
 		Application *_application;
 

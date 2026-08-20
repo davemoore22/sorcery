@@ -135,6 +135,7 @@ class UI {
 		std::unique_ptr<Dialog> dialog_leave;
 		std::unique_ptr<Dialog> dialog_rite;
 		std::unique_ptr<Dialog> dialog_delete;
+		std::unique_ptr<Dialog> dialog_search;
 		std::unique_ptr<Dialog> notice_cannot_donate;
 		std::unique_ptr<Dialog> notice_donated_ok;
 		std::unique_ptr<Dialog> notice_not_enough_gold;

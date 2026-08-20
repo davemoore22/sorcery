@@ -42,8 +42,10 @@
 #include "modules/reorder.hpp"
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
+#include "resources/itemstore.hpp"
 #include "resources/levelstore.hpp"
 #include "types/game.hpp"
+#include "types/meta.hpp"
 #include "types/state.hpp"
 
 #include <algorithm>
@@ -347,6 +349,26 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				_take_elevator(depth);
 
 				_ctx.controller->unset_flag("want_take_elevator");
+			}
+
+			// Handle event search result
+			if (_ctx.controller->has_flag("after_event_search") &&
+				!_ctx.ui->dialog_search->show) {
+
+				_ctx.controller->unset_flag("after_event_search");
+
+				if (_ctx.controller->has_flag("want_search")) {
+
+					_ctx.controller->unset_flag("want_search");
+
+					_search_event();
+
+				} else {
+
+					// Player selected No
+					_ctx.controller->set_last_event(
+						Enums::Map::Event::NO_EVENT);
+				}
 			}
 
 			// Handle quitting expedition
@@ -1018,31 +1040,110 @@ auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 
 	_ctx.controller->set_can_undo(false);
 }
-
 auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 
 	const auto event_type{_ctx.controller->get_last_event()};
-
-	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 
 	if (event_type == Enums::Map::Event::NO_EVENT)
 		return std::nullopt;
 
 	const auto event{_ctx.game->get_event(event_type)};
 
-	if (event.go_town_after)
-		return _go_back_to_town();
+	if (event.go_town_after) {
 
-	if (event.go_back_after)
+		_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
+		return _go_back_to_town();
+	}
+
+	if (event.go_back_after) {
+
 		_move_backward();
 
+		_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
+		return std::nullopt;
+	}
+
 	if (event.combat_after) {
+
 		// start encounter
+
+		// Don't necessarily clear here yet if the encounter
+		// still needs the event context.
+		return std::nullopt;
 	}
 
 	if (event.search_after) {
-		// perform/search event
+
+		_ctx.ui->dialog_search->show = true;
+		_ctx.controller->set_flag("after_event_search");
+
+		// IMPORTANT:
+		// Keep last_event alive until Yes/No has been handled.
+		return std::nullopt;
 	}
 
+	// Plain message-only event is now finished.
+	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
 	return std::nullopt;
+}
+
+auto Sorcery::Engine::_search_event() -> void {
+
+	const auto event{_ctx.controller->get_last_event()};
+
+	using enum Enums::Map::Event;
+	using enum Enums::Items::TypeID;
+
+	const auto item_type = [&]() -> std::optional<Enums::Items::TypeID> {
+		switch (event) {
+
+		case OBTAIN_SILVER_KEY:
+			return KEY_OF_SILVER;
+
+		case OBTAIN_BRONZE_KEY:
+			return KEY_OF_BRONZE;
+
+		case OBTAIN_GOLD_KEY:
+			return KEY_OF_GOLD;
+
+		case OBTAIN_BEAR_STATUE:
+			return STATUE_OF_BEAR;
+
+		case OBTAIN_FROG_STATUE:
+			return STATUE_OF_FROG;
+
+		default:
+			return std::nullopt;
+		}
+	}();
+
+	if (!item_type) {
+		_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+		return;
+	}
+
+	// Give it to the first party member with a free inventory slot.
+	for (const auto char_id : _ctx.game->state->get_party_characters()) {
+
+		auto &character{_ctx.game->characters.at(char_id)};
+
+		if (character.inventory.get_empty_slots() == 0)
+			continue;
+
+		character.inventory.add_type(_ctx.resources->items->get(*item_type),
+									 true);
+
+		DEBUG_LOGF("{} found {}", character.get_name(), enum_name(*item_type));
+
+		// Show your short "found item" popup here.
+		// e.g. set its text to "<name> found <item>"
+		// and start its timer.
+
+		break;
+	}
+
+	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 }

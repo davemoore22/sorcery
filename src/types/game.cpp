@@ -112,10 +112,10 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 						 false, false, false);
 	_events.emplace_back(MAN_TELEPORT_CASTLE, "event_man_teleport_castle",
 						 false, false, false, true);
-	_events.emplace_back(SILVER_KEY, "event_silver_key", true, false, false,
-						 false);
-	_events.emplace_back(BRONZE_KEY, "event_bronze_key", true, false, false,
-						 false);
+	_events.emplace_back(OBTAIN_SILVER_KEY, "event_silver_key", true, false,
+						 false, false);
+	_events.emplace_back(OBTAIN_BRONZE_KEY, "event_bronze_key", true, false,
+						 false, false);
 	_events.emplace_back(MURPHYS_GHOSTS, "event_murphys_ghosts", true, true,
 						 false, false);
 
@@ -123,11 +123,12 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 						 false, false);
 
 	// Level 2
-	_events.emplace_back(GOLD_KEY, "event_gold_key", true, false, false, false);
-	_events.emplace_back(BEAR_STATUE, "event_bear_statue", true, false, false,
+	_events.emplace_back(OBTAIN_GOLD_KEY, "event_gold_key", true, false, false,
 						 false);
-	_events.emplace_back(FROG_STATUE, "event_frog_statue", true, false, false,
-						 false);
+	_events.emplace_back(OBTAIN_BEAR_STATUE, "event_bear_statue", true, false,
+						 false, false);
+	_events.emplace_back(OBTAIN_FROG_STATUE, "event_frog_statue", true, false,
+						 false, false);
 	_events.emplace_back(PLACARD_PIT_1, "event_placard_pit_1", false, false,
 						 false, false);
 	_events.emplace_back(PLACARD_PIT_2, "event_placard_pit_2", false, false,
