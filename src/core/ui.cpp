@@ -140,10 +140,6 @@ Sorcery::UI::UI(Context &ctx)
 	notice_not_enough_gold = std::make_unique<Dialog>(
 		_ctx, components->get("global:notice_not_enough_gold"),
 		Enums::Layout::DialogType::OK);
-	popup_ouch = std::make_unique<Popup>(
-		_ctx, components->get("engine_base_ui:popup_ouch"));
-	popup_pit = std::make_unique<Popup>(
-		_ctx, components->get("engine_base_ui:popup_pit"));
 	modal_camp = std::make_unique<Modal>(
 		_ctx, components->get("engine_base_ui:modal_camp"));
 
@@ -617,10 +613,6 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 	if (notice_not_enough_gold)
 		output.append(
 			get_popup_status((void *)notice_not_enough_gold.get(), "dialog"));
-	if (popup_ouch)
-		output.append(get_popup_status((void *)popup_ouch.get(), "popup"));
-	if (popup_pit)
-		output.append(get_popup_status((void *)popup_pit.get(), "popup"));
 	if (notice_pool_gold)
 		output.append(
 			get_popup_status((void *)notice_pool_gold.get(), "dialog"));
@@ -718,8 +710,6 @@ auto Sorcery::UI::start() -> void {
 	notice_reclassed_ok->show = false;
 	input_donate->show = false;
 	input_name->show = false;
-	popup_ouch->show = false;
-	popup_pit->show = false;
 	modal_camp->show = false;
 	modal_equip->show = false;
 	modal_remove->show = false;
@@ -778,10 +768,6 @@ auto Sorcery::UI::display_engine() -> void {
 	dialog_leave->display(_ctx.controller->want_to_leave_game());
 	dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
 	dialog_stairs_down->display(_ctx.get_flag_ref("want_take_stairs_down"));
-	if (popup_ouch->show)
-		popup_ouch->display();
-	if (popup_pit->show)
-		popup_pit->display();
 	message_tile->display(_ctx.get_flag_ref("after_tile_message"));
 	if (modal_camp->show)
 		modal_camp->display(_ctx.get_flag_ref("want_camp"));
@@ -826,6 +812,9 @@ auto Sorcery::UI::display_engine() -> void {
 	// Dungeon View
 	auto component{components->get("engine_base_ui:wire_frame_view")};
 	_render->draw(&component);
+
+	// Transient overlay
+	_draw_transient();
 
 	// And Cursor on Top
 	_draw_debug();
@@ -4937,8 +4926,6 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(dialog_stairs_down);
 	ADD_POPUP(input_donate);
 	ADD_POPUP(input_name);
-	ADD_POPUP(popup_ouch);
-	ADD_POPUP(popup_pit);
 	ADD_POPUP(modal_camp);
 	ADD_POPUP(modal_elevator_top);
 	ADD_POPUP(modal_elevator_bottom);
@@ -4959,4 +4946,85 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 #undef ADD_POPUP
 
 	return states;
+}
+
+auto Sorcery::UI::show_transient(std::string text,
+								 const std::chrono::milliseconds duration,
+								 const TransientWidth width) -> void {
+
+	_transient_message =
+		TransientMessage{.text = std::move(text),
+						 .expires = std::chrono::steady_clock::now() + duration,
+						 .width = width};
+}
+
+auto Sorcery::UI::clear_transient() -> void {
+
+	_transient_message.reset();
+}
+
+auto Sorcery::UI::has_transient() const -> bool {
+
+	return _transient_message.has_value();
+}
+
+auto Sorcery::UI::_draw_transient() -> void {
+
+	if (!_transient_message)
+		return;
+
+	if (std::chrono::steady_clock::now() >= _transient_message->expires) {
+		_transient_message.reset();
+		return;
+	}
+
+	const auto &message{*_transient_message};
+
+	const auto component{components->get("engine_base_ui:transient_message")};
+
+	set_Font(fontstore->get_current_font(component.font).value(), font_sz());
+
+	const auto text_size{ImGui::CalcTextSize(message.text.c_str())};
+
+	const auto padding{grid_sz() * 2.0f};
+
+	const auto width{message.width == TransientWidth::FULL
+						 ? ImGui::GetMainViewport()->Size.x
+						 : text_size.x + (padding * 2.0f)};
+
+	const auto height{component.h * grid_sz() + (padding * 2.0f)};
+
+	const auto centre{ImGui::GetMainViewport()->GetCenter()};
+
+	ImGui::SetNextWindowPos(centre, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
+
+	ImGui::SetNextWindowSize(ImVec2{width, height});
+
+	ImGui::SetNextWindowBgAlpha(1.0f);
+
+	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
+
+	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
+
+	set_StyleVar(ImGuiStyleVar_WindowRounding, frame_rd);
+
+	set_StyleColor(ImGuiCol_WindowBg, component.background);
+
+	with_Window("##transient_message", nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
+					ImGuiWindowFlags_NoInputs |
+					ImGuiWindowFlags_NoSavedSettings) {
+
+		const auto p_min{ImGui::GetWindowPos()};
+		const auto p_max{ImVec2{p_min.x + width, p_min.y + height}};
+
+		draw_frame(
+			p_min, p_max,
+			ImVec4{ui_colour.x, ui_colour.y, ui_colour.z, _ctx.animation->fade},
+			frame_rd);
+
+		ImGui::SetCursorPos(ImVec2{padding, padding});
+
+		ImGui::TextUnformatted(message.text.c_str());
+	}
 }

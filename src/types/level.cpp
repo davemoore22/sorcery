@@ -324,10 +324,12 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 												 std::stoi(data.at(5))}};
 					_tiles.at(Coordinate{x, y}).set_teleport(teleport);
 				} else if (data.at(1) == "CHUTE" && data.at(2) == "TO") {
-					Teleport teleport{std::stoi(data.at(3)),
-									  Coordinate{std::stoi(data.at(4)),
-												 std::stoi(data.at(5))}};
-					_tiles.at(Coordinate{x, y}).set_teleport(teleport);
+
+					Chute chute{std::stoi(data.at(3)),
+								Coordinate{std::stoi(data.at(4)),
+										   std::stoi(data.at(5))}};
+
+					_tiles.at(Coordinate{x, y}).set_chute(chute);
 				} else if (data.at(1) == "STAIRS" && data.at(2) == "TO") {
 					Teleport stairs{std::stoi(data.at(3)),
 									Coordinate{std::stoi(data.at(4)),
@@ -504,8 +506,8 @@ auto Sorcery::Level::_load_simple_walls(const Json::Value row_data) -> bool {
 }
 
 // Since Grid Cartographer only defines s/e walls in our format, we do two
-// updates, first with the tile in question, and then from the adjacent tile on
-// another pass - but for now only update simple walls
+// updates, first with the tile in question, and then from the adjacent tile
+// on another pass - but for now only update simple walls
 auto Sorcery::Level::_update_tile_walls_simple(const Coordinate location,
 											   const unsigned int south_wall,
 											   const unsigned int east_wall)
@@ -519,9 +521,9 @@ auto Sorcery::Level::_update_tile_walls_simple(const Coordinate location,
 	tile.set(Enums::Map::Direction::EAST, east_edge.value());
 }
 
-// Check for single normal walls and double them as we are using dual walls so
-// for each side, check if its a normal wall/door and if the other side is empty
-// then give the other side the same wall/door
+// Check for single normal walls and double them as we are using dual walls
+// so for each side, check if its a normal wall/door and if the other side
+// is empty then give the other side the same wall/door
 auto Sorcery::Level::_fill_in_simple_walls() -> bool {
 
 	// Use the Wrapping "View" to guarantee tiles exist
@@ -731,9 +733,9 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 												const unsigned int east_wall)
 	-> void {
 
-	// OK, so this is a bit complicated due to GC only storing one set of walls
-	// per tile - we have to back fill in complicated walls (walls that differ
-	// on each side)
+	// OK, so this is a bit complicated due to GC only storing one set of
+	// walls per tile - we have to back fill in complicated walls (walls
+	// that differ on each side)
 
 	// Fortunately, the only walls that we need to worry about are:
 	//
@@ -914,8 +916,8 @@ auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
 	return standard_edge.value_or(Enums::Tile::Edge::NO_EDGE);
 }
 
-// Only populate walls that we need to populate at this point - those ones that
-// have some meaning for N or W (i.e. types 5/6/7)
+// Only populate walls that we need to populate at this point - those ones
+// that have some meaning for N or W (i.e. types 5/6/7)
 auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
 	-> std::optional<Enums::Tile::Edge> {
 

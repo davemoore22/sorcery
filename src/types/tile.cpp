@@ -317,6 +317,11 @@ auto Sorcery::Tile::clear_stairs() -> void {
 	_stairs = std::nullopt;
 }
 
+auto Sorcery::Tile::clear_chute() -> void {
+
+	_chute = std::nullopt;
+}
+
 auto Sorcery::Tile::has_event() const -> std::optional<Enums::Map::Event> {
 
 	if (_event)
@@ -341,6 +346,14 @@ auto Sorcery::Tile::has_stairs() const -> std::optional<Teleport> {
 		return std::nullopt;
 }
 
+auto Sorcery::Tile::has_chute() const -> std::optional<Chute> {
+
+	if (_chute)
+		return _chute.value();
+	else
+		return std::nullopt;
+}
+
 auto Sorcery::Tile::has_pit() const -> bool {
 
 	return _features[std::to_underlying(Enums::Tile::Features::PIT)];
@@ -349,6 +362,11 @@ auto Sorcery::Tile::has_pit() const -> bool {
 auto Sorcery::Tile::set_teleport(Teleport teleport) -> void {
 
 	_teleport = teleport;
+}
+
+auto Sorcery::Tile::set_chute(Chute chute) -> void {
+
+	_chute = chute;
 }
 
 auto Sorcery::Tile::has_spinner() const -> bool {
@@ -421,6 +439,7 @@ auto Sorcery::Tile::_reset() -> void {
 	_teleport = std::nullopt;
 	_stairs = std::nullopt;
 	_elevator = std::nullopt;
+	_chute = std::nullopt;
 
 	_characters.clear();
 

@@ -65,6 +65,17 @@ struct Tile;
 class VideoPlayer;
 struct VertexArray;
 
+enum class TransientWidth {
+	FIT_TEXT,
+	FULL
+};
+
+struct TransientMessage {
+		std::string text;
+		std::chrono::steady_clock::time_point expires;
+		TransientWidth width{TransientWidth::FIT_TEXT};
+};
+
 class UI {
 
 	public:
@@ -123,6 +134,12 @@ class UI {
 		auto columns() const noexcept -> unsigned int;
 		auto rows() const noexcept -> unsigned int;
 
+		auto show_transient(
+			std::string text,
+			std::chrono::milliseconds duration = std::chrono::seconds{2},
+			TransientWidth width = TransientWidth::FIT_TEXT) -> void;
+		auto clear_transient() -> void;
+
 		// Public Members
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
@@ -147,8 +164,6 @@ class UI {
 		std::unique_ptr<Dialog> dialog_stairs_down;
 		std::unique_ptr<Input> input_donate;
 		std::unique_ptr<Input> input_name;
-		std::unique_ptr<Popup> popup_ouch;
-		std::unique_ptr<Popup> popup_pit;
 		std::unique_ptr<Modal> modal_camp;
 		std::unique_ptr<Message> message_tile;
 		std::unique_ptr<Modal> modal_inspect;
@@ -201,6 +216,7 @@ class UI {
 		static constexpr unsigned int _rows{35};
 		static constexpr unsigned int _base_width{1024};
 		static constexpr unsigned int _base_height{600};
+		std::optional<TransientMessage> _transient_message;
 
 		// Private Methods
 		auto _display_atlas() -> void;
@@ -363,5 +379,8 @@ class UI {
 									 std::vector<int> &data,
 									 const std::size_t index,
 									 const int data_item) -> void;
+
+		[[nodiscard]] auto has_transient() const -> bool;
+		auto _draw_transient() -> void;
 };
 };

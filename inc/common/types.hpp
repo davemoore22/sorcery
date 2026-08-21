@@ -194,6 +194,19 @@ struct Elevator {
 		}
 };
 
+struct Chute {
+		int to_level{};
+		Coordinate to_loc{};
+
+		Chute()
+			: to_level{0},
+			  to_loc{Coordinate{0, 0}} {};
+
+		Chute(int to_level_, Coordinate to_loc_)
+			: to_level{to_level_},
+			  to_loc{to_loc_} {}
+};
+
 struct Teleport {
 		int to_level;
 		Coordinate to_loc;

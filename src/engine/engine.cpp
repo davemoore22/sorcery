@@ -40,6 +40,7 @@
 #include "gui/popup.hpp"
 #include "modules/inspect.hpp"
 #include "modules/reorder.hpp"
+#include "resources/componentstore.hpp"
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
 #include "resources/itemstore.hpp"
@@ -173,6 +174,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (const auto movement{_ctx.controller->check_for_movement(event)};
 				movement != MOVE_NONE) {
 
+				_ctx.ui->clear_transient();
+
 				switch (movement) {
 
 				case MOVE_FORWARD:
@@ -180,9 +183,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					_ctx.game->pass_turn();
 
 					if (const auto has_moved{_move_forward()}; has_moved) {
-
-						_ctx.ui->popup_ouch->show = false;
-						// _ctx.ui->popup_pit->show = false;
 
 						if (!_tile_explored(_ctx.game->state->get_player_pos()))
 							_set_tile_explored(
@@ -195,9 +195,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 					_ctx.game->pass_turn();
 
-					_ctx.ui->popup_ouch->show = false;
-					// _ctx.ui->popup_pit->show = false;
-
 					if (const auto has_moved{_move_backward()}; has_moved) {
 
 						if (!_tile_explored(_ctx.game->state->get_player_pos()))
@@ -209,9 +206,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				case MOVE_TURN_LEFT:
 
-					_ctx.ui->popup_ouch->show = false;
-					_ctx.ui->popup_pit->show = false;
-
 					_turn_left();
 					_ctx.game->pass_turn();
 
@@ -219,18 +213,12 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				case MOVE_TURN_RIGHT:
 
-					_ctx.ui->popup_ouch->show = false;
-					_ctx.ui->popup_pit->show = false;
-
 					_turn_right();
 					_ctx.game->pass_turn();
 
 					break;
 
 				case MOVE_TURN_AROUND:
-
-					_ctx.ui->popup_ouch->show = false;
-					_ctx.ui->popup_pit->show = false;
 
 					_turn_around();
 					_ctx.game->pass_turn();
@@ -533,7 +521,8 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	const auto &next_tile{_ctx.game->state->level->at(next_loc)};
 
 	if (!this_tile.walkable(direction)) {
-		_start_popup_ouch();
+
+		_ctx.ui->show_transient(_ctx.get_string("POPUP_OUCH"));
 		return false;
 	}
 
@@ -577,6 +566,19 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			DEBUG_LOG("Player triggered bottom elevator");
 		}
 
+	} else if (const auto destination{next_tile.has_chute()}) {
+
+		DEBUG_LOG("Player triggered chute");
+
+		_ctx.ui->show_transient(_ctx.get_string("DIALOG_CHUTE"));
+
+		_go_to_location(destination->to_level, destination->to_loc,
+						Enums::Map::Direction::NORTH);
+
+		_ctx.controller->set_can_undo(false);
+
+		return true;
+
 	} else if (const auto destination{next_tile.has_teleport()}) {
 
 		DEBUG_LOG("Player triggered teleporter");
@@ -600,7 +602,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			_ctx.game->state->set_player_prev_depth(
 				_ctx.game->state->get_depth());
 
-			_ctx.game->state->set_depth(_ctx.game->state->get_depth());
+			_ctx.game->state->set_depth(destination->to_level);
 			_ctx.game->state->set_player_pos(destination->to_loc);
 			_ctx.controller->set_can_undo(false);
 
@@ -620,7 +622,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 	} else if (next_tile.has_pit()) {
 
-		_start_popup_pit();
+		_ctx.ui->show_transient(_ctx.get_string("POPUP_PIT"));
 
 		DEBUG_LOG("Player triggered pit");
 
@@ -648,33 +650,6 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	_ctx.controller->set_last_dir(Enums::Map::Direction::NORTH);
 
 	return true;
-}
-auto Sorcery::Engine::_callback_stop_popup_ouch(std::uint32_t, void *param)
-	-> std::uint32_t {
-
-	((Engine *)param)->_ctx.ui->popup_ouch->show = false;
-
-	return 0;
-}
-
-auto Sorcery::Engine::_callback_stop_popup_pit(std::uint32_t, void *param)
-	-> std::uint32_t {
-
-	((Engine *)param)->_ctx.ui->popup_pit->show = false;
-
-	return 0;
-}
-
-auto Sorcery::Engine::_start_popup_ouch() -> void {
-
-	_ctx.ui->popup_ouch->show = true;
-	SDL_AddTimer(2000, &Engine::_callback_stop_popup_ouch, this);
-}
-
-auto Sorcery::Engine::_start_popup_pit() -> void {
-
-	_ctx.ui->popup_pit->show = true;
-	SDL_AddTimer(3000, &Engine::_callback_stop_popup_pit, this);
 }
 
 auto Sorcery::Engine::_go_back_to_town() -> int {

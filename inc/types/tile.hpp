@@ -56,6 +56,7 @@ class Tile {
 		// Public Methods
 		auto clear_teleport() -> void;
 		auto clear_stairs() -> void;
+		auto clear_chute() -> void;
 		auto gfx(const unsigned int texture) -> void;
 		auto gfx() -> std::optional<unsigned int>;
 		auto has(const Enums::Map::Direction direction) const -> bool;
@@ -66,6 +67,7 @@ class Tile {
 		auto has_stairs() const -> std::optional<Teleport>;
 		auto has_teleport() const -> std::optional<Teleport>;
 		auto has_elevator() const -> std::optional<Elevator>;
+		auto has_chute() const -> std::optional<Chute>;
 		auto has_spinner() const -> bool;
 		auto has_pit() const -> bool;
 		auto id() const -> long;
@@ -83,6 +85,7 @@ class Tile {
 		auto set(const std::optional<Coordinate> location);
 		auto set_teleport(Teleport teleport) -> void;
 		auto set_stairs(Teleport stairs) -> void;
+		auto set_chute(Chute chute) -> void;
 		auto set_elevator(Elevator elevator) -> void;
 		auto wall(const Enums::Map::Direction direction) const
 			-> Enums::Tile::Edge;
@@ -129,6 +132,9 @@ class Tile {
 
 		// Teleport
 		std::optional<Teleport> _teleport;
+
+		// Chute
+		std::optional<Chute> _chute;
 
 		// Stairs
 		std::optional<Teleport> _stairs;
