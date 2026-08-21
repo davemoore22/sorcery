@@ -258,22 +258,38 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			_take_elevator(depth);
 		}
 
-		if (_pending_tile_message && std::chrono::steady_clock::now() >=
-										 _pending_tile_message->execute_at) {
+		if (_pending_chute &&
+			std::chrono::steady_clock::now() >= _pending_chute->execute_at) {
 
-			const auto event{_pending_tile_message->event};
+			const auto depth{_pending_chute->depth};
+			const auto loc{_pending_chute->loc};
 
-			_pending_tile_message.reset();
+			_pending_chute.reset();
 
 			_ctx.ui->clear_transient();
 
-			_show_tile_message(event);
+			// Now actually fall through the chute.
+			_go_to_location(depth, loc, Enums::Map::Direction::NORTH);
+
+			_ctx.controller->set_can_undo(false);
+
+			// And only now process the destination tile message.
+			const auto &destination_tile{_ctx.game->state->level->at(loc)};
+
+			(void)_check_for_tile_message(destination_tile);
 		}
 
 		// Popups block gameplay and module transitions, but they MUST NOT
 		// block rendering/ticking.
 		//
 		if (!_ctx.ui->in_popup()) {
+
+			// Check for return-to-town teleport
+			if (_ctx.controller->has_flag("want_return_to_town")) {
+				_ctx.controller->unset_flag("want_return_to_town");
+
+				return _go_back_to_town();
+			}
 
 			// Check for party wipe
 			if (_check_for_wipe()) {
@@ -613,22 +629,11 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			_ctx.get_string("DIALOG_CHUTE"), std::chrono::seconds{2},
 			TransientWidth::FIT_TEXT, TransientMode::UNTIL_EXPIRY);
 
-		_go_to_location(destination->to_level, destination->to_loc,
-						Enums::Map::Direction::NORTH);
-
-		_ctx.controller->set_can_undo(false);
-
-		const auto &destination_tile{
-			_ctx.game->state->level->at(destination->to_loc)};
-
-		if (const auto event{destination_tile.has_event()};
-			event && *event != Enums::Map::Event::NO_EVENT) {
-
-			_pending_tile_message = PendingTileMessage{
-				.event = *event,
-				.execute_at =
-					std::chrono::steady_clock::now() + std::chrono::seconds{2}};
-		}
+		_pending_chute =
+			PendingChute{.depth = destination->to_level,
+						 .loc = destination->to_loc,
+						 .execute_at = std::chrono::steady_clock::now() +
+									   std::chrono::seconds{2}};
 
 		return true;
 	} else if (const auto destination{next_tile.has_teleport()}) {
@@ -638,7 +643,9 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		if (destination->to_level == 0) {
 
 			// Special case of teleporting back to castle
-			return _go_back_to_town();
+			_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+			_ctx.controller->set_flag("want_return_to_town");
+			return true;
 
 		} else if (destination->to_level == _ctx.game->state->get_depth()) {
 
