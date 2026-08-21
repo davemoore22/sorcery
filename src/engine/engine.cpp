@@ -1113,9 +1113,9 @@ auto Sorcery::Engine::_search_event() -> void {
 
 		DEBUG_LOGF("{} found {}", character.get_name(), enum_name(*item_type));
 
-		// Show your short "found item" popup here.
-		// e.g. set its text to "<name> found <item>"
-		// and start its timer.
+		_ctx.ui->show_transient(
+			std::format("{} {}", character.get_name(),
+						_ctx.get_string("POP_UP_FOUND_AN_ITEM")));
 
 		break;
 	}

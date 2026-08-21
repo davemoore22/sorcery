@@ -60,74 +60,177 @@ auto Sorcery::Message::name() const -> std::string {
 
 auto Sorcery::Message::display(bool &is_yes) -> void {
 
-	_id = _component.name + "##outer";
+	if (!show)
+		return;
+
 	const auto continue_lbl{_ctx.get_string("MESSAGE_CONTINUE")};
 	const auto rounding{_ctx.ui->frame_rd};
-	const auto width{_ctx.ui->grid_sz() * _component.w};
-	const auto height{(6 + _strings.size()) * _ctx.ui->grid_sz()};
-
-	// Work out where to draw the image
-	const auto y{std::invoke([&] {
-		if (_component.y == -1) {
-			return 0.5f;
-		} else
-			return static_cast<float>(_ctx.ui->grid_sz() * _component.y);
-	})};
-	const auto pivot_y{std::invoke([&] {
-		if (_component.y == -1) {
-			return 0.5f;
-		} else
-			return 0.0f;
-	})};
-
-	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
-	ImGui::SetNextWindowPos(ImVec2{centre.x, y}, ImGuiCond_Appearing,
-							ImVec2(0.5f, pivot_y));
-	ImGui::SetNextWindowSize(ImVec2{width, height});
-	ImGui::SetNextWindowBgAlpha(1.0f);
-
-	const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
-	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
-	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
-	set_StyleVar(ImGuiStyleVar_WindowRounding, _component.background);
-	set_StyleColor(ImGuiCol_PopupBg, _component.background);
-	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
-	UIStyle::set_faded(_ctx);
+	const auto grid{_ctx.ui->grid_sz()};
 
 	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
 			 _ctx.ui->font_sz());
-	if (show)
-		ImGui::OpenPopup(CSTR(_id));
 
-	with_PopupModal(CSTR(_id), nullptr, ImGuiWindowFlags_NoDecoration) {
-		const auto p_min{ImGui::GetWindowPos()};
-		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width,
-								ImGui::GetWindowPos().y + height}};
+	//
+	// Work out the size of the text frame
+	//
+	auto text_width{0.0f};
 
-		_ctx.ui->draw_frame(p_min, p_max,
+	for (const auto &key : _strings) {
+
+		const auto text{_ctx.get_string(key)};
+
+		text_width = std::max(text_width, ImGui::CalcTextSize(text.c_str()).x);
+	}
+
+	const auto text_padding{grid * 2.0f};
+
+	const auto message_width{text_width + (text_padding * 2.0f)};
+
+	// One spare line at the bottom before the continue frame overlaps it.
+	const auto message_height{(static_cast<float>(_strings.size() + 1) * grid) +
+							  (text_padding * 2.0f)};
+
+	//
+	// Continue button/frame
+	//
+	const auto label_size{ImGui::CalcTextSize(continue_lbl.c_str())};
+
+	const auto actual_button_size{
+		ImVec2{label_size.x + (ImGui::GetStyle().FramePadding.x * 2.0f),
+			   label_size.y + (ImGui::GetStyle().FramePadding.y * 2.0f)}};
+
+	const auto button_width{actual_button_size.x + (grid * 2.0f)};
+
+	const auto button_height{grid * 3.0f};
+
+	const auto overlap{grid * 2.0f};
+
+	const auto total_width{std::max(message_width, button_width)};
+
+	const auto total_height{message_height + button_height - overlap};
+
+	//
+	// Centre the complete message + continue frame
+	//
+	const auto viewport{ImGui::GetMainViewport()};
+
+	const auto pos{ImVec2{
+		std::round(viewport->Pos.x + ((viewport->Size.x - total_width) * 0.5f)),
+		std::round(viewport->Pos.y +
+				   ((viewport->Size.y - total_height) * 0.5f))}};
+
+	//
+	// Draw modal-style background dimming
+	//
+	{
+		const auto dim_colour{
+			ImGui::GetStyleColorVec4(ImGuiCol_ModalWindowDimBg)};
+
+		ImGui::SetNextWindowPos(viewport->Pos, ImGuiCond_Always);
+
+		ImGui::SetNextWindowSize(viewport->Size, ImGuiCond_Always);
+
+		ImGui::SetNextWindowBgAlpha(dim_colour.w);
+
+		set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0f, 0.0f});
+
+		set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+
+		set_StyleColor(ImGuiCol_WindowBg, dim_colour);
+
+		with_Window("##message_dim", nullptr,
+					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
+						ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoNav |
+						ImGuiWindowFlags_NoSavedSettings |
+						ImGuiWindowFlags_NoBringToFrontOnFocus) {}
+	}
+
+	//
+	// Draw message
+	//
+	ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
+
+	ImGui::SetNextWindowSize(ImVec2{total_width, total_height});
+
+	ImGui::SetNextWindowBgAlpha(0.0f);
+
+	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0f, 0.0f});
+
+	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+
+	UIStyle::set_faded(_ctx);
+
+	with_Window("##message", nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
+					ImGuiWindowFlags_NoSavedSettings) {
+
+		//
+		// Message frame
+		//
+		const auto message_x{std::round((total_width - message_width) * 0.5f)};
+
+		const auto message_min{ImVec2{ImGui::GetWindowPos().x + message_x,
+									  ImGui::GetWindowPos().y}};
+
+		const auto message_max{ImVec2{message_min.x + message_width,
+									  message_min.y + message_height}};
+
+		_ctx.ui->draw_frame(message_min, message_max,
 							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
 								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
 							rounding);
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-security"
-		auto y_pos{_ctx.ui->grid_sz() * 2};
-		for (const auto &string : _strings) {
-			ImGui::SetCursorPos(ImVec2{_ctx.ui->grid_sz() * 2, y_pos});
-			auto str{_ctx.get_string(string)};
-			ImGui::Text(str.c_str());
-			y_pos += _ctx.ui->grid_sz();
-		}
-#pragma GCC diagnostic pop
+		//
+		// Message text
+		//
+		auto y_pos{text_padding};
 
-		ImVec2 btn_size{ImGui::GetFontSize() * 8.0f, 0.0f};
-		const auto centre{(width / 2)};
-		ImGui::SetCursorPos(ImVec2{centre - (btn_size.x / 2),
-								   (3 + _strings.size()) * _ctx.ui->grid_sz()});
-		if (ImGui::Button(continue_lbl.c_str(), btn_size)) {
+		for (const auto &key : _strings) {
+
+			const auto text{_ctx.get_string(key)};
+			const auto size{ImGui::CalcTextSize(text.c_str())};
+
+			ImGui::SetCursorPos(
+				ImVec2{std::round((total_width - size.x) * 0.5f), y_pos});
+
+			ImGui::TextUnformatted(text.c_str());
+
+			y_pos += grid;
+		}
+
+		//
+		// Continue frame
+		//
+		const auto button_y{message_height - overlap};
+
+		const auto button_x{std::round((total_width - button_width) * 0.5f)};
+
+		const auto button_min{ImVec2{ImGui::GetWindowPos().x + button_x,
+									 ImGui::GetWindowPos().y + button_y}};
+
+		const auto button_max{
+			ImVec2{button_min.x + button_width, button_min.y + button_height}};
+
+		_ctx.ui->draw_frame(button_min, button_max,
+							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+							rounding);
+
+		//
+		// Natural-sized Continue button centred within its frame
+		//
+		const auto actual_button_x{std::round(
+			button_x + ((button_width - actual_button_size.x) * 0.5f))};
+
+		const auto actual_button_y{std::round(
+			button_y + ((button_height - actual_button_size.y) * 0.5f))};
+
+		ImGui::SetCursorPos(ImVec2{actual_button_x, actual_button_y});
+
+		if (ImGui::Button(continue_lbl.c_str(), actual_button_size)) {
+
 			is_yes = true;
 			show = false;
-			ImGui::CloseCurrentPopup();
 		}
 	}
 }
