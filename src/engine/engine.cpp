@@ -394,7 +394,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					.execute_at = std::chrono::steady_clock::now() + 1s};
 			}
 
-			// Handle event search result
 			if (_ctx.controller->has_flag("after_event_search") &&
 				!_ctx.ui->dialog_search->show) {
 
@@ -404,11 +403,16 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 					_ctx.controller->unset_flag("want_search");
 
-					_search_event();
+					if (_search_event()) {
+
+						// Start Murphy's Ghost encounter here (only encounter
+						// to happen after a search).
+						DEBUG_LOG("MURPHY'S GHOSTS!");
+					}
 
 				} else {
 
-					// Player selected No
+					// Player selected No: no search, no encounter.
 					_ctx.controller->set_last_event(
 						Enums::Map::Event::NO_EVENT);
 				}
@@ -1106,22 +1110,17 @@ auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 		return std::nullopt;
 	}
 
-	if (event.combat_after) {
-
-		// start encounter
-
-		// Don't necessarily clear here yet if the encounter
-		// still needs the event context.
-		return std::nullopt;
-	}
-
 	if (event.search_after) {
 
 		_ctx.ui->dialog_search->show = true;
 		_ctx.controller->set_flag("after_event_search");
 
-		// IMPORTANT:
-		// Keep last_event alive until Yes/No has been handled.
+		return std::nullopt;
+	}
+
+	if (event.combat_after) {
+
+		// Normal combat-after-message event.
 		return std::nullopt;
 	}
 
@@ -1131,15 +1130,17 @@ auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 	return std::nullopt;
 }
 
-auto Sorcery::Engine::_search_event() -> void {
+auto Sorcery::Engine::_search_event() -> bool {
 
-	const auto event{_ctx.controller->get_last_event()};
+	const auto event_type{_ctx.controller->get_last_event()};
+
+	const auto event{_ctx.game->get_event(event_type)};
 
 	using enum Enums::Map::Event;
 	using enum Enums::Items::TypeID;
 
 	const auto item_type = [&]() -> std::optional<Enums::Items::TypeID> {
-		switch (event) {
+		switch (event_type) {
 
 		case OBTAIN_SILVER_KEY:
 			return KEY_OF_SILVER;
@@ -1161,32 +1162,31 @@ auto Sorcery::Engine::_search_event() -> void {
 		}
 	}();
 
-	if (!item_type) {
-		_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
-		return;
+	if (item_type) {
+
+		for (const auto char_id : _ctx.game->state->get_party_characters()) {
+
+			auto &character{_ctx.game->characters.at(char_id)};
+
+			if (character.inventory.get_empty_slots() == 0)
+				continue;
+
+			character.inventory.add_type(_ctx.resources->items->get(*item_type),
+										 true);
+
+			_ctx.ui->show_transient(
+				std::format("{} {}", character.get_name(),
+							_ctx.get_string("POP_UP_FOUND_AN_ITEM")));
+
+			break;
+		}
 	}
 
-	// Give it to the first party member with a free inventory slot.
-	for (const auto char_id : _ctx.game->state->get_party_characters()) {
-
-		auto &character{_ctx.game->characters.at(char_id)};
-
-		if (character.inventory.get_empty_slots() == 0)
-			continue;
-
-		character.inventory.add_type(_ctx.resources->items->get(*item_type),
-									 true);
-
-		DEBUG_LOGF("{} found {}", character.get_name(), enum_name(*item_type));
-
-		_ctx.ui->show_transient(
-			std::format("{} {}", character.get_name(),
-						_ctx.get_string("POP_UP_FOUND_AN_ITEM")));
-
-		break;
-	}
+	const auto combat_after{event.combat_after};
 
 	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
+	return combat_after;
 }
 
 auto Sorcery::Engine::_show_tile_message(const Enums::Map::Event event)

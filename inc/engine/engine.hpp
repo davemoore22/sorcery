@@ -100,7 +100,7 @@ class Engine final : public Module {
 
 		auto _handle_completed_tile_event() -> std::optional<int>;
 
-		auto _search_event() -> void;
+		[[nodiscard]] auto _search_event() -> bool;
 
 		[[nodiscard]] auto _check_for_tile_message(const Tile &tile) -> bool;
 
