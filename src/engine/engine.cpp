@@ -258,6 +258,18 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			_take_elevator(depth);
 		}
 
+		if (_pending_tile_message && std::chrono::steady_clock::now() >=
+										 _pending_tile_message->execute_at) {
+
+			const auto event{_pending_tile_message->event};
+
+			_pending_tile_message.reset();
+
+			_ctx.ui->clear_transient();
+
+			_show_tile_message(event);
+		}
+
 		// Popups block gameplay and module transitions, but they MUST NOT
 		// block rendering/ticking.
 		//
@@ -597,15 +609,28 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 		DEBUG_LOG("Player triggered chute");
 
-		_ctx.ui->show_transient(_ctx.get_string("DIALOG_CHUTE"));
+		_ctx.ui->show_transient(
+			_ctx.get_string("DIALOG_CHUTE"), std::chrono::seconds{2},
+			TransientWidth::FIT_TEXT, TransientMode::UNTIL_EXPIRY);
 
 		_go_to_location(destination->to_level, destination->to_loc,
 						Enums::Map::Direction::NORTH);
 
 		_ctx.controller->set_can_undo(false);
 
-		return true;
+		const auto &destination_tile{
+			_ctx.game->state->level->at(destination->to_loc)};
 
+		if (const auto event{destination_tile.has_event()};
+			event && *event != Enums::Map::Event::NO_EVENT) {
+
+			_pending_tile_message = PendingTileMessage{
+				.event = *event,
+				.execute_at =
+					std::chrono::steady_clock::now() + std::chrono::seconds{2}};
+		}
+
+		return true;
 	} else if (const auto destination{next_tile.has_teleport()}) {
 
 		DEBUG_LOG("Player triggered teleporter");
@@ -620,6 +645,12 @@ auto Sorcery::Engine::_move_forward() -> bool {
 			// Same level teleport
 			_ctx.game->state->set_player_pos(destination->to_loc);
 			_ctx.controller->set_can_undo(false);
+
+			const auto &destination_tile{
+				_ctx.game->state->level->at(destination->to_loc)};
+
+			if (_check_for_tile_message(destination_tile))
+				_ctx.ui->clear_transient();
 
 			return true;
 
@@ -657,24 +688,25 @@ auto Sorcery::Engine::_move_forward() -> bool {
 
 		return true;
 
-	} else if (const auto event{next_tile.has_event()}) {
+	} else {
 
-		DEBUG_LOGF("Player triggered event: {}", std::to_underlying(*event));
-
-		if (*event != Enums::Map::Event::NO_EVENT) {
-
-			_ctx.ui->message_tile->set(_ctx.ui->load_message(*event), *event);
-
-			_ctx.controller->set_flag("after_tile_message");
-			_ctx.controller->set_last_event(*event);
-
-			_ctx.ui->message_tile->show = true;
-		}
+		(void)_check_for_tile_message(next_tile);
 	}
 
 	// Remember this is COMPASS (on screen) direction, not map
 	// direction!
 	_ctx.controller->set_last_dir(Enums::Map::Direction::NORTH);
+
+	return true;
+}
+auto Sorcery::Engine::_check_for_tile_message(const Tile &tile) -> bool {
+
+	const auto event{tile.has_event()};
+
+	if (!event || *event == Enums::Map::Event::NO_EVENT)
+		return false;
+
+	_show_tile_message(*event);
 
 	return true;
 }
@@ -1148,4 +1180,14 @@ auto Sorcery::Engine::_search_event() -> void {
 	}
 
 	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+}
+
+auto Sorcery::Engine::_show_tile_message(const Enums::Map::Event event)
+	-> void {
+
+	_ctx.ui->message_tile->set(_ctx.ui->load_message(event), event);
+
+	_ctx.controller->set_flag("after_tile_message");
+	_ctx.controller->set_last_event(event);
+	_ctx.ui->message_tile->show = true;
 }

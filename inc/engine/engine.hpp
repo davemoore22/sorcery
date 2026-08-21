@@ -39,6 +39,12 @@ class Reorder;
 class Application;
 class Automap;
 class Graveyard;
+class Tile;
+
+struct PendingTileMessage {
+		Enums::Map::Event event{};
+		std::chrono::steady_clock::time_point execute_at;
+};
 
 struct PendingElevator {
 		int depth{};
@@ -95,6 +101,10 @@ class Engine final : public Module {
 
 		auto _search_event() -> void;
 
+		[[nodiscard]] auto _check_for_tile_message(const Tile &tile) -> bool;
+
+		auto _show_tile_message(Enums::Map::Event event) -> void;
+
 		// Private Members
 		Application *_application;
 
@@ -105,6 +115,7 @@ class Engine final : public Module {
 		std::unique_ptr<Graveyard> _graveyard;
 
 		std::optional<PendingElevator> _pending_elevator;
+		std::optional<PendingTileMessage> _pending_tile_message;
 };
 
 }
