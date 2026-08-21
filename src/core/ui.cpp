@@ -4950,17 +4950,39 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 
 auto Sorcery::UI::show_transient(std::string text,
 								 const std::chrono::milliseconds duration,
-								 const TransientWidth width) -> void {
+								 const TransientWidth width,
+								 const TransientMode mode) -> void {
 
 	_transient_message =
 		TransientMessage{.text = std::move(text),
 						 .expires = std::chrono::steady_clock::now() + duration,
-						 .width = width};
+						 .width = width,
+						 .mode = mode};
+}
+
+auto Sorcery::UI::clear_transient_on_action() -> void {
+
+	if (!_transient_message)
+		return;
+
+	if (_transient_message->mode == TransientMode::DISMISS_ON_ACTION) {
+
+		_transient_message.reset();
+	}
 }
 
 auto Sorcery::UI::clear_transient() -> void {
 
+	if (!_transient_message)
+		return;
+
 	_transient_message.reset();
+}
+
+auto Sorcery::UI::transient_blocks_input() const -> bool {
+
+	return _transient_message &&
+		   _transient_message->mode == TransientMode::UNTIL_EXPIRY;
 }
 
 auto Sorcery::UI::has_transient() const -> bool {

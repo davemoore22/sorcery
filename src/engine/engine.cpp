@@ -143,6 +143,11 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (_ctx.ui->in_popup())
 				continue;
 
+			// Some transient messages deliberately block gameplay until
+			// their duration has expired.
+			if (_ctx.ui->transient_blocks_input())
+				continue;
+
 			// Check for Automap
 			if (_ctx.controller->check_for_automap(event)) {
 
@@ -174,7 +179,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (const auto movement{_ctx.controller->check_for_movement(event)};
 				movement != MOVE_NONE) {
 
-				_ctx.ui->clear_transient();
+				_ctx.ui->clear_transient_on_action();
 
 				switch (movement) {
 
@@ -237,6 +242,22 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		//
 		// Frame/game-state processing
 		//
+
+		//
+		// Complete pending timed transitions
+		//
+		if (_pending_elevator &&
+			std::chrono::steady_clock::now() >= _pending_elevator->execute_at) {
+
+			const auto depth{_pending_elevator->depth};
+
+			_pending_elevator.reset();
+
+			_ctx.ui->clear_transient();
+
+			_take_elevator(depth);
+		}
+
 		// Popups block gameplay and module transitions, but they MUST NOT
 		// block rendering/ticking.
 		//
@@ -334,9 +355,15 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				const auto depth{
 					_ctx.controller->get_selected("elevator_selected")};
 
-				_take_elevator(depth);
-
 				_ctx.controller->unset_flag("want_take_elevator");
+
+				_ctx.ui->show_transient(_ctx.get_string("POP_UP_ELEVATOR"), 1s,
+										TransientWidth::FIT_TEXT,
+										TransientMode::UNTIL_EXPIRY);
+
+				_pending_elevator = PendingElevator{
+					.depth = depth,
+					.execute_at = std::chrono::steady_clock::now() + 1s};
 			}
 
 			// Handle event search result

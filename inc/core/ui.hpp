@@ -70,10 +70,16 @@ enum class TransientWidth {
 	FULL
 };
 
+enum class TransientMode {
+	DISMISS_ON_ACTION,
+	UNTIL_EXPIRY
+};
+
 struct TransientMessage {
 		std::string text;
 		std::chrono::steady_clock::time_point expires;
 		TransientWidth width{TransientWidth::FIT_TEXT};
+		TransientMode mode{TransientMode::DISMISS_ON_ACTION};
 };
 
 class UI {
@@ -137,8 +143,11 @@ class UI {
 		auto show_transient(
 			std::string text,
 			std::chrono::milliseconds duration = std::chrono::seconds{2},
-			TransientWidth width = TransientWidth::FIT_TEXT) -> void;
+			TransientWidth width = TransientWidth::FIT_TEXT,
+			TransientMode mode = TransientMode::DISMISS_ON_ACTION) -> void;
 		auto clear_transient() -> void;
+		auto clear_transient_on_action() -> void;
+		[[nodiscard]] auto transient_blocks_input() const -> bool;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;

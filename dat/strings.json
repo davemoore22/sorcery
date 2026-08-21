@@ -1000,5 +1000,6 @@
 	"HINT_GRAPHICS_PROGRESS": "Show explored tiles in the Map",
 	"DIALOG_SEARCH": "Will you search?",
 	"POP_UP_FOUND_AN_ITEM": "has found an item!",
-	"NOTHING_FOUND": "Nothing was found!"
+	"NOTHING_FOUND": "Nothing was found!",
+	"POP_UP_ELEVATOR": "One Moment!"
 }

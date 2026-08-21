@@ -25,8 +25,10 @@
 #include "common/types.hpp"
 #include "core/module.hpp"
 #include "engine/enum.hpp"
+#include <chrono>
 #include <cstdint>
 #include <memory>
+#include <optional>
 
 namespace Sorcery {
 
@@ -37,6 +39,11 @@ class Reorder;
 class Application;
 class Automap;
 class Graveyard;
+
+struct PendingElevator {
+		int depth{};
+		std::chrono::steady_clock::time_point execute_at;
+};
 
 class Engine final : public Module {
 
@@ -96,6 +103,8 @@ class Engine final : public Module {
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Automap> _automap;
 		std::unique_ptr<Graveyard> _graveyard;
+
+		std::optional<PendingElevator> _pending_elevator;
 };
 
 }
