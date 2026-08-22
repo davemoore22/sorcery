@@ -1580,6 +1580,8 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 
 		// No Level Up Notice - C Return to Inn
 		go_to(Enums::Screen::INN);
+	} else if (component == "automap_return") {
+		go_to(Enums::Screen::ENGINE);
 	}
 }
 

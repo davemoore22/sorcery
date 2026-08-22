@@ -331,7 +331,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
 
 				const auto result{_options->start(true)};
-
 				_options->stop();
 
 				if (result == ABORT_GAME)
@@ -529,7 +528,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
 		// REMOVED Start off in Camp
-		//_ctx.ui->modal_camp->regenerate();
+		_ctx.ui->modal_camp->regenerate();
 		_ctx.ui->modal_elevator_bottom->regenerate();
 		_ctx.ui->modal_elevator_top->regenerate();
 
@@ -549,7 +548,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 	} else {
 		// REMOVED Start off in Camp
-		//_ctx.ui->modal_camp->regenerate();
+		_ctx.ui->modal_camp->regenerate();
 		_ctx.ui->modal_elevator_bottom->regenerate();
 		_ctx.ui->modal_elevator_top->regenerate();
 
@@ -567,210 +566,34 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->modal_give->show = false;
 		_ctx.ui->modal_elevator_top->show = false;
 		_ctx.ui->modal_elevator_bottom->show = false;
+
+		(void)_process_current_tile();
 	}
 }
 
 // Remember Y is reversed
 auto Sorcery::Engine::_move_forward() -> bool {
 
-	const auto at_loc{_ctx.game->state->get_player_pos()};
+	const auto from{_ctx.game->state->get_player_pos()};
 	const auto direction{_ctx.game->state->get_player_facing()};
-	const auto next_loc{_movement_destination(at_loc, direction)};
-	const auto depth{_ctx.game->state->get_depth()};
+	const auto to{_movement_destination(from, direction)};
 
-	const auto &this_tile{_ctx.game->state->level->at(at_loc)};
-	const auto &next_tile{_ctx.game->state->level->at(next_loc)};
+	const auto &this_tile{_ctx.game->state->level->at(from)};
 
 	if (!this_tile.walkable(direction)) {
 
 		_ctx.ui->show_transient(_ctx.get_string("POPUP_OUCH"));
+
 		return false;
 	}
 
-	_move_player_to(next_loc);
+	_move_player_to(to);
 
-	// TODO: confirm this doesn't interact with anything else in order
-	if (_triggers_guaranteed_encounter(depth, at_loc, next_loc)) {
-
-		DEBUG_LOG("Player triggered guaranteed encounter");
-
-		// Start/schedule encounter here.
-
-		return true;
-	}
-
-	// Once per delve combat events
-	if (const auto event{next_tile.has_event()}; event) {
-
-		using enum Enums::Map::Event;
-		using enum Enums::Items::TypeID;
-
-		switch (*event) {
-
-		case DEADLY_RING_COMBAT:
-
-			if (_ctx.game->party_has_item(BLUE_RIBBON))
-				return true;
-
-			DEBUG_LOG("Player triggered deadly ring combat");
-
-			_ctx.game->state->level->clear_event(next_loc);
-
-			// Start specific Deadly Ring combat here.
-
-			return true;
-
-		case FIRE_DRAGONS_COMBAT:
-
-			DEBUG_LOG("Player triggered fire dragons combat");
-
-			_ctx.game->state->level->clear_event(next_loc);
-
-			// Start specific Fire Dragons combat here.
-
-			return true;
-
-		case WERDNA_COMBAT:
-
-			if (_ctx.game->party_has_item(AMULET_OF_WERDNA))
-				return true;
-
-			DEBUG_LOG("Player triggered Werdna combat");
-
-			_ctx.game->state->level->clear_event(next_loc);
-
-			// Start specific Werdna combat here.
-
-			return true;
-
-		default:
-			break;
-		}
-	}
-
-	// Check for Darkness
-	using enum Enums::Tile::Properties;
-
-	if (!_tile_explored(next_loc))
-		_set_tile_explored(next_loc);
-
-	if (next_tile.is(DARKNESS) && _ctx.game->state->get_lit())
-		_ctx.game->state->set_lit(false);
-
-	// Check for Stairs
-	using enum Enums::Tile::Features;
-
-	if (_ctx.game->state->level->stairs_at(next_loc)) {
-
-		if (next_tile.has(LADDER_UP) || next_tile.has(STAIRS_UP))
-			_ctx.ui->dialog_stairs_up->show = true;
-		else if (next_tile.has(LADDER_DOWN) || next_tile.has(STAIRS_DOWN))
-			_ctx.ui->dialog_stairs_down->show = true;
-	}
-
-	// Check for Events or Elevators etc
-	if (const auto elevator{next_tile.has_elevator()}) {
-
-		const auto top_elevator{elevator->top_depth == -1};
-
-		if (top_elevator) {
-
-			_ctx.ui->modal_elevator_top->show = true;
-
-			DEBUG_LOG("Player triggered top elevator");
-
-		} else {
-
-			_ctx.ui->modal_elevator_bottom->show = true;
-
-			DEBUG_LOG("Player triggered bottom elevator");
-		}
-
-	} else if (const auto destination{next_tile.has_chute()}) {
-
-		DEBUG_LOG("Player triggered chute");
-
-		_ctx.ui->show_transient(
-			_ctx.get_string("DIALOG_CHUTE"), std::chrono::seconds{2},
-			TransientWidth::FIT_TEXT, TransientMode::UNTIL_EXPIRY);
-
-		_pending_chute =
-			PendingChute{.depth = destination->to_level,
-						 .loc = destination->to_loc,
-						 .execute_at = std::chrono::steady_clock::now() +
-									   std::chrono::seconds{2}};
-
-		return true;
-	} else if (const auto destination{next_tile.has_teleport()}) {
-
-		DEBUG_LOG("Player triggered teleporter");
-
-		if (destination->to_level == 0) {
-
-			// Special case of teleporting back to castle
-			_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
-			_ctx.controller->set_flag("want_return_to_town");
-			return true;
-
-		} else if (destination->to_level == _ctx.game->state->get_depth()) {
-
-			// Same level teleport
-			_ctx.game->state->set_player_pos(destination->to_loc);
-			_ctx.controller->set_can_undo(false);
-
-			const auto &destination_tile{
-				_ctx.game->state->level->at(destination->to_loc)};
-
-			if (_check_for_tile_message(destination_tile))
-				_ctx.ui->clear_transient();
-
-			return true;
-
-		} else {
-
-			// Teleport to another level
-			_ctx.game->state->set_player_prev_depth(
-				_ctx.game->state->get_depth());
-
-			_ctx.game->state->set_depth(destination->to_level);
-			_ctx.game->state->set_player_pos(destination->to_loc);
-			_ctx.controller->set_can_undo(false);
-
-			return true;
-		}
-
-	} else if (next_tile.has_spinner()) {
-
-		const auto new_facing{static_cast<Enums::Map::Direction>(
-			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
-
-		_ctx.game->state->set_player_facing(new_facing);
-
-		DEBUG_LOG("Player triggered spinner");
-
-		return true;
-
-	} else if (next_tile.has_pit()) {
-
-		_ctx.ui->show_transient(_ctx.get_string("POPUP_PIT"));
-
-		DEBUG_LOG("Player triggered pit");
-
-		_pit_oops();
-
-		return true;
-
-	} else {
-
-		(void)_check_for_tile_message(next_tile);
-	}
-
-	// Remember this is COMPASS (on screen) direction, not map
-	// direction!
 	_ctx.controller->set_last_dir(Enums::Map::Direction::NORTH);
 
-	return true;
+	return _process_tile_entry(from, to);
 }
+
 auto Sorcery::Engine::_check_for_tile_message(const Tile &tile) -> bool {
 
 	auto event{tile.has_event()};
@@ -852,37 +675,24 @@ auto Sorcery::Engine::_go_up_a_level() -> void {
 
 	_ctx.controller->unset_flag("want_take_stairs_up");
 }
+
 auto Sorcery::Engine::_move_backward() -> bool {
 
-	const auto at_loc{_ctx.game->state->get_player_pos()};
+	const auto from{_ctx.game->state->get_player_pos()};
 	const auto facing{_ctx.game->state->get_player_facing()};
 	const auto direction{_opposite_direction(facing)};
-	const auto next_loc{_movement_destination(at_loc, direction)};
+	const auto to{_movement_destination(from, direction)};
 
-	const auto &this_tile{_ctx.game->state->level->at(at_loc)};
-	const auto &next_tile{_ctx.game->state->level->at(next_loc)};
+	const auto &this_tile{_ctx.game->state->level->at(from)};
 
 	if (!this_tile.walkable(direction))
 		return false;
 
-	_move_player_to(next_loc);
-
-	if (!_tile_explored(next_loc))
-		_set_tile_explored(next_loc);
-
-	if (next_tile.is(Enums::Tile::Properties::DARKNESS) &&
-		_ctx.game->state->get_lit()) {
-
-		_ctx.game->state->set_lit(false);
-	}
-
-	//
-	// Existing stairs / spinner / event handling for now...
-	//
+	_move_player_to(to);
 
 	_ctx.controller->set_last_dir(Enums::Map::Direction::SOUTH);
 
-	return true;
+	return _process_tile_entry(from, to);
 }
 
 auto Sorcery::Engine::_turn_left() -> void {
@@ -1334,4 +1144,199 @@ auto Sorcery::Engine::_triggers_guaranteed_encounter(
 	[[maybe_unused]] const Coordinate to) const -> bool {
 
 	return depth == -4 && from == Coordinate{10, 15};
+}
+
+auto Sorcery::Engine::_process_current_tile() -> bool {
+
+	const auto loc{_ctx.game->state->get_player_pos()};
+	const auto &tile{_ctx.game->state->level->at(loc)};
+
+	// Once-per-delve / special combat events
+	if (const auto event{tile.has_event()}; event) {
+
+		using enum Enums::Map::Event;
+		using enum Enums::Items::TypeID;
+
+		switch (*event) {
+
+		case DEADLY_RING_COMBAT:
+
+			if (_ctx.game->party_has_item(BLUE_RIBBON))
+				return true;
+
+			DEBUG_LOG("Player triggered deadly ring combat");
+
+			_ctx.game->state->level->clear_event(loc);
+
+			// Start specific Deadly Ring combat here.
+
+			return true;
+
+		case FIRE_DRAGONS_COMBAT:
+
+			DEBUG_LOG("Player triggered fire dragons combat");
+
+			_ctx.game->state->level->clear_event(loc);
+
+			// Start specific Fire Dragons combat here.
+
+			return true;
+
+		case WERDNA_COMBAT:
+
+			if (_ctx.game->party_has_item(AMULET_OF_WERDNA))
+				return true;
+
+			DEBUG_LOG("Player triggered Werdna combat");
+
+			// Do NOT clear this event: possession of the amulet
+			// suppresses repeat combat.
+
+			// Start specific Werdna combat here.
+
+			return true;
+
+		default:
+			break;
+		}
+	}
+
+	// Darkness
+	using enum Enums::Tile::Properties;
+
+	if (!_tile_explored(loc))
+		_set_tile_explored(loc);
+
+	if (tile.is(DARKNESS) && _ctx.game->state->get_lit())
+		_ctx.game->state->set_lit(false);
+
+	// Stairs
+	using enum Enums::Tile::Features;
+
+	if (_ctx.game->state->level->stairs_at(loc)) {
+
+		if (tile.has(LADDER_UP) || tile.has(STAIRS_UP))
+			_ctx.ui->dialog_stairs_up->show = true;
+		else if (tile.has(LADDER_DOWN) || tile.has(STAIRS_DOWN))
+			_ctx.ui->dialog_stairs_down->show = true;
+	}
+
+	// Elevators / chute / teleport / spinner / pit / message
+	if (const auto elevator{tile.has_elevator()}) {
+
+		const auto top_elevator{elevator->top_depth == -1};
+
+		if (top_elevator) {
+
+			_ctx.ui->modal_elevator_top->show = true;
+
+			DEBUG_LOG("Player triggered top elevator");
+
+		} else {
+
+			_ctx.ui->modal_elevator_bottom->show = true;
+
+			DEBUG_LOG("Player triggered bottom elevator");
+		}
+
+	} else if (const auto destination{tile.has_chute()}) {
+
+		DEBUG_LOG("Player triggered chute");
+
+		_ctx.ui->show_transient(
+			_ctx.get_string("DIALOG_CHUTE"), std::chrono::seconds{2},
+			TransientWidth::FIT_TEXT, TransientMode::UNTIL_EXPIRY);
+
+		_pending_chute =
+			PendingChute{.depth = destination->to_level,
+						 .loc = destination->to_loc,
+						 .execute_at = std::chrono::steady_clock::now() +
+									   std::chrono::seconds{2}};
+
+		return true;
+
+	} else if (const auto destination{tile.has_teleport()}) {
+
+		DEBUG_LOG("Player triggered teleporter");
+
+		if (destination->to_level == 0) {
+
+			_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
+			_ctx.controller->set_flag("want_return_to_town");
+
+			return true;
+
+		} else if (destination->to_level == _ctx.game->state->get_depth()) {
+
+			_ctx.game->state->set_player_pos(destination->to_loc);
+
+			_ctx.controller->set_can_undo(false);
+
+			const auto &destination_tile{
+				_ctx.game->state->level->at(destination->to_loc)};
+
+			if (_check_for_tile_message(destination_tile))
+				_ctx.ui->clear_transient();
+
+			return true;
+
+		} else {
+
+			_ctx.game->state->set_player_prev_depth(
+				_ctx.game->state->get_depth());
+
+			_ctx.game->state->set_depth(destination->to_level);
+
+			_ctx.game->state->set_player_pos(destination->to_loc);
+
+			_ctx.controller->set_can_undo(false);
+
+			return true;
+		}
+
+	} else if (tile.has_spinner()) {
+
+		const auto new_facing{static_cast<Enums::Map::Direction>(
+			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+
+		_ctx.game->state->set_player_facing(new_facing);
+
+		DEBUG_LOG("Player triggered spinner");
+
+		return true;
+
+	} else if (tile.has_pit()) {
+
+		_ctx.ui->show_transient(_ctx.get_string("POPUP_PIT"));
+
+		DEBUG_LOG("Player triggered pit");
+
+		_pit_oops();
+
+		return true;
+
+	} else {
+
+		(void)_check_for_tile_message(tile);
+	}
+
+	return true;
+}
+
+auto Sorcery::Engine::_process_tile_entry(const Coordinate from,
+										  const Coordinate to) -> bool {
+
+	const auto depth{_ctx.game->state->get_depth()};
+
+	if (_triggers_guaranteed_encounter(depth, from, to)) {
+
+		DEBUG_LOG("Player triggered guaranteed encounter");
+
+		// Start/schedule encounter here.
+
+		return true;
+	}
+
+	return _process_current_tile();
 }

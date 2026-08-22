@@ -805,6 +805,7 @@ auto Sorcery::UI::display_engine() -> void {
 	if (_ctx.get_flag("interface_ui")) {
 		_draw_compass();
 		_draw_buffbar();
+		_draw_level_name();
 		_draw_icons();
 		_draw_save();
 	}
@@ -3581,6 +3582,19 @@ auto Sorcery::UI::_draw_options() -> void {
 		}
 	}
 }
+
+auto Sorcery::UI::_draw_level_name() -> void {
+
+	auto text_cmp{components->get("engine_base_ui:level_name")};
+	auto frame_cmp{components->get("engine_base_ui:level_name_frame")};
+
+	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
+
+		_draw_frame(&frame_cmp);
+		_draw_text(&text_cmp, _ctx.game->state->level->name());
+	}
+}
+
 auto Sorcery::UI::_draw_buffbar() -> void {
 	auto cmp{components->get("engine_base_ui:buffbar")};
 	auto frame_cmp{components->get("engine_base_ui:buffbar_frame")};

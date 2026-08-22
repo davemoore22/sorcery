@@ -289,6 +289,7 @@ class UI {
 
 		auto _draw_buffbar() -> void;
 		auto _draw_buy() -> void;
+		auto _draw_level_name() -> void;
 		auto _draw_button(Component *component,
 						  std::optional<bool *> is_clicked = std::nullopt)
 			-> void;

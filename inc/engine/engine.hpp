@@ -114,6 +114,11 @@ class Engine final : public Module {
 														  Coordinate to) const
 			-> bool;
 
+		[[nodiscard]] auto _process_tile_entry(Coordinate from, Coordinate to)
+			-> bool;
+
+		[[nodiscard]] auto _process_current_tile() -> bool;
+
 		// Private Members
 		Application *_application;
 
