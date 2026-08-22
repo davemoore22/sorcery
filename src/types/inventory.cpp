@@ -226,6 +226,21 @@ auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 	return true;
 }
 
+auto Sorcery::Inventory::discard_item(const Enums::Items::TypeID item_type)
+	-> bool {
+
+	const auto it{std::ranges::find_if(_items, [item_type](const auto &item) {
+		return item.get_type_id() == item_type;
+	})};
+
+	if (it == _items.end())
+		return false;
+
+	_items.erase(it);
+
+	return true;
+}
+
 auto Sorcery::Inventory::drop_item(const unsigned int slot) -> bool {
 
 	if (_items.size() < (slot - 1))

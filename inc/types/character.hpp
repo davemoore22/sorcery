@@ -65,7 +65,7 @@ class Character {
 					_class, _alignment, _start_attr, _cur_attr, _max_attr,
 					_st_points, _abilities, _priest_max_sp, _priest_cur_sp,
 					_mage_max_sp, _mage_cur_sp, _status, _hidden, _spells_known,
-					_legated, inventory, _current_stage);
+					_legated, inventory, _current_stage, _wiz_1_award);
 		}
 
 		// Public Methods
@@ -132,6 +132,7 @@ class Character {
 		auto set_gold(const unsigned int value) -> void;
 		auto grant_gold(const int value) -> void;
 		auto summary_text() const -> std::string;
+		auto summary_text_with_awards() const -> std::string;
 		auto full_desc_text() const -> std::string;
 		auto get_summary() -> std::string;
 		auto create_spells() -> void;
@@ -189,6 +190,8 @@ class Character {
 			-> const std::map<unsigned int, unsigned int> &;
 		auto priest_max_sp() -> std::map<unsigned int, unsigned int> &;
 		auto mage_max_sp() -> std::map<unsigned int, unsigned int> &;
+		auto get_wiz_1_award() const -> bool;
+		auto set_wiz_1_awatd(const bool value) -> void;
 
 		// Public Members
 		std::optional<Coordinate> coordinate;
@@ -260,5 +263,6 @@ class Character {
 		bool _hidden;
 		bool _legated;
 		Enums::Character::Location _location;
+		bool _wiz_1_award;
 };
 }

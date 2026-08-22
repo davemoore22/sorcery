@@ -32,6 +32,7 @@
 #include "core/ui.hpp"
 #include "engine/automap.hpp"
 #include "engine/graveyard.hpp"
+#include "engine/victory.hpp"
 #include "frontend/options.hpp"
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
@@ -60,6 +61,7 @@ Sorcery::Engine::Engine(Context &ctx)
 	_inspect = std::make_unique<Inspect>(_ctx);
 	_automap = std::make_unique<Automap>(_ctx);
 	_graveyard = std::make_unique<Graveyard>(_ctx);
+	_victory = std::make_unique<Victory>(_ctx);
 
 	_initialise();
 };
@@ -619,6 +621,28 @@ auto Sorcery::Engine::_check_for_tile_message(const Tile &tile) -> bool {
 }
 
 auto Sorcery::Engine::_go_back_to_town() -> int {
+
+	using enum Enums::Items::TypeID;
+
+	if (!_check_for_wipe() && _ctx.game->party_has_item(AMULET_OF_WERDNA)) {
+
+		const auto result{_victory->start()};
+
+		_victory->stop();
+
+		if (result == ABORT_GAME)
+			return ABORT_GAME;
+
+		// Remove Amulet
+		_ctx.game->remove_party_item(AMULET_OF_WERDNA);
+
+		// Grant Gold and XP
+		_ctx.game->grant_party_members_gold(50000);
+		_ctx.game->grant_party_members_xp(50000);
+
+		// Grant Chevron Award
+		_ctx.game->set_party_members_wiz_1_award(true);
+	}
 
 	_ctx.controller->set_busy(true);
 	_ctx.game->save_game();

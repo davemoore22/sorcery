@@ -261,6 +261,7 @@ class UI {
 
 		auto _display_automap() -> void;
 		auto _display_graveyard() -> void;
+		auto _display_victory() -> void;
 
 		auto _display_choose(const int mode) -> void;
 		auto _display_create_name(const int stage) -> void;

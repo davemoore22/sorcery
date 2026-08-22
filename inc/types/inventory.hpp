@@ -73,6 +73,7 @@ class Inventory {
 		auto equip_item(const unsigned int slot) -> bool;
 		auto drop_item(const unsigned int slot) -> bool;
 		auto discard_item(const unsigned int slot) -> bool;
+		auto discard_item(const Enums::Items::TypeID item_type) -> bool;
 		auto is_equipped_cursed(const unsigned int slot) -> bool;
 		auto identify_item(const unsigned int slot, const unsigned int roll,
 						   const unsigned int id_chance,

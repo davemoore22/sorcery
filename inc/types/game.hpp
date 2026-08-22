@@ -94,6 +94,10 @@ class Game {
 		auto party_has_item(const Enums::Items::TypeID item_type) const -> bool;
 		auto give_party_item(const Enums::Items::TypeID item_type,
 							 const bool known = true) -> bool;
+		auto remove_party_item(const Enums::Items::TypeID item_type) -> bool;
+		auto grant_party_members_gold(const int value) -> void;
+		auto grant_party_members_xp(const int adjustment) -> void;
+		auto set_party_members_wiz_1_award(const bool value) -> void;
 
 	private:
 		// Private Methods

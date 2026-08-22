@@ -52,6 +52,7 @@ Sorcery::Character::Character(Context *ctx)
 	_version = 1;
 
 	_legated = false;
+	_wiz_1_award = false;
 
 	_location = Enums::Character::Location::TAVERN;
 
@@ -2139,6 +2140,16 @@ auto Sorcery::Character::create_random() -> void {
 	_name = _ctx->random->get_random_name();
 }
 
+auto Sorcery::Character::get_wiz_1_award() const -> bool {
+
+	return _wiz_1_award;
+}
+
+auto Sorcery::Character::set_wiz_1_awatd(const bool value) -> void {
+
+	_wiz_1_award = value;
+}
+
 auto Sorcery::Character::get_status() const -> Enums::Character::Status {
 
 	return _status;
@@ -2493,12 +2504,22 @@ auto Sorcery::Character::full_desc_text() const -> std::string {
 					   race_to_str(_race).substr(0, 3));
 };
 
+auto Sorcery::Character::summary_text_with_awards() const -> std::string {
+
+	auto name{_name};
+	auto legacy{_legated ? " (D)" : ""};
+	const auto level{_abilities.at(Enums::Character::Ability::CURRENT_LEVEL)};
+	const auto award{_wiz_1_award ? " \">\"" : ""};
+
+	return std::format("{} L {:>2} {}-{} {}{}{}", name, level,
+					   alignment_to_str(_alignment).substr(0, 1),
+					   class_to_str(_class).substr(0, 3), race_to_str(_race),
+					   legacy, award);
+}
+
 auto Sorcery::Character::summary_text() const -> std::string {
 
 	auto name{_name};
-	// if (_display->get_upper())
-	//	std::ranges::transform(name.begin(), name.end(), name.begin(),
-	//						   ::toupper);
 	auto legacy{_legated ? " (D)" : ""};
 	const auto level{_abilities.at(Enums::Character::Ability::CURRENT_LEVEL)};
 	switch (_current_stage) {

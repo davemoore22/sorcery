@@ -1582,6 +1582,8 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 		go_to(Enums::Screen::INN);
 	} else if (component == "automap_return") {
 		go_to(Enums::Screen::ENGINE);
+	} else if (component == "button_victory") {
+		go_to(Enums::Screen::CASTLE);
 	}
 }
 

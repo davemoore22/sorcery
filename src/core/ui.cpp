@@ -254,6 +254,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules[Enums::Screen::GRAVEYARD] = [this]() {
 		_display_graveyard();
 	};
+	_draw_modules[Enums::Screen::VICTORY] = [this]() {
+		_display_victory();
+	};
 	_draw_modules[Enums::Screen::IDENTIFY] = [this]() {
 		_display_identify();
 	};
@@ -956,6 +959,7 @@ auto Sorcery::UI::draw_view_image(std::string_view source,
 		draw_list->Flags = old_flags;
 	}
 }
+
 // Handle drawing parts of a texture as specified by a tile index
 auto Sorcery::UI::_draw_fg_image_with_idx(std::string_view layer,
 										  std::string_view source,
@@ -1105,11 +1109,12 @@ auto Sorcery::UI::_draw_fg_image(Component *component) -> void {
 				return grid_pos(component->x, component->y).y;
 		})};
 
-		// Draw the Image
+		// Draw the Image (with Alpha as well as Fade!)
 		with_Window(WINDOW_LAYER_IMAGES, nullptr,
 					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 			ImGui::SetCursorPos(ImVec2{x, y});
-			ImVec4 tint_col{ImVec4(1.0f, 1.0f, 1.0f, _ctx.animation->fade)};
+			ImVec4 tint_col{ImVec4(1.0f, 1.0f, 1.0f,
+								   component->alpha * _ctx.animation->fade)};
 			ImGui::ImageWithBg(_to_imgui(src_image.texture),
 							   ImVec2{static_cast<float>(resized.w),
 									  static_cast<float>(resized.h)},
@@ -2547,7 +2552,7 @@ auto Sorcery::UI::_draw_current_character([[maybe_unused]] const int mode)
 		_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
 
 	auto title{components->get("inspect:character_title")};
-	_draw_text(&title, character.summary_text());
+	_draw_text(&title, character.summary_text_with_awards());
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto prev{components->get("inspect:character_previous")};
@@ -4238,6 +4243,12 @@ auto Sorcery::UI::_display_graveyard() -> void {
 
 	_draw_components("graveyard");
 	_draw_party_wipe();
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_victory() -> void {
+
+	_draw_components("victory");
 	_draw_cursor();
 }
 

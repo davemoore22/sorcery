@@ -829,6 +829,38 @@ auto Sorcery::Game::party_has_item(const Enums::Items::TypeID item_type) const
 	return false;
 }
 
+auto Sorcery::Game::remove_party_item(const Enums::Items::TypeID item_type)
+	-> bool {
+
+	for (const auto char_id : state->get_party_characters()) {
+
+		auto &character{characters.at(char_id)};
+
+		if (character.inventory.discard_item(item_type))
+			return true;
+	}
+
+	return false;
+}
+
+auto Sorcery::Game::set_party_members_wiz_1_award(const bool value) -> void {
+
+	for (const auto char_id : state->get_party_characters())
+		characters.at(char_id).set_wiz_1_awatd(value);
+}
+
+auto Sorcery::Game::grant_party_members_gold(const int value) -> void {
+
+	for (const auto char_id : state->get_party_characters())
+		characters.at(char_id).grant_gold(value);
+}
+
+auto Sorcery::Game::grant_party_members_xp(const int adjustment) -> void {
+
+	for (const auto char_id : state->get_party_characters())
+		characters.at(char_id).grant_xp(adjustment);
+}
+
 namespace Sorcery {
 auto operator<<(std::ostream &out_stream, const Sorcery::Game &game)
 	-> std::ostream & {

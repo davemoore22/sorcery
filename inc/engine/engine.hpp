@@ -39,6 +39,7 @@ class Reorder;
 class Application;
 class Automap;
 class Graveyard;
+class Victory;
 class Tile;
 
 struct PendingChute {
@@ -127,6 +128,7 @@ class Engine final : public Module {
 		std::unique_ptr<Inspect> _inspect;
 		std::unique_ptr<Automap> _automap;
 		std::unique_ptr<Graveyard> _graveyard;
+		std::unique_ptr<Victory> _victory;
 
 		std::optional<PendingElevator> _pending_elevator;
 		std::optional<PendingChute> _pending_chute;
