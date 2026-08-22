@@ -106,6 +106,9 @@ class Engine final : public Module {
 
 		auto _show_tile_message(Enums::Map::Event event) -> void;
 
+		[[nodiscard]] auto _skip_tile_event(Enums::Map::Event event) const
+			-> bool;
+
 		// Private Members
 		Application *_application;
 

@@ -92,6 +92,7 @@ class Game {
 		auto print() -> void;
 		auto call_debug(const SDL_Keycode key_code) -> void;
 		auto party_has_item(const Enums::Items::TypeID item_type) const -> bool;
+		auto give_party_item(const Enums::Items::TypeID item_type) -> bool;
 
 	private:
 		// Private Methods
@@ -117,6 +118,7 @@ class Game {
 		auto _debug_harm_party_to_min() -> void;
 		auto _debug_kill_party() -> void;
 		auto _debug_toggle_light() -> void;
+		auto _debug_give_party_quest_items() -> void;
 
 		// Private Members
 		Context &_ctx;

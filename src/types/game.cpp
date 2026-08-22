@@ -58,7 +58,7 @@ auto Sorcery::Game::post_construct(Context &ctx) -> void {
 auto Sorcery::Game::_set_up_debug_keys() -> void {
 
 	_debug.clear();
-	_debug[SDLK_F1] = std::bind(&Game::_debug_create_random_party, this);
+	_debug[SDLK_F1] = std::bind(&Game::_debug_give_party_quest_items, this);
 	_debug[SDLK_F2] = std::bind(&Game::_debug_give_party_random_status, this);
 	_debug[SDLK_F3] = std::bind(&Game::_debug_heal_party_to_full, this);
 	_debug[SDLK_F4] = std::bind(&Game::_debug_toggle_light, this);
@@ -591,6 +591,36 @@ auto Sorcery::Game::_debug_harm_party_to_min() -> void {
 		const auto hp{_ctx.get_random(Enums::System::Random::D4)};
 		cur_char.set_current_hp(hp);
 	}
+}
+
+auto Sorcery::Game::_debug_give_party_quest_items() -> void {
+
+	PRINT("debug_give_party_quest_items");
+
+	using enum Enums::Items::TypeID;
+
+	give_party_item(STATUE_OF_BEAR);
+	give_party_item(STATUE_OF_FROG);
+	give_party_item(KEY_OF_BRONZE);
+	give_party_item(KEY_OF_SILVER);
+	give_party_item(KEY_OF_GOLD);
+	give_party_item(BLUE_RIBBON);
+}
+
+auto Sorcery::Game::give_party_item(const Enums::Items::TypeID item_type)
+	-> bool {
+
+	for (const auto char_id : _ctx.game->state->get_party_characters()) {
+
+		auto &character{_ctx.game->characters.at(char_id)};
+		if (character.inventory.get_empty_slots() == 0)
+			continue;
+		character.inventory.add_type(_ctx.resources->items->get(item_type),
+									 true);
+		return true;
+	}
+
+	return false;
 }
 
 auto Sorcery::Game::_debug_kill_party() -> void {

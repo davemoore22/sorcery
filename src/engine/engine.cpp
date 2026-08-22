@@ -717,6 +717,9 @@ auto Sorcery::Engine::_check_for_tile_message(const Tile &tile) -> bool {
 	if (!event || *event == Enums::Map::Event::NO_EVENT)
 		return false;
 
+	if (_skip_tile_event(*event))
+		return false;
+
 	_show_tile_message(*event);
 
 	return true;
@@ -1197,4 +1200,30 @@ auto Sorcery::Engine::_show_tile_message(const Enums::Map::Event event)
 	_ctx.controller->set_flag("after_tile_message");
 	_ctx.controller->set_last_event(event);
 	_ctx.ui->message_tile->show = true;
+}
+
+auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const
+	-> bool {
+
+	using enum Enums::Map::Event;
+	using enum Enums::Items::TypeID;
+
+	switch (event) {
+
+	case NEED_SILVER_KEY:
+		return _ctx.game->party_has_item(KEY_OF_SILVER);
+
+	case NEED_BRONZE_KEY:
+		return _ctx.game->party_has_item(KEY_OF_BRONZE);
+
+	case NEED_BEAR_STATUE:
+	case NEED_BEAR_STATUE_2:
+		return _ctx.game->party_has_item(STATUE_OF_BEAR);
+
+	case NEED_FROG_STATUE:
+		return _ctx.game->party_has_item(STATUE_OF_FROG);
+
+	default:
+		return false;
+	}
 }
