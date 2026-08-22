@@ -288,7 +288,8 @@ auto Sorcery::Level::_add_event_mappings() -> void {
 	_event_mappings["SERVICE_ELEVATOR"] = SERVICE_ELEVATOR;
 	_event_mappings["WERDNA_BOAST"] = WERDNA_BOAST;
 	_event_mappings["TURN_BACK"] = TURN_BACK;
-	_event_mappings["WERDNA_SIGN"] = WERDNA_SIGN;
+	_event_mappings["WERDNA_SIGN_IN"] = WERDNA_SIGN_IN;
+	_event_mappings["WERDNA_SIGN_OUT"] = WERDNA_SIGN_OUT;
 	_event_mappings["THREE_HUMANOIDS"] = THREE_HUMANOIDS;
 	_event_mappings["GETTING_WARM_1"] = GETTING_WARM_1;
 

@@ -892,7 +892,7 @@ namespace Enums::Map {
 		SERVICE_ELEVATOR = 25,
 		WERDNA_BOAST = 26,
 		TURN_BACK = 27,
-		WERDNA_SIGN = 28,
+		WERDNA_SIGN_IN = 28,
 		THREE_HUMANOIDS = 29,
 		GETTING_WARM_1 = 30,
 		GETTING_WARM_2 = 31,
@@ -902,6 +902,7 @@ namespace Enums::Map {
 		WERDNA_COMBAT = 35,
 		NEED_BLUE_RIBBON = 36,
 		TOP_ELEVATOR = 37,
+		WERDNA_SIGN_OUT = 38,
 	};
 
 }

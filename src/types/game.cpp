@@ -196,7 +196,9 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 						 false, false, false);
 	_events.emplace_back(TURN_BACK, "event_turn_back", false, false, false,
 						 false, false);
-	_events.emplace_back(WERDNA_SIGN, "event_werdna_sign_1", false, false,
+	_events.emplace_back(WERDNA_SIGN_IN, "event_werdna_sign_1", false, false,
+						 false, false, false);
+	_events.emplace_back(WERDNA_SIGN_OUT, "event_werdna_sign_2", false, false,
 						 false, false, false);
 }
 
@@ -605,6 +607,7 @@ auto Sorcery::Game::_debug_give_party_quest_items() -> void {
 	give_party_item(KEY_OF_SILVER);
 	give_party_item(KEY_OF_GOLD);
 	give_party_item(BLUE_RIBBON);
+	give_party_item(AMULET_OF_WERDNA);
 }
 
 auto Sorcery::Game::give_party_item(const Enums::Items::TypeID item_type,

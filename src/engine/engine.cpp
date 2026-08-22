@@ -772,10 +772,18 @@ auto Sorcery::Engine::_move_forward() -> bool {
 }
 auto Sorcery::Engine::_check_for_tile_message(const Tile &tile) -> bool {
 
-	const auto event{tile.has_event()};
+	auto event{tile.has_event()};
 
 	if (!event || *event == Enums::Map::Event::NO_EVENT)
 		return false;
+
+	using enum Enums::Map::Event;
+	using enum Enums::Items::TypeID;
+
+	if (*event == WERDNA_SIGN_IN && _ctx.game->party_has_item(AMULET_OF_WERDNA)) {
+
+		event = WERDNA_SIGN_OUT;
+	}
 
 	if (_skip_tile_event(*event))
 		return false;
