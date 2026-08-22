@@ -415,6 +415,8 @@
 	"GAME_MESSAGE_NEED_BEAR_STATUE_2": "down.                                 ",
 	"GAME_MESSAGE_NEED_FROG_STATUE_1": "Nobody in the party can break the door",
 	"GAME_MESSAGE_NEED_FROG_STATUE_2": "down.                                 ",
+	"GAME_MESSAGE_NEED_GOLD_KEY_1": "Nobody in the party can break the door",
+	"GAME_MESSAGE_NEED_GOLD_KEY_2": "down.                                 ",
 	"GAME_MESSAGE_TESTING_GROUNDS_1": "      A sign on the door reads:       ",
 	"GAME_MESSAGE_TESTING_GROUNDS_2": "*** Testing Grounds Control Centre ***",
 	"GAME_MESSAGE_TESTING_GROUNDS_3": "      Authorised personnel only!      ",

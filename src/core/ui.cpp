@@ -3208,6 +3208,12 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 			"GAME_MESSAGE_NEED_BEAR_STATUE_2",
 		};
 		break;
+	case NEED_GOLD_KEY:
+		return {
+			"GAME_MESSAGE_NEED_GOLD_KEY_1",
+			"GAME_MESSAGE_NEED_GOLD_KEY_2",
+		};
+		break;
 	case NEED_FROG_STATUE:
 		return {
 			"GAME_MESSAGE_NEED_FROG_STATUE_1",
@@ -3248,13 +3254,6 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 		return {
 			"GAME_MESSAGE_TURN_RIGHT_1",
 			"GAME_MESSAGE_TURN_RIGHT_2",
-		};
-		break;
-	case NEED_BEAR_STATUE_2:
-		return {
-			"GAME_MESSAGE_BEAR_STATUE_2_1",
-			"GAME_MESSAGE_BEAR_STATUE_2_2",
-			"GAME_MESSAGE_BEAR_STATUE_2_3",
 		};
 		break;
 	case TESTING_GROUNDS:

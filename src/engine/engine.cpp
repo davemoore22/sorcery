@@ -1212,16 +1212,16 @@ auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const
 
 	case NEED_SILVER_KEY:
 		return _ctx.game->party_has_item(KEY_OF_SILVER);
-
 	case NEED_BRONZE_KEY:
 		return _ctx.game->party_has_item(KEY_OF_BRONZE);
-
+	case NEED_GOLD_KEY:
+		return _ctx.game->party_has_item(KEY_OF_GOLD);
 	case NEED_BEAR_STATUE:
-	case NEED_BEAR_STATUE_2:
 		return _ctx.game->party_has_item(STATUE_OF_BEAR);
-
 	case NEED_FROG_STATUE:
 		return _ctx.game->party_has_item(STATUE_OF_FROG);
+	case NEED_BLUE_RIBBON:
+		return _ctx.game->party_has_item(BLUE_RIBBON);
 
 	default:
 		return false;

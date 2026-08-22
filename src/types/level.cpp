@@ -277,8 +277,7 @@ auto Sorcery::Level::_add_event_mappings() -> void {
 	_event_mappings["TURN_AROUND"] = TURN_AROUND;
 	_event_mappings["TURN_LEFT"] = TURN_LEFT;
 	_event_mappings["TURN_RIGHT"] = TURN_RIGHT;
-	_event_mappings["NEED_BEAR_STATUE_2"] =
-		Enums::Map::Event::NEED_BEAR_STATUE_2;
+	_event_mappings["NEED_GOLD_KEY"] = NEED_GOLD_KEY;
 	_event_mappings["TESTING_GROUNDS"] = TESTING_GROUNDS;
 	_event_mappings["ALARM_BELLS"] = ALARM_BELLS;
 

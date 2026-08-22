@@ -153,8 +153,8 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 						 false);
 
 	// Level 4
-	_events.emplace_back(NEED_BEAR_STATUE_2, "event_need_bear_statue_2", false,
-						 false, true, false);
+	_events.emplace_back(NEED_GOLD_KEY, "event_need_gold_key", false, false,
+						 true, false);
 	_events.emplace_back(TESTING_GROUNDS, "event_testing_grounds", false, false,
 						 false, false);
 	_events.emplace_back(ALARM_BELLS, "event_alarm_bells", false, true, false,
