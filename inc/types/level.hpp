@@ -75,6 +75,7 @@ class Level {
 		auto wrap_bottom_left() const -> Coordinate;
 		auto wrap_size() const -> Size;
 		auto wrap_top_right() const -> Coordinate;
+		auto clear_event(const Coordinate loc) -> void;
 
 	private:
 		// Private Members - need getters for these (bot not setters)

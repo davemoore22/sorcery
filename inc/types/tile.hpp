@@ -57,6 +57,7 @@ class Tile {
 		auto clear_teleport() -> void;
 		auto clear_stairs() -> void;
 		auto clear_chute() -> void;
+		auto clear_event() -> void;
 		auto gfx(const unsigned int texture) -> void;
 		auto gfx() -> std::optional<unsigned int>;
 		auto has(const Enums::Map::Direction direction) const -> bool;

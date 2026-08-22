@@ -97,6 +97,7 @@ auto Sorcery::Game::move_party_to_tavern() -> void {
 
 // Mappings for each type of special dungeon event in the Proving Grounds
 auto Sorcery::Game::_set_up_dungeon_events() -> void {
+
 	_events.clear();
 
 	// bool params are:
@@ -105,97 +106,98 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 	// encounter after
 	// go back a square after
 	// teleport back to town
+	// give item after
 
 	// Level 1
 	using enum Enums::Map::Event;
 	_events.emplace_back(AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds", false,
-						 false, false, false);
+						 false, false, false, false);
 	_events.emplace_back(MAN_TELEPORT_CASTLE, "event_man_teleport_castle",
-						 false, false, false, true);
+						 false, false, false, true, false);
 	_events.emplace_back(OBTAIN_SILVER_KEY, "event_silver_key", true, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(OBTAIN_BRONZE_KEY, "event_bronze_key", true, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(MURPHYS_GHOSTS, "event_murphys_ghosts", true, true,
-						 false, false);
+						 false, false, false);
 
 	_events.emplace_back(TOP_ELEVATOR, "event_top_elevator", false, false,
-						 false, false);
+						 false, false, false);
 
 	// Level 2
 	_events.emplace_back(OBTAIN_GOLD_KEY, "event_gold_key", true, false, false,
-						 false);
+						 false, false);
 	_events.emplace_back(OBTAIN_BEAR_STATUE, "event_bear_statue", true, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(OBTAIN_FROG_STATUE, "event_frog_statue", true, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(PLACARD_PIT_1, "event_placard_pit_1", false, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(PLACARD_PIT_2, "event_placard_pit_2", false, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(PLACARD_PIT_3, "event_placard_pit_3", false, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(NEED_SILVER_KEY, "event_need_silver_key", false, false,
-						 true, false);
+						 true, false, false);
 	_events.emplace_back(NEED_BRONZE_KEY, "event_need_bronze_key", false, false,
-						 true, false);
+						 true, false, false);
 	_events.emplace_back(NEED_BEAR_STATUE, "event_cannot_break_doors_down",
-						 false, false, true, false);
+						 false, false, true, false, false);
 	_events.emplace_back(NEED_FROG_STATUE, "event_cannot_break_doors_down",
-						 false, false, true, false);
+						 false, false, true, false, false);
 
 	// Level 3
 	_events.emplace_back(TURN_LEFT, "event_turn_left", false, false, false,
-						 false);
+						 false, false);
 	_events.emplace_back(TURN_AROUND, "event_turn_around", false, false, false,
-						 false);
+						 false, false);
 	_events.emplace_back(TURN_RIGHT, "event_turn_right", false, false, false,
-						 false);
+						 false, false);
 
 	// Level 4
 	_events.emplace_back(NEED_GOLD_KEY, "event_need_gold_key", false, false,
-						 true, false);
+						 true, false, false);
 	_events.emplace_back(TESTING_GROUNDS, "event_testing_grounds", false, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(ALARM_BELLS, "event_alarm_bells", false, true, false,
-						 false);
+						 false, false);
 	_events.emplace_back(TREASURE_REPOSITORY, "event_treasure_repository",
-						 false, false, false, false);
+						 false, false, false, false, false);
 	_events.emplace_back(MONSTER_ALLOCATION_CENTRE,
 						 "event_monster_allocation_centre", false, false, false,
-						 false);
-	_events.emplace_back(NEED_BLUE_RIBBON, "event_need_blue_ribbon", false,
-						 false, true, false);
-	_events.emplace_back(SERVICE_ELEVATOR, "event_service_elevator", false,
-						 false, false, false);
-	_events.emplace_back(LARGE_DESK, "event_large_desk", false, false, false,
-						 false);
-	_events.emplace_back(DEADLY_RING_COMBAT, "event_deadly_ring_combat", false,
-						 true, false, false);
-	_events.emplace_back(TREBOR_VOICE, "event_trebor_voice", false, false,
 						 false, false);
+	_events.emplace_back(NEED_BLUE_RIBBON, "event_need_blue_ribbon", false,
+						 false, true, false, false);
+	_events.emplace_back(SERVICE_ELEVATOR, "event_service_elevator", false,
+						 false, false, false, false);
+	_events.emplace_back(LARGE_DESK, "event_large_desk", false, false, false,
+						 false, false);
+	_events.emplace_back(DEADLY_RING_COMBAT, "event_deadly_ring_combat", false,
+						 true, false, false, false);
+	_events.emplace_back(TREBOR_VOICE, "event_trebor_voice", false, false,
+						 false, false, true);
 
 	// Level 6
 	_events.emplace_back(THREE_HUMANOIDS, "event_three_humanoids", false, false,
-						 false, false);
+						 false, false, false);
 
 	// Level 7
 	_events.emplace_back(GETTING_WARM_1, "event_getting_warm_1", false, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(GETTING_WARM_2, "event_getting_warm_2", false, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(GETTING_WARM_3, "event_getting_warm_3", false, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat",
-						 false, true, false, false);
+						 false, true, false, false, false);
 
 	// Level 10
 	_events.emplace_back(WERDNA_BOAST, "event_werdna_boast", false, false,
-						 false, false);
+						 false, false, false);
 	_events.emplace_back(TURN_BACK, "event_turn_back", false, false, false,
-						 false);
-	_events.emplace_back(WERDNA_SIGN, "event_werdna_sign_1", false, false,
 						 false, false);
+	_events.emplace_back(WERDNA_SIGN, "event_werdna_sign_1", false, false,
+						 false, false, false);
 }
 
 auto Sorcery::Game::get_event(Enums::Map::Event event_type) const

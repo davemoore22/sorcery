@@ -390,6 +390,7 @@ struct DungeonEvent {
 		bool combat_after;
 		bool go_back_after;
 		bool go_town_after;
+		bool give_item_after;
 		bool enabled;
 		int num;
 		int count;
@@ -398,13 +399,15 @@ struct DungeonEvent {
 
 		DungeonEvent(Enums::Map::Event event_, std::string component_key_,
 					 bool search_after_, bool combat_after_,
-					 bool go_back_after_, bool go_town_after_)
+					 bool go_back_after_, bool go_town_after_,
+					 bool give_item_after_)
 			: event{event_},
 			  component_key{component_key_},
 			  search_after{search_after_},
 			  combat_after{combat_after_},
 			  go_back_after{go_back_after_},
-			  go_town_after{go_town_after_} {
+			  go_town_after{go_town_after_},
+			  give_item_after{give_item_after_} {
 
 			enabled = true;
 			num = -1;
@@ -414,7 +417,8 @@ struct DungeonEvent {
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(event, component_key, search_after, combat_after,
-					go_back_after, go_town_after, enabled, num, count);
+					go_back_after, go_town_after, give_item_after, enabled, num,
+					count);
 		}
 };
 };

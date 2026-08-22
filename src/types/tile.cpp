@@ -445,3 +445,8 @@ auto Sorcery::Tile::_reset() -> void {
 
 	_lighting = std::nullopt;
 }
+
+auto Sorcery::Tile::clear_event() -> void {
+
+	_event.reset();
+}

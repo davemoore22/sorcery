@@ -302,6 +302,10 @@ auto Sorcery::Level::_add_event_mappings() -> void {
 	_event_mappings["TOP_ELEVATOR"] = TOP_ELEVATOR;
 }
 
+auto Sorcery::Level::clear_event(const Coordinate loc) -> void {
+	_tiles.at(loc).clear_event();
+}
+
 auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 
 	for (auto j = 0u; j < note_data.size(); j++) {

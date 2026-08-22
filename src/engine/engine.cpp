@@ -598,6 +598,26 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		return true;
 	}
 
+	// Deadly Ring Combat (once per delve)
+	if (const auto event{next_tile.has_event()};
+		event && *event == Enums::Map::Event::DEADLY_RING_COMBAT) {
+
+		using enum Enums::Items::TypeID;
+
+		if (!_ctx.game->party_has_item(BLUE_RIBBON)) {
+
+			DEBUG_LOG("Player triggered deadly ring combat");
+
+			_ctx.game->state->level->clear_event(next_loc);
+
+			// Start specific guaranteed combat here.
+
+			return true;
+		}
+
+		return true;
+	}
+
 	// Check for Darkness
 	using enum Enums::Tile::Properties;
 
@@ -1138,6 +1158,30 @@ auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 		return std::nullopt;
 	}
 
+	if (event.give_item_after) {
+
+		using enum Enums::Items::TypeID;
+
+		switch (event_type) {
+
+		case Enums::Map::Event::TREBOR_VOICE:
+
+			if (_ctx.game->give_party_item(BLUE_RIBBON)) {
+				_ctx.ui->show_transient(
+					_ctx.get_string("POP_UP_PARTY_FOUND_AN_ITEM"));
+			}
+
+			break;
+
+		default:
+			break;
+		}
+
+		_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
+		return std::nullopt;
+	}
+
 	// Plain message-only event is now finished.
 	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 
@@ -1233,13 +1277,17 @@ auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const
 		return _ctx.game->party_has_item(STATUE_OF_FROG);
 	case NEED_BLUE_RIBBON:
 		return _ctx.game->party_has_item(BLUE_RIBBON);
+	case LARGE_DESK:
+		return _ctx.game->party_has_item(BLUE_RIBBON);
+	case TREBOR_VOICE:
+		return _ctx.game->party_has_item(BLUE_RIBBON);
 
 	default:
 		return false;
 	}
 }
 
-// Handle the guaranteed combat on Level 4!
+// Handle the guaranteed combats on Level 4!
 auto Sorcery::Engine::_triggers_guaranteed_encounter(
 	const int depth, const Coordinate from,
 	[[maybe_unused]] const Coordinate to) const -> bool {
