@@ -598,24 +598,53 @@ auto Sorcery::Engine::_move_forward() -> bool {
 		return true;
 	}
 
-	// Deadly Ring Combat (once per delve)
-	if (const auto event{next_tile.has_event()};
-		event && *event == Enums::Map::Event::DEADLY_RING_COMBAT) {
+	// Once per delve combat events
+	if (const auto event{next_tile.has_event()}; event) {
 
+		using enum Enums::Map::Event;
 		using enum Enums::Items::TypeID;
 
-		if (!_ctx.game->party_has_item(BLUE_RIBBON)) {
+		switch (*event) {
+
+		case DEADLY_RING_COMBAT:
+
+			if (_ctx.game->party_has_item(BLUE_RIBBON))
+				return true;
 
 			DEBUG_LOG("Player triggered deadly ring combat");
 
 			_ctx.game->state->level->clear_event(next_loc);
 
-			// Start specific guaranteed combat here.
+			// Start specific Deadly Ring combat here.
 
 			return true;
-		}
 
-		return true;
+		case FIRE_DRAGONS_COMBAT:
+
+			DEBUG_LOG("Player triggered fire dragons combat");
+
+			_ctx.game->state->level->clear_event(next_loc);
+
+			// Start specific Fire Dragons combat here.
+
+			return true;
+
+		case WERDNA_COMBAT:
+
+			if (_ctx.game->party_has_item(AMULET_OF_WERDNA))
+				return true;
+
+			DEBUG_LOG("Player triggered Werdna combat");
+
+			_ctx.game->state->level->clear_event(next_loc);
+
+			// Start specific Werdna combat here.
+
+			return true;
+
+		default:
+			break;
+		}
 	}
 
 	// Check for Darkness

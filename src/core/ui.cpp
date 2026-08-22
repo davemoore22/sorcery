@@ -3350,7 +3350,7 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 		return {"GAME_MESSAGE_GETTING_WARM_2_1"};
 		break;
 	case GETTING_WARM_3:
-		return {"GAME_MESSAGE_GETTING_WARM_2_3"};
+		return {"GAME_MESSAGE_GETTING_WARM_3_1"};
 		break;
 	case FIRE_DRAGONS_COMBAT:
 		return {};
