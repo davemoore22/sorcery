@@ -784,6 +784,18 @@ auto Sorcery::Game::_debug_fill_party_unid_items() -> void {
 	save_game();
 }
 
+auto Sorcery::Game::party_has_item(const Enums::Items::TypeID item_type) const
+	-> bool {
+
+	for (const auto party{state->get_party_characters()}; auto idx : party) {
+		const auto &cur_char{characters.at(idx)};
+		if (cur_char.inventory.has_item(item_type))
+			return true;
+	}
+
+	return false;
+}
+
 namespace Sorcery {
 auto operator<<(std::ostream &out_stream, const Sorcery::Game &game)
 	-> std::ostream & {

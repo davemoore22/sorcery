@@ -56,7 +56,6 @@ class State {
 		bool valid;
 		std::unique_ptr<Level> level; // current level
 		std::map<int, Explore> explored;
-		std::array<bool, 8> quest_item_flags;
 
 		// Public Methods
 		auto post_construct(Context *ctx) -> void;

@@ -80,6 +80,7 @@ class Inventory {
 			-> Enums::Items::IdentifyOutcome;
 		auto get(const unsigned int slot) -> Item;
 		auto has(const unsigned int slot) const -> bool;
+		auto has_item(const Enums::Items::TypeID item_type) const -> bool;
 
 		auto unequip_item(const unsigned int slot) -> bool;
 

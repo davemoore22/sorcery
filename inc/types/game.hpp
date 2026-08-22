@@ -91,6 +91,7 @@ class Game {
 		auto disable_event(Enums::Map::Event event_type) -> void;
 		auto print() -> void;
 		auto call_debug(const SDL_Keycode key_code) -> void;
+		auto party_has_item(const Enums::Items::TypeID item_type) const -> bool;
 
 	private:
 		// Private Methods

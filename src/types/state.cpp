@@ -81,8 +81,6 @@ auto Sorcery::State::_clear() -> void {
 	_turns = 0;
 
 	_log.clear();
-
-	std::fill(quest_item_flags.begin(), quest_item_flags.end(), false);
 }
 
 auto Sorcery::State::get_turns() const -> unsigned int {
