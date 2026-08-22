@@ -528,11 +528,12 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
-		_ctx.ui->modal_camp->regenerate();
+		// REMOVED Start off in Camp
+		//_ctx.ui->modal_camp->regenerate();
 		_ctx.ui->modal_elevator_bottom->regenerate();
 		_ctx.ui->modal_elevator_top->regenerate();
 
-		_ctx.ui->modal_camp->show = true;
+		//_ctx.ui->modal_camp->show = true;
 
 		_ctx.ui->modal_identify->show = false;
 		_ctx.ui->modal_equip->show = false;
@@ -547,12 +548,12 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->modal_elevator_bottom->show = false;
 
 	} else {
-		// Start off in Camp
-		_ctx.ui->modal_camp->regenerate();
+		// REMOVED Start off in Camp
+		//_ctx.ui->modal_camp->regenerate();
 		_ctx.ui->modal_elevator_bottom->regenerate();
 		_ctx.ui->modal_elevator_top->regenerate();
 
-		_ctx.ui->modal_camp->show = true;
+		//_ctx.ui->modal_camp->show = true;
 
 		// Hide any other modals that might be showing
 		_ctx.ui->modal_identify->show = false;
@@ -780,7 +781,8 @@ auto Sorcery::Engine::_check_for_tile_message(const Tile &tile) -> bool {
 	using enum Enums::Map::Event;
 	using enum Enums::Items::TypeID;
 
-	if (*event == WERDNA_SIGN_IN && _ctx.game->party_has_item(AMULET_OF_WERDNA)) {
+	if (*event == WERDNA_SIGN_IN &&
+		_ctx.game->party_has_item(AMULET_OF_WERDNA)) {
 
 		event = WERDNA_SIGN_OUT;
 	}

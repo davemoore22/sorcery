@@ -94,7 +94,7 @@
 			"--mute",
 			"--quickstart",
 			"--start-engine",
-			"--go-to"
+			"--Dgo-to"
 		]
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
