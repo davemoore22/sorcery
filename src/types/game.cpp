@@ -607,8 +607,8 @@ auto Sorcery::Game::_debug_give_party_quest_items() -> void {
 	give_party_item(BLUE_RIBBON);
 }
 
-auto Sorcery::Game::give_party_item(const Enums::Items::TypeID item_type)
-	-> bool {
+auto Sorcery::Game::give_party_item(const Enums::Items::TypeID item_type,
+									const bool known) -> bool {
 
 	for (const auto char_id : _ctx.game->state->get_party_characters()) {
 
@@ -616,7 +616,7 @@ auto Sorcery::Game::give_party_item(const Enums::Items::TypeID item_type)
 		if (character.inventory.get_empty_slots() == 0)
 			continue;
 		character.inventory.add_type(_ctx.resources->items->get(item_type),
-									 true);
+									 known);
 		return true;
 	}
 

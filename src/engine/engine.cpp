@@ -1166,7 +1166,9 @@ auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 
 		case Enums::Map::Event::TREBOR_VOICE:
 
-			if (_ctx.game->give_party_item(BLUE_RIBBON)) {
+			// TODO: change this to give back the name of the character given an
+			// item
+			if (_ctx.game->give_party_item(BLUE_RIBBON, false)) {
 				_ctx.ui->show_transient(
 					_ctx.get_string("POP_UP_PARTY_FOUND_AN_ITEM"));
 			}
@@ -1230,7 +1232,7 @@ auto Sorcery::Engine::_search_event() -> bool {
 				continue;
 
 			character.inventory.add_type(_ctx.resources->items->get(*item_type),
-										 true);
+										 false);
 
 			_ctx.ui->show_transient(
 				std::format("{} {}", character.get_name(),

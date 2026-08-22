@@ -92,7 +92,8 @@ class Game {
 		auto print() -> void;
 		auto call_debug(const SDL_Keycode key_code) -> void;
 		auto party_has_item(const Enums::Items::TypeID item_type) const -> bool;
-		auto give_party_item(const Enums::Items::TypeID item_type) -> bool;
+		auto give_party_item(const Enums::Items::TypeID item_type,
+							 const bool known = true) -> bool;
 
 	private:
 		// Private Methods

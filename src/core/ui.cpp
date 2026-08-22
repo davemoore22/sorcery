@@ -3336,16 +3336,21 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 		return {};
 		break;
 	case THREE_HUMANOIDS:
-		return {};
+		return {
+			"GAME_MESSAGE_THREE_HUMANOIDS_1", "GAME_MESSAGE_THREE_HUMANOIDS_2",
+			"GAME_MESSAGE_THREE_HUMANOIDS_3", "GAME_MESSAGE_THREE_HUMANOIDS_4",
+			"GAME_MESSAGE_THREE_HUMANOIDS_5", "GAME_MESSAGE_THREE_HUMANOIDS_6",
+			"GAME_MESSAGE_THREE_HUMANOIDS_7", "GAME_MESSAGE_THREE_HUMANOIDS_8",
+		};
 		break;
 	case GETTING_WARM_1:
-		return {};
+		return {"GAME_MESSAGE_GETTING_WARM_1_1"};
 		break;
 	case GETTING_WARM_2:
-		return {};
+		return {"GAME_MESSAGE_GETTING_WARM_2_1"};
 		break;
 	case GETTING_WARM_3:
-		return {};
+		return {"GAME_MESSAGE_GETTING_WARM_2_3"};
 		break;
 	case FIRE_DRAGONS_COMBAT:
 		return {};
