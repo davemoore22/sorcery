@@ -109,6 +109,11 @@ class Engine final : public Module {
 		[[nodiscard]] auto _skip_tile_event(Enums::Map::Event event) const
 			-> bool;
 
+		[[nodiscard]] auto _triggers_guaranteed_encounter(int depth,
+														  Coordinate from,
+														  Coordinate to) const
+			-> bool;
+
 		// Private Members
 		Application *_application;
 

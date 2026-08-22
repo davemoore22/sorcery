@@ -575,6 +575,7 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	const auto at_loc{_ctx.game->state->get_player_pos()};
 	const auto direction{_ctx.game->state->get_player_facing()};
 	const auto next_loc{_movement_destination(at_loc, direction)};
+	const auto depth{_ctx.game->state->get_depth()};
 
 	const auto &this_tile{_ctx.game->state->level->at(at_loc)};
 	const auto &next_tile{_ctx.game->state->level->at(next_loc)};
@@ -586,6 +587,16 @@ auto Sorcery::Engine::_move_forward() -> bool {
 	}
 
 	_move_player_to(next_loc);
+
+	// TODO: confirm this doesn't interact with anything else in order
+	if (_triggers_guaranteed_encounter(depth, at_loc, next_loc)) {
+
+		DEBUG_LOG("Player triggered guaranteed encounter");
+
+		// Start/schedule encounter here.
+
+		return true;
+	}
 
 	// Check for Darkness
 	using enum Enums::Tile::Properties;
@@ -1226,4 +1237,12 @@ auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const
 	default:
 		return false;
 	}
+}
+
+// Handle the guaranteed combat on Level 4!
+auto Sorcery::Engine::_triggers_guaranteed_encounter(
+	const int depth, const Coordinate from,
+	[[maybe_unused]] const Coordinate to) const -> bool {
+
+	return depth == -4 && from == Coordinate{10, 15};
 }

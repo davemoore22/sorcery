@@ -3354,9 +3354,6 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event)
 	case WERDNA_COMBAT:
 		return {};
 		break;
-	case GUARANTEED_COMBAT:
-		return {};
-		break;
 	case NEED_BLUE_RIBBON:
 		return {
 			"GAME_MESSAGE_NEED_BLUE_RIBBON_1",

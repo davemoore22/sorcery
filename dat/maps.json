@@ -11559,24 +11559,6 @@
 							"__data": "METADATA EVENT DEADLY_RING_COMBAT"
 						},
 						{
-							"x": 9,
-							"y": 15,
-							"monospaced": false,
-							"__data": "METADATA EVENT GUARANTEED_COMBAT"
-						},
-						{
-							"x": 10,
-							"y": 16,
-							"monospaced": false,
-							"__data": "METADATA EVENT GUARANTEED_COMBAT"
-						},
-						{
-							"x": 11,
-							"y": 15,
-							"monospaced": false,
-							"__data": "METADATA EVENT GUARANTEED_COMBAT"
-						},
-						{
 							"x": 10,
 							"y": 1,
 							"monospaced": false,
