@@ -2426,8 +2426,19 @@ auto Sorcery::UI::_draw_chest(const Enums::Chests::State state) -> void {
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const auto chest_w{cmp.get_float("tile_width") * scale};
 	const auto chest_h{cmp.get_float("tile_height") * scale};
-	const auto x{grid_x(cmp.x) - chest_w};
-	const auto y{grid_y(cmp.y) - chest_h};
+	const auto x{grid_x(cmp.x) - (chest_w / 2)};
+	const auto y{grid_y(cmp.y) - (chest_h / 2)};
+
+	// But draw a background
+	const auto p_min{ImVec2{x, y}};
+	const auto p_max{ImVec2{x + +chest_w, y + chest_h}};
+
+	with_Window(WINDOW_LAYER_IMAGES, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+
+		ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max,
+												  IM_COL32(0, 0, 0, 255));
+	}
 
 	_draw_fg_image_with_idx(EVENTS_TEXTURE, chest_idx, ImVec2{x, y},
 							ImVec2{chest_w, chest_h});
@@ -4838,14 +4849,11 @@ auto Sorcery::UI::_activate_menu_item(const std::string_view name,
 	_ctx.controller->handle_standard_menu(name, items, data_item, selection);
 }
 
-auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
-							const ImVec2 pos, const ImVec2 sz,
-							const Enums::Layout::Font font,
-							std::vector<std::string> &items,
-							std::vector<int> &data, const bool reorder,
-							[[maybe_unused]] const bool across,
-							[[maybe_unused]] const bool numeric_shortcuts)
-	-> void {
+auto Sorcery::UI::draw_menu(
+	const std::string name, const ImColor sel_color, const ImVec2 pos,
+	const ImVec2 sz, const Enums::Layout::Font font,
+	std::vector<std::string> &items, std::vector<int> &data, const bool reorder,
+	const bool across, [[maybe_unused]] const bool numeric_shortcuts) -> void {
 
 	// Work out size and positon of the menu, and the display name (which is
 	// used for the ImGui ID)
@@ -4879,8 +4887,22 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 
 	// Draw the Menu (as a ListBox)
 	with_ListBox(display_name.c_str(), sz) {
+
+		const auto item_width{std::invoke([&] {
+			if (!across || items.empty())
+				return 0.0f;
+
+			const auto available{ImGui::GetContentRegionAvail().x};
+			const auto spacing{ImGui::GetStyle().ItemSpacing.x};
+			const auto gaps{spacing * static_cast<float>(items.size() - 1)};
+
+			return (available - gaps) / static_cast<float>(items.size());
+		})};
+
 		for (std::size_t i{0}; i < items.size(); ++i) {
+
 			const auto index{static_cast<int>(i)};
+
 			const auto is_selected{selected[name] == index};
 
 			const auto flags{is_selected ? ImGuiSelectableFlags_Highlight
@@ -4894,22 +4916,29 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 			if (disabled)
 				ImGui::BeginDisabled();
 
-			// Handle the Menu Item being clicked or selected via a key press
-			const auto clicked{
-				ImGui::Selectable(items[i].c_str(), is_selected, flags)};
+			const auto clicked{ImGui::Selectable(
+				items[i].c_str(), is_selected, flags,
+				across ? ImVec2{item_width, 0.0f} : ImVec2{})};
+
 			const auto keyed{key_selection && *key_selection == i};
+
 			const auto activated{clicked || keyed};
 
 			if (activated && !disabled) {
+
 				if (reorder) {
+
 					_ctx.controller->handle_standard_menu(name, items,
 														  data_item, index);
+
 				} else {
+
 					_activate_menu_item(name, index, data_item, items);
 				}
 			}
 
 			if (ImGui::IsItemHovered()) {
+
 				selected[name] = index;
 				highlighted[name] = index;
 			}
@@ -4922,6 +4951,9 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color,
 
 			if (disabled)
 				ImGui::EndDisabled();
+
+			if (across && i + 1 < items.size())
+				ImGui::SameLine();
 		}
 	}
 }

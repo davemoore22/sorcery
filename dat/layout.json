@@ -1087,14 +1087,19 @@
 			"component": [
 				{
 					"name": "frame",
-					"w": "42",
-					"h": "9",
+					"w": "44",
+					"h": "7",
 					"x": "centre",
 					"y": "2",
 					"alpha": "255",
 					"type": "frame",
 					"priority": "3",
-					"background": " 0x000000ff"
+					"background": " 0x000000ff",
+					"data": [
+						{
+							"foreground": "yes"
+						}
+					]
 				},
 				{
 					"name": "background_image",
@@ -1114,7 +1119,7 @@
 				{
 					"name": "chest_image",
 					"x": "30",
-					"y": "16",
+					"y": "18",
 					"scale": "0.35",
 					"type": "image",
 					"priority": "1",
@@ -1123,7 +1128,8 @@
 					"data": [
 						{
 							"tile_width": "182",
-							"tile_height": "182"
+							"tile_height": "182",
+							"shrink_edge": "12"
 						}
 					]
 				}
@@ -1135,7 +1141,7 @@
 				{
 					"name": "chest_menu_title",
 					"x": "centre",
-					"y": "4",
+					"y": "3",
 					"font": "monospace",
 					"colour": "0xffffffff",
 					"size": "24",
@@ -1147,22 +1153,27 @@
 				},
 				{
 					"name": "menu_frame",
-					"w": "40",
-					"h": "6",
+					"w": "42",
+					"h": "3",
 					"x": "centre",
-					"y": "3",
+					"y": "5",
 					"alpha": "255",
 					"type": "frame",
 					"priority": "6",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"background": " 0x000000ff",
+					"data": [
+						{
+							"foreground": "yes"
+						}
+					]
 				},
 				{
 					"name": "chest_menu",
 					"x": "centre",
-					"y": "4",
-					"w": "21",
-					"h": "6",
+					"y": "6",
+					"w": "40",
+					"h": "1",
 					"font": "monospace",
 					"type": "menu",
 					"string": "",
@@ -1172,11 +1183,12 @@
 					"bg_colour": "0x000000",
 					"data": [
 						{
-							"width": "21",
-							"height": "6",
+							"width": "40",
+							"height": "1",
 							"menu_name": "chest_menu",
 							"highlight": "0x6060c8",
-							"numeric_input": "true"
+							"numeric_input": "true",
+							"across": "yes"
 						}
 					]
 				}

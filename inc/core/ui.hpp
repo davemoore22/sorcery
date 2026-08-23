@@ -108,7 +108,7 @@ class UI {
 					   const ImVec2 pos, const ImVec2 sz,
 					   const Enums::Layout::Font font,
 					   std::vector<std::string> &items, std::vector<int> &data,
-					   const bool reorder, const bool across,
+					   const bool reorder, const bool across = false,
 					   const bool numeric_shortcuts = false) -> void;
 		auto draw_text(const std::string string, const ImColor colour,
 					   const ImVec2 pos, const Enums::Layout::Font font)

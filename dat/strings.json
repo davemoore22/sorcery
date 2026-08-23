@@ -1031,9 +1031,9 @@
 	"VICTORY_9": "(Or is it?)",
 	"VICTORY_LEAVE": "<Return>",
 	"CHEST_MENU_TITLE": "A Chest! You may:",
-	"CHEST_MENU_OPEN": "Open it",
-	"CHEST_MENU_INPSECT": "Inspect it",
+	"CHEST_MENU_OPEN": "Open",
+	"CHEST_MENU_INPSECT": "Inspect",
 	"CHEST_MENU_CALFO": "Cast CALFO",
-	"CHEST_MENU_DISARM": "Disarm it",
+	"CHEST_MENU_DISARM": "Disarm",
 	"CHEST_MENU_LEAVE": "<Leave>"
 }

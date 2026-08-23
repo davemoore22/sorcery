@@ -178,6 +178,14 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				if (_start_chest() == ABORT_GAME)
 					return ABORT_GAME;
+
+				fade_in(
+					[this] {
+						_ctx.ui->display_engine();
+					},
+					QUICK_FADE);
+
+				continue;
 			}
 
 			// Check for UI toggle
