@@ -124,6 +124,7 @@ class Game {
 		auto _debug_kill_party() -> void;
 		auto _debug_toggle_light() -> void;
 		auto _debug_give_party_quest_items() -> void;
+		auto _debug_start_chest_event() -> void;
 
 		// Private Members
 		Context &_ctx;

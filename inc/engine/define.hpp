@@ -36,5 +36,6 @@ inline constexpr auto MOVE_BACKWARD{4};
 inline constexpr auto RETURN_TO_TOWN{-5};
 
 inline constexpr auto GRAVESTONE_GFX_ID{0};
+inline constexpr auto CHEST_GFX_ID{4};
 
 };

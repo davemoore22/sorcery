@@ -61,6 +61,10 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"remove_character_menu", {"REMOVE_CHARACTER_RETURN"}},
 	{"reorder_menu", {"REORDER_RETURN"}},
 
+	{"chest_menu",
+	 {"CHEST_MENU_OPEN", "CHEST_MENU_INPSECT", "CHEST_MENU_CALFO",
+	  "CHEST_MENU_DISARM", "CHEST_MENU_LEAVE"}},
+
 	{"inspect_menu", {"INSPECT_RETURN"}},
 	{"modal_inspect", {"INSPECT_RETURN"}},
 
@@ -426,6 +430,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 	} else if (menu_name == "retrain_menu") {
 
 		_load_retrainable_characters(items, data);
+		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "chest_menu") {
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "legate_menu") {
 		_load_roster_characters(items, data);

@@ -31,6 +31,7 @@
 #include "core/resources.hpp"
 #include "core/ui.hpp"
 #include "engine/automap.hpp"
+#include "engine/chest.hpp"
 #include "engine/graveyard.hpp"
 #include "engine/victory.hpp"
 #include "frontend/options.hpp"
@@ -62,6 +63,7 @@ Sorcery::Engine::Engine(Context &ctx)
 	_automap = std::make_unique<Automap>(_ctx);
 	_graveyard = std::make_unique<Graveyard>(_ctx);
 	_victory = std::make_unique<Victory>(_ctx);
+	_chest = std::make_unique<Chest>(_ctx);
 
 	_initialise();
 };
@@ -167,6 +169,15 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					QUICK_FADE);
 
 				continue;
+			}
+
+			// TODO: Remove Debug for Chest
+			if (_ctx.controller->has_flag("debug_start_chest")) {
+
+				_ctx.controller->unset_flag("debug_start_chest");
+
+				if (_start_chest() == ABORT_GAME)
+					return ABORT_GAME;
 			}
 
 			// Check for UI toggle
@@ -1286,7 +1297,6 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 		if (destination->to_level == 0) {
 
 			_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
-
 			_ctx.controller->set_flag("want_return_to_town");
 
 			return true;
@@ -1294,26 +1304,19 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 		} else if (destination->to_level == _ctx.game->state->get_depth()) {
 
 			_ctx.game->state->set_player_pos(destination->to_loc);
-
 			_ctx.controller->set_can_undo(false);
-
 			const auto &destination_tile{
 				_ctx.game->state->level->at(destination->to_loc)};
-
 			if (_check_for_tile_message(destination_tile))
 				_ctx.ui->clear_transient();
 
 			return true;
-
 		} else {
 
 			_ctx.game->state->set_player_prev_depth(
 				_ctx.game->state->get_depth());
-
 			_ctx.game->state->set_depth(destination->to_level);
-
 			_ctx.game->state->set_player_pos(destination->to_loc);
-
 			_ctx.controller->set_can_undo(false);
 
 			return true;
@@ -1363,4 +1366,24 @@ auto Sorcery::Engine::_process_tile_entry(const Coordinate from,
 	}
 
 	return _process_current_tile();
+}
+
+auto Sorcery::Engine::_start_chest() -> int {
+
+	const auto result{_chest->start()};
+	_chest->stop();
+
+	switch (result) {
+
+	case Enums::Chests::Result::OPENED:
+		return 0; // later: continue reward handling
+
+	case Enums::Chests::Result::LEFT:
+		return 0;
+
+	case Enums::Chests::Result::ABORT:
+		return ABORT_GAME;
+	}
+
+	std::unreachable();
 }

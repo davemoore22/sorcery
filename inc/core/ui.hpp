@@ -27,6 +27,7 @@ using GLuint = unsigned int;
 #include "common/enum.hpp"
 #include "common/imgui.hpp"
 #include "core/enum.hpp"
+#include "engine/enum.hpp"
 #include "types/enum.hpp"
 
 #include <any>
@@ -281,6 +282,8 @@ class UI {
 		auto _display_roster() -> void;
 		auto _display_select() -> void;
 
+		auto _display_chest(const int stage) -> void;
+
 		auto _display_license(const std::string &string) -> void;
 
 		auto _draw_attract_mode() -> void;
@@ -317,6 +320,7 @@ class UI {
 			-> void;
 		auto _draw_current_character(const int mode) -> void;
 		auto _draw_cursor() -> void;
+		auto _draw_chest(const Enums::Chests::State state) -> void;
 		auto _draw_fg_image(Component *component) -> void;
 		auto _draw_fg_image_with_idx(std::string_view source, const int idx,
 									 const ImVec2 p_min, const ImVec2 p_sz,

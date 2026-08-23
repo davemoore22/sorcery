@@ -90,6 +90,7 @@ inline constexpr auto BACK_FROM_REORDER{4};
 inline constexpr auto BACK_FROM_INSPECT{4};
 inline constexpr auto BACK_FROM_CHOOSE{4};
 inline constexpr auto BACK_FROM_GRAVEYARD{4};
+inline constexpr auto BACK_FROM_CHEST{4};
 inline constexpr auto BACK_FROM_VICTORY{4};
 inline constexpr auto CHECK_FOR_LEVEL_GAIN{5};
 inline constexpr auto CHOOSE_MODE_STAY{1};

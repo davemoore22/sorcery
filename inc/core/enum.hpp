@@ -54,6 +54,7 @@ enum class Screen {
 	AUTOMAP,
 	GRAVEYARD,
 	VICTORY,
+	CHEST,
 
 	STAY,
 	CHOOSE,

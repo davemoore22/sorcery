@@ -328,6 +328,9 @@ Sorcery::UI::UI(Context &ctx)
 	_draw_modules_with_int[Enums::Screen::CREATE_CLASS] = [this](int n) {
 		_display_create_class(n);
 	};
+	_draw_modules_with_int[Enums::Screen::CHEST] = [this](int n) {
+		_display_chest(n);
+	};
 
 	_draw_modules_with_int[Enums::Screen::HEAL] = [this](int n) {
 		_display_heal(n);
@@ -2393,6 +2396,48 @@ auto Sorcery::UI::_draw_heal(int stage) -> void {
 	}
 }
 
+auto Sorcery::UI::_draw_chest(const Enums::Chests::State state) -> void {
+
+	_draw_components("engine_base_ui");
+
+	if (!_ctx.controller->get_monochrome()) {
+		auto bg_c{components->get("engine_base_ui:background_image")};
+		_draw_tiled_bg(&bg_c);
+	}
+
+	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
+		_draw_party_panel();
+
+	// Dungeon View
+	auto component{components->get("engine_base_ui:wire_frame_view")};
+	_render->draw(&component);
+
+	// Chest Menus etc
+	using enum Enums::Chests::State;
+	switch (state) {
+	case MENU:
+		_draw_components("chest_menu");
+		break;
+	}
+
+	// Chest!
+	const auto chest_idx{CHEST_GFX_ID};
+	const auto cmp{components->get("chest:chest_image")};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto chest_w{cmp.get_float("tile_width") * scale};
+	const auto chest_h{cmp.get_float("tile_height") * scale};
+	const auto x{grid_x(cmp.x) - chest_w};
+	const auto y{grid_y(cmp.y) - chest_h};
+
+	_draw_fg_image_with_idx(EVENTS_TEXTURE, chest_idx, ImVec2{x, y},
+							ImVec2{chest_w, chest_h});
+
+	// And Cursor on Top
+	_draw_debug();
+	_draw_ui_status();
+	_draw_cursor();
+};
+
 auto Sorcery::UI::_draw_recovery(const int mode) -> void {
 
 	const auto character{_ctx.game->characters.at(
@@ -4350,6 +4395,13 @@ auto Sorcery::UI::_display_store() -> void {
 	_draw_party_panel();
 	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	_draw_debug();
+	_draw_cursor();
+}
+
+auto Sorcery::UI::_display_chest(const int stage) -> void {
+
+	_draw_components("chest");
+	_draw_chest(enum_cast<Enums::Chests::State>(stage).value());
 	_draw_cursor();
 }
 

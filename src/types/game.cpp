@@ -24,6 +24,7 @@
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
+#include "core/controller.hpp"
 #include "core/debug.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
@@ -62,7 +63,7 @@ auto Sorcery::Game::_set_up_debug_keys() -> void {
 	_debug[SDLK_F2] = std::bind(&Game::_debug_give_party_random_status, this);
 	_debug[SDLK_F3] = std::bind(&Game::_debug_heal_party_to_full, this);
 	_debug[SDLK_F4] = std::bind(&Game::_debug_toggle_light, this);
-	_debug[SDLK_F5] = std::bind(&Game::_debug_kill_party, this);
+	_debug[SDLK_F5] = std::bind(&Game::_debug_start_chest_event, this);
 	_debug[SDLK_F6] = std::bind(&Game::_debug_give_party_gold, this);
 	_debug[SDLK_F7] = std::bind(&Game::_debug_give_party_xp, this);
 	_debug[SDLK_F8] = std::bind(&Game::_debug_give_party_random_items, this);
@@ -582,6 +583,13 @@ auto Sorcery::Game::print() -> void {
 	}
 	text.append("]\n");
 	std::println("{}", text);
+}
+
+auto Sorcery::Game::_debug_start_chest_event() -> void {
+
+	PRINT("debug_start_chest_event");
+
+	_ctx.controller->set_flag("debug_start_chest");
 }
 
 auto Sorcery::Game::_debug_harm_party_to_min() -> void {

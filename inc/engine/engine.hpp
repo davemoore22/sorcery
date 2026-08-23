@@ -40,6 +40,7 @@ class Application;
 class Automap;
 class Graveyard;
 class Victory;
+class Chest;
 class Tile;
 
 struct PendingChute {
@@ -120,6 +121,8 @@ class Engine final : public Module {
 
 		[[nodiscard]] auto _process_current_tile() -> bool;
 
+		auto _start_chest() -> int;
+
 		// Private Members
 		Application *_application;
 
@@ -129,6 +132,7 @@ class Engine final : public Module {
 		std::unique_ptr<Automap> _automap;
 		std::unique_ptr<Graveyard> _graveyard;
 		std::unique_ptr<Victory> _victory;
+		std::unique_ptr<Chest> _chest;
 
 		std::optional<PendingElevator> _pending_elevator;
 		std::optional<PendingChute> _pending_chute;

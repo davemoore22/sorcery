@@ -22,4 +22,50 @@
 
 #pragma once
 
-namespace Sorcery {};
+namespace Sorcery {
+
+namespace Enums {
+
+	namespace Traps {
+
+		enum class Type {
+			NONE,
+			POISON_NEEDLE,
+			GAS_BOMB,
+			CROSSBOW_BOLT,
+			EXPLODING_BOX,
+			SPLINTERS,
+			BLADES,
+			STUNNER,
+			TELEPORTER,
+			ANTI_MAGE,
+			ANTI_PRIEST,
+			ALARM,
+		};
+
+	}
+
+	namespace Chests {
+
+		enum class State {
+			MENU,
+			CHOOSE_OPEN_CHARACTER,
+			CHOOSE_INSPECT_CHARACTER,
+			CHOOSE_CALFO_CHARACTER,
+			CHOOSE_DISARM_CHARACTER,
+			CHOOSE_TRAP,
+			SHOW_RESULT,
+			DONE
+		};
+
+		enum class Result {
+			NONE,
+			ABORT,
+			OPENED,
+			LEFT,
+			PARTY_WIPE
+		};
+	}
+
+}
+};
