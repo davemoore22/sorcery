@@ -2427,11 +2427,15 @@ auto Sorcery::UI::_draw_chest(const Enums::Chests::State state) -> void {
 	const auto chest_w{cmp.get_float("tile_width") * scale};
 	const auto chest_h{cmp.get_float("tile_height") * scale};
 	const auto x{grid_x(cmp.x) - (chest_w / 2)};
-	const auto y{grid_y(cmp.y) - (chest_h / 2)};
+	auto adj_y{_ctx.get_flag("interface_ui") &&
+					   _ctx.get_flag("interface_party_panel")
+				   ? cmp.y
+				   : cmp.y + 7};
+	const auto y{grid_y(adj_y) - (chest_h / 2)};
 
 	// But draw a background
 	const auto p_min{ImVec2{x, y}};
-	const auto p_max{ImVec2{x + +chest_w, y + chest_h}};
+	const auto p_max{ImVec2{x + chest_w, y + chest_h}};
 
 	with_Window(WINDOW_LAYER_IMAGES, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
