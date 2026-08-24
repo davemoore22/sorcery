@@ -47,6 +47,7 @@ Sorcery::Random::Random() {
 	_range[D20] = std::make_tuple(1, 20);
 	_range[D50] = std::make_tuple(1, 50);
 	_range[D52] = std::make_tuple(1, 52);
+	_range[D70] = std::make_tuple(1, 70);
 	_range[D100] = std::make_tuple(1, 100);
 	_range[D165] = std::make_tuple(1, 165);
 	_range[D300] = std::make_tuple(1, 300);

@@ -4,7 +4,7 @@ An open source remake/remaster initially of the classic CRPG Wizardry, Proving G
 
 Written using ImGui/SDL2/OpenGL and C++ (**C++26 required**)
 
-**(Updated 22nd August 2026)**
+**(Updated 24th August 2026)**
 
 ![](/promo/screen7.png)
 ![](/promo/screen25.png)
@@ -13,7 +13,7 @@ Written using ImGui/SDL2/OpenGL and C++ (**C++26 required**)
 ![](/promo/screen18.png)
 ![](/promo/screen15.png)
 
-## Progress Update
+## Progress Update (24th August 2026)
 
 * ~~Load/Save/New Game~~ (DONE)
 * ~~Town/Castle Menus~~ (DONE)
@@ -26,31 +26,37 @@ Written using ImGui/SDL2/OpenGL and C++ (**C++26 required**)
 * ~~Gilgamesh's Tavern~~ (DONE)
 * ~~Adventurer's Inn~~ (DONE)
 * ~~Levelling up/Changing Class~~ (DONE)
-* ~~Temple~~ (DONE)
+* ~~Temple/Healing/Resurrection~~ (DONE)
 * ~~Wipe Handling~~ (DONE)
 * ~~Dungeon Events~~ (DONE)
 * ~~Compendium~~ (DONE)
 * ~~Music~~ (DONE)
 * ~~Automap~~ (DONE)
-* ~~Character Editing/Legating (DONE)~~I
+* ~~Character Editing/Deleting/Legating (DONE)~~I
 * ~~Inventory and Item Manipulation (DONE)~~
-* ~~Victory Handling (TO DO)~~
+* ~~Victory/End Game Handling~~ (DONE)
+* ~~Traps and Chests~~ (DONE)
+* ~~Quicksave/Quickload~~ (DONE)
 * **Special Item Powers and Handling (DOING)**
 * **Boltac's Equipment Shop (DOING)**
 * Context-Sensitive-Help (TO DO)
 * Creatures and NPCs (TO DO)
+* Encounter Tables (TO DO)
 * Magic and Combat (TO DO)
 * Strict (Legacy) Mode (TO DO)
-* Achivements (TO DO)
-* Enhanced (Optional) Quality-of-Life features (TO DO)
-* Optional Textured/Rendered 3D View (TO DO)
+* Windows version (TO DO)
 
 ## Wishlist
 
-* Sequels (II, III, V)
+* Achievements
+* Radial Menu Control mode
+* Enhanced Quality-of-Life features
+* Sequels Content (II, III, V)
 * Procedurally-Generated Infinite Content (like Diablo)
-* Modding
-* Plugin/3D Graphics
+* Monster Pits (practise against Encounters without risk of death or reward)
+* Migration to SDL3 from SDL2
+* Optional Textured/Rendered 3D View
+* Wizardry 6 implemented in the Wiz 1-5 engine.
 
 ## What next? (as of July 2026)
 

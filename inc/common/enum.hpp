@@ -537,6 +537,7 @@ namespace Enums::System {
 		D20,
 		D50,
 		D52,
+		D70,
 		D100,
 		D165,
 		D300,

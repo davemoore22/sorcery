@@ -149,6 +149,7 @@ class UI {
 		auto clear_transient() -> void;
 		auto clear_transient_on_action() -> void;
 		[[nodiscard]] auto transient_blocks_input() const -> bool;
+		[[nodiscard]] auto has_transient() const -> bool;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;
@@ -396,7 +397,6 @@ class UI {
 									 const std::size_t index,
 									 const int data_item) -> void;
 
-		[[nodiscard]] auto has_transient() const -> bool;
 		auto _draw_transient() -> void;
 };
 };
