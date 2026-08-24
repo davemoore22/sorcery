@@ -4901,6 +4901,30 @@ auto Sorcery::UI::draw_menu(
 
 		for (std::size_t i{0}; i < items.size(); ++i) {
 
+			DEBUG_LOGF("menu={} available={} item_width={} items={}", name,
+					   ImGui::GetContentRegionAvail().x, item_width,
+					   items.size());
+
+			DEBUG_LOGF("{} text width={}", items[i],
+					   ImGui::CalcTextSize(items[i].c_str()).x);
+
+			const auto display_item{std::invoke([&] {
+				if (!across)
+					return items[i];
+
+				const std::string_view item{items[i]};
+
+				const auto first{item.find_first_not_of(' ')};
+
+				if (first == std::string_view::npos)
+					return std::format("##{}_{}", name, i);
+
+				const auto last{item.find_last_not_of(' ')};
+
+				return std::format(
+					"{}##{}_{}", item.substr(first, last - first + 1), name, i);
+			})};
+
 			const auto index{static_cast<int>(i)};
 
 			const auto is_selected{selected[name] == index};
@@ -4916,9 +4940,16 @@ auto Sorcery::UI::draw_menu(
 			if (disabled)
 				ImGui::BeginDisabled();
 
-			const auto clicked{ImGui::Selectable(
-				items[i].c_str(), is_selected, flags,
-				across ? ImVec2{item_width, 0.0f} : ImVec2{})};
+			if (across)
+				ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign,
+									ImVec2{0.5f, 0.5f});
+
+			const auto clicked{ImGui::Selectable(display_item.c_str(),
+												 is_selected, flags,
+												 ImVec2{item_width, 0.0f})};
+
+			if (across)
+				ImGui::PopStyleVar();
 
 			const auto keyed{key_selection && *key_selection == i};
 

@@ -1119,7 +1119,7 @@
 				{
 					"name": "chest_image",
 					"x": "30",
-					"y": "18",
+					"y": "19",
 					"scale": "0.35",
 					"type": "image",
 					"priority": "1",
