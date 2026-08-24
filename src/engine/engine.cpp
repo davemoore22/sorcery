@@ -556,6 +556,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		//_ctx.ui->modal_camp->show = true;
 
 		_ctx.ui->modal_identify->show = false;
+		_ctx.ui->modal_chest->show = false;
 		_ctx.ui->modal_equip->show = false;
 		_ctx.ui->modal_remove->show = false;
 		_ctx.ui->modal_spell->show = false;
@@ -577,6 +578,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 		// Hide any other modals that might be showing
 		_ctx.ui->modal_identify->show = false;
+		_ctx.ui->modal_chest->show = false;
 		_ctx.ui->modal_spell->show = false;
 		_ctx.ui->modal_equip->show = false;
 		_ctx.ui->modal_remove->show = false;
@@ -1377,6 +1379,9 @@ auto Sorcery::Engine::_process_tile_entry(const Coordinate from,
 }
 
 auto Sorcery::Engine::_start_chest() -> int {
+
+	//_ctx.ui->create_dynamic_modal("modal_chest");
+	//_ctx.ui->modal_chest->regenerate();
 
 	const auto result{_chest->start()};
 	_chest->stop();

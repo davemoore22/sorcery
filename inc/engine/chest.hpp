@@ -73,6 +73,7 @@ class Chest final : public Module {
 		auto _cast_calfo(int character_id) -> void;
 		auto _disarm(int character_id, Enums::Traps::Type trap) -> void;
 		auto _trigger_trap(int character_id) -> void;
+		auto _show_character_modal(const std::string_view menu_name) -> void;
 
 		// Private Members
 		StateData _state;

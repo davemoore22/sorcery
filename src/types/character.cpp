@@ -1253,6 +1253,25 @@ auto Sorcery::Character::_generate_secondary_abil(bool initial,
 	}
 }
 
+auto Sorcery::Character::get_identify_trap() const -> int {
+
+	return _abilities.at(Enums::Character::Ability::IDENTIFY_TRAP);
+}
+auto Sorcery::Character::get_disarm_trap() const -> int {
+
+	return _abilities.at(Enums::Character::Ability::BASE_DISARM_TRAP);
+}
+auto Sorcery::Character::get_calfo_left() const -> int {
+
+	// CALFO is a 2nd Level Priest Spell
+	return _priest_cur_sp.at(2);
+}
+
+auto Sorcery::Character::get_activate_trap() const -> int {
+
+	return _abilities.at(Enums::Character::Ability::ACTIVATE_TRAP);
+}
+
 auto Sorcery::Character::grant_xp(const int adjustment) -> int {
 
 	using enum Enums::Character::Ability;

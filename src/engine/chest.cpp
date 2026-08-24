@@ -56,6 +56,9 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 	_ctx.controller->go_to(Enums::Screen::CHEST);
 	_ctx.controller->initialise();
 
+	_ctx.ui->modal_chest->show = false;
+	_ctx.controller->unset_flag("want_chest");
+
 	fade_in(Enums::Screen::CHEST, QUICK_FADE);
 
 	// Main loop
@@ -99,4 +102,11 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 auto Sorcery::Chest::stop(void) -> void {
 
 	fade_out(Enums::Screen::CHEST, QUICK_FADE);
+}
+
+auto Sorcery::Chest::_show_character_modal(const std::string_view menu_name)
+	-> void {
+
+	_ctx.ui->modal_chest->regenerate(menu_name);
+	_ctx.ui->modal_chest->show = true;
 }

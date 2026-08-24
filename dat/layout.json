@@ -165,6 +165,27 @@
 					]
 				},
 				{
+					"name": "modal_chest",
+					"x": "centre",
+					"y": "8",
+					"w": "24",
+					"h": "15",
+					"font": "monospace",
+					"type": "choice",
+					"string": "MODAL_CHEST",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"menu_name": "modal_chest_menu",
+							"highlight": "0x6060c8",
+							"dynamic": "true"
+						}
+					]
+				},
+				{
 					"name": "modal_spell",
 					"x": "centre",
 					"y": "8",
@@ -1189,6 +1210,98 @@
 							"highlight": "0x6060c8",
 							"numeric_input": "true",
 							"across": "yes"
+						}
+					]
+				},
+				{
+					"name": "chest_calfo_menu",
+					"x": "centre",
+					"y": "6",
+					"w": "26",
+					"h": "8",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "26",
+							"height": "7",
+							"menu_name": "chest_calfo_menu",
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
+						}
+					]
+				},
+				{
+					"name": "chest_inspect_menu",
+					"x": "centre",
+					"y": "6",
+					"w": "26",
+					"h": "8",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "26",
+							"height": "7",
+							"menu_name": "chest_inspect_menu",
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
+						}
+					]
+				},
+				{
+					"name": "chest_open_menu",
+					"x": "centre",
+					"y": "6",
+					"w": "26",
+					"h": "8",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "26",
+							"height": "7",
+							"menu_name": "chest_open_menu",
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
+						}
+					]
+				},
+				{
+					"name": "chest_disarm_menu",
+					"x": "centre",
+					"y": "6",
+					"w": "26",
+					"h": "8",
+					"font": "monospace",
+					"type": "menu",
+					"string": "",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x000000",
+					"data": [
+						{
+							"width": "26",
+							"height": "7",
+							"menu_name": "chest_disarm_menu",
+							"highlight": "0x6060c8",
+							"numeric_input": "true"
 						}
 					]
 				}

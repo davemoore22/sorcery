@@ -154,6 +154,8 @@ Sorcery::UI::UI(Context &ctx)
 		std::make_unique<Modal>(_ctx, components->get("global:modal_inspect"));
 	modal_identify =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_identify"));
+	modal_chest =
+		std::make_unique<Modal>(_ctx, components->get("global:modal_chest"));
 	modal_equip =
 		std::make_unique<Modal>(_ctx, components->get("global:modal_equip"));
 	modal_remove = std::make_unique<Modal>(
@@ -464,6 +466,12 @@ auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
 		modal_identify = std::make_unique<Modal>(
 			_ctx, components->get("global:modal_identify"));
 		modal_identify->regenerate();
+	} else if (name == "modal_chest") {
+		if (modal_chest.get())
+			modal_chest.reset();
+		modal_chest = std::make_unique<Modal>(
+			_ctx, components->get("global:modal_chest"));
+		modal_chest->regenerate();
 	} else if (name == "modal_equip") {
 		if (modal_equip.get())
 			modal_equip.reset();
@@ -577,6 +585,8 @@ auto Sorcery::UI::_get_popups() const -> std::string {
 		output.append(get_popup_status((void *)message_tile.get(), "message"));
 	if (modal_camp)
 		output.append(get_popup_status((void *)modal_camp.get(), "modal"));
+	if (modal_chest)
+		output.append(get_popup_status((void *)modal_chest.get(), "modal"));
 	if (modal_elevator_bottom)
 		output.append(
 			get_popup_status((void *)modal_elevator_bottom.get(), "modal"));
@@ -720,6 +730,7 @@ auto Sorcery::UI::start() -> void {
 	modal_equip->show = false;
 	modal_remove->show = false;
 	modal_identify->show = false;
+	modal_chest->show = false;
 	modal_drop->show = false;
 	modal_elevator_bottom->show = false;
 	modal_elevator_top->show = false;
@@ -788,6 +799,8 @@ auto Sorcery::UI::display_engine() -> void {
 		dialog_search->display(_ctx.get_flag_ref("want_search"));
 	if (modal_identify->show)
 		modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	if (modal_chest->show)
+		modal_chest->display(_ctx.get_flag_ref("want_chest"));
 	if (modal_equip->show)
 		modal_equip->display(_ctx.get_flag_ref("want_equip"));
 	if (modal_remove->show)
@@ -4417,6 +4430,9 @@ auto Sorcery::UI::_display_chest(const int stage) -> void {
 
 	_draw_components("chest");
 	_draw_chest(enum_cast<Enums::Chests::State>(stage).value());
+
+	if (modal_chest->show)
+		modal_chest->display(_ctx.get_flag_ref("want_chest"));
 	_draw_cursor();
 }
 
@@ -4754,7 +4770,7 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	constexpr auto UI_FLAGS_COUNT{21};
+	constexpr auto UI_FLAGS_COUNT{25};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
 		{"tavern_menu", {std::ref(notice_divvy->show)}},
@@ -4782,6 +4798,10 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 		{"main_menu",
 		 {std::ref(dialog_new->show), std::ref(dialog_exit->show)}},
 		{"edge_menu", {std::ref(dialog_leave->show)}},
+		{"chest_open_menu", {std::ref(modal_chest->show)}},
+		{"chest_inspect_menu", {std::ref(modal_chest->show)}},
+		{"chest_calfo_menu", {std::ref(modal_chest->show)}},
+		{"chest_disarm_menu", {std::ref(modal_chest->show)}},
 	}};
 
 	if (const auto it{std::ranges::find(flags, name,
@@ -4905,12 +4925,12 @@ auto Sorcery::UI::draw_menu(
 
 		for (std::size_t i{0}; i < items.size(); ++i) {
 
-			DEBUG_LOGF("menu={} available={} item_width={} items={}", name,
-					   ImGui::GetContentRegionAvail().x, item_width,
-					   items.size());
+			// DEBUG_LOGF("menu={} available={} item_width={} items={}", name,
+			//		   ImGui::GetContentRegionAvail().x, item_width,
+			//		   items.size());
 
-			DEBUG_LOGF("{} text width={}", items[i],
-					   ImGui::CalcTextSize(items[i].c_str()).x);
+			// DEBUG_LOGF("{} text width={}", items[i],
+			//		   ImGui::CalcTextSize(items[i].c_str()).x);
 
 			const auto display_item{std::invoke([&] {
 				if (!across)
@@ -5165,6 +5185,7 @@ auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(modal_help);
 	ADD_POPUP(modal_tithe);
 	ADD_POPUP(modal_identify);
+	ADD_POPUP(modal_chest);
 	ADD_POPUP(modal_equip);
 	ADD_POPUP(modal_remove);
 	ADD_POPUP(modal_spell);

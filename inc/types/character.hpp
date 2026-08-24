@@ -168,6 +168,10 @@ class Character {
 		auto get_cur_num_attacks() const -> int;
 		auto get_cur_xp() const -> int;
 		auto get_next_xp() const -> int;
+		auto get_identify_trap() const -> int;
+		auto get_activate_trap() const -> int;
+		auto get_disarm_trap() const -> int;
+		auto get_calfo_left() const -> int;
 		auto get_age() const -> int;
 		auto set_age(const int adjustment) -> void;
 		auto grant_xp(const int adjustment) -> int;

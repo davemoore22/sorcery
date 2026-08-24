@@ -98,6 +98,7 @@ auto Sorcery::Controller::initialise() -> void {
 			 "want_elevator_bottom",
 			 "want_cannot_donate",
 			 "want_continue_game",
+			 "want_chest",
 			 "want_divvy_gold",
 			 "want_donate",
 			 "want_donated_ok",
@@ -727,6 +728,14 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 
 		return !(character.get_status() == Enums::Character::Status::LOST);
 
+	} else if (component == "chest_calfo_menu") {
+
+		if (_game == nullptr || data == -1)
+			return false;
+
+		auto &character{_game->characters.at(data)};
+		return character.get_calfo_left() == 0;
+
 	} else if (component == "store_menu") {
 
 		// No gold, can't buy anything
@@ -971,6 +980,46 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		// Flags = &_ui->modal_identify->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_identify"] = true;
+			in_flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "chest_calfo_menu") {
+
+		// Flags = &_ui->modal_chest->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_flags["want_chest"] = true;
+			in_flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "chest_disarm_menu") {
+
+		// Flags = &_ui->modal_chest->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_flags["want_chest"] = true;
+			in_flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "chest_inspect_menu") {
+
+		// Flags = &_ui->modal_chest->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_flags["want_chest"] = true;
+			in_flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "chest_open_menu") {
+
+		// Flags = &_ui->modal_chest>show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_flags["want_chest"] = true;
 			in_flags.at(0).get() = false;
 		} else {
 			// TODO
@@ -1269,6 +1318,7 @@ auto Sorcery::Controller::clear_modal_flags() -> void {
 			 "want_help",
 			 "want_tithe",
 			 "want_identify",
+			 "want_chest",
 			 "want_drop",
 			 "want_trade",
 			 "want_give",
@@ -1605,6 +1655,39 @@ auto Sorcery::Controller::handle_standard_menu(
 			character.set_location(Enums::Character::Location::TAVERN);
 			_game->state->remove_character_by_id(data);
 			_game->save_game();
+		}
+
+	} else if (component == "chest_menu") {
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character(Enums::CharacterSlot::TRAP);
+			go_to(Enums::Screen::ENGINE);
+		} else {
+			switch (selection) {
+			case 0: // Open
+				//_ctx.ui->create_dynamic_modal("modal_chest");
+				_ctx.ui->modal_chest->regenerate("chest_open_menu");
+				_ctx.ui->modal_chest->show = true;
+				break;
+			case 1: // Inspect
+				//_ctx.ui->create_dynamic_modal("modal_chest");
+				_ctx.ui->modal_chest->regenerate("chest_inspect_menu");
+				_ctx.ui->modal_chest->show = true;
+				break;
+			case 2: // Calfo
+				//_ctx.ui->create_dynamic_modal("modal_chest");
+				_ctx.ui->modal_chest->regenerate("chest_calfo_menu");
+				_ctx.ui->modal_chest->show = true;
+				break;
+			case 3: // Disarm
+				//_ctx.ui->create_dynamic_modal("modal_chest");
+				_ctx.ui->modal_chest->regenerate("chest_disarm_menu");
+				_ctx.ui->modal_chest->show = true;
+				break;
+			default:
+				clear_character(Enums::CharacterSlot::TRAP);
+				go_to(Enums::Screen::ENGINE);
+				break;
+			};
 		}
 
 	} else if (component == "inn_menu") {

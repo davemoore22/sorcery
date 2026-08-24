@@ -190,6 +190,7 @@ class UI {
 		std::unique_ptr<Modal> modal_invoke;
 		std::unique_ptr<Modal> modal_elevator_top;
 		std::unique_ptr<Modal> modal_elevator_bottom;
+		std::unique_ptr<Modal> modal_chest;
 		std::unique_ptr<VideoPlayer> vfx_player;
 		unsigned int frame_rd;
 		unsigned int ui_rd;

@@ -68,6 +68,11 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"inspect_menu", {"INSPECT_RETURN"}},
 	{"modal_inspect", {"INSPECT_RETURN"}},
 
+	{"chest_inspect_menu", {"CHEST_RETURN"}},
+	{"chest_open_menu", {"CHEST_RETURN"}},
+	{"chest_calfo_menu", {"CHEST_RETURN"}},
+	{"chest_disarm_menu", {"CHEST_RETURN"}},
+
 	{"drop_menu", {"DROP_RETURN"}},
 	{"identify_menu", {"IDENTIFY_RETURN"}},
 	{"equip_menu", {"EQUIP_RETURN"}},
@@ -246,7 +251,24 @@ auto Sorcery::MenuBuilder::_load_party_characters(
 		else if (flags & MENU_SHOW_GOLD)
 			items.emplace_back(std::format("{:<16} {:>8} G.P.", name_str,
 										   character.get_gold()));
-		else if (flags & MENU_SHOW_SPACE) {
+		else if (flags & MENU_SHOW_IDENTIFY_TRAP) {
+			items.emplace_back(std::format("{:<21} {:>3}%", name_str,
+										   character.get_identify_trap()));
+
+		} else if (flags & MENU_SHOW_AVOID_TRAP) {
+			items.emplace_back(
+				std::format("{:<21} {:>3}%", name_str,
+							100 - character.get_activate_trap()));
+
+		} else if (flags & MENU_SHOW_DISARM_TRAP) {
+			items.emplace_back(std::format("{:<21} {:>3}%", name_str,
+										   character.get_disarm_trap()));
+
+		} else if (flags & MENU_SHOW_CALFO_USES_LEFT) {
+			items.emplace_back(std::format("{:<21} ({:>1})", name_str,
+										   character.get_calfo_left()));
+
+		} else if (flags & MENU_SHOW_SPACE) {
 			const auto slots_free{character.inventory.get_empty_slots()};
 			items.emplace_back(
 				std::format("{:<21} ({:>1})", name_str, slots_free));
@@ -442,6 +464,18 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name,
 		// on the store stock, and to leave the screen click on a button.
 		_load_buy_menu(width, items, data);
 
+	} else if (menu_name == "chest_inspect_menu") {
+		_load_party_characters(items, data, flags, reorder);
+		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "chest_open_menu") {
+		_load_party_characters(items, data, flags, reorder);
+		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "chest_disarm_menu") {
+		_load_party_characters(items, data, flags, reorder);
+		_load_fixed_menu(menu_name, width, items);
+	} else if (menu_name == "chest_calfo_menu") {
+		_load_party_characters(items, data, flags, reorder);
+		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "reorder_menu") {
 
 		_load_party_characters(items, data, MENU_SHOW_POSITION, reorder);
@@ -548,7 +582,11 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"temple_pay_menu", MENU_SHOW_GOLD},
 		std::pair{"pay_menu", MENU_SHOW_GOLD},
 		std::pair{"reorder_menu", MENU_SHOW_POSITION},
-		std::pair{"sell_menu", MENU_SHOP_SELL_ITEM}};
+		std::pair{"sell_menu", MENU_SHOP_SELL_ITEM},
+		std::pair{"chest_inspect_menu", MENU_SHOW_IDENTIFY_TRAP},
+		std::pair{"chest_open_menu", MENU_SHOW_AVOID_TRAP},
+		std::pair{"chest_calfo_menu", MENU_SHOW_CALFO_USES_LEFT},
+	};
 
 	if (const auto it = std::ranges::find(MENU_FLAG_MAP, menu_name,
 										  &std::pair<const char *, int>::first);

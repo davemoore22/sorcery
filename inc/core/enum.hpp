@@ -99,7 +99,8 @@ enum class CharacterSlot {
 	PAY,
 	EDIT,
 	LEGATE,
-	DELETE
+	DELETE,
+	TRAP
 };
 
 }

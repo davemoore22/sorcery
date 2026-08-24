@@ -41,6 +41,7 @@ class Modal {
 		auto display(bool &is_yes) -> void;
 		auto id() const -> std::string;
 		auto regenerate() -> void;
+		auto regenerate(const std::string_view menu_name) -> void;
 		auto name() const -> std::string;
 
 		bool show;

@@ -64,6 +64,16 @@ auto Sorcery::Modal::regenerate() -> void {
 	_ctx.menubuilder->build(_menu_name, _width, _items, _data, false);
 }
 
+auto Sorcery::Modal::regenerate(const std::string_view menu_name) -> void {
+
+	_menu_name = menu_name;
+
+	_items.clear();
+	_data.clear();
+
+	_ctx.menubuilder->build(_menu_name, _width, _items, _data, false);
+}
+
 auto Sorcery::Modal::id() const -> std::string {
 
 	return _id;

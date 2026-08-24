@@ -131,6 +131,10 @@ inline constexpr auto NO_FLAGS{0};
 inline constexpr auto MENU_SHOW_POSITION{1};
 inline constexpr auto MENU_SHOW_GOLD{2};
 inline constexpr auto MENU_SHOW_SPACE{4};
+inline constexpr auto MENU_SHOW_IDENTIFY_TRAP{8};
+inline constexpr auto MENU_SHOW_DISARM_TRAP{16};
+inline constexpr auto MENU_SHOW_CALFO_USES_LEFT{32};
+inline constexpr auto MENU_SHOW_AVOID_TRAP{64};
 
 // Item Menu Mode
 inline constexpr auto MENU_IDENTIFY_ITEM{1};

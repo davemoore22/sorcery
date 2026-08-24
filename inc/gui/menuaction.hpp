@@ -271,8 +271,7 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"edit_menu", EDIT_ACTIONS},
 	{"top_elevator_menu", TOP_ELEVATOR_ACTIONS},
 	{"bottom_elevator_menu", BOTTOM_ELEVATOR_ACTIONS},
-	{"rest_menu", REST_ACTIONS}
-
+	{"rest_menu", REST_ACTIONS},
 };
 #pragma GCC diagnostic pop
 }

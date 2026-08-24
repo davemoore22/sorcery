@@ -38,8 +38,8 @@ namespace Enums {
 			BLADES,
 			STUNNER,
 			TELEPORTER,
-			ANTI_MAGE,
-			ANTI_PRIEST,
+			MAGE_BLASTER,
+			PRIEST_BLASTER,
 			ALARM,
 		};
 
