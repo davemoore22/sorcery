@@ -864,6 +864,16 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		in_flags.at(0).get() = false;
 		return true;
 
+	} else if (component == "chest_trap_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			set_flag("chest_trap_cancelled");
+		} else {
+			set_selected("chest_trap_selection", selection);
+		}
+
+		in_flags.at(0).get() = false;
+		return true;
 	} else if (component == "change_class_menu") {
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			clear_character(Enums::CharacterSlot::EDIT);

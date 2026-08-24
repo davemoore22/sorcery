@@ -43,6 +43,7 @@ class Modal {
 		auto regenerate() -> void;
 		auto regenerate(const std::string_view menu_name) -> void;
 		auto name() const -> std::string;
+		auto set_title(const std::string_view key) -> void;
 
 		bool show;
 

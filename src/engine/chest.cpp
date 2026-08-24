@@ -92,6 +92,7 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 		_process_menu_action();
 		_process_character_action();
+		_process_trap_action();
 
 		if (_ctx.controller->has_flag("chest_character_cancelled")) {
 
@@ -111,6 +112,13 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 	return Enums::Chests::Result::ABORT;
 }
 
+auto Sorcery::Chest::_show_trap_modal() -> void {
+
+	_ctx.ui->modal_chest->set_title("CHEST_TRAP_TITLE");
+	_ctx.ui->modal_chest->regenerate("chest_trap_menu");
+	_ctx.ui->modal_chest->show = true;
+}
+
 auto Sorcery::Chest::stop(void) -> void {
 
 	fade_out(Enums::Screen::CHEST, QUICK_FADE);
@@ -125,10 +133,10 @@ auto Sorcery::Chest::_show_character_modal(const std::string_view menu_name)
 
 auto Sorcery::Chest::_inspect(const int character_id) -> void {
 
-	DEBUG_LOGF("INSPECT {}", character_id);
+	using namespace std::chrono_literals;
+	using enum Enums::Character::Attribute;
 
 	const auto party{_ctx.game->state->get_party_characters()};
-
 	const auto it{std::ranges::find(party, character_id)};
 
 	if (it == party.end())
@@ -137,22 +145,121 @@ auto Sorcery::Chest::_inspect(const int character_id) -> void {
 	const auto position{
 		static_cast<std::size_t>(std::distance(party.begin(), it))};
 
-	if (_state.inspected[position])
+	const auto &character{_ctx.game->characters.at(character_id)};
+
+	if (_state.inspected[position]) {
+
+		_ctx.ui->show_transient(
+			std::format("{}{}", character.get_name(),
+						_ctx.get_string("CHEST_ALREADY_INSPECTED")),
+			1s, TransientWidth::FIT_TEXT, TransientMode::UNTIL_EXPIRY);
+
+		_state.state = Enums::Chests::State::MENU;
 		return;
+	}
 
 	_state.inspected[position] = true;
 
-	// Roll inspection result...
+	const auto chance{character.get_identify_trap()};
+
+	const int identify_roll{_ctx.get_random(Enums::System::Random::D100) - 1};
+
+	std::string message;
+
+	if (identify_roll < chance) {
+
+		// Correct identification.
+		message = _trap_name(_state.actual_trap);
+
+	} else {
+
+		const auto agility{character.get_cur_attr(AGILITY)};
+
+		const auto trigger_roll{_ctx.get_random(Enums::System::Random::D20) -
+								1};
+
+		if (trigger_roll > agility) {
+
+			_trigger_trap(character_id);
+
+		} else {
+
+			// Failed identification, but no trigger:
+			// display a random false result.
+			message = _trap_name(_random_trap());
+		}
+	}
+
+	_ctx.ui->show_transient(std::move(message), 1s, TransientWidth::FIT_TEXT,
+							TransientMode::UNTIL_EXPIRY);
+
+	_state.state = Enums::Chests::State::MENU;
 }
 
-auto Sorcery::Chest::_open(int character_id) -> void {
+auto Sorcery::Chest::_open(const int character_id) -> void {
 
-	DEBUG_LOGF("OPEN {}", character_id);
+	using namespace std::chrono_literals;
+
+	const auto &character{_ctx.game->characters.at(character_id)};
+
+	//
+	// Trapless chest: opens safely.
+	//
+	if (_state.actual_trap == Enums::Traps::Type::NONE) {
+
+		_ctx.ui->show_transient(_ctx.get_string("CHEST_NO_TRAP"), 1s,
+								TransientWidth::FIT_TEXT,
+								TransientMode::UNTIL_EXPIRY);
+
+		_state.state = Enums::Chests::State::DONE;
+		return;
+	}
+
+	//
+	// Original OPENCHST:
+	//
+	//   (RANDOM MOD 1000) < CHARLEV
+	//
+	const int roll{_ctx.get_random(Enums::System::Random::D1000) - 1};
+
+	if (roll < character.get_level()) {
+
+		_state.state = Enums::Chests::State::DONE;
+		return;
+	}
+
+	//
+	// Failed to open safely: trigger the actual trap.
+	//
+	_trigger_trap(character_id);
+
+	_state.state = Enums::Chests::State::DONE;
 }
 
-auto Sorcery::Chest::_cast_calfo(int character_id) -> void {
+auto Sorcery::Chest::_cast_calfo(const int character_id) -> void {
 
-	DEBUG_LOGF("CALFO {}", character_id);
+	using namespace std::chrono_literals;
+
+	auto &character{_ctx.game->characters.at(character_id)};
+
+	// Still validate here even though the menu should prevent
+	// an invalid character being selected.
+	if (character.get_calfo_left() == 0) {
+		_state.state = Enums::Chests::State::MENU;
+		return;
+	}
+
+	// Consume one level-2 priest spell slot.
+	// <use your existing Character API here>
+
+	const auto roll{_ctx.get_random(Enums::System::Random::D100) - 1};
+
+	const auto trap{roll < 95 ? _state.actual_trap : _random_trap()};
+
+	_ctx.ui->show_transient(_trap_name(trap), 1s, TransientWidth::FIT_TEXT,
+							TransientMode::UNTIL_EXPIRY);
+
+	_state.state = Enums::Chests::State::MENU;
 }
 
 auto Sorcery::Chest::_disarm(int character_id, Enums::Traps::Type trap)
@@ -161,7 +268,66 @@ auto Sorcery::Chest::_disarm(int character_id, Enums::Traps::Type trap)
 	DEBUG_LOGF("DISARM {}", character_id);
 }
 
-auto Sorcery::Chest::_trigger_trap(int character_id) -> void {}
+auto Sorcery::Chest::_trigger_trap(const int character_id) -> void {
+
+	using namespace std::chrono_literals;
+	using enum Enums::Traps::Type;
+
+	_ctx.ui->show_transient(std::format("{}{}", _ctx.get_string("CHEST_OOPS"),
+										_trap_name(_state.actual_trap)),
+							1s, TransientWidth::FIT_TEXT,
+							TransientMode::UNTIL_EXPIRY);
+
+	switch (_state.actual_trap) {
+
+	case NONE:
+		break;
+
+	case POISON_NEEDLE:
+		// TODO
+		break;
+
+	case GAS_BOMB:
+		// TODO
+		break;
+
+	case CROSSBOW_BOLT:
+		// TODO
+		break;
+
+	case EXPLODING_BOX:
+		// TODO
+		break;
+
+	case SPLINTERS:
+		// TODO
+		break;
+
+	case BLADES:
+		// TODO
+		break;
+
+	case STUNNER:
+		// TODO
+		break;
+
+	case TELEPORTER:
+		// TODO
+		break;
+
+	case MAGE_BLASTER:
+		// TODO
+		break;
+
+	case PRIEST_BLASTER:
+		// TODO
+		break;
+
+	case ALARM:
+		// TODO
+		break;
+	}
+}
 
 auto Sorcery::Chest::_process_menu_action() -> void {
 
@@ -178,21 +344,25 @@ auto Sorcery::Chest::_process_menu_action() -> void {
 
 	case 0: // Open
 		_state.state = CHOOSE_OPEN_CHARACTER;
+		_ctx.ui->modal_chest->set_title("CHEST_OPEN_TITLE");
 		_show_character_modal("chest_open_menu");
 		break;
 
 	case 1: // Inspect
 		_state.state = CHOOSE_INSPECT_CHARACTER;
+		_ctx.ui->modal_chest->set_title("CHEST_INSPECT_TITLE");
 		_show_character_modal("chest_inspect_menu");
 		break;
 
 	case 2: // Calfo
 		_state.state = CHOOSE_CALFO_CHARACTER;
+		_ctx.ui->modal_chest->set_title("CHEST_CALFO_TITLE");
 		_show_character_modal("chest_calfo_menu");
 		break;
 
 	case 3: // Disarm
 		_state.state = CHOOSE_DISARM_CHARACTER;
+		_ctx.ui->modal_chest->set_title("CHEST_DISARM_TITLE");
 		_show_character_modal("chest_disarm_menu");
 		break;
 
@@ -234,6 +404,7 @@ auto Sorcery::Chest::_process_character_action() -> void {
 	case CHOOSE_DISARM_CHARACTER:
 		_state.actor = character_id;
 		_state.state = CHOOSE_TRAP;
+		_show_trap_modal();
 		break;
 
 	default:
@@ -286,4 +457,99 @@ auto Sorcery::Chest::_trap_name(const Enums::Traps::Type trap) const
 	}
 
 	return {};
+}
+
+auto Sorcery::Chest::_random_trap() const -> Enums::Traps::Type {
+
+	using enum Enums::Traps::Type;
+
+	const auto trap{_ctx.get_random(Enums::System::Random::D50) - 1};
+
+	switch (trap % 8) {
+
+	case 0:
+		return NONE;
+
+	case 1:
+		return POISON_NEEDLE;
+
+	case 2:
+		return GAS_BOMB;
+
+	case 3:
+		switch (_ctx.get_random(Enums::System::Random::D5) - 1) {
+		case 0:
+			return CROSSBOW_BOLT;
+		case 1:
+			return EXPLODING_BOX;
+		case 2:
+			return SPLINTERS;
+		case 3:
+			return BLADES;
+		case 4:
+			return STUNNER;
+		default:
+			std::unreachable();
+		}
+
+	case 4:
+		return TELEPORTER;
+
+	case 5:
+		return MAGE_BLASTER;
+
+	case 6:
+		return PRIEST_BLASTER;
+
+	case 7:
+		return ALARM;
+
+	default:
+		std::unreachable();
+	}
+}
+
+auto Sorcery::Chest::_process_trap_action() -> void {
+
+	using enum Enums::Traps::Type;
+	using enum Enums::Chests::State;
+
+	if (_ctx.controller->has_flag("chest_trap_cancelled")) {
+
+		_ctx.controller->unset_flag("chest_trap_cancelled");
+		_state.actor.reset();
+		_state.state = MENU;
+		return;
+	}
+
+	if (!_ctx.controller->has_selected("chest_trap_selection"))
+		return;
+
+	const auto selection{_ctx.controller->get_selected("chest_trap_selection")};
+
+	_ctx.controller->unset_selected("chest_trap_selection");
+
+	constexpr std::array traps{POISON_NEEDLE,  GAS_BOMB,   CROSSBOW_BOLT,
+							   EXPLODING_BOX,  SPLINTERS,  BLADES,
+							   STUNNER,		   TELEPORTER, MAGE_BLASTER,
+							   PRIEST_BLASTER, ALARM};
+
+	if (selection < 0 || selection >= static_cast<int>(traps.size())) {
+
+		_state.state = MENU;
+		_state.actor.reset();
+		return;
+	}
+
+	if (!_state.actor) {
+		_state.state = MENU;
+		return;
+	}
+
+	const auto trap{traps.at(static_cast<std::size_t>(selection))};
+
+	const auto character_id{*_state.actor};
+	_state.actor.reset();
+
+	_disarm(character_id, trap);
 }

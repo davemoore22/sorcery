@@ -1050,7 +1050,14 @@
 	"CHEST_MAGE_BLASTER": "Mage Blaster",
 	"CHEST_PRIEST_BLASTER": "Priest Blaster",
 	"CHEST_ALARM": "Alarm",
+	"CHEST_TRAP_TITLE": "Select Trap:",
+	"CHEST_INSPECT_TITLE": "Who will inspect?",
+	"CHEST_OPEN_TITLE": "Who will open?",
+	"CHEST_CALFO_TITLE": "Who will cast a Spell?",
+	"CHEST_DISARM_TITLE": "Who will disarm?",
+	"CHEST_TRAP_LEAVE": "<Leave>",
 	"CHEST_OOPS": "Oops! ",
 	"CHEST_DISARMED": "You have disarmed the Chest!",
-	"CHEST_DISARM_FAILED": "Disarm failed!"
+	"CHEST_DISARM_FAILED": "Disarm failed!",
+	"CHEST_ALREADY_INSPECTED": " has already inspected!"
 }

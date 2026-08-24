@@ -4428,6 +4428,9 @@ auto Sorcery::UI::_display_chest(const int stage) -> void {
 	_draw_components("chest");
 	_draw_chest(enum_cast<Enums::Chests::State>(stage).value());
 
+	// Transient overlay
+	_draw_transient();
+
 	if (modal_chest->show)
 		modal_chest->display(_ctx.get_flag_ref("want_chest"));
 	_draw_cursor();
@@ -4767,7 +4770,7 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	constexpr auto UI_FLAGS_COUNT{25};
+	constexpr auto UI_FLAGS_COUNT{26};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
 		{"tavern_menu", {std::ref(notice_divvy->show)}},
@@ -4799,6 +4802,7 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 		{"chest_inspect_menu", {std::ref(modal_chest->show)}},
 		{"chest_calfo_menu", {std::ref(modal_chest->show)}},
 		{"chest_disarm_menu", {std::ref(modal_chest->show)}},
+		{"chest_trap_menu", {std::ref(modal_chest->show)}},
 	}};
 
 	if (const auto it{std::ranges::find(flags, name,

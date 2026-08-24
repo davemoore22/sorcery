@@ -534,6 +534,8 @@ namespace Enums::System {
 		D12 = 12,
 		D15,
 		D16,
+		D20,
+		D50,
 		D52,
 		D100,
 		D165,

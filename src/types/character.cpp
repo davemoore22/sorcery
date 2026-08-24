@@ -1313,6 +1313,19 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 	}
 }
 
+auto Sorcery::Character::can_cast_spell(
+	const Enums::Magic::SpellType spell_type, const int spell_level) -> bool {
+
+	// TODO: check if knows spell
+
+	if (spell_type == Enums::Magic::SpellType::ARCANE)
+		return _mage_cur_sp[spell_level] > 0;
+	else if (spell_type == Enums::Magic::SpellType::DIVINE)
+		return _priest_cur_sp[spell_level] > 0;
+	else
+		return false;
+}
+
 // Set the starting spellpoints
 auto Sorcery::Character::_set_starting_sp() -> void {
 

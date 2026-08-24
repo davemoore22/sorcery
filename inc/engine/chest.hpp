@@ -43,7 +43,8 @@ class Chest final : public Module {
 				Enums::Chests::State state{Enums::Chests::State::MENU};
 				Enums::Chests::State after_result{Enums::Chests::State::MENU};
 
-				Enums::Traps::Type actual_trap{Enums::Traps::Type::NONE};
+				Enums::Traps::Type actual_trap{
+					Enums::Traps::Type::POISON_NEEDLE};
 				std::optional<Enums::Traps::Type> selected_trap;
 				std::optional<int> actor;
 
@@ -77,7 +78,10 @@ class Chest final : public Module {
 		auto _show_character_modal(const std::string_view menu_name) -> void;
 		auto _process_menu_action() -> void;
 		auto _process_character_action() -> void;
+		auto _process_trap_action() -> void;
 		auto _trap_name(const Enums::Traps::Type trap) const -> std::string;
+		[[nodiscard]] auto _random_trap() const -> Enums::Traps::Type;
+		auto _show_trap_modal() -> void;
 
 		// Private Members
 		StateData _state;

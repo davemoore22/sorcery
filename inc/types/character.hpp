@@ -139,6 +139,8 @@ class Character {
 		auto reset_spells() -> void;
 		auto replenish_spells() -> void;
 		auto set_spells() -> void;
+		auto can_cast_spell(const Enums::Magic::SpellType spell_type,
+							const int spell_level) -> bool;
 		auto get_status() const -> Enums::Character::Status;
 		auto get_status_string() const -> std::string;
 		auto get_loc_str() const -> std::string;
