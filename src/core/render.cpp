@@ -987,8 +987,10 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			_draw_vertex_array(vl0.back_wall, scale, pos);
 		if (tl0.is(DARKNESS)) {
 			_draw_vertex_array(vl0.darkness, scale, pos);
-			_draw_vertex_array(vl0.side_darkness, scale, pos);
+			if (!_blocks_view(tm0, _get_left_side(player_facing)))
+				_draw_vertex_array(vl0.side_darkness, scale, pos);
 		} else {
+
 			if (_has_normal_door(tl0, player_facing)) {
 				_draw_vertex_array(vl0.back_wall, scale, pos);
 				_draw_vertex_array(vl0.back_door, scale, pos);
@@ -1034,7 +1036,8 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			_draw_vertex_array(vr0.back_wall, scale, pos);
 		if (tr0.is(DARKNESS)) {
 			_draw_vertex_array(vr0.darkness, scale, pos);
-			_draw_vertex_array(vr0.side_darkness, scale, pos);
+			if (!_blocks_view(tm0, _get_right_side(player_facing)))
+				_draw_vertex_array(vr0.side_darkness, scale, pos);
 		} else {
 			if (_has_normal_door(tr0, player_facing)) {
 				_draw_vertex_array(vr0.back_wall, scale, pos);
@@ -1122,4 +1125,12 @@ auto Sorcery::Render::_draw_vertex_array(const VertexArray &array,
 	adjusted.data[2].colour = array.data[2].colour;
 	adjusted.data[3].colour = array.data[3].colour;
 	_ctx.ui->draw_view_image(WIREFRAME_TEXTURE, adjusted);
+}
+
+auto Sorcery::Render::_blocks_view(const Tile &tile,
+								   const Enums::Map::Direction direction) const
+	-> bool {
+
+	return _has_wall(tile, direction) || _has_normal_door(tile, direction) ||
+		   _has_secret_door(tile, direction);
 }

@@ -2426,7 +2426,7 @@ auto Sorcery::UI::_draw_chest(const Enums::Chests::State state) -> void {
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const auto chest_w{cmp.get_float("tile_width") * scale};
 	const auto chest_h{cmp.get_float("tile_height") * scale};
-	const auto x{grid_x(cmp.x) - (chest_w / 2)};
+	const auto x{(grid_x(cmp.x) - (chest_w / 2)) + 2};
 	auto adj_y{_ctx.get_flag("interface_ui") &&
 					   _ctx.get_flag("interface_party_panel")
 				   ? cmp.y

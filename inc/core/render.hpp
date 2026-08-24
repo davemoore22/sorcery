@@ -82,6 +82,9 @@ class Render {
 							   ImVec2 p4, const ImVec4 colour) -> void;
 		auto _draw_vertex_array(const VertexArray &array, const float scale,
 								const ImVec2 pos) -> void;
+
+		auto _blocks_view(const Tile &tile,
+						  const Enums::Map::Direction direction) const -> bool;
 };
 
 }
