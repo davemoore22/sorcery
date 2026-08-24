@@ -586,6 +586,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"chest_inspect_menu", MENU_SHOW_IDENTIFY_TRAP},
 		std::pair{"chest_open_menu", MENU_SHOW_AVOID_TRAP},
 		std::pair{"chest_calfo_menu", MENU_SHOW_CALFO_USES_LEFT},
+		std::pair{"chest_disarm_menu", MENU_SHOW_DISARM_TRAP},
 	};
 
 	if (const auto it = std::ranges::find(MENU_FLAG_MAP, menu_name,

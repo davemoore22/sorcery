@@ -2408,7 +2408,6 @@ auto Sorcery::UI::_draw_heal(int stage) -> void {
 		}
 	}
 }
-
 auto Sorcery::UI::_draw_chest(const Enums::Chests::State state) -> void {
 
 	_draw_components("engine_base_ui");
@@ -2425,31 +2424,30 @@ auto Sorcery::UI::_draw_chest(const Enums::Chests::State state) -> void {
 	auto component{components->get("engine_base_ui:wire_frame_view")};
 	_render->draw(&component);
 
-	// Chest Menus etc
-	using enum Enums::Chests::State;
-	switch (state) {
-	case MENU:
-		_draw_components("chest_menu");
-		break;
-	}
+	// Only the main chest state has a persistent menu.
+	_draw_components("chest_menu");
 
-	// Chest!
+	// Chest
 	const auto chest_idx{CHEST_GFX_ID};
 	const auto cmp{components->get("chest:chest_image")};
 	const auto scale{_ctx.display->get_display_metrics().scale};
+
 	const auto chest_w{cmp.get_float("tile_width") * scale};
 	const auto chest_h{cmp.get_float("tile_height") * scale};
+
 	const auto x{(grid_x(cmp.x) - (chest_w / 2)) + 2};
-	auto adj_y{_ctx.get_flag("interface_ui") &&
-					   _ctx.get_flag("interface_party_panel")
-				   ? cmp.y
-				   : cmp.y + 7};
+
+	const auto adj_y{_ctx.get_flag("interface_ui") &&
+							 _ctx.get_flag("interface_party_panel")
+						 ? cmp.y
+						 : cmp.y + 7};
+
 	const auto y{grid_y(adj_y) - (chest_h / 2)};
 
-	// But draw a background
 	const auto p_min{ImVec2{x, y}};
 	const auto p_max{ImVec2{x + chest_w, y + chest_h}};
 
+	// Opaque backing behind the chest graphic.
 	with_Window(WINDOW_LAYER_IMAGES, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
@@ -2457,14 +2455,13 @@ auto Sorcery::UI::_draw_chest(const Enums::Chests::State state) -> void {
 												  IM_COL32(0, 0, 0, 255));
 	}
 
-	_draw_fg_image_with_idx(EVENTS_TEXTURE, chest_idx, ImVec2{x, y},
+	_draw_fg_image_with_idx(EVENTS_TEXTURE, chest_idx, p_min,
 							ImVec2{chest_w, chest_h});
 
-	// And Cursor on Top
 	_draw_debug();
 	_draw_ui_status();
 	_draw_cursor();
-};
+}
 
 auto Sorcery::UI::_draw_recovery(const int mode) -> void {
 

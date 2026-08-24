@@ -1037,5 +1037,20 @@
 	"CHEST_MENU_INPSECT": "Inspect",
 	"CHEST_MENU_CALFO": "CALFO",
 	"CHEST_MENU_DISARM": "Disarm",
-	"CHEST_MENU_LEAVE": "<Leave>"
+	"CHEST_MENU_LEAVE": "<Leave>",
+	"CHEST_NO_TRAP": "The Chest was not trapped!",
+	"CHEST_POISON_NEEDLE": "Poison Needle",
+	"CHEST_GAS_BOMB": "Gas Bomb",
+	"CHEST_CROSSBOW_BOLT": "Crossbow Bolt",
+	"CHEST_EXPLODING_BOX": "Exploding Box",
+	"CHEST_SPLINTERS": "Splinters",
+	"CHEST_BLADES": "Blades",
+	"CHEST_STUNNER": "Stunner",
+	"CHEST_TELEPORTER": "Teleporter",
+	"CHEST_MAGE_BLASTER": "Mage Blaster",
+	"CHEST_PRIEST_BLASTER": "Priest Blaster",
+	"CHEST_ALARM": "Alarm",
+	"CHEST_OOPS": "Oops! ",
+	"CHEST_DISARMED": "You have disarmed the Chest!",
+	"CHEST_DISARM_FAILED": "Disarm failed!"
 }

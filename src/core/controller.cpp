@@ -849,6 +849,21 @@ auto Sorcery::Controller::handle_dynamic_menu(
 
 		in_flags[0].get() = false;
 		return true;
+	} else if (component == "chest_open_menu" ||
+			   component == "chest_calfo_menu" ||
+			   component == "chest_inspect_menu" ||
+			   component == "chest_disarm_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			clear_character(Enums::CharacterSlot::TRAP);
+			set_flag("chest_character_cancelled");
+		} else {
+			set_character(Enums::CharacterSlot::TRAP, data);
+		}
+
+		in_flags.at(0).get() = false;
+		return true;
+
 	} else if (component == "change_class_menu") {
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			clear_character(Enums::CharacterSlot::EDIT);
@@ -980,36 +995,6 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		// Flags = &_ui->modal_identify->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_identify"] = true;
-			in_flags.at(0).get() = false;
-		} else {
-			// TODO
-		}
-		return true;
-	} else if (component == "chest_calfo_menu") {
-
-		// Flags = &_ui->modal_chest->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_flags["want_chest"] = true;
-			in_flags.at(0).get() = false;
-		} else {
-			// TODO
-		}
-		return true;
-	} else if (component == "chest_disarm_menu") {
-
-		// Flags = &_ui->modal_chest->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_flags["want_chest"] = true;
-			in_flags.at(0).get() = false;
-		} else {
-			// TODO
-		}
-		return true;
-	} else if (component == "chest_inspect_menu") {
-
-		// Flags = &_ui->modal_chest->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_flags["want_chest"] = true;
 			in_flags.at(0).get() = false;
 		} else {
 			// TODO
@@ -1658,36 +1643,14 @@ auto Sorcery::Controller::handle_standard_menu(
 		}
 
 	} else if (component == "chest_menu") {
-		if (selection == (static_cast<int>(items.size()) - 1)) {
+		if (selection == static_cast<int>(items.size()) - 1) {
+
 			clear_character(Enums::CharacterSlot::TRAP);
-			go_to(Enums::Screen::ENGINE);
+			set_flag("chest_character_cancelled");
+
 		} else {
-			switch (selection) {
-			case 0: // Open
-				//_ctx.ui->create_dynamic_modal("modal_chest");
-				_ctx.ui->modal_chest->regenerate("chest_open_menu");
-				_ctx.ui->modal_chest->show = true;
-				break;
-			case 1: // Inspect
-				//_ctx.ui->create_dynamic_modal("modal_chest");
-				_ctx.ui->modal_chest->regenerate("chest_inspect_menu");
-				_ctx.ui->modal_chest->show = true;
-				break;
-			case 2: // Calfo
-				//_ctx.ui->create_dynamic_modal("modal_chest");
-				_ctx.ui->modal_chest->regenerate("chest_calfo_menu");
-				_ctx.ui->modal_chest->show = true;
-				break;
-			case 3: // Disarm
-				//_ctx.ui->create_dynamic_modal("modal_chest");
-				_ctx.ui->modal_chest->regenerate("chest_disarm_menu");
-				_ctx.ui->modal_chest->show = true;
-				break;
-			default:
-				clear_character(Enums::CharacterSlot::TRAP);
-				go_to(Enums::Screen::ENGINE);
-				break;
-			};
+
+			set_selected("chest_menu_action", selection);
 		}
 
 	} else if (component == "inn_menu") {

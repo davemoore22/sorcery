@@ -64,6 +64,7 @@ class Chest final : public Module {
 		// Public Methods
 		auto start(void) -> Enums::Chests::Result;
 		auto stop(void) -> void;
+		[[nodiscard]] auto has_inspected(int character_id) const -> bool;
 
 	private:
 		// Private Methods
@@ -74,6 +75,9 @@ class Chest final : public Module {
 		auto _disarm(int character_id, Enums::Traps::Type trap) -> void;
 		auto _trigger_trap(int character_id) -> void;
 		auto _show_character_modal(const std::string_view menu_name) -> void;
+		auto _process_menu_action() -> void;
+		auto _process_character_action() -> void;
+		auto _trap_name(const Enums::Traps::Type trap) const -> std::string;
 
 		// Private Members
 		StateData _state;
