@@ -119,7 +119,7 @@ auto Sorcery::Stay::start() -> int {
 			_recovery->stop();
 
 			// All forms of rest replenish spells, including napping.
-			character.replenish_spells();
+			character.magic().replenish_spells();
 
 			// Only paid recovery advances age, so a nap can never cause
 			// this condition to become true.

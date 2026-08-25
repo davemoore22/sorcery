@@ -271,8 +271,9 @@ auto Sorcery::MenuBuilder::_load_party_characters(
 										   character.get_disarm_trap()));
 
 		} else if (flags & MENU_SHOW_CALFO_USES_LEFT) {
-			items.emplace_back(std::format("{:<21} ({:>1})", name_str,
-										   character.get_calfo_left()));
+			items.emplace_back(
+				std::format("{:<21} ({:>1})", name_str,
+							character.magic().get_calfo_uses_left()));
 
 		} else if (flags & MENU_SHOW_SPACE) {
 			const auto slots_free{character.inventory.get_empty_slots()};
@@ -619,11 +620,11 @@ auto Sorcery::MenuBuilder::_load_character_spells(
 
 	const auto char_id{
 		_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
-	auto &character{_ctx.game->characters.at(char_id)};
+	const auto &character{_ctx.game->characters.at(char_id)};
 
 	// Work out castable spells for the character, filtering out as above.
 	auto castable_spells{
-		character.spells() |
+		character.magic().get_spells() |
 		std::views::filter([&character](const Spell &spell) {
 			return (spell.known &&
 					(spell.category != Enums::Magic::SpellCategory::HEALING ||

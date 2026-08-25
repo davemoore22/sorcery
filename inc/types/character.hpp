@@ -26,6 +26,7 @@
 #include "common/define.hpp"
 #include "common/enum.hpp"
 #include "common/types.hpp"
+#include "types/character/magic.hpp"
 #include "types/define.hpp"
 #include "types/enum.hpp"
 #include "types/inventory.hpp"
@@ -45,6 +46,9 @@ class System;
 class Resources;
 
 class Character {
+
+		friend class ConstCharacterMagic;
+		friend class CharacterMagic;
 
 	public:
 		// Constructors
@@ -67,6 +71,10 @@ class Character {
 					_mage_max_sp, _mage_cur_sp, _status, _hidden, _spells_known,
 					_legated, inventory, _current_stage, _wiz_1_award);
 		}
+
+		// Composition Classes
+		auto magic() -> CharacterMagic;
+		auto magic() const -> ConstCharacterMagic;
 
 		// Public Methods
 		auto post_construct(Context *ctx) -> void;
@@ -125,9 +133,6 @@ class Character {
 			-> unsigned int;
 		auto set_cur_attr(const Enums::Character::Attribute attribute,
 						  const int adjustment) -> void;
-		auto get_spell_points(const Enums::Magic::SpellType type,
-							  const Enums::Magic::SpellPointType status) const
-			-> std::optional<std::map<unsigned int, unsigned int>>;
 		auto get_gold() const -> unsigned int;
 		auto set_gold(const unsigned int value) -> void;
 		auto grant_gold(const int value) -> void;
@@ -135,12 +140,6 @@ class Character {
 		auto summary_text_with_awards() const -> std::string;
 		auto full_desc_text() const -> std::string;
 		auto get_summary() -> std::string;
-		auto create_spells() -> void;
-		auto reset_spells() -> void;
-		auto replenish_spells() -> void;
-		auto set_spells() -> void;
-		auto can_cast_spell(const Enums::Magic::SpellType spell_type,
-							const int spell_level) -> bool;
 		auto get_status() const -> Enums::Character::Status;
 		auto get_status_string() const -> std::string;
 		auto get_loc_str() const -> std::string;
@@ -173,7 +172,6 @@ class Character {
 		auto get_identify_trap() const -> int;
 		auto get_activate_trap() const -> int;
 		auto get_disarm_trap() const -> int;
-		auto get_calfo_left() const -> int;
 		auto get_age() const -> int;
 		auto set_age(const int adjustment) -> void;
 		auto grant_xp(const int adjustment) -> int;
@@ -186,16 +184,6 @@ class Character {
 		auto abilities() -> std::map<Enums::Character::Ability, int> &;
 		auto abilities() const
 			-> const std::map<Enums::Character::Ability, int> &;
-		auto spells() -> std::vector<Spell> &;
-		auto spells() const -> const std::vector<Spell> &;
-		auto priest_cur_sp() -> std::map<unsigned int, unsigned int> &;
-		auto mage_cur_sp() -> std::map<unsigned int, unsigned int> &;
-		auto priest_cur_sp() const
-			-> const std::map<unsigned int, unsigned int> &;
-		auto mage_cur_sp() const
-			-> const std::map<unsigned int, unsigned int> &;
-		auto priest_max_sp() -> std::map<unsigned int, unsigned int> &;
-		auto mage_max_sp() -> std::map<unsigned int, unsigned int> &;
 		auto get_wiz_1_award() const -> bool;
 		auto set_wiz_1_awatd(const bool value) -> void;
 

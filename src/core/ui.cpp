@@ -38,11 +38,11 @@
 #include "core/display.hpp"
 #include "core/enum.hpp"
 #include "core/macro.hpp"
-#include "core/render.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "engine/define.hpp"
+#include "engine/render.hpp"
 #include "engine/types.hpp"
 #include "gui/dialog.hpp"
 #include "gui/frame.hpp"
@@ -1560,8 +1560,7 @@ auto Sorcery::UI::_draw_button(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_detailed(Component *component,
-
-										   Character *character) -> void {
+										   const Character *character) -> void {
 
 	const auto left_col{component->x + 0};
 	const auto right_col{component->x + 19};
@@ -1723,8 +1722,8 @@ auto Sorcery::UI::_draw_character_detailed(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_mage_spells(Component *component,
-
-											  Character *character) -> void {
+											  const Character *character)
+	-> void {
 
 	ImVec2 pos{grid_pos(component->x, component->y)};
 	ImGui::SetCursorPos(pos);
@@ -1744,7 +1743,7 @@ auto Sorcery::UI::_draw_character_mage_spells(Component *component,
 				ImGui::TableNextColumn();
 
 				auto spell_id{enum_cast<Enums::Magic::SpellID>(index).value()};
-				auto spells{character->spells() |
+				auto spells{character->magic().get_spells() |
 							std::views::filter([&](Spell spell) {
 								return (spell.id == spell_id);
 							})};
@@ -1773,8 +1772,8 @@ auto Sorcery::UI::_draw_character_mage_spells(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_priest_spells(Component *component,
-
-												Character *character) -> void {
+												const Character *character)
+	-> void {
 
 	auto pos{grid_pos(component->x, component->y)};
 	ImGui::SetCursorPos(pos);
@@ -1795,7 +1794,7 @@ auto Sorcery::UI::_draw_character_priest_spells(Component *component,
 				ImGui::TableNextColumn();
 
 				auto spell_id{enum_cast<Enums::Magic::SpellID>(index).value()};
-				auto spells{character->spells() |
+				auto spells{character->magic().get_spells() |
 							std::views::filter([&](Spell spell) {
 								return (spell.id == spell_id);
 							})};
@@ -1824,8 +1823,8 @@ auto Sorcery::UI::_draw_character_priest_spells(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_detailed_again(Component *component,
-
-												 Character *character) -> void {
+												 const Character *character)
+	-> void {
 
 	const auto left_col{component->x + 0};
 	const auto right_col{component->x + 19};
@@ -1963,8 +1962,7 @@ auto Sorcery::UI::_draw_character_detailed_again(Component *component,
 }
 
 auto Sorcery::UI::_draw_character_summary(Component *component,
-
-										  Character *character) -> void {
+										  const Character *character) -> void {
 
 	const auto left_col{component->x};
 	const auto middle_col{component->x + 13};
@@ -2005,11 +2003,9 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 
 	pos = grid_pos(left_col, component->y + 7);
 	ImGui::SetCursorPos(pos);
-	auto mage{std::format(
-		"{}/{}/{}/{}/{}/{}/{}", character->mage_cur_sp().at(1),
-		character->mage_cur_sp().at(2), character->mage_cur_sp().at(3),
-		character->mage_cur_sp().at(4), character->mage_cur_sp().at(5),
-		character->mage_cur_sp().at(6), character->mage_cur_sp().at(7))};
+	const auto &sp{character->magic().mage_current_spellpoints()};
+	auto mage{std::format("{}/{}/{}/{}/{}/{}/{}", sp.at(1), sp.at(2), sp.at(3),
+						  sp.at(4), sp.at(5), sp.at(6), sp.at(7))};
 	ImGui::TextUnformatted(std::format("Mage {}", mage).c_str());
 
 	pos = grid_pos(middle_col, component->y);
@@ -2041,11 +2037,10 @@ auto Sorcery::UI::_draw_character_summary(Component *component,
 		std::format("{:<6} {:>18}", "Status", character->get_status_string())
 			.c_str());
 
-	auto priest{std::format(
-		"{}/{}/{}/{}/{}/{}/{}", character->priest_cur_sp().at(1),
-		character->priest_cur_sp().at(2), character->priest_cur_sp().at(3),
-		character->priest_cur_sp().at(4), character->priest_cur_sp().at(5),
-		character->priest_cur_sp().at(6), character->priest_cur_sp().at(7))};
+	const auto &sp2{character->magic().priest_current_spellpoints()};
+	auto priest{std::format("{}/{}/{}/{}/{}/{}/{}", sp2.at(1), sp2.at(2),
+							sp2.at(3), sp2.at(4), sp2.at(5), sp2.at(6),
+							sp2.at(7))};
 
 	pos = grid_pos(component->x + 20, component->y + 7);
 	ImGui::SetCursorPos(pos);

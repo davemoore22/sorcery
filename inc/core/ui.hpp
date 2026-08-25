@@ -301,16 +301,16 @@ class UI {
 			-> void;
 		auto _draw_button_click(Component *component, bool &is_clicked,
 								const bool reverse = false) -> void;
-		auto _draw_character_summary(Component *component, Character *character)
-			-> void;
+		auto _draw_character_summary(Component *component,
+									 const Character *character) -> void;
 		auto _draw_character_detailed(Component *component,
-									  Character *character) -> void;
+									  const Character *character) -> void;
 		auto _draw_character_detailed_again(Component *component,
-											Character *character) -> void;
+											const Character *character) -> void;
 		auto _draw_character_mage_spells(Component *component,
-										 Character *character) -> void;
+										 const Character *character) -> void;
 		auto _draw_character_priest_spells(Component *component,
-										   Character *character) -> void;
+										   const Character *character) -> void;
 		auto _draw_choose(const int mode) -> void;
 		auto _draw_create_name(const int mode) -> void;
 		auto _draw_create_race(const int mode) -> void;

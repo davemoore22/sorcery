@@ -62,6 +62,16 @@ Sorcery::Character::Character(Context *ctx)
 	inventory.clear();
 }
 
+auto Sorcery::Character::magic() -> CharacterMagic {
+
+	return CharacterMagic{*this};
+}
+
+auto Sorcery::Character::magic() const -> ConstCharacterMagic {
+
+	return ConstCharacterMagic{*this};
+}
+
 auto Sorcery::Character::reset(const Enums::Character::Stage stage) -> void {
 
 	set_stage(stage);
@@ -110,54 +120,10 @@ auto Sorcery::Character::abilities() const
 	return _abilities;
 }
 
-auto Sorcery::Character::spells() -> std::vector<Spell> & {
-
-	return _spells;
-}
-
-auto Sorcery::Character::spells() const -> const std::vector<Spell> & {
-
-	return _spells;
-}
-
 auto Sorcery::Character::attributes()
 	-> std::map<Enums::Character::Attribute, int> & {
 
 	return _cur_attr;
-}
-
-auto Sorcery::Character::priest_cur_sp()
-	-> std::map<unsigned int, unsigned int> & {
-
-	return _priest_cur_sp;
-}
-
-auto Sorcery::Character::mage_cur_sp()
-	-> std::map<unsigned int, unsigned int> & {
-
-	return _mage_cur_sp;
-}
-
-auto Sorcery::Character::priest_cur_sp() const
-	-> const std::map<unsigned int, unsigned int> & {
-	return _priest_cur_sp;
-}
-
-auto Sorcery::Character::mage_cur_sp() const
-	-> const std::map<unsigned int, unsigned int> & {
-	return _mage_cur_sp;
-}
-
-auto Sorcery::Character::priest_max_sp()
-	-> std::map<unsigned int, unsigned int> & {
-
-	return _priest_max_sp;
-}
-
-auto Sorcery::Character::mage_max_sp()
-	-> std::map<unsigned int, unsigned int> & {
-
-	return _mage_max_sp;
 }
 
 // Reset a character back to a particular state
@@ -188,8 +154,8 @@ auto Sorcery::Character::set_stage(const Enums::Character::Stage stage)
 		_mage_max_sp.clear();
 		_mage_cur_sp.clear();
 		_spells.clear();
-		create_spells();
-		reset_spells();
+		magic().create_spells();
+		magic().reset_spells();
 		break;
 	case REVIEW_AND_CONFIRM:
 
@@ -1261,11 +1227,6 @@ auto Sorcery::Character::get_disarm_trap() const -> int {
 
 	return _abilities.at(Enums::Character::Ability::BASE_DISARM_TRAP);
 }
-auto Sorcery::Character::get_calfo_left() const -> int {
-
-	// CALFO is a 2nd Level Priest Spell
-	return _priest_cur_sp.at(2);
-}
 
 auto Sorcery::Character::get_activate_trap() const -> int {
 
@@ -1311,19 +1272,6 @@ auto Sorcery::Character::_reset_starting_sp() -> void {
 			_mage_cur_sp[spell_level] = _mage_max_sp[spell_level];
 		}
 	}
-}
-
-auto Sorcery::Character::can_cast_spell(
-	const Enums::Magic::SpellType spell_type, const int spell_level) -> bool {
-
-	// TODO: check if knows spell
-
-	if (spell_type == Enums::Magic::SpellType::ARCANE)
-		return _mage_cur_sp[spell_level] > 0;
-	else if (spell_type == Enums::Magic::SpellType::DIVINE)
-		return _priest_cur_sp[spell_level] > 0;
-	else
-		return false;
 }
 
 // Set the starting spellpoints
@@ -1954,41 +1902,6 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 	return xp_needed;
 }
 
-auto Sorcery::Character::set_spells() -> void {
-
-	// Now for each spell known set the appropriate entry in the spells table
-	for (auto &spell_known : _spells_known) {
-
-		std::vector<Spell>::iterator it;
-		it = std::find_if(_spells.begin(), _spells.end(), [&](auto item) {
-			return item.id == spell_known.first;
-		});
-		if (it != _spells.end())
-			(*it).known = spell_known.second;
-	}
-}
-
-// Wizardry 1 - 3 Spells
-auto Sorcery::Character::create_spells() -> void {
-
-	_spells.clear();
-	_spells = _ctx->resources->spells->get_all();
-}
-
-auto Sorcery::Character::reset_spells() -> void {
-
-	for (auto &spell : _spells)
-		_spells_known[spell.id] = spell.known;
-}
-
-auto Sorcery::Character::replenish_spells() -> void {
-
-	for (auto level = 1; level <= 7; level++) {
-		_mage_cur_sp[level] = _mage_max_sp[level];
-		_priest_cur_sp[level] = _priest_max_sp[level];
-	}
-}
-
 // Given an Alignment and a Class, create a character
 auto Sorcery::Character::create_class_alignment(
 	const Enums::Character::Class cclass,
@@ -2371,25 +2284,6 @@ auto Sorcery::Character::get_hp_summary() const -> std::string {
 		std::to_string(_abilities.at(Enums::Character::Ability::CURRENT_HP)),
 		std::to_string(_abilities.at(Enums::Character::Ability::MAX_HP)),
 		get_hp_adjustment_symbol());
-}
-
-auto Sorcery::Character::get_spell_points(
-	const Enums::Magic::SpellType type,
-	const Enums::Magic::SpellPointType status) const
-	-> std::optional<std::map<unsigned int, unsigned int>> {
-
-	using enum Enums::Magic::SpellPointType;
-	using enum Enums::Magic::SpellType;
-	if (type == ARCANE && status == CURRENT)
-		return _mage_cur_sp;
-	else if (type == ARCANE && status == MAXIMUM)
-		return _mage_max_sp;
-	else if (type == DIVINE && status == CURRENT)
-		return _priest_cur_sp;
-	else if (type == DIVINE && status == MAXIMUM)
-		return _priest_max_sp;
-	else
-		return std::nullopt;
 }
 
 auto Sorcery::Character::_get_sp_per_level(const Enums::Magic::SpellType type,

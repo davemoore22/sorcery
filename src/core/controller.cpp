@@ -663,10 +663,10 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 			if (!spell_id)
 				return false;
 
-			const auto spell_it{
-				std::ranges::find(who.spells(), *spell_id, &Spell::id)};
+			const auto spell_it{std::ranges::find(who.magic().get_spells(),
+												  *spell_id, &Spell::id)};
 
-			if (spell_it == who.spells().end())
+			if (spell_it == who.magic().get_spells().end())
 				return false;
 
 			const auto &spell{*spell_it};
@@ -674,10 +674,10 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 
 			switch (spell.type) {
 			case Enums::Magic::SpellType::ARCANE:
-				spell_points = &who.mage_cur_sp();
+				spell_points = &who.magic().mage_current_spellpoints();
 				break;
 			case Enums::Magic::SpellType::DIVINE:
-				spell_points = &who.priest_cur_sp();
+				spell_points = &who.magic().priest_current_spellpoints();
 				break;
 			default:
 				return false;
@@ -733,8 +733,8 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 		if (_game == nullptr || data == -1)
 			return false;
 
-		auto &character{_game->characters.at(data)};
-		return character.get_calfo_left() == 0;
+		const auto &character{_game->characters.at(data)};
+		return character.magic().get_calfo_uses_left() == 0;
 
 	} else if (component == "store_menu") {
 

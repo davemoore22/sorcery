@@ -268,17 +268,17 @@ auto Sorcery::Chest::_cast_calfo(const int character_id) -> void {
 
 	using namespace std::chrono_literals;
 
-	auto &character{_ctx.game->characters.at(character_id)};
+	const auto &character{_ctx.game->characters.at(character_id)};
 
 	// Still validate here even though the menu should prevent
 	// an invalid character being selected.
-	if (character.get_calfo_left() == 0) {
+	if (character.magic().get_calfo_uses_left() == 0) {
 		_state.state = Enums::Chests::State::MENU;
 		return;
 	}
 
 	// Consume one level-2 priest spell slot.
-	// <use your existing Character API here>
+	// (TODO: we need a mutable character for this!)
 
 	const auto roll{_ctx.get_random(Enums::System::Random::D100) - 1};
 

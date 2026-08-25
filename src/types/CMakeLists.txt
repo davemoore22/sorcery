@@ -14,6 +14,7 @@ target_link_libraries(sorcery_types PUBLIC
 
 target_sources(sorcery_types PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/character.cpp
+	${CMAKE_CURRENT_LIST_DIR}/character/magic.cpp
 	${CMAKE_CURRENT_LIST_DIR}/component.cpp
 	${CMAKE_CURRENT_LIST_DIR}/config.cpp
 	${CMAKE_CURRENT_LIST_DIR}/dice.cpp

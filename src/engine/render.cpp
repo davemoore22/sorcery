@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/render.hpp"
+#include "engine/render.hpp"
 #include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
