@@ -1426,66 +1426,68 @@ auto Sorcery::Controller::handle_stepper_button_click(
 		if (positive) {
 
 			// Up: If we have points left and the value is less than 18
-			if ((candidate->get_points_left() > 0) && (*data <= 17)) {
+			if ((candidate->create().get_points_left() > 0) && (*data <= 17)) {
 
 				(*data)++;
-				candidate->set_points_left(candidate->get_points_left() - 1);
-				candidate->set_pos_class();
+				candidate->create().set_points_left(
+					candidate->create().get_points_left() - 1);
+				candidate->create().set_possible_classes();
 			}
 
 		} else {
 
-			if (candidate->get_points_left() < candidate->get_start_points()) {
+			if (candidate->create().get_points_left() <
+				candidate->create().get_start_points()) {
 
 				// Down: If we are above staring points
 				using enum Enums::Character::Attribute;
 				if (component.starts_with("##stepper_attribute_1")) {
 					if (candidate->get_cur_attr(STRENGTH) >
-						candidate->get_start_attr(STRENGTH)) {
+						candidate->create().get_start_attribute(STRENGTH)) {
 						(*data)--;
-						candidate->set_points_left(
-							candidate->get_points_left() + 1);
-						candidate->set_pos_class();
+						candidate->create().set_points_left(
+							candidate->create().get_points_left() + 1);
+						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_2")) {
 					if (candidate->get_cur_attr(IQ) >
-						candidate->get_start_attr(IQ)) {
+						candidate->create().get_start_attribute(IQ)) {
 						(*data)--;
-						candidate->set_points_left(
-							candidate->get_points_left() + 1);
-						candidate->set_pos_class();
+						candidate->create().set_points_left(
+							candidate->create().get_points_left() + 1);
+						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_3")) {
 					if (candidate->get_cur_attr(PIETY) >
-						candidate->get_start_attr(PIETY)) {
+						candidate->create().get_start_attribute(PIETY)) {
 						(*data)--;
-						candidate->set_points_left(
-							candidate->get_points_left() + 1);
-						candidate->set_pos_class();
+						candidate->create().set_points_left(
+							candidate->create().get_points_left() + 1);
+						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_4")) {
 					if (candidate->get_cur_attr(VITALITY) >
-						candidate->get_start_attr(VITALITY)) {
+						candidate->create().get_start_attribute(VITALITY)) {
 						(*data)--;
-						candidate->set_points_left(
-							candidate->get_points_left() + 1);
-						candidate->set_pos_class();
+						candidate->create().set_points_left(
+							candidate->create().get_points_left() + 1);
+						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_5")) {
 					if (candidate->get_cur_attr(AGILITY) >
-						candidate->get_start_attr(AGILITY)) {
+						candidate->create().get_start_attribute(AGILITY)) {
 						(*data)--;
-						candidate->set_points_left(
-							candidate->get_points_left() + 1);
-						candidate->set_pos_class();
+						candidate->create().set_points_left(
+							candidate->create().get_points_left() + 1);
+						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_6")) {
 					if (candidate->get_cur_attr(LUCK) >
-						candidate->get_start_attr(LUCK)) {
+						candidate->create().get_start_attribute(LUCK)) {
 						(*data)--;
-						candidate->set_points_left(
-							candidate->get_points_left() + 1);
-						candidate->set_pos_class();
+						candidate->create().set_points_left(
+							candidate->create().get_points_left() + 1);
+						candidate->create().set_possible_classes();
 					}
 				}
 			}
@@ -1504,7 +1506,7 @@ auto Sorcery::Controller::handle_input_button_click(
 		if (data->length() > 0) {
 
 			_game->creation_candidate->set_name(*data);
-			_game->creation_candidate->set_stage(
+			_game->creation_candidate->create().set_stage(
 				Enums::Character::Stage::CHOOSE_RACE);
 		}
 	} else if (component == "rename_input_ok") {
@@ -1714,9 +1716,9 @@ auto Sorcery::Controller::handle_standard_menu(
 		else {
 			_game->creation_candidate->set_race(
 				enum_cast<Enums::Character::Race>(selection + 1).value());
-			_game->creation_candidate->set_stage(
+			_game->creation_candidate->create().set_stage(
 				Enums::Character::Stage::CHOOSE_ALIGNMENT);
-			_game->creation_candidate->set_start_attr();
+			_game->creation_candidate->create().set_start_attr();
 		}
 	} else if (component == "alignment_menu") {
 
@@ -1725,10 +1727,10 @@ auto Sorcery::Controller::handle_standard_menu(
 		else {
 			_game->creation_candidate->set_alignment(
 				enum_cast<Enums::Character::Align>(selection + 1).value());
-			_game->creation_candidate->set_stage(
+			_game->creation_candidate->create().set_stage(
 				Enums::Character::Stage::CHOOSE_CLASS);
-			_game->creation_candidate->set_start_attr();
-			_game->creation_candidate->set_pos_class();
+			_game->creation_candidate->create().set_start_attr();
+			_game->creation_candidate->create().set_possible_classes();
 		}
 	} else if (component == "class_menu") {
 
@@ -1736,13 +1738,13 @@ auto Sorcery::Controller::handle_standard_menu(
 			go_to(Enums::Screen::TRAINING);
 		else {
 			auto candidate{_ctx.game->creation_candidate};
-			if (candidate->get_points_left() == 0) {
+			if (candidate->create().get_points_left() == 0) {
 
 				candidate->set_class(
 					enum_cast<Enums::Character::Class>(selection + 1).value());
-				candidate->set_stage(
+				candidate->create().set_stage(
 					Enums::Character::Stage::REVIEW_AND_CONFIRM);
-				candidate->finalise();
+				candidate->create().finalise();
 
 				// TODO: refactor this
 				candidate->inventory.clear();

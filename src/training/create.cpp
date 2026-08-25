@@ -58,7 +58,8 @@ auto Sorcery::Create::start() -> int {
 	show_immediately();
 
 	_ctx.game->creation_candidate = std::make_shared<Character>(&_ctx);
-	_ctx.game->creation_candidate->reset(Enums::Character::Stage::ENTER_NAME);
+	_ctx.game->creation_candidate->create().reset(
+		Enums::Character::Stage::ENTER_NAME);
 
 	auto candidate{_ctx.game->creation_candidate};
 
@@ -92,54 +93,60 @@ auto Sorcery::Create::start() -> int {
 		}
 
 		using enum Enums::Character::Stage;
-		switch (candidate->get_stage()) {
+		switch (candidate->create().get_stage()) {
 		case ENTER_NAME:
-			_ctx.ui->display(Enums::Screen::CREATE_NAME,
-							 std::to_underlying(candidate->get_stage()));
+			_ctx.ui->display(
+				Enums::Screen::CREATE_NAME,
+				std::to_underlying(candidate->create().get_stage()));
 
-			if (candidate->get_stage() != Enums::Character::Stage::ENTER_NAME) {
-				candidate->set_stage(CHOOSE_RACE);
+			if (candidate->create().get_stage() !=
+				Enums::Character::Stage::ENTER_NAME) {
+				candidate->create().set_stage(CHOOSE_RACE);
 			}
 			break;
 		case CHOOSE_RACE:
-			_ctx.ui->display(Enums::Screen::CREATE_RACE,
-							 std::to_underlying(candidate->get_stage()));
-			if (candidate->get_stage() !=
+			_ctx.ui->display(
+				Enums::Screen::CREATE_RACE,
+				std::to_underlying(candidate->create().get_stage()));
+			if (candidate->create().get_stage() !=
 				Enums::Character::Stage::CHOOSE_RACE) {
-				candidate->set_stage(CHOOSE_ALIGNMENT);
+				candidate->create().set_stage(CHOOSE_ALIGNMENT);
 			}
 			break;
 		case CHOOSE_ALIGNMENT:
-			_ctx.ui->display(Enums::Screen::CREATE_ALIGNMENT,
-							 std::to_underlying(candidate->get_stage()));
-			if (candidate->get_stage() !=
+			_ctx.ui->display(
+				Enums::Screen::CREATE_ALIGNMENT,
+				std::to_underlying(candidate->create().get_stage()));
+			if (candidate->create().get_stage() !=
 				Enums::Character::Stage::CHOOSE_ALIGNMENT) {
-				candidate->set_stage(CHOOSE_CLASS);
+				candidate->create().set_stage(CHOOSE_CLASS);
 			}
 			break;
 		case CHOOSE_CLASS:
-			_ctx.ui->display(Enums::Screen::CREATE_CLASS,
-							 std::to_underlying(candidate->get_stage()));
-			if (candidate->get_stage() !=
+			_ctx.ui->display(
+				Enums::Screen::CREATE_CLASS,
+				std::to_underlying(candidate->create().get_stage()));
+			if (candidate->create().get_stage() !=
 				Enums::Character::Stage::CHOOSE_CLASS) {
-				candidate->finalise();
-				candidate->set_stage(REVIEW_AND_CONFIRM);
+				candidate->create().finalise();
+				candidate->create().set_stage(REVIEW_AND_CONFIRM);
 			}
 			break;
 		case REVIEW_AND_CONFIRM:
 
 			// Order is changed to avoid doing a display before returning after
-			if (candidate->get_stage() !=
+			if (candidate->create().get_stage() !=
 				Enums::Character::Stage::REVIEW_AND_CONFIRM) {
 				return BACK_TO_TRAINING_GROUNDS;
 			}
 
-			_ctx.ui->display(Enums::Screen::CREATE_CONFIRM,
-							 std::to_underlying(candidate->get_stage()));
+			_ctx.ui->display(
+				Enums::Screen::CREATE_CONFIRM,
+				std::to_underlying(candidate->create().get_stage()));
 
 			if (_ctx.controller->has_flag("confirm_keep_character")) {
 
-				candidate->set_stage(COMPLETED);
+				candidate->create().set_stage(COMPLETED);
 				candidate->set_location(Enums::Character::Location::TAVERN);
 
 				auto char_id = _ctx.game->save_character(*candidate);
@@ -178,27 +185,27 @@ auto Sorcery::Create::_go_back_stage() -> bool {
 
 	using enum Enums::Character::Stage;
 
-	switch (candidate->get_stage()) {
+	switch (candidate->create().get_stage()) {
 
 	case ENTER_NAME:
 		return true;
 
 	case CHOOSE_RACE:
-		candidate->set_stage(ENTER_NAME);
+		candidate->create().set_stage(ENTER_NAME);
 		_ctx.controller->clear_input_buffer();
 		_ctx.ui->first_frame = true;
 		break;
 
 	case CHOOSE_ALIGNMENT:
-		candidate->set_stage(CHOOSE_RACE);
+		candidate->create().set_stage(CHOOSE_RACE);
 		break;
 
 	case CHOOSE_CLASS:
-		candidate->set_stage(CHOOSE_ALIGNMENT);
+		candidate->create().set_stage(CHOOSE_ALIGNMENT);
 		break;
 
 	case REVIEW_AND_CONFIRM:
-		candidate->set_stage(CHOOSE_CLASS);
+		candidate->create().set_stage(CHOOSE_CLASS);
 		break;
 
 	default:

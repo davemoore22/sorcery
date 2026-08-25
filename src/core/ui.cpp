@@ -2121,9 +2121,10 @@ auto Sorcery::UI::_draw_create_class([[maybe_unused]] const int mode) -> void {
 	_draw_text(&cmp_summary, summary_text);
 
 	auto cmp_points_left{components->get("create_class:points_left_text")};
-	const auto points_left_text{std::format(
-		"{:>2}",
-		_ctx.controller->get_candidate_character()->get_points_left())};
+	const auto points_left_text{
+		std::format("{:>2}", _ctx.controller->get_candidate_character()
+								 ->create()
+								 .get_points_left())};
 	_draw_text(&cmp_points_left, points_left_text);
 
 	// Now draw the class buttons
@@ -2680,8 +2681,9 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 
 		if (component->name == "current_stats") {
 			using enum Enums::Character::Attribute;
-			const auto mins{
-				_ctx.controller->get_candidate_character()->get_start_attr()};
+			const auto mins{_ctx.controller->get_candidate_character()
+								->create()
+								.get_start_attributes()};
 			if (name == "stepper_attribute_1")
 				disabled = !(*value > mins.at(STRENGTH));
 			else if (name == "stepper_attribute_2")
@@ -2720,7 +2722,8 @@ auto Sorcery::UI::_draw_stepper(Component *component, const std::string &name,
 		disabled = false;
 		if (component->name == "current_stats") {
 			if ((*value >= 18) || (_ctx.controller->get_candidate_character()
-									   ->get_points_left() == 0))
+									   ->create()
+									   .get_points_left() == 0))
 				disabled = true;
 		};
 

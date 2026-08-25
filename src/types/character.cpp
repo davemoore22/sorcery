@@ -44,7 +44,7 @@ Sorcery::Character::~Character() {}
 Sorcery::Character::Character(Context *ctx)
 	: _ctx{ctx} {
 
-	set_stage(Enums::Character::Stage::NOT_STARTED);
+	create().set_stage(Enums::Character::Stage::NOT_STARTED);
 
 	_hidden = false;
 	set_status(Enums::Character::Status::OK);
@@ -72,9 +72,14 @@ auto Sorcery::Character::magic() const -> ConstCharacterMagic {
 	return ConstCharacterMagic{*this};
 }
 
-auto Sorcery::Character::reset(const Enums::Character::Stage stage) -> void {
+auto Sorcery::Character::create() -> CharacterCreate {
 
-	set_stage(stage);
+	return CharacterCreate{*this};
+}
+
+auto Sorcery::Character::create() const -> ConstCharacterCreate {
+
+	return ConstCharacterCreate{*this};
 }
 
 // Overloaded Operator
@@ -85,11 +90,6 @@ auto Sorcery::Character::operator[](const Enums::Character::Ability &key)
 }
 
 // Utility Functions
-
-auto Sorcery::Character::get_stage() const -> Enums::Character::Stage {
-
-	return _current_stage;
-}
 
 auto Sorcery::Character::get_location() const -> Enums::Character::Location {
 
@@ -124,53 +124,6 @@ auto Sorcery::Character::attributes()
 	-> std::map<Enums::Character::Attribute, int> & {
 
 	return _cur_attr;
-}
-
-// Reset a character back to a particular state
-auto Sorcery::Character::set_stage(const Enums::Character::Stage stage)
-	-> void {
-
-	_current_stage = stage;
-	switch (stage) {
-		using enum Enums::Character::Stage;
-	case NOT_STARTED:
-		_name.clear();
-		_race = Enums::Character::Race::NO_RACE;
-		_alignment = Enums::Character::Align::NO_ALIGN;
-		_start_attr.clear();
-		_cur_attr.clear();
-		_max_attr.clear();
-		_abilities.clear();
-
-		// Used in the display from this point onwards
-		_abilities[Enums::Character::Ability::CURRENT_LEVEL] = 1;
-		_class = Enums::Character::Class::NO_CLASS;
-		_points_left = 0;
-		_st_points = 0;
-		_pos_classes.clear();
-		_num_pos_classes = 0;
-		_priest_max_sp.clear();
-		_priest_cur_sp.clear();
-		_mage_max_sp.clear();
-		_mage_cur_sp.clear();
-		_spells.clear();
-		magic().create_spells();
-		magic().reset_spells();
-		break;
-	case REVIEW_AND_CONFIRM:
-
-		// Handle the generation of the Character Display Here
-		//_view = SUMMARY;
-		//_generate_display();
-		break;
-	default:
-		break;
-	}
-}
-
-auto Sorcery::Character::get_name_ref() -> std::string * {
-
-	return &_name;
 }
 
 auto Sorcery::Character::get_name() const -> std::string {
@@ -253,30 +206,10 @@ auto Sorcery::Character::set_class(const Enums::Character::Class &value)
 	_class = value;
 }
 
-auto Sorcery::Character::get_points_left() const -> unsigned int {
-
-	return _points_left;
-}
-
-auto Sorcery::Character::set_points_left(const unsigned int &value) -> void {
-
-	_points_left = value;
-}
-
-auto Sorcery::Character::get_start_points() const -> unsigned int {
-
-	return _st_points;
-}
-
 auto Sorcery::Character::get_attr_ptr(Enums::Character::Attribute attribute)
 	-> int * {
 
 	return &_cur_attr.at(attribute);
-}
-
-auto Sorcery::Character::set_start_points(const unsigned int &value) -> void {
-
-	_st_points = value;
 }
 
 auto Sorcery::Character::get_cur_attr(
@@ -285,76 +218,10 @@ auto Sorcery::Character::get_cur_attr(
 	return _cur_attr.at(attribute);
 }
 
-auto Sorcery::Character::get_start_attr(
-	const Enums::Character::Attribute attribute) const -> unsigned int {
-
-	return _start_attr.at(attribute);
-}
-
-auto Sorcery::Character::set_cur_attr(
-	const Enums::Character::Attribute attribute, const int adjustment) -> void {
-
-	_cur_attr.at(attribute) += adjustment;
-}
-
-auto Sorcery::Character::set_start_attr() -> void {
-
-	_start_attr.clear();
-	_cur_attr.clear();
-	switch (_race) {
-		using enum Enums::Character::Attribute;
-		using enum Enums::Character::Race;
-	case HUMAN:
-		_start_attr = {{STRENGTH, 8}, {IQ, 5},		{PIETY, 5},
-					   {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
-		break;
-	case ELF:
-		_start_attr = {{STRENGTH, 7}, {IQ, 10},		{PIETY, 10},
-					   {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
-		break;
-	case DWARF:
-		_start_attr = {{STRENGTH, 10}, {IQ, 7},		 {PIETY, 10},
-					   {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
-		break;
-	case GNOME:
-		_start_attr = {{STRENGTH, 7}, {IQ, 7},		 {PIETY, 10},
-					   {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
-		break;
-	case HOBBIT:
-		_start_attr = {{STRENGTH, 5}, {IQ, 7},		 {PIETY, 7},
-					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
-		break;
-	default:
-		break;
-	}
-
-	_cur_attr = _start_attr;
-
-	// Formula sourced from http://www.zimlab.com/wizardry/walk/w123calc.htm
-	using enum Enums::System::Random;
-	_points_left = _ctx->get_random(ZERO_TO_3);
-	const bool chance_of_more{_ctx->get_random(D10) == 1};
-	const bool chance_of_more_again{_ctx->get_random(D10) == 1};
-	_points_left += 7;
-	if (_points_left < 20)
-		if (chance_of_more)
-			_points_left += 10;
-	if (_points_left < 20)
-		if (chance_of_more_again)
-			_points_left += 10;
-	_st_points = _points_left;
-}
-
 auto Sorcery::Character::get_cur_attr() const
 	-> std::map<Enums::Character::Attribute, int> {
 
 	return _cur_attr;
-}
-
-auto Sorcery::Character::get_start_attr() const
-	-> std::map<Enums::Character::Attribute, int> {
-
-	return _start_attr;
 }
 
 auto Sorcery::Character::get_pos_class() const
@@ -363,95 +230,9 @@ auto Sorcery::Character::get_pos_class() const
 	return _pos_classes;
 }
 
-// Given a character's current stats and alignment, work out what classes are
-// available
-auto Sorcery::Character::set_pos_class() -> void {
-
-	_pos_classes.clear();
-
-	// Do the basic classes first (this also sets
-	// _num_possible_character_classes); data is from
-	// https://strategywiki.org/wiki/Wizardry:_Proving_Grounds_of_the_Mad_Overlord/Trebor%27s_castle#Classes
-	using enum Enums::Character::Align;
-	using enum Enums::Character::Class;
-	using enum Enums::Character::Attribute;
-	if (_cur_attr[STRENGTH] >= 11)
-		_pos_classes[FIGHTER] = true;
-	else
-		_pos_classes[FIGHTER] = false;
-
-	if (_cur_attr[IQ] >= 11)
-		_pos_classes[MAGE] = true;
-	else
-		_pos_classes[MAGE] = false;
-
-	if (_cur_attr[PIETY] >= 11)
-		if (_alignment == GOOD || _alignment == EVIL)
-			_pos_classes[PRIEST] = true;
-		else
-			_pos_classes[PRIEST] = false;
-	else
-		_pos_classes[PRIEST] = false;
-
-	if (_cur_attr[AGILITY] >= 11)
-		if (_alignment == NEUTRAL || _alignment == EVIL)
-			_pos_classes[THIEF] = true;
-		else
-			_pos_classes[THIEF] = false;
-	else
-		_pos_classes[THIEF] = false;
-
-	// Now the elite classes
-	if (_cur_attr[IQ] >= 12 && _cur_attr[PIETY] >= 12)
-		if (_alignment == GOOD || _alignment == EVIL)
-			_pos_classes[BISHOP] = true;
-		else
-			_pos_classes[BISHOP] = false;
-	else
-		_pos_classes[BISHOP] = false;
-
-	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 11 &&
-		_cur_attr[PIETY] >= 10 && _cur_attr[VITALITY] >= 10 &&
-		_cur_attr[AGILITY] >= 10)
-		if (_alignment == GOOD || _alignment == NEUTRAL)
-			_pos_classes[SAMURAI] = true;
-		else
-			_pos_classes[SAMURAI] = false;
-	else
-		_pos_classes[SAMURAI] = false;
-
-	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 12 &&
-		_cur_attr[PIETY] >= 12 && _cur_attr[VITALITY] >= 15 &&
-		_cur_attr[AGILITY] >= 14 && _cur_attr[LUCK] >= 15)
-		if (_alignment == GOOD)
-			_pos_classes[LORD] = true;
-		else
-			_pos_classes[LORD] = false;
-	else
-		_pos_classes[LORD] = false;
-
-	// Using looser Wizardry 5 requirements for Ninja (see
-	// https://wizardry.fandom.com/wiki/Ninja)
-	if (_cur_attr[STRENGTH] >= 15 && _cur_attr[IQ] >= 17 &&
-		_cur_attr[PIETY] >= 15 && _cur_attr[VITALITY] >= 16 &&
-		_cur_attr[AGILITY] >= 15 && _cur_attr[LUCK] >= 16)
-		if (_alignment != GOOD)
-			_pos_classes[NINJA] = true;
-		else
-			_pos_classes[NINJA] = false;
-	else
-		_pos_classes[NINJA] = false;
-
-	// And workout the number of classes
-	_num_pos_classes = std::count_if(_pos_classes.begin(), _pos_classes.end(),
-									 [](auto element) {
-										 return element.second;
-									 });
-}
-
 auto Sorcery::Character::can_change_class() -> bool {
 
-	set_pos_class();
+	create().set_possible_classes();
 
 	return std::ranges::any_of(_pos_classes, [this](const auto &entry) {
 		return entry.first != _class && entry.second;
@@ -460,7 +241,7 @@ auto Sorcery::Character::can_change_class() -> bool {
 
 auto Sorcery::Character::get_possible_classes_display() -> std::string {
 
-	set_pos_class();
+	create().set_possible_classes();
 
 	std::string classes{"--------"};
 
@@ -531,15 +312,6 @@ auto Sorcery::Character::class_to_str(
 		_ctx->get_string("CHARACTER_CLASS_NINJA")};
 
 	return classes[std::to_underlying(character_class)];
-}
-
-// Last step of creating new a character
-auto Sorcery::Character::finalise() -> void {
-
-	_generate_start_info();
-	_generate_secondary_abil(true, false, false);
-	_set_start_spells();
-	_set_starting_sp();
 }
 
 auto Sorcery::Character::get_ress_chance(bool ashes) -> unsigned int {
@@ -1900,189 +1672,6 @@ auto Sorcery::Character::_get_xp_for_level(unsigned int level) const -> int {
 		xp_needed = levels[c_index, 12] + ((level - 13) * levels[c_index, 13]);
 
 	return xp_needed;
-}
-
-// Given an Alignment and a Class, create a character
-auto Sorcery::Character::create_class_alignment(
-	const Enums::Character::Class cclass,
-	const Enums::Character::Align alignment) -> void {
-
-	_class = cclass;
-	_race = static_cast<Enums::Character::Race>(
-		_ctx->get_random(Enums::System::Random::D5));
-	_alignment = alignment;
-
-	switch (_race) { // NOLINT(clang-diagnostic-switch)
-		using enum Enums::Character::Attribute;
-		using enum Enums::Character::Race;
-	case HUMAN:
-		_start_attr = {{STRENGTH, 8}, {IQ, 5},		{PIETY, 5},
-					   {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
-		break;
-	case ELF:
-		_start_attr = {{STRENGTH, 7}, {IQ, 10},		{PIETY, 10},
-					   {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
-		break;
-	case DWARF:
-		_start_attr = {{STRENGTH, 10}, {IQ, 7},		 {PIETY, 10},
-					   {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
-		break;
-	case GNOME:
-		_start_attr = {{STRENGTH, 7}, {IQ, 7},		 {PIETY, 10},
-					   {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
-		break;
-	case HOBBIT:
-		_start_attr = {{STRENGTH, 5}, {IQ, 7},		 {PIETY, 7},
-					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
-		break;
-	default:
-		break;
-	}
-
-	// Put most of the points into the main attribute (note that 10 points means
-	// a Human Priest and Dwarf Thief have allocated all points to their main
-	// attribute with no points left over)
-	_points_left = 10;
-	_st_points = _points_left;
-
-	switch (_class) { // NOLINT(clang-diagnostic-switch)
-		using enum Enums::Character::Attribute;
-		using enum Enums::Character::Class;
-	case FIGHTER:
-		[[fallthrough]];
-	case LORD:
-		[[fallthrough]];
-	case SAMURAI:
-		_points_left -= (15 - _start_attr[STRENGTH]);
-		_start_attr[STRENGTH] = 15;
-		break;
-	case MAGE:
-		[[fallthrough]];
-	case BISHOP:
-		_points_left -= (15 - _start_attr[IQ]);
-		_start_attr[IQ] = 15;
-		break;
-	case PRIEST:
-		_points_left -= (15 - _start_attr[PIETY]);
-		_start_attr[PIETY] = 15;
-		break;
-	case THIEF:
-		[[fallthrough]];
-	case NINJA:
-		_points_left -= (15 - _start_attr[AGILITY]);
-		_start_attr[AGILITY] = 15;
-		break;
-	default:
-		break;
-	}
-
-	// Pump any points left into the Vitality attribute
-	if (_points_left > 0)
-		_start_attr[Enums::Character::Attribute::VITALITY] += _points_left;
-
-	_cur_attr = _start_attr;
-
-	_name = _ctx->random->get_random_name();
-}
-
-// Enter Name, rest is random
-auto Sorcery::Character::create_quick() -> void {
-
-	// Exclude Samurai/Lord/Ninja/Bishop from this method of character creation
-	using enum Enums::System::Random;
-	_class = static_cast<Enums::Character::Class>(_ctx->get_random(D4));
-	_race = static_cast<Enums::Character::Race>(_ctx->get_random(D5));
-	switch (_class) { // NOLINT(clang-diagnostic-switch)#
-		using enum Enums::Character::Align;
-		using enum Enums::Character::Class;
-	case FIGHTER:
-	case MAGE:
-		_alignment = static_cast<Enums::Character::Align>(_ctx->get_random(D3));
-		break;
-	case PRIEST:
-		_alignment = _ctx->get_random(D2) == 1 ? GOOD : EVIL;
-		break;
-	case THIEF:
-		_alignment = _ctx->get_random(D2) == 1 ? NEUTRAL : EVIL;
-		break;
-	default:
-		break;
-	}
-
-	// Now get minimum attributes for race/class combo (note as we are only
-	// allowing creation of some classes, it will be as if we had a maximum of
-	// 10 bonus points to spend - in order to incentivise full blown character
-	// creation! see table IV (A) at
-	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726
-	// for info
-	switch (_race) { // NOLINT(clang-diagnostic-switch)
-		using enum Enums::Character::Attribute;
-		using enum Enums::Character::Race;
-	case HUMAN:
-		_start_attr = {{STRENGTH, 8}, {IQ, 5},		{PIETY, 5},
-					   {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
-		break;
-	case ELF:
-		_start_attr = {{STRENGTH, 7}, {IQ, 10},		{PIETY, 10},
-					   {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
-		break;
-	case DWARF:
-		_start_attr = {{STRENGTH, 10}, {IQ, 7},		 {PIETY, 10},
-					   {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
-		break;
-	case GNOME:
-		_start_attr = {{STRENGTH, 7}, {IQ, 7},		 {PIETY, 10},
-					   {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
-		break;
-	case HOBBIT:
-		_start_attr = {{STRENGTH, 5}, {IQ, 7},		 {PIETY, 7},
-					   {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
-		break;
-	default:
-		break;
-	}
-
-	// Put most of the points into the main attribute (note that 10 points means
-	// a Human Priest and Dwarf Thief have allocated all points to their main
-	// attribute with no points left over)
-	_points_left = 10;
-	_st_points = _points_left;
-	switch (_class) { // NOLINT(clang-diagnostic-switch)
-		using enum Enums::Character::Attribute;
-		using enum Enums::Character::Class;
-	case FIGHTER:
-		_points_left -= (15 - _start_attr[STRENGTH]);
-		_start_attr[STRENGTH] = 15;
-		break;
-	case MAGE:
-		_points_left -= (15 - _start_attr[IQ]);
-		_start_attr[IQ] = 15;
-		break;
-	case PRIEST:
-		_points_left -= (15 - _start_attr[PIETY]);
-		_start_attr[PIETY] = 15;
-		break;
-	case THIEF:
-		_points_left -= (15 - _start_attr[AGILITY]);
-		_start_attr[AGILITY] = 15;
-		break;
-	default:
-		break;
-	}
-
-	// Pump any points left into the Vitality attribute
-	if (_points_left > 0)
-		_start_attr[Enums::Character::Attribute::VITALITY] += _points_left;
-
-	_cur_attr = _start_attr;
-}
-
-// Create a (semi) random character
-auto Sorcery::Character::create_random() -> void {
-
-	// Random Name
-	create_quick();
-	_name = _ctx->random->get_random_name();
 }
 
 auto Sorcery::Character::get_wiz_1_award() const -> bool {

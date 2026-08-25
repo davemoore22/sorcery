@@ -535,29 +535,29 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 			using enum Enums::Character::Align;
 			using enum Enums::Character::Class;
 		case 0:
-			pc.create_class_alignment(FIGHTER, align);
+			pc.create().create_class_alignment(FIGHTER, align);
 			break;
 		case 1:
-			pc.create_class_alignment(FIGHTER, NEUTRAL);
+			pc.create().create_class_alignment(FIGHTER, NEUTRAL);
 			break;
 		case 2:
-			pc.create_class_alignment(THIEF, NEUTRAL);
+			pc.create().create_class_alignment(THIEF, NEUTRAL);
 			break;
 		case 3:
-			pc.create_class_alignment(PRIEST, align);
+			pc.create().create_class_alignment(PRIEST, align);
 			break;
 		case 4:
-			pc.create_class_alignment(BISHOP, align);
+			pc.create().create_class_alignment(BISHOP, align);
 			break;
 		case 5:
-			pc.create_class_alignment(MAGE, NEUTRAL);
+			pc.create().create_class_alignment(MAGE, NEUTRAL);
 			break;
 		default:
 			break;
 		}
 
-		pc.finalise();
-		pc.set_stage(Enums::Character::Stage::COMPLETED);
+		pc.create().finalise();
+		pc.create().set_stage(Enums::Character::Stage::COMPLETED);
 		pc.inventory.clear();
 
 		switch (pc.get_class()) { // NOLINT(clang-diagnostic-switch)

@@ -26,6 +26,7 @@
 #include "common/define.hpp"
 #include "common/enum.hpp"
 #include "common/types.hpp"
+#include "types/character/create.hpp"
 #include "types/character/magic.hpp"
 #include "types/define.hpp"
 #include "types/enum.hpp"
@@ -49,6 +50,8 @@ class Character {
 
 		friend class ConstCharacterMagic;
 		friend class CharacterMagic;
+		friend class ConstCharacterCreate;
+		friend class CharacterCreate;
 
 	public:
 		// Constructors
@@ -75,14 +78,11 @@ class Character {
 		// Composition Classes
 		auto magic() -> CharacterMagic;
 		auto magic() const -> ConstCharacterMagic;
+		auto create() -> CharacterCreate;
+		auto create() const -> ConstCharacterCreate;
 
 		// Public Methods
 		auto post_construct(Context *ctx) -> void;
-		auto reset(const Enums::Character::Stage stage) -> void;
-		auto get_stage() const -> Enums::Character::Stage;
-		auto set_stage(const Enums::Character::Stage stage) -> void;
-		auto set_pos_class() -> void;
-		auto finalise() -> void;
 		auto level_up() -> void;
 		auto level_down() -> void;
 		auto alignment_to_str(const Enums::Character::Align alignment) const
@@ -91,13 +91,6 @@ class Character {
 			-> std::string;
 		auto class_to_str(const Enums::Character::Class cclass) const
 			-> std::string;
-		auto create_random() -> void;
-		auto create_quick() -> void;
-		auto create_class_alignment(const Enums::Character::Class cclass,
-									const Enums::Character::Align alignment)
-			-> void;
-		auto set_start_attr() -> void;
-		auto get_name_ref() -> std::string *;
 		auto get_name() const -> std::string;
 		auto get_name_and_loc() const -> std::string;
 		auto get_name_and_status() const -> std::string;
@@ -118,21 +111,11 @@ class Character {
 		auto get_pos_class() const -> std::map<Enums::Character::Class, bool>;
 		auto get_possible_classes_display() -> std::string;
 		auto can_change_class() -> bool;
-		auto get_start_attr() const
-			-> std::map<Enums::Character::Attribute, int>;
-		auto get_points_left() const -> unsigned int;
-		auto set_points_left(const unsigned int &value) -> void;
-		auto get_start_points() const -> unsigned int;
 		auto get_num_pos_class() const -> unsigned int;
-		auto set_start_points(const unsigned int &value) -> void;
 		auto get_condition() const -> std::string;
 		auto get_short_cond() const -> std::string;
 		auto get_cur_attr(const Enums::Character::Attribute attribute) const
 			-> unsigned int;
-		auto get_start_attr(const Enums::Character::Attribute attribute) const
-			-> unsigned int;
-		auto set_cur_attr(const Enums::Character::Attribute attribute,
-						  const int adjustment) -> void;
 		auto get_gold() const -> unsigned int;
 		auto set_gold(const unsigned int value) -> void;
 		auto grant_gold(const int value) -> void;

@@ -89,9 +89,12 @@ auto Sorcery::ConstCharacterMagic::mage_max_spellpoints() const
 	return _character->_mage_max_sp;
 }
 
+//
+
 Sorcery::CharacterMagic::CharacterMagic(Character &character) noexcept
 	: ConstCharacterMagic{character},
 	  _m_character{&character} {}
+
 // Wizardry 1 - 3 Spells
 auto Sorcery::CharacterMagic::create_spells() -> void {
 
