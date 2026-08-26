@@ -229,7 +229,9 @@ auto Sorcery::MenuBuilder::_load_retrainable_characters(
 	for (const auto &it : sorted) {
 		auto &[id, character] = *it;
 		const auto name{character.get_name_status_and_loc()};
-		const auto possible_classes{character.get_possible_classes_display()};
+		character.create().set_possible_classes();
+		const auto possible_classes{
+			character.create().get_possible_classes_display()};
 		const auto menu_value{std::format("{} {}", name, possible_classes)};
 		items.emplace_back(menu_value);
 		data.emplace_back(id);
@@ -665,7 +667,7 @@ auto Sorcery::MenuBuilder::_load_possible_classes(
 	const auto char_id{_ctx.controller->get_character(source)};
 	auto &character{_ctx.game->characters.at(char_id)};
 
-	const auto classes{character.get_pos_class()};
+	const auto classes{character.create().get_possible_classes()};
 	for (const auto &[class_name, possible] : classes) {
 		if (possible) {
 

@@ -153,7 +153,7 @@ auto Sorcery::Rite::start() -> int {
 
 			const auto alignment{character.get_alignment()};
 
-			character.legate(alignment);
+			character.create().legate(alignment);
 
 			_ctx.game->save_game();
 

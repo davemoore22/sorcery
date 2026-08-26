@@ -83,8 +83,6 @@ class Character {
 
 		// Public Methods
 		auto post_construct(Context *ctx) -> void;
-		auto level_up() -> void;
-		auto level_down() -> void;
 		auto alignment_to_str(const Enums::Character::Align alignment) const
 			-> std::string;
 		auto race_to_str(const Enums::Character::Race race) const
@@ -95,23 +93,14 @@ class Character {
 		auto get_name_and_loc() const -> std::string;
 		auto get_name_and_status() const -> std::string;
 		auto get_name_status_and_loc() const -> std::string;
-		auto set_name(std::string_view value) -> void;
 		auto get_race() const -> Enums::Character::Race;
-		auto set_race(const Enums::Character::Race &value) -> void;
 		auto get_location() const -> Enums::Character::Location;
 		auto set_location(const Enums::Character::Location value) -> void;
 		auto get_level() const -> int;
-		auto set_level(const int &value) -> void;
 		auto get_class() const -> Enums::Character::Class;
-		auto set_class(const Enums::Character::Class &value) -> void;
 		auto get_alignment() const -> Enums::Character::Align;
-		auto set_alignment(const Enums::Character::Align &value) -> void;
 		auto get_cur_attr() const -> std::map<Enums::Character::Attribute, int>;
 		auto get_attr_ptr(Enums::Character::Attribute attribute) -> int *;
-		auto get_pos_class() const -> std::map<Enums::Character::Class, bool>;
-		auto get_possible_classes_display() -> std::string;
-		auto can_change_class() -> bool;
-		auto get_num_pos_class() const -> unsigned int;
 		auto get_condition() const -> std::string;
 		auto get_short_cond() const -> std::string;
 		auto get_cur_attr(const Enums::Character::Attribute attribute) const
@@ -134,8 +123,6 @@ class Character {
 		auto get_poisoned_string() const -> std::string;
 		auto get_hp_summary() const -> std::string;
 		auto get_short_hp_summary() const -> std::string;
-		auto change_class(const Enums::Character::Class &value) -> void;
-		auto legate(const Enums::Character::Align &value) -> void;
 		auto is_legated() const -> bool;
 		auto get_version() const -> int;
 		auto get_party_panel_text(const int position) -> std::string;
@@ -179,35 +166,8 @@ class Character {
 
 	private:
 		// Private Methods
-		auto _generate_start_info() -> void;
-		auto _regenerate_start_info() -> void;
-		auto _legate_start_info() -> void;
-		auto _generate_secondary_abil(bool initial, bool change_class,
-									  bool legate) -> void;
-		auto _set_starting_sp() -> void;
-		auto _reset_starting_sp() -> void;
-		auto _clear_sp() -> void;
-		auto _set_start_spells() -> void;
-		auto _reset_start_spells() -> void;
-		auto _get_hp_per_level() -> int;
-		auto _update_hp_for_level() -> int;
-		auto _try_learn_spell(Enums::Magic::SpellType spell_type,
-							  unsigned int spell_level) -> bool;
-		auto _calculate_sp(Enums::Magic::SpellType spell_type,
-						   unsigned int level_mod, unsigned int level_offset)
-			-> void;
-		auto _set_sp() -> bool;
-		auto _get_spells_known(Enums::Magic::SpellType spell_type,
-							   unsigned int spell_level) -> unsigned int;
 		auto _get_xp_for_level(unsigned int level) const -> int;
-		auto _get_mage_status(bool current) -> std::string;
-		auto _get_priest_status(bool current) -> std::string;
-		auto _get_sp_per_level(const Enums::Magic::SpellType type, int level)
-			-> std::string;
 		auto _get_condition() const -> std::string;
-		auto _update_stat_for_level(Enums::Character::Attribute attribute,
-									std::string stat) -> std::string;
-		auto _learn_spell(Enums::Magic::SpellID spell_id) -> void;
 		auto _damage(const unsigned int adjustment)
 			-> bool; // returns true is character is alive, or dead if damage
 					 // was fatal

@@ -132,7 +132,7 @@ auto Sorcery::Stay::start() -> int {
 			auto result_type{ResultType::NO_LEVEL_UP};
 
 			if (character.get_cur_xp() >= character.get_next_xp()) {
-				character.level_up();
+				character.create().level_up();
 				result_type = ResultType::LEVEL_UP;
 			}
 
