@@ -89,6 +89,7 @@ class CharacterCreate : public ConstCharacterCreate {
 		auto set_start_attr() -> void;
 
 	private:
+		auto _set_racial_attributes() -> void;
 		auto _generate_start_info() -> void;
 		auto _regenerate_start_info() -> void;
 		auto _legate_start_info() -> void;

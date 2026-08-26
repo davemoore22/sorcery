@@ -35,6 +35,28 @@
 #include <string_view>
 #include <vector>
 
+namespace {
+
+struct BaseAttributes {
+		int strength;
+		int iq;
+		int piety;
+		int vitality;
+		int agility;
+		int luck;
+};
+
+static constexpr std::array<BaseAttributes, 6> racial_attributes{{
+	{},
+	{8, 5, 5, 8, 8, 9},	   // HUMAN
+	{7, 10, 10, 6, 9, 6},  // ELF
+	{10, 7, 10, 10, 5, 6}, // DWARF
+	{7, 7, 10, 8, 10, 7},  // GNOME
+	{5, 7, 7, 6, 10, 15},  // HOBBIT
+}};
+
+}
+
 Sorcery::ConstCharacterCreate::ConstCharacterCreate(
 	const Character &character) noexcept
 	: _character{&character} {}
@@ -198,33 +220,7 @@ auto Sorcery::CharacterCreate::set_start_attr() -> void {
 
 	_m_character->_start_attr.clear();
 	_m_character->_cur_attr.clear();
-	switch (_m_character->_race) {
-		using enum Enums::Character::Attribute;
-		using enum Enums::Character::Race;
-	case HUMAN:
-		_m_character->_start_attr = {{STRENGTH, 8}, {IQ, 5},	  {PIETY, 5},
-									 {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
-		break;
-	case ELF:
-		_m_character->_start_attr = {{STRENGTH, 7}, {IQ, 10},	  {PIETY, 10},
-									 {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
-		break;
-	case DWARF:
-		_m_character->_start_attr = {{STRENGTH, 10}, {IQ, 7},	   {PIETY, 10},
-									 {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
-		break;
-	case GNOME:
-		_m_character->_start_attr = {{STRENGTH, 7}, {IQ, 7},	   {PIETY, 10},
-									 {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
-		break;
-	case HOBBIT:
-		_m_character->_start_attr = {{STRENGTH, 5}, {IQ, 7},	   {PIETY, 7},
-									 {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
-		break;
-	default:
-		break;
-	}
-
+	_set_racial_attributes();
 	_m_character->_cur_attr = _m_character->_start_attr;
 
 	// Formula sourced from http://www.zimlab.com/wizardry/walk/w123calc.htm
@@ -252,32 +248,7 @@ auto Sorcery::CharacterCreate::create_class_alignment(
 		_m_character->_ctx->get_random(Enums::System::Random::D5));
 	_m_character->_alignment = alignment;
 
-	switch (_m_character->_race) { // NOLINT(clang-diagnostic-switch)
-		using enum Enums::Character::Attribute;
-		using enum Enums::Character::Race;
-	case HUMAN:
-		_m_character->_start_attr = {{STRENGTH, 8}, {IQ, 5},	  {PIETY, 5},
-									 {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
-		break;
-	case ELF:
-		_m_character->_start_attr = {{STRENGTH, 7}, {IQ, 10},	  {PIETY, 10},
-									 {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
-		break;
-	case DWARF:
-		_m_character->_start_attr = {{STRENGTH, 10}, {IQ, 7},	   {PIETY, 10},
-									 {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
-		break;
-	case GNOME:
-		_m_character->_start_attr = {{STRENGTH, 7}, {IQ, 7},	   {PIETY, 10},
-									 {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
-		break;
-	case HOBBIT:
-		_m_character->_start_attr = {{STRENGTH, 5}, {IQ, 7},	   {PIETY, 7},
-									 {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
-		break;
-	default:
-		break;
-	}
+	_set_racial_attributes();
 
 	// Put most of the points into the main attribute (note that 10 points means
 	// a Human Priest and Dwarf Thief have allocated all points to their main
@@ -362,32 +333,7 @@ auto Sorcery::CharacterCreate::create_quick() -> void {
 	// creation! see table IV (A) at
 	// https://gamefaqs.gamespot.com/pc/946844-the-ultimate-wizardry-archives/faqs/45726
 	// for info
-	switch (_m_character->_race) { // NOLINT(clang-diagnostic-switch)
-		using enum Enums::Character::Attribute;
-		using enum Enums::Character::Race;
-	case HUMAN:
-		_m_character->_start_attr = {{STRENGTH, 8}, {IQ, 5},	  {PIETY, 5},
-									 {VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
-		break;
-	case ELF:
-		_m_character->_start_attr = {{STRENGTH, 7}, {IQ, 10},	  {PIETY, 10},
-									 {VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
-		break;
-	case DWARF:
-		_m_character->_start_attr = {{STRENGTH, 10}, {IQ, 7},	   {PIETY, 10},
-									 {VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
-		break;
-	case GNOME:
-		_m_character->_start_attr = {{STRENGTH, 7}, {IQ, 7},	   {PIETY, 10},
-									 {VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
-		break;
-	case HOBBIT:
-		_m_character->_start_attr = {{STRENGTH, 5}, {IQ, 7},	   {PIETY, 7},
-									 {VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
-		break;
-	default:
-		break;
-	}
+	_set_racial_attributes();
 
 	// Put most of the points into the main attribute (note that 10 points means
 	// a Human Priest and Dwarf Thief have allocated all points to their main
@@ -634,7 +580,7 @@ auto Sorcery::CharacterCreate::level_down() -> void {
 	_set_sp();
 
 	// When drained XP is set to beginning of current level (for example,
-	// draining to level 9 means that youre xp is set to enough for level 9 plus
+	// draining to level 9 means that your xp is set to enough for level 9 plus
 	// 1 - which is vety harsh)
 	_m_character->_abilities[NEXT_LEVEL_XP] = _m_character->_get_xp_for_level(
 		_m_character->_abilities.at(CURRENT_LEVEL));
@@ -1851,34 +1797,20 @@ auto Sorcery::CharacterCreate::_regenerate_start_info() -> void {
 	_m_character->_abilities[AGE] += age_increment;
 
 	// Reset attributes to racial minimums
-	std::map<Enums::Character::Attribute, int> minimum_attr;
-	switch (_m_character->_race) {
-		using enum Enums::Character::Race;
-		using enum Enums::Character::Attribute;
-	case HUMAN:
+	_set_racial_attributes();
+	_m_character->_cur_attr = _m_character->_start_attr;
+}
 
-		minimum_attr = {{STRENGTH, 8}, {IQ, 5},		 {PIETY, 5},
-						{VITALITY, 8}, {AGILITY, 8}, {LUCK, 9}};
-		break;
-	case ELF:
-		minimum_attr = {{STRENGTH, 7}, {IQ, 10},	 {PIETY, 10},
-						{VITALITY, 6}, {AGILITY, 9}, {LUCK, 6}};
-		break;
-	case DWARF:
-		minimum_attr = {{STRENGTH, 10}, {IQ, 7},	  {PIETY, 10},
-						{VITALITY, 10}, {AGILITY, 5}, {LUCK, 6}};
-		break;
-	case GNOME:
-		minimum_attr = {{STRENGTH, 7}, {IQ, 7},		  {PIETY, 10},
-						{VITALITY, 8}, {AGILITY, 10}, {LUCK, 7}};
-		break;
-	case HOBBIT:
-		minimum_attr = {{STRENGTH, 5}, {IQ, 7},		  {PIETY, 7},
-						{VITALITY, 6}, {AGILITY, 10}, {LUCK, 15}};
-		break;
-	default:
-		break;
-	}
+auto Sorcery::CharacterCreate::_set_racial_attributes() -> void {
 
-	_m_character->_cur_attr = minimum_attr;
+	using enum Enums::Character::Attribute;
+
+	const auto &attributes{
+		racial_attributes[std::to_underlying(_m_character->_race)]};
+
+	_m_character->_start_attr = {
+		{STRENGTH, attributes.strength}, {IQ, attributes.iq},
+		{PIETY, attributes.piety},		 {VITALITY, attributes.vitality},
+		{AGILITY, attributes.agility},	 {LUCK, attributes.luck},
+	};
 }
