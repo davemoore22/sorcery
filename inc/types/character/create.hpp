@@ -61,6 +61,7 @@ class ConstCharacterCreate {
 
 		auto _get_spells_known(Enums::Magic::SpellType spell_type,
 							   unsigned int spell_level) -> unsigned int;
+		auto _get_xp_for_level(unsigned int level) const -> int;
 };
 
 class CharacterCreate : public ConstCharacterCreate {

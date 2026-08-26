@@ -166,7 +166,6 @@ class Character {
 
 	private:
 		// Private Methods
-		auto _get_xp_for_level(unsigned int level) const -> int;
 		auto _get_condition() const -> std::string;
 		auto _damage(const unsigned int adjustment)
 			-> bool; // returns true is character is alive, or dead if damage
