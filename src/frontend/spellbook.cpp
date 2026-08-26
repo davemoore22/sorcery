@@ -26,7 +26,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/enum.hpp"
-#include "core/ui.hpp"
+#include "display/ui.hpp"
 #include "gui/define.hpp"
 
 #include <utility>

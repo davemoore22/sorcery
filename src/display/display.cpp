@@ -20,15 +20,15 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/display.hpp"
+#include "display/display.hpp"
 #include "common/types.hpp"
 
 #include "common/imgui.hpp"
 #include "common/opengl.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
-#include "core/framebuffer.hpp"
 #include "core/system.hpp"
+#include "display/framebuffer.hpp"
 #include "resources/stringstore.hpp"
 #include "types/config.hpp"
 

@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/enum.hpp"
-#include "core/ui.hpp"
+#include "display/ui.hpp"
 #include "resources/define.hpp"
 #include "resources/imagestore.hpp"
 

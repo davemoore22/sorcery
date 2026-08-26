@@ -20,14 +20,14 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "engine/render.hpp"
-#include "core/animation.hpp"
+#include "display/render.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
-#include "core/display.hpp"
 #include "core/system.hpp"
 #include "core/types.hpp"
-#include "core/ui.hpp"
+#include "display/animation.hpp"
+#include "display/display.hpp"
+#include "display/ui.hpp"
 #include "engine/types.hpp"
 #include "resources/define.hpp"
 #include "types/component.hpp"

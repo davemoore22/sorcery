@@ -28,7 +28,7 @@
 #include <SDL2/SDL_video.h>
 #include <imgui.h>
 
-#include "core/framebuffer.hpp"
+#include "display/framebuffer.hpp"
 
 namespace Sorcery {
 

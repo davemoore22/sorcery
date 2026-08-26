@@ -8,8 +8,10 @@ project(sorcery VERSION 0.1.0)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
 	message(FATAL_ERROR
-		"In-source builds are not supported. "
-		"Use: cmake -S . -B build"
+		"In-source builds are not supported. Please use: \n"
+		"  - to clean:       cmake --build build --target clean\n"
+		"  - to reconfigure: cmake -S . -B build\n"
+		"  - to build:       cmake --build build -j<cores>\n"
 	)
 endif()
 
@@ -142,6 +144,7 @@ target_compile_options(sorcery_warnings INTERFACE
 
 # Main Source Files
 include(src/core/CMakeLists.txt)
+include(src/display/CMakeLists.txt)
 include(src/engine/CMakeLists.txt)
 include(src/frontend/CMakeLists.txt)
 include(src/gui/CMakeLists.txt)
@@ -199,6 +202,9 @@ target_link_libraries(sorcery_engine PRIVATE
 target_link_libraries(sorcery_core PRIVATE
 	sorcery_warnings
 	sorcery_options)
+target_link_libraries(sorcery_display PRIVATE
+	sorcery_warnings
+	sorcery_options)
 target_link_libraries(sorcery_frontend PRIVATE
 	sorcery_warnings
 	sorcery_options)
@@ -233,6 +239,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	uuid
 	sorcery_core
 	sorcery_engine
+	sorcery_display
 	sorcery_frontend
 	sorcery_gui
 	sorcery_modules

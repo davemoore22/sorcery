@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/animation.hpp"
+#include "display/animation.hpp"
 #include "core/random.hpp"
 
 #include <algorithm>

@@ -21,12 +21,12 @@
 // the resulting work.
 
 #include "gui/modal.hpp"
-#include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
 #include "core/system.hpp"
-#include "core/ui.hpp"
+#include "display/animation.hpp"
+#include "display/ui.hpp"
 #include "gui/frame.hpp"
 #include "gui/menu.hpp"
 #include "gui/menubuilder.hpp"

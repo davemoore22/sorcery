@@ -21,10 +21,10 @@
 // the resulting work.
 
 #include "gui/dialog.hpp"
-#include "core/animation.hpp"
 #include "core/context.hpp"
 #include "core/system.hpp"
-#include "core/ui.hpp"
+#include "display/animation.hpp"
+#include "display/ui.hpp"
 #include "gui/uistyle.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"

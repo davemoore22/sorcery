@@ -21,14 +21,14 @@
 // the resulting work.
 
 #include "core/application.hpp"
-#include "core/animation.hpp"
 #include "core/audioplayer.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
-#include "core/display.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
-#include "core/ui.hpp"
+#include "display/animation.hpp"
+#include "display/display.hpp"
+#include "display/ui.hpp"
 #include "engine/define.hpp"
 #include "engine/engine.hpp"
 #include "frontend/mainmenu.hpp"

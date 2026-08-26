@@ -29,7 +29,7 @@
 #include "core/debug.hpp"
 #include "core/define.hpp"
 #include "core/resources.hpp"
-#include "core/ui.hpp"
+#include "display/ui.hpp"
 #include "engine/automap.hpp"
 #include "engine/chest.hpp"
 #include "engine/graveyard.hpp"

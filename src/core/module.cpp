@@ -24,8 +24,8 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
-#include "core/display.hpp"
-#include "core/ui.hpp"
+#include "display/display.hpp"
+#include "display/ui.hpp"
 #include "resources/define.hpp"
 
 #include <algorithm>

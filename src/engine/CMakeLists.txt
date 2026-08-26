@@ -16,6 +16,5 @@ target_sources(sorcery_engine PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/chest.cpp
 	${CMAKE_CURRENT_LIST_DIR}/graveyard.cpp
 	${CMAKE_CURRENT_LIST_DIR}/engine.cpp
-	${CMAKE_CURRENT_LIST_DIR}/render.cpp
 	${CMAKE_CURRENT_LIST_DIR}/victory.cpp
 )
