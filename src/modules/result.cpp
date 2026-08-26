@@ -29,7 +29,7 @@
 #include "core/system.hpp"
 #include "display/display.hpp"
 #include "display/ui.hpp"
-#include "gui/define.hpp"
+#include "drawables/define.hpp"
 #include "resources/define.hpp"
 
 Sorcery::Result::Result(Context &ctx)

@@ -20,9 +20,46 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "gui/menuaction.hpp"
-#include "core/controller.hpp"
-#include "core/resources.hpp"
-#include "gui/define.hpp"
+#pragma once
 
-namespace Sorcery {}
+#include "common/enum.hpp"
+#include "common/imgui.hpp"
+#include "common/types.hpp"
+#include "drawables/define.hpp"
+#include "types/enum.hpp"
+
+namespace Sorcery {
+
+struct Context;
+class Component;
+class Game;
+
+class Menu {
+
+	public:
+		Menu() = delete;
+		Menu(Context &ctx, Component *component, Game *game);
+		~Menu();
+
+		auto draw() -> void;
+		auto regenerate() -> void;
+
+		Context &_ctx;
+		Component *_component;
+		Game *_game;
+		std::string _name;
+		ImVec2 _pos;
+		unsigned int _width;
+		unsigned int _height;
+		ImU32 _colour;
+		ImU32 _bg_colour;
+		ImU32 _hi_colour;
+		Enums::Layout::Font _font;
+		std::vector<std::string> _items;
+		std::vector<int> _data;
+		bool _reorder;
+		bool _across;
+		bool _numeric_input;
+};
+
+};

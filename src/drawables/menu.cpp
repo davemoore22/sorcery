@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "gui/menu.hpp"
+#include "drawables/menu.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
@@ -29,10 +29,10 @@
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/ui.hpp"
-#include "gui/define.hpp"
-#include "gui/dialog.hpp"
-#include "gui/menubuilder.hpp"
-#include "gui/modal.hpp"
+#include "drawables/define.hpp"
+#include "drawables/dialog.hpp"
+#include "drawables/menubuilder.hpp"
+#include "drawables/modal.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/monsterstore.hpp"

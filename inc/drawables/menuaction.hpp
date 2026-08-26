@@ -25,7 +25,7 @@
 #include "common/enum.hpp"
 #include "common/types.hpp"
 #include "core/enum.hpp"
-#include "gui/define.hpp"
+#include "drawables/define.hpp"
 
 namespace Sorcery {
 

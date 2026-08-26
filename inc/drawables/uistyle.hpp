@@ -25,7 +25,7 @@
 #include "common/imgui.hpp"
 #include "core/context.hpp"
 #include "display/animation.hpp"
-#include "gui/uistyle.hpp"
+#include "drawables/uistyle.hpp"
 #include "types/enum.hpp"
 
 namespace Sorcery {

@@ -145,9 +145,9 @@ target_compile_options(sorcery_warnings INTERFACE
 # Main Source Files
 include(src/core/CMakeLists.txt)
 include(src/display/CMakeLists.txt)
+include(src/drawables/CMakeLists.txt)
 include(src/engine/CMakeLists.txt)
 include(src/frontend/CMakeLists.txt)
-include(src/gui/CMakeLists.txt)
 include(src/modules/CMakeLists.txt)
 include(src/resources/CMakeLists.txt)
 include(src/training//CMakeLists.txt)
@@ -205,10 +205,10 @@ target_link_libraries(sorcery_core PRIVATE
 target_link_libraries(sorcery_display PRIVATE
 	sorcery_warnings
 	sorcery_options)
-target_link_libraries(sorcery_frontend PRIVATE
+target_link_libraries(sorcery_drawables PRIVATE
 	sorcery_warnings
 	sorcery_options)
-target_link_libraries(sorcery_gui PRIVATE
+target_link_libraries(sorcery_frontend PRIVATE
 	sorcery_warnings
 	sorcery_options)
 target_link_libraries(sorcery_modules PRIVATE
@@ -240,8 +240,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_core
 	sorcery_engine
 	sorcery_display
+	sorcery_drawables
 	sorcery_frontend
-	sorcery_gui
 	sorcery_modules
 	sorcery_resources
 	sorcery_training

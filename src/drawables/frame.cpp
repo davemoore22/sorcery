@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "gui/frame.hpp"
+#include "drawables/frame.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
 #include "core/define.hpp"

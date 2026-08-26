@@ -20,14 +20,14 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "gui/menubuilder.hpp"
+#include "drawables/menubuilder.hpp"
 #include "common/enum.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
 #include "core/define.hpp"
 #include "core/resources.hpp"
-#include "gui/define.hpp"
+#include "drawables/define.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/monsterstore.hpp"
 #include "resources/spellstore.hpp"

@@ -20,16 +20,16 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "gui/modal.hpp"
+#include "drawables/modal.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/ui.hpp"
-#include "gui/frame.hpp"
-#include "gui/menu.hpp"
-#include "gui/menubuilder.hpp"
+#include "drawables/frame.hpp"
+#include "drawables/menu.hpp"
+#include "drawables/menubuilder.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"

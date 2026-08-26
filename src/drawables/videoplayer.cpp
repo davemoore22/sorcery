@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "gui/videoplayer.hpp"
+#include "drawables/videoplayer.hpp"
 
 Sorcery::VideoPlayer::VideoPlayer()
 	: _format_ctx{nullptr},

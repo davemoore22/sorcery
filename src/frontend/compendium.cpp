@@ -26,12 +26,12 @@
 #include "core/controller.hpp"
 #include "core/enum.hpp"
 #include "display/ui.hpp"
+#include "drawables/define.hpp"
 #include "frontend/atlas.hpp"
 #include "frontend/bestiary.hpp"
 #include "frontend/license.hpp"
 #include "frontend/museum.hpp"
 #include "frontend/spellbook.hpp"
-#include "gui/define.hpp"
 
 Sorcery::Compendium::Compendium(Context &ctx)
 	: Module{ctx} {

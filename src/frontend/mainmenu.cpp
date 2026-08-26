@@ -28,11 +28,11 @@
 #include "core/enum.hpp"
 #include "display/animation.hpp"
 #include "display/ui.hpp"
+#include "drawables/define.hpp"
+#include "drawables/dialog.hpp"
 #include "frontend/compendium.hpp"
 #include "frontend/license.hpp"
 #include "frontend/options.hpp"
-#include "gui/define.hpp"
-#include "gui/dialog.hpp"
 
 #include <chrono>
 #include <print>
