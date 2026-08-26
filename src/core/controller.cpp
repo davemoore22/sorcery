@@ -39,10 +39,10 @@
 #include "gui/modal.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/savestore.hpp"
-#include "types/character.hpp"
+#include "types/character/character.hpp"
 #include "types/config.hpp"
 #include "types/game.hpp"
-#include "types/item.hpp"
+#include "types/item/item.hpp"
 #include "types/meta.hpp"
 #include "types/state.hpp"
 

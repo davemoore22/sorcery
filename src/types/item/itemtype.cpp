@@ -22,7 +22,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/itemtype.hpp"
+#include "types/item/itemtype.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 #include "types/meta.hpp"

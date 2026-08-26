@@ -28,7 +28,7 @@
 #include "core/system.hpp"
 #include "core/ui.hpp"
 #include "gui/define.hpp"
-#include "types/character.hpp"
+#include "types/character/character.hpp"
 #include "types/game.hpp"
 
 Sorcery::Heal::Heal(Context &ctx)

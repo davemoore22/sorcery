@@ -20,11 +20,11 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/inventory.hpp"
+#include "types/character/inventory.hpp"
 #include "common/macro.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
-#include "types/itemtype.hpp"
+#include "types/item/itemtype.hpp"
 
 Sorcery::Inventory::Inventory() {
 

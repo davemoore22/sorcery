@@ -26,8 +26,8 @@
 #include "common/define.hpp"
 #include "common/types.hpp"
 #include "types/enum.hpp"
-#include "types/explore.hpp"
-#include "types/level.hpp"
+#include "types/world/explore.hpp"
+#include "types/world/level.hpp"
 
 #include <memory>
 

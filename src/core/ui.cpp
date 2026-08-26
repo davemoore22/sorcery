@@ -71,7 +71,7 @@
 #include "types/image.hpp"
 #include "types/meta.hpp"
 #include "types/state.hpp"
-#include "types/tile.hpp"
+#include "types/world/tile.hpp"
 
 Sorcery::UI::UI(Context &ctx)
 	: _ctx{ctx} {

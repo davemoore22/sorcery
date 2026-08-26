@@ -33,7 +33,7 @@
 #include "gui/define.hpp"
 #include "gui/dialog.hpp"
 #include "resources/define.hpp"
-#include "types/character.hpp"
+#include "types/character/character.hpp"
 #include "types/game.hpp"
 
 #include <algorithm>

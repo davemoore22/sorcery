@@ -24,7 +24,7 @@
 
 #include "common/cereal.hpp"
 #include "common/sdl2.hpp"
-#include "types/character.hpp"
+#include "types/character/character.hpp"
 
 namespace Sorcery {
 

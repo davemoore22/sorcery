@@ -26,7 +26,7 @@
 
 #include "common/cereal.hpp"
 #include "types/enum.hpp"
-#include "types/level.hpp"
+#include "types/world/level.hpp"
 
 namespace Sorcery {
 

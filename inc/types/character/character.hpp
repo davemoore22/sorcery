@@ -27,10 +27,10 @@
 #include "common/enum.hpp"
 #include "common/types.hpp"
 #include "types/character/create.hpp"
+#include "types/character/inventory.hpp"
 #include "types/character/magic.hpp"
 #include "types/define.hpp"
 #include "types/enum.hpp"
-#include "types/inventory.hpp"
 
 #include <map>
 #include <optional>

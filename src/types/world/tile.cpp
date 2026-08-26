@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/tile.hpp"
+#include "types/world/tile.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
 #include "types/error.hpp"

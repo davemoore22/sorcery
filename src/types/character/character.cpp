@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/character.hpp"
+#include "types/character/character.hpp"
 #include "core/context.hpp"
 #include "core/random.hpp"
 #include "core/resources.hpp"

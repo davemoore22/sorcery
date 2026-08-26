@@ -27,8 +27,8 @@
 
 #include "common/enum.hpp"
 #include "types/enum.hpp"
-#include "types/item.hpp"
-#include "types/itemtype.hpp"
+#include "types/item/item.hpp"
+#include "types/item/itemtype.hpp"
 
 namespace Sorcery {
 

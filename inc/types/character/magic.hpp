@@ -26,9 +26,9 @@
 #include "common/define.hpp"
 #include "common/enum.hpp"
 #include "common/types.hpp"
+#include "types/character/inventory.hpp"
 #include "types/define.hpp"
 #include "types/enum.hpp"
-#include "types/inventory.hpp"
 
 #pragma once
 

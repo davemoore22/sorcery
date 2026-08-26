@@ -20,9 +20,9 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/item.hpp"
+#include "types/item/item.hpp"
 #include "common/macro.hpp"
-#include "types/itemtype.hpp"
+#include "types/item/itemtype.hpp"
 
 // Default Constructor
 Sorcery::Item::Item() {

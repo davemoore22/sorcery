@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/level.hpp"
+#include "types/world/level.hpp"
 #include <jsoncpp/json/json.h>
 
 // Default Constructor

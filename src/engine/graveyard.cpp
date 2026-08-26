@@ -33,7 +33,7 @@
 #include "gui/dialog.hpp"
 #include "gui/modal.hpp"
 #include "gui/popup.hpp"
-#include "types/character.hpp"
+#include "types/character/character.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
 

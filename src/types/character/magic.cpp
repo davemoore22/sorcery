@@ -1,4 +1,3 @@
-// src/types/character/magic.cpp
 // Copyright (C) 2026 Dave Moore
 //
 // This file is part of Sorcery.
@@ -25,7 +24,7 @@
 #include "core/context.hpp"
 #include "core/resources.hpp"
 #include "resources/spellstore.hpp"
-#include "types/character.hpp"
+#include "types/character/character.hpp"
 
 #include <map>
 #include <optional>

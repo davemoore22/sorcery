@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/explore.hpp"
+#include "types/world/explore.hpp"
 
 // Default Constructor
 Sorcery::Explore::Explore() {

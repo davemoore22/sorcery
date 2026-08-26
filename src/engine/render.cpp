@@ -33,7 +33,7 @@
 #include "types/component.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
-#include "types/tile.hpp"
+#include "types/world/tile.hpp"
 
 // Standard Constructor
 Sorcery::Render::Render(Context &ctx)

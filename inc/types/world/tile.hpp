@@ -24,7 +24,7 @@
 
 #include "common/cereal.hpp"
 #include "common/types.hpp"
-#include "types/item.hpp"
+#include "types/item/item.hpp"
 
 namespace Sorcery {
 
