@@ -26,7 +26,8 @@
 #include "core/macro.hpp"
 #include "core/system.hpp"
 #include "display/animation.hpp"
-#include "display/ui.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/frame.hpp"
 #include "drawables/modal.hpp"
@@ -166,7 +167,7 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 						_ctx.controller->unset_flag("want_tithe");
 						_ctx.controller->unset_flag("want_gold");
 						_ctx.controller->set_flag("want_not_enough_gold");
-						_ctx.ui->notice_not_enough_gold->show = true;
+						_ctx.ui->popups->notice_not_enough_gold->show = true;
 						_ctx.controller->clear_character(
 							Enums::CharacterSlot::TITHE);
 					} else {
@@ -178,10 +179,10 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 							Enums::CharacterSlot::TITHE);
 						character.grant_xp(amount);
 						character.grant_gold(0 - amount);
-						_ctx.ui->notice_donated_ok->show = true;
+						_ctx.ui->popups->notice_donated_ok->show = true;
 						_ctx.controller->clear_character(
 							Enums::CharacterSlot::TITHE);
-						_ctx.ui->modal_tithe->regenerate();
+						_ctx.ui->popups->modal_tithe->regenerate();
 
 						// TODO: Check highest level XP and only allow tithing
 						// up to that amount!

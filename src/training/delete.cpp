@@ -30,7 +30,8 @@
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "display/display.hpp"
-#include "display/ui.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "modules/inspect.hpp"
@@ -60,7 +61,7 @@ auto Sorcery::Delete::start() -> int {
 
 	_ctx.controller->unset_flag("want_delete_ok");
 
-	_ctx.ui->dialog_delete->show = false;
+	_ctx.ui->popups->dialog_delete->show = false;
 
 	show_immediately();
 
@@ -92,7 +93,7 @@ auto Sorcery::Delete::start() -> int {
 
 				if (confirming) {
 
-					_ctx.ui->dialog_delete->show = false;
+					_ctx.ui->popups->dialog_delete->show = false;
 
 					_ctx.controller->unset_flag("want_delete_ok");
 
@@ -123,7 +124,7 @@ auto Sorcery::Delete::start() -> int {
 
 			_ctx.controller->unset_flag("want_delete_ok");
 
-			_ctx.ui->dialog_delete->show = true;
+			_ctx.ui->popups->dialog_delete->show = true;
 
 			confirming = true;
 
@@ -137,7 +138,7 @@ auto Sorcery::Delete::start() -> int {
 
 				_ctx.controller->unset_flag("want_delete_ok");
 
-				_ctx.ui->dialog_delete->show = false;
+				_ctx.ui->popups->dialog_delete->show = false;
 
 				_ctx.game->delete_character(
 					_ctx.controller->get_character(Enums::CharacterSlot::EDIT));
@@ -150,7 +151,7 @@ auto Sorcery::Delete::start() -> int {
 			}
 
 			// No
-			if (!_ctx.ui->dialog_delete->show) {
+			if (!_ctx.ui->popups->dialog_delete->show) {
 
 				_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 

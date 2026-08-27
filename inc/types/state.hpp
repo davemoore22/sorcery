@@ -23,7 +23,6 @@
 #pragma once
 
 #include "common/cereal.hpp"
-#include "common/define.hpp"
 #include "common/types.hpp"
 #include "types/enum.hpp"
 #include "types/world/explore.hpp"

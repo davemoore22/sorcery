@@ -30,7 +30,8 @@
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "display/display.hpp"
-#include "display/ui.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/modal.hpp"
@@ -79,26 +80,26 @@ auto Sorcery::Castle::start() -> int {
 	fade_in(Enums::Screen::CASTLE, QUICK_FADE);
 
 	// Need this before accessing modal_inspect!
-	_ctx.ui->create_dynamic_modal("modal_inspect");
-	_ctx.ui->create_dynamic_modal("modal_identify");
-	_ctx.ui->create_dynamic_modal("modal_equip");
-	_ctx.ui->create_dynamic_modal("modal_remove");
-	_ctx.ui->create_dynamic_modal("modal_spell");
-	_ctx.ui->create_dynamic_modal("modal_drop");
-	_ctx.ui->create_dynamic_modal("modal_trade");
-	_ctx.ui->create_dynamic_modal("modal_use");
-	_ctx.ui->create_dynamic_modal("modal_give");
-	_ctx.ui->create_dynamic_modal("modal_invoke");
-	_ctx.ui->modal_inspect->show = false;
-	_ctx.ui->modal_identify->show = false;
-	_ctx.ui->modal_equip->show = false;
-	_ctx.ui->modal_remove->show = false;
-	_ctx.ui->modal_spell->show = false;
-	_ctx.ui->modal_drop->show = false;
-	_ctx.ui->modal_give->show = false;
-	_ctx.ui->modal_trade->show = false;
-	_ctx.ui->modal_use->show = false;
-	_ctx.ui->modal_invoke->show = false;
+	_ctx.ui->popups->create_dynamic_modal("modal_inspect");
+	_ctx.ui->popups->create_dynamic_modal("modal_identify");
+	_ctx.ui->popups->create_dynamic_modal("modal_equip");
+	_ctx.ui->popups->create_dynamic_modal("modal_remove");
+	_ctx.ui->popups->create_dynamic_modal("modal_spell");
+	_ctx.ui->popups->create_dynamic_modal("modal_drop");
+	_ctx.ui->popups->create_dynamic_modal("modal_trade");
+	_ctx.ui->popups->create_dynamic_modal("modal_use");
+	_ctx.ui->popups->create_dynamic_modal("modal_give");
+	_ctx.ui->popups->create_dynamic_modal("modal_invoke");
+	_ctx.ui->popups->modal_inspect->show = false;
+	_ctx.ui->popups->modal_identify->show = false;
+	_ctx.ui->popups->modal_equip->show = false;
+	_ctx.ui->popups->modal_remove->show = false;
+	_ctx.ui->popups->modal_spell->show = false;
+	_ctx.ui->popups->modal_drop->show = false;
+	_ctx.ui->popups->modal_give->show = false;
+	_ctx.ui->popups->modal_trade->show = false;
+	_ctx.ui->popups->modal_use->show = false;
+	_ctx.ui->popups->modal_invoke->show = false;
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
@@ -124,7 +125,8 @@ auto Sorcery::Castle::start() -> int {
 				break;
 			}
 
-			_ctx.controller->check_for_back(event, _ctx.ui->dialog_leave->show);
+			_ctx.controller->check_for_back(
+				event, _ctx.ui->popups->dialog_leave->show);
 		}
 
 		_ctx.ui->display(Enums::Screen::CASTLE, _ctx.game);

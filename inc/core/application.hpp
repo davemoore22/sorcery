@@ -29,7 +29,6 @@
 #include <string_view>
 #include <vector>
 
-#include "common/define.hpp"
 #include "core/context.hpp"
 #include "core/types.hpp"
 

@@ -28,7 +28,7 @@
 #include "core/resources.hpp"
 #include "core/system.hpp"
 #include "display/animation.hpp"
-#include "display/ui.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/menubuilder.hpp"

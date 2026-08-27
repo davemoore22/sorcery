@@ -96,26 +96,26 @@ target_compile_definitions(dear_imgui PRIVATE
 	IMGUI_ENABLE_FREETYPE
 )
 
-add_library(sorcery_imgui_toggle STATIC
+add_library(dear_imgui_toggle STATIC
     "${imgui_toggle_SOURCE_DIR}/imgui_toggle.cpp"
     "${imgui_toggle_SOURCE_DIR}/imgui_toggle_palette.cpp"
     "${imgui_toggle_SOURCE_DIR}/imgui_toggle_presets.cpp"
     "${imgui_toggle_SOURCE_DIR}/imgui_toggle_renderer.cpp"
 )
 
-add_library(imgui_toggle::imgui_toggle ALIAS sorcery_imgui_toggle)
+add_library(imgui_toggle::imgui_toggle ALIAS dear_imgui_toggle)
 
-target_include_directories(sorcery_imgui_toggle
+target_include_directories(dear_imgui_toggle
     SYSTEM PUBLIC
         "${imgui_toggle_SOURCE_DIR}"
 )
 
-target_link_libraries(sorcery_imgui_toggle
+target_link_libraries(dear_imgui_toggle
     PUBLIC
         dear_imgui
 )
 
-target_compile_options(sorcery_imgui_toggle PRIVATE
+target_compile_options(dear_imgui_toggle PRIVATE
     -Wno-switch-default
     -Wno-suggest-attribute=format
 )

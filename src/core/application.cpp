@@ -28,7 +28,7 @@
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/display.hpp"
-#include "display/ui.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "engine/define.hpp"
 #include "engine/engine.hpp"
@@ -103,7 +103,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_ui = std::make_unique<UI>(ctx);
 	ctx.ui = _ui.get();
 	ctx.menubuilder = _ui->menubuilder.get();
-	ctx.components = _ui->components.get();
+	// ctx.components = _ui->components.get(); // set in ui constructor
 	ctx.images = _ui->images.get();
 	ctx.fonts = _ui->fontstore.get();
 

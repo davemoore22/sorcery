@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include "common/define.hpp"
 #include "common/enum.hpp"
 
 #include <chrono>

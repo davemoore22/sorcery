@@ -1,19 +1,19 @@
 
-mkdir -p ./build/cfg
-mkdir -p ./build/dat
-mkdir -p ./build/doc
-mkdir -p ./build/gfx
-mkdir -p ./build/sav
-mkdir -p ./build/sav/characters
-mkdir -p ./build/sav/states
-mkdir -p ./build/sfx
-mkdir -p ./build/vfx
+mkdir -p ./build/dist/cfg
+mkdir -p ./build/dist/dat
+mkdir -p ./build/dist/doc
+mkdir -p ./build/dist/gfx
+mkdir -p ./build/dist/sav
+mkdir -p ./build/dist/sav/characters
+mkdir -p ./build/dist/sav/states
+mkdir -p ./build/dist/sfx
+mkdir -p ./build/dist/vfx
 
-cp ./cfg/* ./build/cfg/
-cp ./doc/* ./build/doc/
-cp ./sfx/* ./build/sfx/
-cp -r ./sav/* ../build/sav/
-cp ./vfx/* ./build/vfx/
-cp ./dat/* ./build/dat/
-cp ./gfx/* ./build/gfx/
+cp ./cfg/* ./build/dist/cfg/
+cp ./doc/* ./build/dist/doc/
+cp ./sfx/* ./build/dist/sfx/
+cp -r ./sav/* ../build/dist/sav/
+cp ./vfx/* ./build/dist/vfx/
+cp ./dat/* ./build/dist/dat/
+cp ./gfx/* ./build/dist/gfx/
 

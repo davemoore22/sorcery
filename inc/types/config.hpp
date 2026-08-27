@@ -25,7 +25,6 @@
 #include <array>
 #include <filesystem>
 
-#include "common/define.hpp"
 #include "types/define.hpp"
 #include <SimpleIni.h>
 

@@ -24,7 +24,6 @@
 
 #include <memory>
 
-#include "common/define.hpp"
 #include "core/module.hpp"
 #include "types/enum.hpp"
 

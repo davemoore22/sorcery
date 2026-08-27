@@ -30,7 +30,8 @@
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "display/display.hpp"
-#include "display/ui.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "modules/inspect.hpp"
@@ -59,7 +60,7 @@ auto Sorcery::Rite::start() -> int {
 	show_immediately();
 
 	_ctx.controller->unset_flag("want_rite_ok");
-	_ctx.ui->dialog_rite->show = true;
+	_ctx.ui->popups->dialog_rite->show = true;
 
 	_ctx.audio->set_volume(1.0f);
 	_stage = 0;
@@ -84,7 +85,7 @@ auto Sorcery::Rite::start() -> int {
 			}
 
 			if (_ctx.controller->check_for_back(event)) {
-				_ctx.ui->dialog_rite->show = false;
+				_ctx.ui->popups->dialog_rite->show = false;
 				_ctx.controller->unset_flag("want_rite_ok");
 				return BACK_TO_EDIT;
 			}
@@ -101,7 +102,7 @@ auto Sorcery::Rite::start() -> int {
 		}
 
 		// No
-		if (!_ctx.ui->dialog_rite->show)
+		if (!_ctx.ui->popups->dialog_rite->show)
 			return BACK_TO_EDIT;
 	}
 
@@ -178,7 +179,7 @@ auto Sorcery::Rite::stop() -> int {
 		_rite_tick = 0;
 	}
 
-	_ctx.ui->dialog_rite->show = false;
+	_ctx.ui->popups->dialog_rite->show = false;
 
 	_ctx.controller->unset_flag("want_rite_ok");
 

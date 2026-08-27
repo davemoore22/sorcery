@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include "common/define.hpp"
 #include "common/sdl2.hpp"
 #include "core/module.hpp"
 #include "types/enum.hpp"

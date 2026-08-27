@@ -21,7 +21,7 @@
 // the resulting work.
 
 #include "resources/filestore.hpp"
-#include "common/define.hpp"
+
 #include "core/debug.hpp"
 #include "resources/define.hpp"
 #include <array>

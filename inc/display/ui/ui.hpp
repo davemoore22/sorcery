@@ -39,7 +39,7 @@ using GLuint = unsigned int;
 #include <string>
 #include <vector>
 
-// UI Generation Class (sits on top of, and heavil;y uses, ImGui)
+// UI Generation Class (sits on top of, and heavily uses, ImGui)
 namespace Sorcery {
 
 // Forward Declaration
@@ -48,23 +48,19 @@ class Character;
 class Controller;
 class Component;
 class ComponentStore;
-class Dialog;
 class Display;
 class DisplayMetrics;
 class FontStore;
 class Frame;
 class Game;
 class ImageStore;
-class Input;
-class Message;
 class Menu;
 class MenuBuilder;
-class Modal;
 class Render;
-class Popup;
 struct Tile;
 class VideoPlayer;
 struct VertexArray;
+class PopupStore;
 
 enum class TransientWidth {
 	FIT_TEXT,
@@ -93,7 +89,6 @@ class UI {
 		~UI();
 
 		// Public Methods
-		auto create_dynamic_modal(const std::string name) -> void;
 		auto display(Enums::Screen screen, std::any param = nullptr) -> void;
 		auto display_engine() -> void;
 		auto display_refresh(std::any payload = nullptr) -> void;
@@ -126,9 +121,6 @@ class UI {
 		auto set_fullscreen(const bool value) -> void;
 		auto start() -> void;
 		auto stop() -> void;
-		auto in_popup() const -> bool;
-		auto close_all_popups() -> void;
-		auto active_popup_count() const -> int;
 		auto update_grid_metrics(const DisplayMetrics &metrics) noexcept
 			-> void;
 		auto grid_pos(const float x, const float y) const noexcept -> ImVec2;
@@ -155,43 +147,8 @@ class UI {
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
 		std::unique_ptr<FontStore> fontstore;
-
+		std::unique_ptr<PopupStore> popups;
 		std::unique_ptr<MenuBuilder> menubuilder;
-
-		std::unique_ptr<Dialog> dialog_exit;
-		std::unique_ptr<Dialog> dialog_new;
-		std::unique_ptr<Dialog> dialog_leave;
-		std::unique_ptr<Dialog> dialog_rite;
-		std::unique_ptr<Dialog> dialog_delete;
-		std::unique_ptr<Dialog> dialog_search;
-		std::unique_ptr<Dialog> notice_cannot_donate;
-		std::unique_ptr<Dialog> notice_donated_ok;
-		std::unique_ptr<Dialog> notice_not_enough_gold;
-		std::unique_ptr<Dialog> notice_divvy;
-		std::unique_ptr<Dialog> notice_renamed_ok;
-		std::unique_ptr<Dialog> notice_reclassed_ok;
-		std::unique_ptr<Dialog> notice_pool_gold;
-		std::unique_ptr<Dialog> dialog_stairs_up;
-		std::unique_ptr<Dialog> dialog_stairs_down;
-		std::unique_ptr<Input> input_donate;
-		std::unique_ptr<Input> input_name;
-		std::unique_ptr<Modal> modal_camp;
-		std::unique_ptr<Message> message_tile;
-		std::unique_ptr<Modal> modal_inspect;
-		std::unique_ptr<Modal> modal_help;
-		std::unique_ptr<Modal> modal_tithe;
-		std::unique_ptr<Modal> modal_identify;
-		std::unique_ptr<Modal> modal_equip;
-		std::unique_ptr<Modal> modal_remove;
-		std::unique_ptr<Modal> modal_spell;
-		std::unique_ptr<Modal> modal_drop;
-		std::unique_ptr<Modal> modal_trade;
-		std::unique_ptr<Modal> modal_give;
-		std::unique_ptr<Modal> modal_use;
-		std::unique_ptr<Modal> modal_invoke;
-		std::unique_ptr<Modal> modal_elevator_top;
-		std::unique_ptr<Modal> modal_elevator_bottom;
-		std::unique_ptr<Modal> modal_chest;
 		std::unique_ptr<VideoPlayer> vfx_player;
 		unsigned int frame_rd;
 		unsigned int ui_rd;
@@ -372,7 +329,6 @@ class UI {
 			-> void;
 		auto _draw_uncurse() -> void;
 		auto _get_status_color(Character *character) const -> ImVec4;
-		auto _get_popups() const -> std::string;
 		auto _setup_windows() -> void;
 
 		auto _draw_debug() -> void;
@@ -383,8 +339,6 @@ class UI {
 
 		auto _mage_spell_index(Enums::Magic::SpellID id) -> std::size_t;
 		auto _priest_spell_index(Enums::Magic::SpellID id) -> std::size_t;
-
-		auto _popup_states() const -> std::vector<bool *>;
 
 		auto _activate_menu_item(const std::string_view name,
 								 const int selection, const int data_item,

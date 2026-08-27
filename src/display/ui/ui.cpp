@@ -41,9 +41,8 @@
 #include "display/animation.hpp"
 #include "display/display.hpp"
 #include "display/render.hpp"
-#include "display/ui.hpp"
-#include "engine/define.hpp"
-#include "engine/types.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/frame.hpp"
 #include "drawables/input.hpp"
@@ -54,6 +53,8 @@
 #include "drawables/popup.hpp"
 #include "drawables/uistyle.hpp"
 #include "drawables/videoplayer.hpp"
+#include "engine/define.hpp"
+#include "engine/types.hpp"
 #include "resources/componentstore.hpp"
 #include "resources/filestore.hpp"
 #include "resources/fontstore.hpp"
@@ -81,6 +82,9 @@ Sorcery::UI::UI(Context &ctx)
 	images = std::make_unique<ImageStore>(_ctx);
 	menubuilder = std::make_unique<MenuBuilder>(_ctx);
 
+	_ctx.components = components.get();
+	popups = std::make_unique<PopupStore>(_ctx);
+
 	// Can't create fontstore just yet as it needs IMGUI initialised
 
 	// VFX and SFX players
@@ -99,92 +103,6 @@ Sorcery::UI::UI(Context &ctx)
 		std::cerr << error;
 		exit(EXIT_FAILURE);
 	}
-
-	// Custom components
-	dialog_exit =
-		std::make_unique<Dialog>(_ctx, components->get("main_menu:dialog_exit"),
-								 Enums::Layout::DialogType::CONFIRM);
-	dialog_new =
-		std::make_unique<Dialog>(_ctx, components->get("main_menu:dialog_new"),
-								 Enums::Layout::DialogType::CONFIRM);
-	dialog_leave = std::make_unique<Dialog>(
-		_ctx, components->get("main_menu:dialog_leave"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_rite =
-		std::make_unique<Dialog>(_ctx, components->get("rite:dialog_rite"),
-								 Enums::Layout::DialogType::CONFIRM);
-	dialog_search = std::make_unique<Dialog>(
-		_ctx, components->get("engine_base_ui:dialog_search"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_delete =
-		std::make_unique<Dialog>(_ctx, components->get("delete:dialog_delete"),
-								 Enums::Layout::DialogType::CONFIRM);
-	notice_divvy =
-		std::make_unique<Dialog>(_ctx, components->get("global:notice_divvy"),
-								 Enums::Layout::DialogType::OK);
-	notice_renamed_ok = std::make_unique<Dialog>(
-		_ctx, components->get("global:notice_renamed_ok"),
-		Enums::Layout::DialogType::OK);
-	notice_reclassed_ok = std::make_unique<Dialog>(
-		_ctx, components->get("global:notice_reclassed_ok"),
-		Enums::Layout::DialogType::OK);
-	notice_pool_gold = std::make_unique<Dialog>(
-		_ctx, components->get("global:notice_pool_gold"),
-		Enums::Layout::DialogType::OK);
-	notice_cannot_donate = std::make_unique<Dialog>(
-		_ctx, components->get("global:notice_cannot_donate"),
-		Enums::Layout::DialogType::OK);
-	notice_donated_ok = std::make_unique<Dialog>(
-		_ctx, components->get("global:notice_donated_ok"),
-		Enums::Layout::DialogType::OK);
-	notice_not_enough_gold = std::make_unique<Dialog>(
-		_ctx, components->get("global:notice_not_enough_gold"),
-		Enums::Layout::DialogType::OK);
-	modal_camp = std::make_unique<Modal>(
-		_ctx, components->get("engine_base_ui:modal_camp"));
-
-	modal_elevator_top = std::make_unique<Modal>(
-		_ctx, components->get("global:modal_elevator_top"));
-	modal_elevator_bottom = std::make_unique<Modal>(
-		_ctx, components->get("global:modal_elevator_bottom"));
-
-	modal_drop =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_drop"));
-	modal_inspect =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_inspect"));
-	modal_identify =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_identify"));
-	modal_chest =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_chest"));
-	modal_equip =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_equip"));
-	modal_remove = std::make_unique<Modal>(
-		_ctx, components->get("global:modal_remove_item"));
-	modal_trade =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_trade"));
-	modal_give =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_give"));
-	modal_use =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_use"));
-	modal_invoke =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_invoke"));
-	modal_spell =
-		std::make_unique<Modal>(_ctx, components->get("global:modal_spell"));
-
-	input_donate =
-		std::make_unique<Input>(_ctx, components->get("global:input_donate"));
-	input_name =
-		std::make_unique<Input>(_ctx, components->get("global:input_name"));
-
-	dialog_stairs_up = std::make_unique<Dialog>(
-		_ctx, components->get("engine_base_ui:dialog_stairs_up"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_stairs_down = std::make_unique<Dialog>(
-		_ctx, components->get("engine_base_ui:dialog_stairs_down"),
-		Enums::Layout::DialogType::CONFIRM);
-
-	message_tile = std::make_unique<Message>(
-		_ctx, components->get("engine_base_ui:message_tile"));
 
 	// Window, Font, and Display Settings
 	frame_rd = std::stoi(_ctx.get_config("Frame", "rounding"));
@@ -435,212 +353,7 @@ auto Sorcery::UI::update_grid_metrics(const DisplayMetrics &metrics) noexcept
 	_font_sz = _base_font_sz * metrics.scale;
 }
 
-// Create a Modal on Demand (used whenever data items on it aren't fixed - for
-// example the Party Members); normally otherwise fixed Modals are created at
-// the beginning as part of the Form/Module create
-auto Sorcery::UI::create_dynamic_modal(const std::string name) -> void {
-
-	// DEBUG_LOGF("Creating Dynamic Modal: {}", name);
-
-	if (name == "modal_inspect") {
-		if (modal_inspect.get())
-			modal_inspect.reset();
-		modal_inspect = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_inspect"));
-		modal_inspect->regenerate();
-	} else if (name == "modal_help") {
-		if (modal_help.get())
-			modal_help.reset();
-		modal_help =
-			std::make_unique<Modal>(_ctx, components->get("global:modal_help"));
-		modal_help->regenerate();
-	} else if (name == "modal_tithe") {
-		if (modal_tithe.get())
-			modal_tithe.reset();
-		modal_tithe = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_tithe"));
-		modal_tithe->regenerate();
-	} else if (name == "modal_identify") {
-		if (modal_identify.get())
-			modal_identify.reset();
-		modal_identify = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_identify"));
-		modal_identify->regenerate();
-	} else if (name == "modal_chest") {
-		if (modal_chest.get())
-			modal_chest.reset();
-		modal_chest = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_chest"));
-		modal_chest->regenerate();
-	} else if (name == "modal_equip") {
-		if (modal_equip.get())
-			modal_equip.reset();
-		modal_equip = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_equip"));
-		modal_equip->regenerate();
-	} else if (name == "modal_remove") {
-		if (modal_remove.get())
-			modal_remove.reset();
-		modal_remove = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_remove_item"));
-		modal_remove->regenerate();
-	} else if (name == "modal_spell") {
-		if (modal_spell.get())
-			modal_spell.reset();
-		modal_spell = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_spell"));
-		modal_spell->regenerate();
-	} else if (name == "modal_drop") {
-		if (modal_drop.get())
-			modal_drop.reset();
-		modal_drop =
-			std::make_unique<Modal>(_ctx, components->get("global:modal_drop"));
-		modal_drop->regenerate();
-	} else if (name == "modal_trade") {
-		if (modal_trade.get())
-			modal_trade.reset();
-		modal_trade = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_trade"));
-		modal_trade->regenerate();
-	} else if (name == "modal_give") {
-		if (modal_give.get())
-			modal_give.reset();
-		modal_give =
-			std::make_unique<Modal>(_ctx, components->get("global:modal_give"));
-		modal_give->regenerate();
-	} else if (name == "modal_use") {
-		if (modal_use.get())
-			modal_use.reset();
-		modal_use =
-			std::make_unique<Modal>(_ctx, components->get("global:modal_use"));
-		modal_use->regenerate();
-	} else if (name == "modal_invoke") {
-		if (modal_invoke.get())
-			modal_invoke.reset();
-		modal_invoke = std::make_unique<Modal>(
-			_ctx, components->get("global:modal_invoke"));
-		modal_invoke->regenerate();
-	}
-
-	// Note that modal_camp is not dynamic and thus isn't handled here
-}
-
 auto Sorcery::UI::_draw_window_menu() -> void {}
-
-// Not an ideal function, really need to maintain a pointer status map instead
-auto Sorcery::UI::_get_popups() const -> std::string {
-
-	auto get_popup_status{[](void *component, std::string type) -> std::string {
-		if (component != nullptr) {
-			if (type == "modal") {
-				auto casted{(Modal *)component};
-				auto name{casted->name()};
-				return std::format("{:>26}: {}\n", name, casted->show);
-			} else if (type == "dialog") {
-				auto casted{(Dialog *)component};
-				auto name{casted->name()};
-				return std::format("{:>26}: {}\n", name, casted->show);
-			} else if (type == "message") {
-				auto casted{(Message *)component};
-				auto name{casted->name()};
-				return std::format("{:>26}: {}\n", name, casted->show);
-			} else if (type == "popup") {
-				auto casted{(Popup *)component};
-				auto name{casted->name()};
-				return std::format("{:>26}: {}\n", name, casted->show);
-			} else if (type == "input") {
-				auto casted{(Input *)component};
-				auto name{casted->name()};
-				return std::format("{:>26}: {}\n", name, casted->show);
-			}
-		}
-
-		return "";
-	}};
-
-	std::string output{};
-	if (dialog_exit)
-		output.append(get_popup_status((void *)dialog_exit.get(), "dialog"));
-	if (dialog_leave)
-		output.append(get_popup_status((void *)dialog_leave.get(), "dialog"));
-	if (dialog_new)
-		output.append(get_popup_status((void *)dialog_new.get(), "dialog"));
-	if (dialog_rite)
-		output.append(get_popup_status((void *)dialog_rite.get(), "dialog"));
-	if (dialog_search)
-		output.append(get_popup_status((void *)dialog_search.get(), "dialog"));
-	if (dialog_delete)
-		output.append(get_popup_status((void *)dialog_delete.get(), "dialog"));
-	if (dialog_stairs_down)
-		output.append(
-			get_popup_status((void *)dialog_stairs_down.get(), "dialog"));
-	if (dialog_stairs_up)
-		output.append(
-			get_popup_status((void *)dialog_stairs_up.get(), "dialog"));
-	if (input_donate)
-		output.append(get_popup_status((void *)input_donate.get(), "input"));
-	if (input_name)
-		output.append(get_popup_status((void *)input_name.get(), "input"));
-	if (message_tile)
-		output.append(get_popup_status((void *)message_tile.get(), "message"));
-	if (modal_camp)
-		output.append(get_popup_status((void *)modal_camp.get(), "modal"));
-	if (modal_chest)
-		output.append(get_popup_status((void *)modal_chest.get(), "modal"));
-	if (modal_elevator_bottom)
-		output.append(
-			get_popup_status((void *)modal_elevator_bottom.get(), "modal"));
-	if (modal_elevator_top)
-		output.append(
-			get_popup_status((void *)modal_elevator_top.get(), "modal"));
-	if (modal_drop)
-		output.append(get_popup_status((void *)modal_drop.get(), "modal"));
-	if (modal_equip)
-		output.append(get_popup_status((void *)modal_equip.get(), "modal"));
-	if (modal_give)
-		output.append(get_popup_status((void *)modal_give.get(), "modal"));
-	if (modal_help)
-		output.append(get_popup_status((void *)modal_help.get(), "modal"));
-	if (modal_identify)
-		output.append(get_popup_status((void *)modal_identify.get(), "modal"));
-	if (modal_inspect)
-		output.append(get_popup_status((void *)modal_inspect.get(), "modal"));
-	if (modal_invoke)
-		output.append(get_popup_status((void *)modal_invoke.get(), "modal"));
-	if (modal_remove)
-		output.append(get_popup_status((void *)modal_remove.get(), "modal"));
-	if (modal_spell)
-		output.append(get_popup_status((void *)modal_spell.get(), "modal"));
-	if (modal_tithe)
-		output.append(get_popup_status((void *)modal_tithe.get(), "modal"));
-	if (modal_trade)
-		output.append(get_popup_status((void *)modal_trade.get(), "modal"));
-	if (modal_use)
-		output.append(get_popup_status((void *)modal_use.get(), "modal"));
-
-	if (notice_cannot_donate)
-		output.append(
-			get_popup_status((void *)notice_cannot_donate.get(), "dialog"));
-	if (notice_divvy)
-		output.append(get_popup_status((void *)notice_divvy.get(), "dialog"));
-	if (notice_donated_ok)
-		output.append(
-			get_popup_status((void *)notice_donated_ok.get(), "dialog"));
-	if (notice_not_enough_gold)
-		output.append(
-			get_popup_status((void *)notice_not_enough_gold.get(), "dialog"));
-	if (notice_pool_gold)
-		output.append(
-			get_popup_status((void *)notice_pool_gold.get(), "dialog"));
-	if (notice_renamed_ok)
-		output.append(
-			get_popup_status((void *)notice_renamed_ok.get(), "dialog"));
-	if (notice_reclassed_ok)
-		output.append(
-			get_popup_status((void *)notice_reclassed_ok.get(), "dialog"));
-
-	return output;
-}
 
 auto Sorcery::UI::start() -> void {
 
@@ -711,38 +424,7 @@ auto Sorcery::UI::start() -> void {
 	ms_selected.fill(false);
 	ps_selected.fill(false);
 
-	dialog_exit->show = false;
-	dialog_new->show = false;
-	dialog_leave->show = false;
-	dialog_rite->show = false;
-	dialog_search->show = false;
-	dialog_delete->show = false;
-	notice_divvy->show = false;
-	notice_donated_ok->show = false;
-	notice_cannot_donate->show = false;
-	notice_not_enough_gold->show = false;
-	notice_pool_gold->show = false;
-	notice_renamed_ok->show = false;
-	notice_reclassed_ok->show = false;
-	input_donate->show = false;
-	input_name->show = false;
-	modal_camp->show = false;
-	modal_equip->show = false;
-	modal_remove->show = false;
-	modal_identify->show = false;
-	modal_chest->show = false;
-	modal_drop->show = false;
-	modal_elevator_bottom->show = false;
-	modal_elevator_top->show = false;
-	modal_trade->show = false;
-	modal_give->show = false;
-	modal_use->show = false;
-	modal_invoke->show = false;
-	modal_spell->show = false;
-	dialog_stairs_up->show = false;
-	dialog_stairs_down->show = false;
-	message_tile->show = false;
-
+	popups->close_all_popups();
 	_attract_data.clear();
 }
 
@@ -782,43 +464,45 @@ auto Sorcery::UI::display_engine() -> void {
 		_draw_tiled_bg(&bg_c);
 	}
 
-	dialog_leave->display(_ctx.controller->want_to_leave_game());
-	dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
-	dialog_stairs_down->display(_ctx.get_flag_ref("want_take_stairs_down"));
-	message_tile->display(_ctx.get_flag_ref("after_tile_message"));
-	if (modal_camp->show)
-		modal_camp->display(_ctx.get_flag_ref("want_camp"));
-	if (modal_elevator_top->show)
-		modal_elevator_top->display(_ctx.get_flag_ref("want_elevator_top"));
-	if (modal_elevator_bottom->show)
-		modal_elevator_bottom->display(
+	popups->dialog_leave->display(_ctx.controller->want_to_leave_game());
+	popups->dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
+	popups->dialog_stairs_down->display(
+		_ctx.get_flag_ref("want_take_stairs_down"));
+	popups->message_tile->display(_ctx.get_flag_ref("after_tile_message"));
+	if (popups->modal_camp->show)
+		popups->modal_camp->display(_ctx.get_flag_ref("want_camp"));
+	if (popups->modal_elevator_top->show)
+		popups->modal_elevator_top->display(
+			_ctx.get_flag_ref("want_elevator_top"));
+	if (popups->modal_elevator_bottom->show)
+		popups->modal_elevator_bottom->display(
 			_ctx.get_flag_ref("want_elevator_bottom"));
-	if (modal_inspect->show)
-		modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	if (dialog_search->show)
-		dialog_search->display(_ctx.get_flag_ref("want_search"));
-	if (modal_identify->show)
-		modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	if (modal_chest->show)
-		modal_chest->display(_ctx.get_flag_ref("want_chest"));
-	if (modal_equip->show)
-		modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	if (modal_remove->show)
-		modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	if (modal_drop->show)
-		modal_drop->display(_ctx.get_flag_ref("want_drop"));
-	if (modal_trade->show)
-		modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	if (modal_give->show)
-		modal_give->display(_ctx.get_flag_ref("want_give"));
-	if (modal_use->show)
-		modal_use->display(_ctx.get_flag_ref("want_use"));
-	if (modal_invoke->show)
-		modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
-	if (modal_spell->show)
-		modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	if (notice_pool_gold->show)
-		notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	if (popups->modal_inspect->show)
+		popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+	if (popups->dialog_search->show)
+		popups->dialog_search->display(_ctx.get_flag_ref("want_search"));
+	if (popups->modal_identify->show)
+		popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	if (popups->modal_chest->show)
+		popups->modal_chest->display(_ctx.get_flag_ref("want_chest"));
+	if (popups->modal_equip->show)
+		popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	if (popups->modal_remove->show)
+		popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
+	if (popups->modal_drop->show)
+		popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	if (popups->modal_trade->show)
+		popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	if (popups->modal_give->show)
+		popups->modal_give->display(_ctx.get_flag_ref("want_give"));
+	if (popups->modal_use->show)
+		popups->modal_use->display(_ctx.get_flag_ref("want_use"));
+	if (popups->modal_invoke->show)
+		popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
+	if (popups->modal_spell->show)
+		popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
+	if (popups->notice_pool_gold->show)
+		popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
 		_draw_party_panel();
 	if (_ctx.get_flag("interface_ui")) {
@@ -1368,7 +1052,7 @@ auto Sorcery::UI::_draw_debug() -> void {
 		ImGui::TextUnformatted(_ctx.controller->get_flags().c_str());
 
 		ImGui::SetCursorPos(ImVec2{1000, 400});
-		ImGui::TextUnformatted(_get_popups().c_str());
+		ImGui::TextUnformatted(popups->get_popups().c_str());
 
 		ImGui::SetCursorPos(ImVec2{8, 700});
 		ImGui::TextUnformatted(_ctx.controller->get_characters().c_str());
@@ -4193,7 +3877,7 @@ auto Sorcery::UI::_display_compendium() -> void {
 
 auto Sorcery::UI::_display_edge_of_town() -> void {
 	_draw_components("edge_of_town");
-	dialog_leave->display(_ctx.controller->want_to_leave_game());
+	popups->dialog_leave->display(_ctx.controller->want_to_leave_game());
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
@@ -4201,7 +3885,7 @@ auto Sorcery::UI::_display_edge_of_town() -> void {
 
 auto Sorcery::UI::_display_castle() -> void {
 	_draw_components("castle");
-	dialog_leave->display(_ctx.controller->want_to_leave_game());
+	popups->dialog_leave->display(_ctx.controller->want_to_leave_game());
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
@@ -4220,14 +3904,15 @@ auto Sorcery::UI::_display_edit() -> void {
 auto Sorcery::UI::_display_reclass() -> void {
 	_draw_components("change_class");
 	_draw_reclass();
-	notice_reclassed_ok->display(_ctx.get_flag_ref("want_reclassed_ok"));
+	popups->notice_reclassed_ok->display(
+		_ctx.get_flag_ref("want_reclassed_ok"));
 	_draw_cursor();
 }
 
 auto Sorcery::UI::_display_rename() -> void {
 	_draw_components("rename");
 	_draw_rename();
-	notice_renamed_ok->display(_ctx.get_flag_ref("want_renamed_ok"));
+	popups->notice_renamed_ok->display(_ctx.get_flag_ref("want_renamed_ok"));
 	_draw_cursor();
 }
 
@@ -4248,8 +3933,8 @@ auto Sorcery::UI::_display_retrain() -> void {
 
 auto Sorcery::UI::_display_delete() -> void {
 	_draw_components("delete");
-	if (dialog_delete->show)
-		dialog_delete->display(_ctx.get_flag_ref("want_delete_ok"));
+	if (popups->dialog_delete->show)
+		popups->dialog_delete->display(_ctx.get_flag_ref("want_delete_ok"));
 	_draw_cursor();
 }
 
@@ -4275,26 +3960,26 @@ auto Sorcery::UI::_display_inspect(const int mode) -> void {
 	if (mode & INSPECT_MODE_ACTIONS)
 		_draw_components("inspect_actions", mode);
 	_draw_current_character(mode);
-	if (modal_identify->show)
-		modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	if (modal_equip->show)
-		modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	if (modal_remove->show)
-		modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	if (modal_spell->show)
-		modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	if (modal_drop->show)
-		modal_drop->display(_ctx.get_flag_ref("want_drop"));
-	if (modal_trade->show)
-		modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	if (modal_give->show)
-		modal_give->display(_ctx.get_flag_ref("want_give"));
-	if (modal_use->show)
-		modal_use->display(_ctx.get_flag_ref("want_use"));
-	if (modal_invoke->show)
-		modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
-	if (notice_pool_gold->show)
-		notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	if (popups->modal_identify->show)
+		popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	if (popups->modal_equip->show)
+		popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	if (popups->modal_remove->show)
+		popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
+	if (popups->modal_spell->show)
+		popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
+	if (popups->modal_drop->show)
+		popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	if (popups->modal_trade->show)
+		popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	if (popups->modal_give->show)
+		popups->modal_give->display(_ctx.get_flag_ref("want_give"));
+	if (popups->modal_use->show)
+		popups->modal_use->display(_ctx.get_flag_ref("want_use"));
+	if (popups->modal_invoke->show)
+		popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
+	if (popups->notice_pool_gold->show)
+		popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	_draw_debug();
 	_draw_cursor();
 }
@@ -4350,17 +4035,17 @@ auto Sorcery::UI::_display_museum() -> void {
 auto Sorcery::UI::_display_inn() -> void {
 	_draw_components("inn");
 	_draw_party_panel();
-	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	modal_drop->display(_ctx.get_flag_ref("want_drop"));
-	modal_give->display(_ctx.get_flag_ref("want_give"));
-	modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	modal_use->display(_ctx.get_flag_ref("want_use"));
-	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
-	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+	popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
+	popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
+	popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	popups->modal_give->display(_ctx.get_flag_ref("want_give"));
+	popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	popups->modal_use->display(_ctx.get_flag_ref("want_use"));
+	popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
+	popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	_draw_debug();
 	_draw_cursor();
 }
@@ -4416,7 +4101,7 @@ auto Sorcery::UI::_display_store() -> void {
 	_draw_components("store");
 	_draw_store();
 	_draw_party_panel();
-	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	_draw_debug();
 	_draw_cursor();
 }
@@ -4429,8 +4114,8 @@ auto Sorcery::UI::_display_chest(const int stage) -> void {
 	// Transient overlay
 	_draw_transient();
 
-	if (modal_chest->show)
-		modal_chest->display(_ctx.get_flag_ref("want_chest"));
+	if (popups->modal_chest->show)
+		popups->modal_chest->display(_ctx.get_flag_ref("want_chest"));
 	_draw_cursor();
 }
 
@@ -4452,8 +4137,8 @@ auto Sorcery::UI::_display_heal(int stage) -> void {
 
 auto Sorcery::UI::_display_rite(int stage) -> void {
 	_draw_components("rite");
-	if (dialog_rite->show)
-		dialog_rite->display(_ctx.get_flag_ref("want_rite_ok"));
+	if (popups->dialog_rite->show)
+		popups->dialog_rite->display(_ctx.get_flag_ref("want_rite_ok"));
 	_draw_rite(stage);
 	_draw_cursor();
 }
@@ -4478,18 +4163,18 @@ auto Sorcery::UI::_display_level_up(const int mode) -> void {
 auto Sorcery::UI::_display_tavern() -> void {
 
 	_draw_components("tavern");
-	notice_divvy->display(_ctx.get_flag_ref("want_divvy_gold"));
-	notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
-	modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	modal_drop->display(_ctx.get_flag_ref("want_drop"));
-	modal_use->display(_ctx.get_flag_ref("want_use"));
-	modal_give->display(_ctx.get_flag_ref("want_give"));
-	modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
+	popups->notice_divvy->display(_ctx.get_flag_ref("want_divvy_gold"));
+	popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+	popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
+	popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
+	popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	popups->modal_use->display(_ctx.get_flag_ref("want_use"));
+	popups->modal_give->display(_ctx.get_flag_ref("want_give"));
+	popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	_draw_party_panel();
 	_draw_debug();
 	_draw_cursor();
@@ -4703,9 +4388,9 @@ auto Sorcery::UI::_display_main_menu() -> void {
 	_draw_attract_mode();
 	_draw_bg_video();
 
-	dialog_exit->display(_ctx.get_flag_ref("want_exit_game"));
-	dialog_new->display(_ctx.get_flag_ref("want_new_game"));
-	dialog_leave->display(_ctx.controller->want_to_leave_game());
+	popups->dialog_exit->display(_ctx.get_flag_ref("want_exit_game"));
+	popups->dialog_new->display(_ctx.get_flag_ref("want_new_game"));
+	popups->dialog_leave->display(_ctx.controller->want_to_leave_game());
 
 	_draw_cursor();
 
@@ -4771,36 +4456,41 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 	constexpr auto UI_FLAGS_COUNT{26};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
-		{"tavern_menu", {std::ref(notice_divvy->show)}},
-		{"store_menu", {std::ref(notice_pool_gold->show)}},
+		{"tavern_menu", {std::ref(popups->notice_divvy->show)}},
+		{"store_menu", {std::ref(popups->notice_pool_gold->show)}},
 		{"temple_menu",
-		 {std::ref(modal_help->show), std::ref(modal_tithe->show)}},
-		{"camp_menu", {std::ref(modal_camp->show)}},
-		{"top_elevator_menu", {std::ref(modal_elevator_top->show)}},
-		{"bottom_elevator_menu", {std::ref(modal_elevator_bottom->show)}},
-		{"inspect_menu", {std::ref(modal_inspect->show)}},
-		{"roster_menu", {std::ref(modal_inspect->show)}},
-		{"help_menu", {std::ref(modal_help->show)}},
+		 {std::ref(popups->modal_help->show),
+		  std::ref(popups->modal_tithe->show)}},
+		{"camp_menu", {std::ref(popups->modal_camp->show)}},
+		{"top_elevator_menu", {std::ref(popups->modal_elevator_top->show)}},
+		{"bottom_elevator_menu",
+		 {std::ref(popups->modal_elevator_bottom->show)}},
+		{"inspect_menu", {std::ref(popups->modal_inspect->show)}},
+		{"roster_menu", {std::ref(popups->modal_inspect->show)}},
+		{"help_menu", {std::ref(popups->modal_help->show)}},
 		{"tithe_menu",
-		 {std::ref(modal_tithe->show), std::ref(input_donate->show)}},
-		{"identify_menu", {std::ref(modal_identify->show)}},
-		{"equip_menu", {std::ref(modal_equip->show)}},
-		{"remove_item_menu", {std::ref(modal_remove->show)}},
-		{"spell_menu", {std::ref(modal_spell->show)}},
-		{"drop_menu", {std::ref(modal_drop->show)}},
-		{"use_menu", {std::ref(modal_use->show)}},
-		{"invoke_menu", {std::ref(modal_invoke->show)}},
+		 {std::ref(popups->modal_tithe->show),
+		  std::ref(popups->input_donate->show)}},
+		{"identify_menu", {std::ref(popups->modal_identify->show)}},
+		{"equip_menu", {std::ref(popups->modal_equip->show)}},
+		{"remove_item_menu", {std::ref(popups->modal_remove->show)}},
+		{"spell_menu", {std::ref(popups->modal_spell->show)}},
+		{"drop_menu", {std::ref(popups->modal_drop->show)}},
+		{"use_menu", {std::ref(popups->modal_use->show)}},
+		{"invoke_menu", {std::ref(popups->modal_invoke->show)}},
 		{"trade_menu",
-		 {std::ref(modal_trade->show), std::ref(modal_give->show)}},
-		{"give_menu", {std::ref(modal_give->show)}},
+		 {std::ref(popups->modal_trade->show),
+		  std::ref(popups->modal_give->show)}},
+		{"give_menu", {std::ref(popups->modal_give->show)}},
 		{"main_menu",
-		 {std::ref(dialog_new->show), std::ref(dialog_exit->show)}},
-		{"edge_menu", {std::ref(dialog_leave->show)}},
-		{"chest_open_menu", {std::ref(modal_chest->show)}},
-		{"chest_inspect_menu", {std::ref(modal_chest->show)}},
-		{"chest_calfo_menu", {std::ref(modal_chest->show)}},
-		{"chest_disarm_menu", {std::ref(modal_chest->show)}},
-		{"chest_trap_menu", {std::ref(modal_chest->show)}},
+		 {std::ref(popups->dialog_new->show),
+		  std::ref(popups->dialog_exit->show)}},
+		{"edge_menu", {std::ref(popups->dialog_leave->show)}},
+		{"chest_open_menu", {std::ref(popups->modal_chest->show)}},
+		{"chest_inspect_menu", {std::ref(popups->modal_chest->show)}},
+		{"chest_calfo_menu", {std::ref(popups->modal_chest->show)}},
+		{"chest_disarm_menu", {std::ref(popups->modal_chest->show)}},
+		{"chest_trap_menu", {std::ref(popups->modal_chest->show)}},
 	}};
 
 	if (const auto it{std::ranges::find(flags, name,
@@ -5124,79 +4814,6 @@ auto Sorcery::UI::_priest_spell_index(Enums::Magic::SpellID id) -> std::size_t {
 	return static_cast<std::size_t>(
 		std::to_underlying(id) -
 		std::to_underlying(Enums::Magic::SpellID::BADIOS));
-}
-
-auto Sorcery::UI::in_popup() const -> bool {
-
-	return active_popup_count() > 0;
-}
-
-auto Sorcery::UI::close_all_popups() -> void {
-
-	for (auto *show : _popup_states())
-		*show = false;
-}
-
-auto Sorcery::UI::active_popup_count() const -> int {
-
-	const auto states{_popup_states()};
-
-	return std::count_if(states.begin(), states.end(), [](const bool *show) {
-		return *show;
-	});
-}
-
-auto Sorcery::UI::_popup_states() const -> std::vector<bool *> {
-
-	std::vector<bool *> states;
-
-	auto add = [&](const auto &ptr, const std::string_view name) {
-		if (ptr) {
-			// DEBUG_LOGF("Popup state: {:<24} {}", name, ptr->show);
-			states.emplace_back(&ptr->show);
-		}
-	};
-
-#define ADD_POPUP(popup) add(popup, #popup)
-
-	ADD_POPUP(dialog_exit);
-	ADD_POPUP(dialog_new);
-	ADD_POPUP(dialog_leave);
-	ADD_POPUP(dialog_rite);
-	ADD_POPUP(dialog_search);
-	ADD_POPUP(dialog_delete);
-	ADD_POPUP(notice_cannot_donate);
-	ADD_POPUP(notice_donated_ok);
-	ADD_POPUP(notice_not_enough_gold);
-	ADD_POPUP(notice_divvy);
-	ADD_POPUP(notice_pool_gold);
-	ADD_POPUP(notice_renamed_ok);
-	ADD_POPUP(notice_reclassed_ok);
-	ADD_POPUP(dialog_stairs_up);
-	ADD_POPUP(dialog_stairs_down);
-	ADD_POPUP(input_donate);
-	ADD_POPUP(input_name);
-	ADD_POPUP(modal_camp);
-	ADD_POPUP(modal_elevator_top);
-	ADD_POPUP(modal_elevator_bottom);
-	ADD_POPUP(message_tile);
-	ADD_POPUP(modal_inspect);
-	ADD_POPUP(modal_help);
-	ADD_POPUP(modal_tithe);
-	ADD_POPUP(modal_identify);
-	ADD_POPUP(modal_chest);
-	ADD_POPUP(modal_equip);
-	ADD_POPUP(modal_remove);
-	ADD_POPUP(modal_spell);
-	ADD_POPUP(modal_drop);
-	ADD_POPUP(modal_trade);
-	ADD_POPUP(modal_give);
-	ADD_POPUP(modal_use);
-	ADD_POPUP(modal_invoke);
-
-#undef ADD_POPUP
-
-	return states;
 }
 
 auto Sorcery::UI::show_transient(std::string text,

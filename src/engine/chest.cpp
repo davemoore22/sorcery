@@ -28,7 +28,8 @@
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "display/display.hpp"
-#include "display/ui.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/modal.hpp"
@@ -68,7 +69,7 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 	_initialise();
 
-	_ctx.ui->modal_chest->show = false;
+	_ctx.ui->popups->modal_chest->show = false;
 	_ctx.controller->unset_flag("want_chest");
 
 	fade_in(Enums::Screen::CHEST, QUICK_FADE);
@@ -140,9 +141,9 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 auto Sorcery::Chest::_show_trap_modal() -> void {
 
-	_ctx.ui->modal_chest->set_title("CHEST_TRAP_TITLE");
-	_ctx.ui->modal_chest->regenerate("chest_trap_menu");
-	_ctx.ui->modal_chest->show = true;
+	_ctx.ui->popups->modal_chest->set_title("CHEST_TRAP_TITLE");
+	_ctx.ui->popups->modal_chest->regenerate("chest_trap_menu");
+	_ctx.ui->popups->modal_chest->show = true;
 }
 
 auto Sorcery::Chest::stop(void) -> void {
@@ -153,8 +154,8 @@ auto Sorcery::Chest::stop(void) -> void {
 auto Sorcery::Chest::_show_character_modal(const std::string_view menu_name)
 	-> void {
 
-	_ctx.ui->modal_chest->regenerate(menu_name);
-	_ctx.ui->modal_chest->show = true;
+	_ctx.ui->popups->modal_chest->regenerate(menu_name);
+	_ctx.ui->popups->modal_chest->show = true;
 }
 
 auto Sorcery::Chest::_inspect(const int character_id) -> void {
@@ -418,25 +419,25 @@ auto Sorcery::Chest::_process_menu_action() -> void {
 
 	case 0: // Open
 		_state.state = CHOOSE_OPEN_CHARACTER;
-		_ctx.ui->modal_chest->set_title("CHEST_OPEN_TITLE");
+		_ctx.ui->popups->modal_chest->set_title("CHEST_OPEN_TITLE");
 		_show_character_modal("chest_open_menu");
 		break;
 
 	case 1: // Inspect
 		_state.state = CHOOSE_INSPECT_CHARACTER;
-		_ctx.ui->modal_chest->set_title("CHEST_INSPECT_TITLE");
+		_ctx.ui->popups->modal_chest->set_title("CHEST_INSPECT_TITLE");
 		_show_character_modal("chest_inspect_menu");
 		break;
 
 	case 2: // Calfo
 		_state.state = CHOOSE_CALFO_CHARACTER;
-		_ctx.ui->modal_chest->set_title("CHEST_CALFO_TITLE");
+		_ctx.ui->popups->modal_chest->set_title("CHEST_CALFO_TITLE");
 		_show_character_modal("chest_calfo_menu");
 		break;
 
 	case 3: // Disarm
 		_state.state = CHOOSE_DISARM_CHARACTER;
-		_ctx.ui->modal_chest->set_title("CHEST_DISARM_TITLE");
+		_ctx.ui->popups->modal_chest->set_title("CHEST_DISARM_TITLE");
 		_show_character_modal("chest_disarm_menu");
 		break;
 

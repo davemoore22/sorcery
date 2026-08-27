@@ -31,7 +31,8 @@
 #include "core/resources.hpp"
 #include "core/system.hpp"
 #include "display/display.hpp"
-#include "display/ui.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/menuaction.hpp"
@@ -890,7 +891,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 			_game->save_game();
 
 			unset_flag("want_reclassed_ok");
-			_ctx.ui->notice_reclassed_ok->show = true;
+			_ctx.ui->popups->notice_reclassed_ok->show = true;
 		}
 
 		return true;
@@ -947,7 +948,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "tithe_menu") {
 
-		// Flags = &_ui->modal_tithe->show, &_ui->input_donate->show,
+		// Flags = &_ui->popups->modal_tithe->show, &_ui->input_donate->show,
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -964,7 +965,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "help_menu") {
 
-		// Flags = &_ui->modal_help->show
+		// Flags = &_ui->popups->modal_help->show
 
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -1003,7 +1004,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "identify_menu") {
 
-		// Flags = &_ui->modal_identify->show
+		// Flags = &_ui->popups->modal_identify->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_identify"] = true;
 			in_flags.at(0).get() = false;
@@ -1013,7 +1014,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "chest_open_menu") {
 
-		// Flags = &_ui->modal_chest>show
+		// Flags = &_ui->popups->modal_chest>show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_chest"] = true;
 			in_flags.at(0).get() = false;
@@ -1023,7 +1024,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "equip_menu") {
 
-		// Flags = &_ui->modal_equip->show
+		// Flags = &_ui->popups->modal_equip->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_equip"] = true;
 			in_flags.at(0).get() = false;
@@ -1033,7 +1034,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "remove_menu") {
 
-		// Flags = &_ui->modal_remove->show
+		// Flags = &_ui->popups->modal_remove->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_remove"] = true;
 			in_flags.at(0).get() = false;
@@ -1043,7 +1044,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "spell_menu") {
 
-		// Flags = &_ui->modalspell->show
+		// Flags = &_ui->popups->modalspell->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_spell"] = true;
 			in_flags.at(0).get() = false;
@@ -1053,7 +1054,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "drop_menu") {
 
-		// Flags = &_ui->modal_drop->show
+		// Flags = &_ui->popups->modal_drop->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_drop"] = true;
 			in_flags.at(0).get() = false;
@@ -1062,7 +1063,8 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "trade_menu") {
 
-		// Flags = &_ui->modal_trade->show, &_ui->modal_give->show
+		// Flags = &_ui->popups->modal_trade->show,
+		// &_ui->popups->modal_give->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_trade"] = true;
 			_flags["want_give"] = true;
@@ -1078,7 +1080,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "use_menu") {
 
-		// Flags = &_ui->modal_use->show
+		// Flags = &_ui->popups->modal_use->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_use"] = true;
 			in_flags.at(0).get() = false;
@@ -1087,7 +1089,7 @@ auto Sorcery::Controller::handle_dynamic_menu(
 		return true;
 	} else if (component == "invoke_menu") {
 
-		// Flags = &_ui->modal_invoke->show
+		// Flags = &_ui->popups->modal_invoke->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_flags["want_invoke"] = true;
 			in_flags.at(0).get() = false;
@@ -1105,7 +1107,7 @@ auto Sorcery::Controller::handle_icon_click(const int icon_idx) -> void {
 
 	switch (icon_idx) {
 	case ICON_CAMP:
-		_ctx.ui->modal_camp->show = true;
+		_ctx.ui->popups->modal_camp->show = true;
 		break;
 
 	case ICON_PARTY:
@@ -1522,7 +1524,7 @@ auto Sorcery::Controller::handle_input_button_click(
 			_game->save_game();
 
 			unset_flag("want_renamed_ok");
-			ui->notice_renamed_ok->show = true;
+			ui->popups->notice_renamed_ok->show = true;
 
 		} else {
 
@@ -1542,56 +1544,56 @@ auto Sorcery::Controller::handle_button_click(const std::string &component,
 
 	if (component == "button_identify") {
 		// Show Identify Modal
-		ui->modal_identify->regenerate();
-		ui->modal_identify->show = true;
+		ui->popups->modal_identify->regenerate();
+		ui->popups->modal_identify->show = true;
 		set_flag("want_identify");
 	} else if (component == "button_pool") {
 		// Show Pool Gold Notice
-		ui->notice_pool_gold->show = true;
+		ui->popups->notice_pool_gold->show = true;
 		set_flag("want_pool_gold");
 		_game->pool_party_gold(get_character(Enums::CharacterSlot::INSPECT));
 	} else if (component == "button_leave") {
 		// Leave Inspect
 		unset_flag("want_inspect");
 		go_back = true;
-		ui->modal_inspect->show = false;
+		ui->popups->modal_inspect->show = false;
 	} else if (component == "button_drop") {
 		// Show Drop Modal
-		ui->modal_drop->regenerate();
-		ui->modal_drop->show = true;
+		ui->popups->modal_drop->regenerate();
+		ui->popups->modal_drop->show = true;
 		set_flag("want_drop");
 	} else if (component == "button_trade") {
 		// Show Trade Modal
-		ui->modal_trade->regenerate();
-		ui->modal_trade->show = true;
-		ui->modal_give->regenerate();
-		ui->modal_give->show = false;
+		ui->popups->modal_trade->regenerate();
+		ui->popups->modal_trade->show = true;
+		ui->popups->modal_give->regenerate();
+		ui->popups->modal_give->show = false;
 		set_flag("want_trade");
 		unset_flag("want_give");
 	} else if (component == "button_use") {
 		// Show Use Modal
-		ui->modal_use->regenerate();
-		ui->modal_use->show = true;
+		ui->popups->modal_use->regenerate();
+		ui->popups->modal_use->show = true;
 		set_flag("want_use");
 	} else if (component == "button_equip") {
 		// Show Equip Modal
-		ui->modal_equip->regenerate();
-		ui->modal_equip->show = true;
+		ui->popups->modal_equip->regenerate();
+		ui->popups->modal_equip->show = true;
 		set_flag("want_equip");
 	} else if (component == "button_remove") {
 		// Show Remove Modal
-		ui->modal_remove->regenerate();
-		ui->modal_remove->show = true;
+		ui->popups->modal_remove->regenerate();
+		ui->popups->modal_remove->show = true;
 		set_flag("want_remove");
 	} else if (component == "button_spell") {
 		// Show Spell Modal
-		ui->modal_spell->regenerate();
-		ui->modal_spell->show = true;
+		ui->popups->modal_spell->regenerate();
+		ui->popups->modal_spell->show = true;
 		set_flag("want_spell");
 	} else if (component == "button_invoke") {
 		// Show Invoke Modal
-		ui->modal_invoke->regenerate();
-		ui->modal_invoke->show = true;
+		ui->popups->modal_invoke->regenerate();
+		ui->popups->modal_invoke->show = true;
 		set_flag("want_invoke");
 	} else if (component == "button_keep_yes") {
 

@@ -29,7 +29,8 @@
 #include "core/debug.hpp"
 #include "core/define.hpp"
 #include "core/resources.hpp"
-#include "display/ui.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/message.hpp"
@@ -128,14 +129,14 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			// Back closes popup first, otherwise opens camp.
 			if (_ctx.controller->check_for_back(event)) {
 
-				if (_ctx.ui->in_popup()) {
+				if (_ctx.ui->popups->in_popup()) {
 
-					_ctx.ui->close_all_popups();
+					_ctx.ui->popups->close_all_popups();
 					_ctx.controller->clear_modal_flags();
 
 				} else {
 
-					_ctx.ui->modal_camp->show = true;
+					_ctx.ui->popups->modal_camp->show = true;
 					_ctx.controller->set_flag("want_camp");
 				}
 
@@ -144,7 +145,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 			// From here down, no gameplay input while an active
 			// popup/modal/dialog is displayed.
-			if (_ctx.ui->in_popup())
+			if (_ctx.ui->popups->in_popup())
 				continue;
 
 			// Some transient messages deliberately block gameplay until
@@ -303,7 +304,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		// Popups block gameplay and module transitions, but they MUST NOT
 		// block rendering/ticking.
 		//
-		if (!_ctx.ui->in_popup()) {
+		if (!_ctx.ui->popups->in_popup()) {
 
 			// Check for return-to-town teleport
 			if (_ctx.controller->has_flag("want_return_to_town")) {
@@ -415,7 +416,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			}
 
 			if (_ctx.controller->has_flag("after_event_search") &&
-				!_ctx.ui->dialog_search->show) {
+				!_ctx.ui->popups->dialog_search->show) {
 
 				_ctx.controller->unset_flag("after_event_search");
 
@@ -465,7 +466,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 		// Clear completed tile message state
 		if (_ctx.controller->has_flag("after_tile_message") &&
-			!_ctx.ui->message_tile->show) {
+			!_ctx.ui->popups->message_tile->show) {
 
 			_ctx.controller->unset_flag("after_tile_message");
 
@@ -549,46 +550,46 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
 		// REMOVED Start off in Camp
-		_ctx.ui->modal_camp->regenerate();
-		_ctx.ui->modal_elevator_bottom->regenerate();
-		_ctx.ui->modal_elevator_top->regenerate();
+		_ctx.ui->popups->modal_camp->regenerate();
+		_ctx.ui->popups->modal_elevator_bottom->regenerate();
+		_ctx.ui->popups->modal_elevator_top->regenerate();
 
-		//_ctx.ui->modal_camp->show = true;
+		//_ctx.ui->popups->modal_camp->show = true;
 
-		_ctx.ui->modal_identify->show = false;
-		_ctx.ui->modal_chest->show = false;
-		_ctx.ui->modal_equip->show = false;
-		_ctx.ui->modal_remove->show = false;
-		_ctx.ui->modal_spell->show = false;
-		_ctx.ui->modal_drop->show = false;
-		_ctx.ui->modal_use->show = false;
-		_ctx.ui->modal_invoke->show = false;
-		_ctx.ui->modal_trade->show = false;
-		_ctx.ui->modal_give->show = false;
-		_ctx.ui->modal_elevator_top->show = false;
-		_ctx.ui->modal_elevator_bottom->show = false;
+		_ctx.ui->popups->modal_identify->show = false;
+		_ctx.ui->popups->modal_chest->show = false;
+		_ctx.ui->popups->modal_equip->show = false;
+		_ctx.ui->popups->modal_remove->show = false;
+		_ctx.ui->popups->modal_spell->show = false;
+		_ctx.ui->popups->modal_drop->show = false;
+		_ctx.ui->popups->modal_use->show = false;
+		_ctx.ui->popups->modal_invoke->show = false;
+		_ctx.ui->popups->modal_trade->show = false;
+		_ctx.ui->popups->modal_give->show = false;
+		_ctx.ui->popups->modal_elevator_top->show = false;
+		_ctx.ui->popups->modal_elevator_bottom->show = false;
 
 	} else {
 		// REMOVED Start off in Camp
-		_ctx.ui->modal_camp->regenerate();
-		_ctx.ui->modal_elevator_bottom->regenerate();
-		_ctx.ui->modal_elevator_top->regenerate();
+		_ctx.ui->popups->modal_camp->regenerate();
+		_ctx.ui->popups->modal_elevator_bottom->regenerate();
+		_ctx.ui->popups->modal_elevator_top->regenerate();
 
-		//_ctx.ui->modal_camp->show = true;
+		//_ctx.ui->popups->modal_camp->show = true;
 
 		// Hide any other modals that might be showing
-		_ctx.ui->modal_identify->show = false;
-		_ctx.ui->modal_chest->show = false;
-		_ctx.ui->modal_spell->show = false;
-		_ctx.ui->modal_equip->show = false;
-		_ctx.ui->modal_remove->show = false;
-		_ctx.ui->modal_drop->show = false;
-		_ctx.ui->modal_use->show = false;
-		_ctx.ui->modal_invoke->show = false;
-		_ctx.ui->modal_trade->show = false;
-		_ctx.ui->modal_give->show = false;
-		_ctx.ui->modal_elevator_top->show = false;
-		_ctx.ui->modal_elevator_bottom->show = false;
+		_ctx.ui->popups->modal_identify->show = false;
+		_ctx.ui->popups->modal_chest->show = false;
+		_ctx.ui->popups->modal_spell->show = false;
+		_ctx.ui->popups->modal_equip->show = false;
+		_ctx.ui->popups->modal_remove->show = false;
+		_ctx.ui->popups->modal_drop->show = false;
+		_ctx.ui->popups->modal_use->show = false;
+		_ctx.ui->popups->modal_invoke->show = false;
+		_ctx.ui->popups->modal_trade->show = false;
+		_ctx.ui->popups->modal_give->show = false;
+		_ctx.ui->popups->modal_elevator_top->show = false;
+		_ctx.ui->popups->modal_elevator_bottom->show = false;
 
 		(void)_process_current_tile();
 	}
@@ -1040,7 +1041,7 @@ auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 
 	if (event.search_after) {
 
-		_ctx.ui->dialog_search->show = true;
+		_ctx.ui->popups->dialog_search->show = true;
 		_ctx.controller->set_flag("after_event_search");
 
 		return std::nullopt;
@@ -1146,11 +1147,10 @@ auto Sorcery::Engine::_search_event() -> bool {
 auto Sorcery::Engine::_show_tile_message(const Enums::Map::Event event)
 	-> void {
 
-	_ctx.ui->message_tile->set(_ctx.ui->load_message(event), event);
-
+	_ctx.ui->popups->message_tile->set(_ctx.ui->load_message(event), event);
 	_ctx.controller->set_flag("after_tile_message");
 	_ctx.controller->set_last_event(event);
-	_ctx.ui->message_tile->show = true;
+	_ctx.ui->popups->message_tile->show = true;
 }
 
 auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const
@@ -1261,9 +1261,9 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 	if (_ctx.game->state->level->stairs_at(loc)) {
 
 		if (tile.has(LADDER_UP) || tile.has(STAIRS_UP))
-			_ctx.ui->dialog_stairs_up->show = true;
+			_ctx.ui->popups->dialog_stairs_up->show = true;
 		else if (tile.has(LADDER_DOWN) || tile.has(STAIRS_DOWN))
-			_ctx.ui->dialog_stairs_down->show = true;
+			_ctx.ui->popups->dialog_stairs_down->show = true;
 	}
 
 	// Elevators / chute / teleport / spinner / pit / message
@@ -1273,13 +1273,13 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 		if (top_elevator) {
 
-			_ctx.ui->modal_elevator_top->show = true;
+			_ctx.ui->popups->modal_elevator_top->show = true;
 
 			DEBUG_LOG("Player triggered top elevator");
 
 		} else {
 
-			_ctx.ui->modal_elevator_bottom->show = true;
+			_ctx.ui->popups->modal_elevator_bottom->show = true;
 
 			DEBUG_LOG("Player triggered bottom elevator");
 		}
@@ -1380,8 +1380,8 @@ auto Sorcery::Engine::_process_tile_entry(const Coordinate from,
 
 auto Sorcery::Engine::_start_chest() -> int {
 
-	//_ctx.ui->create_dynamic_modal("modal_chest");
-	//_ctx.ui->modal_chest->regenerate();
+	//_ctx.ui->popups->create_dynamic_modal("modal_chest");
+	//_ctx.ui->popups->modal_chest->regenerate();
 
 	const auto result{_chest->start()};
 	_chest->stop();

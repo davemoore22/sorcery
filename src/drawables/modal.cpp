@@ -26,7 +26,7 @@
 #include "core/debug.hpp"
 #include "core/system.hpp"
 #include "display/animation.hpp"
-#include "display/ui.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/frame.hpp"
 #include "drawables/menu.hpp"
 #include "drawables/menubuilder.hpp"

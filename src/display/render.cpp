@@ -27,7 +27,7 @@
 #include "core/types.hpp"
 #include "display/animation.hpp"
 #include "display/display.hpp"
-#include "display/ui.hpp"
+#include "display/ui/ui.hpp"
 #include "engine/types.hpp"
 #include "resources/define.hpp"
 #include "types/component.hpp"

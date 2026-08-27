@@ -26,7 +26,7 @@
 #include "core/define.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
-#include "display/ui.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "types/character/character.hpp"
 #include "types/game.hpp"

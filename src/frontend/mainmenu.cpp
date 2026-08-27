@@ -27,7 +27,8 @@
 #include "core/controller.hpp"
 #include "core/enum.hpp"
 #include "display/animation.hpp"
-#include "display/ui.hpp"
+#include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "frontend/compendium.hpp"
@@ -91,7 +92,8 @@ auto Sorcery::MainMenu::start() -> int {
 				break;
 			}
 
-			_ctx.controller->check_for_back(event, _ctx.ui->dialog_exit->show);
+			_ctx.controller->check_for_back(event,
+											_ctx.ui->popups->dialog_exit->show);
 		}
 
 		_ctx.tick();

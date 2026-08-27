@@ -17,5 +17,6 @@ target_sources(sorcery_display PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/display.cpp
 	${CMAKE_CURRENT_LIST_DIR}/framebuffer.cpp
 	${CMAKE_CURRENT_LIST_DIR}/render.cpp
-	${CMAKE_CURRENT_LIST_DIR}/ui.cpp
+	${CMAKE_CURRENT_LIST_DIR}/ui/ui.cpp
+	${CMAKE_CURRENT_LIST_DIR}/ui/popupstore.cpp
 )

@@ -25,7 +25,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/enum.hpp"
-#include "display/ui.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 
 Sorcery::Atlas::Atlas(Context &ctx)
