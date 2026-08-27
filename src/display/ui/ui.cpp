@@ -2821,6 +2821,8 @@ auto Sorcery::UI::draw_options() -> void {
 	}
 }
 
+
+
 auto Sorcery::UI::draw_level_name() -> void {
 
 	auto text_cmp{components->get("engine_base_ui:level_name")};
