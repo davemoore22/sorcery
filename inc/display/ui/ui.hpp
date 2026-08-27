@@ -61,6 +61,7 @@ struct Tile;
 class VideoPlayer;
 struct VertexArray;
 class PopupStore;
+class ScreenRenderer;
 
 enum class TransientWidth {
 	FIT_TEXT,
@@ -89,28 +90,16 @@ class UI {
 		~UI();
 
 		// Public Methods
+		auto start() -> void;
+		auto stop() -> void;
+
+
+		// Main Dispatch Methods
 		auto display(Enums::Screen screen, std::any param = nullptr) -> void;
 		auto display_engine() -> void;
 		auto display_refresh(std::any payload = nullptr) -> void;
-		auto draw_cursor(const bool value) -> void;
-		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
-						const ImVec4 colour, const int rounding) -> void;
-		auto draw_image(std::string_view source, const int idx,
-						const ImVec2 p_min, const ImVec2 p_sz) -> void;
-		auto draw_view_image(std::string_view source, const VertexArray &array)
-			-> void;
-		auto draw_menu(const std::string name, const ImColor sel_colour,
-					   const ImVec2 pos, const ImVec2 sz,
-					   const Enums::Layout::Font font,
-					   std::vector<std::string> &items, std::vector<int> &data,
-					   const bool reorder, const bool across = false,
-					   const bool numeric_shortcuts = false) -> void;
-		auto draw_text(const std::string string, const ImColor colour,
-					   const ImVec2 pos, const Enums::Layout::Font font)
-			-> void;
-		auto draw_text_with_layer(const std::string string,
-								  const ImColor colour, const ImVec2 pos,
-								  const Enums::Layout::Font font) -> void;
+
+		// Helpers
 		auto draw_ui_status() -> void;
 		auto get_hl_colour(const double percent) const -> ImColor;
 		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo,
@@ -119,8 +108,7 @@ class UI {
 			-> std::vector<std::string>;
 		auto set_monochrome(const bool value) -> void;
 		auto set_fullscreen(const bool value) -> void;
-		auto start() -> void;
-		auto stop() -> void;
+		
 		auto update_grid_metrics(const DisplayMetrics &metrics) noexcept
 			-> void;
 		auto grid_pos(const float x, const float y) const noexcept -> ImVec2;
@@ -132,7 +120,60 @@ class UI {
 		auto base_font_sz() const noexcept -> float;
 		auto columns() const noexcept -> unsigned int;
 		auto rows() const noexcept -> unsigned int;
+		[[nodiscard]] auto transient_blocks_input() const -> bool;
+		[[nodiscard]] auto has_transient() const -> bool;
 
+		// Primitive Drawables
+		auto draw_button(Component *component,
+					  std::optional<bool *> is_clicked = std::nullopt)
+			-> void;
+		auto draw_button_click(Component *component, bool &is_clicked,
+								const bool reverse = false) -> void;
+		auto draw_fg_image(Component *component) -> void;
+		auto draw_fg_image_with_idx(std::string_view source, const int idx,
+									 const ImVec2 p_min, const ImVec2 p_sz,
+									 const ImVec4 tint = ImVec4{
+										 1.0f, 1.0f, 1.0f, 1.0f}) -> void;
+		auto draw_fg_image_with_idx(std::string_view layer,
+									 std::string_view source, const int idx,
+									 const ImVec2 p_min, const ImVec2 p_sz,
+									 const ImVec4 tint = ImVec4{
+										 1.0f, 1.0f, 1.0f, 1.0f}) -> void;
+		auto draw_frame(Component *component) -> void;
+		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
+						const ImVec4 colour, const int rounding) -> void;
+		auto draw_image(std::string_view source, const int idx,
+						const ImVec2 p_min, const ImVec2 p_sz) -> void;
+		auto draw_menu(Component *component) -> void;
+		auto draw_menu(const std::string name, const ImColor sel_colour,
+					   const ImVec2 pos, const ImVec2 sz,
+					   const Enums::Layout::Font font,
+					   std::vector<std::string> &items, std::vector<int> &data,
+					   const bool reorder, const bool across = false,
+					   const bool numeric_shortcuts = false) -> void;
+		auto draw_paragraph(Component *component) -> void;
+		auto draw_stepper(Component *component, const std::string &name,
+						   int *value) -> void;
+		auto draw_text(Component *component) -> void;
+		auto draw_text(Component *component, const std::string &string)
+			-> void;
+		auto draw_text(const std::string string, const ImColor colour,
+					   const ImVec2 pos, const Enums::Layout::Font font)
+			-> void;
+		auto draw_text_with_layer(const std::string string,
+								  const ImColor colour, const ImVec2 pos,
+								  const Enums::Layout::Font font) -> void;
+		auto draw_tiled_bg(Component *component) -> void;
+		auto draw_view_image(std::string_view source, const VertexArray &array)
+			-> void;
+
+
+		// Draw Automatic Components
+		auto draw_components(std::string_view screen, const int mode = -1)
+			-> void;
+
+
+		// Handle Transient Messages
 		auto show_transient(
 			std::string text,
 			std::chrono::milliseconds duration = std::chrono::seconds{2},
@@ -140,8 +181,41 @@ class UI {
 			TransientMode mode = TransientMode::DISMISS_ON_ACTION) -> void;
 		auto clear_transient() -> void;
 		auto clear_transient_on_action() -> void;
-		[[nodiscard]] auto transient_blocks_input() const -> bool;
-		[[nodiscard]] auto has_transient() const -> bool;
+
+		// Composite Drawing Drawables
+		auto draw_attract_mode() -> void;
+		auto draw_automap_legend(Component *component) -> void;
+		auto draw_bg_image(Component *component) -> void;
+		auto draw_bg_video() -> void;
+		auto draw_buffbar() -> void;
+		auto draw_character_detailed(Component *component,
+									  const Character *character) -> void;
+		auto draw_character_detailed_again(Component *component,
+											const Character *character) -> void;
+		auto draw_character_mage_spells(Component *component,
+										 const Character *character) -> void;
+		auto draw_character_priest_spells(Component *component,
+										   const Character *character) -> void;
+		auto draw_character_summary(Component *component,
+									 const Character *character) -> void;
+		auto draw_current_character(const int mode) -> void;
+		auto draw_current_level_map() -> void;
+		auto draw_cursor() -> void;
+		auto draw_cursor(const bool value) -> void;
+		auto draw_debug() -> void;
+		auto draw_item_info() -> void;
+		auto draw_level_name() -> void;
+		auto draw_level_no_player() -> void;
+		auto draw_options() -> void;
+		auto draw_spell_info() -> void;
+		auto draw_party_panel() -> void;
+		auto draw_party_wipe() -> void;
+		auto draw_transient() -> void;								
+		auto draw_ui_status() -> void;
+
+			
+		
+			
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;
@@ -150,6 +224,8 @@ class UI {
 		std::unique_ptr<PopupStore> popups;
 		std::unique_ptr<MenuBuilder> menubuilder;
 		std::unique_ptr<VideoPlayer> vfx_player;
+		std::unique_ptr<Render> render;
+		std::unique_ptr<ScreenRenderer> screens;
 		unsigned int frame_rd;
 		unsigned int ui_rd;
 		ImVec4 ui_colour;
@@ -165,16 +241,9 @@ class UI {
 		// Private Members
 		Context &_ctx;
 		ImGuiIO *_io;
-		std::unique_ptr<Render> _render;
 		std::vector<std::shared_ptr<Frame>> _frames;
 		std::vector<std::shared_ptr<Menu>> _menus;
 		std::vector<unsigned int> _attract_data;
-
-		std::map<Enums::Screen, std::function<void()>> _draw_modules;
-		std::map<Enums::Screen, std::function<void(int)>>
-			_draw_modules_with_int;
-		std::map<Enums::Screen, std::function<void(const std::string &)>>
-			_draw_modules_with_string;
 		std::string _imgui_ini_path;
 		float _adj_grid_w;
 		float _adj_grid_h;
@@ -187,154 +256,54 @@ class UI {
 		static constexpr unsigned int _base_height{600};
 		std::optional<TransientMessage> _transient_message;
 
-		// Private Methods
-		auto _display_atlas() -> void;
-		auto _display_bestiary() -> void;
-		auto _display_compendium() -> void;
-		auto _display_main_menu() -> void;
-		auto _display_museum() -> void;
-		auto _display_options() -> void;
-		auto _display_spellbook() -> void;
-		auto _display_splash() -> void;
+	
+		
 
-		auto _display_add() -> void;
-		auto _display_buy() -> void;
-		auto _display_castle() -> void;
-		auto _display_edit() -> void;
-		auto _display_edge_of_town() -> void;
-		auto _display_identify() -> void;
-		auto _display_inn() -> void;
-		auto _display_legate() -> void;
-		auto _display_pay() -> void;
-		auto _display_remove() -> void;
-		auto _display_reclass() -> void;
-		auto _display_rename() -> void;
-		auto _display_restart() -> void;
-		auto _display_sell() -> void;
-		auto _display_shop() -> void;
-		auto _display_stay() -> void;
-		auto _display_store() -> void;
-		auto _display_tavern() -> void;
-		auto _display_temple() -> void;
-		auto _display_training_grounds() -> void;
-		auto _display_uncurse() -> void;
+		
+		
+	
+		
+		
 
-		auto _display_automap() -> void;
-		auto _display_graveyard() -> void;
-		auto _display_victory() -> void;
-
-		auto _display_choose(const int mode) -> void;
-		auto _display_create_name(const int stage) -> void;
-		auto _display_create_race(const int stage) -> void;
-		auto _display_create_alignment(const int stage) -> void;
-		auto _display_create_class(const int stage) -> void;
-		auto _display_create_confirm(const int stage) -> void;
-		auto _display_delete() -> void;
-		auto _display_heal(const int stage) -> void;
-		auto _display_rite(const int stage) -> void;
-		auto _display_inspect(const int mode) -> void;
-		auto _display_level_up(const int mode) -> void;
-		auto _display_no_level_up(const int mode) -> void;
-		auto _display_recovery(const int mode) -> void;
-		auto _display_reorder(const int mode) -> void;
-		auto _display_retrain() -> void;
-		auto _display_roster() -> void;
-		auto _display_select() -> void;
-
-		auto _display_chest(const int stage) -> void;
-
-		auto _display_license(const std::string &string) -> void;
-
-		auto _draw_attract_mode() -> void;
-		auto _draw_tiled_bg(Component *component) -> void;
-		auto _draw_bg_image(Component *component) -> void;
-		auto _draw_bg_video() -> void;
-
-		auto _draw_buffbar() -> void;
-		auto _draw_buy() -> void;
-		auto _draw_level_name() -> void;
-		auto _draw_button(Component *component,
-						  std::optional<bool *> is_clicked = std::nullopt)
-			-> void;
-		auto _draw_button_click(Component *component, bool &is_clicked,
-								const bool reverse = false) -> void;
-		auto _draw_character_summary(Component *component,
-									 const Character *character) -> void;
-		auto _draw_character_detailed(Component *component,
-									  const Character *character) -> void;
-		auto _draw_character_detailed_again(Component *component,
-											const Character *character) -> void;
-		auto _draw_character_mage_spells(Component *component,
-										 const Character *character) -> void;
-		auto _draw_character_priest_spells(Component *component,
-										   const Character *character) -> void;
-		auto _draw_choose(const int mode) -> void;
-		auto _draw_create_name(const int mode) -> void;
-		auto _draw_create_race(const int mode) -> void;
-		auto _draw_create_alignment(const int mode) -> void;
-		auto _draw_create_class(const int mode) -> void;
-		auto _draw_create_confirm(const int mode) -> void;
+		
+		
 		auto _draw_compass() -> void;
-		auto _draw_components(std::string_view screen, const int mode = -1)
-			-> void;
-		auto _draw_current_character(const int mode) -> void;
-		auto _draw_cursor() -> void;
-		auto _draw_chest(const Enums::Chests::State state) -> void;
-		auto _draw_fg_image(Component *component) -> void;
-		auto _draw_fg_image_with_idx(std::string_view source, const int idx,
-									 const ImVec2 p_min, const ImVec2 p_sz,
-									 const ImVec4 tint = ImVec4{
-										 1.0f, 1.0f, 1.0f, 1.0f}) -> void;
-		auto _draw_fg_image_with_idx(std::string_view layer,
-									 std::string_view source, const int idx,
-									 const ImVec2 p_min, const ImVec2 p_sz,
-									 const ImVec4 tint = ImVec4{
-										 1.0f, 1.0f, 1.0f, 1.0f}) -> void;
-		auto _draw_frame(Component *component) -> void;
+		
+
+	
+	
 		auto _draw_heal(const int stage) -> void;
 		auto _draw_rite(const int stage) -> void;
 		auto _draw_icons() -> void;
-		auto _draw_reclass() -> void;
+		
 		auto _draw_identify() -> void;
 		auto _draw_input(Component *component, std::string *input) -> void;
-		auto _draw_item_info() -> void;
+		
 		auto _draw_license(Component *component, const std::string &string)
 			-> void;
 		auto _draw_loading_progress() -> void;
-		auto _draw_current_level_map() -> void;
-		auto _draw_level_no_player() -> void;
-		auto _draw_party_wipe() -> void;
-		auto _draw_level_up(const int mode) -> void;
+		
+	
 		auto _draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz)
 			-> void;
-		auto _draw_menu(Component *component) -> void;
+		
 		auto _draw_monster_info() -> void;
 		auto _draw_no_level_up(const int mode) -> void;
-		auto _draw_paragraph(Component *component) -> void;
-		auto _draw_party_panel() -> void;
+		
+		
 		auto _draw_pay_info() -> void;
-		auto _draw_options() -> void;
+	
 		auto _draw_recovery(const int mode) -> void;
-		auto _draw_rename() -> void;
+	
 		auto _draw_save() -> void;
-		auto _draw_sell() -> void;
-		auto _draw_stay() -> void;
-		auto _draw_store() -> void;
-		auto _draw_automap_legend(Component *component) -> void;
-		auto _draw_spell_info() -> void;
-		auto _draw_stepper(Component *component, const std::string &name,
-						   int *value) -> void;
-		auto _draw_text(Component *component) -> void;
-		auto _draw_text(Component *component, const std::string &string)
-			-> void;
-		auto _draw_uncurse() -> void;
+	
+		
+		
+
+		
 		auto _get_status_color(Character *character) const -> ImVec4;
 		auto _setup_windows() -> void;
-
-		auto _draw_debug() -> void;
-		auto _draw_window_menu() -> void;
-		auto _draw_ui_status() -> void;
-
+		
 		auto _to_imgui(GLuint tex) -> ImTextureID;
 
 		auto _mage_spell_index(Enums::Magic::SpellID id) -> std::size_t;
@@ -351,6 +320,6 @@ class UI {
 									 const std::size_t index,
 									 const int data_item) -> void;
 
-		auto _draw_transient() -> void;
+		
 };
 };
