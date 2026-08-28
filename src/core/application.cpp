@@ -105,7 +105,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	ctx.menubuilder = _ui->menubuilder.get();
 	// ctx.components = _ui->components.get(); // set in ui constructor
 	ctx.images = _ui->images.get();
-	ctx.fonts = _ui->fontstore.get();
+	ctx.fonts = _ui->fonts.get();
 
 	_game = std::make_unique<Game>(ctx);
 	ctx.game = _game.get();

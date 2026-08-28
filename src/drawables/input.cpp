@@ -100,10 +100,9 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 	set_StyleVar(ImGuiStyleVar_WindowRounding, rounding);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
 
-	set_Font(
-		_ctx.ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
-			.value(),
-		_ctx.ui->metrics->font_sz());
+	set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE)
+				 .value(),
+			 _ctx.ui->metrics->font_sz());
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));

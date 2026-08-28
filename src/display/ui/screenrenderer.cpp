@@ -797,7 +797,7 @@ auto Sorcery::ScreenRenderer::_draw_create_confirm(
 	auto cmp_char{_ui.components->get("create_confirm:character_data")};
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-		set_Font(_ui.fontstore->get_current_font(cmp_char.font).value(),
+		set_Font(_ui.fonts->get_current_font(cmp_char.font).value(),
 				 _ui.metrics->font_sz());
 		_ui.draw_character_summary(&cmp_char,
 								   _ctx.controller->get_candidate_character());
@@ -1083,7 +1083,7 @@ auto Sorcery::ScreenRenderer::_draw_license(Component *component,
 				   ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
 			UIStyle::set_text_dim(_ctx);
-			set_Font(_ui.fontstore->get_current_font(component->font).value(),
+			set_Font(_ui.fonts->get_current_font(component->font).value(),
 					 _ui.metrics->font_sz());
 			with_TextWrapPos(ImGui::GetFontSize() * component->w) {
 				ImGui::TextUnformatted(string.c_str());

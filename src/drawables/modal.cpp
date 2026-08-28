@@ -112,7 +112,7 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 	set_StyleVar(ImGuiStyleVar_WindowRounding, rounding);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
-	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
+	set_Font(_ctx.ui->fonts->get_current_font(_component.font).value(),
 			 _ctx.ui->metrics->font_sz());
 
 	if (show)

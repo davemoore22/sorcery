@@ -114,10 +114,10 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 							rounding);
 
 		if (_title) {
-			set_Font(_ctx.ui->fontstore
-						 ->get_current_font(Enums::Layout::Font::MONOSPACE)
-						 .value(),
-					 _ctx.ui->metrics->font_sz());
+			set_Font(
+				_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE)
+					.value(),
+				_ctx.ui->metrics->font_sz());
 
 			const auto title_txt{_ctx.get_string(_title.value())};
 			const auto one_cell{_ctx.ui->metrics->grid_delta(1.0f, 1.0f)};

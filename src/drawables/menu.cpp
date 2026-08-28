@@ -84,7 +84,7 @@ auto Sorcery::Menu::draw() -> void {
 
 		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
 		set_Font(
-			_ctx.ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
+			_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE)
 				.value(),
 			_ctx.ui->metrics->font_sz());
 		const auto sz{

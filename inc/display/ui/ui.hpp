@@ -211,7 +211,7 @@ class UI {
 		// Public Members
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
-		std::unique_ptr<FontStore> fontstore;
+		std::unique_ptr<FontStore> fonts;
 		std::unique_ptr<PopupStore> popups;
 		std::unique_ptr<MenuBuilder> menubuilder;
 		std::unique_ptr<VideoPlayer> vfx_player;
