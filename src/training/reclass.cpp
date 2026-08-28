@@ -81,7 +81,7 @@ auto Sorcery::Reclass::start() -> int {
 				return BACK_TO_EDIT;
 		}
 
-		_ctx.ui->display(Enums::Screen::RECLASS, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::RECLASS, _ctx.game);
 
 		_ctx.tick();
 

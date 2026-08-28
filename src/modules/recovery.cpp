@@ -181,7 +181,7 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 				return BACK_TO_STAY;
 		}
 
-		_ctx.ui->display(Enums::Screen::RECOVERY, mode);
+		_ctx.ui->display_screen(Enums::Screen::RECOVERY, mode);
 		_ctx.tick();
 
 		if (_finished || !_ctx.controller->wants(Enums::Screen::RECOVERY))

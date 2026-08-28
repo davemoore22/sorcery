@@ -109,7 +109,7 @@ auto Sorcery::Delete::start() -> int {
 			}
 		}
 
-		_ctx.ui->display(Enums::Screen::DELETE, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::DELETE, _ctx.game);
 
 		_ctx.tick();
 

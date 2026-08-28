@@ -95,7 +95,7 @@ auto Sorcery::Create::start() -> int {
 		using enum Enums::Character::Stage;
 		switch (candidate->create().get_stage()) {
 		case ENTER_NAME:
-			_ctx.ui->display(
+			_ctx.ui->display_screen(
 				Enums::Screen::CREATE_NAME,
 				std::to_underlying(candidate->create().get_stage()));
 
@@ -105,7 +105,7 @@ auto Sorcery::Create::start() -> int {
 			}
 			break;
 		case CHOOSE_RACE:
-			_ctx.ui->display(
+			_ctx.ui->display_screen(
 				Enums::Screen::CREATE_RACE,
 				std::to_underlying(candidate->create().get_stage()));
 			if (candidate->create().get_stage() !=
@@ -114,7 +114,7 @@ auto Sorcery::Create::start() -> int {
 			}
 			break;
 		case CHOOSE_ALIGNMENT:
-			_ctx.ui->display(
+			_ctx.ui->display_screen(
 				Enums::Screen::CREATE_ALIGNMENT,
 				std::to_underlying(candidate->create().get_stage()));
 			if (candidate->create().get_stage() !=
@@ -123,7 +123,7 @@ auto Sorcery::Create::start() -> int {
 			}
 			break;
 		case CHOOSE_CLASS:
-			_ctx.ui->display(
+			_ctx.ui->display_screen(
 				Enums::Screen::CREATE_CLASS,
 				std::to_underlying(candidate->create().get_stage()));
 			if (candidate->create().get_stage() !=
@@ -140,7 +140,7 @@ auto Sorcery::Create::start() -> int {
 				return BACK_TO_TRAINING_GROUNDS;
 			}
 
-			_ctx.ui->display(
+			_ctx.ui->display_screen(
 				Enums::Screen::CREATE_CONFIRM,
 				std::to_underlying(candidate->create().get_stage()));
 

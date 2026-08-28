@@ -90,7 +90,7 @@ auto Sorcery::Roster::start() -> int {
 				return BACK_TO_TRAINING_GROUNDS;
 		}
 
-		_ctx.ui->display(Enums::Screen::ROSTER, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::ROSTER, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::ROSTER) &&

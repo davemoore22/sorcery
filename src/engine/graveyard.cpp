@@ -83,7 +83,7 @@ auto Sorcery::Graveyard::start(void) -> int {
 				return BACK_FROM_GRAVEYARD;
 		}
 
-		_ctx.ui->display(Enums::Screen::GRAVEYARD, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::GRAVEYARD, _ctx.game);
 		_ctx.tick();
 	}
 

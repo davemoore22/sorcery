@@ -93,7 +93,7 @@ auto Sorcery::Edit::start() -> int {
 				return BACK_TO_TRAINING_GROUNDS;
 		}
 
-		_ctx.ui->display(Enums::Screen::EDIT, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::EDIT, _ctx.game);
 
 		_ctx.tick();
 

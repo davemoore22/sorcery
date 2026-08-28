@@ -91,7 +91,7 @@ auto Sorcery::Rite::start() -> int {
 			}
 		}
 		const auto stage{_stage.load()};
-		_ctx.ui->display(Enums::Screen::RITE, stage);
+		_ctx.ui->display_screen(Enums::Screen::RITE, stage);
 
 		_ctx.tick();
 
@@ -140,7 +140,7 @@ auto Sorcery::Rite::start() -> int {
 
 		const auto stage{_stage_visible.load() ? _stage.load() : 0};
 
-		_ctx.ui->display(Enums::Screen::RITE, stage);
+		_ctx.ui->display_screen(Enums::Screen::RITE, stage);
 
 		_ctx.tick();
 

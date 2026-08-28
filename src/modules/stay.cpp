@@ -87,7 +87,7 @@ auto Sorcery::Stay::start() -> int {
 				return BACK_TO_INN;
 		}
 
-		_ctx.ui->display(Enums::Screen::STAY, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::STAY, _ctx.game);
 		_ctx.tick();
 
 		const auto room{_ctx.controller->get_selected("room_selected")};

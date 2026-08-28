@@ -86,7 +86,7 @@ auto Sorcery::Compendium::start() -> int {
 				return GO_TO_FRONT_END;
 		}
 
-		_ctx.ui->display(Enums::Screen::COMPENDIUM);
+		_ctx.ui->display_screen(Enums::Screen::COMPENDIUM);
 
 		_ctx.tick();
 

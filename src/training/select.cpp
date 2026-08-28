@@ -103,7 +103,7 @@ auto Sorcery::Select::start(const Enums::Selection::Edit mode) -> int {
 				return BACK_TO_EDIT;
 		}
 
-		_ctx.ui->display(screen, _ctx.game);
+		_ctx.ui->display_screen(screen, _ctx.game);
 
 		_ctx.tick();
 

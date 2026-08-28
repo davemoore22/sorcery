@@ -92,7 +92,7 @@ auto Sorcery::Training::start() -> int {
 				return BACK_TO_EDGE_OF_TOWN;
 		}
 
-		_ctx.ui->display(Enums::Screen::TRAINING, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::TRAINING, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::TRAINING) &&

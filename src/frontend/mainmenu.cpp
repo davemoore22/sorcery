@@ -100,7 +100,7 @@ auto Sorcery::MainMenu::start() -> int {
 
 		if (!done) {
 
-			_ctx.ui->display(Enums::Screen::MAINMENU);
+			_ctx.ui->display_screen(Enums::Screen::MAINMENU);
 
 			// Check for the results of a Popup Dialog
 			if (_ctx.controller->has_flag("want_exit_game"))

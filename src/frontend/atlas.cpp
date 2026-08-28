@@ -79,7 +79,7 @@ auto Sorcery::Atlas::start() -> int {
 		else if (!_ctx.controller->wants(Enums::Screen::ATLAS))
 			return GO_TO_COMPENDIUM;
 
-		_ctx.ui->display(Enums::Screen::ATLAS);
+		_ctx.ui->display_screen(Enums::Screen::ATLAS);
 
 		_ctx.tick();
 	}

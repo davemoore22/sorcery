@@ -85,7 +85,7 @@ auto Sorcery::Temple::start() -> int {
 				return BACK_TO_CASTLE;
 		}
 
-		_ctx.ui->display(Enums::Screen::TEMPLE, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::TEMPLE, _ctx.game);
 
 		_ctx.tick();
 

@@ -84,7 +84,7 @@ auto Sorcery::Buy::start() -> int {
 				return BACK_TO_STORE;
 		}
 
-		_ctx.ui->display(Enums::Screen::BUY, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::BUY, _ctx.game);
 		_ctx.tick();
 
 		// Check for Buy Selected (remember +1 to selection)

@@ -80,7 +80,7 @@ auto Sorcery::Add::start() -> int {
 				return BACK_TO_TAVERN;
 		}
 
-		_ctx.ui->display(Enums::Screen::ADD, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::ADD, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::ADD) &&

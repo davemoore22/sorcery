@@ -121,7 +121,7 @@ auto Sorcery::Store::start() -> int {
 			_ctx.controller->go_to(Enums::Screen::STORE);
 		}
 
-		_ctx.ui->display(Enums::Screen::STORE, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::STORE, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::STORE) &&

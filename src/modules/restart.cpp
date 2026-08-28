@@ -80,7 +80,7 @@ auto Sorcery::Restart::start() -> int {
 				return BACK_TO_EDGE_OF_TOWN;
 		}
 
-		_ctx.ui->display(Enums::Screen::RESTART, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::RESTART, _ctx.game);
 		_ctx.tick();
 
 		if (_ctx.controller->has_flag("want_restart_expedition")) {

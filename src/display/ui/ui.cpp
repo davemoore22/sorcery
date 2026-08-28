@@ -282,7 +282,7 @@ auto Sorcery::UI::stop() -> void {
 auto Sorcery::UI::display_refresh(std::any payload) -> void {
 
 	// Refresh what we previously drew
-	display(_ctx.controller->get_last_screen(), payload);
+	display_screen(_ctx.controller->get_last_screen(), payload);
 }
 
 // TODO: Don't move this for now
@@ -374,31 +374,18 @@ auto Sorcery::UI::display_engine() -> void {
 	_ctx.display->present(ImGui::GetDrawData());
 }
 
-auto Sorcery::UI::display(Enums::Screen screen, std::any payload) -> void {
+auto Sorcery::UI::display_screen(const Enums::Screen screen, std::any payload)
+	-> void {
 
-	// Store what we want to draw for next refresh
 	_ctx.controller->set_last_screen(screen);
 
-	// Start a new Rendering Frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
 	_setup_windows();
 
-	if (payload.type() == typeid(std::string)) {
-		if (auto it = screens->draw_modules_with_string.find(screen);
-			it != screens->draw_modules_with_string.end())
-			it->second(std::any_cast<std::string>(payload));
-	} else if (payload.type() == typeid(int)) {
-		if (auto it = screens->draw_modules_with_int.find(screen);
-			it != screens->draw_modules_with_int.end())
-			it->second(std::any_cast<int>(payload));
-	} else {
-		if (auto it = screens->draw_modules.find(screen);
-			it != screens->draw_modules.end())
-			it->second();
-	}
+	screens->display(screen, payload);
 
 	draw_cursor();
 

@@ -84,7 +84,7 @@ auto Sorcery::Pay::start() -> int {
 				return BACK_TO_TEMPLE;
 		}
 
-		_ctx.ui->display(Enums::Screen::PAY, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::PAY, _ctx.game);
 
 		_ctx.tick();
 

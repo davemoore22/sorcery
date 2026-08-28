@@ -116,7 +116,7 @@ auto Sorcery::Inn::start() -> int {
 				return BACK_TO_CASTLE;
 		}
 
-		_ctx.ui->display(Enums::Screen::INN, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::INN, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::INN) &&

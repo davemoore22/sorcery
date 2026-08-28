@@ -81,7 +81,7 @@ auto Sorcery::Rename::start() -> int {
 				return BACK_TO_EDIT;
 		}
 
-		_ctx.ui->display(Enums::Screen::RENAME, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::RENAME, _ctx.game);
 
 		_ctx.tick();
 

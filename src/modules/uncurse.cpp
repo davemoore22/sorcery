@@ -88,7 +88,7 @@ auto Sorcery::Uncurse::start() -> int {
 			// return BACK_TO_INN;
 		}
 
-		_ctx.ui->display(Enums::Screen::UNCURSE, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::UNCURSE, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::UNCURSE) &&

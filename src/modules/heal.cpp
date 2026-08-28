@@ -94,7 +94,7 @@ auto Sorcery::Heal::start() -> int {
 			_ctx.controller->set_flag("heal_finished");
 		}
 
-		_ctx.ui->display(Enums::Screen::HEAL, stage);
+		_ctx.ui->display_screen(Enums::Screen::HEAL, stage);
 
 		_ctx.tick();
 

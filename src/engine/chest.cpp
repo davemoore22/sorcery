@@ -117,8 +117,8 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 			}
 		}
 
-		_ctx.ui->display(Enums::Screen::CHEST,
-						 std::to_underlying(_state.state));
+		_ctx.ui->display_screen(Enums::Screen::CHEST,
+								std::to_underlying(_state.state));
 
 		_ctx.tick();
 

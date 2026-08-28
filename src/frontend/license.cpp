@@ -85,7 +85,7 @@ auto Sorcery::License::start() -> int {
 				return GO_TO_FRONT_END;
 		}
 
-		_ctx.ui->display(Enums::Screen::LICENSE, _license_text);
+		_ctx.ui->display_screen(Enums::Screen::LICENSE, _license_text);
 
 		_ctx.tick();
 

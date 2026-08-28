@@ -64,7 +64,7 @@ auto Sorcery::Splash::start() -> int {
 		while (SDL_PollEvent(&event)) {
 		}
 
-		_ctx.ui->display(Enums::Screen::SPLASH);
+		_ctx.ui->display_screen(Enums::Screen::SPLASH);
 		_ctx.tick();
 
 		done = true;

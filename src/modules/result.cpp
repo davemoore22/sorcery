@@ -75,7 +75,7 @@ auto Sorcery::Result::start(const ResultType type, const int mode) -> int {
 				return BACK_TO_STAY;
 		}
 
-		_ctx.ui->display(screen, mode);
+		_ctx.ui->display_screen(screen, mode);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(screen))

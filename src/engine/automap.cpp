@@ -83,7 +83,7 @@ auto Sorcery::Automap::start(void) -> int {
 				return BACK_FROM_AUTOMAP;
 		}
 
-		_ctx.ui->display(Enums::Screen::AUTOMAP, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::AUTOMAP, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::AUTOMAP))

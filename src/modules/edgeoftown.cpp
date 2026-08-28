@@ -116,7 +116,7 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 				event, _ctx.ui->popups->dialog_leave->show);
 		}
 
-		_ctx.ui->display(Enums::Screen::EDGEOFTOWN, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::EDGEOFTOWN, _ctx.game);
 		_ctx.tick();
 
 		if (_ctx.controller->want_to_leave_game()) {

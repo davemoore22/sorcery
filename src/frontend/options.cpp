@@ -77,7 +77,7 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 				return GO_TO_FRONT_END;
 		}
 
-		_ctx.ui->display(Enums::Screen::OPTIONS);
+		_ctx.ui->display_screen(Enums::Screen::OPTIONS);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::OPTIONS))

@@ -74,7 +74,7 @@ auto Sorcery::Museum::start() -> int {
 				return GO_TO_COMPENDIUM;
 		}
 
-		_ctx.ui->display(Enums::Screen::MUSEUM);
+		_ctx.ui->display_screen(Enums::Screen::MUSEUM);
 
 		_ctx.tick();
 

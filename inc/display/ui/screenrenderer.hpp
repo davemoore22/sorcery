@@ -48,18 +48,17 @@ class ScreenRenderer {
 	public:
 		explicit ScreenRenderer(UI &ui, Context &ctx);
 
-		// auto display(Enums::Screen screen) -> void;
-		// auto display(Enums::Screen screen, int value) -> void;
-		// auto display(Enums::Screen screen, const std::string &value) -> void;
-
-		std::map<Enums::Screen, std::function<void()>> draw_modules;
-		std::map<Enums::Screen, std::function<void(int)>> draw_modules_with_int;
-		std::map<Enums::Screen, std::function<void(const std::string &)>>
-			draw_modules_with_string;
+		auto display(const Enums::Screen screen, std::any payload = {}) -> void;
 
 	private:
 		UI &_ui;
 		Context &_ctx;
+
+		std::map<Enums::Screen, std::function<void()>> _draw_modules;
+		std::map<Enums::Screen, std::function<void(int)>>
+			_draw_modules_with_int;
+		std::map<Enums::Screen, std::function<void(const std::string &)>>
+			_draw_modules_with_string;
 
 		// Private Methods
 		auto _display_atlas() -> void;

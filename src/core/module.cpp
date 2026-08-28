@@ -77,7 +77,7 @@ auto Sorcery::Module::fade_in(const Enums::Screen screen,
 
 	_fade(
 		[this, screen] {
-			_ctx.ui->display(screen);
+			_ctx.ui->display_screen(screen);
 		},
 		1.0f, 0.0f, duration);
 }
@@ -88,7 +88,7 @@ auto Sorcery::Module::fade_out(const Enums::Screen screen,
 
 	_fade(
 		[this, screen] {
-			_ctx.ui->display(screen);
+			_ctx.ui->display_screen(screen);
 		},
 		0.0f, 1.0f, duration);
 }

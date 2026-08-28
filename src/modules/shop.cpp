@@ -29,8 +29,8 @@
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "display/display.hpp"
-#include "display/ui/ui.hpp"
 #include "display/ui/popupstore.hpp"
+#include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/modal.hpp"
@@ -112,7 +112,7 @@ auto Sorcery::Shop::start() -> int {
 				return BACK_TO_CASTLE;
 		}
 
-		_ctx.ui->display(Enums::Screen::SHOP, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::SHOP, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::SHOP) &&

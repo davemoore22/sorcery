@@ -79,7 +79,7 @@ auto Sorcery::SpellBook::start() -> int {
 				return GO_TO_COMPENDIUM;
 		}
 
-		_ctx.ui->display(Enums::Screen::SPELLBOOK);
+		_ctx.ui->display_screen(Enums::Screen::SPELLBOOK);
 		_ctx.tick();
 
 		// If we have selected something, let's action it - either return to the

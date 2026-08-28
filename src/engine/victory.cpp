@@ -83,7 +83,7 @@ auto Sorcery::Victory::start(void) -> int {
 				return BACK_FROM_VICTORY;
 		}
 
-		_ctx.ui->display(Enums::Screen::VICTORY, _ctx.game);
+		_ctx.ui->display_screen(Enums::Screen::VICTORY, _ctx.game);
 		_ctx.tick();
 
 		if (!_ctx.controller->wants(Enums::Screen::VICTORY))

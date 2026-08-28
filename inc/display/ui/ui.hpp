@@ -94,7 +94,8 @@ class UI {
 		auto stop() -> void;
 
 		// Main Dispatch Methods
-		auto display(Enums::Screen screen, std::any param = nullptr) -> void;
+		auto display_screen(Enums::Screen screen, std::any param = nullptr)
+			-> void;
 		auto display_engine() -> void;
 		auto display_refresh(std::any payload = nullptr) -> void;
 
