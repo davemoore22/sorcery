@@ -48,19 +48,18 @@ class ScreenRenderer {
 	public:
 		explicit ScreenRenderer(UI &ui, Context &ctx);
 
-		auto display(Enums::Screen screen) -> void;
-		auto display(Enums::Screen screen, int value) -> void;
-		auto display(Enums::Screen screen, const std::string &value) -> void;
+		// auto display(Enums::Screen screen) -> void;
+		// auto display(Enums::Screen screen, int value) -> void;
+		// auto display(Enums::Screen screen, const std::string &value) -> void;
+
+		std::map<Enums::Screen, std::function<void()>> draw_modules;
+		std::map<Enums::Screen, std::function<void(int)>> draw_modules_with_int;
+		std::map<Enums::Screen, std::function<void(const std::string &)>>
+			draw_modules_with_string;
 
 	private:
 		UI &_ui;
 		Context &_ctx;
-
-		std::map<Enums::Screen, std::function<void()>> _draw_modules;
-		std::map<Enums::Screen, std::function<void(int)>>
-			_draw_modules_with_int;
-		std::map<Enums::Screen, std::function<void(const std::string &)>>
-			_draw_modules_with_string;
 
 		// Private Methods
 		auto _display_atlas() -> void;
@@ -124,11 +123,16 @@ class ScreenRenderer {
 		auto _draw_create_name(const int mode) -> void;
 		auto _draw_create_race(const int mode) -> void;
 		auto _draw_choose(const int mode) -> void;
+		auto _draw_heal(const int stage) -> void;
 		auto _draw_identify() -> void;
 		auto _draw_level_up(const int mode) -> void;
-		auto _draw_options() -> void;
+		auto _draw_license(Component *component, const std::string &string)
+			-> void;
+		auto _draw_no_level_up(const int mode) -> void;
+		auto _draw_recovery(const int mode) -> void;
 		auto _draw_reclass() -> void;
 		auto _draw_rename() -> void;
+		auto _draw_rite(const int stage) -> void;
 		auto _draw_sell() -> void;
 		auto _draw_stay() -> void;
 		auto _draw_store() -> void;

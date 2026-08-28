@@ -41,6 +41,7 @@
 #include "display/animation.hpp"
 #include "display/display.hpp"
 #include "display/render.hpp"
+#include "display/ui/popupstore.hpp"
 #include "display/ui/screenrenderer.hpp"
 #include "display/ui/ui.hpp"
 #include "drawables/dialog.hpp"
@@ -74,167 +75,167 @@
 #include "types/state.hpp"
 #include "types/world/tile.hpp"
 
-auto Sorcery::ScreenRenderer::ScreenRenderer(UI &ui, Context &ctx)
+Sorcery::ScreenRenderer::ScreenRenderer(UI &ui, Context &ctx)
 	: _ui{ui},
 	  _ctx{ctx} {
 
 	// Initialise function tables for display methods
-	_draw_modules[Enums::Screen::ATLAS] = [this] {
+	draw_modules[Enums::Screen::ATLAS] = [this] {
 		_display_atlas();
 	};
-	_draw_modules[Enums::Screen::BESTIARY] = [this] {
+	draw_modules[Enums::Screen::BESTIARY] = [this] {
 		_display_bestiary();
 	};
-	_draw_modules[Enums::Screen::COMPENDIUM] = [this] {
+	draw_modules[Enums::Screen::COMPENDIUM] = [this] {
 		_display_compendium();
 	};
-	_draw_modules[Enums::Screen::MAINMENU] = [this] {
+	draw_modules[Enums::Screen::MAINMENU] = [this] {
 		_display_main_menu();
 	};
-	_draw_modules[Enums::Screen::MUSEUM] = [this] {
+	draw_modules[Enums::Screen::MUSEUM] = [this] {
 		_display_museum();
 	};
-	_draw_modules[Enums::Screen::OPTIONS] = [this] {
+	draw_modules[Enums::Screen::OPTIONS] = [this] {
 		_display_options();
 	};
-	_draw_modules[Enums::Screen::SPELLBOOK] = [this] {
+	draw_modules[Enums::Screen::SPELLBOOK] = [this] {
 		_display_spellbook();
 	};
-	_draw_modules[Enums::Screen::SPLASH] = [this] {
+	draw_modules[Enums::Screen::SPLASH] = [this] {
 		_display_splash();
 	};
 
-	_draw_modules[Enums::Screen::ADD] = [this]() {
+	draw_modules[Enums::Screen::ADD] = [this]() {
 		_display_add();
 	};
-	_draw_modules[Enums::Screen::BUY] = [this]() {
+	draw_modules[Enums::Screen::BUY] = [this]() {
 		_display_buy();
 	};
-	_draw_modules[Enums::Screen::CASTLE] = [this]() {
+	draw_modules[Enums::Screen::CASTLE] = [this]() {
 		_display_castle();
 	};
-	_draw_modules[Enums::Screen::EDGEOFTOWN] = [this]() {
+	draw_modules[Enums::Screen::EDGEOFTOWN] = [this]() {
 		_display_edge_of_town();
 	};
-	_draw_modules[Enums::Screen::EDIT] = [this]() {
+	draw_modules[Enums::Screen::EDIT] = [this]() {
 		_display_edit();
 	};
-	_draw_modules[Enums::Screen::RENAME] = [this]() {
+	draw_modules[Enums::Screen::RENAME] = [this]() {
 		_display_rename();
 	};
-	_draw_modules[Enums::Screen::RECLASS] = [this]() {
+	draw_modules[Enums::Screen::RECLASS] = [this]() {
 		_display_reclass();
 	};
-	_draw_modules[Enums::Screen::AUTOMAP] = [this]() {
+	draw_modules[Enums::Screen::AUTOMAP] = [this]() {
 		_display_automap();
 	};
-	_draw_modules[Enums::Screen::DELETE] = [this]() {
+	draw_modules[Enums::Screen::DELETE] = [this]() {
 		_display_delete();
 	};
-	_draw_modules[Enums::Screen::GRAVEYARD] = [this]() {
+	draw_modules[Enums::Screen::GRAVEYARD] = [this]() {
 		_display_graveyard();
 	};
-	_draw_modules[Enums::Screen::VICTORY] = [this]() {
+	draw_modules[Enums::Screen::VICTORY] = [this]() {
 		_display_victory();
 	};
-	_draw_modules[Enums::Screen::IDENTIFY] = [this]() {
+	draw_modules[Enums::Screen::IDENTIFY] = [this]() {
 		_display_identify();
 	};
-	_draw_modules[Enums::Screen::INN] = [this]() {
+	draw_modules[Enums::Screen::INN] = [this]() {
 		_display_inn();
 	};
-	_draw_modules[Enums::Screen::LEGATE] = [this]() {
+	draw_modules[Enums::Screen::LEGATE] = [this]() {
 		_display_legate();
 	};
-	_draw_modules[Enums::Screen::PAY] = [this]() {
+	draw_modules[Enums::Screen::PAY] = [this]() {
 		_display_pay();
 	};
-	_draw_modules[Enums::Screen::REMOVE] = [this]() {
+	draw_modules[Enums::Screen::REMOVE] = [this]() {
 		_display_remove();
 	};
-	_draw_modules[Enums::Screen::RESTART] = [this]() {
+	draw_modules[Enums::Screen::RESTART] = [this]() {
 		_display_restart();
 	};
-	_draw_modules[Enums::Screen::RETRAIN] = [this]() {
+	draw_modules[Enums::Screen::RETRAIN] = [this]() {
 		_display_retrain();
 	};
-	_draw_modules[Enums::Screen::ROSTER] = [this]() {
+	draw_modules[Enums::Screen::ROSTER] = [this]() {
 		_display_roster();
 	};
-	_draw_modules[Enums::Screen::SELECT] = [this]() {
+	draw_modules[Enums::Screen::SELECT] = [this]() {
 		_display_select();
 	};
-	_draw_modules[Enums::Screen::SELL] = [this]() {
+	draw_modules[Enums::Screen::SELL] = [this]() {
 		_display_sell();
 	};
-	_draw_modules[Enums::Screen::SHOP] = [this]() {
+	draw_modules[Enums::Screen::SHOP] = [this]() {
 		_display_shop();
 	};
-	_draw_modules[Enums::Screen::STAY] = [this]() {
+	draw_modules[Enums::Screen::STAY] = [this]() {
 		_display_stay();
 	};
-	_draw_modules[Enums::Screen::STORE] = [this]() {
+	draw_modules[Enums::Screen::STORE] = [this]() {
 		_display_store();
 	};
-	_draw_modules[Enums::Screen::TAVERN] = [this]() {
+	draw_modules[Enums::Screen::TAVERN] = [this]() {
 		_display_tavern();
 	};
-	_draw_modules[Enums::Screen::TEMPLE] = [this]() {
+	draw_modules[Enums::Screen::TEMPLE] = [this]() {
 		_display_temple();
 	};
-	_draw_modules[Enums::Screen::TRAINING] = [this]() {
+	draw_modules[Enums::Screen::TRAINING] = [this]() {
 		_display_training_grounds();
 	};
-	_draw_modules[Enums::Screen::UNCURSE] = [this]() {
+	draw_modules[Enums::Screen::UNCURSE] = [this]() {
 		_display_uncurse();
 	};
 
-	_draw_modules_with_int[Enums::Screen::CREATE_NAME] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::CREATE_NAME] = [this](int n) {
 		_display_create_name(n);
 	};
 
-	_draw_modules_with_int[Enums::Screen::CREATE_RACE] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::CREATE_RACE] = [this](int n) {
 		_display_create_race(n);
 	};
 
-	_draw_modules_with_int[Enums::Screen::CREATE_ALIGNMENT] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::CREATE_ALIGNMENT] = [this](int n) {
 		_display_create_alignment(n);
 	};
 
-	_draw_modules_with_int[Enums::Screen::CREATE_CONFIRM] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::CREATE_CONFIRM] = [this](int n) {
 		_display_create_confirm(n);
 	};
 
-	_draw_modules_with_int[Enums::Screen::CREATE_CLASS] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::CREATE_CLASS] = [this](int n) {
 		_display_create_class(n);
 	};
-	_draw_modules_with_int[Enums::Screen::CHEST] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::CHEST] = [this](int n) {
 		_display_chest(n);
 	};
 
-	_draw_modules_with_int[Enums::Screen::HEAL] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::HEAL] = [this](int n) {
 		_display_heal(n);
 	};
-	_draw_modules_with_int[Enums::Screen::RITE] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::RITE] = [this](int n) {
 		_display_rite(n);
 	};
-	_draw_modules_with_int[Enums::Screen::INSPECT] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::INSPECT] = [this](int n) {
 		_display_inspect(n);
 	};
-	_draw_modules_with_int[Enums::Screen::LEVELUP] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::LEVELUP] = [this](int n) {
 		_display_level_up(n);
 	};
-	_draw_modules_with_int[Enums::Screen::NOLEVELUP] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::NOLEVELUP] = [this](int n) {
 		_display_no_level_up(n);
 	};
-	_draw_modules_with_int[Enums::Screen::RECOVERY] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::RECOVERY] = [this](int n) {
 		_display_recovery(n);
 	};
-	_draw_modules_with_int[Enums::Screen::REORDER] = [this](int n) {
+	draw_modules_with_int[Enums::Screen::REORDER] = [this](int n) {
 		_display_reorder(n);
 	};
 
-	_draw_modules_with_string[Enums::Screen::LICENSE] =
+	draw_modules_with_string[Enums::Screen::LICENSE] =
 		[this](const std::string &string) {
 			_display_license(string);
 		};
@@ -306,6 +307,18 @@ auto Sorcery::ScreenRenderer::_display_edit() -> void {
 	_ui.draw_cursor();
 }
 
+auto Sorcery::ScreenRenderer::_display_splash() -> void {
+
+	// Standard Components
+	_ui.draw_components("splash");
+
+	// Cursor (if available)
+	_ui.draw_cursor();
+
+	// Progress Bar
+	_ui.draw_loading_progress();
+}
+
 auto Sorcery::ScreenRenderer::_display_reclass() -> void {
 
 	_ui.draw_components("change_class");
@@ -319,7 +332,8 @@ auto Sorcery::ScreenRenderer::_display_rename() -> void {
 
 	_ui.draw_components("rename");
 	_draw_rename();
-	popups->notice_renamed_ok->display(_ctx.get_flag_ref("want_renamed_ok"));
+	_ui.popups->notice_renamed_ok->display(
+		_ctx.get_flag_ref("want_renamed_ok"));
 	_ui.draw_cursor();
 }
 
@@ -423,8 +437,8 @@ auto Sorcery::ScreenRenderer::_display_victory() -> void {
 auto Sorcery::ScreenRenderer::_display_automap() -> void {
 
 	_ui.draw_components("automap");
-	_ui._draw_current_level_map();
-	auto legend{components->get("automap:automap_legend")};
+	_ui.draw_current_level_map();
+	auto legend{_ui.components->get("automap:automap_legend")};
 	_ui.draw_automap_legend(&legend);
 	_ui.draw_cursor();
 }
@@ -532,14 +546,15 @@ auto Sorcery::ScreenRenderer::_display_chest(const int stage) -> void {
 	_draw_chest(enum_cast<Enums::Chests::State>(stage).value());
 
 	// Transient overlay
-	_draw_transient();
+	_ui.draw_transient();
 
-	if (popups->modal_chest->show)
-		popups->modal_chest->display(_ctx.get_flag_ref("want_chest"));
+	if (_ui.popups->modal_chest->show)
+		_ui.popups->modal_chest->display(_ctx.get_flag_ref("want_chest"));
 	_ui.draw_cursor();
 }
 
 auto Sorcery::ScreenRenderer::_display_recovery(const int mode) -> void {
+
 	_ui.draw_components("recovery");
 	_draw_recovery(mode);
 	_ui.draw_party_panel();
@@ -548,6 +563,7 @@ auto Sorcery::ScreenRenderer::_display_recovery(const int mode) -> void {
 }
 
 auto Sorcery::ScreenRenderer::_display_heal(int stage) -> void {
+
 	_ui.draw_components("heal");
 	_draw_heal(stage);
 	_ui.draw_party_panel();
@@ -556,14 +572,16 @@ auto Sorcery::ScreenRenderer::_display_heal(int stage) -> void {
 }
 
 auto Sorcery::ScreenRenderer::_display_rite(int stage) -> void {
+
 	_ui.draw_components("rite");
-	if (popups->dialog_rite->show)
-		popups->dialog_rite->display(_ctx.get_flag_ref("want_rite_ok"));
+	if (_ui.popups->dialog_rite->show)
+		_ui.popups->dialog_rite->display(_ctx.get_flag_ref("want_rite_ok"));
 	_draw_rite(stage);
 	_ui.draw_cursor();
 }
 
 auto Sorcery::ScreenRenderer::_display_no_level_up(const int mode) -> void {
+
 	_ui.draw_components("nolevelup");
 	_draw_no_level_up(mode);
 	_ui.draw_party_panel();
@@ -583,18 +601,18 @@ auto Sorcery::ScreenRenderer::_display_level_up(const int mode) -> void {
 auto Sorcery::ScreenRenderer::_display_tavern() -> void {
 
 	_ui.draw_components("tavern");
-	popups->notice_divvy->display(_ctx.get_flag_ref("want_divvy_gold"));
-	popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
-	popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
-	popups->modal_use->display(_ctx.get_flag_ref("want_use"));
-	popups->modal_give->display(_ctx.get_flag_ref("want_give"));
-	popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
+	_ui.popups->notice_divvy->display(_ctx.get_flag_ref("want_divvy_gold"));
+	_ui.popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	_ui.popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+	_ui.popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
+	_ui.popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
+	_ui.popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
+	_ui.popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
+	_ui.popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
+	_ui.popups->modal_use->display(_ctx.get_flag_ref("want_use"));
+	_ui.popups->modal_give->display(_ctx.get_flag_ref("want_give"));
+	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	_ui.popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	_ui.draw_party_panel();
 	_ui.draw_debug();
 	_ui.draw_cursor();
@@ -603,7 +621,7 @@ auto Sorcery::ScreenRenderer::_display_tavern() -> void {
 auto Sorcery::ScreenRenderer::_display_pay() -> void {
 
 	_ui.draw_components("pay");
-	_draw_pay_info();
+	_ui.draw_pay_info();
 	_ui.draw_party_panel();
 	_ui.draw_debug();
 	_ui.draw_cursor();
@@ -618,16 +636,19 @@ auto Sorcery::ScreenRenderer::_display_temple() -> void {
 }
 
 auto Sorcery::ScreenRenderer::_display_remove() -> void {
+
 	_ui.draw_components("remove");
 	_ui.draw_cursor();
 }
 
 auto Sorcery::ScreenRenderer::_display_restart() -> void {
+
 	_ui.draw_components("restart");
 	_ui.draw_cursor();
 }
 
 auto Sorcery::ScreenRenderer::_display_add() -> void {
+
 	_ui.draw_components("add");
 	_ui.draw_cursor();
 }
@@ -636,7 +657,7 @@ auto Sorcery::ScreenRenderer::_display_options() -> void {
 
 	_ui.draw_components("options");
 	_ui.draw_bg_video();
-	_draw_options();
+	_ui.draw_options();
 	_ui.draw_cursor();
 }
 
@@ -646,7 +667,7 @@ auto Sorcery::ScreenRenderer::_display_license(const std::string &string)
 	_ui.draw_components("license");
 	_ui.draw_bg_video();
 
-	auto component{components->get("license:license_info")};
+	auto component{_ui.components->get("license:license_info")};
 	_draw_license(&component, string);
 	_ui.draw_cursor();
 }
@@ -836,7 +857,7 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
 	_ui.draw_components("engine_base_ui");
 
 	if (!_ctx.controller->get_monochrome()) {
-		auto bg_c{components->get("engine_base_ui:background_image")};
+		auto bg_c{_ui.components->get("engine_base_ui:background_image")};
 		_ui.draw_tiled_bg(&bg_c);
 	}
 
@@ -858,14 +879,14 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
 	const auto chest_w{cmp.get_float("tile_width") * scale};
 	const auto chest_h{cmp.get_float("tile_height") * scale};
 
-	const auto x{(grid_x(cmp.x) - (chest_w / 2)) + 2};
+	const auto x{(_ui.grid_x(cmp.x) - (chest_w / 2)) + 2};
 
 	const auto adj_y{_ctx.get_flag("interface_ui") &&
 							 _ctx.get_flag("interface_party_panel")
 						 ? cmp.y
 						 : cmp.y + 7};
 
-	const auto y{grid_y(adj_y) - (chest_h / 2)};
+	const auto y{_ui.grid_y(adj_y) - (chest_h / 2)};
 
 	const auto p_min{ImVec2{x, y}};
 	const auto p_max{ImVec2{x + chest_w, y + chest_h}};
@@ -906,7 +927,8 @@ auto Sorcery::ScreenRenderer::_draw_create_confirm(
 	auto cmp_char{_ui.components->get("create_confirm:character_data")};
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-		set_Font(fontstore->get_current_font(cmp_char.font).value(), font_sz());
+		set_Font(_ui.fontstore->get_current_font(cmp_char.font).value(),
+				 _ui.font_sz());
 		_ui.draw_character_summary(&cmp_char,
 								   _ctx.controller->get_candidate_character());
 	}
@@ -946,7 +968,7 @@ auto Sorcery::ScreenRenderer::_draw_create_race([[maybe_unused]] const int mode)
 	auto cmp_summary{_ui.components->get("create_race:summary_text")};
 	auto summary_text{
 		_ctx.controller->get_candidate_character()->summary_text()};
-	draw_text(&cmp_summary, summary_text);
+	_ui.draw_text(&cmp_summary, summary_text);
 }
 
 auto Sorcery::ScreenRenderer::_draw_create_name([[maybe_unused]] const int mode)
@@ -955,7 +977,7 @@ auto Sorcery::ScreenRenderer::_draw_create_name([[maybe_unused]] const int mode)
 	auto cmp_summary{_ui.components->get("create_name:summary_text")};
 	auto summary_text{
 		_ctx.controller->get_candidate_character()->summary_text()};
-	draw_text(&cmp_summary, summary_text);
+	_ui.draw_text(&cmp_summary, summary_text);
 
 	// As next custom component is a text box, focus on that initially
 	if (_ui.first_frame) {
@@ -964,14 +986,14 @@ auto Sorcery::ScreenRenderer::_draw_create_name([[maybe_unused]] const int mode)
 	}
 
 	auto cmp_name{_ui.components->get("create_name:name_input")};
-	_draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
+	_ui.draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
 }
 
 auto Sorcery::ScreenRenderer::_draw_choose(const int mode) -> void {
 
 	if (mode & CHOOSE_MODE_STAY) {
 
-		auto cmp{c_ui.omponents->get("choose:choose_stay")};
+		auto cmp{_ui.components->get("choose:choose_stay")};
 		_ui.draw_text(&cmp);
 		_ui.draw_party_panel();
 	}
@@ -985,9 +1007,9 @@ auto Sorcery::ScreenRenderer::_draw_level_up(const int mode) -> void {
 	if (mode & RECOVERY_BIRTHDAY) {
 
 		const auto birth_text{_ctx.get_string("REST_BIRTHDAY_YOU")};
-		auto cmp{components->get("levelup:levelup_birthday")};
+		auto cmp{_ui.components->get("levelup:levelup_birthday")};
 		_ui.draw_text(&cmp, birth_text);
-		cmp = components->get("levelup:levelup_results");
+		cmp = _ui.components->get("levelup:levelup_results");
 		for (const auto &result : character.level_up_results) {
 			_ui.draw_text(&cmp, result);
 			cmp.y += _ui.grid_delta(0, 1).y;
@@ -1007,195 +1029,199 @@ auto Sorcery::ScreenRenderer::_draw_level_up(const int mode) -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_options() -> void {
-	const auto component{components->get("options:options_info")};
+auto Sorcery::ScreenRenderer::_draw_heal(int stage) -> void {
 
-	std::vector<std::string> summary_opts{"OPT_RECOMMENDED_MODE",
-										  "OPT_STRICT_MODE", "OPT_CHEAT_MODE",
-										  "OPT_AUTO_SAVE", "OPT_DICE_ROLLS"};
-	std::vector<std::string> gameplay_opts{
-		"OPT_MIXED_ALIGNMENT",		 "OPT_LEVEL_STAT_LOSS",
-		"OPT_LEVEL_REROLL_HP",		 "OPT_CLASS_CHANGE_RESET",
-		"OPT_CLASS_CHANGE_AGING",	 "OPT_AMBUSH_HIDE",
-		"OPT_SURPRISE_SPELLCASTING", "OPT_INN_HEALING",
-		"OPT_REROLL_ONES",			 "OPT_LOST_LEGATION",
-		"OPT_CURABLE_DRAINING",		 "OPT_SHARED_INVENTORY",
-		"OPT_PROTECT_TELEPORT"};
+	auto cmp{_ui.components->get("heal:heal_status")};
+	auto text{""s};
 
-	std::vector<std::string> graphics_opts{"OPT_COLOURED_WIREFRAME",
-										   "OPT_FULLSCREEN", "OPT_UI_MUSIC",
-										   "OPT_UI_SOUND"};
+	switch (stage) {
+	case 4:
+		text = _ctx.get_string("TEMPLE_HEAL_1");
+		break;
 
-	const auto save_lbl{_ctx.get_string("DIALOG_SAVE")};
-	const auto cancel_lbl{_ctx.get_string("DIALOG_CANCEL")};
-	set_Font(fontstore->get_current_font(component.font).value(), font_sz());
-	const auto col{get_hl_colour(_ctx.animation->lerp)};
-	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
+	case 3:
+		text = _ctx.get_string("TEMPLE_HEAL_2");
+		break;
+
+	case 2:
+		text = _ctx.get_string("TEMPLE_HEAL_3");
+		break;
+
+	case 1:
+		text = _ctx.get_string("TEMPLE_HEAL_4");
+		break;
+
+	default:
+		break;
+	}
+
+	if (!text.empty())
+		_ui.draw_text(&cmp, text);
+
+	if (_ctx.controller->has_flag("heal_finished") &&
+		_ctx.controller->has_text("heal_results")) {
+
+		auto summary{_ui.components->get("heal:heal_results")};
+		const auto results{_ctx.controller->get_text("heal_results")};
+		_ui.draw_text(&summary, results);
+		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
+
+			auto leave{_ui.components->get("heal:button_heal_return")};
+			_ui.draw_button_click(&leave, _ctx.get_flag_ref("heal_return"),
+								  true);
+		}
+	}
+}
+
+auto Sorcery::ScreenRenderer::_draw_rite(const int stage) -> void {
+
+	auto cmp_summary{_ui.components->get("rite:summary_text")};
+	auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+	auto summary_text{character.summary_text()};
+	_ui.draw_text(&cmp_summary, summary_text);
+
+	if (stage == 0)
+		return;
+
+	auto cmp_progress{_ui.components->get("rite:progress_text")};
+	auto progress_text{_ctx.get_string("RITE_PROGRESS")};
+
+	auto cmp{_ui.components->get("rite:rite_stage")};
+
+	std::string text;
+
+	switch (stage) {
+
+	case 1:
+		text = _ctx.get_string("RITE_STAGE_1");
+		break;
+
+	case 2:
+		text = _ctx.get_string("RITE_STAGE_2");
+		_ui.draw_text(&cmp_progress, progress_text);
+		break;
+
+	case 3:
+		text = _ctx.get_string("RITE_STAGE_3");
+		_ui.draw_text(&cmp_progress, progress_text);
+		break;
+
+	case 4:
+		text = _ctx.get_string("RITE_STAGE_4");
+		_ui.draw_text(&cmp_progress, progress_text);
+		break;
+
+	case 5:
+		text = _ctx.get_string("RITE_STAGE_5");
+		break;
+
+	default:
+		return;
+	}
+
+	_ui.draw_text(&cmp, text);
+}
+
+auto Sorcery::ScreenRenderer::_draw_no_level_up(const int mode) -> void {
+
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
+	const auto birth_text{_ctx.get_string("REST_BIRTHDAY_YOU")};
+	const auto needed{character.get_next_xp() - character.get_cur_xp()};
+	const auto need_text{std::format("{}{}{}", _ctx.get_string("REST_NEED_1_P"),
+									 needed, _ctx.get_string("REST_NEED_1_S"))};
+	const auto make_text{_ctx.get_string("REST_NEED_2")};
+
+	if (mode & RECOVERY_BIRTHDAY) {
+
+		auto cmp{_ui.components->get("nolevelup:nolevelup_birthday")};
+		_ui.draw_text(&cmp, birth_text);
+		cmp = _ui.components->get("nolevelup:nolevelup_need_1");
+		_ui.draw_text(&cmp, need_text);
+		cmp = _ui.components->get("nolevelup:nolevelup_need_2");
+		_ui.draw_text(&cmp, make_text);
+	} else {
+
+		auto cmp{_ui.components->get("nolevelup:nolevelup_birthday")};
+		_ui.draw_text(&cmp, need_text);
+		cmp = _ui.components->get("nolevelup:nolevelup_need_1");
+		_ui.draw_text(&cmp, make_text);
+	}
+
+	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
+		auto leave{_ui.components->get("nolevelup:nolevelup_leave")};
+		_ui.draw_button_click(&leave, _ctx.get_flag_ref("show_nolevelup"),
+							  true);
+	}
+}
+
+auto Sorcery::ScreenRenderer::_draw_recovery(const int mode) -> void {
+
+	const auto character{_ctx.game->characters.at(
+		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
+	if (mode == RECOVERY_MODE_FREE) {
+
+		auto cmp{_ui.components->get("recovery:recovery_napping")};
+		auto text{std::format("{}{}", character.get_name(),
+							  _ctx.get_string("RECOVERY_NAPPING"))};
+		_ui.draw_text(&cmp, text);
+
+	} else {
+
+		auto cmp{_ui.components->get("recovery:recovery_recuperating")};
+		auto text{std::format("{} {}", character.get_name(),
+							  _ctx.get_string("REST_RECUPERATING"))};
+		_ui.draw_text(&cmp, text);
+
+		cmp = _ui.components->get("recovery:recovery_recuperating_hp");
+		text = std::format("{} ({:>5}/{:>5})", _ctx.get_string("REST_HP"),
+						   character.get_current_hp(), character.get_max_hp());
+		_ui.draw_text(&cmp, text);
+
+		cmp = _ui.components->get("recovery:recovery_recuperating_gold");
+		text = std::format("{} {:>7}", _ctx.get_string("REST_GOLD"),
+						   character.get_gold());
+		_ui.draw_text(&cmp, text);
+
+		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
+			auto stop{_ui.components->get("recovery:recovery_stop")};
+			_ui.draw_button_click(&stop, _ctx.get_flag_ref("show_recovery"),
+								  true);
+		}
+	}
+}
+
+auto Sorcery::ScreenRenderer::_draw_license(Component *component,
+											const std::string &string) -> void {
+	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 		// To adjust for Window Resizing etc
 		const auto x{std::invoke([&] {
-			const auto width{grid_sz() * component.get_float("grid_width")};
+			const auto width{_ui.grid_sz() *
+							 component->get_float("grid_width")};
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		})};
 
-		const auto pos{ImVec2{x, grid_y(component.y)}};
-		ImGui::SetCursorPos(pos);
+		const auto pos{ImVec2{x, _ui.grid_y(component->y)}};
+		ImGui::SetNextWindowPos(pos);
+		with_Child(
+			"license_child",
+			ImVec2(_ui.grid_sz() * component->w, _ui.grid_sz() * component->h),
+			ImGuiChildFlags_NavFlattened,
+			ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
-		// Now draw tab bar
-		UIStyle::set_faded(_ctx);
-		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
-		const auto tabs_width{component.w * grid_sz()};
-		const auto tabs_height{component.h * grid_sz()};
-		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
-		with_Child("options_tab_bar_child", ImVec2(tabs_width, tabs_height)) {
-			UIStyle::set_tab_black(_ctx);
-
-			auto summary_idx{0u};
-			auto gameplay_idx(5u);
-			auto graphics_idx(18u);
-
-			set_StyleColor(ImGuiCol_Button,
-						   ImVec4{0.16f, 0.66f, 0.45f, _ctx.animation->fade});
-			set_StyleColor(ImGuiCol_ButtonHovered,
-						   ImVec4{0.0f, 1.0f, 0.57f, _ctx.animation->fade});
-			set_StyleColor(ImGuiCol_Text,
-						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
-
-			// now draw tabs
-			with_TabBar("options_tab_bar", tb_flags) {
-				auto tabname{"Options"};
-				with_TabItem(tabname) {
-					for (const auto &opt : summary_opts) {
-						if (opt.length() > 0) {
-							const auto text{
-								std::format(" {}", _ctx.get_string(opt))};
-							if (ImGui::Toggle(text.c_str(),
-											  &_ctx.get_config(summary_idx))) {
-
-								// Do additonal handling such as switching
-								// on strict mode etc inside the controller
-								_ctx.controller->handle_toggle(
-									component.name, tabname, summary_idx);
-							};
-						}
-						++summary_idx;
-					}
-				}
-				tabname = "Gameplay";
-				with_TabItem(tabname) {
-					for (const auto &opt : gameplay_opts) {
-						if (opt.length() > 0) {
-							const auto text{
-								std::format(" {}", _ctx.get_string(opt))};
-							if (ImGui::Toggle(text.c_str(),
-											  &_ctx.get_config(gameplay_idx))) {
-
-								// Do additonal handling such as switching
-								// on strict mode etc
-								_ctx.controller->handle_toggle(
-									component.name, tabname, gameplay_idx);
-							};
-						}
-						++gameplay_idx;
-					}
-				}
-				tabname = "UI";
-				with_TabItem(tabname) {
-
-					for (const auto &opt : graphics_opts) {
-						if (opt.length() > 0) {
-							const auto text{
-								std::format(" {}", _ctx.get_string(opt))};
-							if (ImGui::Toggle(text.c_str(),
-											  &_ctx.get_config(graphics_idx))) {
-
-								// Do additonal handling such as switching
-								// on strict mode etc
-								_ctx.controller->handle_toggle(
-									component.name, tabname, graphics_idx);
-							};
-						}
-						++graphics_idx;
-					}
-
-					// Font Selection dropdown
-					ImGui::Separator();
-					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + grid_sz());
-					const auto item_height{
-						ImGui::GetTextLineHeightWithSpacing()};
-					const auto max_visible_items{10};
-					ImGui::SetNextWindowSize(
-						ImVec2(0, item_height * max_visible_items));
-					with_Combo("##font_combobox", "Chooose Font...") {
-
-						auto fonts{fontstore->get_all_monospace_fonts()};
-						auto font_idx{0u};
-						for (const auto &font : fonts) {
-							const bool is_selected{
-								font.name ==
-								fontstore->get_current_monospace_font_name()};
-							set_Font(font.font, font_sz());
-							auto selectable_name{
-								std::format("{}##{}", font.name, font_idx)};
-							if (ImGui::Selectable(selectable_name.c_str(),
-												  is_selected)) {
-								fontstore->set_current_font(
-									Enums::Layout::Font::MONOSPACE, font.name);
-							}
-							++font_idx;
-						}
-					}
-
-					ImGui::NewLine();
-
-					// Color Pickers
-					ImGuiColorEditFlags flags{ImGuiColorEditFlags_NoAlpha |
-											  ImGuiColorEditFlags_NoInputs |
-											  ImGuiColorEditFlags_NoTooltip |
-											  ImGuiColorEditFlags_NoOptions};
-					auto frame_name{std::format("{}##1", "UI Colour")};
-					// ImGui::SetCursorPosY(ImGui::GetCursorPosY() +
-					// grid_sz);
-					ImGui::SetNextItemWidth(28.f);
-					ImGui::ColorEdit3(frame_name.c_str(), (float *)&ui_colour,
-									  flags);
-				};
-			}
-			set_Font(fontstore->get_current_font(component.font).value());
-
-			// Save and Cancel Buttons
-			const auto centre{(tabs_width / 2)};
-			const auto button_y{std::stoi(component.get("button_y").value())};
-			ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
-
-			UIStyle::set_faded(_ctx);
-			set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{col});
-			set_StyleColor(ImGuiCol_ButtonActive, (ImVec4)col);
-
-			ImGui::SetCursorPos(ImVec2{centre - (btn_size.x + grid_sz()),
-									   button_y * grid_sz()});
-			if (ImGui::Button(save_lbl.c_str(), btn_size)) {
-				_ctx.system->config->save();
-
-				if (_ctx.get_flag("in_engine"))
-					_ctx.controller->go_to(Enums::Screen::ENGINE);
-				else
-					_ctx.controller->go_to(Enums::Screen::MAINMENU);
-
-				//_ctx.controller->unset_flag("show_options");
-			}
-			ImGui::SetCursorPos(
-				ImVec2{centre + grid_sz(), button_y * grid_sz()});
-			if (ImGui::Button(cancel_lbl.c_str(), btn_size)) {
-				_ctx.system->config->load();
-
-				if (_ctx.get_flag("in_engine"))
-					_ctx.controller->go_to(Enums::Screen::ENGINE);
-				else
-					_ctx.controller->go_to(Enums::Screen::MAINMENU);
-				//_ctx.controller->unset_flag("show_options");
+			UIStyle::set_text_dim(_ctx);
+			set_Font(_ui.fontstore->get_current_font(component->font).value(),
+					 _ui.font_sz());
+			with_TextWrapPos(ImGui::GetFontSize() * component->w) {
+				ImGui::TextUnformatted(string.c_str());
 			}
 		}
+
+		// Special Handling for Return Button
+		Component cmp{_ui.components->get("license:license_return")};
+		_ui.draw_button_click(&cmp, _ctx.get_flag_ref("show_license"), true);
 	}
 }

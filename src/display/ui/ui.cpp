@@ -42,6 +42,7 @@
 #include "display/display.hpp"
 #include "display/render.hpp"
 #include "display/ui/popupstore.hpp"
+#include "display/ui/screenrenderer.hpp"
 #include "display/ui/ui.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/frame.hpp"
@@ -73,7 +74,6 @@
 #include "types/meta.hpp"
 #include "types/state.hpp"
 #include "types/world/tile.hpp"
-#include "ui/ui/screenrenderer.hpp"
 
 Sorcery::UI::UI(Context &ctx)
 	: _ctx{ctx} {
@@ -343,13 +343,13 @@ auto Sorcery::UI::display_engine() -> void {
 	if (popups->notice_pool_gold->show)
 		popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
-		_draw_party_panel();
+		draw_party_panel();
 	if (_ctx.get_flag("interface_ui")) {
-		_draw_compass();
-		_draw_buffbar();
-		_draw_level_name();
-		_draw_icons();
-		_draw_save();
+		draw_compass();
+		draw_buffbar();
+		draw_level_name();
+		draw_icons();
+		draw_save();
 	}
 
 	// Dungeon View
@@ -387,16 +387,16 @@ auto Sorcery::UI::display(Enums::Screen screen, std::any payload) -> void {
 	_setup_windows();
 
 	if (payload.type() == typeid(std::string)) {
-		if (auto it = screens.draw_modules_with_string.find(screen);
-			it != screens.draw_modules_with_string.end())
+		if (auto it = screens->draw_modules_with_string.find(screen);
+			it != screens->draw_modules_with_string.end())
 			it->second(std::any_cast<std::string>(payload));
 	} else if (payload.type() == typeid(int)) {
-		if (auto it = screens.draw_modules_with_int.find(screen);
-			it != screens.draw_modules_with_int.end())
+		if (auto it = screens->draw_modules_with_int.find(screen);
+			it != screens->draw_modules_with_int.end())
 			it->second(std::any_cast<int>(payload));
 	} else {
-		if (auto it = screens.draw_modules.find(screen);
-			it != screens.draw_modules.end())
+		if (auto it = screens->draw_modules.find(screen);
+			it != screens->draw_modules.end())
 			it->second();
 	}
 
@@ -753,7 +753,7 @@ auto Sorcery::UI::draw_bg_image(Component *component) -> void {
 auto Sorcery::UI::draw_cursor(const bool value) -> void {
 
 	_ctx.controller->set_busy(value);
-	_draw_cursor();
+	draw_cursor();
 }
 
 auto Sorcery::UI::draw_ui_status() -> void {
@@ -1076,7 +1076,7 @@ auto Sorcery::UI::draw_button(Component *component,
 }
 
 auto Sorcery::UI::draw_character_detailed(Component *component,
-										   const Character *character) -> void {
+										  const Character *character) -> void {
 
 	const auto left_col{component->x + 0};
 	const auto right_col{component->x + 19};
@@ -1603,7 +1603,7 @@ auto Sorcery::UI::draw_character_summary(Component *component,
 	}
 }
 
-auto Sorcery::UI::_draw_pay_info() -> void {
+auto Sorcery::UI::draw_pay_info() -> void {
 
 	// Work out healing cost
 	const auto character{_ctx.game->characters.at(
@@ -1614,166 +1614,6 @@ auto Sorcery::UI::_draw_pay_info() -> void {
 									 _ctx.get_string("PAY_COST_SUFFIX"))};
 	auto cmp{components->get("pay:pay_cost")};
 	draw_text(&cmp, cost_text);
-}
-
-auto Sorcery::UI::_draw_no_level_up(const int mode) -> void {
-
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
-	const auto birth_text{_ctx.get_string("REST_BIRTHDAY_YOU")};
-	const auto needed{character.get_next_xp() - character.get_cur_xp()};
-	const auto need_text{std::format("{}{}{}", _ctx.get_string("REST_NEED_1_P"),
-									 needed, _ctx.get_string("REST_NEED_1_S"))};
-	const auto make_text{_ctx.get_string("REST_NEED_2")};
-
-	if (mode & RECOVERY_BIRTHDAY) {
-
-		auto cmp{components->get("nolevelup:nolevelup_birthday")};
-		draw_text(&cmp, birth_text);
-		cmp = components->get("nolevelup:nolevelup_need_1");
-		draw_text(&cmp, need_text);
-		cmp = components->get("nolevelup:nolevelup_need_2");
-		draw_text(&cmp, make_text);
-	} else {
-
-		auto cmp{components->get("nolevelup:nolevelup_birthday")};
-		draw_text(&cmp, need_text);
-		cmp = components->get("nolevelup:nolevelup_need_1");
-		draw_text(&cmp, make_text);
-	}
-
-	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
-		auto leave{components->get("nolevelup:nolevelup_leave")};
-		draw_button_click(&leave, _ctx.get_flag_ref("show_nolevelup"), true);
-	}
-}
-
-auto Sorcery::UI::_draw_rite(const int stage) -> void {
-
-	auto cmp_summary{components->get("rite:summary_text")};
-	auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
-	auto summary_text{character.summary_text()};
-	draw_text(&cmp_summary, summary_text);
-
-	if (stage == 0)
-		return;
-
-	auto cmp_progress{components->get("rite:progress_text")};
-	auto progress_text{_ctx.get_string("RITE_PROGRESS")};
-
-	auto cmp{components->get("rite:rite_stage")};
-
-	std::string text;
-
-	switch (stage) {
-
-	case 1:
-		text = _ctx.get_string("RITE_STAGE_1");
-		break;
-
-	case 2:
-		text = _ctx.get_string("RITE_STAGE_2");
-		draw_text(&cmp_progress, progress_text);
-		break;
-
-	case 3:
-		text = _ctx.get_string("RITE_STAGE_3");
-		draw_text(&cmp_progress, progress_text);
-		break;
-
-	case 4:
-		text = _ctx.get_string("RITE_STAGE_4");
-		draw_text(&cmp_progress, progress_text);
-		break;
-
-	case 5:
-		text = _ctx.get_string("RITE_STAGE_5");
-		break;
-
-	default:
-		return;
-	}
-
-	draw_text(&cmp, text);
-}
-
-auto Sorcery::UI::_draw_heal(int stage) -> void {
-
-	auto cmp{components->get("heal:heal_status")};
-	auto text{""s};
-
-	switch (stage) {
-	case 4:
-		text = _ctx.get_string("TEMPLE_HEAL_1");
-		break;
-
-	case 3:
-		text = _ctx.get_string("TEMPLE_HEAL_2");
-		break;
-
-	case 2:
-		text = _ctx.get_string("TEMPLE_HEAL_3");
-		break;
-
-	case 1:
-		text = _ctx.get_string("TEMPLE_HEAL_4");
-		break;
-
-	default:
-		break;
-	}
-
-	if (!text.empty())
-		draw_text(&cmp, text);
-
-	if (_ctx.controller->has_flag("heal_finished") &&
-		_ctx.controller->has_text("heal_results")) {
-
-		auto summary{components->get("heal:heal_results")};
-		const auto results{_ctx.controller->get_text("heal_results")};
-		draw_text(&summary, results);
-		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
-
-			auto leave{components->get("heal:button_heal_return")};
-			draw_button_click(&leave, _ctx.get_flag_ref("heal_return"), true);
-		}
-	}
-}
-
-auto Sorcery::UI::_draw_recovery(const int mode) -> void {
-
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
-	if (mode == RECOVERY_MODE_FREE) {
-
-		auto cmp{components->get("recovery:recovery_napping")};
-		auto text{std::format("{}{}", character.get_name(),
-							  _ctx.get_string("RECOVERY_NAPPING"))};
-		draw_text(&cmp, text);
-
-	} else {
-
-		auto cmp{components->get("recovery:recovery_recuperating")};
-		auto text{std::format("{} {}", character.get_name(),
-							  _ctx.get_string("REST_RECUPERATING"))};
-		draw_text(&cmp, text);
-
-		cmp = components->get("recovery:recovery_recuperating_hp");
-		text = std::format("{} ({:>5}/{:>5})", _ctx.get_string("REST_HP"),
-						   character.get_current_hp(), character.get_max_hp());
-		draw_text(&cmp, text);
-
-		cmp = components->get("recovery:recovery_recuperating_gold");
-		text = std::format("{} {:>7}", _ctx.get_string("REST_GOLD"),
-						   character.get_gold());
-		draw_text(&cmp, text);
-
-		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
-			auto stop{components->get("recovery:recovery_stop")};
-			draw_button_click(&stop, _ctx.get_flag_ref("show_recovery"), true);
-		}
-	}
 }
 
 auto Sorcery::UI::draw_current_character([[maybe_unused]] const int mode)
@@ -1824,7 +1664,7 @@ auto Sorcery::UI::draw_current_character([[maybe_unused]] const int mode)
 }
 
 auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
-								int *value) -> void {
+							   int *value) -> void {
 
 	bool disabled{false};
 
@@ -1907,8 +1747,7 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 	}
 }
 
-auto Sorcery::UI::_draw_input(Component *component, std::string *input)
-	-> void {
+auto Sorcery::UI::draw_input(Component *component, std::string *input) -> void {
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
@@ -2195,18 +2034,6 @@ auto Sorcery::UI::draw_components(std::string_view screen,
 	}
 }
 
-auto Sorcery::UI::_display_splash() -> void {
-
-	// Standard Components
-	draw_components("splash");
-
-	// Cursor (if available)
-	_draw_cursor();
-
-	// Progress Bar
-	_draw_loading_progress();
-}
-
 auto Sorcery::UI::draw_item_info() -> void {
 	// Custom Rendering
 	const auto idx{_ctx.get_selected("museum_selected")};
@@ -2327,38 +2154,6 @@ auto Sorcery::UI::draw_item_info() -> void {
 				}
 			}
 		}
-	}
-}
-
-auto Sorcery::UI::_draw_license(Component *component, const std::string &string)
-	-> void {
-	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
-
-		// To adjust for Window Resizing etc
-		const auto x{std::invoke([&] {
-			const auto width{grid_sz() * component->get_float("grid_width")};
-			const auto viewport{ImGui::GetMainViewport()};
-			return (viewport->Size.x - width) / 2;
-		})};
-
-		const auto pos{ImVec2{x, grid_y(component->y)}};
-		ImGui::SetNextWindowPos(pos);
-		with_Child("license_child",
-				   ImVec2(grid_sz() * component->w, grid_sz() * component->h),
-				   ImGuiChildFlags_NavFlattened,
-				   ImGuiWindowFlags_AlwaysVerticalScrollbar) {
-
-			UIStyle::set_text_dim(_ctx);
-			set_Font(fontstore->get_current_font(component->font).value(),
-					 font_sz());
-			with_TextWrapPos(ImGui::GetFontSize() * component->w) {
-				ImGui::TextUnformatted(string.c_str());
-			}
-		}
-
-		// Special Handling for Return Button
-		Component cmp{components->get("license:license_return")};
-		draw_button_click(&cmp, _ctx.get_flag_ref("show_license"), true);
 	}
 }
 
@@ -2821,8 +2616,6 @@ auto Sorcery::UI::draw_options() -> void {
 	}
 }
 
-
-
 auto Sorcery::UI::draw_level_name() -> void {
 
 	auto text_cmp{components->get("engine_base_ui:level_name")};
@@ -2864,7 +2657,7 @@ auto Sorcery::UI::draw_buffbar() -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_icons() -> void {
+auto Sorcery::UI::draw_icons() -> void {
 
 	auto cmp{components->get("engine_base_ui:icons")};
 	auto frame_cmp{components->get("engine_base_ui:icons_frame")};
@@ -2926,7 +2719,7 @@ auto Sorcery::UI::_draw_icons() -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_save() -> void {
+auto Sorcery::UI::draw_save() -> void {
 
 	auto cmp{components->get("engine_base_ui:save")};
 	auto frame_cmp{components->get("engine_base_ui:save_frame")};
@@ -2974,7 +2767,7 @@ auto Sorcery::UI::_draw_save() -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_compass() -> void {
+auto Sorcery::UI::draw_compass() -> void {
 
 	auto cmp{components->get("engine_base_ui:compass")};
 	auto frame_cmp{components->get("engine_base_ui:compass_frame")};
@@ -3215,7 +3008,7 @@ auto Sorcery::UI::draw_spell_info() -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_monster_info() -> void {
+auto Sorcery::UI::draw_monster_info() -> void {
 	// Custom Rendering
 	const auto idx{_ctx.get_selected("bestiary_selected")};
 	const auto mon{_ctx.resources->monsters->get(idx)};
@@ -3381,7 +3174,7 @@ auto Sorcery::UI::draw_current_level_map() -> void {
 			const ImVec2 tile_pos{top_left_pos.x + tile_x,
 								  top_left_pos.y + reverse_y - tile_y};
 
-			_draw_map_tile(tile, tile_pos, tile_sz);
+			draw_map_tile(tile, tile_pos, tile_sz);
 		}
 	}
 
@@ -3453,7 +3246,7 @@ auto Sorcery::UI::draw_level_no_player() -> void {
 			const auto tile_y{(tcy * tile_sz.y) + (tcy * spacing)};
 			const auto tile_pos{ImVec2{top_left_pos.x + tile_x,
 									   top_left_pos.y + reverse_y - tile_y}};
-			_draw_map_tile(tile, tile_pos, tile_sz);
+			draw_map_tile(tile, tile_pos, tile_sz);
 			++tcx;
 		}
 		++tcy;
@@ -3461,7 +3254,7 @@ auto Sorcery::UI::draw_level_no_player() -> void {
 	}
 }
 
-auto Sorcery::UI::_draw_loading_progress() -> void {
+auto Sorcery::UI::draw_loading_progress() -> void {
 
 	auto pb_c{components->get("splash:progress_bar")};
 
@@ -3793,8 +3586,8 @@ auto Sorcery::UI::draw_menu(
 	}
 }
 
-auto Sorcery::UI::_draw_map_tile(const Tile &tile, const ImVec2 pos,
-								 const ImVec2 sz) -> void {
+auto Sorcery::UI::draw_map_tile(const Tile &tile, const ImVec2 pos,
+								const ImVec2 sz) -> void {
 	using enum Enums::DrawMap::Feature;
 	using enum Enums::Tile::Features;
 	using enum Enums::Tile::Properties;
