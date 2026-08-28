@@ -26,6 +26,7 @@
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
 #include "display/ui/uistyle.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
@@ -65,10 +66,10 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 
 	const auto continue_lbl{_ctx.get_string("MESSAGE_CONTINUE")};
 	const auto rounding{_ctx.ui->frame_rd};
-	const auto grid{_ctx.ui->grid_sz()};
+	const auto grid{_ctx.ui->metrics->grid_sz()};
 
 	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
-			 _ctx.ui->font_sz());
+			 _ctx.ui->metrics->font_sz());
 
 	//
 	// Work out the size of the text frame

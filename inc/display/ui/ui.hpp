@@ -62,6 +62,7 @@ class VideoPlayer;
 struct VertexArray;
 class PopupStore;
 class ScreenRenderer;
+class UIMetrics;
 
 enum class TransientWidth {
 	FIT_TEXT,
@@ -108,17 +109,6 @@ class UI {
 		auto set_monochrome(const bool value) -> void;
 		auto set_fullscreen(const bool value) -> void;
 
-		auto update_grid_metrics(const DisplayMetrics &metrics) noexcept
-			-> void;
-		auto grid_pos(const float x, const float y) const noexcept -> ImVec2;
-		auto grid_delta(const float x, const float y) const noexcept -> ImVec2;
-		auto grid_x(const float x) const noexcept -> float;
-		auto grid_y(const float y) const noexcept -> float;
-		auto grid_sz() const noexcept -> unsigned int;
-		auto font_sz() const noexcept -> float;
-		auto base_font_sz() const noexcept -> float;
-		auto columns() const noexcept -> unsigned int;
-		auto rows() const noexcept -> unsigned int;
 		[[nodiscard]] auto transient_blocks_input() const -> bool;
 		[[nodiscard]] auto has_transient() const -> bool;
 
@@ -227,6 +217,7 @@ class UI {
 		std::unique_ptr<VideoPlayer> vfx_player;
 		std::unique_ptr<Render> render;
 		std::unique_ptr<ScreenRenderer> screens;
+		std::unique_ptr<UIMetrics> metrics;
 		unsigned int frame_rd;
 		unsigned int ui_rd;
 		ImVec4 ui_colour;
@@ -246,15 +237,6 @@ class UI {
 		std::vector<std::shared_ptr<Menu>> _menus;
 		std::vector<unsigned int> _attract_data;
 		std::string _imgui_ini_path;
-		float _adj_grid_w;
-		float _adj_grid_h;
-		unsigned int _grid_sz;
-		float _font_sz;
-		float _base_font_sz;
-		static constexpr unsigned int _columns{60};
-		static constexpr unsigned int _rows{35};
-		static constexpr unsigned int _base_width{1024};
-		static constexpr unsigned int _base_height{600};
 		std::optional<TransientMessage> _transient_message;
 
 		auto _get_status_color(Character *character) const -> ImVec4;

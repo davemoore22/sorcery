@@ -28,6 +28,8 @@
 #include "display/animation.hpp"
 #include "display/ui/popupstore.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
+#include "display/ui/uistyle.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/frame.hpp"
 #include "drawables/modal.hpp"
@@ -85,8 +87,8 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 	_id = _component.name + "##input";
 
 	const auto rounding{_ctx.ui->frame_rd};
-	const auto width{(_width + 4) * _ctx.ui->grid_sz()};
-	const auto height{_height * _ctx.ui->grid_sz()};
+	const auto width{(_width + 4) * _ctx.ui->metrics->grid_sz()};
+	const auto height{_height * _ctx.ui->metrics->grid_sz()};
 
 	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
@@ -101,7 +103,7 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 	set_Font(
 		_ctx.ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
 			.value(),
-		_ctx.ui->font_sz());
+		_ctx.ui->metrics->font_sz());
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
@@ -114,9 +116,9 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 								ImGui::GetWindowPos().y + height}};
 
 		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
-		const auto sz{
-			ImVec2{static_cast<float>((_width + 2) * _ctx.ui->font_sz()),
-				   static_cast<float>(_height * _ctx.ui->font_sz())}};
+		const auto sz{ImVec2{
+			static_cast<float>((_width + 2) * _ctx.ui->metrics->font_sz()),
+			static_cast<float>(_height * _ctx.ui->metrics->font_sz())}};
 
 		_ctx.ui->draw_frame(p_min, p_max,
 							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
@@ -125,14 +127,15 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 
 		const auto title{_ctx.get_string(_component.string_key)};
 		auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) *
-					  _ctx.ui->grid_sz()};
+					  _ctx.ui->metrics->grid_sz()};
 		_ctx.ui->draw_text(_ctx.get_string(_component.string_key),
 						   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
-						   ImVec2{centre_x, _ctx.ui->grid_sz()}, _font);
+						   ImVec2{centre_x, _ctx.ui->metrics->grid_sz()},
+						   _font);
 
-		auto input_y{3 * _ctx.ui->grid_sz()};
+		auto input_y{3 * _ctx.ui->metrics->grid_sz()};
 		auto input_x{(((_width + 4) / 2) - (_input_width / 2)) *
-					 _ctx.ui->grid_sz()};
+					 _ctx.ui->metrics->grid_sz()};
 		ImGui::SetCursorPos(ImVec2{input_x, input_y});
 		with_ItemWidth(ImGui::GetFontSize() * _input_width) {
 			ImGui::InputText("##input_text", &_input,
@@ -144,7 +147,7 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 
 		const auto ok_lbl{_ctx.get_string("INPUT_OK")};
 		ImGui::SetCursorPos(
-			ImVec2{centre - (btn_size.x / 2), _ctx.ui->grid_sz() * 5});
+			ImVec2{centre - (btn_size.x / 2), _ctx.ui->metrics->grid_sz() * 5});
 		if (ImGui::Button(ok_lbl.c_str(), btn_size)) {
 			is_yes = true;
 			show = false;

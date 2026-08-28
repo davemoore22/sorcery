@@ -27,6 +27,7 @@
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"
@@ -77,8 +78,8 @@ Sorcery::Frame::Frame(Context &ctx, std::string_view name, const ImVec2 pos,
 auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 	const auto rounding{_ctx.ui->frame_rd};
-	const auto size{_ctx.ui->grid_delta(static_cast<float>(_size.w),
-										static_cast<float>(_size.h))};
+	const auto size{_ctx.ui->metrics->grid_delta(static_cast<float>(_size.w),
+												 static_cast<float>(_size.h))};
 
 	const auto x{std::invoke([&] {
 		if (_pos.x == -1) {
@@ -86,7 +87,7 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 			return (viewport->Size.x - size.x) / 2.0f;
 		}
 
-		return _ctx.ui->grid_pos(_pos.x, 0.0f).x;
+		return _ctx.ui->metrics->grid_pos(_pos.x, 0.0f).x;
 	})};
 
 	const auto y{std::invoke([&] {
@@ -95,7 +96,7 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 			return (viewport->Size.y - size.y) / 2.0f;
 		}
 
-		return _ctx.ui->grid_pos(0.0f, _pos.y).y;
+		return _ctx.ui->metrics->grid_pos(0.0f, _pos.y).y;
 	})};
 
 	const auto layer{foreground ? WINDOW_LAYER_TEXTS : WINDOW_LAYER_FRAMES};
@@ -116,13 +117,13 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 			set_Font(_ctx.ui->fontstore
 						 ->get_current_font(Enums::Layout::Font::MONOSPACE)
 						 .value(),
-					 _ctx.ui->font_sz());
+					 _ctx.ui->metrics->font_sz());
 
 			const auto title_txt{_ctx.get_string(_title.value())};
-			const auto one_cell{_ctx.ui->grid_delta(1.0f, 1.0f)};
-			const auto title_height{_ctx.ui->grid_delta(0.0f, 3.0f).y};
+			const auto one_cell{_ctx.ui->metrics->grid_delta(1.0f, 1.0f)};
+			const auto title_height{_ctx.ui->metrics->grid_delta(0.0f, 3.0f).y};
 			const auto title_sz{Size{ImGui::CalcTextSize(title_txt.c_str()).x +
-										 (_ctx.ui->font_sz() * 2),
+										 (_ctx.ui->metrics->font_sz() * 2),
 									 title_height}};
 			const auto title_pos{ImVec2{
 				x + (size.x / 2.0f) - (static_cast<float>(title_sz.w) / 2.0f),

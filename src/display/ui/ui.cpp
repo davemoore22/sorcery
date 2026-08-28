@@ -44,6 +44,7 @@
 #include "display/ui/popupstore.hpp"
 #include "display/ui/screenrenderer.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
 #include "display/ui/uistyle.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/frame.hpp"
@@ -86,6 +87,7 @@ Sorcery::UI::UI(Context &ctx)
 	_ctx.components = components.get();
 	popups = std::make_unique<PopupStore>(_ctx);
 	screens = std::make_unique<ScreenRenderer>(*this, _ctx);
+	metrics = std::make_unique<UIMetrics>(_ctx);
 
 	// Can't create fontstore just yet as it needs IMGUI initialised
 
@@ -112,7 +114,7 @@ Sorcery::UI::UI(Context &ctx)
 
 	// Updates _font_sz, _adj_grid_w, _adj_grid_h, and _grid_sz
 	_ctx.display->update_display_metrics();
-	update_grid_metrics(_ctx.display->get_display_metrics());
+	metrics->update(_ctx.display->get_display_metrics());
 
 	// Render window
 	render = std::make_unique<Render>(_ctx);
@@ -122,48 +124,6 @@ Sorcery::UI::UI(Context &ctx)
 };
 
 Sorcery::UI::~UI() {}
-
-auto Sorcery::UI::grid_pos(const float x, const float y) const noexcept
-	-> ImVec2 {
-
-	const auto &metrics{_ctx.display->get_display_metrics()};
-
-	return {metrics.offset_x + (x * _adj_grid_w),
-			metrics.offset_y + (y * _adj_grid_h)};
-}
-
-auto Sorcery::UI::grid_delta(const float x, const float y) const noexcept
-	-> ImVec2 {
-
-	return {x * _adj_grid_w, y * _adj_grid_h};
-}
-
-auto Sorcery::UI::grid_x(const float x) const noexcept -> float {
-
-	const auto &metrics{_ctx.display->get_display_metrics()};
-	return metrics.offset_x + (x * _adj_grid_w);
-}
-
-auto Sorcery::UI::grid_y(const float y) const noexcept -> float {
-
-	const auto &metrics{_ctx.display->get_display_metrics()};
-	return metrics.offset_y + (y * _adj_grid_h);
-}
-
-auto Sorcery::UI::grid_sz() const noexcept -> unsigned int {
-
-	return _grid_sz;
-}
-
-auto Sorcery::UI::columns() const noexcept -> unsigned int {
-
-	return _columns;
-}
-
-auto Sorcery::UI::rows() const noexcept -> unsigned int {
-
-	return _rows;
-}
 
 auto Sorcery::UI::set_monochrome(const bool value) -> void {
 
@@ -179,19 +139,6 @@ auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 		SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), 0);
 
 	_ctx.controller->set_fullscreen(value);
-}
-
-auto Sorcery::UI::update_grid_metrics(const DisplayMetrics &metrics) noexcept
-	-> void {
-
-	const auto content_w{static_cast<float>(_base_width) * metrics.scale};
-	const auto content_h{static_cast<float>(_base_height) * metrics.scale};
-
-	_adj_grid_w = content_w / static_cast<float>(_columns);
-	_adj_grid_h = content_h / static_cast<float>(_rows);
-	_grid_sz = std::min(_adj_grid_w, _adj_grid_h);
-	_base_font_sz = _base_width / static_cast<float>(_columns);
-	_font_sz = _base_font_sz * metrics.scale;
 }
 
 auto Sorcery::UI::start() -> void {
@@ -583,20 +530,21 @@ auto Sorcery::UI::draw_fg_image(Component *component) -> void {
 					const auto viewport{ImGui::GetMainViewport()};
 					return (viewport->Size.x - 200) / 2;
 				} else
-					return grid_pos(component->x, component->y).x;
+					return metrics->grid_pos(component->x, component->y).x;
 			})};
 			const auto y{std::invoke([&] {
 				if (component->y == -1) {
 					const auto viewport{ImGui::GetMainViewport()};
 					return (viewport->Size.y - 200) / 2;
 				} else
-					return grid_pos(component->x, component->y).y;
+					return metrics->grid_pos(component->x, component->y).y;
 			})};
 
-			ImGui::SetCursorPos(grid_pos(x, y));
+			ImGui::SetCursorPos(metrics->grid_pos(x, y));
 			const auto scaling{_ctx.display->get_display_metrics().scale};
 			ImGui::GetWindowDrawList()->AddRectFilled(
-				grid_pos(x, y), grid_pos(x + 200 * scaling, y + 200 * scaling),
+				metrics->grid_pos(x, y),
+				metrics->grid_pos(x + 200 * scaling, y + 200 * scaling),
 				ImColor{ImVec4{0.5f, 0.5f, 0.5f, _ctx.animation->fade}});
 		}
 
@@ -623,14 +571,14 @@ auto Sorcery::UI::draw_fg_image(Component *component) -> void {
 				const auto viewport{ImGui::GetMainViewport()};
 				return (viewport->Size.x - resized.w) / 2;
 			} else
-				return grid_pos(component->x, component->y).x;
+				return metrics->grid_pos(component->x, component->y).x;
 		})};
 		const auto y{std::invoke([&] {
 			if (component->y == -1) {
 				const auto viewport{ImGui::GetMainViewport()};
 				return (viewport->Size.y - resized.h) / 2;
 			} else
-				return grid_pos(component->x, component->y).y;
+				return metrics->grid_pos(component->x, component->y).y;
 		})};
 
 		// Draw the Image (with Alpha as well as Fade!)
@@ -847,16 +795,6 @@ auto Sorcery::UI::draw_menu(Component *component) -> void {
 	_menus.emplace_back(std::move(menu));
 }
 
-auto Sorcery::UI::font_sz() const noexcept -> float {
-
-	return _font_sz;
-}
-
-auto Sorcery::UI::base_font_sz() const noexcept -> float {
-
-	return _base_font_sz;
-}
-
 auto Sorcery::UI::draw_debug() -> void {
 
 	if (!_ctx.controller->get_flag("debug_ui"))
@@ -865,7 +803,7 @@ auto Sorcery::UI::draw_debug() -> void {
 	with_Window(WINDOW_LAYER_MENUS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		set_Font(_io->FontDefault, font_sz());
+		set_Font(_io->FontDefault, metrics->font_sz());
 		ImGui::SetCursorPos(ImVec2{8, 8});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		ImGui::TextUnformatted(_ctx.controller->get_flags().c_str());
@@ -892,9 +830,9 @@ auto Sorcery::UI::draw_paragraph(Component *component) -> void {
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(fontstore->get_current_font(component->font).value(),
-				 font_sz());
-		const auto wrap{component->get_float("width") * font_sz()};
-		auto p_min{grid_pos(component->x, component->y)};
+				 metrics->font_sz());
+		const auto wrap{component->get_float("width") * metrics->font_sz()};
+		auto p_min{metrics->grid_pos(component->x, component->y)};
 
 		ImGui::SetCursorPos(p_min);
 		with_TextWrapPos(p_min.x + wrap) {
@@ -913,7 +851,7 @@ auto Sorcery::UI::draw_text_with_layer(const std::string string,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
 					ImGuiWindowFlags_NoBackground) {
 
-		set_Font(fontstore->get_current_font(font).value(), font_sz());
+		set_Font(fontstore->get_current_font(font).value(), metrics->font_sz());
 
 		const auto x{std::invoke([&] {
 			if (pos.x == -1) {
@@ -942,7 +880,7 @@ auto Sorcery::UI::draw_text(const std::string string, const ImColor colour,
 							const ImVec2 pos, const Enums::Layout::Font font)
 	-> void {
 
-	set_Font(fontstore->get_current_font(font).value(), font_sz());
+	set_Font(fontstore->get_current_font(font).value(), metrics->font_sz());
 
 	const auto x{std::invoke([&] {
 		if (pos.x == -1) {
@@ -971,7 +909,8 @@ auto Sorcery::UI::draw_button_click(Component *component, bool &flag,
 
 	// Need to push font first before calculating size else it will
 	// assume monospace font size!
-	set_Font(fontstore->get_current_font(component->font).value(), font_sz());
+	set_Font(fontstore->get_current_font(component->font).value(),
+			 metrics->font_sz());
 	const auto name{component->name};
 	const auto col{get_hl_colour(_ctx.animation->lerp)};
 	auto x{std::invoke([&] {
@@ -981,7 +920,7 @@ auto Sorcery::UI::draw_button_click(Component *component, bool &flag,
 				CSTR(_ctx.get_string(component->string_key)))};
 			return (viewport->Size.x - width.x) / 2;
 		} else
-			return grid_pos(component->x, component->y).x;
+			return metrics->grid_pos(component->x, component->y).x;
 	})};
 	auto y{std::invoke([&] {
 		if (component->y == -1) {
@@ -990,7 +929,7 @@ auto Sorcery::UI::draw_button_click(Component *component, bool &flag,
 				CSTR(_ctx.get_string(component->string_key)))};
 			return (viewport->Size.y - height.y) / 2;
 		} else
-			return grid_pos(component->x, component->y).y;
+			return metrics->grid_pos(component->x, component->y).y;
 	})};
 
 	if (component->get("adjust_x"))
@@ -1018,7 +957,7 @@ auto Sorcery::UI::draw_button(Component *component,
 		// Need to push font first before calculating size else it will
 		// assume monospace font size!
 		set_Font(fontstore->get_current_font(component->font).value(),
-				 font_sz());
+				 metrics->font_sz());
 		const auto name{component->name};
 		const auto col{get_hl_colour(_ctx.animation->lerp)};
 		auto x{std::invoke([&] {
@@ -1028,7 +967,7 @@ auto Sorcery::UI::draw_button(Component *component,
 					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
-				return grid_pos(component->x, component->y).x;
+				return metrics->grid_pos(component->x, component->y).x;
 		})};
 		auto y{std::invoke([&] {
 			if (component->y == -1) {
@@ -1037,7 +976,7 @@ auto Sorcery::UI::draw_button(Component *component,
 					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
-				return grid_pos(component->x, component->y).y;
+				return metrics->grid_pos(component->x, component->y).y;
 		})};
 		if (component->get("adjust_x"))
 			x += component->get_float("adjust_x");
@@ -1071,37 +1010,37 @@ auto Sorcery::UI::draw_character_detailed(Component *component,
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
 	UIStyle::set_text_bright(_ctx);
-	auto pos{grid_pos(left_col, component->y)};
+	auto pos{metrics->grid_pos(left_col, component->y)};
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>14} {:>2}", "Strength",
 									   character->get_cur_attr(STRENGTH))
 							   .c_str());
 
 	UIStyle::set_text_dark(_ctx);
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:+>2}", "Atk Mod",
 					character->abilities().at(ATTACK_MODIFIER))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:+>2}", "Hit Prob",
 					character->abilities().at(HIT_PROBABILITY))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>14} {:+>2}", "Bonus Damg",
 									   character->abilities().at(BONUS_DAMAGE))
 							   .c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Num Attacks",
 					character->abilities().at(BASE_NUMBER_OF_ATTACKS))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Unarmed Damg",
@@ -1109,45 +1048,45 @@ auto Sorcery::UI::draw_character_detailed(Component *component,
 			.c_str());
 
 	UIStyle::set_text_bright(_ctx);
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>14} {:>2}", "Vitality",
 									   character->get_cur_attr(VITALITY))
 							   .c_str());
 
 	UIStyle::set_text_dark(_ctx);
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:+>2}", "Vit Bonus",
 					character->abilities().at(VITALITY_BONUS))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:+>2}", "Bonus HP",
 					character->abilities().at(BONUS_HIT_POINTS))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Ress / Dead",
 					character->abilities().at(DEAD_RESURRECT))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Ress / Ashes",
 					character->abilities().at(ASHES_RESURRECT))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Ress / Spell",
 					character->abilities().at(DI_KADORTO_RESURRECT))
 			.c_str());
 
-	pos = grid_pos(right_col, component->y);
+	pos = metrics->grid_pos(right_col, component->y);
 	ImGui::SetCursorPos(pos);
 	UIStyle::set_text_bright(_ctx);
 	ImGui::TextUnformatted(
@@ -1155,68 +1094,68 @@ auto Sorcery::UI::draw_character_detailed(Component *component,
 			.c_str());
 
 	UIStyle::set_text_dark(_ctx);
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Spell Learn",
 					character->abilities().at(MAGE_SPELL_LEARN))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "ID Items",
 					character->abilities().at(IDENTIFY_ITEMS))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "ID Curse",
 					character->abilities().at(IDENTIFY_CURSE))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>14} {:>2}%", "ID Foes",
 									   character->abilities().at(IDENTIFY_FOES))
 							   .c_str());
 
 	UIStyle::set_text_bright(_ctx);
-	pos.y += grid_delta(0, 2).y;
+	pos.y += metrics->grid_delta(0, 2).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Agility", character->get_cur_attr(AGILITY))
 			.c_str());
 
 	UIStyle::set_text_dark(_ctx);
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:+>2}", "Int Mod",
 					character->abilities().at(INITIATIVE_MODIFIER))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Crit Hit",
 					character->abilities().at(BASE_CRITICAL_HIT))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>14} {:>2}%", "ID Trap",
 									   character->abilities().at(IDENTIFY_TRAP))
 							   .c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Disarm Trap",
 					character->abilities().at(BASE_DISARM_TRAP))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Avoid Trap",
 					100 - character->abilities().at(ACTIVATE_TRAP))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Avoid Pit",
@@ -1228,7 +1167,7 @@ auto Sorcery::UI::draw_character_mage_spells(Component *component,
 											 const Character *character)
 	-> void {
 
-	ImVec2 pos{grid_pos(component->x, component->y)};
+	ImVec2 pos{metrics->grid_pos(component->x, component->y)};
 	ImGui::SetCursorPos(pos);
 	with_Table("mage_spells_1", 3, ImGuiTableFlags_NoSavedSettings) {
 
@@ -1278,7 +1217,7 @@ auto Sorcery::UI::draw_character_priest_spells(Component *component,
 											   const Character *character)
 	-> void {
 
-	auto pos{grid_pos(component->x, component->y)};
+	auto pos{metrics->grid_pos(component->x, component->y)};
 	ImGui::SetCursorPos(pos);
 	with_Table("priest_spells_1", 3, ImGuiTableFlags_NoSavedSettings) {
 
@@ -1335,128 +1274,128 @@ auto Sorcery::UI::draw_character_detailed_again(Component *component,
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
 	UIStyle::set_text_bright(_ctx);
-	auto pos{grid_pos(left_col, component->y)};
+	auto pos{metrics->grid_pos(left_col, component->y)};
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Piety", character->get_cur_attr(PIETY))
 			.c_str());
 
 	UIStyle::set_text_dark(_ctx);
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Spell Learn",
 					character->abilities().at(PRIEST_SPELL_LEARN))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Rec Chance",
 					character->abilities().at(LOKTOFELT_SUCCESS))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>14} {:>2}%", "Base Dispell",
 									   character->abilities().at(BASE_DISPELL))
 							   .c_str());
 
 	UIStyle::set_text_bright(_ctx);
-	pos.y += grid_delta(0, 2).y;
+	pos.y += metrics->grid_delta(0, 2).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}", "Luck", character->get_cur_attr(LUCK))
 			.c_str());
 	UIStyle::set_text_dark(_ctx);
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Res Bonus",
 					character->abilities().at(BASE_RESIST_BONUS))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Wipe Rec",
 					character->abilities().at(EQUIPMENT_INTACT_ON_WIPE))
 			.c_str());
 
-	pos = grid_pos(right_col, component->y);
+	pos = metrics->grid_pos(right_col, component->y);
 	ImGui::SetCursorPos(pos);
 	UIStyle::set_text_bright(_ctx);
 	ImGui::TextUnformatted(std::format("{:>14}", "Resistances").c_str());
 
 	UIStyle::set_text_dark(_ctx);
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Crit Hit",
 					character->abilities().at(RESISTANCE_VS_CRITICAL_HIT) * 5)
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Pois / Para",
 					character->abilities().at(RESISTANCE_VS_POISON_PARALYSIS) *
 						5)
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Stoning",
 					character->abilities().at(RESISTANCE_VS_STONING) * 5)
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Breath",
 					character->abilities().at(RESISTANCE_VS_BREATH_ATTACKS) * 5)
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Gas Trap",
 					character->abilities().at(RESISTANCE_VS_POISON_GAS_TRAP) *
 						5)
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Spell Trap",
 					character->abilities().at(RESISTANCE_VS_MAGE_PRIEST_TRAP) *
 						5)
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Silence",
 					character->abilities().at(RESISTANCE_VS_SILENCE) * 5)
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Sleep",
 					character->abilities().at(RESISTANCE_VS_KATINO))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Death",
 					character->abilities().at(RESISTANCE_VS_BADI))
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "vs Statue",
 					character->abilities().at(RESISTANCE_VS_MANIFO))
 			.c_str());
 
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Rec / Sleep",
 					character->abilities().at(RECOVER_FROM_SLEEP) * 5)
 			.c_str());
-	pos.y += grid_delta(0, 1).y;
+	pos.y += metrics->grid_delta(0, 1).y;
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>14} {:>2}%", "Rec / Fear",
@@ -1473,68 +1412,68 @@ auto Sorcery::UI::draw_character_summary(Component *component,
 
 	using enum Enums::Character::Ability;
 	using enum Enums::Character::Attribute;
-	auto pos{grid_pos(left_col, component->y)};
+	auto pos{metrics->grid_pos(left_col, component->y)};
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>8} {:>2}", "Strength",
 									   character->get_cur_attr(STRENGTH))
 							   .c_str());
-	pos = grid_pos(left_col, component->y + 1);
+	pos = metrics->grid_pos(left_col, component->y + 1);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>8} {:>2}", "I.Q.", character->get_cur_attr(IQ))
 			.c_str());
-	pos = grid_pos(left_col, component->y + 2);
+	pos = metrics->grid_pos(left_col, component->y + 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>8} {:>2}", "Piety", character->get_cur_attr(PIETY))
 			.c_str());
-	pos = grid_pos(left_col, component->y + 3);
+	pos = metrics->grid_pos(left_col, component->y + 3);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:>8} {:>2}", "Vitality",
 									   character->get_cur_attr(VITALITY))
 							   .c_str());
-	pos = grid_pos(left_col, component->y + 4);
+	pos = metrics->grid_pos(left_col, component->y + 4);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>8} {:>2}", "Agility", character->get_cur_attr(AGILITY))
 			.c_str());
-	pos = grid_pos(left_col, component->y + 5);
+	pos = metrics->grid_pos(left_col, component->y + 5);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:>8} {:>2}", "Luck", character->get_cur_attr(LUCK))
 			.c_str());
 
-	pos = grid_pos(left_col, component->y + 7);
+	pos = metrics->grid_pos(left_col, component->y + 7);
 	ImGui::SetCursorPos(pos);
 	const auto &sp{character->magic().mage_current_spellpoints()};
 	auto mage{std::format("{}/{}/{}/{}/{}/{}/{}", sp.at(1), sp.at(2), sp.at(3),
 						  sp.at(4), sp.at(5), sp.at(6), sp.at(7))};
 	ImGui::TextUnformatted(std::format("Mage {}", mage).c_str());
 
-	pos = grid_pos(middle_col, component->y);
+	pos = metrics->grid_pos(middle_col, component->y);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:<6} {:>10}", "Gold", character->get_gold()).c_str());
-	pos = grid_pos(middle_col, component->y + 1);
+	pos = metrics->grid_pos(middle_col, component->y + 1);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:<6} {:>10}", "E.P.", character->get_cur_xp()).c_str());
-	pos = grid_pos(middle_col, component->y + 2);
+	pos = metrics->grid_pos(middle_col, component->y + 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:<6} {:>10}", "Next", character->get_next_xp()).c_str());
-	pos = grid_pos(middle_col, component->y + 3);
+	pos = metrics->grid_pos(middle_col, component->y + 3);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:<6} {:>10}", "Marks", character->abilities().at(MARKS))
 			.c_str());
-	pos = grid_pos(middle_col, component->y + 4);
+	pos = metrics->grid_pos(middle_col, component->y + 4);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("{:<4} {}/{}", "H.P.",
 									   character->abilities().at(CURRENT_HP),
 									   character->abilities().at(MAX_HP))
 							   .c_str());
-	pos = grid_pos(middle_col, component->y + 5);
+	pos = metrics->grid_pos(middle_col, component->y + 5);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("{:<6} {:>18}", "Status", character->get_status_string())
@@ -1545,25 +1484,25 @@ auto Sorcery::UI::draw_character_summary(Component *component,
 							sp2.at(3), sp2.at(4), sp2.at(5), sp2.at(6),
 							sp2.at(7))};
 
-	pos = grid_pos(component->x + 20, component->y + 7);
+	pos = metrics->grid_pos(component->x + 20, component->y + 7);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(std::format("Prst {}", priest).c_str());
 
-	pos = grid_pos(right_col, component->y);
+	pos = metrics->grid_pos(right_col, component->y);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format("Swim{:>3}", character->abilities().at(SWIM)).c_str());
-	pos = grid_pos(right_col, component->y + 1);
+	pos = metrics->grid_pos(right_col, component->y + 1);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format(" Age{:>3}", character->abilities().at(AGE) / 52).c_str());
-	pos = grid_pos(right_col, component->y + 2);
+	pos = metrics->grid_pos(right_col, component->y + 2);
 	ImGui::SetCursorPos(pos);
 	ImGui::TextUnformatted(
 		std::format(" RIP{:>3}", character->abilities().at(DEATHS)).c_str());
 
 	auto slot{1u};
-	pos = grid_pos(left_col, component->y + 9);
+	pos = metrics->grid_pos(left_col, component->y + 9);
 	ImGui::SetCursorPos(pos);
 	for (const auto &item : character->inventory.items()) {
 		const std::string flag{std::invoke([&] {
@@ -1579,10 +1518,10 @@ auto Sorcery::UI::draw_character_summary(Component *component,
 				return " ";
 		})};
 		if (slot % 2 == 1)
-			pos = grid_pos(left_col, component->y + 9 + slot / 2);
+			pos = metrics->grid_pos(left_col, component->y + 9 + slot / 2);
 		else
-			pos =
-				grid_pos(component->x + 17, component->y + 9 + (slot - 1) / 2);
+			pos = metrics->grid_pos(component->x + 17,
+									component->y + 9 + (slot - 1) / 2);
 		ImGui::SetCursorPos(pos);
 		auto line{std::format("{}){}{}", slot, flag, item.get_display_name())};
 		ImGui::TextUnformatted(line.c_str());
@@ -1620,15 +1559,17 @@ auto Sorcery::UI::draw_current_character([[maybe_unused]] const int mode)
 		draw_button_click(&next, _ctx.get_flag_ref("select_next_character"));
 
 		auto cmp{components->get("inspect:character_data")};
-		auto pos{grid_pos(cmp.x, cmp.y)};
+		auto pos{metrics->grid_pos(cmp.x, cmp.y)};
 
 		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 		ImGui::SetCursorPos(pos);
-		with_Child("character_tab_bar_child",
-				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
+		with_Child(
+			"character_tab_bar_child",
+			ImVec2(metrics->grid_sz() * cmp.w, metrics->grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
 			auto char_cmp{components->get("inspect:character_tab_data")};
-			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
+			set_Font(fontstore->get_current_font(cmp.font).value(),
+					 metrics->font_sz());
 			with_TabBar("character_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					draw_character_summary(&char_cmp, &character);
@@ -1657,11 +1598,11 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
-		auto pos{grid_pos(component->x, component->y)};
+		auto pos{metrics->grid_pos(component->x, component->y)};
 		ImGui::SetCursorPos(pos);
 
 		set_Font(fontstore->get_current_font(component->font).value(),
-				 font_sz());
+				 metrics->font_sz());
 
 		const auto stepper_name{std::format("##{}", name)};
 		const auto stepper_minus{std::format("##{}_minus", name)};
@@ -1702,7 +1643,7 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 				ImGui::EndDisabled();
 		}
 
-		pos.x += grid_delta(1, 0).x;
+		pos.x += metrics->grid_delta(1, 0).x;
 
 		ImVec4 alpha_col{ImGui::ColorConvertU32ToFloat4(component->colour)};
 		alpha_col.w = _ctx.animation->fade;
@@ -1719,7 +1660,7 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 				disabled = true;
 		};
 
-		pos.x += grid_delta(2, 0).x;
+		pos.x += metrics->grid_delta(2, 0).x;
 		ImGui::SetCursorPos(pos);
 		with_ID(stepper_plus.c_str()) {
 			if (disabled)
@@ -1738,11 +1679,11 @@ auto Sorcery::UI::draw_input(Component *component, std::string *input) -> void {
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
-		auto pos{grid_pos(component->x, component->y)};
+		auto pos{metrics->grid_pos(component->x, component->y)};
 		ImGui::SetCursorPos(pos);
 
 		set_Font(fontstore->get_current_font(component->font).value(),
-				 font_sz());
+				 metrics->font_sz());
 
 		ImGuiInputTextFlags flags{ImGuiInputTextFlags_AutoSelectAll |
 								  ImGuiInputTextFlags_EnterReturnsTrue};
@@ -1782,7 +1723,7 @@ auto Sorcery::UI::draw_text(Component *component, const std::string &string)
 		// Need to push font first before calculating size else it will
 		// assume monospace font size!
 		set_Font(fontstore->get_current_font(component->font).value(),
-				 font_sz());
+				 metrics->font_sz());
 
 		const auto x{std::invoke([&] {
 			if (component->x == -1) {
@@ -1790,7 +1731,7 @@ auto Sorcery::UI::draw_text(Component *component, const std::string &string)
 				const auto width{ImGui::CalcTextSize(CSTR(string))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
-				return grid_pos(component->x, component->y).x;
+				return metrics->grid_pos(component->x, component->y).x;
 		})};
 		const auto y{std::invoke([&] {
 			if (component->y == -1) {
@@ -1798,7 +1739,7 @@ auto Sorcery::UI::draw_text(Component *component, const std::string &string)
 				const auto height{ImGui::CalcTextSize(CSTR(string))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
-				return grid_pos(component->x, component->y).y;
+				return metrics->grid_pos(component->x, component->y).y;
 		})};
 
 		// Adjust Alpha of Text
@@ -1823,8 +1764,9 @@ auto Sorcery::UI::draw_party_wipe() -> void {
 	const auto grave_w{grave_cmp.get_float("tile_width") * scale};
 	const auto grave_h{grave_cmp.get_float("tile_height") * scale};
 
-	const auto gap{grid_delta(grave_cmp.get_float("spacing_x") * scale,
-							  grave_cmp.get_float("spacing_y") * scale)};
+	const auto gap{
+		metrics->grid_delta(grave_cmp.get_float("spacing_x") * scale,
+							grave_cmp.get_float("spacing_y") * scale)};
 
 	std::vector<std::string> names;
 
@@ -1848,11 +1790,11 @@ auto Sorcery::UI::draw_party_wipe() -> void {
 	const auto cell_w{grave_w + gap.x};
 	const auto cell_h{grave_h + gap.y};
 
-	const auto origin_x{grid_x(grave_cmp.x)};
+	const auto origin_x{metrics->grid_x(grave_cmp.x)};
 
 	// The component's Y coordinate represents the vertical centre of the
 	// complete gravestone arrangement.
-	const auto centre_y{grid_y(grave_cmp.y)};
+	const auto centre_y{metrics->grid_y(grave_cmp.y)};
 	const auto layout_w{(layout_cols * grave_w) + ((layout_cols - 1) * gap.x)};
 	const auto layout_h{(rows * grave_h) + ((rows - 1) * gap.y)};
 
@@ -1881,13 +1823,13 @@ auto Sorcery::UI::draw_party_wipe() -> void {
 			const auto &name{names.at(index)};
 
 			set_Font(fontstore->get_current_font(text_cmp.font).value(),
-					 font_sz());
+					 metrics->font_sz());
 
 			const auto text_size{ImGui::CalcTextSize(name.c_str())};
 
-			const ImVec2 text_pos{grave_pos.x +
-									  ((grave_w - text_size.x) * 0.5f),
-								  grave_pos.y + grave_h - grid_delta(0, 1).y};
+			const ImVec2 text_pos{
+				grave_pos.x + ((grave_w - text_size.x) * 0.5f),
+				grave_pos.y + grave_h - metrics->grid_delta(0, 1).y};
 
 			draw_text_with_layer(name, text_cmp.colour, text_pos,
 								 text_cmp.font);
@@ -1925,12 +1867,12 @@ auto Sorcery::UI::draw_automap_legend(Component *component) -> void {
 	const auto icon_size{component->get_int("tile_size") * scale};
 	const auto row_gap{component->get_int("row_gap") * scale};
 
-	auto pos{grid_pos(component->x, component->y)};
+	auto pos{metrics->grid_pos(component->x, component->y)};
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		set_Font(fontstore->get_current_font(component->font).value(),
-				 font_sz());
+				 metrics->font_sz());
 
 		auto cmp_level{components->get("automap:automap_level")};
 		draw_text(&cmp_level, _ctx.game->state->level->name());
@@ -1941,7 +1883,7 @@ auto Sorcery::UI::draw_automap_legend(Component *component) -> void {
 								   ImVec2{static_cast<float>(icon_size),
 										  static_cast<float>(icon_size)});
 
-			const auto delta{grid_delta(1.0f, 0.0f)};
+			const auto delta{metrics->grid_delta(1.0f, 0.0f)};
 			ImGui::SetCursorPos(ImVec2{pos.x + icon_size + delta.x, pos.y});
 
 			ImGui::TextUnformatted(item.label.data());
@@ -1964,7 +1906,7 @@ auto Sorcery::UI::draw_text(Component *component) -> void {
 		// Need to push font first before calculating size else it will
 		// assume monospace font size!
 		set_Font(fontstore->get_current_font(component->font).value(),
-				 font_sz());
+				 metrics->font_sz());
 
 		const auto x{std::invoke([&] {
 			if (component->x == -1) {
@@ -1973,7 +1915,7 @@ auto Sorcery::UI::draw_text(Component *component) -> void {
 					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.x - width.x) / 2;
 			} else
-				return grid_pos(component->x, component->y).x;
+				return metrics->grid_pos(component->x, component->y).x;
 		})};
 		const auto y{std::invoke([&] {
 			if (component->y == -1) {
@@ -1982,7 +1924,7 @@ auto Sorcery::UI::draw_text(Component *component) -> void {
 					CSTR(_ctx.get_string(component->string_key)))};
 				return (viewport->Size.y - height.y) / 2;
 			} else
-				return grid_pos(component->x, component->y).y;
+				return metrics->grid_pos(component->x, component->y).y;
 		})};
 
 		// Adjust Alpha of Text
@@ -2029,14 +1971,14 @@ auto Sorcery::UI::draw_item_info() -> void {
 
 	const auto item{_ctx.resources->items->get(idx + 1)};
 	auto item_c{components->get("museum:item_graphic")};
-	auto item_pos{grid_pos(item_c.x, item_c.y)};
+	auto item_pos{metrics->grid_pos(item_c.x, item_c.y)};
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	draw_fg_image_with_idx(ITEMS_TEXTURE, idx, item_pos,
 						   ImVec2{item_c.get_float("tile_width") * scale,
 								  item_c.get_float("tile_width") * scale});
 
 	auto cmp{components->get("museum:item_data")};
-	auto pos{grid_pos(cmp.x, cmp.y)};
+	auto pos{metrics->grid_pos(cmp.x, cmp.y)};
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -2046,10 +1988,11 @@ auto Sorcery::UI::draw_item_info() -> void {
 
 		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 		ImGui::SetCursorPos(pos);
-		with_Child("museum_tab_bar_child",
-				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
+		with_Child("museum_tab_bar_child", ImVec2(metrics->grid_sz() * cmp.w,
+												  metrics->grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
-			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
+			set_Font(fontstore->get_current_font(cmp.font).value(),
+					 metrics->font_sz());
 			with_TabBar("museum_tab_bar", tb_flags) {
 				with_TabItem("Info") {
 					{
@@ -2431,25 +2374,27 @@ auto Sorcery::UI::draw_options() -> void {
 
 	const auto save_lbl{_ctx.get_string("DIALOG_SAVE")};
 	const auto cancel_lbl{_ctx.get_string("DIALOG_CANCEL")};
-	set_Font(fontstore->get_current_font(component.font).value(), font_sz());
+	set_Font(fontstore->get_current_font(component.font).value(),
+			 metrics->font_sz());
 	const auto col{get_hl_colour(_ctx.animation->lerp)};
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		// To adjust for Window Resizing etc
 		const auto x{std::invoke([&] {
-			const auto width{grid_sz() * component.get_float("grid_width")};
+			const auto width{metrics->grid_sz() *
+							 component.get_float("grid_width")};
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		})};
 
-		const auto pos{ImVec2{x, grid_y(component.y)}};
+		const auto pos{ImVec2{x, metrics->grid_y(component.y)}};
 		ImGui::SetCursorPos(pos);
 
 		// Now draw tab bar
 		UIStyle::set_faded(_ctx);
 		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
-		const auto tabs_width{component.w * grid_sz()};
-		const auto tabs_height{component.h * grid_sz()};
+		const auto tabs_width{component.w * metrics->grid_sz()};
+		const auto tabs_height{component.h * metrics->grid_sz()};
 		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 		with_Child("options_tab_bar_child", ImVec2(tabs_width, tabs_height)) {
 			UIStyle::set_tab_black(_ctx);
@@ -2524,7 +2469,8 @@ auto Sorcery::UI::draw_options() -> void {
 
 					// Font Selection dropdown
 					ImGui::Separator();
-					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + grid_sz());
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() +
+										 metrics->grid_sz());
 					const auto item_height{
 						ImGui::GetTextLineHeightWithSpacing()};
 					const auto max_visible_items{10};
@@ -2538,7 +2484,7 @@ auto Sorcery::UI::draw_options() -> void {
 							const bool is_selected{
 								font.name ==
 								fontstore->get_current_monospace_font_name()};
-							set_Font(font.font, font_sz());
+							set_Font(font.font, metrics->font_sz());
 							auto selectable_name{
 								std::format("{}##{}", font.name, font_idx)};
 							if (ImGui::Selectable(selectable_name.c_str(),
@@ -2558,8 +2504,6 @@ auto Sorcery::UI::draw_options() -> void {
 											  ImGuiColorEditFlags_NoTooltip |
 											  ImGuiColorEditFlags_NoOptions};
 					auto frame_name{std::format("{}##1", "UI Colour")};
-					// ImGui::SetCursorPosY(ImGui::GetCursorPosY() +
-					// grid_sz);
 					ImGui::SetNextItemWidth(28.f);
 					ImGui::ColorEdit3(frame_name.c_str(), (float *)&ui_colour,
 									  flags);
@@ -2576,8 +2520,9 @@ auto Sorcery::UI::draw_options() -> void {
 			set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{col});
 			set_StyleColor(ImGuiCol_ButtonActive, (ImVec4)col);
 
-			ImGui::SetCursorPos(ImVec2{centre - (btn_size.x + grid_sz()),
-									   button_y * grid_sz()});
+			ImGui::SetCursorPos(
+				ImVec2{centre - (btn_size.x + metrics->grid_sz()),
+					   button_y * metrics->grid_sz()});
 			if (ImGui::Button(save_lbl.c_str(), btn_size)) {
 				_ctx.system->config->save();
 
@@ -2588,8 +2533,8 @@ auto Sorcery::UI::draw_options() -> void {
 
 				//_ctx.controller->unset_flag("show_options");
 			}
-			ImGui::SetCursorPos(
-				ImVec2{centre + grid_sz(), button_y * grid_sz()});
+			ImGui::SetCursorPos(ImVec2{centre + metrics->grid_sz(),
+									   button_y * metrics->grid_sz()});
 			if (ImGui::Button(cancel_lbl.c_str(), btn_size)) {
 				_ctx.system->config->load();
 
@@ -2619,11 +2564,11 @@ auto Sorcery::UI::draw_buffbar() -> void {
 	auto cmp{components->get("engine_base_ui:buffbar")};
 	auto frame_cmp{components->get("engine_base_ui:buffbar_frame")};
 
-	const auto x{grid_x(cmp.x)};
-	auto y{grid_y(cmp.y)};
+	const auto x{metrics->grid_x(cmp.x)};
+	auto y{metrics->grid_y(cmp.y)};
 	const auto scale{_ctx.display->get_display_metrics().scale};
-	const auto width{cmp.w * grid_sz() * scale};
-	const auto height{cmp.h * grid_sz()};
+	const auto width{cmp.w * metrics->grid_sz() * scale};
+	const auto height{cmp.h * metrics->grid_sz()};
 
 	auto tint{_ctx.controller->get_monochrome()
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
@@ -2653,12 +2598,12 @@ auto Sorcery::UI::draw_icons() -> void {
 		ICON_CAMP, ICON_PARTY, ICON_MAP, ICON_LOOK, ICON_CAST, ICON_USE,
 	};
 
-	const auto x{grid_x(cmp.x)};
-	const auto start_y{grid_y(cmp.y)};
+	const auto x{metrics->grid_x(cmp.x)};
+	const auto start_y{metrics->grid_y(cmp.y)};
 
 	const auto scale{_ctx.display->get_display_metrics().scale};
-	const auto width{static_cast<float>(cmp.w * grid_sz()) * scale};
-	const auto height{static_cast<float>(cmp.h * grid_sz()) * scale};
+	const auto width{static_cast<float>(cmp.w * metrics->grid_sz()) * scale};
+	const auto height{static_cast<float>(cmp.h * metrics->grid_sz()) * scale};
 
 	const ImVec2 icon_size{width, height};
 
@@ -2711,11 +2656,11 @@ auto Sorcery::UI::draw_save() -> void {
 	auto cmp{components->get("engine_base_ui:save")};
 	auto frame_cmp{components->get("engine_base_ui:save_frame")};
 
-	const auto x{grid_x(cmp.x)};
-	const auto y{grid_y(cmp.y)};
+	const auto x{metrics->grid_x(cmp.x)};
+	const auto y{metrics->grid_y(cmp.y)};
 
-	const auto width{static_cast<float>(cmp.w * grid_sz())};
-	const auto height{static_cast<float>(cmp.h * grid_sz())};
+	const auto width{static_cast<float>(cmp.w * metrics->grid_sz())};
+	const auto height{static_cast<float>(cmp.h * metrics->grid_sz())};
 
 	const ImVec2 save_pos{x, y};
 	const ImVec2 save_size{width, height};
@@ -2763,11 +2708,11 @@ auto Sorcery::UI::draw_compass() -> void {
 				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
 				  : ImVec4{1.0f, 0.33f, 0.33f, _ctx.animation->fade}};
 
-	const auto x{grid_x(cmp.x)};
-	const auto y{grid_y(cmp.y)};
+	const auto x{metrics->grid_x(cmp.x)};
+	const auto y{metrics->grid_y(cmp.y)};
 	const auto scale{_ctx.display->get_display_metrics().scale};
-	const auto width{cmp.w * grid_sz() * scale};
-	const auto height{cmp.h * grid_sz() * scale};
+	const auto width{cmp.w * metrics->grid_sz() * scale};
+	const auto height{cmp.h * metrics->grid_sz() * scale};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -2805,13 +2750,13 @@ auto Sorcery::UI::draw_party_panel() -> void {
 	auto cmp{components->get("global:party_panel")};
 	auto frame_cmp{components->get("engine_base_ui:party_frame")};
 
-	const auto width{static_cast<float>(cmp.w * grid_sz())};
-	const auto height{static_cast<float>(cmp.h * grid_sz())};
+	const auto width{static_cast<float>(cmp.w * metrics->grid_sz())};
+	const auto height{static_cast<float>(cmp.h * metrics->grid_sz())};
 
 	const auto x{cmp.x == -1 ? (ImGui::GetMainViewport()->Size.x - width) / 2.0f
-							 : grid_x(cmp.x)};
+							 : metrics->grid_x(cmp.x)};
 
-	const auto y{grid_y(cmp.y)};
+	const auto y{metrics->grid_y(cmp.y)};
 	const ImVec2 panel_pos{x, y};
 	const ImVec2 panel_size{width, height};
 
@@ -2834,7 +2779,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 
 			const auto font{fontstore->get_current_font(cmp.font).value()};
 
-			set_Font(font, font_sz());
+			set_Font(font, metrics->font_sz());
 
 			UIStyle::set_text_bright(_ctx);
 
@@ -2844,7 +2789,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 			if (!_ctx.game->state->party_has_members())
 				return;
 
-			const auto row_height{static_cast<float>(grid_sz())};
+			const auto row_height{static_cast<float>(metrics->grid_sz())};
 			const auto highlight_colour{
 				ImVec4{get_hl_colour(_ctx.animation->lerp)}};
 
@@ -2886,7 +2831,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 										  ((row_height - text_size.y) / 2.0f)};
 
 				ImGui::GetWindowDrawList()->AddText(
-					font, font_sz(), text_pos,
+					font, metrics->font_sz(), text_pos,
 					ImGui::ColorConvertFloat4ToU32(ImVec4{text_colour}),
 					summary.c_str());
 
@@ -2953,11 +2898,11 @@ auto Sorcery::UI::draw_spell_info() -> void {
 		return;
 
 	auto cmp{components->get("spellbook:spell_data")};
-	auto pos{grid_pos(cmp.x, cmp.y)};
+	auto pos{metrics->grid_pos(cmp.x, cmp.y)};
 	ImGui::SetNextWindowPos(pos);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
-		with_Child("spell_child",
-				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
+		with_Child("spell_child", ImVec2(metrics->grid_sz() * cmp.w,
+										 metrics->grid_sz() * cmp.h)) {
 
 			auto spell{_ctx.resources->spells->get(
 				enum_cast<Enums::Magic::SpellID>(idx).value())};
@@ -2977,14 +2922,15 @@ auto Sorcery::UI::draw_spell_info() -> void {
 			{
 				UIStyle::set_text_bright(_ctx);
 				set_Font(fontstore->get_current_font(cmp.font).value(),
-						 font_sz());
+						 metrics->font_sz());
 				ImGui::TextUnformatted(spell_name.c_str());
 				ImGui::NewLine();
 				ImGui::TextUnformatted(summary.c_str());
 				ImGui::NewLine();
 			}
 
-			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
+			set_Font(fontstore->get_current_font(cmp.font).value(),
+					 metrics->font_sz());
 			UIStyle::set_text_dim(_ctx);
 
 #pragma GCC diagnostic push
@@ -3003,8 +2949,8 @@ auto Sorcery::UI::draw_monster_info() -> void {
 	const auto u_gfx{mon.get_unknown_gfx()};
 	auto k_mg_c{components->get("bestiary:known_monster_graphic")};
 	auto u_mg_c{components->get("bestiary:unknown_monster_graphic")};
-	auto k_mg_pos{grid_pos(k_mg_c.x, k_mg_c.y)};
-	auto u_mg_pos{grid_pos(u_mg_c.x, u_mg_c.y)};
+	auto k_mg_pos{metrics->grid_pos(k_mg_c.x, k_mg_c.y)};
+	auto u_mg_pos{metrics->grid_pos(u_mg_c.x, u_mg_c.y)};
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	draw_fg_image_with_idx(KNOWN_CREATURES_TEXTURE, k_gfx, k_mg_pos,
 						   ImVec2{k_mg_c.get_float("tile_width") * scale,
@@ -3014,16 +2960,18 @@ auto Sorcery::UI::draw_monster_info() -> void {
 								  u_mg_c.get_float("tile_width") * scale});
 
 	auto cmp{components->get("bestiary:monster_data")};
-	auto pos{grid_pos(cmp.x, cmp.y)};
+	auto pos{metrics->grid_pos(cmp.x, cmp.y)};
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 		const auto name{std::format("  {:>03}:{}/{}", idx, mon.get_known_name(),
 									mon.get_unknown_name())};
 		ImGui::SetCursorPos(pos);
-		with_Child("bestiary_tab_bar_child",
-				   ImVec2(grid_sz() * cmp.w, grid_sz() * cmp.h)) {
+		with_Child(
+			"bestiary_tab_bar_child",
+			ImVec2(metrics->grid_sz() * cmp.w, metrics->grid_sz() * cmp.h)) {
 			UIStyle::set_tab_black(_ctx);
-			set_Font(fontstore->get_current_font(cmp.font).value(), font_sz());
+			set_Font(fontstore->get_current_font(cmp.font).value(),
+					 metrics->font_sz());
 			ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
 			with_TabBar("bestiary_tab_bar", tb_flags) {
 				with_TabItem("Info") {
@@ -3138,7 +3086,7 @@ auto Sorcery::UI::draw_current_level_map() -> void {
 
 	constexpr auto tc{20};
 	const auto map_c{components->get("automap:map_graphic")};
-	const ImVec2 top_left_pos{grid_pos(map_c.x, map_c.y)};
+	const ImVec2 top_left_pos{metrics->grid_pos(map_c.x, map_c.y)};
 
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const auto spacing{map_c.get_int("tile_spacing") * scale};
@@ -3214,7 +3162,7 @@ auto Sorcery::UI::draw_level_no_player() -> void {
 	// Work out where and how to draw the grid
 	auto tc{20};
 	const auto map_c{components->get("atlas:map_graphic")};
-	ImVec2 top_left_pos{grid_pos(map_c.x, map_c.y)};
+	ImVec2 top_left_pos{metrics->grid_pos(map_c.x, map_c.y)};
 	const auto spacing{map_c.get_int("tile_spacing")};
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	ImVec2 tile_sz{map_c.get_int("tile_size") * scale,
@@ -3245,7 +3193,7 @@ auto Sorcery::UI::draw_loading_progress() -> void {
 
 	auto pb_c{components->get("splash:progress_bar")};
 
-	const auto width{pb_c.w * grid_sz()};
+	const auto width{pb_c.w * metrics->grid_sz()};
 	const float progress{static_cast<float>(images->progress - 1) /
 						 static_cast<float>(images->capacity)};
 	const auto x{std::invoke([&] {
@@ -3253,13 +3201,13 @@ auto Sorcery::UI::draw_loading_progress() -> void {
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		} else
-			return grid_x(pb_c.x);
+			return metrics->grid_x(pb_c.x);
 	})};
-	const auto y{grid_y(pb_c.y)};
+	const auto y{metrics->grid_y(pb_c.y)};
 
 	with_Window(WINDOW_LAYER_IMAGES, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
-		set_Font(fontstore->get_default_font(), font_sz());
+		set_Font(fontstore->get_default_font(), metrics->font_sz());
 		set_StyleColor(ImGuiCol_PlotHistogram,
 					   ImGui::GetColorU32(ImGuiCol_ButtonHovered));
 		ImGui::SetCursorPos(ImVec2{x, y});
@@ -3288,7 +3236,8 @@ auto Sorcery::UI::draw_attract_mode() -> void {
 	am_size += (_attract_data.size() - 1) *
 			   std::stoi(attract.get("tile_spacing").value()) * scale;
 	const auto viewport{ImGui::GetMainViewport()};
-	auto tile_pos{ImVec2{(viewport->Size.x - am_size) / 2, grid_y(attract.y)}};
+	auto tile_pos{
+		ImVec2{(viewport->Size.x - am_size) / 2, metrics->grid_y(attract.y)}};
 
 	// And draw each tile (this will draw to the correct layer)
 	for (auto idx : _attract_data) {
@@ -3446,11 +3395,11 @@ auto Sorcery::UI::draw_menu(
 	// Note that pos is in grid units, whereas sz is in pixels.
 	const auto x{pos.x == -1.0f
 					 ? (ImGui::GetMainViewport()->Size.x - sz.x) / 2.0f
-					 : grid_x(pos.x)};
+					 : metrics->grid_x(pos.x)};
 
 	const auto y{pos.y == -1.0f
 					 ? (ImGui::GetMainViewport()->Size.y - sz.y) / 2.0f
-					 : grid_y(pos.y)};
+					 : metrics->grid_y(pos.y)};
 
 	// Set the Style for the Menu (this is a bit of a hack, but it works)
 	set_StyleColor(ImGuiCol_FrameBg,
@@ -3458,7 +3407,7 @@ auto Sorcery::UI::draw_menu(
 	set_StyleColor(ImGuiCol_HeaderActive, ImVec4{sel_color});
 	set_StyleColor(ImGuiCol_HeaderHovered, ImVec4{sel_color});
 	UIStyle::set_faded_with_disabled(_ctx);
-	set_Font(fontstore->get_current_font(font).value(), font_sz());
+	set_Font(fontstore->get_current_font(font).value(), metrics->font_sz());
 
 	const ImVec2 menu_pos{x, y};
 	ImGui::SetCursorPos(menu_pos);
@@ -3743,17 +3692,18 @@ auto Sorcery::UI::draw_transient() -> void {
 
 	const auto component{components->get("engine_base_ui:transient_message")};
 
-	set_Font(fontstore->get_current_font(component.font).value(), font_sz());
+	set_Font(fontstore->get_current_font(component.font).value(),
+			 metrics->font_sz());
 
 	const auto text_size{ImGui::CalcTextSize(message.text.c_str())};
 
-	const auto padding{grid_sz() * 2.0f};
+	const auto padding{metrics->grid_sz() * 2.0f};
 
 	const auto width{message.width == TransientWidth::FULL
 						 ? ImGui::GetMainViewport()->Size.x
 						 : text_size.x + (padding * 2.0f)};
 
-	const auto height{component.h * grid_sz() + (padding * 2.0f)};
+	const auto height{component.h * metrics->grid_sz() + (padding * 2.0f)};
 
 	const auto centre{ImGui::GetMainViewport()->GetCenter()};
 

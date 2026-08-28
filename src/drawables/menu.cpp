@@ -29,6 +29,7 @@
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/menubuilder.hpp"
@@ -85,9 +86,9 @@ auto Sorcery::Menu::draw() -> void {
 		set_Font(
 			_ctx.ui->fontstore->get_current_font(Enums::Layout::Font::MONOSPACE)
 				.value(),
-			_ctx.ui->font_sz());
+			_ctx.ui->metrics->font_sz());
 		const auto sz{
-			ImVec2{static_cast<float>(_width * _ctx.ui->font_sz()),
+			ImVec2{static_cast<float>(_width * _ctx.ui->metrics->font_sz()),
 				   static_cast<float>(
 					   (_height * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
 

@@ -25,6 +25,7 @@
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
 #include "display/ui/uistyle.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
@@ -58,11 +59,11 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 	const auto ok_lbl{_ctx.get_string("DIALOG_OK")};
 	const auto rounding{_ctx.ui->frame_rd};
 	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
-			 _ctx.ui->font_sz());
+			 _ctx.ui->metrics->font_sz());
 	const auto width{
 		ImGui::CalcTextSize(_ctx.get_string(_component.string_key).c_str()).x +
-		(_ctx.ui->grid_sz() * 4)};
-	const auto height{_component.h * _ctx.ui->grid_sz()};
+		(_ctx.ui->metrics->grid_sz() * 4)};
+	const auto height{_component.h * _ctx.ui->metrics->grid_sz()};
 
 	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
@@ -92,8 +93,8 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
-		ImGui::SetCursorPos(
-			ImVec2{_ctx.ui->grid_sz() * 2, _ctx.ui->grid_sz() * 2});
+		ImGui::SetCursorPos(ImVec2{_ctx.ui->metrics->grid_sz() * 2,
+								   _ctx.ui->metrics->grid_sz() * 2});
 		ImGui::TextWrapped(_ctx.get_string(_component.string_key).c_str());
 #pragma GCC diagnostic pop
 
@@ -103,22 +104,22 @@ auto Sorcery::Dialog::display(bool &is_yes) -> void {
 		using enum Enums::Layout::DialogType;
 		if (_type == CONFIRM) {
 			ImGui::SetCursorPos(
-				ImVec2{centre - (btn_size.x + _ctx.ui->grid_sz()),
-					   _ctx.ui->grid_sz() * 4});
+				ImVec2{centre - (btn_size.x + _ctx.ui->metrics->grid_sz()),
+					   _ctx.ui->metrics->grid_sz() * 4});
 			if (ImGui::Button(yes_lbl.c_str(), btn_size)) {
 				is_yes = true;
 				show = false;
 				ImGui::CloseCurrentPopup();
 			}
-			ImGui::SetCursorPos(
-				ImVec2{centre + _ctx.ui->grid_sz(), _ctx.ui->grid_sz() * 4});
+			ImGui::SetCursorPos(ImVec2{centre + _ctx.ui->metrics->grid_sz(),
+									   _ctx.ui->metrics->grid_sz() * 4});
 			if (ImGui::Button(no_lbl.c_str(), btn_size)) {
 				show = false;
 				ImGui::CloseCurrentPopup();
 			}
 		} else if (_type == OK) {
-			ImGui::SetCursorPos(
-				ImVec2{centre - (btn_size.x / 2), _ctx.ui->grid_sz() * 4});
+			ImGui::SetCursorPos(ImVec2{centre - (btn_size.x / 2),
+									   _ctx.ui->metrics->grid_sz() * 4});
 			if (ImGui::Button(ok_lbl.c_str(), btn_size)) {
 				is_yes = true;
 				show = false;

@@ -27,6 +27,7 @@
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
 #include "drawables/frame.hpp"
 #include "drawables/menu.hpp"
 #include "drawables/menubuilder.hpp"
@@ -99,8 +100,8 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 	// DEBUG_LOGF("Displaying modal: {}", _id);
 
 	const auto rounding{_ctx.ui->frame_rd};
-	const auto width{(_width + 4) * _ctx.ui->grid_sz()};
-	const auto height{_height * _ctx.ui->grid_sz()};
+	const auto width{(_width + 4) * _ctx.ui->metrics->grid_sz()};
+	const auto height{_height * _ctx.ui->metrics->grid_sz()};
 
 	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
@@ -112,7 +113,7 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 	set_StyleVar(ImGuiStyleVar_WindowRounding, rounding);
 	set_StyleColor(ImGuiCol_PopupBg, _component.background);
 	set_Font(_ctx.ui->fontstore->get_current_font(_component.font).value(),
-			 _ctx.ui->font_sz());
+			 _ctx.ui->metrics->font_sz());
 
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
@@ -126,7 +127,7 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 
 		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
 		const auto sz{ImVec2{
-			static_cast<float>((_width + 2) * _ctx.ui->font_sz()),
+			static_cast<float>((_width + 2) * _ctx.ui->metrics->font_sz()),
 			static_cast<float>(
 				(_items.size() * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
 
@@ -138,10 +139,11 @@ auto Sorcery::Modal::display([[maybe_unused]] bool &is_yes) -> void {
 		if (_has_title) {
 			const auto title{_ctx.get_string(_component.string_key)};
 			auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) *
-						  _ctx.ui->grid_sz()};
+						  _ctx.ui->metrics->grid_sz()};
 			_ctx.ui->draw_text(_ctx.get_string(_component.string_key),
 							   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
-							   ImVec2{centre_x, _ctx.ui->grid_sz()}, _font);
+							   ImVec2{centre_x, _ctx.ui->metrics->grid_sz()},
+							   _font);
 		}
 
 		// Note that pos is in grid units whereas sz is in pixels!

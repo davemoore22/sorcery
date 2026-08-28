@@ -33,6 +33,7 @@
 #include "display/display.hpp"
 #include "display/ui/popupstore.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/menuaction.hpp"
@@ -1291,7 +1292,7 @@ auto Sorcery::Controller::check_for_resize(const SDL_Event event, UI *ui)
 		return;
 
 	_ctx.display->update_display_metrics();
-	_ctx.ui->update_grid_metrics(_ctx.display->get_display_metrics());
+	_ctx.ui->metrics->update(_ctx.display->get_display_metrics());
 }
 
 // Check if the SDL event is go-back-to-previous event (override to

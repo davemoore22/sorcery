@@ -44,6 +44,7 @@
 #include "display/ui/popupstore.hpp"
 #include "display/ui/screenrenderer.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uimetrics.hpp"
 #include "display/ui/uistyle.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/frame.hpp"
@@ -749,14 +750,14 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
 	const auto chest_w{cmp.get_float("tile_width") * scale};
 	const auto chest_h{cmp.get_float("tile_height") * scale};
 
-	const auto x{(_ui.grid_x(cmp.x) - (chest_w / 2)) + 2};
+	const auto x{(_ui.metrics->grid_x(cmp.x) - (chest_w / 2)) + 2};
 
 	const auto adj_y{_ctx.get_flag("interface_ui") &&
 							 _ctx.get_flag("interface_party_panel")
 						 ? cmp.y
 						 : cmp.y + 7};
 
-	const auto y{_ui.grid_y(adj_y) - (chest_h / 2)};
+	const auto y{_ui.metrics->grid_y(adj_y) - (chest_h / 2)};
 
 	const auto p_min{ImVec2{x, y}};
 	const auto p_max{ImVec2{x + chest_w, y + chest_h}};
@@ -797,7 +798,7 @@ auto Sorcery::ScreenRenderer::_draw_create_confirm(
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		set_Font(_ui.fontstore->get_current_font(cmp_char.font).value(),
-				 _ui.font_sz());
+				 _ui.metrics->font_sz());
 		_ui.draw_character_summary(&cmp_char,
 								   _ctx.controller->get_candidate_character());
 	}
@@ -881,7 +882,7 @@ auto Sorcery::ScreenRenderer::_draw_level_up(const int mode) -> void {
 		cmp = _ui.components->get("levelup:levelup_results");
 		for (const auto &result : character.level_up_results) {
 			_ui.draw_text(&cmp, result);
-			cmp.y += _ui.grid_delta(0, 1).y;
+			cmp.y += _ui.metrics->grid_delta(0, 1).y;
 		}
 	} else {
 
@@ -1067,23 +1068,23 @@ auto Sorcery::ScreenRenderer::_draw_license(Component *component,
 
 		// To adjust for Window Resizing etc
 		const auto x{std::invoke([&] {
-			const auto width{_ui.grid_sz() *
+			const auto width{_ui.metrics->grid_sz() *
 							 component->get_float("grid_width")};
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		})};
 
-		const auto pos{ImVec2{x, _ui.grid_y(component->y)}};
+		const auto pos{ImVec2{x, _ui.metrics->grid_y(component->y)}};
 		ImGui::SetNextWindowPos(pos);
-		with_Child(
-			"license_child",
-			ImVec2(_ui.grid_sz() * component->w, _ui.grid_sz() * component->h),
-			ImGuiChildFlags_NavFlattened,
-			ImGuiWindowFlags_AlwaysVerticalScrollbar) {
+		with_Child("license_child",
+				   ImVec2(_ui.metrics->grid_sz() * component->w,
+						  _ui.metrics->grid_sz() * component->h),
+				   ImGuiChildFlags_NavFlattened,
+				   ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
 			UIStyle::set_text_dim(_ctx);
 			set_Font(_ui.fontstore->get_current_font(component->font).value(),
-					 _ui.font_sz());
+					 _ui.metrics->font_sz());
 			with_TextWrapPos(ImGui::GetFontSize() * component->w) {
 				ImGui::TextUnformatted(string.c_str());
 			}
