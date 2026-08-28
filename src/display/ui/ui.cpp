@@ -2477,9 +2477,9 @@ auto Sorcery::UI::draw_options() -> void {
 						ImVec2(0, item_height * max_visible_items));
 					with_Combo("##font_combobox", "Chooose Font...") {
 
-						auto fonts{fonts->get_all_monospace_fonts()};
+						auto font_list{fonts->get_all_monospace_fonts()};
 						auto font_idx{0u};
-						for (const auto &font : fonts) {
+						for (const auto &font : font_list) {
 							const bool is_selected{
 								font.name ==
 								fonts->get_current_monospace_font_name()};
