@@ -114,11 +114,6 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width,
 								ImGui::GetWindowPos().y + height}};
 
-		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
-		const auto sz{ImVec2{
-			static_cast<float>((_width + 2) * _ctx.ui->metrics->font_sz()),
-			static_cast<float>(_height * _ctx.ui->metrics->font_sz())}};
-
 		_ctx.ui->draw_frame(p_min, p_max,
 							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
 								   _ctx.ui->ui_colour.z, _ctx.animation->fade},

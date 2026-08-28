@@ -45,6 +45,10 @@ obj/*
 # Temporary Files
 *.swp
 
+#Include What You Use
+build-iwyu/*
+iwyu.txt
+
 bin/Debug/sorcery-sfml
 bin/Debug/dat/strings.json
 profiler_analysis.stats

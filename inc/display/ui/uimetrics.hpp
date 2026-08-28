@@ -42,8 +42,8 @@ using GLuint = unsigned int;
 // UI Generation Class (sits on top of, and heavily uses, ImGui)
 namespace Sorcery {
 
-class DisplayMetrics;
-class Context;
+struct DisplayMetrics;
+struct Context;
 
 class UIMetrics {
 

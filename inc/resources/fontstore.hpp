@@ -71,7 +71,6 @@ class FontStore {
 		ImGuiIO *_io;
 		std::vector<FontInfo> fonts;
 		std::map<Enums::Layout::Font, ImFont *> current_fonts;
-		ImFont *_current_font{nullptr};
 		ImFont *_default_font{nullptr};
 		FT_Library _ft;
 

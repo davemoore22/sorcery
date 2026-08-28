@@ -41,7 +41,7 @@
 namespace Sorcery {
 
 class UI;
-class Context;
+struct Context;
 
 class ScreenRenderer {
 

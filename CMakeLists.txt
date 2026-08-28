@@ -6,6 +6,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_BUILD_TYPE Debug)
 project(sorcery VERSION 0.1.0)
 
+option(SORCERY_ENABLE_IWYU "Enable include-what-you-use analysis" OFF)
+
+if(SORCERY_ENABLE_IWYU)
+    find_program(IWYU_EXECUTABLE NAMES include-what-you-use iwyu)
+
+    if(NOT IWYU_EXECUTABLE)
+        message(FATAL_ERROR "include-what-you-use not found")
+    endif()
+endif()
+
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
 	message(FATAL_ERROR
 		"In-source builds are not supported. Please use: \n"
@@ -152,9 +162,49 @@ include(src/modules/CMakeLists.txt)
 include(src/resources/CMakeLists.txt)
 include(src/training//CMakeLists.txt)
 include(src/types/CMakeLists.txt)
+
+# Optionally enable Include-What-You-Use
+if(SORCERY_ENABLE_IWYU)
+
+    message(STATUS "IWYU: ${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_core
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_display
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_drawables
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_engine
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_frontend
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_modules
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_resources
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_training
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_types
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+endif()
+
 add_executable(${PROJECT_NAME}
 	src/sorcery.cpp
 	${sorcery_SOURCES})
+
+
+if(SORCERY_ENABLE_IWYU)
+    set_property(TARGET ${PROJECT_NAME}
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+endif()
 
 # Include Directories
 target_include_directories(${PROJECT_NAME} PRIVATE

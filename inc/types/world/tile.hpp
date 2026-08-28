@@ -28,7 +28,7 @@
 
 namespace Sorcery {
 
-class Tile {
+struct Tile {
 
 	public:
 		// Constructors

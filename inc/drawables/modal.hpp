@@ -54,7 +54,6 @@ class Modal {
 		std::string _name;
 		ImVec2 _pos;
 		unsigned int _width;
-		unsigned int _dynamic_height;
 		unsigned int _height;
 		ImU32 _colour;
 		ImU32 _bg_colour;

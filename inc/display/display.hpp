@@ -33,7 +33,7 @@
 namespace Sorcery {
 
 struct Context;
-class Size;
+struct Size;
 
 struct DisplayMetrics {
 

@@ -31,8 +31,8 @@ namespace Sorcery {
 // Forward Declarations
 struct Context;
 class Component;
-class Tile;
-class TileView;
+struct Tile;
+struct TileView;
 struct VertexArray;
 struct Coordinate3;
 
@@ -51,9 +51,6 @@ class Render {
 	private:
 		// Private Members
 		Context &_ctx;
-		bool _loaded;
-		unsigned int _depth;
-		unsigned int _width;
 		bool _monochrome;
 		std::map<Coordinate3, TileView> _tileviews;
 		ImVec2 _source_size;

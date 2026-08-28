@@ -671,8 +671,6 @@ auto Sorcery::UI::draw_bg_image(Component *component) -> void {
 
 		const auto viewport{ImGui::GetMainViewport()};
 		auto src_image{images->get(source)};
-		const auto size{
-			Size((intptr_t)src_image.width, (intptr_t)src_image.height)};
 
 		// Draw the Image
 		with_Window(WINDOW_LAYER_BG, nullptr,

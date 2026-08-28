@@ -41,7 +41,7 @@ class Automap;
 class Graveyard;
 class Victory;
 class Chest;
-class Tile;
+struct Tile;
 
 struct PendingChute {
 		int depth{};
@@ -124,8 +124,6 @@ class Engine final : public Module {
 		auto _start_chest() -> int;
 
 		// Private Members
-		Application *_application;
-
 		std::unique_ptr<Options> _options;
 		std::unique_ptr<Reorder> _reorder;
 		std::unique_ptr<Inspect> _inspect;

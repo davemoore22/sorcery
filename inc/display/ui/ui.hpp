@@ -49,7 +49,7 @@ class Controller;
 class Component;
 class ComponentStore;
 class Display;
-class DisplayMetrics;
+struct DisplayMetrics;
 class FontStore;
 class Frame;
 class Game;

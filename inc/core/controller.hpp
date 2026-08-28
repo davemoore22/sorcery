@@ -50,7 +50,7 @@ class Controller {
 	public:
 		// Standard Constructor
 		Controller(Context &ctx);
-		Controller() = default;
+		Controller() = delete;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {

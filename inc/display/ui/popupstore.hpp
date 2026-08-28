@@ -40,7 +40,7 @@
 
 namespace Sorcery {
 
-class Context;
+struct Context;
 class Dialog;
 class Input;
 class Modal;

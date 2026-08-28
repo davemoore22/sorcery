@@ -46,7 +46,7 @@ using namespace std::chrono_literals;
 
 inline constexpr auto QUICK_FADE{500ms};
 
-class Context;
+struct Context;
 
 class Module {
 
