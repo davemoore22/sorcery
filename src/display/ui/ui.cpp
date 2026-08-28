@@ -44,6 +44,7 @@
 #include "display/ui/popupstore.hpp"
 #include "display/ui/screenrenderer.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uistyle.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/frame.hpp"
 #include "drawables/input.hpp"
@@ -52,7 +53,6 @@
 #include "drawables/message.hpp"
 #include "drawables/modal.hpp"
 #include "drawables/popup.hpp"
-#include "drawables/uistyle.hpp"
 #include "drawables/videoplayer.hpp"
 #include "engine/define.hpp"
 #include "engine/types.hpp"
@@ -374,8 +374,8 @@ auto Sorcery::UI::display_engine() -> void {
 	_ctx.display->present(ImGui::GetDrawData());
 }
 
-auto Sorcery::UI::display_screen(const Enums::Screen screen, std::any payload)
-	-> void {
+auto Sorcery::UI::display_screen(const Enums::Screen screen,
+								 const std::any &payload) -> void {
 
 	_ctx.controller->set_last_screen(screen);
 

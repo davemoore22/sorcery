@@ -45,19 +45,25 @@ class Context;
 
 class ScreenRenderer {
 
+		using DrawFunction = void (ScreenRenderer::*)();
+		using DrawIntFunction = void (ScreenRenderer::*)(int);
+		using DrawStringFunction =
+			void (ScreenRenderer::*)(const std::string &);
+
 	public:
 		explicit ScreenRenderer(UI &ui, Context &ctx);
 
-		auto display(const Enums::Screen screen, std::any payload = {}) -> void;
+		auto display(const Enums::Screen screen, const std::any &payload = {})
+			-> void;
 
 	private:
 		UI &_ui;
 		Context &_ctx;
 
-		std::map<Enums::Screen, std::function<void()>> _draw_modules;
-		std::map<Enums::Screen, std::function<void(int)>>
+		std::unordered_map<Enums::Screen, DrawFunction> _draw_modules;
+		std::unordered_map<Enums::Screen, DrawIntFunction>
 			_draw_modules_with_int;
-		std::map<Enums::Screen, std::function<void(const std::string &)>>
+		std::unordered_map<Enums::Screen, DrawStringFunction>
 			_draw_modules_with_string;
 
 		// Private Methods

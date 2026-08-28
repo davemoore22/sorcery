@@ -26,7 +26,7 @@
 #include "core/system.hpp"
 #include "display/animation.hpp"
 #include "display/ui/ui.hpp"
-#include "drawables/uistyle.hpp"
+#include "display/ui/uistyle.hpp"
 #include "resources/fontstore.hpp"
 #include "resources/stringstore.hpp"
 #include "types/component.hpp"

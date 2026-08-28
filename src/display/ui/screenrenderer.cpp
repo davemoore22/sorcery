@@ -44,6 +44,7 @@
 #include "display/ui/popupstore.hpp"
 #include "display/ui/screenrenderer.hpp"
 #include "display/ui/ui.hpp"
+#include "display/ui/uistyle.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/frame.hpp"
 #include "drawables/input.hpp"
@@ -52,7 +53,6 @@
 #include "drawables/message.hpp"
 #include "drawables/modal.hpp"
 #include "drawables/popup.hpp"
-#include "drawables/uistyle.hpp"
 #include "drawables/videoplayer.hpp"
 #include "engine/define.hpp"
 #include "engine/types.hpp"
@@ -80,193 +80,86 @@ Sorcery::ScreenRenderer::ScreenRenderer(UI &ui, Context &ctx)
 	  _ctx{ctx} {
 
 	// Initialise function tables for display methods
-	_draw_modules[Enums::Screen::ATLAS] = [this] {
-		_display_atlas();
-	};
-	_draw_modules[Enums::Screen::BESTIARY] = [this] {
-		_display_bestiary();
-	};
-	_draw_modules[Enums::Screen::COMPENDIUM] = [this] {
-		_display_compendium();
-	};
-	_draw_modules[Enums::Screen::MAINMENU] = [this] {
-		_display_main_menu();
-	};
-	_draw_modules[Enums::Screen::MUSEUM] = [this] {
-		_display_museum();
-	};
-	_draw_modules[Enums::Screen::OPTIONS] = [this] {
-		_display_options();
-	};
-	_draw_modules[Enums::Screen::SPELLBOOK] = [this] {
-		_display_spellbook();
-	};
-	_draw_modules[Enums::Screen::SPLASH] = [this] {
-		_display_splash();
+	_draw_modules = {
+		{Enums::Screen::ATLAS, &ScreenRenderer::_display_atlas},
+		{Enums::Screen::BESTIARY, &ScreenRenderer::_display_bestiary},
+		{Enums::Screen::COMPENDIUM, &ScreenRenderer::_display_compendium},
+		{Enums::Screen::MAINMENU, &ScreenRenderer::_display_main_menu},
+		{Enums::Screen::MUSEUM, &ScreenRenderer::_display_museum},
+		{Enums::Screen::OPTIONS, &ScreenRenderer::_display_options},
+		{Enums::Screen::SPELLBOOK, &ScreenRenderer::_display_spellbook},
+		{Enums::Screen::SPLASH, &ScreenRenderer::_display_splash},
+
+		{Enums::Screen::ADD, &ScreenRenderer::_display_add},
+		{Enums::Screen::BUY, &ScreenRenderer::_display_buy},
+		{Enums::Screen::CASTLE, &ScreenRenderer::_display_castle},
+		{Enums::Screen::EDGEOFTOWN, &ScreenRenderer::_display_edge_of_town},
+		{Enums::Screen::EDIT, &ScreenRenderer::_display_edit},
+		{Enums::Screen::RENAME, &ScreenRenderer::_display_rename},
+		{Enums::Screen::RECLASS, &ScreenRenderer::_display_reclass},
+		{Enums::Screen::AUTOMAP, &ScreenRenderer::_display_automap},
+		{Enums::Screen::DELETE, &ScreenRenderer::_display_delete},
+		{Enums::Screen::GRAVEYARD, &ScreenRenderer::_display_graveyard},
+		{Enums::Screen::VICTORY, &ScreenRenderer::_display_victory},
+		{Enums::Screen::IDENTIFY, &ScreenRenderer::_display_identify},
+		{Enums::Screen::INN, &ScreenRenderer::_display_inn},
+		{Enums::Screen::LEGATE, &ScreenRenderer::_display_legate},
+		{Enums::Screen::PAY, &ScreenRenderer::_display_pay},
+		{Enums::Screen::REMOVE, &ScreenRenderer::_display_remove},
+		{Enums::Screen::RESTART, &ScreenRenderer::_display_restart},
+		{Enums::Screen::RETRAIN, &ScreenRenderer::_display_retrain},
+		{Enums::Screen::ROSTER, &ScreenRenderer::_display_roster},
+		{Enums::Screen::SELECT, &ScreenRenderer::_display_select},
+		{Enums::Screen::SELL, &ScreenRenderer::_display_sell},
+		{Enums::Screen::SHOP, &ScreenRenderer::_display_shop},
+		{Enums::Screen::STAY, &ScreenRenderer::_display_stay},
+		{Enums::Screen::STORE, &ScreenRenderer::_display_store},
+		{Enums::Screen::TAVERN, &ScreenRenderer::_display_tavern},
+		{Enums::Screen::TEMPLE, &ScreenRenderer::_display_temple},
+		{Enums::Screen::TRAINING, &ScreenRenderer::_display_training_grounds},
+		{Enums::Screen::UNCURSE, &ScreenRenderer::_display_uncurse},
 	};
 
-	_draw_modules[Enums::Screen::ADD] = [this]() {
-		_display_add();
-	};
-	_draw_modules[Enums::Screen::BUY] = [this]() {
-		_display_buy();
-	};
-	_draw_modules[Enums::Screen::CASTLE] = [this]() {
-		_display_castle();
-	};
-	_draw_modules[Enums::Screen::EDGEOFTOWN] = [this]() {
-		_display_edge_of_town();
-	};
-	_draw_modules[Enums::Screen::EDIT] = [this]() {
-		_display_edit();
-	};
-	_draw_modules[Enums::Screen::RENAME] = [this]() {
-		_display_rename();
-	};
-	_draw_modules[Enums::Screen::RECLASS] = [this]() {
-		_display_reclass();
-	};
-	_draw_modules[Enums::Screen::AUTOMAP] = [this]() {
-		_display_automap();
-	};
-	_draw_modules[Enums::Screen::DELETE] = [this]() {
-		_display_delete();
-	};
-	_draw_modules[Enums::Screen::GRAVEYARD] = [this]() {
-		_display_graveyard();
-	};
-	_draw_modules[Enums::Screen::VICTORY] = [this]() {
-		_display_victory();
-	};
-	_draw_modules[Enums::Screen::IDENTIFY] = [this]() {
-		_display_identify();
-	};
-	_draw_modules[Enums::Screen::INN] = [this]() {
-		_display_inn();
-	};
-	_draw_modules[Enums::Screen::LEGATE] = [this]() {
-		_display_legate();
-	};
-	_draw_modules[Enums::Screen::PAY] = [this]() {
-		_display_pay();
-	};
-	_draw_modules[Enums::Screen::REMOVE] = [this]() {
-		_display_remove();
-	};
-	_draw_modules[Enums::Screen::RESTART] = [this]() {
-		_display_restart();
-	};
-	_draw_modules[Enums::Screen::RETRAIN] = [this]() {
-		_display_retrain();
-	};
-	_draw_modules[Enums::Screen::ROSTER] = [this]() {
-		_display_roster();
-	};
-	_draw_modules[Enums::Screen::SELECT] = [this]() {
-		_display_select();
-	};
-	_draw_modules[Enums::Screen::SELL] = [this]() {
-		_display_sell();
-	};
-	_draw_modules[Enums::Screen::SHOP] = [this]() {
-		_display_shop();
-	};
-	_draw_modules[Enums::Screen::STAY] = [this]() {
-		_display_stay();
-	};
-	_draw_modules[Enums::Screen::STORE] = [this]() {
-		_display_store();
-	};
-	_draw_modules[Enums::Screen::TAVERN] = [this]() {
-		_display_tavern();
-	};
-	_draw_modules[Enums::Screen::TEMPLE] = [this]() {
-		_display_temple();
-	};
-	_draw_modules[Enums::Screen::TRAINING] = [this]() {
-		_display_training_grounds();
-	};
-	_draw_modules[Enums::Screen::UNCURSE] = [this]() {
-		_display_uncurse();
+	_draw_modules_with_int = {
+		{Enums::Screen::CREATE_NAME, &ScreenRenderer::_display_create_name},
+		{Enums::Screen::CREATE_RACE, &ScreenRenderer::_display_create_race},
+		{Enums::Screen::CREATE_ALIGNMENT,
+		 &ScreenRenderer::_display_create_alignment},
+		{Enums::Screen::CREATE_CONFIRM,
+		 &ScreenRenderer::_display_create_confirm},
+		{Enums::Screen::CREATE_CLASS, &ScreenRenderer::_display_create_class},
+		{Enums::Screen::CHEST, &ScreenRenderer::_display_chest},
+		{Enums::Screen::HEAL, &ScreenRenderer::_display_heal},
+		{Enums::Screen::RITE, &ScreenRenderer::_display_rite},
+		{Enums::Screen::INSPECT, &ScreenRenderer::_display_inspect},
+		{Enums::Screen::LEVELUP, &ScreenRenderer::_display_level_up},
+		{Enums::Screen::NOLEVELUP, &ScreenRenderer::_display_no_level_up},
+		{Enums::Screen::RECOVERY, &ScreenRenderer::_display_recovery},
+		{Enums::Screen::REORDER, &ScreenRenderer::_display_reorder},
 	};
 
-	_draw_modules_with_int[Enums::Screen::CREATE_NAME] = [this](int n) {
-		_display_create_name(n);
+	_draw_modules_with_string = {
+		{Enums::Screen::LICENSE, &ScreenRenderer::_display_license},
 	};
-
-	_draw_modules_with_int[Enums::Screen::CREATE_RACE] = [this](int n) {
-		_display_create_race(n);
-	};
-
-	_draw_modules_with_int[Enums::Screen::CREATE_ALIGNMENT] = [this](int n) {
-		_display_create_alignment(n);
-	};
-
-	_draw_modules_with_int[Enums::Screen::CREATE_CONFIRM] = [this](int n) {
-		_display_create_confirm(n);
-	};
-
-	_draw_modules_with_int[Enums::Screen::CREATE_CLASS] = [this](int n) {
-		_display_create_class(n);
-	};
-	_draw_modules_with_int[Enums::Screen::CHEST] = [this](int n) {
-		_display_chest(n);
-	};
-
-	_draw_modules_with_int[Enums::Screen::HEAL] = [this](int n) {
-		_display_heal(n);
-	};
-	_draw_modules_with_int[Enums::Screen::RITE] = [this](int n) {
-		_display_rite(n);
-	};
-	_draw_modules_with_int[Enums::Screen::INSPECT] = [this](int n) {
-		_display_inspect(n);
-	};
-	_draw_modules_with_int[Enums::Screen::LEVELUP] = [this](int n) {
-		_display_level_up(n);
-	};
-	_draw_modules_with_int[Enums::Screen::NOLEVELUP] = [this](int n) {
-		_display_no_level_up(n);
-	};
-	_draw_modules_with_int[Enums::Screen::RECOVERY] = [this](int n) {
-		_display_recovery(n);
-	};
-	_draw_modules_with_int[Enums::Screen::REORDER] = [this](int n) {
-		_display_reorder(n);
-	};
-
-	_draw_modules_with_string[Enums::Screen::LICENSE] =
-		[this](const std::string &string) {
-			_display_license(string);
-		};
 }
 
 auto Sorcery::ScreenRenderer::display(const Enums::Screen screen,
-									  const std::any payload) -> void {
+									  const std::any &payload) -> void {
 
-	if (payload.type() == typeid(std::string)) {
+	if (const auto it{_draw_modules.find(screen)}; it != _draw_modules.end()) {
 
-		if (const auto it{_draw_modules_with_string.find(screen)};
-			it != _draw_modules_with_string.end()) {
+		std::invoke(it->second, this);
 
-			it->second(std::any_cast<const std::string &>(payload));
-		}
+	} else if (const auto it{_draw_modules_with_int.find(screen)};
+			   it != _draw_modules_with_int.end()) {
 
-	} else if (payload.type() == typeid(int)) {
+		std::invoke(it->second, this, std::any_cast<int>(payload));
 
-		if (const auto it{_draw_modules_with_int.find(screen)};
-			it != _draw_modules_with_int.end()) {
+	} else if (const auto it{_draw_modules_with_string.find(screen)};
+			   it != _draw_modules_with_string.end()) {
 
-			it->second(std::any_cast<int>(payload));
-		}
-
-	} else {
-
-		if (const auto it{_draw_modules.find(screen)};
-			it != _draw_modules.end()) {
-
-			it->second();
-		}
+		std::invoke(it->second, this,
+					std::any_cast<const std::string &>(payload));
 	}
 }
 
