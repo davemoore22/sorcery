@@ -29,6 +29,7 @@
 #include <algorithm>					// for sort
 #include <chrono>						// for __file_clock, file_clock
 #include <compare>						// for operator>, strong_ordering
+#include <cstdlib>						// for exit, EXIT_FAILURE
 #include <exception>					// for exception
 #include <filesystem>					// for path, last_write_time
 #include <format>						// for format
@@ -39,7 +40,6 @@
 #include <jsoncpp/json/writer.h>		// for StreamWriterBuilder
 #include <map>							// for map
 #include <optional>						// for optional, nullopt, nullopt_t
-#include <stdlib.h>						// for exit, EXIT_FAILURE
 #include <string>						// for basic_string, operator==, stoi
 #include <string_view>					// for basic_string_view, string_view
 #include <utility>						// for get, pair

@@ -29,7 +29,6 @@
 
 namespace Sorcery {
 
-// Forward Declarations
 struct Context;
 class Add;
 class Inspect;

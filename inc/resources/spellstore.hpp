@@ -27,8 +27,7 @@
 #include "types/enum.hpp"
 
 namespace Sorcery {
-
-// Forward Declaration
+	
 struct Context;
 
 class SpellStore {

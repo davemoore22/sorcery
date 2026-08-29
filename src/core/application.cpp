@@ -52,10 +52,10 @@
 #include "types/state.hpp"				 // for State
 #include <algorithm>					 // for __contains_fn, __transform_fn
 #include <cctype>						 // for tolower
+#include <cerrno>						 // for errno
 #include <csignal>						 // for signal, SIGINT, SIGTERM
 #include <cstdlib>						 // for abort
 #include <cstring>						 // for strerror
-#include <errno.h>						 // for errno
 #include <exception>					 // for exception, exception_ptr
 #include <filesystem>					 // for path
 #include <fstream>						 // for basic_ostream, operator<<

@@ -23,7 +23,7 @@
 #pragma once
 
 #include <SDL2/SDL_audio.h> // for SDL_AudioDeviceID, SDL_AudioSpec
-#include <stdint.h>			// for uint8_t
+#include <cstdint>			// for uint8_t
 #include <string>			// for string
 #include <vector>			// for vector
 struct AVCodecContext;		// lines 31-31

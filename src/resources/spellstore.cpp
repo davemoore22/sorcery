@@ -25,7 +25,7 @@
 #include "common/types.hpp"			// for Spell
 #include "core/context.hpp"			// for Context
 #include <algorithm>				// for find
-#include <assert.h>					// for assert
+#include <cassert>					// for assert
 #include <ranges>					// for filter_view, _Filter, _Partial
 #include <string>					// for basic_string
 #include <string_view>				// for string_view

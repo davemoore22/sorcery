@@ -87,10 +87,11 @@
 #include <algorithm>					 // for min, find, remove_if, trans...
 #include <any>							 // for any
 #include <array>						 // for array
+#include <cctype>						 // for tolower
 #include <chrono>						 // for steady_clock, operator+
 #include <compare>						 // for operator>=, strong_ordering
+#include <cstdint>						 // for intptr_t, uintptr_t
 #include <cstdlib>						 // for size_t, exit, EXIT_FAILURE
-#include <ctype.h>						 // for tolower
 #include <exception>					 // for exception
 #include <filesystem>					 // for path
 #include <format>						 // for format
@@ -104,7 +105,6 @@
 #include <optional>						 // for optional, nullopt, nullopt_t
 #include <ranges>						 // for _Filter, _Partial, filter
 #include <regex>						 // for regex, regex_token_iterator
-#include <stdint.h>						 // for intptr_t, uintptr_t
 #include <string>						 // for basic_string, string, char_...
 #include <string_view>					 // for basic_string_view, string_view
 #include <utility>						 // for pair, to_underlying, move

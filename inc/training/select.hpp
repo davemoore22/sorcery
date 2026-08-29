@@ -37,9 +37,6 @@ struct Context;
 
 namespace Sorcery {
 
-// Forward Declarations
-struct Context;
-
 class Select final : public Module {
 
 	public:

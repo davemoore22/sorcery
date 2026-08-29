@@ -25,6 +25,7 @@
 #include "common/types.hpp"			// for Coordinate, Size
 #include "types/error.hpp"			// for Error, operator<<
 #include "types/world/level.hpp"	// for Level
+#include <cstdlib>					// for exit, EXIT_FAILURE
 #include <exception>				// for exception
 #include <filesystem>				// for path
 #include <fstream>					// for basic_ifstream, basic_ostream
@@ -33,7 +34,6 @@
 #include <jsoncpp/json/value.h>		// for Value
 #include <map>						// for map, operator==
 #include <optional>					// for optional, nullopt, nullopt_t
-#include <stdlib.h>					// for exit, EXIT_FAILURE
 #include <string>					// for basic_string, string
 #include <utility>					// for pair
 

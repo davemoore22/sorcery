@@ -22,16 +22,12 @@
 
 #pragma once
 
-#include "imgui.h"				  // for ImVec2
-#include <GL/glew.h>			  // for GLuint
-#include <libavcodec/avcodec.h>	  // for AVCodecContext
-#include <libavcodec/packet.h>	  // for AVPacket
-#include <libavformat/avformat.h> // for AVFormatContext
-#include <libavutil/frame.h>	  // for AVFrame
-#include <libswscale/swscale.h>	  // for SwsContext
-#include <stdint.h>				  // for uint8_t
-#include <string>				  // for string
-#include <vector>				  // for vector
+#include "common/ffmpeg.hpp" // IWYU pragma: keep
+#include "imgui.h"			 // for ImVec2
+#include <GL/glew.h>		 // for GLuint
+#include <cstdint>			 // for uint8_t
+#include <string>			 // for string
+#include <vector>			 // for vector
 
 namespace Sorcery {
 

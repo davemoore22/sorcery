@@ -29,10 +29,10 @@
 #include <array>				   // for array
 #include <cmath>				   // for abs
 #include <compare>				   // for strong_ordering, operator<, opera...
+#include <cstdlib>				   // for abs
 #include <format>				   // for format
 #include <functional>			   // for invoke
 #include <memory>				   // for unique_ptr
-#include <stdlib.h>				   // for abs
 #include <string>				   // for basic_string, string, char_traits
 #include <utility>				   // for to_underlying
 

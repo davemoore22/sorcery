@@ -46,17 +46,10 @@ struct Context;
 } // lines 41-41
 namespace Sorcery {
 struct MenuAction;
-}				 // lines 45-45
+} // lines 45-45
 union SDL_Event; // lines 36-36
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class Game;
-class UI;
-class Character;
-struct MenuAction;
 
 // UI Interaction Logic Controller
 class Controller {

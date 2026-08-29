@@ -23,9 +23,9 @@
 #include "types/world/tile.hpp"
 #include "common/enum.hpp" // for Direction, Edge, Properties (ptr only)
 #include "types/error.hpp" // for Error, operator<<
+#include <cstdlib>		   // for exit, EXIT_FAILURE
 #include <exception>	   // for exception
 #include <iostream>		   // for basic_ostream, cerr
-#include <stdlib.h>		   // for exit, EXIT_FAILURE
 #include <string>		   // for basic_string
 #include <utility>		   // for to_underlying
 

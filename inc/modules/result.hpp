@@ -28,7 +28,6 @@
 
 namespace Sorcery {
 
-// Forward Declarations
 struct Context;
 
 enum class ResultType {

@@ -42,7 +42,6 @@ using GLuint = unsigned int;
 // UI Generation Class (sits on top of, and heavily uses, ImGui)
 namespace Sorcery {
 
-// Forward Declaration
 struct Context;
 class Character;
 class Controller;
