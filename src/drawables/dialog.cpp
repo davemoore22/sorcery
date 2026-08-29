@@ -21,15 +21,20 @@
 // the resulting work.
 
 #include "drawables/dialog.hpp"
+#include "common/enum.hpp"
+#include "common/imgui.hpp"
 #include "core/context.hpp"
-#include "core/system.hpp"
+#include "core/macro.hpp"
 #include "display/animation.hpp"
 #include "display/ui/ui.hpp"
 #include "display/ui/uimetrics.hpp"
 #include "display/ui/uistyle.hpp"
+#include "drawables/dialog.hpp"
 #include "resources/fontstore.hpp"
-#include "resources/stringstore.hpp"
 #include "types/component.hpp"
+#include "types/enum.hpp"
+#include <memory>
+#include <optional>
 
 Sorcery::Dialog::Dialog(Context &ctx, Component &component,
 						const Enums::Layout::DialogType type)

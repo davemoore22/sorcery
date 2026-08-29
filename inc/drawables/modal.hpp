@@ -22,15 +22,20 @@
 
 #pragma once
 
-#include "common/enum.hpp"
 #include "common/imgui.hpp"
-#include "types/enum.hpp"
+#include <string>
+#include <string_view>
+#include <vector>
 
 namespace Sorcery {
 
 struct Context;
-class Game;
 class Component;
+namespace Enums {
+	namespace Layout {
+		enum class Font;
+	}
+}
 
 class Modal {
 

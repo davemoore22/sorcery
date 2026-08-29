@@ -21,8 +21,9 @@
 // the resulting work.
 
 #include "display/animation.hpp"
+#include "common/enum.hpp"
+#include "core/define.hpp"
 #include "core/random.hpp"
-
 #include <algorithm>
 #include <chrono>
 #include <ranges>

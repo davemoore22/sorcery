@@ -34,6 +34,7 @@
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
+#include "core/define.hpp"
 #include "core/enum.hpp"
 #include "core/macro.hpp"
 #include "core/resources.hpp"

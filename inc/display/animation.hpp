@@ -28,8 +28,6 @@
 #include <thread>
 #include <vector>
 
-#include "core/define.hpp"
-
 namespace Sorcery {
 
 class Random;

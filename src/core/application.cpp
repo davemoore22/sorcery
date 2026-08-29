@@ -24,6 +24,7 @@
 #include "core/audioplayer.hpp"
 #include "core/controller.hpp"
 #include "core/debug.hpp"
+#include "core/define.hpp"
 #include "core/resources.hpp"
 #include "core/system.hpp"
 #include "display/animation.hpp"

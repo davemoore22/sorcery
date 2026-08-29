@@ -22,17 +22,17 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "types/enum.hpp"
-
 #include <string>
 
 namespace Sorcery {
 
 struct Context;
-class UI;
-class System;
 class Component;
+namespace Enums {
+	namespace Layout {
+		enum class DialogType;
+	}
+}
 
 class Dialog {
 
@@ -53,5 +53,4 @@ class Dialog {
 		std::string _id;
 		std::string _name;
 };
-
 }

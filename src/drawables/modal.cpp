@@ -21,20 +21,17 @@
 // the resulting work.
 
 #include "drawables/modal.hpp"
+#include "common/imgui.hpp"
 #include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/debug.hpp"
-#include "core/system.hpp"
+#include "core/macro.hpp"
 #include "display/animation.hpp"
 #include "display/ui/ui.hpp"
 #include "display/ui/uimetrics.hpp"
-#include "drawables/frame.hpp"
-#include "drawables/menu.hpp"
 #include "drawables/menubuilder.hpp"
 #include "resources/fontstore.hpp"
-#include "resources/stringstore.hpp"
 #include "types/component.hpp"
-#include "types/game.hpp"
+#include <memory>
+#include <optional>
 
 Sorcery::Modal::Modal(Context &ctx, Component &component)
 	: _ctx{ctx},
