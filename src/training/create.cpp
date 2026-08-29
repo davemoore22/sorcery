@@ -21,21 +21,21 @@
 // the resulting work.
 
 #include "training/create.hpp"
-#include "common/enum.hpp"
-#include "common/sdl2.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/enum.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "types/character/character.hpp"
-#include "types/character/create.hpp"
-#include "types/game.hpp"
-#include <any>
-#include <map>
-#include <memory>
-#include <string>
-#include <utility>
+#include "common/enum.hpp"				 // for Stage, Stage::CHOOSE_ALIGNMENT
+#include "core/context.hpp"				 // for Context
+#include "core/controller.hpp"			 // for Controller
+#include "core/enum.hpp"				 // for Screen
+#include "display/ui/ui.hpp"			 // for UI
+#include "drawables/define.hpp"			 // for BACK_TO_TRAINING_GROUNDS
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/game.hpp"				 // for Game
+#include <SDL_events.h>					 // for SDL_Event, SDL_PollEvent
+#include <any>							 // for any
+#include <map>							 // for map
+#include <memory>						 // for shared_ptr, make_shared
+#include <string>						 // for basic_string
+#include <utility>						 // for to_underlying
 
 Sorcery::Create::Create(Context &ctx)
 	: Module{ctx} {

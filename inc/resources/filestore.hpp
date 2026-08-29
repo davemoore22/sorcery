@@ -22,11 +22,12 @@
 
 #pragma once
 
-#include <filesystem>
-#include <string>
-#include <string_view>
-#include <unordered_map>
-#include <vector>
+#include <cstddef>		 // for size_t
+#include <filesystem>	 // for path
+#include <string>		 // for basic_string, string, hash
+#include <string_view>	 // for string_view
+#include <unordered_map> // for unordered_map
+#include <vector>		 // for vector
 
 namespace Sorcery {
 

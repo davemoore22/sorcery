@@ -21,32 +21,49 @@
 // the resulting work.
 
 #include "core/application.hpp"
-#include "core/audioplayer.hpp"
-#include "core/controller.hpp"
-#include "core/debug.hpp"
-#include "core/define.hpp"
-#include "core/resources.hpp"
-#include "core/system.hpp"
-#include "display/animation.hpp"
-#include "display/display.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "engine/define.hpp"
-#include "engine/engine.hpp"
-#include "frontend/mainmenu.hpp"
-#include "frontend/splash.hpp"
-#include "modules/castle.hpp"
-#include "modules/edgeoftown.hpp"
-#include "resources/filestore.hpp"
-#include "resources/imagestore.hpp"
-#include "resources/itemstore.hpp"
-#include "resources/levelstore.hpp"
-#include "resources/monsterstore.hpp"
-#include "types/config.hpp"
-#include "types/game.hpp"
-#include "types/state.hpp"
-
-#include <fstream>
+#include "cereal/archives/binary.hpp"	 // for BinaryInputArchive, BinaryO...
+#include "common/enum.hpp"				 // for Class, Align, Align::NO_ALIGN
+#include "core/audioplayer.hpp"			 // for AudioPlayer
+#include "core/controller.hpp"			 // for Controller
+#include "core/debug.hpp"				 // for DEBUG_LOGF, debug_logf
+#include "core/define.hpp"				 // for EXPEDITION_GOTO, EXPEDITION...
+#include "core/enum.hpp"				 // for CharacterSlot
+#include "core/resources.hpp"			 // for Resources
+#include "core/system.hpp"				 // for System
+#include "display/animation.hpp"		 // for Animation
+#include "display/display.hpp"			 // for Display
+#include "display/ui/ui.hpp"			 // for UI
+#include "drawables/define.hpp"			 // for ABORT_GAME, DEST_NONE, LEAV...
+#include "engine/define.hpp"			 // for RETURN_TO_TOWN
+#include "engine/engine.hpp"			 // for Engine
+#include "frontend/mainmenu.hpp"		 // for MainMenu
+#include "frontend/splash.hpp"			 // for Splash
+#include "modules/castle.hpp"			 // for Castle
+#include "modules/edgeoftown.hpp"		 // for EdgeOfTown
+#include "resources/define.hpp"			 // for ENGINE_MUSIC, MAINMENU_MUSIC
+#include "resources/filestore.hpp"		 // for FileStore
+#include "resources/imagestore.hpp"		 // for ImageStore
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/enum.hpp"				 // for TypeID, TypeID::LEATHER_ARMOR
+#include "types/game.hpp"				 // for Game
+#include "types/state.hpp"				 // for State
+#include <algorithm>					 // for __contains_fn, __transform_fn
+#include <cctype>						 // for tolower
+#include <csignal>						 // for signal, SIGINT, SIGTERM
+#include <cstdlib>						 // for abort
+#include <cstring>						 // for strerror
+#include <errno.h>						 // for errno
+#include <exception>					 // for exception, exception_ptr
+#include <filesystem>					 // for path
+#include <fstream>						 // for basic_ostream, operator<<
+#include <iostream>						 // for cerr
+#include <map>							 // for map
+#include <stdexcept>					 // for runtime_error
+#include <typeinfo>						 // for type_info
+#include <utility>						 // for move
 
 // Standard Constructor
 Sorcery::Application::Application(int argc, char **argv) {

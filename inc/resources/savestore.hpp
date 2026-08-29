@@ -22,12 +22,16 @@
 
 #pragma once
 
-#include <filesystem>
-#include <optional>
-#include <string>
-#include <string_view>
-#include <unordered_map>
-#include <vector>
+#include <chrono>	   // for system_clock
+#include <cstdint>	   // for int64_t
+#include <filesystem>  // for path
+#include <optional>	   // for optional
+#include <string>	   // for string
+#include <string_view> // for string_view
+#include <vector>	   // for vector
+namespace Sorcery {
+struct GameEntry;
+} // lines 34-34
 
 namespace Sorcery {
 

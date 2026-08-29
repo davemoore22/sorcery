@@ -21,6 +21,13 @@
 // the resulting work.
 
 #include "drawables/videoplayer.hpp"
+#include <libavcodec/codec.h>	// for AVCodec
+#include <libavutil/avutil.h>	// for AVMediaType, AV_NOPTS_VALUE
+#include <libavutil/imgutils.h> // for av_image_get_buffer_size, av_image_f...
+#include <libavutil/pixfmt.h>	// for AVPixelFormat
+#include <libavutil/rational.h> // for av_q2d
+#include <stddef.h>				// for size_t
+#include <stdexcept>			// for runtime_error
 
 Sorcery::VideoPlayer::VideoPlayer()
 	: _format_ctx{nullptr},

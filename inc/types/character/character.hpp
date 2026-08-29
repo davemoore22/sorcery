@@ -22,23 +22,21 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/types.hpp"
-#include "types/character/create.hpp"
-#include "types/character/inventory.hpp"
-#include "types/character/magic.hpp"
-#include <map>
-#include <optional>
-#include <ostream>
-#include <string>
-#include <vector>
+#include "common/enum.hpp"				 // for Ability (ptr only), Align
+#include "common/types.hpp"				 // for Coordinate, Spell (ptr only)
+#include "types/character/create.hpp"	 // for CharacterCreate, ConstChara...
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/character/magic.hpp"	 // for CharacterMagic, ConstCharac...
+#include <map>							 // for map
+#include <optional>						 // for optional
+#include <ostream>						 // for ostream
+#include <string>						 // for string, basic_string
+#include <vector>						 // for vector
+namespace Sorcery {
+struct Context;
+} // lines 44-44
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class System;
-class Resources;
 
 class Character {
 

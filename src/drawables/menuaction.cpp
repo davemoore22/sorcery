@@ -21,8 +21,5 @@
 // the resulting work.
 
 #include "drawables/menuaction.hpp"
-#include "core/controller.hpp"
-#include "core/resources.hpp"
-#include "drawables/define.hpp"
 
 namespace Sorcery {}

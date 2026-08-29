@@ -22,12 +22,13 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "types/dice.hpp"
-#include "types/enum.hpp"
-
-#include <random>
-
+#include "common/enum.hpp" // for Align (ptr only), Class (ptr only), SpellID
+#include "types/dice.hpp"  // for Dice
+#include "types/enum.hpp"  // for TypeID, Category, Invoke
+#include <array>		   // for array
+#include <iosfwd>		   // for ostream
+#include <random>		   // for mt19937_64, random_device
+#include <string>		   // for string, basic_string
 namespace Sorcery {
 
 class ItemType {

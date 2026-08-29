@@ -22,9 +22,8 @@
 
 #pragma once
 
-#include <string>
-
-#include "common/opengl.hpp"
+#include <GL/glew.h> // for GLuint
+#include <string>	 // for string, basic_string
 
 namespace Sorcery {
 

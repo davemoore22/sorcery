@@ -22,10 +22,12 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/types.hpp"
-#include "core/enum.hpp"
-#include "drawables/define.hpp"
+#include "core/enum.hpp" // for Screen, CharacterSlot (ptr only)
+#include <cstddef>		 // for size_t
+#include <string>		 // for basic_string, string
+#include <string_view>	 // for hash, operator==, string_view
+#include <unordered_map> // for unordered_map
+#include <vector>		 // for vector
 
 namespace Sorcery {
 

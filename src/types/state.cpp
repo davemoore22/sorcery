@@ -21,11 +21,26 @@
 // the resulting work.
 
 #include "types/state.hpp"
-#include "common/enum.hpp"
-#include "core/context.hpp"
-#include "core/system.hpp"
-#include "resources/itemstore.hpp"
-#include "types/meta.hpp"
+#include "common/enum.hpp"		   // for MessageType, Direction
+#include "core/context.hpp"		   // for Context
+#include "core/system.hpp"		   // for System
+#include "resources/itemstore.hpp" // for ItemStore
+#include "types/item/itemtype.hpp" // for ItemType
+#include "types/meta.hpp"		   // for enum_cast
+#include <algorithm>			   // for find_if, remove_if
+#include <format>				   // for format
+#include <functional>			   // for invoke
+#include <iterator>				   // for distance, end
+#include <print>				   // for println
+#include <string_view>			   // for literals
+#include <utility>				   // for to_underlying
+namespace Sorcery {
+namespace Enums {
+	namespace Items {
+		enum class TypeID;
+	}
+}
+}
 
 using namespace std::literals;
 

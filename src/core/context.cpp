@@ -21,17 +21,20 @@
 // the resulting work.
 
 #include "core/context.hpp"
-#include "core/application.hpp"
-#include "core/controller.hpp"
-#include "core/random.hpp"
-#include "resources/componentstore.hpp"
-#include "resources/filestore.hpp"
-#include "resources/stringstore.hpp"
-#include "types/component.hpp"
-#include "types/config.hpp"
-#include "types/scopedtimer.hpp"
-
-#include <print>
+#include "core/application.hpp"			// for Application
+#include "core/controller.hpp"			// for Controller
+#include "core/random.hpp"				// for Random
+#include "resources/componentstore.hpp" // for ComponentStore
+#include "resources/filestore.hpp"		// for FileStore
+#include "resources/stringstore.hpp"	// for StringStore
+#include "types/config.hpp"				// for Config
+namespace Sorcery {
+namespace Enums {
+	namespace System {
+		enum class Random;
+	}
+}
+}
 
 auto Sorcery::Context::tick() -> void {
 

@@ -22,11 +22,18 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include "training/enum.hpp"
-#include "types/enum.hpp"
-
-#include <memory>
+#include "core/enum.hpp"   // for Screen
+#include "core/module.hpp" // for Module
+namespace Sorcery {
+namespace Enums {
+	namespace Selection {
+		enum class Edit;
+	}
+}
+}
+namespace Sorcery {
+struct Context;
+} // lines 34-34
 
 namespace Sorcery {
 

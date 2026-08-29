@@ -22,17 +22,19 @@
 
 #pragma once
 
-#include "display/framebuffer.hpp"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
-#include <string>
-
+#include "display/framebuffer.hpp" // for FrameBuffer
+#include <GL/glew.h>			   // for GLuint, GLint, GLenum
+#include <SDL2/SDL_video.h>		   // for SDL_GLContext, SDL_Window, SDL_Wi...
+#include <string>				   // for basic_string, string
+namespace Sorcery {
+class Size;
+} // lines 36-36
+namespace Sorcery {
+struct Context;
+} // lines 35-35
 struct ImDrawData;
 
 namespace Sorcery {
-
-struct Context;
-struct Size;
 
 struct DisplayMetrics {
 

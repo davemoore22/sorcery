@@ -22,15 +22,12 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include "types/enum.hpp"
-
-#include <memory>
+#include "core/module.hpp" // for Module
+namespace Sorcery {
+struct Context;
+} // lines 33-33
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
 
 class Reclass final : public Module {
 

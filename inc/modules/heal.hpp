@@ -22,17 +22,15 @@
 
 #pragma once
 
-#include "common/sdl2.hpp"
-#include "core/module.hpp"
-
-#include <atomic>
-#include <cstdint>
+#include "core/module.hpp" // for Module
+#include <SDL_timer.h>	   // for SDL_TimerID
+#include <atomic>		   // for atomic_int
+#include <cstdint>		   // for uint32_t
+namespace Sorcery {
+struct Context;
+} // lines 34-34
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class Character;
 
 class Heal final : public Module {
 

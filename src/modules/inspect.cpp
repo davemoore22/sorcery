@@ -21,24 +21,18 @@
 // the resulting work.
 
 #include "modules/inspect.hpp"
-#include "common/macro.hpp"
-#include "core/application.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/define.hpp"
-#include "core/enum.hpp"
-#include "core/system.hpp"
-#include "display/display.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "drawables/modal.hpp"
-#include "drawables/popup.hpp"
-#include "engine/define.hpp"
-#include "resources/define.hpp"
-#include "types/character/character.hpp"
-#include "types/game.hpp"
-#include "types/state.hpp"
+#include "core/context.hpp"		// for Context
+#include "core/controller.hpp"	// for Controller
+#include "core/enum.hpp"		// for CharacterSlot, Screen
+#include "display/ui/ui.hpp"	// for UI
+#include "drawables/define.hpp" // for BACK_FROM_INSPECT, ABORT_GAME, INSPE...
+#include "types/game.hpp"		// for Game
+#include "types/state.hpp"		// for State
+#include <SDL_events.h>			// for SDL_Event, SDL_PollEvent
+#include <any>					// for any
+#include <memory>				// for unique_ptr
+#include <optional>				// for optional
+#include <string>				// for basic_string
 
 Sorcery::Inspect::Inspect(Context &ctx)
 	: Module{ctx} {

@@ -22,14 +22,16 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include <vector>
+#include "core/module.hpp" // for Module
+#include <vector>		   // for vector
+namespace Sorcery {
+class Character;
+} // lines 35-35
+namespace Sorcery {
+struct Context;
+} // lines 34-34
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class Character;
 
 class Create final : public Module {
 

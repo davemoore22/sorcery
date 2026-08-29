@@ -22,20 +22,17 @@
 
 #pragma once
 
-#include "common/types.hpp"
-#include "core/module.hpp"
-#include "engine/define.hpp"
-#include "engine/enum.hpp"
-#include "engine/types.hpp"
-
-#include <array>
-#include <optional>
-#include <string>
+#include "core/module.hpp" // for Module
+#include "engine/enum.hpp" // for State, Type, Result
+#include <array>		   // for array
+#include <optional>		   // for optional
+#include <string>		   // for string, basic_string
+#include <string_view>	   // for string_view
+namespace Sorcery {
+struct Context;
+} // lines 38-38
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
 
 class Chest final : public Module {
 

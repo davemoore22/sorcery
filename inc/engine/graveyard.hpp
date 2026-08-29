@@ -22,16 +22,12 @@
 
 #pragma once
 
-#include "common/types.hpp"
-#include "core/module.hpp"
-#include "engine/define.hpp"
-#include "engine/enum.hpp"
-#include "engine/types.hpp"
+#include "core/module.hpp" // for Module
+namespace Sorcery {
+struct Context;
+} // lines 34-34
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
 
 class Graveyard final : public Module {
 

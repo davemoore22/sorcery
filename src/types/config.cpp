@@ -21,10 +21,10 @@
 // the resulting work.
 
 #include "types/config.hpp"
-#include "common/enum.hpp"
-#include "core/macro.hpp"
-#include "types/define.hpp"
-#include "types/enum.hpp"
+#include "SimpleIni.h"		// for CSimpleIniA, SI_Error
+#include "common/enum.hpp"	// for Options, AMBUSH_HIDE, AUTO_SAVE, CHEAT_MODE
+#include "core/macro.hpp"	// for CSTR
+#include "types/define.hpp" // for NUM_GAME_SETTINGS, OPT_AMBUSH_HIDE, OPT_...
 
 Sorcery::Config::Config(CSimpleIniA *settings,
 						const std::filesystem::path cfg_path)
@@ -64,6 +64,8 @@ auto Sorcery::Config::_load() -> bool {
 	_options.fill(false);
 
 	// Gameplay Settings
+	using namespace std::string_literals;
+
 	auto option{""s};
 	const char *on{"on"};
 	const char *off{"on"};

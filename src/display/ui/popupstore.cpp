@@ -20,59 +20,21 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <algorithm>
-#include <ranges>
-#include <regex>
-#include <vector>
-
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "common/macro.hpp"
-#include "common/opengl.hpp"
-#include "common/sdl2.hpp"
-#include "common/types.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/debug.hpp"
-#include "core/enum.hpp"
-#include "core/macro.hpp"
-#include "core/resources.hpp"
-#include "core/system.hpp"
-#include "display/animation.hpp"
-#include "display/display.hpp"
-#include "display/render.hpp"
-#include "display/ui/popupstore.hpp"
-#include "display/ui/ui.hpp"
-#include "display/ui/uistyle.hpp"
-#include "drawables/dialog.hpp"
-#include "drawables/frame.hpp"
-#include "drawables/input.hpp"
-#include "drawables/menu.hpp"
-#include "drawables/menubuilder.hpp"
-#include "drawables/message.hpp"
-#include "drawables/modal.hpp"
-#include "drawables/popup.hpp"
-#include "drawables/videoplayer.hpp"
-#include "engine/define.hpp"
-#include "engine/types.hpp"
-#include "resources/componentstore.hpp"
-#include "resources/filestore.hpp"
-#include "resources/fontstore.hpp"
-#include "resources/imagestore.hpp"
-#include "resources/itemstore.hpp"
-#include "resources/levelstore.hpp"
-#include "resources/monsterstore.hpp"
-#include "resources/spellstore.hpp"
-#include "resources/stringstore.hpp"
-#include "types/component.hpp"
-#include "types/config.hpp"
-#include "types/enum.hpp"
-#include "types/error.hpp"
-#include "types/game.hpp"
-#include "types/image.hpp"
-#include "types/meta.hpp"
-#include "types/state.hpp"
-#include "types/world/tile.hpp"
+#include "display/ui/popupstore.hpp"	// for PopupStore
+#include "core/context.hpp"				// for Context
+#include "drawables/dialog.hpp"			// for Dialog
+#include "drawables/input.hpp"			// for Input
+#include "drawables/message.hpp"		// for Message
+#include "drawables/modal.hpp"			// for Modal
+#include "drawables/popup.hpp"			// for Popup
+#include "resources/componentstore.hpp" // for ComponentStore
+#include "types/enum.hpp"				// for DialogType
+#include <algorithm>					// for count_if
+#include <format>						// for format
+#include <memory>						// for unique_ptr, make_unique
+#include <string>						// for basic_string, operator==
+#include <string_view>					// for string_view
+#include <vector>						// for vector
 
 Sorcery::PopupStore::PopupStore(Context &ctx)
 	: _ctx{ctx} {

@@ -23,9 +23,13 @@
 // the resulting work.
 
 #include "types/item/itemtype.hpp"
-#include "common/enum.hpp"
-#include "common/macro.hpp"
-#include "types/meta.hpp"
+#include "common/enum.hpp" // for Class, Align, SpellID
+#include "types/meta.hpp"  // for enum_cast, enum_name
+#include <algorithm>	   // for replace
+#include <format>		   // for format
+#include <optional>		   // for optional
+#include <ostream>		   // for basic_ostream, flush
+#include <utility>		   // for to_underlying
 
 std::random_device Sorcery::ItemType::_device;
 std::mt19937_64 Sorcery::ItemType::_random(_device());

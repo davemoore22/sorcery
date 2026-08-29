@@ -21,19 +21,22 @@
 // the resulting work.
 
 #include "types/character/create.hpp"
-#include "core/context.hpp"
-#include "core/random.hpp"
-#include "core/resources.hpp"
-#include "resources/spellstore.hpp"
-#include "types/character/character.hpp"
-#include "types/templates.hpp"
-
-#include <map>
-#include <optional>
-#include <ostream>
-#include <string>
-#include <string_view>
-#include <vector>
+#include "common/types.hpp"				 // for Spell
+#include "core/context.hpp"				 // for Context
+#include "core/random.hpp"				 // for Random
+#include "types/character/character.hpp" // for Character
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/character/magic.hpp"	 // for CharacterMagic
+#include "types/templates.hpp"			 // for Grid
+#include <algorithm>					 // for min, max, count_if, __any_o...
+#include <array>						 // for array
+#include <format>						 // for format
+#include <map>							 // for map, operator==
+#include <ranges>						 // for _Filter, _Partial, filter
+#include <string>						 // for basic_string, string
+#include <string_view>					 // for string_view
+#include <utility>						 // for to_underlying
+#include <vector>						 // for vector
 
 namespace {
 
@@ -556,7 +559,9 @@ auto Sorcery::CharacterCreate::level_up() -> void {
 		_get_xp_for_level(_m_character->_abilities[CURRENT_LEVEL]);
 
 	// Handle stat changing
+	using namespace std::string_literals;
 	auto stat_message{""s};
+
 	using enum Enums::Character::Attribute;
 	stat_message = _update_stat_for_level(
 		STRENGTH, _m_character->_ctx->get_string("CHARACTER_STAT_STRENGTH"));
@@ -1410,6 +1415,7 @@ auto Sorcery::CharacterCreate::_update_hp_for_level() -> int {
 auto Sorcery::CharacterCreate::_update_stat_for_level(
 	Enums::Character::Attribute attribute, std::string stat) -> std::string {
 
+	using namespace std::string_literals;
 	auto message{""s};
 	using enum Enums::System::Random;
 	if (_m_character->_ctx->get_random(D100) < 75) {

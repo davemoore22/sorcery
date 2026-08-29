@@ -22,15 +22,25 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "types/enum.hpp"
-
+#include "imgui.h" // for ImU32, ImVec2
+#include <string>  // for string, basic_string
 namespace Sorcery {
-
-struct Context;
-class Game;
 class Component;
+} // lines 33-33
+namespace Sorcery {
+class Game;
+} // lines 32-32
+namespace Sorcery {
+namespace Enums {
+	namespace Layout {
+		enum class Font;
+	}
+}
+}
+namespace Sorcery {
+struct Context;
+} // lines 31-31
+namespace Sorcery {
 
 class Input {
 

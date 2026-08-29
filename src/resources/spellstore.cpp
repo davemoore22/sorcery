@@ -20,13 +20,16 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <ranges>
-
-#include "common/enum.hpp"
-#include "common/macro.hpp"
-#include "core/context.hpp"
-#include "resources/spellstore.hpp"
-#include "resources/stringstore.hpp"
+#include "resources/spellstore.hpp" // for SpellStore
+#include "common/enum.hpp"			// for SpellCategory, SpellID, SpellType
+#include "common/types.hpp"			// for Spell
+#include "core/context.hpp"			// for Context
+#include <algorithm>				// for find
+#include <assert.h>					// for assert
+#include <ranges>					// for filter_view, _Filter, _Partial
+#include <string>					// for basic_string
+#include <string_view>				// for string_view
+#include <vector>					// for vector
 
 Sorcery::SpellStore::SpellStore(Context &ctx)
 	: _ctx{ctx} {

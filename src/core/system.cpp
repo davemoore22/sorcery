@@ -21,17 +21,22 @@
 // the resulting work.
 
 #include "core/system.hpp"
-
-#include "common/enum.hpp"
-#include "common/sdl2.hpp"
-#include "core/audioplayer.hpp"
-#include "core/macro.hpp"
-#include "core/random.hpp"
-#include "display/animation.hpp"
-#include "resources/define.hpp"
-#include "resources/filestore.hpp"
-#include "resources/stringstore.hpp"
-#include "types/config.hpp"
+#include "SimpleIni.h"				 // for CSimpleIniTempl, CSimpleIniA
+#include "core/audioplayer.hpp"		 // for AudioPlayer
+#include "core/macro.hpp"			 // for CSTR
+#include "core/random.hpp"			 // for Random
+#include "display/animation.hpp"	 // for Animation
+#include "resources/define.hpp"		 // for CONFIG_FILE, STRINGS_FILE
+#include "resources/filestore.hpp"	 // for FileStore
+#include "resources/stringstore.hpp" // for StringStore
+#include "types/config.hpp"			 // for Config
+#include <SDL.h>					 // for SDL_INIT_AUDIO, SDL_Init
+#include <SDL_error.h>				 // for SDL_GetError
+#include <ctime>					 // for gmtime, strftime
+#include <filesystem>				 // for path
+#include <format>					 // for format
+#include <iterator>					 // for size, data
+#include <print>					 // for println
 
 #include <print>
 

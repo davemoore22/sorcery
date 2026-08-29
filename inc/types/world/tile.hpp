@@ -22,9 +22,12 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
-#include "common/types.hpp"
-#include "types/item/item.hpp"
+#include "common/enum.hpp"	   // for Direction (ptr only), Features (ptr o...
+#include "common/types.hpp"	   // for Teleport, Chute, Coordinate, Elevator
+#include "types/item/item.hpp" // for Item
+#include <bitset>			   // for bitset
+#include <optional>			   // for optional
+#include <vector>			   // for vector
 
 namespace Sorcery {
 

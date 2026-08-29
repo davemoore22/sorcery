@@ -21,15 +21,18 @@
 // the resulting work.
 
 #include "drawables/popup.hpp"
-#include "core/context.hpp"
-#include "core/system.hpp"
-#include "display/animation.hpp"
-#include "display/ui/ui.hpp"
-#include "display/ui/uimetrics.hpp"
-#include "display/ui/uistyle.hpp"
-#include "resources/fontstore.hpp"
-#include "resources/stringstore.hpp"
-#include "types/component.hpp"
+#include "core/context.hpp"			// for Context
+#include "core/macro.hpp"			// for CSTR
+#include "display/animation.hpp"	// for Animation
+#include "display/ui/ui.hpp"		// for UI
+#include "display/ui/uimetrics.hpp" // for UIMetrics
+#include "display/ui/uistyle.hpp"	// for set_faded
+#include "imgui.h"					// for ImVec2, GetWindowPos, ImVec4
+#include "resources/fontstore.hpp"	// for FontStore
+#include "types/component.hpp"		// for Component
+#include <imgui_sugar.hpp>			// for set_StyleVar, BooleanGuard, set_...
+#include <memory>					// for unique_ptr
+#include <optional>					// for optional
 
 Sorcery::Popup::Popup(Context &ctx, Component &component)
 	: _ctx{ctx},

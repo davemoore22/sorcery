@@ -22,17 +22,21 @@
 
 #pragma once
 
-#include <string>
-
+#include <string> // for string, basic_string
 namespace Sorcery {
-
-struct Context;
 class Component;
+} // lines 35-35
+namespace Sorcery {
 namespace Enums {
 	namespace Layout {
 		enum class DialogType;
 	}
 }
+}
+namespace Sorcery {
+struct Context;
+} // lines 32-32
+namespace Sorcery {
 
 class Dialog {
 

@@ -21,22 +21,15 @@
 // the resulting work.
 
 #include "resources/imagestore.hpp"
-#include "core/context.hpp"
-#include "core/debug.hpp"
-#include "core/system.hpp"
-#include "resources/define.hpp"
-#include "resources/filestore.hpp"
-#include "types/image.hpp"
-#include "types/scopedtimer.hpp"
-
-#include <print>
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wswitch-default"
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#include "core/context.hpp"		 // for Context
+#include "core/debug.hpp"		 // for DEBUG_LOGF, debug_logf
+#include "resources/define.hpp"	 // for BACKGROUNDS_TEXTURE, BANNER_TEXTURE
+#include "types/image.hpp"		 // for Image
+#include "types/scopedtimer.hpp" // for PROFILE_SCOPE
+#include <filesystem>			 // for path
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-#pragma GCC diagnostic pop
+#include <stb_image.h> // for stbi_load, stbi_image_free
+#include <string_view> // for basic_string_view
 
 Sorcery::ImageStore::ImageStore(Context &ctx)
 	: _ctx{ctx} {

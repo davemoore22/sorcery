@@ -20,14 +20,30 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <fstream>
-#include <iostream>
-
-#include "common/macro.hpp"
-#include "resources/componentstore.hpp"
-#include "types/component.hpp"
-#include "types/error.hpp"
-#include <jsoncpp/json/json.h>
+#include "resources/componentstore.hpp" // for ComponentStore
+#include "common/enum.hpp"				// for Error
+#include "common/macro.hpp"				// for COL2NUM
+#include "types/component.hpp"			// for Component
+#include "types/enum.hpp"				// for ComponentType, Font, DrawMode
+#include "types/error.hpp"				// for Error, operator<<
+#include <algorithm>					// for sort
+#include <chrono>						// for __file_clock, file_clock
+#include <compare>						// for operator>, strong_ordering
+#include <exception>					// for exception
+#include <filesystem>					// for path, last_write_time
+#include <format>						// for format
+#include <fstream>						// for basic_ifstream, char_traits
+#include <iostream>						// for cerr
+#include <jsoncpp/json/reader.h>		// for Reader
+#include <jsoncpp/json/value.h>			// for Value
+#include <jsoncpp/json/writer.h>		// for StreamWriterBuilder
+#include <map>							// for map
+#include <optional>						// for optional, nullopt, nullopt_t
+#include <stdlib.h>						// for exit, EXIT_FAILURE
+#include <string>						// for basic_string, operator==, stoi
+#include <string_view>					// for basic_string_view, string_view
+#include <utility>						// for get, pair
+#include <vector>						// for vector
 
 // Standard Constructor
 Sorcery::ComponentStore::ComponentStore(const std::filesystem::path filename) {

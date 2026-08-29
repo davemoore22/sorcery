@@ -22,33 +22,75 @@
 
 #pragma once
 
-#include <filesystem>
-#include <string>
-#include <string_view>
-
-#include "common/enum.hpp"
+#include <filesystem>  // for path
+#include <string>	   // for string
+#include <string_view> // for string_view
+namespace Sorcery {
+class Animation;
+} // lines 43-43
+namespace Sorcery {
+class Application;
+} // lines 49-49
+namespace Sorcery {
+class AudioPlayer;
+} // lines 44-44
+namespace Sorcery {
+class Component;
+} // lines 35-35
+namespace Sorcery {
+class ComponentStore;
+} // lines 42-42
+namespace Sorcery {
+class Config;
+} // lines 38-38
+namespace Sorcery {
+class Controller;
+} // lines 34-34
+namespace Sorcery {
+class Display;
+} // lines 36-36
+namespace Sorcery {
+class FileStore;
+} // lines 39-39
+namespace Sorcery {
+class FontStore;
+} // lines 40-40
+namespace Sorcery {
+class Game;
+} // lines 37-37
+namespace Sorcery {
+class ImageStore;
+} // lines 41-41
+namespace Sorcery {
+class MenuBuilder;
+} // lines 50-50
+namespace Sorcery {
+class Random;
+} // lines 46-46
+namespace Sorcery {
+class Resources;
+} // lines 33-33
+namespace Sorcery {
+class SaveStore;
+} // lines 51-51
+namespace Sorcery {
+class StringStore;
+} // lines 45-45
+namespace Sorcery {
+class System;
+} // lines 47-47
+namespace Sorcery {
+class UI;
+} // lines 48-48
+namespace Sorcery {
+namespace Enums {
+	namespace System {
+		enum class Random;
+	}
+}
+}
 
 namespace Sorcery {
-
-class Resources;
-class Controller;
-class Component;
-class Display;
-class Game;
-class Config;
-class FileStore;
-class FontStore;
-class ImageStore;
-class ComponentStore;
-class Animation;
-class AudioPlayer;
-class StringStore;
-class Random;
-class System;
-class UI;
-class Application;
-class MenuBuilder;
-class SaveStore;
 
 // Context struct for simplying DI
 struct Context {

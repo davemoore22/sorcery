@@ -22,32 +22,46 @@
 
 #pragma once
 
-#include <atomic>
-#include <csignal>
-#include <memory>
-#include <string>
-#include <string_view>
-#include <vector>
-
-#include "core/context.hpp"
-#include "core/types.hpp"
-
+#include "core/context.hpp" // for Context
+#include <atomic>			// for atomic_bool
+#include <memory>			// for unique_ptr
+#include <string>			// for string, basic_string
+#include <string_view>		// for string_view
+#include <vector>			// for vector
 namespace Sorcery {
-
-// Forward Declarations
-class Animation;
-class Bestiary;
 class Castle;
+} // lines 40-40
+namespace Sorcery {
 class Controller;
+} // lines 41-41
+namespace Sorcery {
 class Display;
+} // lines 42-42
+namespace Sorcery {
 class EdgeOfTown;
+} // lines 43-43
+namespace Sorcery {
 class Engine;
+} // lines 44-44
+namespace Sorcery {
 class Game;
+} // lines 45-45
+namespace Sorcery {
 class MainMenu;
+} // lines 46-46
+namespace Sorcery {
 class Resources;
+} // lines 47-47
+namespace Sorcery {
 class Splash;
+} // lines 48-48
+namespace Sorcery {
 class System;
+} // lines 49-49
+namespace Sorcery {
 class UI;
+} // lines 50-50
+namespace Sorcery {
 
 // Application Class
 class Application {

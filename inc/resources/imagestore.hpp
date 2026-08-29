@@ -22,16 +22,16 @@
 
 #pragma once
 
-#include <map>
-#include <vector>
-
-#include "common/opengl.hpp"
-#include "resources/define.hpp"
+#include "types/image.hpp" // for Image
+#include <GL/glew.h>	   // for GLuint
+#include <map>			   // for map
+#include <string>		   // for basic_string, string
+#include <vector>		   // for vector
+namespace Sorcery {
+struct Context;
+} // lines 33-33
 
 namespace Sorcery {
-
-struct Context;
-class Image;
 
 class ImageStore {
 

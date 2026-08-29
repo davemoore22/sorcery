@@ -22,16 +22,16 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include "types/enum.hpp"
-
-#include <memory>
+#include "core/module.hpp" // for Module
+#include <memory>		   // for unique_ptr
+namespace Sorcery {
+class Inspect;
+} // lines 34-34
+namespace Sorcery {
+struct Context;
+} // lines 33-33
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class Inspect;
 
 class Roster final : public Module {
 

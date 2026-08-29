@@ -21,23 +21,19 @@
 // the resulting work.
 
 #include "display/display.hpp"
-#include "common/types.hpp"
-
-#include "common/imgui.hpp"
-#include "common/opengl.hpp"
-#include "core/context.hpp"
-#include "core/debug.hpp"
-#include "core/system.hpp"
-#include "display/framebuffer.hpp"
-#include "resources/stringstore.hpp"
-#include "types/config.hpp"
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
-
-#include <cstdlib>
-#include <print>
-#include <string>
+#include "backends/imgui_impl_opengl3.h" // for ImGui_ImplOpenGL3_RenderDra...
+#include "common/types.hpp"				 // for Size
+#include "core/context.hpp"				 // for Context
+#include "core/debug.hpp"				 // for DEBUG_LOGF, debug_logf
+#include "display/framebuffer.hpp"		 // for FrameBuffer
+#include <SDL2/SDL.h>					 // for SDL_INIT_GAMECONTROLLER
+#include <SDL2/SDL_video.h>				 // for SDL_GLattr, SDL_GL_SetAttri...
+#include <SDL_error.h>					 // for SDL_GetError
+#include <algorithm>					 // for clamp, min
+#include <print>						 // for println
+#include <stdexcept>					 // for runtime_error
+#include <string>						 // for basic_string, stoi, operator+
+struct ImDrawData;
 
 constexpr auto vertex_shader{R"(
 	#version 330 core

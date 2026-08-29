@@ -21,17 +21,19 @@
 // the resulting work.
 
 #include "frontend/license.hpp"
-#include "common/sdl2.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/enum.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "resources/define.hpp"
-
-#include <fstream>
-#include <string>
-
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/context.hpp"			  // for Context
+#include "core/controller.hpp"		  // for Controller
+#include "core/enum.hpp"			  // for Screen
+#include "display/ui/ui.hpp"		  // for UI
+#include "drawables/define.hpp"		  // for GO_TO_FRONT_END, ABORT_GAME
+#include "resources/define.hpp"		  // for LICENSE_FILE
+#include <SDL_events.h>				  // for SDL_PollEvent
+#include <any>						  // for any
+#include <filesystem>				  // for path
+#include <fstream>					  // for basic_ifstream, ifstream
+#include <iterator>					  // for istreambuf_iterator, operator==
+#include <string>					  // for basic_string
 Sorcery::License::License(Context &ctx)
 	: Module{ctx} {
 

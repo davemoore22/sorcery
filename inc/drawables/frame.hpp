@@ -22,13 +22,19 @@
 
 #pragma once
 
-#include "common/imgui.hpp"
-#include "common/types.hpp"
+#include "common/types.hpp" // for Size
+#include "imgui.h"			// for ImU32, ImVec2
+#include <optional>			// for optional
+#include <string>			// for basic_string, string
+#include <string_view>		// for string_view
+namespace Sorcery {
+class Component;
+} // lines 31-31
+namespace Sorcery {
+struct Context;
+} // lines 30-30
 
 namespace Sorcery {
-
-struct Context;
-class Component;
 
 class Frame {
 

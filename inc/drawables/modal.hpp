@@ -22,20 +22,25 @@
 
 #pragma once
 
-#include "common/imgui.hpp"
-#include <string>
-#include <string_view>
-#include <vector>
-
+#include "imgui.h"	   // for ImU32, ImVec2
+#include <string>	   // for string, basic_string
+#include <string_view> // for string_view
+#include <vector>	   // for vector
 namespace Sorcery {
-
-struct Context;
 class Component;
+} // lines 33-33
+namespace Sorcery {
 namespace Enums {
 	namespace Layout {
 		enum class Font;
 	}
 }
+}
+namespace Sorcery {
+struct Context;
+} // lines 31-31
+
+namespace Sorcery {
 
 class Modal {
 

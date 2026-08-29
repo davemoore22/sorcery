@@ -21,12 +21,15 @@
 // the resulting work.
 
 #include "types/error.hpp"
-#include "common/enum.hpp"
-#include "common/macro.hpp"
-#include "types/meta.hpp"
-
-#include <iomanip>
-#include <regex>
+#include "common/macro.hpp" // for WORDWRAP
+#include "types/meta.hpp"	// for enum_name
+#include <algorithm>		// for remove_if
+#include <ctime>			// for localtime
+#include <format>			// for format
+#include <iomanip>			// for operator<<, put_time
+#include <regex>			// for regex, regex_token_iterator, sregex_toke...
+#include <sstream>			// for basic_ostream, basic_stringstream, endl
+#include <utility>			// for to_underlying
 
 Sorcery::Error::Error(Enums::System::Error error_code,
 					  std::exception &exception, std::string notes)

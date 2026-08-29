@@ -21,24 +21,20 @@
 // the resulting work.
 
 #include "training/training.hpp"
-#include "common/macro.hpp"
-#include "core/application.hpp"
-#include "core/audioplayer.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/define.hpp"
-#include "core/enum.hpp"
-#include "core/system.hpp"
-#include "display/display.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "resources/define.hpp"
-#include "training/create.hpp"
-#include "training/delete.hpp"
-#include "training/edit.hpp"
-#include "training/roster.hpp"
-#include "types/game.hpp"
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/audioplayer.hpp"		  // for AudioPlayer
+#include "core/context.hpp"			  // for Context
+#include "core/controller.hpp"		  // for Controller
+#include "core/enum.hpp"			  // for Screen
+#include "display/ui/ui.hpp"		  // for UI
+#include "drawables/define.hpp"		  // for ABORT_GAME, BACK_TO_EDGE_OF_TOWN
+#include "training/create.hpp"		  // for Create
+#include "training/delete.hpp"		  // for Delete
+#include "training/edit.hpp"		  // for Edit
+#include "training/roster.hpp"		  // for Roster
+#include "types/game.hpp"			  // for Game
+#include <SDL_events.h>				  // for SDL_PollEvent
+#include <any>						  // for any
 
 Sorcery::Training::Training(Context &ctx)
 	: Module{ctx} {

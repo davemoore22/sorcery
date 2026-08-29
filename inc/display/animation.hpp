@@ -22,15 +22,16 @@
 
 #pragma once
 
-#include <atomic>
-#include <chrono>
-#include <mutex>
-#include <thread>
-#include <vector>
+#include <atomic> // for atomic
+#include <chrono> // for steady_clock
+#include <mutex>  // for mutex
+#include <thread> // for jthread
+#include <vector> // for vector
+namespace Sorcery {
+class Random;
+} // lines 35-35
 
 namespace Sorcery {
-
-class Random;
 
 class Animation {
 	public:

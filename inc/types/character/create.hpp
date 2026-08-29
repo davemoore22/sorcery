@@ -22,20 +22,15 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
-#include "common/enum.hpp"
-#include "common/types.hpp"
-#include "types/character/inventory.hpp"
-#include "types/define.hpp"
-#include "types/enum.hpp"
-
-#pragma once
-
-#include "types/enum.hpp"
+#include "common/enum.hpp" // for Align (ptr only), SpellType (ptr only)
+#include <map>			   // for map
+#include <string>		   // for string
+#include <string_view>	   // for string_view
+namespace Sorcery {
+class Character;
+} // lines 38-38
 
 namespace Sorcery {
-
-class Character;
 
 class ConstCharacterCreate {
 

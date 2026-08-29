@@ -21,17 +21,19 @@
 // the resulting work.
 
 #include "frontend/compendium.hpp"
-#include "common/sdl2.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/enum.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "frontend/atlas.hpp"
-#include "frontend/bestiary.hpp"
-#include "frontend/license.hpp"
-#include "frontend/museum.hpp"
-#include "frontend/spellbook.hpp"
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/context.hpp"			  // for Context
+#include "core/controller.hpp"		  // for Controller
+#include "core/enum.hpp"			  // for Screen
+#include "display/ui/ui.hpp"		  // for UI
+#include "drawables/define.hpp"		  // for ABORT_GAME, GO_TO_FRONT_END
+#include "frontend/atlas.hpp"		  // for Atlas
+#include "frontend/bestiary.hpp"	  // for Bestiary
+#include "frontend/license.hpp"		  // for License
+#include "frontend/museum.hpp"		  // for Museum
+#include "frontend/spellbook.hpp"	  // for SpellBook
+#include <SDL_events.h>				  // for SDL_PollEvent
+#include <string>					  // for basic_string
 
 Sorcery::Compendium::Compendium(Context &ctx)
 	: Module{ctx} {

@@ -21,15 +21,18 @@
 // the resulting work.
 
 #include "frontend/splash.hpp"
-#include "common/sdl2.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/enum.hpp"
-#include "display/ui/ui.hpp"
-#include "resources/define.hpp"
-#include "resources/imagestore.hpp"
-
-#include <chrono>
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/context.hpp"			  // for Context
+#include "core/controller.hpp"		  // for Controller
+#include "core/enum.hpp"			  // for Screen
+#include "display/ui/ui.hpp"		  // for UI
+#include "imgui.h"					  // for ImGuiMouseCursor_, SetMouseCursor
+#include "resources/define.hpp"		  // for BANNER_TEXTURE
+#include "resources/imagestore.hpp"	  // for ImageStore
+#include <SDL_events.h>				  // for SDL_PollEvent
+#include <chrono>					  // for chrono_literals
+#include <string>					  // for basic_string, string
+#include <string_view>				  // for basic_string_view
 
 Sorcery::Splash::Splash(Context &ctx)
 	: Module{ctx} {

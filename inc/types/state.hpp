@@ -22,19 +22,31 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
-#include "common/types.hpp"
-#include "types/enum.hpp"
-#include "types/world/explore.hpp"
-#include "types/world/level.hpp"
-
-#include <memory>
+#include "common/enum.hpp"		   // for Direction, MessageType (ptr only)
+#include "common/types.hpp"		   // for ConsoleMessage, Coordinate, ShopS...
+#include "types/world/explore.hpp" // for Explore
+#include "types/world/level.hpp"   // for Level
+#include <array>				   // for array
+#include <map>					   // for map
+#include <memory>				   // for unique_ptr
+#include <optional>				   // for optional
+#include <string>				   // for string
+#include <vector>				   // for vector
+namespace Sorcery {
+class ItemStore;
+} // lines 37-37
+namespace Sorcery {
+namespace Enums {
+	namespace Items {
+		enum class TypeID;
+	}
+}
+}
+namespace Sorcery {
+struct Context;
+} // lines 36-36
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class ItemStore;
 
 // State holds the changable game data
 class State {

@@ -22,26 +22,45 @@
 
 #pragma once
 
-#include "common/types.hpp"
-#include "core/module.hpp"
-#include "engine/enum.hpp"
-#include <chrono>
-#include <cstdint>
-#include <memory>
-#include <optional>
+#include "common/enum.hpp"	// for Event (ptr only), Direction
+#include "common/types.hpp" // for Coordinate
+#include "core/module.hpp"	// for Module
+#include <chrono>			// for steady_clock, time_point
+#include <memory>			// for unique_ptr
+#include <optional>			// for optional
 
 namespace Sorcery {
-
-struct Context;
-class Options;
-class Inspect;
-class Reorder;
 class Application;
+} // lines 39-39
+namespace Sorcery {
 class Automap;
-class Graveyard;
-class Victory;
+} // lines 40-40
+namespace Sorcery {
 class Chest;
-struct Tile;
+} // lines 43-43
+namespace Sorcery {
+class Graveyard;
+} // lines 41-41
+namespace Sorcery {
+class Inspect;
+} // lines 37-37
+namespace Sorcery {
+class Options;
+} // lines 36-36
+namespace Sorcery {
+class Reorder;
+} // lines 38-38
+namespace Sorcery {
+class Tile;
+} // lines 44-44
+namespace Sorcery {
+class Victory;
+} // lines 42-42
+namespace Sorcery {
+struct Context;
+} // lines 35-35
+
+namespace Sorcery {
 
 struct PendingChute {
 		int depth{};

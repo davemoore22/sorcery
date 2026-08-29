@@ -21,12 +21,24 @@
 // the resulting work.
 
 #include "core/audioplayer.hpp"
-#include "common/ffmpeg.hpp"
-#include "common/sdl2.hpp"
-#include "core/debug.hpp"
-#include "types/scopedtimer.hpp"
-#include <iostream>
-#include <print>
+#include "core/debug.hpp"			  // for DEBUG_LOGF, debug_logf
+#include "types/scopedtimer.hpp"	  // for PROFILE_SCOPE
+#include <SDL_audio.h>				  // for SDL_PauseAudioDevice, SDL_Clea...
+#include <SDL_error.h>				  // for SDL_GetError
+#include <SDL_stdinc.h>				  // for Uint32
+#include <iostream>					  // for basic_ostream, operator<<, cerr
+#include <libavcodec/avcodec.h>		  // for AVCodecContext, avcodec_alloc_...
+#include <libavcodec/codec.h>		  // for AVCodec
+#include <libavcodec/packet.h>		  // for AVPacket, av_packet_alloc, av_...
+#include <libavformat/avformat.h>	  // for AVFormatContext, AVSEEK_FLAG_B...
+#include <libavutil/avutil.h>		  // for AVMediaType
+#include <libavutil/channel_layout.h> // for av_channel_layout_uninit, AVCh...
+#include <libavutil/frame.h>		  // for AVFrame, av_frame_alloc, av_fr...
+#include <libavutil/log.h>			  // for AV_LOG_ERROR, av_log_set_level
+#include <libavutil/mem.h>			  // for av_freep
+#include <libavutil/samplefmt.h>	  // for AVSampleFormat, av_samples_alloc
+#include <libswresample/swresample.h> // for swr_convert, swr_get_out_samples
+#include <stdexcept>				  // for runtime_error
 
 Sorcery::AudioPlayer::AudioPlayer() {
 

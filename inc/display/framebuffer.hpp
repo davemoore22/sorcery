@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "common/opengl.hpp"
+#include <GL/glew.h> // for GLuint
 
 namespace Sorcery {
 

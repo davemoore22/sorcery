@@ -29,9 +29,9 @@ using GLuint = unsigned int;
 #include "core/enum.hpp"
 #include "engine/enum.hpp"
 #include "types/enum.hpp"
-
 #include <any>
 #include <array>
+#include <chrono>
 #include <functional>
 #include <map>
 #include <memory>

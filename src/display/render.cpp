@@ -21,22 +21,22 @@
 // the resulting work.
 
 #include "display/render.hpp"
-#include "common/types.hpp"
-#include "core/context.hpp"
-#include "display/animation.hpp"
-#include "display/display.hpp"
-#include "display/ui/ui.hpp"
-#include "engine/types.hpp"
-#include "resources/define.hpp"
-#include "types/component.hpp"
-#include "types/game.hpp"
-#include "types/state.hpp"
-#include "types/world/level.hpp"
-#include "types/world/tile.hpp"
-#include <algorithm>
-#include <array>
-#include <functional>
-#include <memory>
+#include "common/types.hpp"		 // for Coordinate
+#include "core/context.hpp"		 // for Context
+#include "display/animation.hpp" // for Animation
+#include "display/display.hpp"	 // for Display, DisplayMetrics
+#include "display/ui/ui.hpp"	 // for UI
+#include "engine/types.hpp"		 // for TileView, Coordinate3, Vertex, Vert...
+#include "resources/define.hpp"	 // for WIREFRAME_TEXTURE
+#include "types/component.hpp"	 // for Component
+#include "types/game.hpp"		 // for Game
+#include "types/state.hpp"		 // for State
+#include "types/world/level.hpp" // for Level
+#include "types/world/tile.hpp"	 // for Tile
+#include <algorithm>			 // for min
+#include <array>				 // for array
+#include <functional>			 // for invoke
+#include <memory>				 // for unique_ptr
 
 // Standard Constructor
 Sorcery::Render::Render(Context &ctx)

@@ -22,16 +22,23 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "types/enum.hpp"
-
-#include <string>
-#include <vector>
+#include <string> // for basic_string, string
+#include <vector> // for vector
+namespace Sorcery {
+class Component;
+} // lines 34-34
+namespace Sorcery {
+namespace Enums {
+	namespace Map {
+		enum class Event;
+	}
+}
+}
+namespace Sorcery {
+struct Context;
+} // lines 33-33
 
 namespace Sorcery {
-
-struct Context;
-class Component;
 
 class Message {
 

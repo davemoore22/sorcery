@@ -22,14 +22,15 @@
 
 #pragma once
 
-#include <string>
-
-#include "types/enum.hpp"
+#include <string> // for string, basic_string
+namespace Sorcery {
+class Component;
+} // lines 32-32
+namespace Sorcery {
+struct Context;
+} // lines 31-31
 
 namespace Sorcery {
-
-struct Context;
-class Component;
 
 class Popup {
 

@@ -22,22 +22,26 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "common/types.hpp"
-#include "core/macro.hpp"
-#include "resources/define.hpp"
-#include "types/enum.hpp"
+#include "imgui.h"					  // for ImFont, ImGuiIO (ptr only)
+#include "types/enum.hpp"			  // for Font
+#include <freetype/config/ftheader.h> // for FT_FREETYPE_H
+#include <freetype/freetype.h>		  // for FT_Library
+#include <map>						  // for map
+#include <optional>					  // for optional
+#include <string>					  // for string, basic_string
+#include <vector>					  // for vector
+namespace Sorcery {
+struct Context;
+} // lines 40-40
+
 // #pragma GCC diagnostic push
 // #pragma GCC diagnostic ignored "-Wswitch-default"
 // #pragma GCC diagnostic ignored "-Wmissing-declarations"
-#include <ft2build.h>
-#include FT_FREETYPE_H
+// #include <ft2build.h>
+// #include FT_FREETYPE_H
 // #pragma GCC diagnostic pop
 
 namespace Sorcery {
-
-struct Context;
 
 struct FontInfo {
 		std::string name;

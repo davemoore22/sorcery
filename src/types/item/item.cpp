@@ -21,8 +21,10 @@
 // the resulting work.
 
 #include "types/item/item.hpp"
-#include "common/macro.hpp"
-#include "types/item/itemtype.hpp"
+#include "types/item/itemtype.hpp" // for ItemType
+#include <format>				   // for format
+#include <ostream>				   // for basic_ostream, flush
+#include <utility>				   // for to_underlying
 
 // Default Constructor
 Sorcery::Item::Item() {

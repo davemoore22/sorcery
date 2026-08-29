@@ -22,11 +22,16 @@
 
 #pragma once
 
-#include "common/types.hpp"
-#include "types/dice.hpp"
-#include "types/enum.hpp"
-
+#include "types/dice.hpp" // for Dice
+#include "types/enum.hpp" // for Breath, Category, Class, Property (ptr only)
+#include <array>		  // for array
+#include <iosfwd>		  // for ostream
+#include <random>		  // for mt19937_64, random_device
 #include <random>
+#include <string>  // for string, basic_string
+#include <tuple>   // for tuple
+#include <variant> // for tuple
+#include <vector>  // for vector
 
 namespace Sorcery {
 

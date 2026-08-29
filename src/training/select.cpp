@@ -21,20 +21,16 @@
 // the resulting work.
 
 #include "training/select.hpp"
-#include "common/macro.hpp"
-#include "core/application.hpp"
-#include "core/audioplayer.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/define.hpp"
-#include "core/enum.hpp"
-#include "core/system.hpp"
-#include "display/display.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "resources/define.hpp"
-#include "types/game.hpp"
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/audioplayer.hpp"		  // for AudioPlayer
+#include "core/context.hpp"			  // for Context
+#include "core/controller.hpp"		  // for Controller
+#include "core/enum.hpp"			  // for Screen, CharacterSlot
+#include "display/ui/ui.hpp"		  // for UI
+#include "drawables/define.hpp"		  // for BACK_TO_EDIT, ABORT_GAME, CHAR...
+#include "training/enum.hpp"		  // for Edit, Edit::LEGATE, Edit::RECLASS
+#include <SDL_events.h>				  // for SDL_PollEvent
+#include <any>						  // for any
 
 Sorcery::Select::Select(Context &ctx)
 	: Module{ctx} {

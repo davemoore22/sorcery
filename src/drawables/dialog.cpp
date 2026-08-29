@@ -21,20 +21,19 @@
 // the resulting work.
 
 #include "drawables/dialog.hpp"
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "core/context.hpp"
-#include "core/macro.hpp"
-#include "display/animation.hpp"
-#include "display/ui/ui.hpp"
-#include "display/ui/uimetrics.hpp"
-#include "display/ui/uistyle.hpp"
-#include "drawables/dialog.hpp"
-#include "resources/fontstore.hpp"
-#include "types/component.hpp"
-#include "types/enum.hpp"
-#include <memory>
-#include <optional>
+#include "core/context.hpp"			// for Context
+#include "core/macro.hpp"			// for CSTR
+#include "display/animation.hpp"	// for Animation
+#include "display/ui/ui.hpp"		// for UI
+#include "display/ui/uimetrics.hpp" // for UIMetrics
+#include "display/ui/uistyle.hpp"	// for set_faded
+#include "imgui.h"					// for ImVec2, GetWindowPos, ImVec4
+#include "resources/fontstore.hpp"	// for FontStore
+#include "types/component.hpp"		// for Component
+#include "types/enum.hpp"			// for DialogType, DialogType::CONFIRM
+#include <imgui_sugar.hpp>			// for set_StyleVar, BooleanGuard, set_...
+#include <memory>					// for unique_ptr
+#include <optional>					// for optional
 
 Sorcery::Dialog::Dialog(Context &ctx, Component &component,
 						const Enums::Layout::DialogType type)

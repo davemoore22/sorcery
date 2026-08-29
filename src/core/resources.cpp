@@ -21,14 +21,13 @@
 // the resulting work.
 
 #include "core/resources.hpp"
-#include "core/context.hpp"
-#include "core/system.hpp"
-#include "resources/filestore.hpp"
-#include "resources/itemstore.hpp"
-#include "resources/levelstore.hpp"
-#include "resources/monsterstore.hpp"
-#include "resources/savestore.hpp"
-#include "resources/spellstore.hpp"
+#include "core/context.hpp"			  // for Context
+#include "resources/define.hpp"		  // for ITEMS_FILE, MAPS_FILE, MONSTER...
+#include "resources/itemstore.hpp"	  // for ItemStore
+#include "resources/levelstore.hpp"	  // for LevelStore
+#include "resources/monsterstore.hpp" // for MonsterStore
+#include "resources/savestore.hpp"	  // for SaveStore
+#include "resources/spellstore.hpp"	  // for SpellStore
 
 Sorcery::Resources::Resources(Context &ctx)
 	: _ctx{ctx} {

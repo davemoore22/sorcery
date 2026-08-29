@@ -21,9 +21,13 @@
 // the resulting work.
 
 #include "types/world/tile.hpp"
-#include "common/enum.hpp"
-#include "common/macro.hpp"
-#include "types/error.hpp"
+#include "common/enum.hpp" // for Direction, Edge, Properties (ptr only)
+#include "types/error.hpp" // for Error, operator<<
+#include <exception>	   // for exception
+#include <iostream>		   // for basic_ostream, cerr
+#include <stdlib.h>		   // for exit, EXIT_FAILURE
+#include <string>		   // for basic_string
+#include <utility>		   // for to_underlying
 
 // Default Constructor
 Sorcery::Tile::Tile() {

@@ -22,9 +22,13 @@
 
 #pragma once
 
-#include "common/enum.hpp"
+#include "common/enum.hpp" // for Error
+#include <chrono>		   // for time_point, system_clock
+#include <exception>	   // for exception
+#include <iosfwd>		   // for ostream
+#include <string>		   // for basic_string, string
+#include <vector>		   // for vector
 
-#include <chrono>
 namespace Sorcery {
 
 class Error {

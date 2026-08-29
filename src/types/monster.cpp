@@ -21,9 +21,10 @@
 // the resulting work.
 
 #include "types/monster.hpp"
-#include "common/macro.hpp"
-#include "types/dice.hpp"
-#include "types/monstertype.hpp"
+#include "types/dice.hpp"		 // for Dice
+#include "types/monstertype.hpp" // for MonsterType
+#include <format>				 // for format
+#include <utility>				 // for to_underlying
 
 // Default Constructor
 Sorcery::Monster::Monster() {

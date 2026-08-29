@@ -22,10 +22,17 @@
 
 #pragma once
 
-#include "core/enum.hpp"
-#include <SDL2/SDL.h>
-#include <chrono>
-#include <functional>
+#include <SDL_events.h> // for SDL_Event
+#include <chrono>		// for milliseconds, chrono_literals
+#include <functional>	// for function
+namespace Sorcery {
+class Context;
+} // lines 49-49
+namespace Sorcery {
+namespace Enums {
+	enum class Screen;
+}
+}
 
 namespace Sorcery {
 

@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include "core/module.hpp"
+#include "core/module.hpp" // for Module
+namespace Sorcery {
+struct Context;
+} // lines 34-34
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
 
 class Automap final : public Module {
 

@@ -22,15 +22,14 @@
 
 #pragma once
 
-#include "common/types.hpp"
-#include "types/enum.hpp"
-
-#include <iostream>
+#include "types/enum.hpp" // for TypeID
+#include <iostream>		  // for ostream
+#include <string>		  // for string, basic_string
+namespace Sorcery {
+class MonsterType;
+} // lines 33-33
 
 namespace Sorcery {
-
-// Forward Declarations
-class MonsterType;
 
 class Monster {
 

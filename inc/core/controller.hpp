@@ -22,18 +22,32 @@
 
 #pragma once
 
-#include <functional>
-#include <map>
-#include <memory>
-#include <ostream>
-#include <string>
-#include <string_view>
-#include <vector>
-
-#include "common/enum.hpp"
-#include "core/enum.hpp"
-
-union SDL_Event;
+#include "common/enum.hpp" // for Direction, Event
+#include "core/enum.hpp"   // for CharacterSlot (ptr only), Screen
+#include <cstddef>		   // for size_t
+#include <functional>	   // for reference_wrapper
+#include <map>			   // for map
+#include <optional>		   // for optional
+#include <ostream>		   // for ostream
+#include <string>		   // for basic_string, string
+#include <string_view>	   // for string_view
+#include <vector>		   // for vector
+namespace Sorcery {
+class Character;
+} // lines 44-44
+namespace Sorcery {
+class Game;
+} // lines 42-42
+namespace Sorcery {
+class UI;
+} // lines 43-43
+namespace Sorcery {
+struct Context;
+} // lines 41-41
+namespace Sorcery {
+struct MenuAction;
+}				 // lines 45-45
+union SDL_Event; // lines 36-36
 
 namespace Sorcery {
 

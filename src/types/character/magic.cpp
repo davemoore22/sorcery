@@ -21,17 +21,17 @@
 // the resulting work.
 
 #include "types/character/magic.hpp"
-#include "core/context.hpp"
-#include "core/resources.hpp"
-#include "resources/spellstore.hpp"
-#include "types/character/character.hpp"
-
-#include <map>
-#include <optional>
-#include <ostream>
-#include <string>
-#include <string_view>
-#include <vector>
+#include "common/enum.hpp"				 // for SpellType, SpellType::ARCANE
+#include "common/types.hpp"				 // for Spell
+#include "core/context.hpp"				 // for Context
+#include "core/resources.hpp"			 // for Resources
+#include "resources/spellstore.hpp"		 // for SpellStore
+#include "types/character/character.hpp" // for Character
+#include <algorithm>					 // for find_if
+#include <map>							 // for map
+#include <memory>						 // for unique_ptr
+#include <utility>						 // for pair
+#include <vector>						 // for vector
 
 Sorcery::ConstCharacterMagic::ConstCharacterMagic(
 	const Character &character) noexcept

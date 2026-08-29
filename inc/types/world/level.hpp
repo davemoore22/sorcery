@@ -22,11 +22,13 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
-#include "core/macro.hpp"
-#include "types/enum.hpp"
-#include "types/world/tile.hpp"
-#include <jsoncpp/json/json.h>
+#include "common/enum.hpp"		// for Edge, Direction (ptr only), Event, Type
+#include "common/types.hpp"		// for Coordinate, Size
+#include "types/world/tile.hpp" // for Tile
+#include <jsoncpp/json/value.h> // for Value
+#include <map>					// for map
+#include <optional>				// for optional
+#include <string>				// for basic_string, string
 
 namespace Sorcery {
 

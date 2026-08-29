@@ -21,13 +21,13 @@
 // the resulting work.
 
 #include "engine/automap.hpp"
-#include "common/sdl2.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/enum.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include <any>
+#include "core/context.hpp"		// for Context
+#include "core/controller.hpp"	// for Controller
+#include "core/enum.hpp"		// for Screen
+#include "display/ui/ui.hpp"	// for UI
+#include "drawables/define.hpp" // for BACK_FROM_AUTOMAP, ABORT_GAME
+#include <SDL_events.h>			// for SDL_Event, SDL_PollEvent
+#include <any>					// for any
 
 Sorcery::Automap::Automap(Context &ctx)
 	: Module{ctx} {

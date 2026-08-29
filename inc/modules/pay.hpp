@@ -22,15 +22,16 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include "types/enum.hpp"
-
-#include <memory>
+#include "core/module.hpp" // for Module
+#include <memory>		   // for unique_ptr
+namespace Sorcery {
+class Heal;
+} // lines 33-33
+namespace Sorcery {
+struct Context;
+} // lines 32-32
 
 namespace Sorcery {
-
-struct Context;
-class Heal;
 
 class Pay final : public Module {
 

@@ -21,13 +21,12 @@
 // the resulting work.
 
 #include "display/animation.hpp"
-#include "common/enum.hpp"
-#include "core/define.hpp"
-#include "core/random.hpp"
-#include <algorithm>
-#include <chrono>
-#include <ranges>
-#include <thread>
+#include "common/enum.hpp" // for Random
+#include "core/define.hpp" // for DELAY_TSLEEP, DELAY_ATTRACT, WALLPAPER_IN...
+#include "core/random.hpp" // for Random
+#include <algorithm>	   // for __contains_fn, contains
+#include <chrono>		   // for milliseconds, duration, duration_cast
+#include <thread>		   // for jthread, sleep_for
 
 // Standard Constructor
 Sorcery::Animation::Animation(Random *random)

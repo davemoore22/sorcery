@@ -21,16 +21,20 @@
 // the resulting work.
 
 #include "drawables/message.hpp"
-#include "core/context.hpp"
-#include "core/define.hpp"
-#include "core/system.hpp"
-#include "display/animation.hpp"
-#include "display/ui/ui.hpp"
-#include "display/ui/uimetrics.hpp"
-#include "display/ui/uistyle.hpp"
-#include "resources/fontstore.hpp"
-#include "resources/stringstore.hpp"
-#include "types/component.hpp"
+#include "common/enum.hpp"			// for Event
+#include "core/context.hpp"			// for Context
+#include "display/animation.hpp"	// for Animation
+#include "display/ui/ui.hpp"		// for UI
+#include "display/ui/uimetrics.hpp" // for UIMetrics
+#include "display/ui/uistyle.hpp"	// for set_faded
+#include "imgui.h"					// for ImVec2, ImVec4, ImGuiViewport
+#include "resources/fontstore.hpp"	// for FontStore
+#include "types/component.hpp"		// for Component
+#include <algorithm>				// for max
+#include <cmath>					// for round
+#include <imgui_sugar.hpp>			// for BooleanGuard, set_StyleVar, with...
+#include <memory>					// for unique_ptr
+#include <optional>					// for optional
 
 Sorcery::Message::Message(Context &ctx, Component &component)
 	: _ctx{ctx},

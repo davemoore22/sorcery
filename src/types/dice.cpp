@@ -20,9 +20,11 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <regex>
-
-#include "types/dice.hpp"
+#include "types/dice.hpp" // for Dice
+#include <format>		  // for format
+#include <random>		  // for uniform_int_distribution, random_device
+#include <regex>		  // for regex, regex_search, smatch
+#include <string>		  // for basic_string, stoi, string
 
 std::random_device Sorcery::Dice::_device;
 std::mt19937_64 Sorcery::Dice::_random(_device());

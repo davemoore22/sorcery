@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "common/types.hpp"
-#include "types/enum.hpp"
+#include "common/types.hpp" // for Coordinate
+#include <set>				// for set
 
 namespace Sorcery {
 

@@ -21,20 +21,21 @@
 // the resulting work.
 
 #include "resources/savestore.hpp"
-#include "common/cereal.hpp"
-#include "common/types.hpp"
-#include "core/debug.hpp"
-
-#include <algorithm>
-#include <charconv>
-#include <chrono>
-#include <cstdint>
-#include <filesystem>
-#include <fstream>
-#include <limits>
-#include <stdexcept>
-#include <string>
-#include <utility>
+#include "cereal/archives/json.hpp"	  // for JSONInputArchive, JSONOutputAr...
+#include "cereal/cereal.hpp"		  // for make_nvp, CEREAL_NVP
+#include "cereal/details/helpers.hpp" // for Exception, NameValuePair
+#include "common/types.hpp"			  // for GameEntry
+#include "core/debug.hpp"			  // for DEBUG_LOGF, debug_logf
+#include <algorithm>				  // for __sort_fn, sort
+#include <charconv>					  // for from_chars, from_chars_result
+#include <chrono>					  // for system_clock, duration, seconds
+#include <cstdint>					  // for int64_t, uint32_t
+#include <filesystem>				  // for path, filesystem_error, direct...
+#include <fstream>					  // for basic_ofstream, basic_ifstream
+#include <stdexcept>				  // for runtime_error, invalid_argument
+#include <string>					  // for basic_string, allocator, opera...
+#include <system_error>				  // for error_code, errc
+#include <utility>					  // for move
 
 namespace {
 

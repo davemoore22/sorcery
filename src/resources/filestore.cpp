@@ -21,23 +21,20 @@
 // the resulting work.
 
 #include "resources/filestore.hpp"
-
-#include "core/debug.hpp"
-#include "resources/define.hpp"
-#include <array>
-#include <libgen.h>
-#include <limits.h>
-#include <sstream>
-#include <stdexcept>
-#include <system_error>
-#include <unistd.h>
-
 #ifdef __linux__
-#include <limits.h>
-#include <unistd.h>
+#include <limits.h> // for PATH_MAX
+#include <unistd.h> // for readlink
 #elif defined(_WIN32)
 #include <windows.h>
 #endif
+#include "core/debug.hpp"		// for DEBUG_LOGF, debug_logf
+#include "resources/define.hpp" // for DATA_DIR, GFX_DIR, SAVE_DIR, FILE_NO..
+#include <array>				// for array
+#include <sstream>				// for basic_ostringstream, basic_ostream
+#include <stdexcept>			// for runtime_error
+#include <sys/types.h>			// for ssize_t
+#include <system_error>			// for error_code
+#include <utility>				// for pair
 
 Sorcery::FileStore::FileStore() {
 

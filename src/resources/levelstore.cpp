@@ -20,14 +20,22 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <fstream>
-
-#include "common/enum.hpp"
-#include "common/macro.hpp"
-#include "core/random.hpp"
-#include "resources/levelstore.hpp"
-#include "types/error.hpp"
-#include <jsoncpp/json/json.h>
+#include "resources/levelstore.hpp" // for LevelStore
+#include "common/enum.hpp"			// for Error, Type
+#include "common/types.hpp"			// for Coordinate, Size
+#include "types/error.hpp"			// for Error, operator<<
+#include "types/world/level.hpp"	// for Level
+#include <exception>				// for exception
+#include <filesystem>				// for path
+#include <fstream>					// for basic_ifstream, basic_ostream
+#include <iostream>					// for cerr
+#include <jsoncpp/json/reader.h>	// for Reader
+#include <jsoncpp/json/value.h>		// for Value
+#include <map>						// for map, operator==
+#include <optional>					// for optional, nullopt, nullopt_t
+#include <stdlib.h>					// for exit, EXIT_FAILURE
+#include <string>					// for basic_string, string
+#include <utility>					// for pair
 
 Sorcery::LevelStore::LevelStore() {
 

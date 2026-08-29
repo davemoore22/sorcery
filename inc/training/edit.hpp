@@ -22,19 +22,25 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include "types/enum.hpp"
-
-#include <memory>
+#include "core/module.hpp" // for Module
+#include <memory>		   // for unique_ptr
+namespace Sorcery {
+class Reclass;
+} // lines 36-36
+namespace Sorcery {
+class Rename;
+} // lines 35-35
+namespace Sorcery {
+class Rite;
+} // lines 37-37
+namespace Sorcery {
+class Select;
+} // lines 34-34
+namespace Sorcery {
+struct Context;
+} // lines 33-33
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class Select;
-class Rename;
-class Reclass;
-class Rite;
 
 class Edit final : public Module {
 

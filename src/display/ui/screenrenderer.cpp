@@ -20,62 +20,49 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <algorithm>
-#include <ranges>
-#include <regex>
-#include <vector>
-
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "common/macro.hpp"
-#include "common/opengl.hpp"
-#include "common/sdl2.hpp"
-#include "common/types.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/debug.hpp"
-#include "core/define.hpp"
-#include "core/enum.hpp"
-#include "core/macro.hpp"
-#include "core/resources.hpp"
-#include "core/system.hpp"
-#include "display/animation.hpp"
-#include "display/display.hpp"
-#include "display/render.hpp"
-#include "display/ui/popupstore.hpp"
-#include "display/ui/screenrenderer.hpp"
-#include "display/ui/ui.hpp"
-#include "display/ui/uimetrics.hpp"
-#include "display/ui/uistyle.hpp"
-#include "drawables/dialog.hpp"
-#include "drawables/frame.hpp"
-#include "drawables/input.hpp"
-#include "drawables/menu.hpp"
-#include "drawables/menubuilder.hpp"
-#include "drawables/message.hpp"
-#include "drawables/modal.hpp"
-#include "drawables/popup.hpp"
-#include "drawables/videoplayer.hpp"
-#include "engine/define.hpp"
-#include "engine/types.hpp"
-#include "resources/componentstore.hpp"
-#include "resources/filestore.hpp"
-#include "resources/fontstore.hpp"
-#include "resources/imagestore.hpp"
-#include "resources/itemstore.hpp"
-#include "resources/levelstore.hpp"
-#include "resources/monsterstore.hpp"
-#include "resources/spellstore.hpp"
-#include "resources/stringstore.hpp"
-#include "types/component.hpp"
-#include "types/config.hpp"
-#include "types/enum.hpp"
-#include "types/error.hpp"
-#include "types/game.hpp"
-#include "types/image.hpp"
-#include "types/meta.hpp"
-#include "types/state.hpp"
-#include "types/world/tile.hpp"
+#include "display/ui/screenrenderer.hpp" // for ScreenRenderer
+#include "common/enum.hpp"				 // for Attribute, Attribute::LUCK
+#include "core/context.hpp"				 // for Context
+#include "core/controller.hpp"			 // for Controller
+#include "core/define.hpp"				 // for WINDOW_LAYER_MENUS, WINDOW_...
+#include "core/enum.hpp"				 // for Screen, CharacterSlot
+#include "display/display.hpp"			 // for Display, DisplayMetrics
+#include "display/render.hpp"			 // for Render
+#include "display/ui/popupstore.hpp"	 // for PopupStore
+#include "display/ui/ui.hpp"			 // for UI
+#include "display/ui/uimetrics.hpp"		 // for UIMetrics
+#include "display/ui/uistyle.hpp"		 // for set_text_dim
+#include "drawables/define.hpp"			 // for RECOVERY_BIRTHDAY, CHOOSE_M...
+#include "drawables/dialog.hpp"			 // for Dialog
+#include "drawables/modal.hpp"			 // for Modal
+#include "engine/define.hpp"			 // for CHEST_GFX_ID
+#include "imgui.h"						 // for ImVec2, ImGuiWindowFlags_
+#include "resources/componentstore.hpp"	 // for ComponentStore
+#include "resources/define.hpp"			 // for EVENTS_TEXTURE
+#include "resources/fontstore.hpp"		 // for FontStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/component.hpp"			 // for Component
+#include "types/game.hpp"				 // for Game
+#include "types/meta.hpp"				 // for enum_cast
+#include <any>							 // for any_cast, any
+#include <format>						 // for format
+#include <functional>					 // for invoke
+#include <imgui_sugar.hpp>				 // for BooleanGuard, with_Window
+#include <map>							 // for map
+#include <memory>						 // for unique_ptr
+#include <optional>						 // for optional
+#include <string>						 // for basic_string, string
+#include <unordered_map>				 // for unordered_map, operator==
+#include <utility>						 // for pair, to_underlying
+#include <vector>						 // for vector
+namespace Sorcery {
+namespace Enums {
+	namespace Chests {
+		enum class State;
+	}
+}
+}
 
 Sorcery::ScreenRenderer::ScreenRenderer(UI &ui, Context &ctx)
 	: _ui{ui},

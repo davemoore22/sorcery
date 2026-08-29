@@ -21,13 +21,18 @@
 // the resulting work.
 
 #include "resources/fontstore.hpp"
-#include "common/imgui.hpp"
-#include "core/context.hpp"
-#include "core/system.hpp"
-#include "resources/define.hpp"
-#include "types/config.hpp"
-
-#include <fstream>
+#include "resources/define.hpp" // for DATA_DIR
+#include <algorithm>			// for __lexicographical_compare_fn, __sort_fn
+#include <cctype>				// for tolower
+#include <filesystem>			// for path, directory_entry, directory_ite...
+#include <freetype/fttypes.h>	// for FT_Error, FT_Long
+#include <fstream>				// for basic_ostream, basic_ifstream, opera...
+#include <functional>			// for less
+#include <initializer_list>		// for initializer_list
+#include <iostream>				// for cerr
+#include <iterator>				// for istreambuf_iterator, operator==
+#include <string_view>			// for basic_string_view, string_view
+#include <utility>				// for pair
 
 Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO *io)
 	: _ctx(ctx),

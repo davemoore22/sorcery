@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include "core/module.hpp"
+#include "core/module.hpp" // for Module
+namespace Sorcery {
+struct Context;
+} // lines 31-31
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
 
 class Add final : public Module {
 

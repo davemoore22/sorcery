@@ -21,25 +21,20 @@
 // the resulting work.
 
 #include "training/edit.hpp"
-#include "common/macro.hpp"
-#include "core/application.hpp"
-#include "core/audioplayer.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/define.hpp"
-#include "core/enum.hpp"
-#include "core/system.hpp"
-#include "display/display.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "resources/define.hpp"
-#include "training/enum.hpp"
-#include "training/reclass.hpp"
-#include "training/rename.hpp"
-#include "training/rite.hpp"
-#include "training/select.hpp"
-#include "types/game.hpp"
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/audioplayer.hpp"		  // for AudioPlayer
+#include "core/context.hpp"			  // for Context
+#include "core/controller.hpp"		  // for Controller
+#include "core/enum.hpp"			  // for Screen
+#include "display/ui/ui.hpp"		  // for UI
+#include "drawables/define.hpp"		  // for ABORT_GAME, CHARACTER_SELECTED
+#include "training/enum.hpp"		  // for Edit
+#include "training/reclass.hpp"		  // for Reclass
+#include "training/rename.hpp"		  // for Rename
+#include "training/rite.hpp"		  // for Rite
+#include "training/select.hpp"		  // for Select
+#include <SDL_events.h>				  // for SDL_PollEvent
+#include <any>						  // for any
 
 Sorcery::Edit::Edit(Context &ctx)
 	: Module{ctx} {

@@ -21,32 +21,48 @@
 // the resulting work.
 
 #include "core/controller.hpp"
-#include "common/cereal.hpp"
-#include "common/enum.hpp"
-#include "common/sdl2.hpp"
-#include "core/context.hpp"
-#include "core/debug.hpp"
-#include "core/define.hpp"
-#include "core/enum.hpp"
-#include "core/resources.hpp"
-#include "core/system.hpp"
-#include "display/display.hpp"
-#include "display/ui/popupstore.hpp"
-#include "display/ui/ui.hpp"
-#include "display/ui/uimetrics.hpp"
-#include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "drawables/menuaction.hpp"
-#include "drawables/modal.hpp"
-#include "engine/define.hpp"
-#include "resources/itemstore.hpp"
-#include "resources/savestore.hpp"
-#include "types/character/character.hpp"
-#include "types/config.hpp"
-#include "types/game.hpp"
-#include "types/item/item.hpp"
-#include "types/meta.hpp"
-#include "types/state.hpp"
+#include "backends/imgui_impl_sdl2.h"	 // for SDL_Event
+#include "common/enum.hpp"				 // for Attribute, Options, Class
+#include "common/types.hpp"				 // for Spell
+#include "core/context.hpp"				 // for Context
+#include "core/debug.hpp"				 // for DEBUG_LOGF, debug_logf
+#include "core/define.hpp"				 // for ICON_CAMP, ICON_CAST, ICON_...
+#include "core/enum.hpp"				 // for CharacterSlot, Screen
+#include "core/resources.hpp"			 // for Resources
+#include "display/display.hpp"			 // for Display
+#include "display/ui/popupstore.hpp"	 // for PopupStore
+#include "display/ui/ui.hpp"			 // for UI
+#include "display/ui/uimetrics.hpp"		 // for UIMetrics
+#include "drawables/define.hpp"			 // for MAIN_MENU_CONTINUE_GAME
+#include "drawables/dialog.hpp"			 // for Dialog
+#include "drawables/menuaction.hpp"		 // for MenuAction, MENU_ACTIONS
+#include "drawables/modal.hpp"			 // for Modal
+#include "engine/define.hpp"			 // for MOVE_BACKWARD, MOVE_FORWARD
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/savestore.hpp"		 // for SaveStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/character/magic.hpp"	 // for ConstCharacterMagic
+#include "types/config.hpp"				 // for Config
+#include "types/enum.hpp"				 // for TypeID, TypeID::LEATHER_ARMOR
+#include "types/game.hpp"				 // for Game
+#include "types/item/item.hpp"			 // for Item
+#include "types/item/itemtype.hpp"		 // for ItemType
+#include "types/meta.hpp"				 // for enum_cast, enum_name
+#include "types/state.hpp"				 // for State
+#include <SDL_events.h>					 // for SDL_EventType
+#include <SDL_keycode.h>				 // for SDL_KeyCode
+#include <SDL_mouse.h>					 // for SDL_BUTTON_RIGHT
+#include <SDL_scancode.h>				 // for SDL_Scancode
+#include <SDL_video.h>					 // for SDL_WindowEventID, SDL_GetW...
+#include <algorithm>					 // for find
+#include <format>						 // for format
+#include <initializer_list>				 // for initializer_list
+#include <memory>						 // for shared_ptr, unique_ptr
+#include <ranges>						 // for __find_fn
+#include <unordered_map>				 // for unordered_map, operator==
+#include <utility>						 // for pair, get, exchange
 
 Sorcery::Controller::Controller(Context &ctx)
 	: _ctx{ctx} {

@@ -21,20 +21,20 @@
 // the resulting work.
 
 #include "types/character/character.hpp"
-#include "core/context.hpp"
-#include "core/resources.hpp"
-#include "resources/itemstore.hpp"
-#include "types/item/item.hpp"
-#include "types/item/itemtype.hpp"
-#include <array>
-#include <cmath>
-#include <compare>
-#include <format>
-#include <functional>
-#include <memory>
-#include <stdlib.h>
-#include <string>
-#include <utility>
+#include "core/context.hpp"		   // for Context
+#include "core/resources.hpp"	   // for Resources
+#include "resources/itemstore.hpp" // for ItemStore
+#include "types/item/item.hpp"	   // for Item
+#include "types/item/itemtype.hpp" // for ItemType
+#include <array>				   // for array
+#include <cmath>				   // for abs
+#include <compare>				   // for strong_ordering, operator<, opera...
+#include <format>				   // for format
+#include <functional>			   // for invoke
+#include <memory>				   // for unique_ptr
+#include <stdlib.h>				   // for abs
+#include <string>				   // for basic_string, string, char_traits
+#include <utility>				   // for to_underlying
 
 Sorcery::Character::Character() {}
 

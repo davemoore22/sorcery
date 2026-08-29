@@ -22,16 +22,16 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
-#include "common/types.hpp"
-#include "types/define.hpp"
-#include "types/enum.hpp"
-#include "types/item/item.hpp"
+#include "types/enum.hpp"	   // for Category (ptr only), TypeID (ptr only)
+#include "types/item/item.hpp" // for Item
+#include <iosfwd>			   // for ostream
+#include <optional>			   // for optional
+#include <vector>			   // for vector
+namespace Sorcery {
+class ItemType;
+} // lines 34-34
 
 namespace Sorcery {
-
-// Forward Declarations
-class ItemType;
 
 class Inventory {
 

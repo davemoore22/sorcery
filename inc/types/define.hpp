@@ -22,9 +22,9 @@
 
 #pragma once
 
-namespace Sorcery {
+#include <string>
 
-using namespace std::literals;
+namespace Sorcery {
 
 // On/Off Settings
 inline constexpr auto OPT_ON{"on"};

@@ -21,10 +21,12 @@
 // the resulting work.
 
 #include "types/character/inventory.hpp"
-#include "common/macro.hpp"
-#include "core/resources.hpp"
-#include "core/system.hpp"
-#include "types/item/itemtype.hpp"
+#include <algorithm>  // for __any_of_fn, any_of, find_if
+#include <format>	  // for format
+#include <functional> // for invoke
+#include <ostream>	  // for basic_ostream, endl
+#include <ranges>	  // for __find_if_fn
+#include <string>	  // for basic_string, char_traits, operator<<, string
 
 Sorcery::Inventory::Inventory() {
 
@@ -302,6 +304,8 @@ namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &inventory)
 	-> std::ostream & {
+
+	using namespace std::string_literals;
 
 	auto body{"Inventory:\n\n"s};
 	int slot{1};

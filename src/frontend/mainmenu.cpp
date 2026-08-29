@@ -21,22 +21,22 @@
 // the resulting work.
 
 #include "frontend/mainmenu.hpp"
-#include "common/sdl2.hpp"
-#include "core/audioplayer.hpp"
-#include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/enum.hpp"
-#include "display/animation.hpp"
-#include "display/ui/popupstore.hpp"
-#include "display/ui/ui.hpp"
-#include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "frontend/compendium.hpp"
-#include "frontend/license.hpp"
-#include "frontend/options.hpp"
-
-#include <chrono>
-#include <print>
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/audioplayer.hpp"		  // for AudioPlayer
+#include "core/context.hpp"			  // for Context
+#include "core/controller.hpp"		  // for Controller
+#include "core/enum.hpp"			  // for Screen
+#include "display/animation.hpp"	  // for Animation
+#include "display/ui/popupstore.hpp"  // for PopupStore
+#include "display/ui/ui.hpp"		  // for UI
+#include "drawables/define.hpp"		  // for ABORT_GAME, MAIN_MENU_CONTINUE...
+#include "drawables/dialog.hpp"		  // for Dialog
+#include "frontend/compendium.hpp"	  // for Compendium
+#include "frontend/license.hpp"		  // for License
+#include "frontend/options.hpp"		  // for Options
+#include <SDL_events.h>				  // for SDL_PollEvent
+#include <chrono>					  // for chrono_literals
+#include <string>					  // for basic_string
 
 Sorcery::MainMenu::MainMenu(Context &ctx)
 	: Module{ctx} {

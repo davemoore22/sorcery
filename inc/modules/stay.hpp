@@ -22,17 +22,19 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include "types/enum.hpp"
-
-#include <memory>
+#include "core/module.hpp" // for Module
+#include <memory>		   // for unique_ptr
+namespace Sorcery {
+class Recovery;
+} // lines 34-34
+namespace Sorcery {
+class Result;
+} // lines 35-35
+namespace Sorcery {
+struct Context;
+} // lines 33-33
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class Recovery;
-class Result;
 
 class Stay final : public Module {
 

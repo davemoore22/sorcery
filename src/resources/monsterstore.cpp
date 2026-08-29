@@ -20,17 +20,26 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <fstream>
-#include <regex>
-
-#include "common/enum.hpp"
-#include "common/macro.hpp"
-#include "resources/define.hpp"
-#include "resources/monsterstore.hpp"
-#include "types/meta.hpp"
-#include "types/monstertype.hpp"
-#include <jsoncpp/json/json.h>
-
+#include "resources/monsterstore.hpp" // for MonsterStore
+#include "types/dice.hpp"			  // for Dice
+#include "types/enum.hpp"			  // for Category, Property, Resistance
+#include "types/meta.hpp"			  // for enum_cast
+#include "types/monstertype.hpp"	  // for MonsterType
+#include <algorithm>				  // for remove_if
+#include <array>					  // for array
+#include <filesystem>				  // for path
+#include <fstream>					  // for basic_ifstream, ifstream
+#include <functional>				  // for invoke
+#include <jsoncpp/json/reader.h>	  // for Reader
+#include <jsoncpp/json/value.h>		  // for Value
+#include <jsoncpp/json/writer.h>	  // for StreamWriterBuilder
+#include <map>						  // for map
+#include <optional>					  // for optional
+#include <regex>					  // for regex, regex_replace, regex_to...
+#include <string>					  // for basic_string, string, stoi
+#include <string_view>				  // for string_view
+#include <utility>					  // for to_underlying, get
+#include <vector>					  // for vector
 // Standard Constructor
 Sorcery::MonsterStore::MonsterStore(const std::filesystem::path filename) {
 

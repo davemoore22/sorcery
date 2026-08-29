@@ -20,9 +20,17 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <format>
-
-#include "types/component.hpp"
+#include "types/component.hpp" // for Component
+#include "imgui.h"			   // for ImU32
+#include "types/enum.hpp"	   // for ComponentType, DrawMode, Font, Justif...
+#include <algorithm>		   // for find
+#include <format>			   // for format
+#include <optional>			   // for optional, nullopt, nullopt_t
+#include <ranges>			   // for __find_fn
+#include <string>			   // for basic_string, string, operator==, stof
+#include <string_view>		   // for string_view, operator==
+#include <utility>			   // for pair
+#include <vector>			   // for vector
 
 Sorcery::Component::Component()
 	: form{""},

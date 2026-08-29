@@ -22,20 +22,23 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
-#include "common/enum.hpp"
-#include "common/types.hpp"
-#include "types/character/inventory.hpp"
-#include "types/define.hpp"
-#include "types/enum.hpp"
-
-#pragma once
-
-#include "types/enum.hpp"
+#include <map>	  // for map
+#include <vector> // for vector
+namespace Sorcery {
+class Character;
+} // lines 38-38
+namespace Sorcery {
+namespace Enums {
+	namespace Magic {
+		enum class SpellType;
+	}
+}
+}
+namespace Sorcery {
+struct Spell;
+}
 
 namespace Sorcery {
-
-class Character;
 
 class ConstCharacterMagic {
 

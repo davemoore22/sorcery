@@ -21,16 +21,17 @@
 // the resulting work.
 
 #include "drawables/frame.hpp"
-#include "common/macro.hpp"
-#include "core/context.hpp"
-#include "core/define.hpp"
-#include "core/system.hpp"
-#include "display/animation.hpp"
-#include "display/ui/ui.hpp"
-#include "display/ui/uimetrics.hpp"
-#include "resources/fontstore.hpp"
-#include "resources/stringstore.hpp"
-#include "types/component.hpp"
+#include "core/context.hpp"			// for Context
+#include "core/define.hpp"			// for WINDOW_LAYER_FRAMES, WINDOW_LAYE...
+#include "display/animation.hpp"	// for Animation
+#include "display/ui/ui.hpp"		// for UI
+#include "display/ui/uimetrics.hpp" // for UIMetrics
+#include "resources/fontstore.hpp"	// for FontStore
+#include "types/component.hpp"		// for Component
+#include "types/enum.hpp"			// for Font
+#include <functional>				// for invoke
+#include <imgui_sugar.hpp>			// for BooleanGuard, set_Font, with_Window
+#include <memory>					// for unique_ptr
 
 Sorcery::Frame::Frame(Context &ctx, Component *component)
 	: _ctx{ctx},

@@ -22,11 +22,12 @@
 
 #pragma once
 
-#include <array>
-#include <filesystem>
-
-#include "types/define.hpp"
-#include <SimpleIni.h>
+#include "types/define.hpp" // for NUM_GAME_SETTINGS
+#include <SimpleIni.h>		// for CSimpleIniA
+#include <array>			// for array
+#include <filesystem>		// for path
+#include <string>			// for string
+#include <string_view>		// for string_view
 
 namespace Sorcery {
 

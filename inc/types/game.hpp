@@ -22,16 +22,30 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
-#include "common/sdl2.hpp"
-#include "types/character/character.hpp"
+#include "common/enum.hpp"				 // for Event (ptr only), Align
+#include "common/types.hpp"				 // for DungeonEvent
+#include "types/character/character.hpp" // for Character
+#include "types/state.hpp"				 // for State
+#include <SDL_keycode.h>				 // for SDL_Keycode
+#include <chrono>						 // for time_point, system_clock
+#include <functional>					 // for function
+#include <iosfwd>						 // for ostream
+#include <map>							 // for map
+#include <memory>						 // for shared_ptr, unique_ptr
+#include <string>						 // for string, basic_string
+#include <vector>						 // for vector
+namespace Sorcery {
+namespace Enums {
+	namespace Items {
+		enum class TypeID;
+	}
+}
+}
+namespace Sorcery {
+struct Context;
+} // lines 32-32
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class LevelStore;
-class State;
 
 // Game holds the current active game in progress
 class Game {

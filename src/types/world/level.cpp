@@ -21,7 +21,11 @@
 // the resulting work.
 
 #include "types/world/level.hpp"
-#include <jsoncpp/json/json.h>
+#include "core/macro.hpp" // for SPLIT
+#include <cstdlib>		  // for abs
+#include <format>		  // for format
+#include <functional>	  // for invoke
+#include <vector>		  // for vector
 
 // Default Constructor
 Sorcery::Level::Level() {

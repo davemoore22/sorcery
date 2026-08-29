@@ -22,18 +22,19 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include "types/enum.hpp"
-
-#include <atomic>
-#include <cstdint>
-#include <memory>
+#include "core/module.hpp" // for Module
+#include <SDL_timer.h>	   // for SDL_TimerID
+#include <atomic>		   // for atomic_bool, atomic_int
+#include <cstdint>		   // for uint32_t
+#include <memory>		   // for unique_ptr
+namespace Sorcery {
+class Inspect;
+} // lines 36-36
+namespace Sorcery {
+struct Context;
+} // lines 35-35
 
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class Inspect;
 
 class Rite final : public Module {
 

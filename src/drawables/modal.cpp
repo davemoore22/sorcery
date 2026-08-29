@@ -21,17 +21,17 @@
 // the resulting work.
 
 #include "drawables/modal.hpp"
-#include "common/imgui.hpp"
-#include "core/context.hpp"
-#include "core/macro.hpp"
-#include "display/animation.hpp"
-#include "display/ui/ui.hpp"
-#include "display/ui/uimetrics.hpp"
-#include "drawables/menubuilder.hpp"
-#include "resources/fontstore.hpp"
-#include "types/component.hpp"
-#include <memory>
-#include <optional>
+#include "core/context.hpp"			 // for Context
+#include "core/macro.hpp"			 // for CSTR
+#include "display/animation.hpp"	 // for Animation
+#include "display/ui/ui.hpp"		 // for UI
+#include "display/ui/uimetrics.hpp"	 // for UIMetrics
+#include "drawables/menubuilder.hpp" // for MenuBuilder
+#include "resources/fontstore.hpp"	 // for FontStore
+#include "types/component.hpp"		 // for Component
+#include <imgui_sugar.hpp>			 // for set_StyleVar, BooleanGuard, set...
+#include <memory>					 // for unique_ptr
+#include <optional>					 // for optional
 
 Sorcery::Modal::Modal(Context &ctx, Component &component)
 	: _ctx{ctx},

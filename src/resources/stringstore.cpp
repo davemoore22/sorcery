@@ -20,11 +20,17 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <fstream>
-
-#include "resources/define.hpp"
-#include "resources/stringstore.hpp"
-#include <jsoncpp/json/json.h>
+#include "resources/stringstore.hpp" // for StringStore
+#include "resources/define.hpp"		 // for STRINGS_NOT_LOADED, KEY_NOT_FOUND
+#include <algorithm>				 // for remove
+#include <fstream>					 // for basic_ifstream, ifstream
+#include <functional>				 // for less
+#include <jsoncpp/json/reader.h>	 // for Reader
+#include <jsoncpp/json/value.h>		 // for Value
+#include <jsoncpp/json/writer.h>	 // for StreamWriterBuilder, writeString
+#include <map>						 // for map
+#include <string>					 // for basic_string, operator<=>, string
+#include <string_view>				 // for string_view
 
 Sorcery::StringStore::StringStore(const std::string &filename)
 	: _filename{filename} {

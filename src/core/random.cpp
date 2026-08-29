@@ -21,10 +21,11 @@
 // the resulting work.
 
 #include "core/random.hpp"
-#include "common/enum.hpp"
-#include "types/meta.hpp"
-#include <format>
-#include <random>
+#include "common/enum.hpp" // for Random, Random::D10, Random::D100, Random...
+#include "types/meta.hpp"  // for enum_cast
+#include <format>		   // for format
+#include <optional>		   // for optional
+#include <random>		   // for uniform_int_distribution, mt19937_64, ran...
 
 Sorcery::Random::Random() {
 

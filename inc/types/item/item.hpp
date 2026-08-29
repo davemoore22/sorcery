@@ -22,12 +22,14 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
-#include "types/enum.hpp"
+#include "types/enum.hpp" // for Category, TypeID
+#include <iosfwd>		  // for ostream
+#include <string>		  // for string, basic_string
+namespace Sorcery {
+class ItemType;
+} // lines 30-30
 
 namespace Sorcery {
-
-class ItemType;
 
 class Item {
 

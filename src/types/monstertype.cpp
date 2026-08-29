@@ -21,8 +21,12 @@
 // the resulting work.
 
 #include "types/monstertype.hpp"
-#include "common/macro.hpp"
-#include "types/dice.hpp"
+#include "common/macro.hpp" // for TRIM
+#include "types/dice.hpp"	// for Dice
+#include <algorithm>		// for replace
+#include <format>			// for format
+#include <ostream>			// for basic_ostream, flush
+#include <utility>			// for to_underlying
 
 std::random_device Sorcery::MonsterType::_device;
 std::mt19937_64 Sorcery::MonsterType::_random(_device());

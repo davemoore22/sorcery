@@ -22,18 +22,22 @@
 
 #pragma once
 
-#include "common/imgui.hpp"
-#include "engine/types.hpp"
-#include <map>
+#include "common/enum.hpp"	// for Direction
+#include "engine/types.hpp" // for VertexArray (ptr only), Coordinate3, Til...
+#include "imgui.h"			// for ImVec2, ImVec4 (ptr only)
+#include <map>				// for map
+namespace Sorcery {
+class Component;
+} // lines 33-33
+namespace Sorcery {
+class Tile;
+} // lines 34-34
+namespace Sorcery {
+struct Context;
+} // lines 32-32
 
 // Class to handles rendering Wireframe
 namespace Sorcery {
-
-// Forward Declarations
-struct Context;
-class Component;
-struct Tile;
-struct VertexArray;
 
 class Render {
 
