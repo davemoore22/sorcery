@@ -28,6 +28,7 @@
 #include "resources/filestore.hpp"		// for FileStore
 #include "resources/stringstore.hpp"	// for StringStore
 #include "types/config.hpp"				// for Config
+
 namespace Sorcery {
 namespace Enums {
 	namespace System {

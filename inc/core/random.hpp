@@ -22,13 +22,12 @@
 
 #pragma once
 
+#include "common/enum.hpp"
 #include <map>
 #include <random>
 #include <string>
 #include <tuple>
 #include <vector>
-
-#include "common/enum.hpp"
 
 namespace Sorcery {
 

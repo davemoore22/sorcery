@@ -28,39 +28,18 @@
 #include <string>			// for string, basic_string
 #include <string_view>		// for string_view
 #include <vector>			// for vector
-namespace Sorcery {
-class Castle;
-}
-namespace Sorcery {
-class Controller;
-}
-namespace Sorcery {
-class Display;
-}
-namespace Sorcery {
-class EdgeOfTown;
-}
-namespace Sorcery {
-class Engine;
-}
-namespace Sorcery {
-class Game;
-}
-namespace Sorcery {
-class MainMenu;
-}
-namespace Sorcery {
-class Resources;
-}
-namespace Sorcery {
-class Splash;
-}
-namespace Sorcery {
-class System;
-}
-namespace Sorcery {
-class UI;
-}
+
+namespace Sorcery { class Castle; }
+namespace Sorcery { class Controller; }
+namespace Sorcery { class Display; }
+namespace Sorcery { class EdgeOfTown; }
+namespace Sorcery { class Engine; }
+namespace Sorcery { class Game; }
+namespace Sorcery { class MainMenu; }
+namespace Sorcery { class Resources; }
+namespace Sorcery { class Splash; }
+namespace Sorcery { class System; }
+namespace Sorcery { class UI; }
 namespace Sorcery {
 
 // Application Class

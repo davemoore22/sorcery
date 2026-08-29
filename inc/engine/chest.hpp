@@ -28,9 +28,8 @@
 #include <optional>		   // for optional
 #include <string>		   // for string, basic_string
 #include <string_view>	   // for string_view
-namespace Sorcery {
-struct Context;
-}
+
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

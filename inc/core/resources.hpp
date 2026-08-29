@@ -25,13 +25,16 @@
 #include <memory>
 
 namespace Sorcery {
-
 struct Context;
 class ItemStore;
 class LevelStore;
 class MonsterStore;
 class SpellStore;
 class SaveStore;
+}
+
+namespace Sorcery {
+
 class Resources {
 
 	public:

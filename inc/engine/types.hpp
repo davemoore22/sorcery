@@ -22,8 +22,7 @@
 
 #pragma once
 
-#include "common/imgui.hpp"
-#include "common/types.hpp"
+#include "imgui.h"
 #include <array>
 #include <format>
 #include <ostream>
@@ -33,18 +32,17 @@ namespace Sorcery {
 
 struct Coordinate3 {
 
-		Coordinate3()
-			: x{0},
-			  y{0},
-			  z{0} {};
+		Coordinate3() = default;
+
 		Coordinate3(int x_, int y_, int z_)
 			: x{x_},
 			  y{y_},
-			  z{z_} {};
+			  z{z_} {}
+
 		Coordinate3(int x_, int z_)
 			: x{x_},
 			  y{0},
-			  z{z_} {};
+			  z{z_} {}
 
 		auto operator==(const Coordinate3 &a) const -> bool {
 			return (x == a.x && y == a.y && z == a.z);
@@ -52,7 +50,7 @@ struct Coordinate3 {
 
 		auto operator<(const Coordinate3 &a) const -> bool {
 			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
-		};
+		}
 
 		friend std::ostream &operator<<(std::ostream &os,
 										Coordinate3 const &a) {
@@ -83,7 +81,7 @@ struct VertexArray {
 		auto operator[](int index) -> Vertex & {
 
 			return data[index];
-		};
+		}
 
 		friend std::ostream &operator<<(std::ostream &os,
 										VertexArray const &a) {
@@ -121,9 +119,9 @@ struct TileView {
 		TileView() {
 
 			offset = Coordinate3{0, 0, 0};
-		};
+		}
 
 		TileView(Coordinate3 offset_)
-			: offset{offset_} {};
+			: offset{offset_} {}
 };
 }

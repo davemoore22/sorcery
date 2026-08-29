@@ -27,14 +27,10 @@
 
 namespace Sorcery {
 namespace Enums {
-	namespace Selection {
-		enum class Edit;
-	}
+	namespace Selection { enum class Edit; }
 }
 }
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

@@ -22,8 +22,6 @@
 
 #pragma once
 
-#pragma once
-
 #include "core/module.hpp"
 
 namespace Sorcery {

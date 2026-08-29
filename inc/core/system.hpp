@@ -22,11 +22,11 @@
 
 #pragma once
 
+#include <SimpleIni.h>
 #include <chrono>
 #include <memory>
 #include <string>
 
-#include <SimpleIni.h>
 namespace Sorcery {
 
 struct Context;

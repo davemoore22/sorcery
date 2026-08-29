@@ -26,11 +26,12 @@
 #include <cstdint>			// for uint8_t
 #include <string>			// for string
 #include <vector>			// for vector
-struct AVCodecContext;		// Global Namespace Forward Declaration
-struct AVFormatContext;		// Global Namespace Forward Declaration
-struct AVFrame;				// Global Namespace Forward Declaration
-struct AVPacket;			// Global Namespace Forward Declaration
-struct SwrContext;			// Global Namespace Forward Declaration
+
+struct AVCodecContext;	// Global Namespace Forward Declaration
+struct AVFormatContext; // Global Namespace Forward Declaration
+struct AVFrame;			// Global Namespace Forward Declaration
+struct AVPacket;		// Global Namespace Forward Declaration
+struct SwrContext;		// Global Namespace Forward Declaration
 
 namespace Sorcery {
 

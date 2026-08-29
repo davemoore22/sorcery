@@ -25,14 +25,11 @@
 #include <SDL_events.h> // for SDL_Event
 #include <chrono>		// for milliseconds, chrono_literals
 #include <functional>	// for function
+
 namespace Sorcery {
-namespace Enums {
-	enum class Screen;
+namespace Enums { enum class Screen; }
 }
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

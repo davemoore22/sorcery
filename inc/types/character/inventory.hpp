@@ -27,9 +27,8 @@
 #include <iosfwd>			   // for ostream
 #include <optional>			   // for optional
 #include <vector>			   // for vector
-namespace Sorcery {
-class ItemType;
-}
+
+namespace Sorcery { class ItemType; }
 
 namespace Sorcery {
 

@@ -27,12 +27,8 @@
 #include <atomic>		   // for atomic_bool
 #include <cstdint>		   // for uint32_t
 
-namespace Sorcery {
-class Character;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Character; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

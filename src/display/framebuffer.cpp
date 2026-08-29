@@ -21,7 +21,6 @@
 // the resulting work.
 
 #include "display/framebuffer.hpp"
-
 #include <stdexcept>
 
 Sorcery::FrameBuffer::FrameBuffer(const int width, const int height) {

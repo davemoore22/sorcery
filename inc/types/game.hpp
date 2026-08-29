@@ -37,14 +37,10 @@
 
 namespace Sorcery {
 namespace Enums {
-	namespace Items {
-		enum class TypeID;
-	}
+	namespace Items { enum class TypeID; }
 }
 }
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 
@@ -54,7 +50,7 @@ class Game {
 	public:
 		// Constructor
 		Game(Context &ctx);
-		Game() = default;
+		Game() = delete;
 
 		// Overloaded Operator
 		auto friend operator<<(std::ostream &out_stream, const Game &game)

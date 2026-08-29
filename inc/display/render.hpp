@@ -27,15 +27,9 @@
 #include "imgui.h"			// for ImVec2, ImVec4 (ptr only)
 #include <map>				// for map
 
-namespace Sorcery {
-class Component;
-}
-namespace Sorcery {
-struct Tile;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Component; }
+namespace Sorcery { struct Tile; }
+namespace Sorcery { struct Context; }
 
 // Class to handles rendering Wireframe
 namespace Sorcery {

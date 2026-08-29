@@ -32,9 +32,8 @@
 #include <ostream>						 // for ostream
 #include <string>						 // for string, basic_string
 #include <vector>						 // for vector
-namespace Sorcery {
-struct Context;
-}
+
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

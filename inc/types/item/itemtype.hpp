@@ -29,6 +29,7 @@
 #include <iosfwd>		   // for ostream
 #include <random>		   // for mt19937_64, random_device
 #include <string>		   // for string, basic_string
+
 namespace Sorcery {
 
 class ItemType {

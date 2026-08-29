@@ -28,12 +28,8 @@
 #include <cstdint>		   // for uint32_t
 #include <memory>		   // for unique_ptr
 
-namespace Sorcery {
-class Inspect;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Inspect; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

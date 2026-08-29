@@ -25,9 +25,8 @@
 #include "types/enum.hpp" // for Category, TypeID
 #include <iosfwd>		  // for ostream
 #include <string>		  // for string, basic_string
-namespace Sorcery {
-class ItemType;
-}
+
+namespace Sorcery { class ItemType; }
 
 namespace Sorcery {
 

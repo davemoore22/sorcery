@@ -34,6 +34,7 @@
 #include <fstream>					  // for basic_ifstream, ifstream
 #include <iterator>					  // for istreambuf_iterator, operator==
 #include <string>					  // for basic_string
+
 Sorcery::License::License(Context &ctx)
 	: Module{ctx} {
 

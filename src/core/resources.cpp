@@ -40,4 +40,4 @@ Sorcery::Resources::Resources(Context &ctx)
 		_ctx.get_file(SAVE_GAME_FILE), _ctx.get_directory(SAVE_CHARACTERS_DIR));
 }
 
-Sorcery::Resources::~Resources() {}
+Sorcery::Resources::~Resources() = default;

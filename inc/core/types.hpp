@@ -22,8 +22,6 @@
 
 #pragma once
 
-#include "common/types.hpp"
-
 #include <string>
 
 namespace Sorcery {

@@ -22,11 +22,12 @@
 
 #pragma once
 
-#include "common/imgui.hpp"
+#include "imgui.h"
 #include <algorithm>
 #include <cctype>
 #include <chrono>
-#include <format>
+#include <ctime>
+#include <iostream>
 #include <print>
 #include <string>
 #include <string_view>
@@ -38,14 +39,13 @@ namespace Sorcery {
 // Macro to create a GUID (Linux Only!)
 inline auto GUID() -> std::string {
 
-	// TODO: move to platform.h
-	char guid[100];
-	uuid_t uuidObj;
-	uuid_generate(uuidObj);
-	uuid_unparse(uuidObj, guid);
-	std::string value{guid};
+	uuid_t uuid;
+	uuid_generate(uuid);
 
-	return value;
+	char guid[37];
+	uuid_unparse(uuid, guid);
+
+	return guid;
 }
 
 inline auto COL2VEC(std::string_view colour) -> ImVec4 {
@@ -112,13 +112,14 @@ inline auto WORDWRAP(std::string text, unsigned per_line) -> std::string {
 
 		if (line_end == text.size() - 1)
 			++line_end;
-		else if (std::isspace(text[line_end])) {
+		else if (std::isspace(static_cast<unsigned char>(text[line_end]))) {
 			text[line_end] = '@';
 			++line_end;
 		} else {
 			// backtrack
 			unsigned end = line_end;
-			while ((end > line_begin) && (!std::isspace(text[end])))
+			while ((end > line_begin) &&
+				   (!std::isspace(static_cast<unsigned char>(text[line_end]))))
 				--end;
 
 			if (end != line_begin) {
@@ -142,21 +143,18 @@ inline auto PRINT(const std::string &string) -> void {
 
 #define PRINTFUNC std::cout << __PRETTY_FUNCTION__ << std::endl;
 
-inline auto CAPITALISE(const std::string &str) {
+inline auto CAPITALISE(const std::string &str) -> std::string {
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
 	std::string output;
-	for (int i = 0; i < str.length(); i++) {
-		char c = str[i];
-		if (i == 0)
-			output += std::toupper(c);
-		else if (i != 0)
-			output += (std::tolower(c));
+	output.reserve(str.size());
+
+	for (std::size_t i = 0; i < str.size(); ++i) {
+		const auto c{static_cast<unsigned char>(str[i])};
+
+		output += static_cast<char>(i == 0 ? std::toupper(c) : std::tolower(c));
 	}
 
 	return output;
-#pragma GCC diagnostic pop
 }
 
 // Timepoint to String

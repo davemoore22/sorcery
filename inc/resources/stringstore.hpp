@@ -28,6 +28,7 @@
 #include <string_view> // for string_view
 
 namespace Sorcery {
+
 class StringStore {
 
 	public:

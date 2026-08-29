@@ -34,6 +34,7 @@
 #include <iterator>				   // for distance, end
 #include <print>				   // for println
 #include <utility>				   // for to_underlying
+
 namespace Sorcery {
 namespace Enums {
 	namespace Items {

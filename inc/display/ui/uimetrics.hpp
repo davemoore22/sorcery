@@ -22,15 +22,10 @@
 
 #pragma once
 
-using GLuint = unsigned int;
-
 #include "imgui.h" // for ImVec2
-namespace Sorcery {
-struct Context;
-}
-namespace Sorcery {
-struct DisplayMetrics;
-}
+
+namespace Sorcery { struct Context; }
+namespace Sorcery { struct DisplayMetrics; }
 
 // UI Generation Class (sits on top of, and heavily uses, ImGui)
 namespace Sorcery {

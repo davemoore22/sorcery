@@ -22,17 +22,15 @@
 
 #pragma once
 
+#include "common/cereal.hpp"
+#include "common/enum.hpp"
+#include "common/macro.hpp"
 #include <chrono>
 #include <format>
 #include <ostream>
 #include <print>
 #include <string>
 #include <tuple>
-#include <unordered_set>
-
-#include "common/cereal.hpp"
-#include "common/enum.hpp"
-#include "common/macro.hpp"
 
 namespace Sorcery {
 
@@ -49,7 +47,8 @@ struct Rect {
 			  y{y_},
 			  w{w_},
 			  h{h_} {};
-		Rect(const Rect &other)
+
+		Rect(const Rect &other) // TODO: remove and use compiler default
 			: x{other.x},
 			  y{other.y},
 			  w{other.w},
@@ -139,7 +138,7 @@ struct Size {
 			: w{w_},
 			  h{h_} {};
 
-		Size(const Size &other)
+		Size(const Size &other) // TODO: remove and use compiler default
 			: w{other.w},
 			  h{other.h} {};
 
@@ -251,29 +250,8 @@ struct Spell {
 			  translated_name{translated_name_},
 			  details{details_} {};
 
-		Spell(const Spell &other)
-			: id{other.id},
-			  type{other.type},
-			  category{other.category},
-			  level{other.level},
-			  known{other.known},
-			  name{other.name},
-			  translated_name{other.translated_name},
-			  details{other.details} {};
-
-		auto operator=(const Spell &other) -> Spell & {
-
-			id = other.id;
-			type = other.type;
-			category = other.category;
-			level = other.level;
-			name = other.name;
-			translated_name = other.translated_name;
-			details = other.details;
-
-			return *this;
-		};
-
+		Spell(const Spell &other) = default;
+		auto operator=(const Spell &other) -> Spell & = default;
 		Spell(Spell &&other) = default;
 		Spell &operator=(Spell &&other) = default;
 

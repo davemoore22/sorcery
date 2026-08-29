@@ -21,7 +21,6 @@
 // the resulting work.
 
 #include "core/application.hpp"
-
 #include <memory>
 
 // Executablele Entry Point

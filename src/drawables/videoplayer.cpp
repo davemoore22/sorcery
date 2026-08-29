@@ -21,7 +21,7 @@
 // the resulting work.
 
 #include "drawables/videoplayer.hpp"
-#include <cstddef> // for size_t
+#include <cstddef>	 // for size_t
 #include <stdexcept> // for runtime_error
 
 Sorcery::VideoPlayer::VideoPlayer()

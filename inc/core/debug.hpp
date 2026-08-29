@@ -22,6 +22,8 @@
 
 #pragma once
 
+#ifdef SORCERY_DEBUG
+
 #include <format>
 #include <print>
 #include <string_view>
@@ -32,9 +34,7 @@ namespace Sorcery {
 // Simple message logger
 inline auto debug_log(std::string_view message) -> void {
 
-#ifdef SORCERY_DEBUG
 	std::println("[DEBUG] {}", message);
-#endif
 }
 
 // Formatted logger
@@ -42,16 +42,11 @@ template <typename... Args>
 inline auto debug_logf(std::format_string<Args...> fmt, Args &&...args)
 	-> void {
 
-#ifdef SORCERY_DEBUG
 	auto message{std::format(fmt, std::forward<Args>(args)...)};
-
 	std::println("[DEBUG] {}", message);
-#endif
 }
 
 } // namespace Sorcery
-
-#ifdef SORCERY_DEBUG
 
 #define DEBUG_LOG(msg) Sorcery::debug_log(msg)
 #define DEBUG_LOGF(...) Sorcery::debug_logf(__VA_ARGS__)

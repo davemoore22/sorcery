@@ -22,9 +22,8 @@
 
 #pragma once
 
-using GLuint = unsigned int;
-
 #include "imgui.h"	   // for ImVec2 (ptr only), ImVec4, ImColor, ImGuiIO (...
+#include <GL/glew.h>   // for GLuint
 #include <any>		   // for any
 #include <array>	   // for array
 #include <chrono>	   // for seconds, milliseconds, steady_clock, time_point
@@ -38,80 +37,40 @@ using GLuint = unsigned int;
 #include <string_view> // for string_view
 #include <vector>	   // for vector
 
+namespace Sorcery { class Character; }
+namespace Sorcery { class Component; }
+namespace Sorcery { class ComponentStore; }
+namespace Sorcery { class FontStore; }
+namespace Sorcery { class Frame; }
+namespace Sorcery { class ImageStore; }
+namespace Sorcery { class Menu; }
+namespace Sorcery { class MenuBuilder; }
+namespace Sorcery { class PopupStore; }
+namespace Sorcery { class Render; }
+namespace Sorcery { class ScreenRenderer; }
+namespace Sorcery { class UIMetrics; }
+namespace Sorcery { class VideoPlayer; }
 namespace Sorcery {
-class Character;
-}
-namespace Sorcery {
-class Component;
-}
-namespace Sorcery {
-class ComponentStore;
-}
-namespace Sorcery {
-class FontStore;
-}
-namespace Sorcery {
-class Frame;
-}
-namespace Sorcery {
-class ImageStore;
-}
-namespace Sorcery {
-class Menu;
-}
-namespace Sorcery {
-class MenuBuilder;
-}
-namespace Sorcery {
-class PopupStore;
-}
-namespace Sorcery {
-class Render;
-}
-namespace Sorcery {
-class ScreenRenderer;
-}
-namespace Sorcery {
-class UIMetrics;
-}
-namespace Sorcery {
-class VideoPlayer;
+namespace Enums { enum class Screen; }
 }
 namespace Sorcery {
 namespace Enums {
-	enum class Screen;
+	namespace Layout { enum class Font; }
 }
 }
 namespace Sorcery {
 namespace Enums {
-	namespace Layout {
-		enum class Font;
-	}
+	namespace Magic { enum class SpellID; }
 }
 }
 namespace Sorcery {
 namespace Enums {
-	namespace Magic {
-		enum class SpellID;
-	}
+	namespace Map { enum class Event; }
 }
 }
-namespace Sorcery {
-namespace Enums {
-	namespace Map {
-		enum class Event;
-	}
-}
-}
-namespace Sorcery {
-struct Context;
-}
-namespace Sorcery {
-struct Tile;
-}
-namespace Sorcery {
-struct VertexArray;
-}
+namespace Sorcery { struct Context; }
+namespace Sorcery { struct Tile; }
+namespace Sorcery { struct VertexArray; }
 
 // UI Generation Class (sits on top of, and heavily uses, ImGui)
 namespace Sorcery {

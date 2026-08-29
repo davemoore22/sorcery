@@ -34,21 +34,11 @@
 #include <vector>		   // for vector
 
 union SDL_Event; // Global FNamespace orward Declaration
-namespace Sorcery {
-class Character;
-}
-namespace Sorcery {
-class Game;
-}
-namespace Sorcery {
-class UI;
-}
-namespace Sorcery {
-struct Context;
-}
-namespace Sorcery {
-struct MenuAction;
-}
+namespace Sorcery { class Character; }
+namespace Sorcery { class Game; }
+namespace Sorcery { class UI; }
+namespace Sorcery { struct Context; }
+namespace Sorcery { struct MenuAction; }
 
 namespace Sorcery {
 

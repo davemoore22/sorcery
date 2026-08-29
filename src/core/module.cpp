@@ -32,6 +32,7 @@
 #include <chrono>					  // for duration, milliseconds, operator-
 #include <cmath>					  // for lerp
 #include <filesystem>				  // for path
+
 namespace Sorcery {
 namespace Enums {
 	enum class Screen;

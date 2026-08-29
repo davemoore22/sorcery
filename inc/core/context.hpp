@@ -25,68 +25,29 @@
 #include <filesystem>  // for path
 #include <string>	   // for string
 #include <string_view> // for string_view
-namespace Sorcery {
-class Animation;
-}
-namespace Sorcery {
-class Application;
-}
-namespace Sorcery {
-class AudioPlayer;
-}
-namespace Sorcery {
-class Component;
-}
-namespace Sorcery {
-class ComponentStore;
-}
-namespace Sorcery {
-class Config;
-}
-namespace Sorcery {
-class Controller;
-}
-namespace Sorcery {
-class Display;
-}
-namespace Sorcery {
-class FileStore;
-}
-namespace Sorcery {
-class FontStore;
-}
-namespace Sorcery {
-class Game;
-}
-namespace Sorcery {
-class ImageStore;
-}
-namespace Sorcery {
-class MenuBuilder;
-}
-namespace Sorcery {
-class Random;
-}
-namespace Sorcery {
-class Resources;
-}
-namespace Sorcery {
-class SaveStore;
-}
-namespace Sorcery {
-class StringStore;
-}
-namespace Sorcery {
-class System;
-}
-namespace Sorcery {
-class UI;
-}
+
+namespace Sorcery { class Animation; }
+namespace Sorcery { class Application; }
+namespace Sorcery { class AudioPlayer; }
+namespace Sorcery { class Component; }
+namespace Sorcery { class ComponentStore; }
+namespace Sorcery { class Config; }
+namespace Sorcery { class Controller; }
+namespace Sorcery { class Display; }
+namespace Sorcery { class FileStore; }
+namespace Sorcery { class FontStore; }
+namespace Sorcery { class Game; }
+namespace Sorcery { class ImageStore; }
+namespace Sorcery { class MenuBuilder; }
+namespace Sorcery { class Random; }
+namespace Sorcery { class Resources; }
+namespace Sorcery { class SaveStore; }
+namespace Sorcery { class StringStore; }
+namespace Sorcery { class System; }
+namespace Sorcery { class UI; }
 namespace Sorcery {
 namespace Enums {
-	namespace System {
-		enum class Random;
-	}
+	namespace System { enum class Random; }
 }
 }
 

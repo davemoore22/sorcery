@@ -24,19 +24,13 @@
 
 #include <string> // for string, basic_string
 
-namespace Sorcery {
-class Component;
-}
+namespace Sorcery { class Component; }
 namespace Sorcery {
 namespace Enums {
-	namespace Layout {
-		enum class DialogType;
-	}
+	namespace Layout { enum class DialogType; }
 }
 }
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 namespace Sorcery {
 
 class Dialog {

@@ -56,6 +56,7 @@
 #include <unordered_map>				 // for unordered_map, operator==
 #include <utility>						 // for pair, to_underlying
 #include <vector>						 // for vector
+
 namespace Sorcery {
 namespace Enums {
 	namespace Chests {

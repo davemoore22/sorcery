@@ -25,12 +25,8 @@
 #include "core/module.hpp" // for Module
 #include <memory>		   // for unique_ptr
 
-namespace Sorcery {
-class Heal;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Heal; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

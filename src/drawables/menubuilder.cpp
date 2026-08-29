@@ -35,7 +35,6 @@
 #include "types/game.hpp"
 #include "types/meta.hpp"
 #include "types/state.hpp"
-
 #include <algorithm>
 #include <ranges>
 

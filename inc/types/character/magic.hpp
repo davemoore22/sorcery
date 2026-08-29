@@ -24,19 +24,14 @@
 
 #include <map>	  // for map
 #include <vector> // for vector
-namespace Sorcery {
-class Character;
-}
+
+namespace Sorcery { class Character; }
 namespace Sorcery {
 namespace Enums {
-	namespace Magic {
-		enum class SpellType;
-	}
+	namespace Magic { enum class SpellType; }
 }
 }
-namespace Sorcery {
-struct Spell;
-}
+namespace Sorcery { struct Spell; }
 
 namespace Sorcery {
 

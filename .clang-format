@@ -22,3 +22,4 @@ AllowShortEnumsOnASingleLine: false
 FixNamespaceComments: false
 SortUsingDeclarations: true
 Cpp11BracedListStyle: true
+AllowShortNamespacesOnASingleLine: true

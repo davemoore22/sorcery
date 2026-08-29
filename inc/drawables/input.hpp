@@ -25,22 +25,14 @@
 #include "imgui.h" // for ImU32, ImVec2
 #include <string>  // for string, basic_string
 
-namespace Sorcery {
-class Component;
-} 
-namespace Sorcery {
-class Game;
-}
+namespace Sorcery { class Component; }
+namespace Sorcery { class Game; }
 namespace Sorcery {
 namespace Enums {
-	namespace Layout {
-		enum class Font;
-	}
+	namespace Layout { enum class Font; }
 }
 }
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 namespace Sorcery {
 
 class Input {

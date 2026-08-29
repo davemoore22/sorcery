@@ -27,9 +27,7 @@
 #include <string>		   // for string
 #include <string_view>	   // for string_view
 
-namespace Sorcery {
-class Character;
-}
+namespace Sorcery { class Character; }
 
 namespace Sorcery {
 

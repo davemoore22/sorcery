@@ -22,16 +22,16 @@
 
 #pragma once
 
-#include <chrono>
-#include <filesystem>
-#include <map>
-#include <optional>
-#include <string>
-#include <vector>
+#include "types/component.hpp" // for Component
+#include <chrono>			   // for time_point, file_clock
+#include <filesystem>		   // for path, file_time_type
+#include <map>				   // for map
+#include <optional>			   // for optional
+#include <string>			   // for basic_string, string
+#include <string_view>		   // for string_view
+#include <vector>			   // for vector
 
 namespace Sorcery {
-
-class Component;
 
 class ComponentStore {
 

@@ -25,18 +25,10 @@
 #include "core/module.hpp" // for Module
 #include <memory>		   // for unique_ptr
 
-namespace Sorcery {
-class Inspect;
-}
-namespace Sorcery {
-class Restart;
-}
-namespace Sorcery {
-class Training;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Inspect; }
+namespace Sorcery { class Restart; }
+namespace Sorcery { class Training; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

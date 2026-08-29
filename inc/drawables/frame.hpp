@@ -28,12 +28,8 @@
 #include <string>			// for basic_string, string
 #include <string_view>		// for string_view
 
-namespace Sorcery {
-class Component;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Component; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

@@ -29,12 +29,8 @@
 
 struct ImDrawData; // Global Namespace Forward Declaration
 
-namespace Sorcery {
-struct Size;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Size; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

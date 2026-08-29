@@ -26,21 +26,11 @@
 #include <string> // for string
 #include <vector> // for vector
 
-namespace Sorcery {
-class Dialog;
-}
-namespace Sorcery {
-class Input;
-}
-namespace Sorcery {
-class Message;
-}
-namespace Sorcery {
-class Modal;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Dialog; }
+namespace Sorcery { class Input; }
+namespace Sorcery { class Message; }
+namespace Sorcery { class Modal; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

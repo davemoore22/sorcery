@@ -23,12 +23,9 @@
 #pragma once
 
 #include <string> // for string, basic_string
-namespace Sorcery {
-class Component;
-}
-namespace Sorcery {
-struct Context;
-}
+
+namespace Sorcery { class Component; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

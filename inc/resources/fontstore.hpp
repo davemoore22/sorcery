@@ -30,16 +30,8 @@
 #include <optional>					  // for optional
 #include <string>					  // for string, basic_string
 #include <vector>					  // for vector
-namespace Sorcery {
-struct Context;
-}
 
-// #pragma GCC diagnostic push
-// #pragma GCC diagnostic ignored "-Wswitch-default"
-// #pragma GCC diagnostic ignored "-Wmissing-declarations"
-// #include <ft2build.h>
-// #include FT_FREETYPE_H
-// #pragma GCC diagnostic pop
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

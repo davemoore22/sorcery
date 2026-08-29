@@ -29,33 +29,15 @@
 #include <memory>			// for unique_ptr
 #include <optional>			// for optional
 
-namespace Sorcery {
-class Automap;
-}
-namespace Sorcery {
-class Chest;
-}
-namespace Sorcery {
-class Graveyard;
-}
-namespace Sorcery {
-class Inspect;
-}
-namespace Sorcery {
-class Options;
-}
-namespace Sorcery {
-class Reorder;
-}
-namespace Sorcery {
-struct Tile;
-}
-namespace Sorcery {
-class Victory;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Automap; }
+namespace Sorcery { class Chest; }
+namespace Sorcery { class Graveyard; }
+namespace Sorcery { class Inspect; }
+namespace Sorcery { class Options; }
+namespace Sorcery { class Reorder; }
+namespace Sorcery { struct Tile; }
+namespace Sorcery { class Victory; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

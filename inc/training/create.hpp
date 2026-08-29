@@ -25,12 +25,8 @@
 #include "core/module.hpp" // for Module
 #include <vector>		   // for vector
 
-namespace Sorcery {
-class Character;
-}
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { class Character; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

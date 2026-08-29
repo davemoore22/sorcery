@@ -40,6 +40,7 @@
 #include <string_view>				  // for string_view
 #include <utility>					  // for to_underlying, get
 #include <vector>					  // for vector
+
 // Standard Constructor
 Sorcery::MonsterStore::MonsterStore(const std::filesystem::path filename) {
 

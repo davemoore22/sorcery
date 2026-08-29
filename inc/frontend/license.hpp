@@ -23,8 +23,8 @@
 #pragma once
 
 #include "core/module.hpp"
-
 #include <string>
+
 namespace Sorcery {
 
 struct Context;

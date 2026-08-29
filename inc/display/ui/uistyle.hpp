@@ -25,10 +25,9 @@
 #include "common/imgui.hpp"
 #include "core/context.hpp"
 #include "display/animation.hpp"
-#include "display/ui/uistyle.hpp"
-#include "types/enum.hpp"
 
 namespace Sorcery {
+
 namespace UIStyle {
 
 	// RAII shortcuts for Imgui Styles

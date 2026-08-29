@@ -25,27 +25,18 @@
 #include <any>			 // for any
 #include <string>		 // for string
 #include <unordered_map> // for unordered_map
+
+namespace Sorcery { class Component; }
+namespace Sorcery { class UI; }
 namespace Sorcery {
-class Component;
-}
-namespace Sorcery {
-class UI;
-}
-namespace Sorcery {
-namespace Enums {
-	enum class Screen;
-}
+namespace Enums { enum class Screen; }
 }
 namespace Sorcery {
 namespace Enums {
-	namespace Chests {
-		enum class State;
-	}
+	namespace Chests { enum class State; }
 }
 }
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

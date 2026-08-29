@@ -25,7 +25,6 @@
 #include "core/enum.hpp"
 #include "engine/enum.hpp"
 #include "types/enum.hpp"
-
 #include <array>
 #include <meta>
 #include <utility>

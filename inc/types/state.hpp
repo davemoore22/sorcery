@@ -33,19 +33,13 @@
 #include <string>				   // for string
 #include <vector>				   // for vector
 
-namespace Sorcery {
-class ItemStore;
-}
+namespace Sorcery { class ItemStore; }
 namespace Sorcery {
 namespace Enums {
-	namespace Items {
-		enum class TypeID;
-	}
+	namespace Items { enum class TypeID; }
 }
 }
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

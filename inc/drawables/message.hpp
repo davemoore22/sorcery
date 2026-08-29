@@ -25,19 +25,13 @@
 #include <string> // for basic_string, string
 #include <vector> // for vector
 
-namespace Sorcery {
-class Component;
-}
+namespace Sorcery { class Component; }
 namespace Sorcery {
 namespace Enums {
-	namespace Map {
-		enum class Event;
-	}
+	namespace Map { enum class Event; }
 }
 }
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

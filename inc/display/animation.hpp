@@ -28,9 +28,7 @@
 #include <thread> // for jthread
 #include <vector> // for vector
 
-namespace Sorcery {
-class Random;
-}
+namespace Sorcery { class Random; }
 
 namespace Sorcery {
 

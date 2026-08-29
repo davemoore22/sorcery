@@ -28,21 +28,15 @@
 
 namespace Sorcery {
 namespace Enums {
-	namespace Magic {
-		enum class SpellCategory;
-	}
+	namespace Magic { enum class SpellCategory; }
 }
 }
 namespace Sorcery {
 namespace Enums {
-	namespace Magic {
-		enum class SpellID;
-	}
+	namespace Magic { enum class SpellID; }
 }
 }
-namespace Sorcery {
-struct Context;
-}
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

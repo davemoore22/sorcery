@@ -21,7 +21,6 @@
 // the resulting work.
 
 #include "core/system.hpp"
-#include "SimpleIni.h"				 // for CSimpleIniTempl, CSimpleIniA
 #include "core/audioplayer.hpp"		 // for AudioPlayer
 #include "core/macro.hpp"			 // for CSTR
 #include "core/random.hpp"			 // for Random
@@ -32,6 +31,7 @@
 #include "types/config.hpp"			 // for Config
 #include <SDL.h>					 // for SDL_INIT_AUDIO, SDL_Init
 #include <SDL_error.h>				 // for SDL_GetError
+#include "SimpleIni.h"				 // for CSimpleIniTempl, CSimpleIniA
 #include <ctime>					 // for gmtime, strftime
 #include <filesystem>				 // for path
 #include <format>					 // for format
