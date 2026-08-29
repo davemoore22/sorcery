@@ -27,10 +27,10 @@
 #include <vector>  // for vector
 namespace Sorcery {
 class Component;
-} // lines 34-34
+}
 namespace Sorcery {
 class Game;
-} // lines 35-35
+}
 namespace Sorcery {
 namespace Enums {
 	namespace Layout {
@@ -40,7 +40,7 @@ namespace Enums {
 }
 namespace Sorcery {
 struct Context;
-} // lines 33-33
+}
 
 namespace Sorcery {
 

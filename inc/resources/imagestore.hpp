@@ -27,9 +27,10 @@
 #include <map>			   // for map
 #include <string>		   // for basic_string, string
 #include <vector>		   // for vector
+
 namespace Sorcery {
 struct Context;
-} // lines 33-33
+}
 
 namespace Sorcery {
 

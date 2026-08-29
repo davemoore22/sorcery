@@ -29,7 +29,7 @@
 #include <vector>			   // for vector
 namespace Sorcery {
 class ItemType;
-} // lines 34-34
+}
 
 namespace Sorcery {
 

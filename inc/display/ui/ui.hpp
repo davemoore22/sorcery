@@ -24,44 +24,97 @@
 
 using GLuint = unsigned int;
 
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "core/enum.hpp"
-#include "engine/enum.hpp"
-#include "types/enum.hpp"
-#include <any>
-#include <array>
-#include <chrono>
-#include <functional>
-#include <map>
-#include <memory>
-#include <optional>
-#include <string>
-#include <vector>
+#include "imgui.h"	   // for ImVec2 (ptr only), ImVec4, ImColor, ImGuiIO (...
+#include <any>		   // for any
+#include <array>	   // for array
+#include <chrono>	   // for seconds, milliseconds, steady_clock, time_point
+#include <cstddef>	   // for size_t
+#include <cstdint>	   // for uint32_t
+#include <functional>  // for reference_wrapper
+#include <map>		   // for map
+#include <memory>	   // for unique_ptr, shared_ptr
+#include <optional>	   // for optional, nullopt, nullopt_t
+#include <string>	   // for string, basic_string
+#include <string_view> // for string_view
+#include <vector>	   // for vector
+
+namespace Sorcery {
+class Character;
+}
+namespace Sorcery {
+class Component;
+}
+namespace Sorcery {
+class ComponentStore;
+}
+namespace Sorcery {
+class FontStore;
+}
+namespace Sorcery {
+class Frame;
+}
+namespace Sorcery {
+class ImageStore;
+}
+namespace Sorcery {
+class Menu;
+}
+namespace Sorcery {
+class MenuBuilder;
+}
+namespace Sorcery {
+class PopupStore;
+}
+namespace Sorcery {
+class Render;
+}
+namespace Sorcery {
+class ScreenRenderer;
+}
+namespace Sorcery {
+class UIMetrics;
+}
+namespace Sorcery {
+class VideoPlayer;
+}
+namespace Sorcery {
+namespace Enums {
+	enum class Screen;
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Layout {
+		enum class Font;
+	}
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Magic {
+		enum class SpellID;
+	}
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Map {
+		enum class Event;
+	}
+}
+}
+namespace Sorcery {
+struct Context;
+}
+namespace Sorcery {
+struct Tile;
+}
+namespace Sorcery {
+struct VertexArray;
+}
 
 // UI Generation Class (sits on top of, and heavily uses, ImGui)
 namespace Sorcery {
-
-struct Context;
-class Character;
-class Controller;
-class Component;
-class ComponentStore;
-class Display;
-struct DisplayMetrics;
-class FontStore;
-class Frame;
-class Game;
-class ImageStore;
-class Menu;
-class MenuBuilder;
-class Render;
-struct Tile;
-class VideoPlayer;
-struct VertexArray;
-class PopupStore;
-class ScreenRenderer;
-class UIMetrics;
 
 enum class TransientWidth {
 	FIT_TEXT,

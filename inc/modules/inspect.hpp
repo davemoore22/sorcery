@@ -23,9 +23,10 @@
 #pragma once
 
 #include "core/module.hpp" // for Module
+
 namespace Sorcery {
 struct Context;
-} // lines 34-34
+}
 
 namespace Sorcery {
 

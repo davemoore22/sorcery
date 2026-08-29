@@ -34,6 +34,7 @@
 #include <memory>						 // for shared_ptr, unique_ptr
 #include <string>						 // for string, basic_string
 #include <vector>						 // for vector
+
 namespace Sorcery {
 namespace Enums {
 	namespace Items {
@@ -43,7 +44,7 @@ namespace Enums {
 }
 namespace Sorcery {
 struct Context;
-} // lines 32-32
+}
 
 namespace Sorcery {
 

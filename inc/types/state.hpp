@@ -32,9 +32,10 @@
 #include <optional>				   // for optional
 #include <string>				   // for string
 #include <vector>				   // for vector
+
 namespace Sorcery {
 class ItemStore;
-} // lines 37-37
+}
 namespace Sorcery {
 namespace Enums {
 	namespace Items {
@@ -44,7 +45,7 @@ namespace Enums {
 }
 namespace Sorcery {
 struct Context;
-} // lines 36-36
+}
 
 namespace Sorcery {
 

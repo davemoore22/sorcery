@@ -22,29 +22,27 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "core/enum.hpp"
-#include "display/ui/ui.hpp"
-#include "engine/enum.hpp"
-#include "types/enum.hpp"
-
-#include <any>
-#include <array>
-#include <functional>
-#include <map>
-#include <memory>
-#include <optional>
-#include <string>
-#include <vector>
+#include <memory> // for unique_ptr
+#include <string> // for string
+#include <vector> // for vector
 
 namespace Sorcery {
-
-struct Context;
 class Dialog;
+}
+namespace Sorcery {
 class Input;
-class Modal;
+}
+namespace Sorcery {
 class Message;
+}
+namespace Sorcery {
+class Modal;
+}
+namespace Sorcery {
+struct Context;
+}
+
+namespace Sorcery {
 
 class PopupStore {
 

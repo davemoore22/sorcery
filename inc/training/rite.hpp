@@ -27,12 +27,13 @@
 #include <atomic>		   // for atomic_bool, atomic_int
 #include <cstdint>		   // for uint32_t
 #include <memory>		   // for unique_ptr
+
 namespace Sorcery {
 class Inspect;
-} // lines 36-36
+}
 namespace Sorcery {
 struct Context;
-} // lines 35-35
+}
 
 namespace Sorcery {
 

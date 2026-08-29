@@ -27,7 +27,7 @@
 #include <string>		  // for string, basic_string
 namespace Sorcery {
 class ItemType;
-} // lines 30-30
+}
 
 namespace Sorcery {
 

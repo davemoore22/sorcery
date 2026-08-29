@@ -34,7 +34,7 @@
 #include <vector>						 // for vector
 namespace Sorcery {
 struct Context;
-} // lines 44-44
+}
 
 namespace Sorcery {
 

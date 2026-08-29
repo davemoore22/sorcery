@@ -22,13 +22,29 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/types.hpp"
-#include "types/enum.hpp"
+#include "common/types.hpp" // for Spell
+#include <string_view>		// for string_view
+#include <vector>			// for vector
 
 namespace Sorcery {
-	
+namespace Enums {
+	namespace Magic {
+		enum class SpellCategory;
+	}
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Magic {
+		enum class SpellID;
+	}
+}
+}
+namespace Sorcery {
 struct Context;
+}
+
+namespace Sorcery {
 
 class SpellStore {
 

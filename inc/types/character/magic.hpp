@@ -26,7 +26,7 @@
 #include <vector> // for vector
 namespace Sorcery {
 class Character;
-} // lines 38-38
+}
 namespace Sorcery {
 namespace Enums {
 	namespace Magic {

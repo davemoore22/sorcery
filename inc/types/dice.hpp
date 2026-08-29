@@ -22,9 +22,8 @@
 
 #pragma once
 
-#include "common/types.hpp"
-
-#include <random>
+#include <random> // for mt19937_64, random_device
+#include <string> // for string
 
 namespace Sorcery {
 

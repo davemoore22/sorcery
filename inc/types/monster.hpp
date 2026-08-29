@@ -25,9 +25,10 @@
 #include "types/enum.hpp" // for TypeID
 #include <iostream>		  // for ostream
 #include <string>		  // for string, basic_string
+
 namespace Sorcery {
 class MonsterType;
-} // lines 33-33
+}
 
 namespace Sorcery {
 

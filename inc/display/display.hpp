@@ -26,13 +26,15 @@
 #include <GL/glew.h>			   // for GLuint, GLint, GLenum
 #include <SDL2/SDL_video.h>		   // for SDL_GLContext, SDL_Window, SDL_Wi...
 #include <string>				   // for basic_string, string
+
+struct ImDrawData; // Global Namespace Forward Declaration
+
 namespace Sorcery {
-class Size;
-} // lines 36-36
+struct Size;
+}
 namespace Sorcery {
 struct Context;
-} // lines 35-35
-struct ImDrawData;
+}
 
 namespace Sorcery {
 

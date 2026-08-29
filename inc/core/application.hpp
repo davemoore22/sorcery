@@ -30,37 +30,37 @@
 #include <vector>			// for vector
 namespace Sorcery {
 class Castle;
-} // lines 40-40
+}
 namespace Sorcery {
 class Controller;
-} // lines 41-41
+}
 namespace Sorcery {
 class Display;
-} // lines 42-42
+}
 namespace Sorcery {
 class EdgeOfTown;
-} // lines 43-43
+}
 namespace Sorcery {
 class Engine;
-} // lines 44-44
+}
 namespace Sorcery {
 class Game;
-} // lines 45-45
+}
 namespace Sorcery {
 class MainMenu;
-} // lines 46-46
+}
 namespace Sorcery {
 class Resources;
-} // lines 47-47
+}
 namespace Sorcery {
 class Splash;
-} // lines 48-48
+}
 namespace Sorcery {
 class System;
-} // lines 49-49
+}
 namespace Sorcery {
 class UI;
-} // lines 50-50
+}
 namespace Sorcery {
 
 // Application Class

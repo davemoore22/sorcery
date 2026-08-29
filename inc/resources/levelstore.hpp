@@ -22,11 +22,10 @@
 
 #pragma once
 
-#include <filesystem>
-
-#include "common/cereal.hpp"
-#include "types/enum.hpp"
-#include "types/world/level.hpp"
+#include "types/world/level.hpp" // for Level
+#include <filesystem>			 // for path
+#include <map>					 // for map
+#include <optional>				 // for optional
 
 namespace Sorcery {
 

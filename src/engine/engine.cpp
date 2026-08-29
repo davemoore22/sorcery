@@ -1405,7 +1405,8 @@ auto Sorcery::Engine::_start_chest() -> int {
 
 	case Enums::Chests::Result::ABORT:
 		return ABORT_GAME;
-	}
 
-	std::unreachable();
+	default:
+		return 0;
+	}
 }

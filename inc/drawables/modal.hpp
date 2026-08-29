@@ -28,7 +28,7 @@
 #include <vector>	   // for vector
 namespace Sorcery {
 class Component;
-} // lines 33-33
+}
 namespace Sorcery {
 namespace Enums {
 	namespace Layout {
@@ -38,7 +38,7 @@ namespace Enums {
 }
 namespace Sorcery {
 struct Context;
-} // lines 31-31
+}
 
 namespace Sorcery {
 

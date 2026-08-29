@@ -23,9 +23,11 @@
 #pragma once
 
 #include "core/module.hpp" // for Module
+
 namespace Sorcery {
 struct Context;
-} // lines 33-33
+}
+
 namespace Sorcery {
 
 class Sell final : public Module {

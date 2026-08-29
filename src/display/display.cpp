@@ -33,7 +33,8 @@
 #include <print>						 // for println
 #include <stdexcept>					 // for runtime_error
 #include <string>						 // for basic_string, stoi, operator+
-struct ImDrawData;
+
+struct ImDrawData; // Global Namespace Forward Declaration
 
 constexpr auto vertex_shader{R"(
 	#version 330 core

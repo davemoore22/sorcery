@@ -20,15 +20,31 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <fstream>
-
-#include "common/enum.hpp"
-#include "common/macro.hpp"
-#include "core/context.hpp"
-#include "core/random.hpp"
-#include "resources/itemstore.hpp"
-#include "types/meta.hpp"
-#include <jsoncpp/json/json.h>
+#include "resources/itemstore.hpp" // for ItemStore
+#include "common/enum.hpp"		   // for Class, SpellID, SpellID::NO_SPELL
+#include "core/context.hpp"		   // for Context
+#include "core/random.hpp"		   // for Random
+#include "types/enum.hpp"		   // for TypeID (ptr only), Category, Cate...
+#include "types/item/item.hpp"	   // for Item
+#include "types/item/itemtype.hpp" // for ItemType
+#include "types/meta.hpp"		   // for enum_cast
+#include <algorithm>			   // for find_if, remove_if
+#include <array>				   // for array
+#include <filesystem>			   // for path
+#include <fstream>				   // for basic_ifstream, char_traits, ifst...
+#include <functional>			   // for invoke
+#include <jsoncpp/json/reader.h>   // for Reader
+#include <jsoncpp/json/value.h>	   // for Value
+#include <jsoncpp/json/writer.h>   // for StreamWriterBuilder
+#include <map>					   // for map, operator==
+#include <optional>				   // for optional
+#include <ranges>				   // for __find_if_fn
+#include <regex>				   // for regex, regex_token_iterator, sreg...
+#include <stdexcept>			   // for out_of_range
+#include <string>				   // for basic_string, string, operator==
+#include <string_view>			   // for string_view, operator==
+#include <utility>				   // for to_underlying, get, pair
+#include <vector>				   // for vector
 
 // Standard Constructor
 Sorcery::ItemStore::ItemStore(Context &ctx,

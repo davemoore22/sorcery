@@ -24,9 +24,10 @@
 
 #include <string> // for basic_string, string
 #include <vector> // for vector
+
 namespace Sorcery {
 class Component;
-} // lines 34-34
+}
 namespace Sorcery {
 namespace Enums {
 	namespace Map {
@@ -36,7 +37,7 @@ namespace Enums {
 }
 namespace Sorcery {
 struct Context;
-} // lines 33-33
+}
 
 namespace Sorcery {
 

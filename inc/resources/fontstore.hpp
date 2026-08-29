@@ -32,7 +32,7 @@
 #include <vector>					  // for vector
 namespace Sorcery {
 struct Context;
-} // lines 40-40
+}
 
 // #pragma GCC diagnostic push
 // #pragma GCC diagnostic ignored "-Wswitch-default"

@@ -24,26 +24,16 @@
 
 using GLuint = unsigned int;
 
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "core/enum.hpp"
-#include "engine/enum.hpp"
-#include "types/enum.hpp"
-
-#include <any>
-#include <array>
-#include <functional>
-#include <map>
-#include <memory>
-#include <optional>
-#include <string>
-#include <vector>
+#include "imgui.h" // for ImVec2
+namespace Sorcery {
+struct Context;
+}
+namespace Sorcery {
+struct DisplayMetrics;
+}
 
 // UI Generation Class (sits on top of, and heavily uses, ImGui)
 namespace Sorcery {
-
-struct DisplayMetrics;
-struct Context;
 
 class UIMetrics {
 

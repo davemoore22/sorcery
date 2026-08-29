@@ -26,12 +26,12 @@
 #include <chrono>		// for milliseconds, chrono_literals
 #include <functional>	// for function
 namespace Sorcery {
-class Context;
-} // lines 49-49
-namespace Sorcery {
 namespace Enums {
 	enum class Screen;
 }
+}
+namespace Sorcery {
+struct Context;
 }
 
 namespace Sorcery {
@@ -52,8 +52,6 @@ struct EventOptions {
 using namespace std::chrono_literals;
 
 inline constexpr auto QUICK_FADE{500ms};
-
-struct Context;
 
 class Module {
 

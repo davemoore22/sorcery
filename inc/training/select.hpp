@@ -24,6 +24,7 @@
 
 #include "core/enum.hpp"   // for Screen
 #include "core/module.hpp" // for Module
+
 namespace Sorcery {
 namespace Enums {
 	namespace Selection {
@@ -33,7 +34,7 @@ namespace Enums {
 }
 namespace Sorcery {
 struct Context;
-} // lines 34-34
+}
 
 namespace Sorcery {
 

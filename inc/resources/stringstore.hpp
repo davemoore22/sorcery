@@ -22,8 +22,10 @@
 
 #pragma once
 
-#include <map>
-#include <string>
+#include <functional>  // for less
+#include <map>		   // for map
+#include <string>	   // for basic_string, string
+#include <string_view> // for string_view
 
 namespace Sorcery {
 class StringStore {

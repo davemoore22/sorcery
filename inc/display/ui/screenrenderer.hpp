@@ -22,26 +22,32 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/imgui.hpp"
-#include "core/enum.hpp"
-#include "display/ui/ui.hpp"
-#include "engine/enum.hpp"
-#include "types/enum.hpp"
-
-#include <any>
-#include <array>
-#include <functional>
-#include <map>
-#include <memory>
-#include <optional>
-#include <string>
-#include <vector>
+#include <any>			 // for any
+#include <string>		 // for string
+#include <unordered_map> // for unordered_map
+namespace Sorcery {
+class Component;
+}
+namespace Sorcery {
+class UI;
+}
+namespace Sorcery {
+namespace Enums {
+	enum class Screen;
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Chests {
+		enum class State;
+	}
+}
+}
+namespace Sorcery {
+struct Context;
+}
 
 namespace Sorcery {
-
-class UI;
-struct Context;
 
 class ScreenRenderer {
 

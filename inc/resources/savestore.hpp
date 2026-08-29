@@ -29,13 +29,12 @@
 #include <string>	   // for string
 #include <string_view> // for string_view
 #include <vector>	   // for vector
-namespace Sorcery {
-struct GameEntry;
-} // lines 34-34
 
 namespace Sorcery {
-
 struct GameEntry;
+}
+
+namespace Sorcery {
 
 class SaveStore {
 	public:

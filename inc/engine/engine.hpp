@@ -30,35 +30,32 @@
 #include <optional>			// for optional
 
 namespace Sorcery {
-class Application;
-} // lines 39-39
-namespace Sorcery {
 class Automap;
-} // lines 40-40
+}
 namespace Sorcery {
 class Chest;
-} // lines 43-43
+}
 namespace Sorcery {
 class Graveyard;
-} // lines 41-41
+}
 namespace Sorcery {
 class Inspect;
-} // lines 37-37
+}
 namespace Sorcery {
 class Options;
-} // lines 36-36
+}
 namespace Sorcery {
 class Reorder;
-} // lines 38-38
+}
 namespace Sorcery {
-class Tile;
-} // lines 44-44
+struct Tile;
+}
 namespace Sorcery {
 class Victory;
-} // lines 42-42
+}
 namespace Sorcery {
 struct Context;
-} // lines 35-35
+}
 
 namespace Sorcery {
 

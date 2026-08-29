@@ -22,13 +22,14 @@
 
 #pragma once
 
-#include <filesystem>
-
-#include "common/enum.hpp"
-#include "resources/define.hpp"
-#include "types/dice.hpp"
-#include "types/enum.hpp"
-#include "types/monstertype.hpp"
+#include "types/dice.hpp"		 // for Dice
+#include "types/enum.hpp"		 // for TypeID (ptr only), Breath
+#include "types/monstertype.hpp" // for MonsterType
+#include <array>				 // for array
+#include <filesystem>			 // for path
+#include <map>					 // for map
+#include <string>				 // for string
+#include <vector>				 // for vector
 
 namespace Sorcery {
 

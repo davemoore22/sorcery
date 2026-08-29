@@ -30,7 +30,7 @@
 #include <string_view>	   // for string_view
 namespace Sorcery {
 struct Context;
-} // lines 38-38
+}
 
 namespace Sorcery {
 

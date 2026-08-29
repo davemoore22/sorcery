@@ -27,9 +27,10 @@
 #include <mutex>  // for mutex
 #include <thread> // for jthread
 #include <vector> // for vector
+
 namespace Sorcery {
 class Random;
-} // lines 35-35
+}
 
 namespace Sorcery {
 

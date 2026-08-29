@@ -26,9 +26,10 @@
 #include <SDL_timer.h>	   // for SDL_TimerID
 #include <atomic>		   // for atomic_int
 #include <cstdint>		   // for uint32_t
+
 namespace Sorcery {
 struct Context;
-} // lines 34-34
+}
 
 namespace Sorcery {
 

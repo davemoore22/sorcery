@@ -21,11 +21,10 @@
 // the resulting work.
 
 #include "core/controller.hpp"
-#include "backends/imgui_impl_sdl2.h"	 // for SDL_Event
 #include "common/enum.hpp"				 // for Attribute, Options, Class
 #include "common/types.hpp"				 // for Spell
 #include "core/context.hpp"				 // for Context
-#include "core/debug.hpp"				 // for DEBUG_LOGF, debug_logf
+#include "core/debug.hpp"				 // for DEBUG_LOGF
 #include "core/define.hpp"				 // for ICON_CAMP, ICON_CAST, ICON_...
 #include "core/enum.hpp"				 // for CharacterSlot, Screen
 #include "core/resources.hpp"			 // for Resources
@@ -51,7 +50,7 @@
 #include "types/item/itemtype.hpp"		 // for ItemType
 #include "types/meta.hpp"				 // for enum_cast, enum_name
 #include "types/state.hpp"				 // for State
-#include <SDL_events.h>					 // for SDL_EventType
+#include <SDL_events.h>					 // for SDL_EventType, SDL_Event
 #include <SDL_keycode.h>				 // for SDL_KeyCode
 #include <SDL_mouse.h>					 // for SDL_BUTTON_RIGHT
 #include <SDL_scancode.h>				 // for SDL_Scancode
@@ -272,6 +271,8 @@ auto Sorcery::Controller::set_game(Game *game) -> void {
 
 auto Sorcery::Controller::check_for_debug(const SDL_Event event) -> void {
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
 	if (event.type == SDL_KEYDOWN &&
 		(event.key.keysym.sym >= SDLK_F1 && event.key.keysym.sym <= SDLK_F11)) {
 		if (_game != nullptr)
@@ -280,6 +281,7 @@ auto Sorcery::Controller::check_for_debug(const SDL_Event event) -> void {
 		for (auto const &[key, val] : _flags)
 			DEBUG_LOGF("{}", std::format("{:>32}: {}", key, val));
 	}
+#pragma GCC diagnostic pop
 }
 
 auto Sorcery::Controller::check_for_quicksave(const SDL_Event event) -> bool {
