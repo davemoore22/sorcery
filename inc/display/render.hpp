@@ -22,8 +22,9 @@
 
 #pragma once
 
-#include "common/enum.hpp"
 #include "common/imgui.hpp"
+#include "engine/types.hpp"
+#include <map>
 
 // Class to handles rendering Wireframe
 namespace Sorcery {
@@ -32,9 +33,7 @@ namespace Sorcery {
 struct Context;
 class Component;
 struct Tile;
-struct TileView;
 struct VertexArray;
-struct Coordinate3;
 
 class Render {
 

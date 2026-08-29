@@ -21,18 +21,16 @@
 // the resulting work.
 
 #include "modules/add.hpp"
-#include "common/macro.hpp"
-#include "core/application.hpp"
+#include "common/imgui.hpp"
+#include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/enum.hpp"
-#include "core/system.hpp"
-#include "display/display.hpp"
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "resources/define.hpp"
 #include "types/game.hpp"
+#include <any>
+#include <string>
 
 Sorcery::Add::Add(Context &ctx)
 	: Module{ctx} {

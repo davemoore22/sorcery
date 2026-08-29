@@ -22,13 +22,12 @@
 
 #pragma once
 
-#include <string>
-
+#include "display/framebuffer.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
-#include <imgui.h>
+#include <string>
 
-#include "display/framebuffer.hpp"
+struct ImDrawData;
 
 namespace Sorcery {
 
@@ -63,7 +62,7 @@ class Display {
 		auto get_SDL_window_size() -> Size;
 		auto get_GL_context() -> SDL_GLContext;
 		auto get_GLSL_version() const -> const char *;
-		auto present(ImDrawData *draw_data) -> void;
+		auto present(::ImDrawData *draw_data) -> void;
 		auto resize() -> void;
 		auto update_display_metrics() noexcept -> void;
 		auto get_display_metrics() const noexcept -> const DisplayMetrics &;

@@ -21,21 +21,21 @@
 // the resulting work.
 
 #include "training/create.hpp"
-#include "common/macro.hpp"
-#include "core/application.hpp"
+#include "common/enum.hpp"
+#include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
-#include "core/define.hpp"
 #include "core/enum.hpp"
-#include "core/system.hpp"
-#include "display/display.hpp"
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "drawables/input.hpp"
-#include "resources/define.hpp"
 #include "types/character/character.hpp"
+#include "types/character/create.hpp"
 #include "types/game.hpp"
+#include <any>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
 
 Sorcery::Create::Create(Context &ctx)
 	: Module{ctx} {

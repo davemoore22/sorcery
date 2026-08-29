@@ -22,19 +22,19 @@
 
 #include "types/character/character.hpp"
 #include "core/context.hpp"
-#include "core/random.hpp"
 #include "core/resources.hpp"
 #include "resources/itemstore.hpp"
-#include "resources/spellstore.hpp"
-#include "types/templates.hpp"
-
-#include <algorithm>
+#include "types/item/item.hpp"
+#include "types/item/itemtype.hpp"
 #include <array>
 #include <cmath>
 #include <compare>
 #include <format>
-#include <ranges>
+#include <functional>
+#include <memory>
+#include <stdlib.h>
 #include <string>
+#include <utility>
 
 Sorcery::Character::Character() {}
 

@@ -21,13 +21,12 @@
 // the resulting work.
 
 #include <fstream>
+#include <iostream>
 
 #include "common/macro.hpp"
-#include "core/system.hpp"
 #include "resources/componentstore.hpp"
 #include "types/component.hpp"
 #include "types/error.hpp"
-#include "types/state.hpp"
 #include <jsoncpp/json/json.h>
 
 // Standard Constructor

@@ -22,11 +22,8 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include "common/types.hpp"
 #include "core/module.hpp"
-#include "engine/define.hpp"
-#include "engine/enum.hpp"
+#include <vector>
 
 namespace Sorcery {
 

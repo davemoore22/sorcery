@@ -23,7 +23,6 @@
 #pragma once
 
 #include "core/module.hpp"
-#include "types/enum.hpp"
 
 namespace Sorcery {
 

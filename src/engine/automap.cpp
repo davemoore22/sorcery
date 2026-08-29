@@ -21,21 +21,13 @@
 // the resulting work.
 
 #include "engine/automap.hpp"
-#include "common/macro.hpp"
+#include "common/sdl2.hpp"
 #include "core/context.hpp"
 #include "core/controller.hpp"
 #include "core/enum.hpp"
-#include "core/system.hpp"
-#include "display/display.hpp"
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
-#include "drawables/dialog.hpp"
-#include "drawables/modal.hpp"
-#include "drawables/popup.hpp"
-#include "engine/define.hpp"
-#include "types/character/character.hpp"
-#include "types/game.hpp"
-#include "types/state.hpp"
+#include <any>
 
 Sorcery::Automap::Automap(Context &ctx)
 	: Module{ctx} {

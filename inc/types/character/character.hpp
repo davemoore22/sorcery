@@ -22,20 +22,15 @@
 
 #pragma once
 
-#include "common/cereal.hpp"
 #include "common/enum.hpp"
 #include "common/types.hpp"
 #include "types/character/create.hpp"
 #include "types/character/inventory.hpp"
 #include "types/character/magic.hpp"
-#include "types/define.hpp"
-#include "types/enum.hpp"
-
 #include <map>
 #include <optional>
 #include <ostream>
 #include <string>
-#include <string_view>
 #include <vector>
 
 namespace Sorcery {

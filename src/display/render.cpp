@@ -21,10 +21,8 @@
 // the resulting work.
 
 #include "display/render.hpp"
+#include "common/types.hpp"
 #include "core/context.hpp"
-#include "core/controller.hpp"
-#include "core/system.hpp"
-#include "core/types.hpp"
 #include "display/animation.hpp"
 #include "display/display.hpp"
 #include "display/ui/ui.hpp"
@@ -33,7 +31,12 @@
 #include "types/component.hpp"
 #include "types/game.hpp"
 #include "types/state.hpp"
+#include "types/world/level.hpp"
 #include "types/world/tile.hpp"
+#include <algorithm>
+#include <array>
+#include <functional>
+#include <memory>
 
 // Standard Constructor
 Sorcery::Render::Render(Context &ctx)
