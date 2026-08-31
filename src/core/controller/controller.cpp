@@ -1933,25 +1933,29 @@ auto Sorcery::Controller::handle_action_table_menu(
 auto Sorcery::Controller::execute_action(
 	const MenuAction &action, int data,
 	std::vector<std::reference_wrapper<bool>> &ui_flags) -> void {
+
+	using enum Enums::MenuAction::Type;
+	using enum Enums::MenuAction::Function;
+
 	switch (action.type) {
-	case MenuAction::Type::SETFLAG:
+	case SETFLAG:
 		_flags[action.flag] = true;
 		break;
 
-	case MenuAction::Type::CLEARFLAG:
+	case CLEARFLAG:
 		_flags[action.flag] = false;
 		break;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wtype-limits"
 
-	case MenuAction::Type::SET_UI_BOOL:
+	case SET_UI_BOOL:
 		if (action.ui_index >= 0 &&
 			static_cast<size_t>(action.ui_index) < ui_flags.size())
 			ui_flags[action.ui_index].get() = true;
 		break;
 
-	case MenuAction::Type::CLEAR_UI_BOOL:
+	case CLEAR_UI_BOOL:
 		if (action.ui_index >= 0 &&
 			static_cast<size_t>(action.ui_index) < ui_flags.size())
 			ui_flags[action.ui_index].get() = false;
@@ -1959,25 +1963,25 @@ auto Sorcery::Controller::execute_action(
 
 #pragma GCC diagnostic pop
 
-	case MenuAction::Type::SET_CHARACTER:
+	case SET_CHARACTER:
 		set_character(action.character_key, data);
 		break;
 
-	case MenuAction::Type::CLEAR_CHARACTER:
+	case CLEAR_CHARACTER:
 		clear_character(action.character_key);
 		break;
-	case MenuAction::Type::GO_BACK:
+	case GO_BACK:
 		go_back = true;
 		break;
-	case MenuAction::Type::CUSTOM:
+	case CUSTOM:
 		// Handle custom actions here if needed
-		if (action.custom_function == "handle_pool_gold")
+		if (action.custom_function == POOL_GOLD)
 			_game->pool_party_gold(get_character(Enums::CharacterSlot::STORE));
 		break;
-	case MenuAction::Type::SET_SELECTED:
+	case SET_SELECTED:
 		set_selected(action.selected_key, action.selected_value);
 		break;
-	case MenuAction::Type::GOTOSCREEN:
+	case GOTOSCREEN:
 		go_to(action.screen);
 		break;
 	default:

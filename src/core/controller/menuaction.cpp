@@ -24,201 +24,190 @@
 
 namespace Sorcery {
 
-const ActionList COMPENDIUM_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ATLAS}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::BESTIARY}},
-	{{.type = MenuAction::Type::NONE, .screen = Enums::Screen::NONE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::MUSEUM}},
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::SPELLBOOK}},
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::MAINMENU}}};
+using enum Enums::MenuAction::Type;
+using enum Enums::MenuAction::Function;
+using enum Enums::Screen;
 
-const ActionList CASTLE_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TAVERN}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INN}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TEMPLE}},
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::EDGEOFTOWN}}};
+const ActionList COMPENDIUM_ACTIONS{{{.type = GOTOSCREEN, .screen = ATLAS}},
+									{{.type = GOTOSCREEN, .screen = BESTIARY}},
+									{{.type = NO_ACTION, .screen = NONE}},
+									{{.type = GOTOSCREEN, .screen = MUSEUM}},
+									{{.type = GOTOSCREEN, .screen = SPELLBOOK}},
+									{{.type = GOTOSCREEN, .screen = MAINMENU}}};
+
+const ActionList CASTLE_ACTIONS{{{.type = GOTOSCREEN, .screen = TAVERN}},
+								{{.type = GOTOSCREEN, .screen = INN}},
+								{{.type = GOTOSCREEN, .screen = SHOP}},
+								{{.type = GOTOSCREEN, .screen = TEMPLE}},
+								{{.type = GOTOSCREEN, .screen = EDGEOFTOWN}}};
 
 const ActionList MAIN_MENU_ACTIONS{
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::SETFLAG, .flag = "want_continue_game"}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::OPTIONS}},
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::COMPENDIUM}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::LICENSE}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}}};
+	{{.type = SET_UI_BOOL, .ui_index = 0}},
+	{{.type = SETFLAG, .flag = "want_continue_game"}},
+	{{.type = GOTOSCREEN, .screen = OPTIONS}},
+	{{.type = GOTOSCREEN, .screen = COMPENDIUM}},
+	{{.type = GOTOSCREEN, .screen = LICENSE}},
+	{{.type = SET_UI_BOOL, .ui_index = 1}}};
 
-const ActionList EDGE_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::TRAINING}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ENGINE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RESTART}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}}};
+const ActionList EDGE_ACTIONS{{{.type = GOTOSCREEN, .screen = TRAINING}},
+							  {{.type = GOTOSCREEN, .screen = ENGINE}},
+							  {{.type = GOTOSCREEN, .screen = RESTART}},
+							  {{.type = GOTOSCREEN, .screen = CASTLE}},
+							  {{.type = SET_UI_BOOL, .ui_index = 0}}};
 
-const ActionList STORE_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::BUY}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELL}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::UNCURSE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::IDENTIFY}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0},
-	 {.type = MenuAction::Type::CUSTOM, .custom_function = "handle_pool_gold"}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SHOP}}};
+const ActionList STORE_ACTIONS{{{.type = GOTOSCREEN, .screen = BUY}},
+							   {{.type = GOTOSCREEN, .screen = SELL}},
+							   {{.type = GOTOSCREEN, .screen = UNCURSE}},
+							   {{.type = GOTOSCREEN, .screen = IDENTIFY}},
+							   {{.type = SET_UI_BOOL, .ui_index = 0},
+								{.type = CUSTOM, .custom_function = POOL_GOLD}},
+							   {{.type = GOTOSCREEN, .screen = SHOP}}};
 
-const ActionList TAVERN_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ADD}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REMOVE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REORDER}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
+const ActionList TAVERN_ACTIONS{{{.type = GOTOSCREEN, .screen = ADD}},
+								{{.type = GOTOSCREEN, .screen = REMOVE}},
+								{{.type = GOTOSCREEN, .screen = REORDER}},
+								{{.type = SET_UI_BOOL, .ui_index = 0}},
+								{{.type = GOTOSCREEN, .screen = CASTLE}}};
 
-const ActionList TEMPLE_ACTIONS{
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::SET_UI_BOOL, .ui_index = 1}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CASTLE}}};
+const ActionList TEMPLE_ACTIONS{{{.type = SET_UI_BOOL, .ui_index = 0}},
+								{{.type = SET_UI_BOOL, .ui_index = 1}},
+								{{.type = GOTOSCREEN, .screen = CASTLE}}};
 
-const ActionList TRAINING_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::CREATE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::EDIT}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::DELETE}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::ROSTER}},
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::EDGEOFTOWN}}};
+const ActionList TRAINING_ACTIONS{{{.type = GOTOSCREEN, .screen = CREATE}},
+								  {{.type = GOTOSCREEN, .screen = EDIT}},
+								  {{.type = GOTOSCREEN, .screen = DELETE}},
+								  {{.type = GOTOSCREEN, .screen = ROSTER}},
+								  {{.type = GOTOSCREEN, .screen = EDGEOFTOWN}}};
 
-const ActionList EDIT_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::SELECT}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RETRAIN}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::LEGATE}},
-	{{.type = MenuAction::Type::GOTOSCREEN,
-	  .screen = Enums::Screen::TRAINING}}};
+const ActionList EDIT_ACTIONS{{{.type = GOTOSCREEN, .screen = SELECT}},
+							  {{.type = GOTOSCREEN, .screen = RETRAIN}},
+							  {{.type = GOTOSCREEN, .screen = LEGATE}},
+							  {{.type = GOTOSCREEN, .screen = TRAINING}}};
 
 const ActionList CAMP_ACTIONS{
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INSPECT},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::REORDER},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::OPTIONS},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::SETFLAG, .flag = "want_quit_expedition"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
+	{{.type = GOTOSCREEN, .screen = INSPECT},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	{{.type = GOTOSCREEN, .screen = REORDER},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	{{.type = GOTOSCREEN, .screen = OPTIONS},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	{{.type = SETFLAG, .flag = "want_quit_expedition"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	{{.type = CLEAR_UI_BOOL, .ui_index = 0}}};
 
-const ActionList REST_ACTIONS{
-	// Stables
-	{{.type = MenuAction::Type::SET_SELECTED,
-	  .selected_key = "room_selected",
-	  .selected_value = 0},
-	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+const ActionList REST_ACTIONS{// Stables
+							  {{.type = SET_SELECTED,
+								.selected_key = "room_selected",
+								.selected_value = 0},
+							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
-	// Cot
-	{{.type = MenuAction::Type::SET_SELECTED,
-	  .selected_key = "room_selected",
-	  .selected_value = 1},
-	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+							  // Cot
+							  {{.type = SET_SELECTED,
+								.selected_key = "room_selected",
+								.selected_value = 1},
+							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
-	// Economy Rooms
-	{{.type = MenuAction::Type::SET_SELECTED,
-	  .selected_key = "room_selected",
-	  .selected_value = 2},
-	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+							  // Economy Rooms
+							  {{.type = SET_SELECTED,
+								.selected_key = "room_selected",
+								.selected_value = 2},
+							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
-	// Merchant Suites
-	{{.type = MenuAction::Type::SET_SELECTED,
-	  .selected_key = "room_selected",
-	  .selected_value = 3},
-	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+							  // Merchant Suites
+							  {{.type = SET_SELECTED,
+								.selected_key = "room_selected",
+								.selected_value = 3},
+							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
-	// Royal Suite
-	{{.type = MenuAction::Type::SET_SELECTED,
-	  .selected_key = "room_selected",
-	  .selected_value = 4},
-	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::RECOVERY}},
+							  // Royal Suite
+							  {{.type = SET_SELECTED,
+								.selected_key = "room_selected",
+								.selected_value = 4},
+							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
-	// Return
-	{{.type = MenuAction::Type::SET_SELECTED,
-	  .selected_key = "room_selected",
-	  .selected_value = -1},
-	 {.type = MenuAction::Type::GOTOSCREEN, .screen = Enums::Screen::INN}}};
+							  // Return
+							  {{.type = SET_SELECTED,
+								.selected_key = "room_selected",
+								.selected_value = -1},
+							   {.type = GOTOSCREEN, .screen = INN}}};
 
 const ActionList TOP_ELEVATOR_ACTIONS{
 	// A - B1F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -1},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// B - B2F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -2},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// C - B3F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -3},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// D - B4F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -4},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// Leave
-	{{.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
+	{{.type = CLEAR_UI_BOOL, .ui_index = 0}}};
 
 const ActionList BOTTOM_ELEVATOR_ACTIONS{
 	// A - B4F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -4},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// B - B5F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -5},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// C - B6F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -6},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// D - B7F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -7},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// E - B8F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -8},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// F - B9F
-	{{.type = MenuAction::Type::SET_SELECTED,
+	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -9},
-	 {.type = MenuAction::Type::SETFLAG, .flag = "want_take_elevator"},
-	 {.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = SETFLAG, .flag = "want_take_elevator"},
+	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
 
 	// Leave
-	{{.type = MenuAction::Type::CLEAR_UI_BOOL, .ui_index = 0}}};
+	{{.type = CLEAR_UI_BOOL, .ui_index = 0}}};
 
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},

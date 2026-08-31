@@ -31,29 +31,38 @@
 
 namespace Sorcery {
 
+namespace Enums::MenuAction {
+
+	enum class Type {
+		NO_ACTION,
+		GOTOSCREEN,
+		GO_BACK,
+		SETFLAG,
+		CLEARFLAG,
+		SET_CHARACTER,
+		CLEAR_CHARACTER,
+		SET_UI_BOOL,
+		CLEAR_UI_BOOL,
+		SET_SELECTED,
+		CUSTOM
+	};
+
+	enum class Function {
+		NO_FUNCTION,
+		POOL_GOLD,
+		CHANGE_CLASS,
+	};
+};
+
 struct MenuAction {
-		enum class Type {
-			NONE,
-			GOTOSCREEN,
-			GO_BACK,
-			SETFLAG,
-			CLEARFLAG,
-			SET_CHARACTER,
-			CLEAR_CHARACTER,
-			SET_UI_BOOL,
-			CLEAR_UI_BOOL,
-			SET_SELECTED,
-			CUSTOM
-		};
 
-		Type type{Type::NONE};
-
-		// Payload
+		Enums::MenuAction::Type type{Enums::MenuAction::Type::NO_ACTION};
 		Enums::Screen screen{};
 		std::string_view flag{};
 		std::size_t ui_index{};
 		Enums::CharacterSlot character_key{};
-		std::string_view custom_function{};
+		Enums::MenuAction::Function custom_function{
+			Enums::MenuAction::Function::NO_FUNCTION};
 		std::string_view selected_key{};
 		int selected_value{};
 };
