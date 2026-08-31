@@ -16,6 +16,8 @@ target_sources(sorcery_core PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/application.cpp
 	${CMAKE_CURRENT_LIST_DIR}/audioplayer.cpp
 	${CMAKE_CURRENT_LIST_DIR}/controller/controller.cpp
+	${CMAKE_CURRENT_LIST_DIR}/controller/menuaction.cpp
+	${CMAKE_CURRENT_LIST_DIR}/controller/menubuilder.cpp
 	${CMAKE_CURRENT_LIST_DIR}/context.cpp
 	${CMAKE_CURRENT_LIST_DIR}/module.cpp
 	${CMAKE_CURRENT_LIST_DIR}/random.cpp

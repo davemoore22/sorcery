@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "drawables/menubuilder.hpp"
+#include "core/controller/menubuilder.hpp"
 #include "common/enum.hpp"
 #include "core/context.hpp"
 #include "core/controller/controller.hpp"
