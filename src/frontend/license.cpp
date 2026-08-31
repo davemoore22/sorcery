@@ -61,7 +61,7 @@ auto Sorcery::License::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::LICENSE);
 	_ctx.controller->initialise();
 
-	fade_in(Enums::Screen::LICENSE, QUICK_FADE);
+	fade_in_with_string(Enums::Screen::LICENSE, QUICK_FADE, _license_text);
 
 	// Main loop
 	auto done{false};
@@ -105,7 +105,7 @@ auto Sorcery::License::stop() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::MAINMENU);
 
-	fade_out(Enums::Screen::LICENSE, QUICK_FADE);
+	fade_out_with_string(Enums::Screen::LICENSE, QUICK_FADE, _license_text);
 
 	return 0;
 }

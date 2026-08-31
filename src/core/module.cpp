@@ -99,6 +99,28 @@ auto Sorcery::Module::fade_out(const Enums::Screen screen,
 		0.0f, 1.0f, duration);
 }
 
+auto Sorcery::Module::fade_in_with_string(
+	const Enums::Screen screen, const std::chrono::milliseconds duration,
+	const std::string &string) -> void {
+
+	_fade(
+		[this, screen, string] {
+			_ctx.ui->display_screen(screen, string);
+		},
+		1.0f, 0.0f, duration);
+}
+
+auto Sorcery::Module::fade_out_with_string(
+	const Enums::Screen screen, const std::chrono::milliseconds duration,
+	const std::string &string) -> void {
+
+	_fade(
+		[this, screen, string] {
+			_ctx.ui->display_screen(screen, string);
+		},
+		0.0f, 1.0f, duration);
+}
+
 auto Sorcery::Module::fade_in(const std::function<void()> &draw,
 							  const std::chrono::milliseconds duration)
 	-> void {
