@@ -298,11 +298,286 @@ auto Sorcery::ControllerMenuHandler::handle_standard(
 
 auto Sorcery::ControllerMenuHandler::handle_dynamic(
 	std::string_view component, const std::vector<std::string> &items, int data,
-	int selection, std::vector<std::reference_wrapper<bool>> &flags) -> bool {}
+	int selection, std::vector<std::reference_wrapper<bool>> &flags) -> bool {
+
+	DEBUG_LOGF("Dynamic Menu: {} {} {}", component, data, selection);
+
+	if (component == "inspect_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::INSPECT);
+			_host.go_back = true;
+		} else
+			_host.set_character(Enums::CharacterSlot::INSPECT, data);
+
+		flags[0].get() = false;
+		return true;
+	} else if (component == "chest_open_menu" ||
+			   component == "chest_calfo_menu" ||
+			   component == "chest_inspect_menu" ||
+			   component == "chest_disarm_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::TRAP);
+			_host.set_flag("chest_character_cancelled");
+		} else {
+			_host.set_character(Enums::CharacterSlot::TRAP, data);
+		}
+
+		flags.at(0).get() = false;
+		return true;
+
+	} else if (component == "chest_trap_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.set_flag("chest_trap_cancelled");
+		} else {
+			_host.set_selected("chest_trap_selection", selection);
+		}
+
+		flags.at(0).get() = false;
+		return true;
+	} else if (component == "change_class_menu") {
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::EDIT);
+		} else {
+
+			auto &character{_host._game->characters.at(
+				_host.get_character(Enums::CharacterSlot::EDIT))};
+			const auto class_to_change_to{
+				enum_cast<Enums::Character::Class>(data).value()};
+			character.create().change_class(class_to_change_to);
+
+			_host._game->save_game();
+
+			_host.unset_flag("want_reclassed_ok");
+			_ctx.ui->popups->notice_reclassed_ok->show = true;
+		}
+
+		return true;
+
+	} else if (component == "delete_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::TRAINING);
+		} else {
+
+			_host.set_character(Enums::CharacterSlot::EDIT, data);
+		}
+
+		return true;
+	} else if (component == "roster_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::INSPECT);
+			_host.go_to(Enums::Screen::TRAINING);
+		} else
+			_host.set_character(Enums::CharacterSlot::INSPECT, data);
+		return true;
+	} else if (component == "select_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::EDIT);
+		} else
+			_host.set_character(Enums::CharacterSlot::EDIT, data);
+		return true;
+	} else if (component == "retrain_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::EDIT);
+		} else
+			_host.set_character(Enums::CharacterSlot::EDIT, data);
+		return true;
+	} else if (component == "legate_menu") {
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::EDIT);
+		} else
+			_host.set_character(Enums::CharacterSlot::EDIT, data);
+		return true;
+	} else if (component == "tithe_menu") {
+
+		// Flags = &_ui->popups->modal_tithe->show, &_ui->input_donate->show,
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::TITHE);
+			_host.go_back = true;
+		} else {
+			_host.set_character(Enums::CharacterSlot::TITHE, data);
+			_host._flags["want_donate"] = true;
+			flags.at(1).get() = true;
+		}
+
+		// Remove the Modal
+		flags.at(0).get() = false;
+		return true;
+	} else if (component == "help_menu") {
+
+		// Flags = &_ui->popups->modal_help->show
+
+		// Get the Character ID of the Selected Character and set it
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::HELP);
+			_host.go_back = true;
+		} else
+			_host.set_character(Enums::CharacterSlot::HELP, data);
+
+		// Remove the Modal
+		flags.at(0).get() = false;
+		return true;
+	} else if (component == "temple_heal_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.clear_character(Enums::CharacterSlot::HELP);
+			_host.go_to(Enums::Screen::CASTLE);
+		} else {
+
+			_host.set_character(Enums::CharacterSlot::HELP, data);
+		}
+
+		return true;
+	} else if (component == "temple_pay_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.clear_character(Enums::CharacterSlot::PAY);
+			_host.go_to(Enums::Screen::TEMPLE);
+		} else {
+			_host.set_character(Enums::CharacterSlot::PAY, data);
+		}
+
+		return true;
+	} else if (component == "identify_menu") {
+
+		// Flags = &_ui->popups->modal_identify->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_identify"] = true;
+			flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "chest_open_menu") {
+
+		// Flags = &_ui->popups->modal_chest>show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_chest"] = true;
+			flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "equip_menu") {
+
+		// Flags = &_ui->popups->modal_equip->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_equip"] = true;
+			flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "remove_menu") {
+
+		// Flags = &_ui->popups->modal_remove->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_remove"] = true;
+			flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "spell_menu") {
+
+		// Flags = &_ui->popups->modalspell->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_spell"] = true;
+			flags.at(0).get() = false;
+		} else {
+			// TODO
+		}
+		return true;
+	} else if (component == "drop_menu") {
+
+		// Flags = &_ui->popups->modal_drop->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_drop"] = true;
+			flags.at(0).get() = false;
+		} else {
+		}
+		return true;
+	} else if (component == "trade_menu") {
+
+		// Flags = &_ui->popups->modal_trade->show,
+		// &_ui->popups->modal_give->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_trade"] = true;
+			_host._flags["want_give"] = true;
+			flags.at(0).get() = false;
+		} else {
+			flags.at(0).get() = false;
+			flags.at(1).get() = true;
+			_host._flags["want_give"] = true;
+			_host._flags["want_trade"] = false;
+
+			// Handle Trade
+		}
+		return true;
+	} else if (component == "use_menu") {
+
+		// Flags = &_ui->popups->modal_use->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_use"] = true;
+			flags.at(0).get() = false;
+		} else {
+		}
+		return true;
+	} else if (component == "invoke_menu") {
+
+		// Flags = &_ui->popups->modal_invoke->show
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["want_invoke"] = true;
+			flags.at(0).get() = false;
+		} else {
+		}
+		return true;
+	}
+
+	return false;
+}
 
 auto Sorcery::ControllerMenuHandler::handle_actions(
 	std::string_view menu, int selection, int data,
-	std::vector<std::reference_wrapper<bool>> &flags) -> bool {}
+	std::vector<std::reference_wrapper<bool>> &flags) -> bool {
+
+	DEBUG_LOGF("Action Table Menu: {} {} {}", menu, selection, data);
+
+	const auto it{MENU_ACTIONS.find(menu)};
+	if (it == MENU_ACTIONS.end())
+		return false;
+
+	if (selection < 0 || selection >= static_cast<int>(it->second.size()))
+		return false;
+
+	const auto &actions = it->second[selection];
+	for (const auto &action : actions)
+		_host.execute_action(action, data, flags);
+
+	return true;
+}
 
 auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 												   int selection, int data)

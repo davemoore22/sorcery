@@ -3403,12 +3403,12 @@ auto Sorcery::UI::_activate_menu_item(const std::string_view name,
 
 	auto ui_flags{_get_legacy_menu_ui_flags(name)};
 
-	if (_ctx.controller->handle_action_table_menu(name, selection, data_item,
-												  ui_flags))
+	if (_ctx.controller->menus->handle_actions(name, selection, data_item,
+											   ui_flags))
 		return;
 
-	if (_ctx.controller->handle_dynamic_menu(name, items, data_item, selection,
-											 ui_flags))
+	if (_ctx.controller->menus->handle_dynamic(name, items, data_item,
+											   selection, ui_flags))
 		return;
 
 	_ctx.controller->menus->handle_standard(name, items, data_item, selection);

@@ -179,14 +179,6 @@ class Controller {
 							std::vector<std::reference_wrapper<bool>> &ui_flags)
 			-> void;
 
-		auto handle_action_table_menu(
-			std::string_view menu, int selection, int data,
-			std::vector<std::reference_wrapper<bool>> &ui_flags) -> bool;
-		auto handle_dynamic_menu(
-			std::string_view, const std::vector<std::string> &items,
-			const int data, const int selection,
-			std::vector<std::reference_wrapper<bool>> in_flags) -> bool;
-
 		auto inspect_party_member(const int character_id) -> void;
 		auto handle_icon_click(const int icon_idx) -> void;
 
