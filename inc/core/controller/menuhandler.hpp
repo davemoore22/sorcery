@@ -101,9 +101,6 @@ class ControllerMenuHandler {
 
 		auto _execute(const MenuAction &action, int data,
 					  std::vector<std::reference_wrapper<bool>> &flags) -> void;
-
-		auto _execute_custom(Enums::MenuAction::Function function, int data)
-			-> void;
 };
 
 }

@@ -114,8 +114,6 @@ class Controller {
 						   const std::string_view tab, const int selection)
 			-> void;
 		auto has_saved_game() const -> bool;
-		auto is_menu_item_disabled(const std::string_view component,
-								   const int selection, const int data) -> bool;
 		auto set_game(Game *game) -> void;
 		auto clear_character(const Enums::CharacterSlot slot) -> void;
 		auto has_character(const Enums::CharacterSlot slot) const -> bool;
@@ -174,10 +172,6 @@ class Controller {
 		auto want_to_abort() const -> bool;
 		auto want_to_leave_game() -> bool &;
 		auto clear_modal_flags() -> void;
-
-		auto execute_action(const MenuAction &action, int data,
-							std::vector<std::reference_wrapper<bool>> &ui_flags)
-			-> void;
 
 		auto inspect_party_member(const int character_id) -> void;
 		auto handle_icon_click(const int icon_idx) -> void;

@@ -3500,7 +3500,7 @@ auto Sorcery::UI::draw_menu(
 			const auto data_item{i < data.size() ? data[i] : -1};
 
 			const auto disabled{
-				_ctx.controller->is_menu_item_disabled(name, index, data_item)};
+				_ctx.controller->menus->item_disabled(name, index, data_item)};
 
 			if (disabled)
 				ImGui::BeginDisabled();
