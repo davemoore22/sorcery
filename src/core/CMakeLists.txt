@@ -15,6 +15,7 @@ target_link_libraries(sorcery_core PUBLIC
 target_sources(sorcery_core PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/application.cpp
 	${CMAKE_CURRENT_LIST_DIR}/audioplayer.cpp
+	${CMAKE_CURRENT_LIST_DIR}/controller/actionhandler.cpp
 	${CMAKE_CURRENT_LIST_DIR}/controller/controller.cpp
 	${CMAKE_CURRENT_LIST_DIR}/controller/inputhandler.cpp
 	${CMAKE_CURRENT_LIST_DIR}/controller/menuaction.cpp

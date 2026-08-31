@@ -144,7 +144,7 @@ class UI {
 						const ImVec4 colour, const int rounding) -> void;
 		auto draw_image(std::string_view source, const int idx,
 						const ImVec2 p_min, const ImVec2 p_sz) -> void;
-		auto draw_input(Component *component, std::string *input) -> void;
+		auto draw_input(Component *component, std::string &input) -> void;
 		auto draw_menu(Component *component) -> void;
 		auto draw_menu(const std::string name, const ImColor sel_colour,
 					   const ImVec2 pos, const ImVec2 sz,
@@ -154,7 +154,7 @@ class UI {
 					   const bool numeric_shortcuts = false) -> void;
 		auto draw_paragraph(Component *component) -> void;
 		auto draw_stepper(Component *component, const std::string &name,
-						  int *value) -> void;
+						  int &value) -> void;
 		auto draw_text(Component *component) -> void;
 		auto draw_text(Component *component, const std::string &string) -> void;
 		auto draw_text(const std::string string, const ImColor colour,

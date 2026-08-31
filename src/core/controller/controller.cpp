@@ -24,6 +24,7 @@
 #include "common/enum.hpp"	// for Attribute, Options, Class
 #include "common/types.hpp" // for Spell
 #include "core/context.hpp" // for Context
+#include "core/controller/actionhandler.hpp"
 #include "core/controller/inputhandler.hpp"
 #include "core/controller/menuaction.hpp" // for MenuAction, MENU_ACTIONS
 #include "core/controller/menuhandler.hpp"
@@ -73,6 +74,7 @@ Sorcery::Controller::Controller(Context &ctx)
 
 	menus = std::make_unique<ControllerMenuHandler>(*this, ctx);
 	input = std::make_unique<ControllerInputHandler>(*this, ctx);
+	actions = std::make_unique<ControllerActionHandler>(*this, ctx);
 }
 
 Sorcery::Controller::~Controller() = default;
@@ -275,46 +277,6 @@ auto Sorcery::Controller::set_game(Game *game) -> void {
 
 	_game = game;
 }
-// Toggle Handling
-auto Sorcery::Controller::handle_toggle(const std::string_view component,
-										const std::string_view tab,
-										const int selection) -> void {
-
-	DEBUG_LOGF("Toggle: {} {} {}", component, tab, selection);
-
-	if (component == "options_info") {
-
-		using enum Enums::Config::Options;
-		if (tab == "Options") {
-
-			// This happens after the corresponding data is changed
-			if (selection == static_cast<int>(RECOMMENDED_MODE) &&
-				_ctx.get_config(RECOMMENDED_MODE))
-				_ctx.config->set_rec_mode();
-			else if (selection == static_cast<int>(STRICT_MODE) &&
-					 _ctx.get_config(STRICT_MODE))
-				_ctx.config->set_strict_mode();
-			else {
-				if (_ctx.config->is_strict_mode())
-					_ctx.config->set_strict_mode();
-				else if (_ctx.config->is_rec_mode())
-					_ctx.config->set_rec_mode();
-			}
-
-		} else if (tab == "Gameplay") {
-
-			// Only need to check if strict and reommended modes are on
-			_ctx.get_config(RECOMMENDED_MODE) = _ctx.config->is_rec_mode();
-			_ctx.get_config(STRICT_MODE) = _ctx.config->is_strict_mode();
-
-		} else if (tab == "Graphics") {
-
-			// Only need to check if strict and reommended modes are on
-			_ctx.get_config(RECOMMENDED_MODE) = _ctx.config->is_rec_mode();
-			_ctx.get_config(STRICT_MODE) = _ctx.config->is_strict_mode();
-		}
-	}
-}
 
 auto Sorcery::Controller::set_can_undo(const bool value) -> void {
 
@@ -332,40 +294,6 @@ auto Sorcery::Controller::get_last_screen() const -> Enums::Screen {
 auto Sorcery::Controller::set_last_screen(const Enums::Screen value) -> void {
 
 	_last_screen = value;
-}
-
-auto Sorcery::Controller::handle_icon_click(const int icon_idx) -> void {
-
-	DEBUG_LOGF("Icon Click: {}", icon_idx);
-
-	switch (icon_idx) {
-	case ICON_CAMP:
-		_ctx.ui->popups->modal_camp->show = true;
-		break;
-
-	case ICON_PARTY:
-		set_flag("want_inspect");
-		break;
-
-	case ICON_MAP:
-		set_flag("want_automap");
-		break;
-
-	case ICON_LOOK:
-		set_flag("want_look");
-		break;
-
-	case ICON_CAST:
-		set_flag("want_spell");
-		break;
-
-	case ICON_USE:
-		set_flag("want_use");
-		break;
-
-	default:
-		break;
-	}
 }
 
 auto Sorcery::Controller::inspect_party_member(const int character_id) -> void {
@@ -558,227 +486,6 @@ auto Sorcery::Controller::set_input_buffer(const std::string &value) -> void {
 auto Sorcery::Controller::clear_input_buffer() -> void {
 
 	_input_buffer.clear();
-}
-
-auto Sorcery::Controller::handle_stepper_button_click(
-	const std::string_view component, [[maybe_unused]] UI *ui,
-	const bool positive, int *data) -> void {
-
-	DEBUG_LOGF("Stepper Button Click: {} {}", component, positive);
-
-	auto candidate{_game->creation_candidate};
-
-	if (component.starts_with("##stepper_attribute_")) {
-
-		if (positive) {
-
-			// Up: If we have points left and the value is less than 18
-			if ((candidate->create().get_points_left() > 0) && (*data <= 17)) {
-
-				(*data)++;
-				candidate->create().set_points_left(
-					candidate->create().get_points_left() - 1);
-				candidate->create().set_possible_classes();
-			}
-
-		} else {
-
-			if (candidate->create().get_points_left() <
-				candidate->create().get_start_points()) {
-
-				// Down: If we are above staring points
-				using enum Enums::Character::Attribute;
-				if (component.starts_with("##stepper_attribute_1")) {
-					if (candidate->get_cur_attr(STRENGTH) >
-						candidate->create().get_start_attribute(STRENGTH)) {
-						(*data)--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
-						candidate->create().set_possible_classes();
-					}
-				} else if (component.starts_with("##stepper_attribute_2")) {
-					if (candidate->get_cur_attr(IQ) >
-						candidate->create().get_start_attribute(IQ)) {
-						(*data)--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
-						candidate->create().set_possible_classes();
-					}
-				} else if (component.starts_with("##stepper_attribute_3")) {
-					if (candidate->get_cur_attr(PIETY) >
-						candidate->create().get_start_attribute(PIETY)) {
-						(*data)--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
-						candidate->create().set_possible_classes();
-					}
-				} else if (component.starts_with("##stepper_attribute_4")) {
-					if (candidate->get_cur_attr(VITALITY) >
-						candidate->create().get_start_attribute(VITALITY)) {
-						(*data)--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
-						candidate->create().set_possible_classes();
-					}
-				} else if (component.starts_with("##stepper_attribute_5")) {
-					if (candidate->get_cur_attr(AGILITY) >
-						candidate->create().get_start_attribute(AGILITY)) {
-						(*data)--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
-						candidate->create().set_possible_classes();
-					}
-				} else if (component.starts_with("##stepper_attribute_6")) {
-					if (candidate->get_cur_attr(LUCK) >
-						candidate->create().get_start_attribute(LUCK)) {
-						(*data)--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
-						candidate->create().set_possible_classes();
-					}
-				}
-			}
-		}
-	};
-};
-
-auto Sorcery::Controller::handle_input_button_click(
-	const std::string_view component, [[maybe_unused]] UI *ui,
-	std::string *data) -> void {
-
-	DEBUG_LOGF("Input Button Click: {} {}", component, *data);
-
-	if (component == "name_input_ok") {
-
-		if (data->length() > 0) {
-
-			_game->creation_candidate->create().set_name(*data);
-			_game->creation_candidate->create().set_stage(
-				Enums::Character::Stage::CHOOSE_RACE);
-		}
-	} else if (component == "rename_input_ok") {
-
-		if (!data->empty()) {
-
-			auto &character{_game->characters.at(
-				get_character(Enums::CharacterSlot::EDIT))};
-
-			character.create().set_name(*data);
-
-			_game->save_game();
-
-			unset_flag("want_renamed_ok");
-			ui->popups->notice_renamed_ok->show = true;
-
-		} else {
-
-			clear_character(Enums::CharacterSlot::EDIT);
-
-			go_to(Enums::Screen::EDIT);
-		}
-	}
-}
-
-auto Sorcery::Controller::handle_button_click(const std::string_view component,
-											  UI *ui,
-											  [[maybe_unused]] const int data)
-	-> void {
-
-	DEBUG_LOGF("Button Click: {} {}", component, data);
-
-	if (component == "button_identify") {
-		// Show Identify Modal
-		ui->popups->modal_identify->regenerate();
-		ui->popups->modal_identify->show = true;
-		set_flag("want_identify");
-	} else if (component == "button_pool") {
-		// Show Pool Gold Notice
-		ui->popups->notice_pool_gold->show = true;
-		set_flag("want_pool_gold");
-		_game->pool_party_gold(get_character(Enums::CharacterSlot::INSPECT));
-	} else if (component == "button_leave") {
-		// Leave Inspect
-		unset_flag("want_inspect");
-		go_back = true;
-		ui->popups->modal_inspect->show = false;
-	} else if (component == "button_drop") {
-		// Show Drop Modal
-		ui->popups->modal_drop->regenerate();
-		ui->popups->modal_drop->show = true;
-		set_flag("want_drop");
-	} else if (component == "button_trade") {
-		// Show Trade Modal
-		ui->popups->modal_trade->regenerate();
-		ui->popups->modal_trade->show = true;
-		ui->popups->modal_give->regenerate();
-		ui->popups->modal_give->show = false;
-		set_flag("want_trade");
-		unset_flag("want_give");
-	} else if (component == "button_use") {
-		// Show Use Modal
-		ui->popups->modal_use->regenerate();
-		ui->popups->modal_use->show = true;
-		set_flag("want_use");
-	} else if (component == "button_equip") {
-		// Show Equip Modal
-		ui->popups->modal_equip->regenerate();
-		ui->popups->modal_equip->show = true;
-		set_flag("want_equip");
-	} else if (component == "button_remove") {
-		// Show Remove Modal
-		ui->popups->modal_remove->regenerate();
-		ui->popups->modal_remove->show = true;
-		set_flag("want_remove");
-	} else if (component == "button_spell") {
-		// Show Spell Modal
-		ui->popups->modal_spell->regenerate();
-		ui->popups->modal_spell->show = true;
-		set_flag("want_spell");
-	} else if (component == "button_invoke") {
-		// Show Invoke Modal
-		ui->popups->modal_invoke->regenerate();
-		ui->popups->modal_invoke->show = true;
-		set_flag("want_invoke");
-	} else if (component == "button_keep_yes") {
-
-		// Save Character
-		_ctx.controller->set_flag("confirm_keep_character");
-
-	} else if (component == "button_keep_no") {
-
-		// Don't save Character
-		_ctx.controller->set_flag("confirm_discard_character");
-
-	} else if (component == "button_buy_leave") {
-
-		// Return to the Store
-		go_to(Enums::Screen::STORE);
-
-	} else if (component == "button_heal_return") {
-
-		go_to(Enums::Screen::TEMPLE);
-
-	} else if (component == "license_return") {
-
-		// Return to Main Menu
-		go_to(Enums::Screen::MAINMENU);
-	} else if (component == "graveyard_return") {
-
-		// Return to Castle on a wipe
-		go_to(Enums::Screen::CASTLE);
-	} else if (component == "nolevelup_leave") {
-
-		// No Level Up Notice - Return to Inn
-		go_to(Enums::Screen::INN);
-	} else if (component == "levelup_leave") {
-
-		// No Level Up Notice - C Return to Inn
-		go_to(Enums::Screen::INN);
-	} else if (component == "automap_return") {
-		go_to(Enums::Screen::ENGINE);
-	} else if (component == "button_victory") {
-		go_to(Enums::Screen::CASTLE);
-	}
 }
 
 auto Sorcery::Controller::get_candidate_character() const -> Character * {

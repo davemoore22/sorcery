@@ -42,12 +42,14 @@ namespace Sorcery { struct Context; }
 namespace Sorcery { struct MenuAction; }
 namespace Sorcery { struct ControllerMenuHandler; }
 namespace Sorcery { struct ControllerInputHandler; }
+namespace Sorcery { struct ControllerActionHandler; }
 
 namespace Sorcery {
 
 // UI Interaction Logic Controller
 class Controller {
 
+		friend class ControllerActionHandler;
 		friend class ControllerMenuHandler;
 		friend class ControllerInputHandler;
 
@@ -93,16 +95,6 @@ class Controller {
 							   const Controller &controller) -> std::ostream &;
 
 		// Public Methods
-		auto handle_button_click(const std::string_view component, UI *ui,
-								 const int data) -> void;
-		auto handle_input_button_click(const std::string_view component, UI *ui,
-									   std::string *data) -> void;
-		auto handle_stepper_button_click(const std::string_view component,
-										 UI *ui, const bool positive, int *data)
-			-> void;
-		auto handle_toggle(const std::string_view component,
-						   const std::string_view tab, const int selection)
-			-> void;
 		auto has_saved_game() const -> bool;
 		auto set_game(Game *game) -> void;
 		auto clear_character(const Enums::CharacterSlot slot) -> void;
@@ -164,11 +156,11 @@ class Controller {
 		auto clear_modal_flags() -> void;
 
 		auto inspect_party_member(const int character_id) -> void;
-		auto handle_icon_click(const int icon_idx) -> void;
 
 		// Public Members
 		bool go_back;
 
+		std::unique_ptr<ControllerActionHandler> actions;
 		std::unique_ptr<ControllerMenuHandler> menus;
 		std::unique_ptr<ControllerInputHandler> input;
 };

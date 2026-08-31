@@ -20,14 +20,15 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "display/ui/ui.hpp"			  // for UI, TransientMessage, Trans...
-#include "backends/imgui_impl_opengl3.h"  // for ImGui_ImplOpenGL3_NewFrame
-#include "backends/imgui_impl_sdl2.h"	  // for ImGui_ImplSDL2_NewFrame
-#include "common/enum.hpp"				  // for Feature, Ability, Event
-#include "common/macro.hpp"				  // for CAPITALISE
-#include "common/types.hpp"				  // for Spell, Size, Coordinate
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
+#include "display/ui/ui.hpp"			 // for UI, TransientMessage, Trans...
+#include "backends/imgui_impl_opengl3.h" // for ImGui_ImplOpenGL3_NewFrame
+#include "backends/imgui_impl_sdl2.h"	 // for ImGui_ImplSDL2_NewFrame
+#include "common/enum.hpp"				 // for Feature, Ability, Event
+#include "common/macro.hpp"				 // for CAPITALISE
+#include "common/types.hpp"				 // for Spell, Size, Coordinate
+#include "core/context.hpp"				 // for Context
+#include "core/controller/actionhandler.hpp"
+#include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/controller/menubuilder.hpp"	// for MenuBuilder
 #include "core/controller/menuhandler.hpp"
@@ -976,7 +977,7 @@ auto Sorcery::UI::draw_button_click(Component *component, bool &flag,
 		if (ImGui::Button(CSTR(_ctx.get_string(component->string_key)))) {
 			// Handle buttons being used to switch on AND off the flag
 			flag = !reverse;
-			_ctx.controller->handle_button_click(component->name, this, -1);
+			_ctx.controller->actions->button(component->name, -1);
 		}
 	}
 }
@@ -1025,7 +1026,7 @@ auto Sorcery::UI::draw_button(Component *component,
 				if (is_clicked)
 					*is_clicked.value() = true;
 
-				_ctx.controller->handle_button_click(component->name, this, -1);
+				_ctx.controller->actions->button(component->name, -1);
 
 				if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNone)) {
 				}
@@ -1625,7 +1626,7 @@ auto Sorcery::UI::draw_current_character([[maybe_unused]] const int mode)
 }
 
 auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
-							   int *value) -> void {
+							   int &value) -> void {
 
 	bool disabled{false};
 
@@ -1651,17 +1652,17 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 								->create()
 								.get_start_attributes()};
 			if (name == "stepper_attribute_1")
-				disabled = !(*value > mins.at(STRENGTH));
+				disabled = !(value > mins.at(STRENGTH));
 			else if (name == "stepper_attribute_2")
-				disabled = !(*value > mins.at(IQ));
+				disabled = !(value > mins.at(IQ));
 			else if (name == "stepper_attribute_3")
-				disabled = !(*value > mins.at(PIETY));
+				disabled = !(value > mins.at(PIETY));
 			else if (name == "stepper_attribute_4")
-				disabled = !(*value > mins.at(VITALITY));
+				disabled = !(value > mins.at(VITALITY));
 			else if (name == "stepper_attribute_5")
-				disabled = !(*value > mins.at(AGILITY));
+				disabled = !(value > mins.at(AGILITY));
 			else if (name == "stepper_attribute_6")
-				disabled = !(*value > mins.at(LUCK));
+				disabled = !(value > mins.at(LUCK));
 		};
 
 		with_ID(stepper_minus.c_str()) {
@@ -1669,8 +1670,7 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 			if (disabled)
 				ImGui::BeginDisabled();
 			if (ImGui::Button("<")) {
-				_ctx.controller->handle_stepper_button_click(stepper_plus, this,
-															 false, value);
+				_ctx.controller->actions->stepper(stepper_plus, false, value);
 			}
 			if (disabled)
 				ImGui::EndDisabled();
@@ -1683,13 +1683,13 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 
 		set_StyleColor(ImGuiCol_Text, alpha_col);
 		ImGui::SetCursorPos(pos);
-		ImGui::TextUnformatted(std::format("{:>2}", *value).c_str());
+		ImGui::TextUnformatted(std::format("{:>2}", value).c_str());
 
 		disabled = false;
 		if (component->name == "current_stats") {
-			if ((*value >= 18) || (_ctx.controller->get_candidate_character()
-									   ->create()
-									   .get_points_left() == 0))
+			if ((value >= 18) || (_ctx.controller->get_candidate_character()
+									  ->create()
+									  .get_points_left() == 0))
 				disabled = true;
 		};
 
@@ -1699,8 +1699,7 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 			if (disabled)
 				ImGui::BeginDisabled();
 			if (ImGui::Button(">")) {
-				_ctx.controller->handle_stepper_button_click(stepper_minus,
-															 this, true, value);
+				_ctx.controller->actions->stepper(stepper_minus, true, value);
 			}
 			if (disabled)
 				ImGui::EndDisabled();
@@ -1708,7 +1707,7 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 	}
 }
 
-auto Sorcery::UI::draw_input(Component *component, std::string *input) -> void {
+auto Sorcery::UI::draw_input(Component *component, std::string &input) -> void {
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
@@ -1725,9 +1724,8 @@ auto Sorcery::UI::draw_input(Component *component, std::string *input) -> void {
 		const auto input_button_name{std::format("##{}_ok", component->name)};
 		const auto input_button_id{std::format("{}_ok", component->name)};
 		ImGui::SetNextItemWidth(ImGui::GetFontSize() * component->w);
-		if (ImGui::InputText(input_name.c_str(), input, flags)) {
-			_ctx.controller->handle_input_button_click(input_button_id, this,
-													   input);
+		if (ImGui::InputText(input_name.c_str(), &input, flags)) {
+			_ctx.controller->actions->input(input_button_id, input);
 		}
 
 		ImGui::SameLine();
@@ -1740,8 +1738,7 @@ auto Sorcery::UI::draw_input(Component *component, std::string *input) -> void {
 
 				// Handle buttons being used to switch on AND off the flag
 				// flag = !reverse;
-				_ctx.controller->handle_input_button_click(input_button_id,
-														   this, input);
+				_ctx.controller->actions->input(input_button_id, input);
 			}
 		}
 	}
@@ -2456,7 +2453,7 @@ auto Sorcery::UI::draw_options() -> void {
 
 								// Do additonal handling such as switching
 								// on strict mode etc inside the controller
-								_ctx.controller->handle_toggle(
+								_ctx.controller->actions->toggle(
 									component.name, tabname, summary_idx);
 							};
 						}
@@ -2474,7 +2471,7 @@ auto Sorcery::UI::draw_options() -> void {
 
 								// Do additonal handling such as switching
 								// on strict mode etc
-								_ctx.controller->handle_toggle(
+								_ctx.controller->actions->toggle(
 									component.name, tabname, gameplay_idx);
 							};
 						}
@@ -2493,7 +2490,7 @@ auto Sorcery::UI::draw_options() -> void {
 
 								// Do additonal handling such as switching
 								// on strict mode etc
-								_ctx.controller->handle_toggle(
+								_ctx.controller->actions->toggle(
 									component.name, tabname, graphics_idx);
 							};
 						}
@@ -2675,7 +2672,7 @@ auto Sorcery::UI::draw_icons() -> void {
 								   icon_pos, icon_size, tint);
 
 			if (activated)
-				_ctx.controller->handle_icon_click(icon_idx);
+				_ctx.controller->actions->icon(icon_idx);
 
 			ImGui::PopID();
 

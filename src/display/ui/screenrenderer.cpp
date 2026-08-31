@@ -706,7 +706,7 @@ auto Sorcery::ScreenRenderer::_draw_rename() -> void {
 	}
 
 	auto cmp_name{_ui.components->get("rename:rename_input")};
-	_ui.draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
+	_ui.draw_input(&cmp_name, _ctx.controller->get_input_buffer());
 }
 
 auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
@@ -814,7 +814,7 @@ auto Sorcery::ScreenRenderer::_draw_create_class(
 		auto attribute{_ctx.controller->get_candidate_character()->get_attr_ptr(
 			enum_cast<Enums::Character::Attribute>(i).value())};
 		auto cmp_name{std::format("stepper_attribute_{}", i)};
-		_ui.draw_stepper(&cmp_attribute, cmp_name, attribute);
+		_ui.draw_stepper(&cmp_attribute, cmp_name, *attribute);
 		++cmp_attribute.y;
 	}
 }
@@ -843,7 +843,7 @@ auto Sorcery::ScreenRenderer::_draw_create_name([[maybe_unused]] const int mode)
 	}
 
 	auto cmp_name{_ui.components->get("create_name:name_input")};
-	_ui.draw_input(&cmp_name, &_ctx.controller->get_input_buffer());
+	_ui.draw_input(&cmp_name, _ctx.controller->get_input_buffer());
 }
 
 auto Sorcery::ScreenRenderer::_draw_choose(const int mode) -> void {
