@@ -87,7 +87,7 @@ auto Sorcery::Controller::initialise() -> void {
 	_abort = false;
 	_leave = false;
 
-	go_back = false;
+	_go_back = false;
 
 	// Store these flags (if set)
 	// auto show_automap{_flags["show_automap"]};
@@ -296,12 +296,6 @@ auto Sorcery::Controller::set_last_screen(const Enums::Screen value) -> void {
 	_last_screen = value;
 }
 
-auto Sorcery::Controller::inspect_party_member(const int character_id) -> void {
-
-	set_character(Enums::CharacterSlot::INSPECT, character_id);
-	go_to(Enums::Screen::INSPECT);
-}
-
 auto Sorcery::Controller::get_flag_ref(const std::string_view flag) -> bool & {
 
 	if (!_flags.contains(flag))
@@ -391,7 +385,7 @@ auto Sorcery::Controller::unset_text(const std::string_view flag) -> void {
 }
 
 auto Sorcery::Controller::get_text(const std::string_view flag) const
-	-> const std::string {
+	-> std::string {
 	if (_texts.contains(std::string{flag}))
 		return _texts.at(std::string{flag});
 
@@ -509,6 +503,21 @@ auto Sorcery::Controller::wants(const Enums::Screen value) const -> bool {
 auto Sorcery::Controller::is_at() const -> Enums::Screen {
 
 	return _screen;
+}
+
+auto Sorcery::Controller::request_back() -> void {
+
+	_go_back = true;
+}
+
+auto Sorcery::Controller::get_back() const -> bool {
+
+	return _go_back;
+}
+
+auto Sorcery::Controller::consume_back() -> bool {
+
+	return std::exchange(_go_back, false);
 }
 
 namespace Sorcery {

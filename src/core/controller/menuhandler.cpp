@@ -227,7 +227,7 @@ auto Sorcery::ControllerMenuHandler::handle_standard(
 		// screen to enable itself
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_host._flags["show_reorder"] = false;
-			_host.go_back = true;
+			_host.request_back();
 		}
 	} else if (component == "pay_menu") {
 
@@ -307,7 +307,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_host.clear_character(Enums::CharacterSlot::INSPECT);
-			_host.go_back = true;
+			_host.request_back();
 		} else
 			_host.set_character(Enums::CharacterSlot::INSPECT, data);
 
@@ -413,7 +413,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_host.clear_character(Enums::CharacterSlot::TITHE);
-			_host.go_back = true;
+			_host.request_back();
 		} else {
 			_host.set_character(Enums::CharacterSlot::TITHE, data);
 			_host._flags["want_donate"] = true;
@@ -430,7 +430,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		// Get the Character ID of the Selected Character and set it
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_host.clear_character(Enums::CharacterSlot::HELP);
-			_host.go_back = true;
+			_host.request_back();
 		} else
 			_host.set_character(Enums::CharacterSlot::HELP, data);
 
@@ -1075,7 +1075,7 @@ auto Sorcery::ControllerMenuHandler::_execute(
 		_host.clear_character(action.character_key);
 		break;
 	case GO_BACK:
-		_host.go_back = true;
+		_host.request_back();
 		break;
 	case CUSTOM:
 		// Handle custom actions here if needed

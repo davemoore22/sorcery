@@ -90,8 +90,8 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 		if (!_ctx.controller->wants(Enums::Screen::INSPECT))
 			return BACK_FROM_INSPECT;
 
-		if (_ctx.controller->go_back) {
-			_ctx.controller->go_back = false;
+		if (_ctx.controller->get_back()) {
+			_ctx.controller->consume_back();
 			return BACK_FROM_INSPECT;
 		}
 

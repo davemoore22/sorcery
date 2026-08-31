@@ -55,6 +55,7 @@ class ControllerActionHandler {
 		auto toggle(std::string_view component, std::string_view tab,
 					int selection) -> void;
 		auto icon(int icon_idx) -> void;
+		auto inspect(const int character_id) -> void;
 
 	private:
 		Controller &_host;

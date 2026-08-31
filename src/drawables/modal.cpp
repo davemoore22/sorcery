@@ -65,6 +65,7 @@ auto Sorcery::Modal::regenerate() -> void {
 auto Sorcery::Modal::set_title(const std::string_view key) -> void {
 
 	_component.string_key = key;
+	_has_title = _ctx.get_string(_component.string_key).length() > 0;
 }
 
 auto Sorcery::Modal::regenerate(const std::string_view menu_name) -> void {

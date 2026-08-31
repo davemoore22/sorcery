@@ -90,7 +90,7 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 	} else if (component == "button_leave") {
 		// Leave Inspect
 		_host.unset_flag("want_inspect");
-		_host.go_back = true;
+		_host.request_back();
 		_ctx.ui->popups->modal_inspect->show = false;
 	} else if (component == "button_drop") {
 		// Show Drop Modal
@@ -360,4 +360,10 @@ auto Sorcery::ControllerActionHandler::icon(const int icon_idx) -> void {
 	default:
 		break;
 	}
+}
+
+auto Sorcery::ControllerActionHandler::inspect(const int character_id) -> void {
+
+	_host.set_character(Enums::CharacterSlot::INSPECT, character_id);
+	_host.go_to(Enums::Screen::INSPECT);
 }

@@ -2866,7 +2866,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 					summary.c_str());
 
 				if (activated)
-					_ctx.controller->inspect_party_member(character_id);
+					_ctx.controller->actions->inspect(character_id);
 
 				++position;
 			}
