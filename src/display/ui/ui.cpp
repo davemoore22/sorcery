@@ -29,86 +29,87 @@
 #include "core/context.hpp"				   // for Context
 #include "core/controller/controller.hpp"  // for Controller
 #include "core/controller/menubuilder.hpp" // for MenuBuilder
-#include "core/debug.hpp"				   // for DEBUG_LOG, DEBUG_LOGF, debu...
-#include "core/define.hpp"				   // for WINDOW_LAYER_TEXTS, WINDOW_...
-#include "core/enum.hpp"				   // for Screen, CharacterSlot
-#include "core/macro.hpp"				   // for CSTR
-#include "core/resources.hpp"			   // for Resources
-#include "core/system.hpp"				   // for System
-#include "display/animation.hpp"		   // for Animation
-#include "display/display.hpp"			   // for Display, DisplayMetrics
-#include "display/render.hpp"			   // for Render
-#include "display/ui/popupstore.hpp"	   // for PopupStore
-#include "display/ui/screenrenderer.hpp"   // for ScreenRenderer
-#include "display/ui/uimetrics.hpp"		   // for UIMetrics, GLuint
-#include "display/ui/uistyle.hpp"		   // for set_text_bright, set_text_dim
-#include "drawables/dialog.hpp"			   // for Dialog
-#include "drawables/frame.hpp"			   // for Frame
-#include "drawables/input.hpp"			   // for Input
-#include "drawables/menu.hpp"			   // for Menu
-#include "drawables/message.hpp"		   // for Message
-#include "drawables/modal.hpp"			   // for Modal
-#include "drawables/videoplayer.hpp"	   // for VideoPlayer
-#include "engine/define.hpp"			   // for GRAVESTONE_GFX_ID
-#include "engine/types.hpp"				   // for Vertex, VertexArray
-#include "imgui.h"						   // for ImVec2, ImVec4, TextUnforma...
-#include "imgui_internal.h"				   // for ImGuiSelectableFlagsPrivate_
-#include "misc/cpp/imgui_stdlib.h"		   // for InputText
-#include "resources/componentstore.hpp"	   // for ComponentStore
-#include "resources/define.hpp"			   // for MAPS_TEXTURE, ICONS_TEXTURE
-#include "resources/fontstore.hpp"		   // for FontInfo, FontStore
-#include "resources/imagestore.hpp"		   // for ImageStore
-#include "resources/itemstore.hpp"		   // for ItemStore
-#include "resources/levelstore.hpp"		   // for LevelStore
-#include "resources/monsterstore.hpp"	   // for MonsterStore
-#include "resources/spellstore.hpp"		   // for SpellStore
-#include "types/character/character.hpp"   // for Character
-#include "types/character/create.hpp"	   // for CharacterCreate
-#include "types/character/inventory.hpp"   // for Inventory
-#include "types/character/magic.hpp"	   // for ConstCharacterMagic
-#include "types/component.hpp"			   // for Component
-#include "types/config.hpp"				   // for Config
-#include "types/dice.hpp"				   // for Dice
-#include "types/enum.hpp"				   // for ComponentType, Font, Class
-#include "types/error.hpp"				   // for Error, operator<<
-#include "types/game.hpp"				   // for Game
-#include "types/image.hpp"				   // for Image
-#include "types/item/item.hpp"			   // for Item
-#include "types/item/itemtype.hpp"		   // for ItemType
-#include "types/meta.hpp"				   // for enum_cast, enum_name
-#include "types/monstertype.hpp"		   // for MonsterType
-#include "types/state.hpp"				   // for State
-#include "types/world/explore.hpp"		   // for Explore
-#include "types/world/level.hpp"		   // for Level
-#include "types/world/tile.hpp"			   // for Tile
-#include <SDL.h>						   // for SDL_Quit
-#include <SDL_timer.h>					   // for SDL_GetTicks
-#include <SDL_video.h>					   // for SDL_SetWindowFullscreen
-#include <algorithm>					   // for min, find, remove_if, trans...
-#include <any>							   // for any
-#include <array>						   // for array
-#include <cctype>						   // for tolower
-#include <chrono>						   // for steady_clock, operator+
-#include <compare>						   // for operator>=, strong_ordering
-#include <cstdint>						   // for intptr_t, uintptr_t
-#include <cstdlib>						   // for size_t, exit, EXIT_FAILURE
-#include <exception>					   // for exception
-#include <filesystem>					   // for path
-#include <format>						   // for format
-#include <functional>					   // for ref, reference_wrapper, invoke
-#include <imgui_sugar.hpp>				   // for BooleanGuard, with_Window
-#include <imgui_toggle.h>				   // for Toggle
-#include <initializer_list>				   // for initializer_list
-#include <iostream>						   // for basic_ostream, cerr
-#include <map>							   // for map, operator==
-#include <memory>						   // for unique_ptr, shared_ptr, mak...
-#include <optional>						   // for optional, nullopt, nullopt_t
-#include <ranges>						   // for _Filter, _Partial, filter
-#include <regex>						   // for regex, regex_token_iterator
-#include <string>						   // for basic_string, string, char_...
-#include <string_view>					   // for basic_string_view, string_view
-#include <utility>						   // for pair, to_underlying, move
-#include <vector>						   // for vector
+#include "core/controller/menuhandler.hpp"
+#include "core/debug.hpp"				 // for DEBUG_LOG, DEBUG_LOGF, debu...
+#include "core/define.hpp"				 // for WINDOW_LAYER_TEXTS, WINDOW_...
+#include "core/enum.hpp"				 // for Screen, CharacterSlot
+#include "core/macro.hpp"				 // for CSTR
+#include "core/resources.hpp"			 // for Resources
+#include "core/system.hpp"				 // for System
+#include "display/animation.hpp"		 // for Animation
+#include "display/display.hpp"			 // for Display, DisplayMetrics
+#include "display/render.hpp"			 // for Render
+#include "display/ui/popupstore.hpp"	 // for PopupStore
+#include "display/ui/screenrenderer.hpp" // for ScreenRenderer
+#include "display/ui/uimetrics.hpp"		 // for UIMetrics, GLuint
+#include "display/ui/uistyle.hpp"		 // for set_text_bright, set_text_dim
+#include "drawables/dialog.hpp"			 // for Dialog
+#include "drawables/frame.hpp"			 // for Frame
+#include "drawables/input.hpp"			 // for Input
+#include "drawables/menu.hpp"			 // for Menu
+#include "drawables/message.hpp"		 // for Message
+#include "drawables/modal.hpp"			 // for Modal
+#include "drawables/videoplayer.hpp"	 // for VideoPlayer
+#include "engine/define.hpp"			 // for GRAVESTONE_GFX_ID
+#include "engine/types.hpp"				 // for Vertex, VertexArray
+#include "imgui.h"						 // for ImVec2, ImVec4, TextUnforma...
+#include "imgui_internal.h"				 // for ImGuiSelectableFlagsPrivate_
+#include "misc/cpp/imgui_stdlib.h"		 // for InputText
+#include "resources/componentstore.hpp"	 // for ComponentStore
+#include "resources/define.hpp"			 // for MAPS_TEXTURE, ICONS_TEXTURE
+#include "resources/fontstore.hpp"		 // for FontInfo, FontStore
+#include "resources/imagestore.hpp"		 // for ImageStore
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/levelstore.hpp"		 // for LevelStore
+#include "resources/monsterstore.hpp"	 // for MonsterStore
+#include "resources/spellstore.hpp"		 // for SpellStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/character/magic.hpp"	 // for ConstCharacterMagic
+#include "types/component.hpp"			 // for Component
+#include "types/config.hpp"				 // for Config
+#include "types/dice.hpp"				 // for Dice
+#include "types/enum.hpp"				 // for ComponentType, Font, Class
+#include "types/error.hpp"				 // for Error, operator<<
+#include "types/game.hpp"				 // for Game
+#include "types/image.hpp"				 // for Image
+#include "types/item/item.hpp"			 // for Item
+#include "types/item/itemtype.hpp"		 // for ItemType
+#include "types/meta.hpp"				 // for enum_cast, enum_name
+#include "types/monstertype.hpp"		 // for MonsterType
+#include "types/state.hpp"				 // for State
+#include "types/world/explore.hpp"		 // for Explore
+#include "types/world/level.hpp"		 // for Level
+#include "types/world/tile.hpp"			 // for Tile
+#include <SDL.h>						 // for SDL_Quit
+#include <SDL_timer.h>					 // for SDL_GetTicks
+#include <SDL_video.h>					 // for SDL_SetWindowFullscreen
+#include <algorithm>					 // for min, find, remove_if, trans...
+#include <any>							 // for any
+#include <array>						 // for array
+#include <cctype>						 // for tolower
+#include <chrono>						 // for steady_clock, operator+
+#include <compare>						 // for operator>=, strong_ordering
+#include <cstdint>						 // for intptr_t, uintptr_t
+#include <cstdlib>						 // for size_t, exit, EXIT_FAILURE
+#include <exception>					 // for exception
+#include <filesystem>					 // for path
+#include <format>						 // for format
+#include <functional>					 // for ref, reference_wrapper, invoke
+#include <imgui_sugar.hpp>				 // for BooleanGuard, with_Window
+#include <imgui_toggle.h>				 // for Toggle
+#include <initializer_list>				 // for initializer_list
+#include <iostream>						 // for basic_ostream, cerr
+#include <map>							 // for map, operator==
+#include <memory>						 // for unique_ptr, shared_ptr, mak...
+#include <optional>						 // for optional, nullopt, nullopt_t
+#include <ranges>						 // for _Filter, _Partial, filter
+#include <regex>						 // for regex, regex_token_iterator
+#include <string>						 // for basic_string, string, char_...
+#include <string_view>					 // for basic_string_view, string_view
+#include <utility>						 // for pair, to_underlying, move
+#include <vector>						 // for vector
 
 Sorcery::UI::UI(Context &ctx)
 	: _ctx{ctx} {
@@ -3410,7 +3411,7 @@ auto Sorcery::UI::_activate_menu_item(const std::string_view name,
 											 ui_flags))
 		return;
 
-	_ctx.controller->handle_standard_menu(name, items, data_item, selection);
+	_ctx.controller->menus->handle_standard(name, items, data_item, selection);
 }
 
 auto Sorcery::UI::draw_menu(
@@ -3523,8 +3524,8 @@ auto Sorcery::UI::draw_menu(
 
 				if (reorder) {
 
-					_ctx.controller->handle_standard_menu(name, items,
-														  data_item, index);
+					_ctx.controller->menus->handle_standard(name, items,
+															data_item, index);
 
 				} else {
 

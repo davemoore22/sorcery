@@ -27,11 +27,12 @@
 #include <cstddef>		   // for size_t
 #include <functional>	   // for reference_wrapper
 #include <map>			   // for map
-#include <optional>		   // for optional
-#include <ostream>		   // for ostream
-#include <string>		   // for basic_string, string
-#include <string_view>	   // for string_view
-#include <vector>		   // for vector
+#include <memory>
+#include <optional>	   // for optional
+#include <ostream>	   // for ostream
+#include <string>	   // for basic_string, string
+#include <string_view> // for string_view
+#include <vector>	   // for vector
 
 union SDL_Event; // Global FNamespace orward Declaration
 namespace Sorcery { class Character; }
@@ -39,16 +40,45 @@ namespace Sorcery { class Game; }
 namespace Sorcery { class UI; }
 namespace Sorcery { struct Context; }
 namespace Sorcery { struct MenuAction; }
+namespace Sorcery { struct ControllerMenuHandler; }
 
 namespace Sorcery {
 
 // UI Interaction Logic Controller
 class Controller {
 
+		friend class ControllerMenuHandler;
+
+	private:
+		// Private Members
+		Context &_ctx;
+		Enums::Screen _screen;
+		Enums::Screen _last_screen;
+
+		Game *_game;
+		bool _busy;		  // Currently busy (e.g. loading an asset etc)
+		bool _has_save;	  // Is there a saved game present
+		bool _monochrome; // Monochrome wireframe mode active
+		bool _fullscreen; // Fullscreen mode active
+		bool _can_undo;	  // Can "undo" a movement action
+		bool _abort;
+		bool _leave;
+		std::vector<unsigned int> _candidate_party; // Used for Reordering
+		Enums::Map::Event _last_event;				// Last event in dungeon
+		Enums::Map::Direction _last_dir;			// Last movement in dungeon
+		std::map<Enums::CharacterSlot, int> _characters; // Character Selections
+		std::map<std::string, bool, std::less<>> _flags; // Logic Flags
+		std::map<std::string, std::string, std::less<>>
+			_texts;										   // "Global" Texts
+		std::map<std::string, int, std::less<>> _selected; // Menu Selections
+		std::string _input_buffer; // Input Buffer for Text Input
+		std::optional<int> _menu_key;
+
 	public:
 		// Standard Constructor
 		Controller(Context &ctx);
 		Controller() = delete;
+		~Controller();
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -149,9 +179,6 @@ class Controller {
 							std::vector<std::reference_wrapper<bool>> &ui_flags)
 			-> void;
 
-		auto handle_standard_menu(std::string_view component,
-								  const std::vector<std::string> &items,
-								  const int data, const int selection) -> void;
 		auto handle_action_table_menu(
 			std::string_view menu, int selection, int data,
 			std::vector<std::reference_wrapper<bool>> &ui_flags) -> bool;
@@ -170,30 +197,7 @@ class Controller {
 		// Public Members
 		bool go_back;
 
-	private:
-		// Private Members
-		Context &_ctx;
-		Enums::Screen _screen;
-		Enums::Screen _last_screen;
-
-		Game *_game;
-		bool _busy;		  // Currently busy (e.g. loading an asset etc)
-		bool _has_save;	  // Is there a saved game present
-		bool _monochrome; // Monochrome wireframe mode active
-		bool _fullscreen; // Fullscreen mode active
-		bool _can_undo;	  // Can "undo" a movement action
-		bool _abort;
-		bool _leave;
-		std::vector<unsigned int> _candidate_party; // Used for Reordering
-		Enums::Map::Event _last_event;				// Last event in dungeon
-		Enums::Map::Direction _last_dir;			// Last movement in dungeon
-		std::map<Enums::CharacterSlot, int> _characters; // Character Selections
-		std::map<std::string, bool, std::less<>> _flags; // Logic Flags
-		std::map<std::string, std::string, std::less<>>
-			_texts;										   // "Global" Texts
-		std::map<std::string, int, std::less<>> _selected; // Menu Selections
-		std::string _input_buffer; // Input Buffer for Text Input
-		std::optional<int> _menu_key;
+		std::unique_ptr<ControllerMenuHandler> menus;
 };
 
 };

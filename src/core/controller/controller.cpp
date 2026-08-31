@@ -25,43 +25,44 @@
 #include "common/types.hpp"				  // for Spell
 #include "core/context.hpp"				  // for Context
 #include "core/controller/menuaction.hpp" // for MenuAction, MENU_ACTIONS
-#include "core/debug.hpp"				  // for DEBUG_LOGF
-#include "core/define.hpp"				  // for ICON_CAMP, ICON_CAST, ICON_...
-#include "core/enum.hpp"				  // for CharacterSlot, Screen
-#include "core/resources.hpp"			  // for Resources
-#include "display/display.hpp"			  // for Display
-#include "display/ui/popupstore.hpp"	  // for PopupStore
-#include "display/ui/ui.hpp"			  // for UI
-#include "display/ui/uimetrics.hpp"		  // for UIMetrics
-#include "drawables/define.hpp"			  // for MAIN_MENU_CONTINUE_GAME
-#include "drawables/dialog.hpp"			  // for Dialog
-#include "drawables/modal.hpp"			  // for Modal
-#include "engine/define.hpp"			  // for MOVE_BACKWARD, MOVE_FORWARD
-#include "resources/itemstore.hpp"		  // for ItemStore
-#include "resources/savestore.hpp"		  // for SaveStore
-#include "types/character/character.hpp"  // for Character
-#include "types/character/create.hpp"	  // for CharacterCreate
-#include "types/character/inventory.hpp"  // for Inventory
-#include "types/character/magic.hpp"	  // for ConstCharacterMagic
-#include "types/config.hpp"				  // for Config
-#include "types/enum.hpp"				  // for TypeID, TypeID::LEATHER_ARMOR
-#include "types/game.hpp"				  // for Game
-#include "types/item/item.hpp"			  // for Item
-#include "types/item/itemtype.hpp"		  // for ItemType
-#include "types/meta.hpp"				  // for enum_cast, enum_name
-#include "types/state.hpp"				  // for State
-#include <SDL_events.h>					  // for SDL_EventType, SDL_Event
-#include <SDL_keycode.h>				  // for SDL_KeyCode
-#include <SDL_mouse.h>					  // for SDL_BUTTON_RIGHT
-#include <SDL_scancode.h>				  // for SDL_Scancode
-#include <SDL_video.h>					  // for SDL_WindowEventID, SDL_GetW...
-#include <algorithm>					  // for find
-#include <format>						  // for format
-#include <initializer_list>				  // for initializer_list
-#include <memory>						  // for shared_ptr, unique_ptr
-#include <ranges>						  // for __find_fn
-#include <unordered_map>				  // for unordered_map, operator==
-#include <utility>						  // for pair, get, exchange
+#include "core/controller/menuhandler.hpp"
+#include "core/debug.hpp"				 // for DEBUG_LOGF
+#include "core/define.hpp"				 // for ICON_CAMP, ICON_CAST, ICON_...
+#include "core/enum.hpp"				 // for CharacterSlot, Screen
+#include "core/resources.hpp"			 // for Resources
+#include "display/display.hpp"			 // for Display
+#include "display/ui/popupstore.hpp"	 // for PopupStore
+#include "display/ui/ui.hpp"			 // for UI
+#include "display/ui/uimetrics.hpp"		 // for UIMetrics
+#include "drawables/define.hpp"			 // for MAIN_MENU_CONTINUE_GAME
+#include "drawables/dialog.hpp"			 // for Dialog
+#include "drawables/modal.hpp"			 // for Modal
+#include "engine/define.hpp"			 // for MOVE_BACKWARD, MOVE_FORWARD
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/savestore.hpp"		 // for SaveStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/character/magic.hpp"	 // for ConstCharacterMagic
+#include "types/config.hpp"				 // for Config
+#include "types/enum.hpp"				 // for TypeID, TypeID::LEATHER_ARMOR
+#include "types/game.hpp"				 // for Game
+#include "types/item/item.hpp"			 // for Item
+#include "types/item/itemtype.hpp"		 // for ItemType
+#include "types/meta.hpp"				 // for enum_cast, enum_name
+#include "types/state.hpp"				 // for State
+#include <SDL_events.h>					 // for SDL_EventType, SDL_Event
+#include <SDL_keycode.h>				 // for SDL_KeyCode
+#include <SDL_mouse.h>					 // for SDL_BUTTON_RIGHT
+#include <SDL_scancode.h>				 // for SDL_Scancode
+#include <SDL_video.h>					 // for SDL_WindowEventID, SDL_GetW...
+#include <algorithm>					 // for find
+#include <format>						 // for format
+#include <initializer_list>				 // for initializer_list
+#include <memory>						 // for shared_ptr, unique_ptr
+#include <ranges>						 // for __find_fn
+#include <unordered_map>				 // for unordered_map, operator==
+#include <utility>						 // for pair, get, exchange
 
 Sorcery::Controller::Controller(Context &ctx)
 	: _ctx{ctx} {
@@ -69,6 +70,8 @@ Sorcery::Controller::Controller(Context &ctx)
 	initialise();
 	_game = nullptr;
 }
+
+Sorcery::Controller::~Controller() = default;
 
 auto Sorcery::Controller::initialise() -> void {
 
@@ -1655,235 +1658,6 @@ auto Sorcery::Controller::handle_button_click(const std::string_view component,
 		go_to(Enums::Screen::ENGINE);
 	} else if (component == "button_victory") {
 		go_to(Enums::Screen::CASTLE);
-	}
-}
-
-// Menu Handling
-auto Sorcery::Controller::handle_standard_menu(
-	std::string_view component, const std::vector<std::string> &items,
-	const int data, const int selection) -> void {
-
-	DEBUG_LOGF("Standard Menu: {} {} {}", component, data, selection);
-
-	if (component == "remove_character_menu") {
-
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::TAVERN);
-		else {
-
-			// if we can, remove the character from the party
-			auto &character{_game->characters[data]};
-			character.set_location(Enums::Character::Location::TAVERN);
-			_game->state->remove_character_by_id(data);
-			_game->save_game();
-		}
-
-	} else if (component == "chest_menu") {
-		if (selection == static_cast<int>(items.size()) - 1) {
-
-			clear_character(Enums::CharacterSlot::TRAP);
-			set_flag("chest_character_cancelled");
-
-		} else {
-
-			set_selected("chest_menu_action", selection);
-		}
-
-	} else if (component == "inn_menu") {
-
-		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character(Enums::CharacterSlot::STAY);
-			go_to(Enums::Screen::CASTLE);
-		} else
-			set_character(Enums::CharacterSlot::STAY, data);
-
-	} else if (component == "shop_menu") {
-
-		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			clear_character(Enums::CharacterSlot::STORE);
-			go_to(Enums::Screen::CASTLE);
-		} else
-			set_character(Enums::CharacterSlot::STORE, data);
-
-	} else if (component == "restart_menu") {
-
-		// Restart Menu
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::EDGEOFTOWN);
-		else {
-
-			// Get the ID of the Character if we can, add the character to
-			// the party
-			set_character(Enums::CharacterSlot::RESTART, data);
-			_flags["want_restart_expedition"] = true;
-		}
-
-	} else if (component == "add_menu") {
-
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::TAVERN);
-		else {
-
-			// if we can, add the character to the party
-			auto &character{_game->characters[data]};
-			character.set_location(Enums::Character::Location::PARTY);
-			_game->state->add_character_to_party(data);
-			_game->save_game();
-		}
-
-	} else if (component == "race_menu") {
-
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::TRAINING);
-		else {
-			_game->creation_candidate->create().set_race(
-				enum_cast<Enums::Character::Race>(selection + 1).value());
-			_game->creation_candidate->create().set_stage(
-				Enums::Character::Stage::CHOOSE_ALIGNMENT);
-			_game->creation_candidate->create().set_start_attr();
-		}
-	} else if (component == "alignment_menu") {
-
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::TRAINING);
-		else {
-			_game->creation_candidate->create().set_alignment(
-				enum_cast<Enums::Character::Align>(selection + 1).value());
-			_game->creation_candidate->create().set_stage(
-				Enums::Character::Stage::CHOOSE_CLASS);
-			_game->creation_candidate->create().set_start_attr();
-			_game->creation_candidate->create().set_possible_classes();
-		}
-	} else if (component == "class_menu") {
-
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::TRAINING);
-		else {
-			auto candidate{_game->creation_candidate};
-			if (candidate->create().get_points_left() == 0) {
-
-				candidate->create().set_class(
-					enum_cast<Enums::Character::Class>(selection + 1).value());
-				candidate->create().set_stage(
-					Enums::Character::Stage::REVIEW_AND_CONFIRM);
-				candidate->create().finalise();
-
-				// TODO: refactor this
-				candidate->inventory.clear();
-
-				switch (
-					candidate->get_class()) { // NOLINT(clang-diagnostic-switch)
-					using enum Enums::Character::Class;
-					using enum Enums::Items::TypeID;
-				case FIGHTER:
-				case LORD:
-				case SAMURAI:
-					candidate->inventory.add_type(
-						_ctx.resources->items->get(LEATHER_ARMOR), true);
-					candidate->inventory.add_type(
-						_ctx.resources->items->get(LONG_SWORD), true);
-					break;
-				case MAGE:
-					candidate->inventory.add_type(
-						_ctx.resources->items->get(ROBES), true);
-					candidate->inventory.add_type(
-						_ctx.resources->items->get(DAGGER), true);
-					break;
-				case PRIEST:
-				case BISHOP:
-					candidate->inventory.add_type(
-						_ctx.resources->items->get(ROBES), true);
-					candidate->inventory.add_type(
-						_ctx.resources->items->get(STAFF), true);
-					break;
-				case THIEF:
-				case NINJA:
-					candidate->inventory.add_type(
-						_ctx.resources->items->get(LEATHER_ARMOR), true);
-					candidate->inventory.add_type(
-						_ctx.resources->items->get(SHORT_SWORD), true);
-				default:
-					break;
-				}
-
-				set_flag("want_choose_confirm");
-				unset_flag("want_choose_class");
-			}
-		};
-	} else if (component == "reorder_menu") {
-
-		// Reorder has multiple entry points so need to rely upon calling
-		// screen to enable itself
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_flags["show_reorder"] = false;
-			go_back = true;
-		}
-	} else if (component == "pay_menu") {
-
-		if (selection == (static_cast<int>(items.size()) - 1))
-			_flags["show_pay"] = false;
-		else
-			_selected["pay_selected"] = selection;
-	} else if (component == "shop_menu") {
-
-		// Shop
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::CASTLE);
-		else {
-		}
-	} else if (component == "temple_menu") {
-
-		// Temple
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::CASTLE);
-	} else if (component == "bestiary_menu") {
-
-		// Bestiary
-		_selected["bestiary_selected"] = selection;
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::COMPENDIUM);
-	} else if (component == "museum_menu") {
-
-		// Museum
-		_selected["museum_selected"] = selection;
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::COMPENDIUM);
-	} else if (component == "atlas_menu") {
-
-		// Atlas
-		_selected["atlas_selected"] = selection;
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::COMPENDIUM);
-	} else if (component == "spellbook_menu") {
-
-		// Spellbook
-		_selected["spellbook_selected"] = selection;
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::COMPENDIUM);
-	} else if (component == "choose_menu") {
-
-		// Character Selection
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_flags["show_choose"] = false;
-			clear_character(Enums::CharacterSlot::CHOOSE);
-		} else
-			set_character(Enums::CharacterSlot::CHOOSE, data);
-	} else if (component == "shop_menu") {
-
-		// Boltacs
-		_selected["store_selected"] = selection;
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::SHOP);
-		else
-			go_to(Enums::Screen::STORE);
-	} else if (component == "store_menu") {
-
-		// Store
-		_selected["store_selected"] = selection;
-		if (selection == (static_cast<int>(items.size()) - 1))
-			go_to(Enums::Screen::SHOP);
 	}
 }
 
