@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/controller.hpp"
+#include "core/controller/controller.hpp"
 #include "common/enum.hpp"				 // for Attribute, Options, Class
 #include "common/types.hpp"				 // for Spell
 #include "core/context.hpp"				 // for Context
@@ -1441,7 +1441,7 @@ auto Sorcery::Controller::handle_stepper_button_click(
 
 	DEBUG_LOGF("Stepper Button Click: {} {}", component, positive);
 
-	auto candidate{_ctx.game->creation_candidate};
+	auto candidate{_game->creation_candidate};
 
 	if (component.starts_with("##stepper_attribute_")) {
 
@@ -1759,7 +1759,7 @@ auto Sorcery::Controller::handle_standard_menu(
 		if (selection == (static_cast<int>(items.size()) - 1))
 			go_to(Enums::Screen::TRAINING);
 		else {
-			auto candidate{_ctx.game->creation_candidate};
+			auto candidate{_game->creation_candidate};
 			if (candidate->create().get_points_left() == 0) {
 
 				candidate->create().set_class(

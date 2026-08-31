@@ -93,12 +93,12 @@
 		"args": [
 			"--mute",
 			"--quickstart",
-			"--start-engine",
+			"--Dstart-engine",
 			"--Dgo-to"
 		]
 	},
 	"sonarlint.pathToCompileCommands": "/home/dave/Development/wizardry/sorcery-sfml/compile_commands.json",
-	"editor.fontSize": 14,
+	"editor.fontSize": 12,
 	"editor.fontFamily": "monaco, proggyvector, fira code, monospace",
 	"sonarlint.output.showVerboseLogs": true,
 	"editor.tabSize": 4,

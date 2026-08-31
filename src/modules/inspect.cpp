@@ -21,10 +21,10 @@
 // the resulting work.
 
 #include "modules/inspect.hpp"
-#include "core/context.hpp"		// for Context
-#include "core/controller.hpp"	// for Controller
-#include "core/enum.hpp"		// for CharacterSlot, Screen
-#include "display/ui/ui.hpp"	// for UI
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for CharacterSlot, Screen
+#include "display/ui/ui.hpp"			  // for UI
 #include "drawables/define.hpp" // for BACK_FROM_INSPECT, ABORT_GAME, INSPE...
 #include "types/game.hpp"		// for Game
 #include "types/state.hpp"		// for State

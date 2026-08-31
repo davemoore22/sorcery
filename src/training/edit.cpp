@@ -21,20 +21,20 @@
 // the resulting work.
 
 #include "training/edit.hpp"
-#include "backends/imgui_impl_sdl2.h" // for SDL_Event
-#include "core/audioplayer.hpp"		  // for AudioPlayer
-#include "core/context.hpp"			  // for Context
-#include "core/controller.hpp"		  // for Controller
-#include "core/enum.hpp"			  // for Screen
-#include "display/ui/ui.hpp"		  // for UI
-#include "drawables/define.hpp"		  // for ABORT_GAME, CHARACTER_SELECTED
-#include "training/enum.hpp"		  // for Edit
-#include "training/reclass.hpp"		  // for Reclass
-#include "training/rename.hpp"		  // for Rename
-#include "training/rite.hpp"		  // for Rite
-#include "training/select.hpp"		  // for Select
-#include <SDL_events.h>				  // for SDL_PollEvent
-#include <any>						  // for any
+#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
+#include "core/audioplayer.hpp"			  // for AudioPlayer
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for Screen
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp"			  // for ABORT_GAME, CHARACTER_SELECTED
+#include "training/enum.hpp"			  // for Edit
+#include "training/reclass.hpp"			  // for Reclass
+#include "training/rename.hpp"			  // for Rename
+#include "training/rite.hpp"			  // for Rite
+#include "training/select.hpp"			  // for Select
+#include <SDL_events.h>					  // for SDL_PollEvent
+#include <any>							  // for any
 
 Sorcery::Edit::Edit(Context &ctx)
 	: Module{ctx} {

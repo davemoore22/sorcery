@@ -23,7 +23,7 @@
 #include "drawables/menubuilder.hpp"
 #include "common/enum.hpp"
 #include "core/context.hpp"
-#include "core/controller.hpp"
+#include "core/controller/controller.hpp"
 #include "core/debug.hpp"
 #include "core/define.hpp"
 #include "core/resources.hpp"

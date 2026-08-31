@@ -24,7 +24,7 @@
 #include "common/macro.hpp"
 #include "core/application.hpp"
 #include "core/context.hpp"
-#include "core/controller.hpp"
+#include "core/controller/controller.hpp"
 #include "core/define.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"

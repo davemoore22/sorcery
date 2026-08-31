@@ -21,16 +21,16 @@
 // the resulting work.
 
 #include "modules/temple.hpp"
-#include "backends/imgui_impl_sdl2.h" // for SDL_Event
-#include "core/context.hpp"			  // for Context
-#include "core/controller.hpp"		  // for Controller
-#include "core/enum.hpp"			  // for Screen, CharacterSlot
-#include "display/ui/ui.hpp"		  // for UI
-#include "drawables/define.hpp"		  // for ABORT_GAME, BACK_TO_CASTLE
-#include "modules/pay.hpp"			  // for Pay
-#include <SDL_events.h>				  // for SDL_PollEvent
-#include <any>						  // for any
-#include <string>					  // for basic_string
+#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for Screen, CharacterSlot
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp"			  // for ABORT_GAME, BACK_TO_CASTLE
+#include "modules/pay.hpp"				  // for Pay
+#include <SDL_events.h>					  // for SDL_PollEvent
+#include <any>							  // for any
+#include <string>						  // for basic_string
 
 Sorcery::Temple::Temple(Context &ctx)
 	: Module{ctx} {

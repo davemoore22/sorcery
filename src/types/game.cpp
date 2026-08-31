@@ -21,33 +21,33 @@
 // the resulting work.
 
 #include "types/game.hpp"
-#include "cereal/archives/xml.hpp"		 // for epilogue, prologue, XMLOutp...
-#include "common/enum.hpp"				 // for Event, Class, Align, Location
-#include "common/macro.hpp"				 // for PRINT, GUID
-#include "core/context.hpp"				 // for Context
-#include "core/controller.hpp"			 // for Controller
-#include "core/debug.hpp"				 // for DEBUG_LOG
-#include "core/resources.hpp"			 // for Resources
-#include "resources/itemstore.hpp"		 // for ItemStore
-#include "resources/levelstore.hpp"		 // for LevelStore
-#include "resources/savestore.hpp"		 // for SaveStore
-#include "types/character/create.hpp"	 // for CharacterCreate
-#include "types/character/inventory.hpp" // for Inventory
-#include "types/character/magic.hpp"	 // for CharacterMagic
-#include "types/enum.hpp"				 // for TypeID, TypeID::LONG_SWORD
-#include "types/item/item.hpp"			 // for Item
-#include "types/meta.hpp"				 // for enum_name, enum_cast
-#include "types/scopedtimer.hpp"		 // for PROFILE_SCOPE
-#include "types/state.hpp"				 // for State
-#include "types/world/level.hpp"		 // for Level
-#include <algorithm>					 // for find_if, find
-#include <format>						 // for format
-#include <optional>						 // for optional, operator==
-#include <print>						 // for println
-#include <ranges>						 // for __find_if_fn
-#include <sstream>						 // for basic_stringstream, basic_o...
-#include <string_view>					 // for basic_string_view
-#include <utility>						 // for get
+#include "cereal/archives/xml.hpp"		  // for epilogue, prologue, XMLOutp...
+#include "common/enum.hpp"				  // for Event, Class, Align, Location
+#include "common/macro.hpp"				  // for PRINT, GUID
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/debug.hpp"				  // for DEBUG_LOG
+#include "core/resources.hpp"			  // for Resources
+#include "resources/itemstore.hpp"		  // for ItemStore
+#include "resources/levelstore.hpp"		  // for LevelStore
+#include "resources/savestore.hpp"		  // for SaveStore
+#include "types/character/create.hpp"	  // for CharacterCreate
+#include "types/character/inventory.hpp"  // for Inventory
+#include "types/character/magic.hpp"	  // for CharacterMagic
+#include "types/enum.hpp"				  // for TypeID, TypeID::LONG_SWORD
+#include "types/item/item.hpp"			  // for Item
+#include "types/meta.hpp"				  // for enum_name, enum_cast
+#include "types/scopedtimer.hpp"		  // for PROFILE_SCOPE
+#include "types/state.hpp"				  // for State
+#include "types/world/level.hpp"		  // for Level
+#include <algorithm>					  // for find_if, find
+#include <format>						  // for format
+#include <optional>						  // for optional, operator==
+#include <print>						  // for println
+#include <ranges>						  // for __find_if_fn
+#include <sstream>						  // for basic_stringstream, basic_o...
+#include <string_view>					  // for basic_string_view
+#include <utility>						  // for get
 
 Sorcery::Game::Game(Context &ctx)
 	: _ctx{ctx} {

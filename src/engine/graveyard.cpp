@@ -21,13 +21,13 @@
 // the resulting work.
 
 #include "engine/graveyard.hpp"
-#include "core/context.hpp"		// for Context
-#include "core/controller.hpp"	// for Controller
-#include "core/enum.hpp"		// for Screen
-#include "display/ui/ui.hpp"	// for UI
-#include "drawables/define.hpp" // for ABORT_GAME, BACK_FROM_GRAVEYARD
-#include <SDL_events.h>			// for SDL_Event, SDL_PollEvent
-#include <any>					// for any
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for Screen
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp"			  // for ABORT_GAME, BACK_FROM_GRAVEYARD
+#include <SDL_events.h>					  // for SDL_Event, SDL_PollEvent
+#include <any>							  // for any
 
 Sorcery::Graveyard::Graveyard(Context &ctx)
 	: Module{ctx} {

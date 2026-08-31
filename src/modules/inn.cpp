@@ -21,19 +21,19 @@
 // the resulting work.
 
 #include "modules/inn.hpp"
-#include "backends/imgui_impl_sdl2.h" // for SDL_Event
-#include "core/context.hpp"			  // for Context
-#include "core/controller.hpp"		  // for Controller
-#include "core/enum.hpp"			  // for CharacterSlot, Screen
-#include "display/ui/popupstore.hpp"  // for PopupStore
-#include "display/ui/ui.hpp"		  // for UI
-#include "drawables/define.hpp"		  // for ABORT_GAME, INSPECT_MODE_ACTIONS
-#include "drawables/modal.hpp"		  // for Modal
-#include "modules/inspect.hpp"		  // for Inspect
-#include "modules/stay.hpp"			  // for Stay
-#include <SDL_events.h>				  // for SDL_PollEvent
-#include <any>						  // for any
-#include <string>					  // for basic_string
+#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for CharacterSlot, Screen
+#include "display/ui/popupstore.hpp"	  // for PopupStore
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp" // for ABORT_GAME, INSPECT_MODE_ACTIONS
+#include "drawables/modal.hpp"	// for Modal
+#include "modules/inspect.hpp"	// for Inspect
+#include "modules/stay.hpp"		// for Stay
+#include <SDL_events.h>			// for SDL_PollEvent
+#include <any>					// for any
+#include <string>				// for basic_string
 
 Sorcery::Inn::Inn(Context &ctx)
 	: Module{ctx} {

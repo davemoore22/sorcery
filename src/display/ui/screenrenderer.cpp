@@ -20,48 +20,46 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "display/ui/screenrenderer.hpp" // for ScreenRenderer
-#include "common/enum.hpp"				 // for Attribute, Attribute::LUCK
-#include "core/context.hpp"				 // for Context
-#include "core/controller.hpp"			 // for Controller
-#include "core/define.hpp"				 // for WINDOW_LAYER_MENUS, WINDOW_...
-#include "core/enum.hpp"				 // for Screen, CharacterSlot
-#include "display/display.hpp"			 // for Display, DisplayMetrics
-#include "display/render.hpp"			 // for Render
-#include "display/ui/popupstore.hpp"	 // for PopupStore
-#include "display/ui/ui.hpp"			 // for UI
-#include "display/ui/uimetrics.hpp"		 // for UIMetrics
-#include "display/ui/uistyle.hpp"		 // for set_text_dim
-#include "drawables/define.hpp"			 // for RECOVERY_BIRTHDAY, CHOOSE_M...
-#include "drawables/dialog.hpp"			 // for Dialog
-#include "drawables/modal.hpp"			 // for Modal
-#include "engine/define.hpp"			 // for CHEST_GFX_ID
-#include "imgui.h"						 // for ImVec2, ImGuiWindowFlags_
-#include "resources/componentstore.hpp"	 // for ComponentStore
-#include "resources/define.hpp"			 // for EVENTS_TEXTURE
-#include "resources/fontstore.hpp"		 // for FontStore
-#include "types/character/character.hpp" // for Character
-#include "types/character/create.hpp"	 // for CharacterCreate
-#include "types/component.hpp"			 // for Component
-#include "types/game.hpp"				 // for Game
-#include "types/meta.hpp"				 // for enum_cast
-#include <any>							 // for any_cast, any
-#include <format>						 // for format
-#include <functional>					 // for invoke
-#include <imgui_sugar.hpp>				 // for BooleanGuard, with_Window
-#include <map>							 // for map
-#include <memory>						 // for unique_ptr
-#include <optional>						 // for optional
-#include <string>						 // for basic_string, string
-#include <unordered_map>				 // for unordered_map, operator==
-#include <utility>						 // for pair, to_underlying
-#include <vector>						 // for vector
+#include "display/ui/screenrenderer.hpp"  // for ScreenRenderer
+#include "common/enum.hpp"				  // for Attribute, Attribute::LUCK
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/define.hpp"				  // for WINDOW_LAYER_MENUS, WINDOW_...
+#include "core/enum.hpp"				  // for Screen, CharacterSlot
+#include "display/display.hpp"			  // for Display, DisplayMetrics
+#include "display/render.hpp"			  // for Render
+#include "display/ui/popupstore.hpp"	  // for PopupStore
+#include "display/ui/ui.hpp"			  // for UI
+#include "display/ui/uimetrics.hpp"		  // for UIMetrics
+#include "display/ui/uistyle.hpp"		  // for set_text_dim
+#include "drawables/define.hpp"			  // for RECOVERY_BIRTHDAY, CHOOSE_M...
+#include "drawables/dialog.hpp"			  // for Dialog
+#include "drawables/modal.hpp"			  // for Modal
+#include "engine/define.hpp"			  // for CHEST_GFX_ID
+#include "imgui.h"						  // for ImVec2, ImGuiWindowFlags_
+#include "resources/componentstore.hpp"	  // for ComponentStore
+#include "resources/define.hpp"			  // for EVENTS_TEXTURE
+#include "resources/fontstore.hpp"		  // for FontStore
+#include "types/character/character.hpp"  // for Character
+#include "types/character/create.hpp"	  // for CharacterCreate
+#include "types/component.hpp"			  // for Component
+#include "types/game.hpp"				  // for Game
+#include "types/meta.hpp"				  // for enum_cast
+#include <any>							  // for any_cast, any
+#include <format>						  // for format
+#include <functional>					  // for invoke
+#include <imgui_sugar.hpp>				  // for BooleanGuard, with_Window
+#include <map>							  // for map
+#include <memory>						  // for unique_ptr
+#include <optional>						  // for optional
+#include <string>						  // for basic_string, string
+#include <unordered_map>				  // for unordered_map, operator==
+#include <utility>						  // for pair, to_underlying
+#include <vector>						  // for vector
 
 namespace Sorcery {
 namespace Enums {
-	namespace Chests {
-		enum class State;
-	}
+	namespace Chests { enum class State; }
 }
 }
 

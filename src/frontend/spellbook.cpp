@@ -21,16 +21,16 @@
 // the resulting work.
 
 #include "frontend/spellbook.hpp"
-#include "backends/imgui_impl_sdl2.h" // for SDL_Event
-#include "common/enum.hpp"			  // for SpellID
-#include "core/context.hpp"			  // for Context
-#include "core/controller.hpp"		  // for Controller
-#include "core/enum.hpp"			  // for Screen
-#include "display/ui/ui.hpp"		  // for UI
-#include "drawables/define.hpp"		  // for ABORT_GAME, GO_TO_COMPENDIUM
-#include <SDL_events.h>				  // for SDL_PollEvent
-#include <string>					  // for basic_string
-#include <utility>					  // for to_underlying
+#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
+#include "common/enum.hpp"				  // for SpellID
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for Screen
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp"			  // for ABORT_GAME, GO_TO_COMPENDIUM
+#include <SDL_events.h>					  // for SDL_PollEvent
+#include <string>						  // for basic_string
+#include <utility>						  // for to_underlying
 
 Sorcery::SpellBook::SpellBook(Context &ctx)
 	: Module{ctx} {

@@ -21,21 +21,21 @@
 // the resulting work.
 
 #include "drawables/menu.hpp"
-#include "core/context.hpp"			 // for Context
-#include "core/controller.hpp"		 // for Controller
-#include "core/define.hpp"			 // for WINDOW_LAYER_MENUS
-#include "display/animation.hpp"	 // for Animation
-#include "display/ui/ui.hpp"		 // for UI
-#include "display/ui/uimetrics.hpp"	 // for UIMetrics
-#include "drawables/menubuilder.hpp" // for MenuBuilder
-#include "resources/fontstore.hpp"	 // for FontStore
-#include "types/component.hpp"		 // for Component
-#include "types/enum.hpp"			 // for Font
-#include "types/game.hpp"			 // for Game
-#include "types/state.hpp"			 // for State
-#include <imgui_sugar.hpp>			 // for BooleanGuard, set_Font, with_Wi...
-#include <memory>					 // for unique_ptr
-#include <optional>					 // for optional
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/define.hpp"				  // for WINDOW_LAYER_MENUS
+#include "display/animation.hpp"		  // for Animation
+#include "display/ui/ui.hpp"			  // for UI
+#include "display/ui/uimetrics.hpp"		  // for UIMetrics
+#include "drawables/menubuilder.hpp"	  // for MenuBuilder
+#include "resources/fontstore.hpp"		  // for FontStore
+#include "types/component.hpp"			  // for Component
+#include "types/enum.hpp"				  // for Font
+#include "types/game.hpp"				  // for Game
+#include "types/state.hpp"				  // for State
+#include <imgui_sugar.hpp> // for BooleanGuard, set_Font, with_Wi...
+#include <memory>		   // for unique_ptr
+#include <optional>		   // for optional
 
 Sorcery::Menu::Menu(Context &ctx, Component *component, Game *game)
 	: _ctx{ctx},

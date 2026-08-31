@@ -21,18 +21,18 @@
 // the resulting work.
 
 #include "modules/recovery.hpp"
-#include "backends/imgui_impl_sdl2.h"	 // for SDL_Event
-#include "core/context.hpp"				 // for Context
-#include "core/controller.hpp"			 // for Controller
-#include "core/enum.hpp"				 // for Screen, CharacterSlot
-#include "display/ui/ui.hpp"			 // for UI
-#include "drawables/define.hpp"			 // for ABORT_GAME, BACK_TO_STAY
-#include "types/character/character.hpp" // for Character
-#include "types/game.hpp"				 // for Game
-#include <SDL_events.h>					 // for SDL_PollEvent
-#include <algorithm>					 // for min
-#include <any>							 // for any
-#include <map>							 // for map
+#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for Screen, CharacterSlot
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp"			  // for ABORT_GAME, BACK_TO_STAY
+#include "types/character/character.hpp"  // for Character
+#include "types/game.hpp"				  // for Game
+#include <SDL_events.h>					  // for SDL_PollEvent
+#include <algorithm>					  // for min
+#include <any>							  // for any
+#include <map>							  // for map
 
 namespace {
 

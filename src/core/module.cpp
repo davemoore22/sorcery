@@ -21,22 +21,20 @@
 // the resulting work.
 
 #include "core/module.hpp"
-#include "backends/imgui_impl_sdl2.h" // for ImGui_ImplSDL2_ProcessEvent
-#include "core/application.hpp"		  // for Application
-#include "core/context.hpp"			  // for Context
-#include "core/controller.hpp"		  // for Controller
-#include "display/display.hpp"		  // for Display
-#include "display/ui/ui.hpp"		  // for UI
-#include "resources/define.hpp"		  // for SAVE_STATE_FILENAME
-#include <algorithm>				  // for clamp
-#include <chrono>					  // for duration, milliseconds, operator-
-#include <cmath>					  // for lerp
-#include <filesystem>				  // for path
+#include "backends/imgui_impl_sdl2.h"	  // for ImGui_ImplSDL2_ProcessEvent
+#include "core/application.hpp"			  // for Application
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "display/display.hpp"			  // for Display
+#include "display/ui/ui.hpp"			  // for UI
+#include "resources/define.hpp"			  // for SAVE_STATE_FILENAME
+#include <algorithm>					  // for clamp
+#include <chrono>	  // for duration, milliseconds, operator-
+#include <cmath>	  // for lerp
+#include <filesystem> // for path
 
 namespace Sorcery {
-namespace Enums {
-	enum class Screen;
-}
+namespace Enums { enum class Screen; }
 }
 
 auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from,

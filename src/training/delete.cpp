@@ -21,20 +21,20 @@
 // the resulting work.
 
 #include "training/delete.hpp"
-#include "backends/imgui_impl_sdl2.h" // for SDL_Event
-#include "core/audioplayer.hpp"		  // for AudioPlayer
-#include "core/context.hpp"			  // for Context
-#include "core/controller.hpp"		  // for Controller
-#include "core/enum.hpp"			  // for CharacterSlot, Screen
-#include "display/ui/popupstore.hpp"  // for PopupStore
-#include "display/ui/ui.hpp"		  // for UI
-#include "drawables/define.hpp"		  // for BACK_TO_TRAINING_GROUNDS, ABOR...
-#include "drawables/dialog.hpp"		  // for Dialog
-#include "types/game.hpp"			  // for Game
-#include <SDL_events.h>				  // for SDL_PollEvent
-#include <any>						  // for any
-#include <memory>					  // for unique_ptr
-#include <string>					  // for basic_string
+#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
+#include "core/audioplayer.hpp"			  // for AudioPlayer
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for CharacterSlot, Screen
+#include "display/ui/popupstore.hpp"	  // for PopupStore
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp" // for BACK_TO_TRAINING_GROUNDS, ABOR...
+#include "drawables/dialog.hpp" // for Dialog
+#include "types/game.hpp"		// for Game
+#include <SDL_events.h>			// for SDL_PollEvent
+#include <any>					// for any
+#include <memory>				// for unique_ptr
+#include <string>				// for basic_string
 
 Sorcery::Delete::Delete(Context &ctx)
 	: Module{ctx} {

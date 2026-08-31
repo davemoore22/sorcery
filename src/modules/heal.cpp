@@ -21,20 +21,20 @@
 // the resulting work.
 
 #include "modules/heal.hpp"
-#include "backends/imgui_impl_sdl2.h"	 // for SDL_Event
-#include "common/enum.hpp"				 // for Status, Random, Random::D100
-#include "core/context.hpp"				 // for Context
-#include "core/controller.hpp"			 // for Controller
-#include "core/enum.hpp"				 // for Screen, CharacterSlot
-#include "display/ui/ui.hpp"			 // for UI
-#include "drawables/define.hpp"			 // for BACK_TO_TEMPLE, ABORT_GAME
-#include "types/character/character.hpp" // for Character
-#include "types/game.hpp"				 // for Game
-#include <SDL_events.h>					 // for SDL_PollEvent
-#include <any>							 // for any
-#include <format>						 // for format
-#include <map>							 // for map
-#include <string>						 // for basic_string
+#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
+#include "common/enum.hpp"				  // for Status, Random, Random::D100
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/enum.hpp"				  // for Screen, CharacterSlot
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp"			  // for BACK_TO_TEMPLE, ABORT_GAME
+#include "types/character/character.hpp"  // for Character
+#include "types/game.hpp"				  // for Game
+#include <SDL_events.h>					  // for SDL_PollEvent
+#include <any>							  // for any
+#include <format>						  // for format
+#include <map>							  // for map
+#include <string>						  // for basic_string
 
 Sorcery::Heal::Heal(Context &ctx)
 	: Module{ctx} {}
