@@ -258,10 +258,10 @@ auto Sorcery::Controller::has_saved_game() const -> bool {
 	return _has_save;
 }
 
-auto Sorcery::Controller::set_flag_value(const std::string &flag,
+auto Sorcery::Controller::set_flag_value(const std::string_view flag,
 										 const bool value) -> void {
 
-	_flags[flag] = value;
+	_flags[std::string{flag}] = value;
 }
 
 auto Sorcery::Controller::set_game(Game *game) -> void {
@@ -334,9 +334,9 @@ auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {
 }
 
 // Special Handling for Disable or Enable Menu Items (0-indexed!)
-auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
-												const int selection,
-												const int data) -> bool {
+auto Sorcery::Controller::is_menu_item_disabled(
+	const std::string_view component, const int selection, const int data)
+	-> bool {
 
 	// Remember this is returning true if the item is meant to be disabled!
 	if (component == "main_menu" && selection == MAIN_MENU_CONTINUE_GAME) {
@@ -790,8 +790,8 @@ auto Sorcery::Controller::is_menu_item_disabled(const std::string &component,
 }
 
 // Toggle Handling
-auto Sorcery::Controller::handle_toggle(const std::string &component,
-										const std::string &tab,
+auto Sorcery::Controller::handle_toggle(const std::string_view component,
+										const std::string_view tab,
 										const int selection) -> void {
 
 	DEBUG_LOGF("Toggle: {} {} {}", component, tab, selection);
@@ -1160,129 +1160,131 @@ auto Sorcery::Controller::inspect_party_member(const int character_id) -> void {
 	go_to(Enums::Screen::INSPECT);
 }
 
-auto Sorcery::Controller::get_flag_ref(const std::string &flag) -> bool & {
+auto Sorcery::Controller::get_flag_ref(const std::string_view flag) -> bool & {
 
 	if (!_flags.contains(flag))
-		_flags[flag] = false;
+		_flags[std::string{flag}] = false;
 
-	return _flags.at(flag);
+	return _flags.at(std::string{flag});
 }
 
-auto Sorcery::Controller::get_flag(const std::string &flag) const -> bool {
+auto Sorcery::Controller::get_flag(const std::string_view flag) const -> bool {
 
 	if (_flags.contains(flag))
-		return _flags.at(flag);
+		return _flags.at(std::string{flag});
 	else
 		return false;
 }
 
-auto Sorcery::Controller::set_flag(const std::string &flag) -> void {
+auto Sorcery::Controller::set_flag(const std::string_view flag) -> void {
 
-	_flags[flag] = true;
+	_flags[std::string{flag}] = true;
 }
 
-auto Sorcery::Controller::toggle_flag(const std::string &flag) -> void {
+auto Sorcery::Controller::toggle_flag(const std::string_view flag) -> void {
 
 	if (_flags.contains(flag))
-		_flags.at(flag) = !_flags.at(flag);
+		_flags.at(std::string{flag}) = !_flags.at(std::string{flag});
 	else
-		_flags[flag] = true;
+		_flags[std::string{flag}] = true;
 }
 
-auto Sorcery::Controller::unset_flag(const std::string &flag) -> void {
+auto Sorcery::Controller::unset_flag(const std::string_view flag) -> void {
 
-	_flags[flag] = false;
+	_flags[std::string{flag}] = false;
 }
 
-auto Sorcery::Controller::has_flag(const std::string &flag) const -> bool {
+auto Sorcery::Controller::has_flag(const std::string_view flag) const -> bool {
 
 	if (_flags.contains(flag))
-		return _flags.at(flag) == true;
+		return _flags.at(std::string{flag}) == true;
 
 	return false;
 }
 
-auto Sorcery::Controller::has_selected(const std::string &flag) const -> bool {
+auto Sorcery::Controller::has_selected(const std::string_view flag) const
+	-> bool {
 
 	if (_selected.contains(flag))
-		return _selected.at(flag) != -1;
+		return _selected.at(std::string{flag}) != -1;
 
 	return false;
 }
 
-auto Sorcery::Controller::set_selected(const std::string &flag, const int value)
-	-> void {
+auto Sorcery::Controller::set_selected(const std::string_view flag,
+									   const int value) -> void {
 
-	_selected[flag] = value;
+	_selected[std::string{flag}] = value;
 }
 
-auto Sorcery::Controller::get_selected(const std::string &flag) const -> int {
+auto Sorcery::Controller::get_selected(const std::string_view flag) const
+	-> int {
 
 	if (_selected.contains(flag))
-		return _selected.at(flag);
+		return _selected.at(std::string{flag});
 	else
 		return -1;
 }
 
-auto Sorcery::Controller::unset_selected(const std::string &flag) -> void {
+auto Sorcery::Controller::unset_selected(const std::string_view flag) -> void {
 
-	_selected[flag] = -1;
+	_selected[std::string{flag}] = -1;
 }
 
-auto Sorcery::Controller::has_text(const std::string &flag) const -> bool {
+auto Sorcery::Controller::has_text(const std::string_view flag) const -> bool {
 
 	if (_texts.contains(flag))
-		return _texts.at(flag).length() > 0;
+		return _texts.at(std::string{flag}).length() > 0;
 
 	return false;
 }
-auto Sorcery::Controller::set_text(const std::string &flag,
+auto Sorcery::Controller::set_text(const std::string_view flag,
 								   const std::string &text) -> void {
 
-	_texts[flag] = text;
+	_texts[std::string{flag}] = text;
 }
-auto Sorcery::Controller::unset_text(const std::string &flag) -> void {
+auto Sorcery::Controller::unset_text(const std::string_view flag) -> void {
 
-	_texts[flag] = "";
+	_texts[std::string{flag}] = "";
 }
 
-auto Sorcery::Controller::get_text(const std::string &flag) const
+auto Sorcery::Controller::get_text(const std::string_view flag) const
 	-> const std::string {
-	if (_texts.contains(flag))
-		return _texts.at(flag);
+	if (_texts.contains(std::string{flag}))
+		return _texts.at(std::string{flag});
 
 	return "";
 }
 
-auto Sorcery::Controller::get_character(const Enums::CharacterSlot flag) const
+auto Sorcery::Controller::get_character(const Enums::CharacterSlot slot) const
 	-> int {
 
-	if (_characters.contains(flag))
-		return _characters.at(flag);
+	if (_characters.contains(slot))
+		return _characters.at(slot);
 	else
 		return -1;
 }
 
-auto Sorcery::Controller::has_character(const Enums::CharacterSlot flag) const
+auto Sorcery::Controller::has_character(const Enums::CharacterSlot slot) const
 	-> bool {
 
-	if (_characters.contains(flag))
-		if (_characters.at(flag) != -1)
+	if (_characters.contains(slot))
+		if (_characters.at(slot) != -1)
 			return true;
 
 	return false;
 }
 
-auto Sorcery::Controller::set_character(const Enums::CharacterSlot flag,
+auto Sorcery::Controller::set_character(const Enums::CharacterSlot slot,
 										const int value) -> void {
 
-	_characters[flag] = value;
+	_characters[slot] = value;
 }
 
-auto Sorcery::Controller::clear_character(const Enums::CharacterSlot flag)
+auto Sorcery::Controller::clear_character(const Enums::CharacterSlot slot)
 	-> void {
 
-	_characters[flag] = -1;
+	_characters[slot] = -1;
 }
 
 // Check if the SDL event is go-back-to-previous event
@@ -1436,8 +1438,8 @@ auto Sorcery::Controller::clear_input_buffer() -> void {
 }
 
 auto Sorcery::Controller::handle_stepper_button_click(
-	const std::string &component, [[maybe_unused]] UI *ui, const bool positive,
-	int *data) -> void {
+	const std::string_view component, [[maybe_unused]] UI *ui,
+	const bool positive, int *data) -> void {
 
 	DEBUG_LOGF("Stepper Button Click: {} {}", component, positive);
 
@@ -1518,8 +1520,8 @@ auto Sorcery::Controller::handle_stepper_button_click(
 };
 
 auto Sorcery::Controller::handle_input_button_click(
-	const std::string &component, [[maybe_unused]] UI *ui, std::string *data)
-	-> void {
+	const std::string_view component, [[maybe_unused]] UI *ui,
+	std::string *data) -> void {
 
 	DEBUG_LOGF("Input Button Click: {} {}", component, *data);
 
@@ -1554,7 +1556,7 @@ auto Sorcery::Controller::handle_input_button_click(
 	}
 }
 
-auto Sorcery::Controller::handle_button_click(const std::string &component,
+auto Sorcery::Controller::handle_button_click(const std::string_view component,
 											  UI *ui,
 											  [[maybe_unused]] const int data)
 	-> void {

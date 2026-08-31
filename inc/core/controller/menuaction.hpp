@@ -50,12 +50,11 @@ struct MenuAction {
 
 		// Payload
 		Enums::Screen screen{};
-		std::string flag{};
-		std::string character_slot{};
+		std::string_view flag{};
 		std::size_t ui_index{};
 		Enums::CharacterSlot character_key{};
-		std::string custom_function{};
-		std::string selected_key{};
+		std::string_view custom_function{};
+		std::string_view selected_key{};
 		int selected_value{};
 };
 

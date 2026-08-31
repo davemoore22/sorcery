@@ -73,41 +73,44 @@ class Controller {
 		auto check_for_quick_inspect(const SDL_Event event) -> int;
 		auto check_for_resize(const SDL_Event event, UI *ui) -> void;
 		auto check_for_ui_toggle(const SDL_Event event) -> void;
-		auto handle_button_click(const std::string &component, UI *ui,
+		auto handle_button_click(const std::string_view component, UI *ui,
 								 const int data) -> void;
-		auto handle_input_button_click(const std::string &component, UI *ui,
+		auto handle_input_button_click(const std::string_view component, UI *ui,
 									   std::string *data) -> void;
-		auto handle_stepper_button_click(const std::string &component, UI *ui,
-										 const bool positive, int *data)
+		auto handle_stepper_button_click(const std::string_view component,
+										 UI *ui, const bool positive, int *data)
 			-> void;
-		auto handle_toggle(const std::string &component, const std::string &tab,
-						   const int selection) -> void;
+		auto handle_toggle(const std::string_view component,
+						   const std::string_view tab, const int selection)
+			-> void;
 		auto has_saved_game() const -> bool;
-		auto is_menu_item_disabled(const std::string &component,
+		auto is_menu_item_disabled(const std::string_view component,
 								   const int selection, const int data) -> bool;
 		auto set_game(Game *game) -> void;
-		auto clear_character(const Enums::CharacterSlot flag) -> void;
-		auto has_character(const Enums::CharacterSlot flag) const -> bool;
-		auto get_character(const Enums::CharacterSlot flag) const -> int;
-		auto set_character(const Enums::CharacterSlot flag, const int value)
+		auto clear_character(const Enums::CharacterSlot slot) -> void;
+		auto has_character(const Enums::CharacterSlot slot) const -> bool;
+		auto get_character(const Enums::CharacterSlot slot) const -> int;
+		auto set_character(const Enums::CharacterSlot slot, const int value)
 			-> void;
-		auto set_selected(const std::string &flag, int value) -> void;
-		auto get_flag(const std::string &flag) const -> bool;
-		auto get_flag_ref(const std::string &flag) -> bool &;
-		auto set_flag(const std::string &flag) -> void;
-		auto set_flag_value(const std::string &flag, const bool value) -> void;
-		auto unset_flag(const std::string &flag) -> void;
-		auto has_flag(const std::string &flag) const -> bool;
-		auto toggle_flag(const std::string &flag) -> void;
+		auto set_selected(const std::string_view flag, int value) -> void;
+		auto get_flag(const std::string_view flag) const -> bool;
+		auto get_flag_ref(const std::string_view flag) -> bool &;
+		auto set_flag(const std::string_view flag) -> void;
+		auto set_flag_value(const std::string_view flag, const bool value)
+			-> void;
+		auto unset_flag(const std::string_view flag) -> void;
+		auto has_flag(const std::string_view flag) const -> bool;
+		auto toggle_flag(const std::string_view flag) -> void;
 		auto get_flags() const -> std::string;
 		auto get_characters() const -> std::string;
-		auto has_text(const std::string &flag) const -> bool;
-		auto set_text(const std::string &flag, const std::string &text) -> void;
-		auto get_text(const std::string &flag) const -> const std::string;
-		auto unset_text(const std::string &flag) -> void;
-		auto has_selected(const std::string &flag) const -> bool;
-		auto get_selected(const std::string &flag) const -> int;
-		auto unset_selected(const std::string &flag) -> void;
+		auto has_text(const std::string_view flag) const -> bool;
+		auto set_text(const std::string_view flag, const std::string &text)
+			-> void;
+		auto get_text(const std::string_view flag) const -> const std::string;
+		auto unset_text(const std::string_view flag) -> void;
+		auto has_selected(const std::string_view flag) const -> bool;
+		auto get_selected(const std::string_view flag) const -> int;
+		auto unset_selected(const std::string_view flag) -> void;
 
 		auto set_monochrome(const bool value) -> void;
 		auto get_monochrome() const -> bool;
@@ -185,9 +188,10 @@ class Controller {
 		Enums::Map::Event _last_event;				// Last event in dungeon
 		Enums::Map::Direction _last_dir;			// Last movement in dungeon
 		std::map<Enums::CharacterSlot, int> _characters; // Character Selections
-		std::map<std::string, bool> _flags;				 // Logic Flags
-		std::map<std::string, std::string> _texts;		 // "Global" Texts
-		std::map<std::string, int> _selected;			 // Menu Selections
+		std::map<std::string, bool, std::less<>> _flags; // Logic Flags
+		std::map<std::string, std::string, std::less<>>
+			_texts;										   // "Global" Texts
+		std::map<std::string, int, std::less<>> _selected; // Menu Selections
 		std::string _input_buffer; // Input Buffer for Text Input
 		std::optional<int> _menu_key;
 };
