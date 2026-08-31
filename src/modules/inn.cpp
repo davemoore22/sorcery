@@ -21,12 +21,13 @@
 // the resulting work.
 
 #include "modules/inn.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for CharacterSlot, Screen
-#include "display/ui/popupstore.hpp"	  // for PopupStore
-#include "display/ui/ui.hpp"			  // for UI
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for CharacterSlot, Screen
+#include "display/ui/popupstore.hpp"		// for PopupStore
+#include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for ABORT_GAME, INSPECT_MODE_ACTIONS
 #include "drawables/modal.hpp"	// for Modal
 #include "modules/inspect.hpp"	// for Inspect
@@ -107,7 +108,7 @@ auto Sorcery::Inn::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
+			if (_ctx.controller->input->back(event))
 				return BACK_TO_CASTLE;
 		}
 

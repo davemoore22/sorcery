@@ -21,14 +21,15 @@
 // the resulting work.
 
 #include "core/module.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for ImGui_ImplSDL2_ProcessEvent
-#include "core/application.hpp"			  // for Application
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "display/display.hpp"			  // for Display
-#include "display/ui/ui.hpp"			  // for UI
-#include "resources/define.hpp"			  // for SAVE_STATE_FILENAME
-#include <algorithm>					  // for clamp
+#include "backends/imgui_impl_sdl2.h"		// for ImGui_ImplSDL2_ProcessEvent
+#include "core/application.hpp"				// for Application
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "display/display.hpp"				// for Display
+#include "display/ui/ui.hpp"				// for UI
+#include "resources/define.hpp"				// for SAVE_STATE_FILENAME
+#include <algorithm>						// for clamp
 #include <chrono>	  // for duration, milliseconds, operator-
 #include <cmath>	  // for lerp
 #include <filesystem> // for path
@@ -118,24 +119,23 @@ auto Sorcery::Module::process_event(const SDL_Event &event,
 
 	ImGui_ImplSDL2_ProcessEvent(&event);
 
-	if (_ctx.controller->check_for_abort(event))
+	if (_ctx.controller->input->abort(event))
 		return ModuleEvent::ABORT;
 
-	_ctx.controller->check_for_resize(event, _ctx.ui);
+	_ctx.controller->input->resize(event);
 
 	if (options.menu_key)
-		_ctx.controller->check_for_menu_key(event);
+		_ctx.controller->input->menu_key(event);
 
 	if (options.debug)
-		_ctx.controller->check_for_debug(event);
+		_ctx.controller->input->debug(event);
 
-	if (options.quicksave && _ctx.controller->check_for_quicksave(event)) {
+	if (options.quicksave && _ctx.controller->input->quicksave(event)) {
 
 		_ctx.application->save_state_to_binary(
 			_ctx.get_file(SAVE_STATE_FILENAME));
 
-	} else if (options.quickload &&
-			   _ctx.controller->check_for_quickload(event)) {
+	} else if (options.quickload && _ctx.controller->input->quickload(event)) {
 
 		_ctx.application->load_state_from_binary(
 			_ctx.get_file(SAVE_STATE_FILENAME));

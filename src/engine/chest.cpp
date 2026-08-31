@@ -21,29 +21,30 @@
 // the resulting work.
 
 #include "engine/chest.hpp"
-#include "common/enum.hpp"				  // for Random, Class, Attribute
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for CharacterSlot, Screen
-#include "display/ui/popupstore.hpp"	  // for PopupStore
-#include "display/ui/ui.hpp"			  // for UI, TransientMode, Transien...
-#include "drawables/modal.hpp"			  // for Modal
-#include "types/character/character.hpp"  // for Character
-#include "types/character/magic.hpp"	  // for ConstCharacterMagic
-#include "types/game.hpp"				  // for Game
-#include "types/state.hpp"				  // for State
-#include <SDL_events.h>					  // for SDL_Event, SDL_PollEvent
-#include <algorithm>					  // for find
-#include <any>							  // for any
-#include <chrono>						  // for chrono_literals
-#include <cstdlib>						  // for abs, size_t
-#include <format>						  // for format
-#include <iterator>						  // for distance
-#include <map>							  // for map
-#include <memory>						  // for unique_ptr
-#include <ranges>						  // for __find_fn
-#include <utility>						  // for unreachable, move, to_under...
-#include <vector>						  // for vector
+#include "common/enum.hpp"					// for Random, Class, Attribute
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for CharacterSlot, Screen
+#include "display/ui/popupstore.hpp"		// for PopupStore
+#include "display/ui/ui.hpp"			 // for UI, TransientMode, Transien...
+#include "drawables/modal.hpp"			 // for Modal
+#include "types/character/character.hpp" // for Character
+#include "types/character/magic.hpp"	 // for ConstCharacterMagic
+#include "types/game.hpp"				 // for Game
+#include "types/state.hpp"				 // for State
+#include <SDL_events.h>					 // for SDL_Event, SDL_PollEvent
+#include <algorithm>					 // for find
+#include <any>							 // for any
+#include <chrono>						 // for chrono_literals
+#include <cstdlib>						 // for abs, size_t
+#include <format>						 // for format
+#include <iterator>						 // for distance
+#include <map>							 // for map
+#include <memory>						 // for unique_ptr
+#include <ranges>						 // for __find_fn
+#include <utility>						 // for unreachable, move, to_under...
+#include <vector>						 // for vector
 
 Sorcery::Chest::Chest(Context &ctx)
 	: Module{ctx} {
@@ -103,7 +104,7 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 			}
 
 			if (!_ctx.ui->transient_blocks_input() &&
-				_ctx.controller->check_for_back(event)) {
+				_ctx.controller->input->back(event)) {
 
 				return Enums::Chests::Result::LEFT;
 			}

@@ -26,6 +26,7 @@
 #include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller/controller.hpp"
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/define.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -125,8 +126,8 @@ auto Sorcery::Castle::start() -> int {
 				break;
 			}
 
-			_ctx.controller->check_for_back(
-				event, _ctx.ui->popups->dialog_leave->show);
+			_ctx.controller->input->back(event,
+										 _ctx.ui->popups->dialog_leave->show);
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::CASTLE, _ctx.game);

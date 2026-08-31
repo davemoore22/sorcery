@@ -41,6 +41,7 @@ namespace Sorcery { class UI; }
 namespace Sorcery { struct Context; }
 namespace Sorcery { struct MenuAction; }
 namespace Sorcery { struct ControllerMenuHandler; }
+namespace Sorcery { struct ControllerInputHandler; }
 
 namespace Sorcery {
 
@@ -48,6 +49,7 @@ namespace Sorcery {
 class Controller {
 
 		friend class ControllerMenuHandler;
+		friend class ControllerInputHandler;
 
 	private:
 		// Private Members
@@ -72,7 +74,6 @@ class Controller {
 			_texts;										   // "Global" Texts
 		std::map<std::string, int, std::less<>> _selected; // Menu Selections
 		std::string _input_buffer; // Input Buffer for Text Input
-		std::optional<int> _menu_key;
 
 	public:
 		// Standard Constructor
@@ -92,17 +93,6 @@ class Controller {
 							   const Controller &controller) -> std::ostream &;
 
 		// Public Methods
-		auto check_for_abort(const SDL_Event event) -> bool;
-		auto check_for_back(const SDL_Event event) -> bool;
-		auto check_for_back(const SDL_Event event, bool &flag) -> void;
-		auto check_for_debug(const SDL_Event event) -> void;
-		auto check_for_automap(const SDL_Event event) -> bool;
-		auto check_for_movement(const SDL_Event event) -> int;
-		auto check_for_quickload(const SDL_Event event) -> bool;
-		auto check_for_quicksave(const SDL_Event event) -> bool;
-		auto check_for_quick_inspect(const SDL_Event event) -> int;
-		auto check_for_resize(const SDL_Event event, UI *ui) -> void;
-		auto check_for_ui_toggle(const SDL_Event event) -> void;
 		auto handle_button_click(const std::string_view component, UI *ui,
 								 const int data) -> void;
 		auto handle_input_button_click(const std::string_view component, UI *ui,
@@ -176,14 +166,11 @@ class Controller {
 		auto inspect_party_member(const int character_id) -> void;
 		auto handle_icon_click(const int icon_idx) -> void;
 
-		auto check_for_menu_key(const SDL_Event &event) -> void;
-		auto consume_menu_key(const std::size_t item_count)
-			-> std::optional<std::size_t>;
-
 		// Public Members
 		bool go_back;
 
 		std::unique_ptr<ControllerMenuHandler> menus;
+		std::unique_ptr<ControllerInputHandler> input;
 };
 
 };

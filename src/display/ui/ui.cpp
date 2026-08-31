@@ -20,15 +20,16 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "display/ui/ui.hpp"			   // for UI, TransientMessage, Trans...
-#include "backends/imgui_impl_opengl3.h"   // for ImGui_ImplOpenGL3_NewFrame
-#include "backends/imgui_impl_sdl2.h"	   // for ImGui_ImplSDL2_NewFrame
-#include "common/enum.hpp"				   // for Feature, Ability, Event
-#include "common/macro.hpp"				   // for CAPITALISE
-#include "common/types.hpp"				   // for Spell, Size, Coordinate
-#include "core/context.hpp"				   // for Context
-#include "core/controller/controller.hpp"  // for Controller
-#include "core/controller/menubuilder.hpp" // for MenuBuilder
+#include "display/ui/ui.hpp"			  // for UI, TransientMessage, Trans...
+#include "backends/imgui_impl_opengl3.h"  // for ImGui_ImplOpenGL3_NewFrame
+#include "backends/imgui_impl_sdl2.h"	  // for ImGui_ImplSDL2_NewFrame
+#include "common/enum.hpp"				  // for Feature, Ability, Event
+#include "common/macro.hpp"				  // for CAPITALISE
+#include "common/types.hpp"				  // for Spell, Size, Coordinate
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/controller/menubuilder.hpp"	// for MenuBuilder
 #include "core/controller/menuhandler.hpp"
 #include "core/debug.hpp"				 // for DEBUG_LOG, DEBUG_LOGF, debu...
 #include "core/define.hpp"				 // for WINDOW_LAYER_TEXTS, WINDOW_...
@@ -3447,8 +3448,9 @@ auto Sorcery::UI::draw_menu(
 	// Look for a Key Selection (if numeric_shortcuts is true, then we will
 	// consume a key from the controller)
 	const auto key_selection{
-		numeric_shortcuts ? _ctx.controller->consume_menu_key(items.size())
-						  : std::nullopt};
+		numeric_shortcuts
+			? _ctx.controller->input->consume_menu_key(items.size())
+			: std::nullopt};
 
 	// Draw the Menu (as a ListBox)
 	with_ListBox(display_name.c_str(), sz) {

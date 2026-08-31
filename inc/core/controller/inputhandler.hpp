@@ -40,43 +40,40 @@ namespace Sorcery { class Game; }
 namespace Sorcery { class UI; }
 namespace Sorcery { struct Context; }
 namespace Sorcery { struct MenuAction; }
-namespace Sorcery {
-namespace Enums {
-	namespace MenuAction { enum class Function; }
-}
-}
 
 namespace Sorcery {
 
-class ControllerMenuHandler {
+class ControllerInputHandler {
 
 	public:
-		explicit ControllerMenuHandler(Controller &host, Context &ctx);
-		ControllerMenuHandler() = delete;
+		explicit ControllerInputHandler(Controller &host, Context &_ctx);
 
-		auto handle_standard(std::string_view component,
-							 const std::vector<std::string> &items, int data,
-							 int selection) -> void;
+		ControllerInputHandler() = delete;
 
-		auto handle_dynamic(std::string_view component,
-							const std::vector<std::string> &items, int data,
-							int selection,
-							std::vector<std::reference_wrapper<bool>> &flags)
-			-> bool;
+		auto abort(const SDL_Event &event) -> bool;
+		auto back(const SDL_Event &event) const -> bool;
+		auto back(const SDL_Event &event, bool &flag) const -> void;
 
-		auto handle_actions(std::string_view menu, int selection, int data,
-							std::vector<std::reference_wrapper<bool>> &flags)
-			-> bool;
+		auto debug(const SDL_Event &event) -> void;
+		auto automap(const SDL_Event &event) const -> bool;
+		auto movement(const SDL_Event &event) const -> int;
 
-		auto item_disabled(std::string_view component, int selection, int data)
-			-> bool;
+		auto quickload(const SDL_Event &event) const -> bool;
+		auto quicksave(const SDL_Event &event) const -> bool;
+		auto quick_inspect(const SDL_Event &event) const -> int;
+
+		auto resize(const SDL_Event &event) -> void;
+		auto ui_toggle(const SDL_Event &event) -> void;
+
+		auto menu_key(const SDL_Event &event) -> void;
+		auto consume_menu_key(std::size_t item_count)
+			-> std::optional<std::size_t>;
 
 	private:
 		Controller &_host;
 		Context &_ctx;
 
-		auto _execute(const MenuAction &action, int data,
-					  std::vector<std::reference_wrapper<bool>> &flags) -> void;
+		std::optional<int> _menu_key;
 };
 
 }

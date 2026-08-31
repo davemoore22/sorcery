@@ -21,11 +21,12 @@
 // the resulting work.
 
 #include "modules/restart.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for Screen
-#include "display/ui/ui.hpp"			  // for UI
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen
+#include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for BACK_TO_EDGE_OF_TOWN, ABORT_GAME
 #include "types/game.hpp"		// for Game
 #include <SDL_events.h>			// for SDL_PollEvent
@@ -74,7 +75,7 @@ auto Sorcery::Restart::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
+			if (_ctx.controller->input->back(event))
 				return BACK_TO_EDGE_OF_TOWN;
 		}
 

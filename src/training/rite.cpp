@@ -21,23 +21,24 @@
 // the resulting work.
 
 #include "training/rite.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/audioplayer.hpp"			  // for AudioPlayer
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for CharacterSlot, Screen
-#include "display/ui/popupstore.hpp"	  // for PopupStore
-#include "display/ui/ui.hpp"			  // for UI
-#include "drawables/define.hpp"			  // for ABORT_GAME, BACK_TO_EDIT
-#include "drawables/dialog.hpp"			  // for Dialog
-#include "modules/inspect.hpp"			  // for Inspect
-#include "types/character/character.hpp"  // for Character
-#include "types/character/create.hpp"	  // for CharacterCreate
-#include "types/game.hpp"				  // for Game
-#include <SDL_events.h>					  // for SDL_PollEvent
-#include <any>							  // for any
-#include <map>							  // for map
-#include <string>						  // for basic_string
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/audioplayer.hpp"				// for AudioPlayer
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for CharacterSlot, Screen
+#include "display/ui/popupstore.hpp"		// for PopupStore
+#include "display/ui/ui.hpp"				// for UI
+#include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_EDIT
+#include "drawables/dialog.hpp"				// for Dialog
+#include "modules/inspect.hpp"				// for Inspect
+#include "types/character/character.hpp"	// for Character
+#include "types/character/create.hpp"		// for CharacterCreate
+#include "types/game.hpp"					// for Game
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
+#include <map>								// for map
+#include <string>							// for basic_string
 
 Sorcery::Rite::Rite(Context &ctx)
 	: Module{ctx} {
@@ -85,7 +86,7 @@ auto Sorcery::Rite::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event)) {
+			if (_ctx.controller->input->back(event)) {
 				_ctx.ui->popups->dialog_rite->show = false;
 				_ctx.controller->unset_flag("want_rite_ok");
 				return BACK_TO_EDIT;
@@ -135,7 +136,7 @@ auto Sorcery::Rite::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
+			if (_ctx.controller->input->back(event))
 				return BACK_TO_EDIT;
 		}
 

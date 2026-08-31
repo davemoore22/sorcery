@@ -21,11 +21,12 @@
 // the resulting work.
 
 #include "frontend/splash.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for Screen
-#include "display/ui/ui.hpp"			  // for UI
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen
+#include "display/ui/ui.hpp"				// for UI
 #include "imgui.h"					// for ImGuiMouseCursor_, SetMouseCursor
 #include "resources/define.hpp"		// for BANNER_TEXTURE
 #include "resources/imagestore.hpp" // for ImageStore

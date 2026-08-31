@@ -21,48 +21,49 @@
 // the resulting work.
 
 #include "engine/engine.hpp"
-#include "core/audioplayer.hpp"			  // for AudioPlayer
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/debug.hpp"				  // for DEBUG_LOG, DEBUG_LOGF, debu...
-#include "core/define.hpp"				  // for EXPEDITION_GOTO
-#include "core/enum.hpp"				  // for Screen, CharacterSlot
-#include "core/resources.hpp"			  // for Resources
-#include "display/ui/popupstore.hpp"	  // for PopupStore
-#include "display/ui/ui.hpp"			  // for UI, TransientMode, Transien...
-#include "drawables/define.hpp"			  // for ABORT_GAME, INSPECT_MODE_AC...
-#include "drawables/dialog.hpp"			  // for Dialog
-#include "drawables/message.hpp"		  // for Message
-#include "drawables/modal.hpp"			  // for Modal
-#include "engine/automap.hpp"			  // for Automap
-#include "engine/chest.hpp"				  // for Chest
-#include "engine/define.hpp"			  // for MAP_SIZE, MOVE_BACKWARD
-#include "engine/enum.hpp"				  // for Result
-#include "engine/graveyard.hpp"			  // for Graveyard
-#include "engine/victory.hpp"			  // for Victory
-#include "frontend/options.hpp"			  // for Options
-#include "modules/inspect.hpp"			  // for Inspect
-#include "modules/reorder.hpp"			  // for Reorder
-#include "resources/itemstore.hpp"		  // for ItemStore
-#include "resources/levelstore.hpp"		  // for LevelStore
-#include "types/character/character.hpp"  // for Character
-#include "types/character/inventory.hpp"  // for Inventory
-#include "types/enum.hpp"				  // for TypeID, TypeID::BLUE_RIBBON
-#include "types/game.hpp"				  // for Game
-#include "types/state.hpp"				  // for State
-#include "types/world/explore.hpp"		  // for Explore
-#include "types/world/level.hpp"		  // for Level
-#include "types/world/tile.hpp"			  // for Tile
-#include <SDL_events.h>					  // for SDL_Event, SDL_PollEvent
-#include <algorithm>					  // for find
-#include <compare>						  // for operator>=, strong_ordering
-#include <cstdlib>						  // for abs
-#include <format>						  // for format
-#include <functional>					  // for function
-#include <map>							  // for map, operator==
-#include <string>						  // for basic_string, stoi
-#include <utility>						  // for get, pair, unreachable
-#include <vector>						  // for vector
+#include "core/audioplayer.hpp"				// for AudioPlayer
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/debug.hpp"				 // for DEBUG_LOG, DEBUG_LOGF, debu...
+#include "core/define.hpp"				 // for EXPEDITION_GOTO
+#include "core/enum.hpp"				 // for Screen, CharacterSlot
+#include "core/resources.hpp"			 // for Resources
+#include "display/ui/popupstore.hpp"	 // for PopupStore
+#include "display/ui/ui.hpp"			 // for UI, TransientMode, Transien...
+#include "drawables/define.hpp"			 // for ABORT_GAME, INSPECT_MODE_AC...
+#include "drawables/dialog.hpp"			 // for Dialog
+#include "drawables/message.hpp"		 // for Message
+#include "drawables/modal.hpp"			 // for Modal
+#include "engine/automap.hpp"			 // for Automap
+#include "engine/chest.hpp"				 // for Chest
+#include "engine/define.hpp"			 // for MAP_SIZE, MOVE_BACKWARD
+#include "engine/enum.hpp"				 // for Result
+#include "engine/graveyard.hpp"			 // for Graveyard
+#include "engine/victory.hpp"			 // for Victory
+#include "frontend/options.hpp"			 // for Options
+#include "modules/inspect.hpp"			 // for Inspect
+#include "modules/reorder.hpp"			 // for Reorder
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/levelstore.hpp"		 // for LevelStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/enum.hpp"				 // for TypeID, TypeID::BLUE_RIBBON
+#include "types/game.hpp"				 // for Game
+#include "types/state.hpp"				 // for State
+#include "types/world/explore.hpp"		 // for Explore
+#include "types/world/level.hpp"		 // for Level
+#include "types/world/tile.hpp"			 // for Tile
+#include <SDL_events.h>					 // for SDL_Event, SDL_PollEvent
+#include <algorithm>					 // for find
+#include <compare>						 // for operator>=, strong_ordering
+#include <cstdlib>						 // for abs
+#include <format>						 // for format
+#include <functional>					 // for function
+#include <map>							 // for map, operator==
+#include <string>						 // for basic_string, stoi
+#include <utility>						 // for get, pair, unreachable
+#include <vector>						 // for vector
 
 Sorcery::Engine::Engine(Context &ctx)
 	: Module{ctx} {
@@ -133,10 +134,10 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				break;
 
 			// Check for Debug
-			_ctx.controller->check_for_debug(event);
+			_ctx.controller->input->debug(event);
 
 			// Back closes popup first, otherwise opens camp.
-			if (_ctx.controller->check_for_back(event)) {
+			if (_ctx.controller->input->back(event)) {
 
 				if (_ctx.ui->popups->in_popup()) {
 
@@ -163,7 +164,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				continue;
 
 			// Check for Automap
-			if (_ctx.controller->check_for_automap(event)) {
+			if (_ctx.controller->input->automap(event)) {
 
 				const auto result{_automap->start()};
 
@@ -201,13 +202,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			// Check for UI toggle
 			const auto old_monochrome{_ctx.controller->get_monochrome()};
 
-			_ctx.controller->check_for_ui_toggle(event);
+			_ctx.controller->input->ui_toggle(event);
 
 			if (old_monochrome != _ctx.controller->get_monochrome())
 				_ctx.ui->set_monochrome(_ctx.controller->get_monochrome());
 
 			// Check for movement
-			if (const auto movement{_ctx.controller->check_for_movement(event)};
+			if (const auto movement{_ctx.controller->input->movement(event)};
 				movement != MOVE_NONE) {
 
 				_ctx.ui->clear_transient_on_action();

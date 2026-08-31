@@ -21,13 +21,14 @@
 // the resulting work.
 
 #include "modules/edgeoftown.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/audioplayer.hpp"			  // for AudioPlayer
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for Screen, CharacterSlot
-#include "display/ui/popupstore.hpp"	  // for PopupStore
-#include "display/ui/ui.hpp"			  // for UI
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/audioplayer.hpp"				// for AudioPlayer
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen, CharacterSlot
+#include "display/ui/popupstore.hpp"		// for PopupStore
+#include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"	 // for ABORT_GAME, INSPECT_MODE_ACTIONS
 #include "drawables/dialog.hpp"	 // for Dialog
 #include "drawables/modal.hpp"	 // for Modal
@@ -110,8 +111,8 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			case ModuleEvent::NONE:
 				break;
 			}
-			_ctx.controller->check_for_back(
-				event, _ctx.ui->popups->dialog_leave->show);
+			_ctx.controller->input->back(event,
+										 _ctx.ui->popups->dialog_leave->show);
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::EDGEOFTOWN, _ctx.game);

@@ -21,14 +21,15 @@
 // the resulting work.
 
 #include "frontend/options.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "common/enum.hpp"				  // for Options
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for Screen
-#include "display/ui/ui.hpp"			  // for UI
-#include "drawables/define.hpp"			  // for GO_TO_FRONT_END, ABORT_GAME
-#include <SDL_events.h>					  // for SDL_PollEvent
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "common/enum.hpp"					// for Options
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen
+#include "display/ui/ui.hpp"				// for UI
+#include "drawables/define.hpp"				// for GO_TO_FRONT_END, ABORT_GAME
+#include <SDL_events.h>						// for SDL_PollEvent
 
 Sorcery::Options::Options(Context &ctx)
 	: Module{ctx} {
@@ -75,7 +76,7 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
+			if (_ctx.controller->input->back(event))
 				return GO_TO_FRONT_END;
 		}
 

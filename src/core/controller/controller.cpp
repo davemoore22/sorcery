@@ -21,9 +21,10 @@
 // the resulting work.
 
 #include "core/controller/controller.hpp"
-#include "common/enum.hpp"				  // for Attribute, Options, Class
-#include "common/types.hpp"				  // for Spell
-#include "core/context.hpp"				  // for Context
+#include "common/enum.hpp"	// for Attribute, Options, Class
+#include "common/types.hpp" // for Spell
+#include "core/context.hpp" // for Context
+#include "core/controller/inputhandler.hpp"
 #include "core/controller/menuaction.hpp" // for MenuAction, MENU_ACTIONS
 #include "core/controller/menuhandler.hpp"
 #include "core/debug.hpp"				 // for DEBUG_LOGF
@@ -71,6 +72,7 @@ Sorcery::Controller::Controller(Context &ctx)
 	_game = nullptr;
 
 	menus = std::make_unique<ControllerMenuHandler>(*this, ctx);
+	input = std::make_unique<ControllerInputHandler>(*this, ctx);
 }
 
 Sorcery::Controller::~Controller() = default;
@@ -273,71 +275,6 @@ auto Sorcery::Controller::set_game(Game *game) -> void {
 
 	_game = game;
 }
-
-auto Sorcery::Controller::check_for_debug(const SDL_Event event) -> void {
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-	if (event.type == SDL_KEYDOWN &&
-		(event.key.keysym.sym >= SDLK_F1 && event.key.keysym.sym <= SDLK_F11)) {
-		if (_game != nullptr)
-			_game->call_debug(event.key.keysym.sym);
-	} else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F12) {
-		for (auto const &[key, val] : _flags)
-			DEBUG_LOGF("{}", std::format("{:>32}: {}", key, val));
-	}
-#pragma GCC diagnostic pop
-}
-
-auto Sorcery::Controller::check_for_quicksave(const SDL_Event event) -> bool {
-
-	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F9);
-}
-
-auto Sorcery::Controller::check_for_quickload(const SDL_Event event) -> bool {
-
-	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F10);
-}
-
-auto Sorcery::Controller::check_for_automap(const SDL_Event event) -> bool {
-
-	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m);
-}
-
-auto Sorcery::Controller::check_for_ui_toggle(const SDL_Event event) -> void {
-
-	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)
-		toggle_flag("interface_party_panel");
-	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_o)
-		toggle_flag("interface_ui");
-	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n)
-		_monochrome = !_monochrome;
-	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_p)
-		toggle_flag("debug_ui");
-}
-
-auto Sorcery::Controller::check_for_movement(const SDL_Event event) -> int {
-
-	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x)
-		return MOVE_TURN_AROUND;
-	else if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_a ||
-										   event.key.keysym.sym == SDLK_l ||
-										   event.key.keysym.sym == SDLK_LEFT))
-		return MOVE_TURN_LEFT;
-	else if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_d ||
-										   event.key.keysym.sym == SDLK_r ||
-										   event.key.keysym.sym == SDLK_RIGHT))
-		return MOVE_TURN_RIGHT;
-	else if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_w ||
-										   event.key.keysym.sym == SDLK_f ||
-										   event.key.keysym.sym == SDLK_UP))
-		return MOVE_FORWARD;
-	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN)
-		return MOVE_BACKWARD;
-	else
-		return MOVE_NONE;
-}
-
 // Toggle Handling
 auto Sorcery::Controller::handle_toggle(const std::string_view component,
 										const std::string_view tab,
@@ -564,47 +501,6 @@ auto Sorcery::Controller::clear_character(const Enums::CharacterSlot slot)
 	_characters[slot] = -1;
 }
 
-// Check if the SDL event is go-back-to-previous event
-auto Sorcery::Controller::check_for_back(const SDL_Event event) -> bool {
-
-	if (event.type == SDL_KEYDOWN &&
-		event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-		return true;
-	else if (event.type == SDL_MOUSEBUTTONDOWN &&
-			 event.button.button == SDL_BUTTON_RIGHT)
-		return true;
-
-	return false;
-}
-
-// Check for a resize event
-auto Sorcery::Controller::check_for_resize(const SDL_Event event, UI *ui)
-	-> void {
-
-	if (event.type != SDL_WINDOWEVENT)
-		return;
-
-	if (event.window.event != SDL_WINDOWEVENT_RESIZED &&
-		event.window.event != SDL_WINDOWEVENT_SIZE_CHANGED)
-		return;
-
-	_ctx.display->update_display_metrics();
-	_ctx.ui->metrics->update(_ctx.display->get_display_metrics());
-}
-
-// Check if the SDL event is go-back-to-previous event (override to
-// set a flag, for example to display a dialog box!)
-auto Sorcery::Controller::check_for_back(const SDL_Event event, bool &flag)
-	-> void {
-
-	if (event.type == SDL_KEYDOWN &&
-		event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-		flag = true;
-	else if (event.type == SDL_MOUSEBUTTONDOWN &&
-			 event.button.button == SDL_BUTTON_RIGHT)
-		flag = true;
-}
-
 auto Sorcery::Controller::clear_modal_flags() -> void {
 
 	for (const auto flag : {
@@ -628,56 +524,6 @@ auto Sorcery::Controller::clear_modal_flags() -> void {
 			 "after_tile_message",
 		 })
 		unset_flag(flag);
-}
-
-auto Sorcery::Controller::check_for_quick_inspect(const SDL_Event event)
-	-> int {
-
-	if (event.type != SDL_KEYDOWN)
-		return -1;
-
-	const auto scancode{event.key.keysym.scancode};
-
-	int position{-1};
-
-	// Main keyboard number row
-	if (scancode >= SDL_SCANCODE_1 && scancode <= SDL_SCANCODE_6)
-		position = static_cast<int>(scancode - SDL_SCANCODE_1) + 1;
-
-	// Numeric keypad
-	else if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_6)
-		position = static_cast<int>(scancode - SDL_SCANCODE_KP_1) + 1;
-
-	if (position == -1)
-		return -1;
-
-	const int party_count{_game->state->get_party_size()};
-
-	if (position > party_count)
-		return -1;
-
-	return position;
-}
-
-// Check if the SDL event is a Window-Shut-Down event
-auto Sorcery::Controller::check_for_abort(const SDL_Event event) -> bool {
-
-	// SDL_QUIT event
-	if (event.type == SDL_QUIT) {
-		_abort = true;
-		return true;
-	}
-
-	// Window Close event
-	if (event.type == SDL_WINDOWEVENT &&
-		event.window.event == SDL_WINDOWEVENT_CLOSE &&
-		event.window.windowID ==
-			SDL_GetWindowID(_ctx.display->get_SDL_window())) {
-		_abort = true;
-		return true;
-	}
-
-	return false;
 }
 
 auto Sorcery::Controller::abort(const bool value) -> void {
@@ -958,86 +804,6 @@ auto Sorcery::Controller::is_at() const -> Enums::Screen {
 	return _screen;
 }
 
-auto Sorcery::Controller::consume_menu_key(const std::size_t item_count)
-	-> std::optional<std::size_t> {
-
-	if (!_menu_key || item_count == 0)
-		return std::nullopt;
-
-	const auto key{std::exchange(_menu_key, std::nullopt)};
-
-	if (*key == 0)
-		return item_count - 1;
-
-	const auto index{static_cast<std::size_t>(*key - 1)};
-
-	if (index >= item_count)
-		return std::nullopt;
-
-	return index;
-}
-
-auto Sorcery::Controller::check_for_menu_key(const SDL_Event &event) -> void {
-
-	if (event.type != SDL_KEYDOWN)
-		return;
-
-	switch (event.key.keysym.sym) {
-
-	case SDLK_1:
-	case SDLK_KP_1:
-		_menu_key = 1;
-		break;
-
-	case SDLK_2:
-	case SDLK_KP_2:
-		_menu_key = 2;
-		break;
-
-	case SDLK_3:
-	case SDLK_KP_3:
-		_menu_key = 3;
-		break;
-
-	case SDLK_4:
-	case SDLK_KP_4:
-		_menu_key = 4;
-		break;
-
-	case SDLK_5:
-	case SDLK_KP_5:
-		_menu_key = 5;
-		break;
-
-	case SDLK_6:
-	case SDLK_KP_6:
-		_menu_key = 6;
-		break;
-
-	case SDLK_7:
-	case SDLK_KP_7:
-		_menu_key = 7;
-		break;
-
-	case SDLK_8:
-	case SDLK_KP_8:
-		_menu_key = 8;
-		break;
-
-	case SDLK_9:
-	case SDLK_KP_9:
-		_menu_key = 9;
-		break;
-
-	case SDLK_0:
-	case SDLK_KP_0:
-		_menu_key = 0;
-		break;
-
-	default:
-		break;
-	}
-}
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)

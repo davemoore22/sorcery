@@ -21,19 +21,20 @@
 // the resulting work.
 
 #include "frontend/compendium.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for Screen
-#include "display/ui/ui.hpp"			  // for UI
-#include "drawables/define.hpp"			  // for ABORT_GAME, GO_TO_FRONT_END
-#include "frontend/atlas.hpp"			  // for Atlas
-#include "frontend/bestiary.hpp"		  // for Bestiary
-#include "frontend/license.hpp"			  // for License
-#include "frontend/museum.hpp"			  // for Museum
-#include "frontend/spellbook.hpp"		  // for SpellBook
-#include <SDL_events.h>					  // for SDL_PollEvent
-#include <string>						  // for basic_string
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen
+#include "display/ui/ui.hpp"				// for UI
+#include "drawables/define.hpp"				// for ABORT_GAME, GO_TO_FRONT_END
+#include "frontend/atlas.hpp"				// for Atlas
+#include "frontend/bestiary.hpp"			// for Bestiary
+#include "frontend/license.hpp"				// for License
+#include "frontend/museum.hpp"				// for Museum
+#include "frontend/spellbook.hpp"			// for SpellBook
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <string>							// for basic_string
 
 Sorcery::Compendium::Compendium(Context &ctx)
 	: Module{ctx} {
@@ -84,7 +85,7 @@ auto Sorcery::Compendium::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
+			if (_ctx.controller->input->back(event))
 				return GO_TO_FRONT_END;
 		}
 

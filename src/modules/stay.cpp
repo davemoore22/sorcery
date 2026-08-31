@@ -21,23 +21,24 @@
 // the resulting work.
 
 #include "modules/stay.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for Screen, CharacterSlot
-#include "display/ui/ui.hpp"			  // for UI
-#include "drawables/define.hpp"			  // for ABORT_GAME, BACK_TO_INN
-#include "modules/recovery.hpp"			  // for Recovery
-#include "modules/result.hpp"			  // for Result, ResultType
-#include "types/character/character.hpp"  // for Character
-#include "types/character/create.hpp"	  // for CharacterCreate
-#include "types/character/magic.hpp"	  // for CharacterMagic
-#include "types/game.hpp"				  // for Game
-#include <SDL_events.h>					  // for SDL_PollEvent
-#include <any>							  // for any
-#include <array>						  // for array
-#include <map>							  // for map
-#include <string>						  // for basic_string
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen, CharacterSlot
+#include "display/ui/ui.hpp"				// for UI
+#include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_INN
+#include "modules/recovery.hpp"				// for Recovery
+#include "modules/result.hpp"				// for Result, ResultType
+#include "types/character/character.hpp"	// for Character
+#include "types/character/create.hpp"		// for CharacterCreate
+#include "types/character/magic.hpp"		// for CharacterMagic
+#include "types/game.hpp"					// for Game
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
+#include <array>							// for array
+#include <map>								// for map
+#include <string>							// for basic_string
 
 Sorcery::Stay::Stay(Context &ctx)
 	: Module{ctx} {
@@ -85,7 +86,7 @@ auto Sorcery::Stay::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
+			if (_ctx.controller->input->back(event))
 				return BACK_TO_INN;
 		}
 

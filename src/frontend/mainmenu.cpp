@@ -21,14 +21,15 @@
 // the resulting work.
 
 #include "frontend/mainmenu.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/audioplayer.hpp"			  // for AudioPlayer
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for Screen
-#include "display/animation.hpp"		  // for Animation
-#include "display/ui/popupstore.hpp"	  // for PopupStore
-#include "display/ui/ui.hpp"			  // for UI
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/audioplayer.hpp"				// for AudioPlayer
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen
+#include "display/animation.hpp"			// for Animation
+#include "display/ui/popupstore.hpp"		// for PopupStore
+#include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"	   // for ABORT_GAME, MAIN_MENU_CONTINUE...
 #include "drawables/dialog.hpp"	   // for Dialog
 #include "frontend/compendium.hpp" // for Compendium
@@ -92,8 +93,8 @@ auto Sorcery::MainMenu::start() -> int {
 				break;
 			}
 
-			_ctx.controller->check_for_back(event,
-											_ctx.ui->popups->dialog_exit->show);
+			_ctx.controller->input->back(event,
+										 _ctx.ui->popups->dialog_exit->show);
 		}
 
 		_ctx.tick();

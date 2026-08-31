@@ -21,12 +21,13 @@
 // the resulting work.
 
 #include "training/training.hpp"
-#include "backends/imgui_impl_sdl2.h"	  // for SDL_Event
-#include "core/audioplayer.hpp"			  // for AudioPlayer
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/enum.hpp"				  // for Screen
-#include "display/ui/ui.hpp"			  // for UI
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/audioplayer.hpp"				// for AudioPlayer
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen
+#include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for ABORT_GAME, BACK_TO_EDGE_OF_TOWN
 #include "training/create.hpp"	// for Create
 #include "training/delete.hpp"	// for Delete
@@ -84,7 +85,7 @@ auto Sorcery::Training::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
+			if (_ctx.controller->input->back(event))
 				return BACK_TO_EDGE_OF_TOWN;
 		}
 

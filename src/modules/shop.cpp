@@ -25,6 +25,7 @@
 #include "core/application.hpp"
 #include "core/context.hpp"
 #include "core/controller/controller.hpp"
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/define.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"
@@ -108,7 +109,7 @@ auto Sorcery::Shop::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->check_for_back(event))
+			if (_ctx.controller->input->back(event))
 				return BACK_TO_CASTLE;
 		}
 

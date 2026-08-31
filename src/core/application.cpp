@@ -25,45 +25,46 @@
 #include "common/enum.hpp"				  // for Class, Align, Align::NO_ALIGN
 #include "core/audioplayer.hpp"			  // for AudioPlayer
 #include "core/controller/controller.hpp" // for Controller
-#include "core/debug.hpp"				  // for DEBUG_LOGF, debug_logf
-#include "core/define.hpp"				  // for EXPEDITION_GOTO, EXPEDITION...
-#include "core/enum.hpp"				  // for CharacterSlot
-#include "core/resources.hpp"			  // for Resources
-#include "core/system.hpp"				  // for System
-#include "display/animation.hpp"		  // for Animation
-#include "display/display.hpp"			  // for Display
-#include "display/ui/ui.hpp"			  // for UI
-#include "drawables/define.hpp"			  // for ABORT_GAME, DEST_NONE, LEAV...
-#include "engine/define.hpp"			  // for RETURN_TO_TOWN
-#include "engine/engine.hpp"			  // for Engine
-#include "frontend/mainmenu.hpp"		  // for MainMenu
-#include "frontend/splash.hpp"			  // for Splash
-#include "modules/castle.hpp"			  // for Castle
-#include "modules/edgeoftown.hpp"		  // for EdgeOfTown
-#include "resources/define.hpp"			  // for ENGINE_MUSIC, MAINMENU_MUSIC
-#include "resources/filestore.hpp"		  // for FileStore
-#include "resources/imagestore.hpp"		  // for ImageStore
-#include "resources/itemstore.hpp"		  // for ItemStore
-#include "types/character/character.hpp"  // for Character
-#include "types/character/create.hpp"	  // for CharacterCreate
-#include "types/character/inventory.hpp"  // for Inventory
-#include "types/enum.hpp"				  // for TypeID, TypeID::LEATHER_ARMOR
-#include "types/game.hpp"				  // for Game
-#include "types/state.hpp"				  // for State
-#include <algorithm>					  // for __contains_fn, __transform_fn
-#include <cctype>						  // for tolower
-#include <cerrno>						  // for errno
-#include <csignal>						  // for signal, SIGINT, SIGTERM
-#include <cstdlib>						  // for abort
-#include <cstring>						  // for strerror
-#include <exception>					  // for exception, exception_ptr
-#include <filesystem>					  // for path
-#include <fstream>						  // for basic_ostream, operator<<
-#include <iostream>						  // for cerr
-#include <map>							  // for map
-#include <stdexcept>					  // for runtime_error
-#include <typeinfo>						  // for type_info
-#include <utility>						  // for move
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/debug.hpp"					// for DEBUG_LOGF, debug_logf
+#include "core/define.hpp"				 // for EXPEDITION_GOTO, EXPEDITION...
+#include "core/enum.hpp"				 // for CharacterSlot
+#include "core/resources.hpp"			 // for Resources
+#include "core/system.hpp"				 // for System
+#include "display/animation.hpp"		 // for Animation
+#include "display/display.hpp"			 // for Display
+#include "display/ui/ui.hpp"			 // for UI
+#include "drawables/define.hpp"			 // for ABORT_GAME, DEST_NONE, LEAV...
+#include "engine/define.hpp"			 // for RETURN_TO_TOWN
+#include "engine/engine.hpp"			 // for Engine
+#include "frontend/mainmenu.hpp"		 // for MainMenu
+#include "frontend/splash.hpp"			 // for Splash
+#include "modules/castle.hpp"			 // for Castle
+#include "modules/edgeoftown.hpp"		 // for EdgeOfTown
+#include "resources/define.hpp"			 // for ENGINE_MUSIC, MAINMENU_MUSIC
+#include "resources/filestore.hpp"		 // for FileStore
+#include "resources/imagestore.hpp"		 // for ImageStore
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/enum.hpp"				 // for TypeID, TypeID::LEATHER_ARMOR
+#include "types/game.hpp"				 // for Game
+#include "types/state.hpp"				 // for State
+#include <algorithm>					 // for __contains_fn, __transform_fn
+#include <cctype>						 // for tolower
+#include <cerrno>						 // for errno
+#include <csignal>						 // for signal, SIGINT, SIGTERM
+#include <cstdlib>						 // for abort
+#include <cstring>						 // for strerror
+#include <exception>					 // for exception, exception_ptr
+#include <filesystem>					 // for path
+#include <fstream>						 // for basic_ostream, operator<<
+#include <iostream>						 // for cerr
+#include <map>							 // for map
+#include <stdexcept>					 // for runtime_error
+#include <typeinfo>						 // for type_info
+#include <utility>						 // for move
 
 // Standard Constructor
 Sorcery::Application::Application(int argc, char **argv) {
