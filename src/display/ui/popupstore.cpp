@@ -24,7 +24,6 @@
 #include "core/context.hpp"				// for Context
 #include "drawables/dialog.hpp"			// for Dialog
 #include "drawables/input.hpp"			// for Input
-#include "drawables/message.hpp"		// for Message
 #include "drawables/modal.hpp"			// for Modal
 #include "drawables/popup.hpp"			// for Popup
 #include "resources/componentstore.hpp" // for ComponentStore
@@ -121,9 +120,6 @@ Sorcery::PopupStore::PopupStore(Context &ctx)
 	dialog_stairs_down = std::make_unique<Dialog>(
 		_ctx, _ctx.components->get("engine_base_ui:dialog_stairs_down"),
 		Enums::Layout::DialogType::CONFIRM);
-
-	message_tile = std::make_unique<Message>(
-		_ctx, _ctx.components->get("engine_base_ui:message_tile"));
 }
 
 Sorcery::PopupStore::~PopupStore() {}
@@ -181,7 +177,6 @@ auto Sorcery::PopupStore::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(modal_camp);
 	ADD_POPUP(modal_elevator_top);
 	ADD_POPUP(modal_elevator_bottom);
-	ADD_POPUP(message_tile);
 	ADD_POPUP(modal_inspect);
 	ADD_POPUP(modal_help);
 	ADD_POPUP(modal_tithe);
@@ -304,10 +299,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 				auto casted{(Dialog *)component};
 				auto name{casted->name()};
 				return std::format("{:>26}: {}\n", name, casted->show);
-			} else if (type == "message") {
-				auto casted{(Message *)component};
-				auto name{casted->name()};
-				return std::format("{:>26}: {}\n", name, casted->show);
 			} else if (type == "popup") {
 				auto casted{(Popup *)component};
 				auto name{casted->name()};
@@ -345,8 +336,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 		output.append(get_popup_status((void *)input_donate.get(), "input"));
 	if (input_name)
 		output.append(get_popup_status((void *)input_name.get(), "input"));
-	if (message_tile)
-		output.append(get_popup_status((void *)message_tile.get(), "message"));
 	if (modal_camp)
 		output.append(get_popup_status((void *)modal_camp.get(), "modal"));
 	if (modal_chest)

@@ -22,35 +22,45 @@
 
 #pragma once
 
-#include "drawables/drawable.hpp"
-
+#include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
-	namespace Sorcery {
-	namespace Enums {
-		namespace Map { enum class Event; }
-	}
+namespace Sorcery { class Drawable; }
+namespace Sorcery { class Message; }
+namespace Sorcery { struct Context; }
+
+namespace Sorcery {
+namespace Enums {
+	namespace Map { enum class Event; }
+}
 }
 
 namespace Sorcery {
 
-class Message final : public Drawable {
+class PopupManager {
 
 	public:
-		explicit Message(Context &ctx);
+		explicit PopupManager(Context &ctx);
+		~PopupManager();
 
-		auto build(Component &component) -> void override;
-		auto display() -> void override;
+		auto open_message(std::string_view component,
+						  std::vector<std::string> strings,
+						  Enums::Map::Event event_id) -> void;
 
-		auto set(std::vector<std::string> strings, Enums::Map::Event event_id)
-			-> void;
-
-		[[nodiscard]] auto event_id() const -> Enums::Map::Event;
+		auto close() -> void;
+		auto display() -> void;
+		[[nodiscard]] auto consume_completed(std::string_view name) -> bool;
+		[[nodiscard]] auto active() const -> bool;
+		[[nodiscard]] auto is_active(std::string_view name) const -> bool;
 
 	private:
-		std::vector<std::string> _strings;
-		Enums::Map::Event _event_id;
+		Context &_ctx;
+
+		std::unique_ptr<Message> _message;
+		Drawable *_active{};
+		std::string _completed;
 };
 
 }

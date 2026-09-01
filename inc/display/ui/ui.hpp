@@ -46,6 +46,7 @@ namespace Sorcery { class ImageStore; }
 namespace Sorcery { class Menu; }
 namespace Sorcery { class MenuBuilder; }
 namespace Sorcery { class PopupStore; }
+namespace Sorcery { class PopupManager; }
 namespace Sorcery { class Render; }
 namespace Sorcery { class ScreenRenderer; }
 namespace Sorcery { class UIMetrics; }
@@ -224,6 +225,7 @@ class UI {
 		std::unique_ptr<ComponentStore> components;
 		std::unique_ptr<FontStore> fonts;
 		std::unique_ptr<PopupStore> popups;
+		std::unique_ptr<PopupManager> popup_manager;
 		std::unique_ptr<MenuBuilder> menubuilder;
 		std::unique_ptr<VideoPlayer> vfx_player;
 		std::unique_ptr<Render> render;

@@ -41,6 +41,7 @@
 #include "display/animation.hpp"		 // for Animation
 #include "display/display.hpp"			 // for Display, DisplayMetrics
 #include "display/render.hpp"			 // for Render
+#include "display/ui/popupmanager.hpp"	 // for PopupManager
 #include "display/ui/popupstore.hpp"	 // for PopupStore
 #include "display/ui/screenrenderer.hpp" // for ScreenRenderer
 #include "display/ui/uimetrics.hpp"		 // for UIMetrics, GLuint
@@ -123,6 +124,7 @@ Sorcery::UI::UI(Context &ctx)
 
 	_ctx.components = components.get();
 	popups = std::make_unique<PopupStore>(_ctx);
+	popup_manager = std::make_unique<PopupManager>(_ctx);
 	screens = std::make_unique<ScreenRenderer>(*this, _ctx);
 	metrics = std::make_unique<UIMetrics>(_ctx);
 
@@ -290,7 +292,9 @@ auto Sorcery::UI::display_engine() -> void {
 	popups->dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
 	popups->dialog_stairs_down->display(
 		_ctx.get_flag_ref("want_take_stairs_down"));
-	popups->message_tile->display(_ctx.get_flag_ref("after_tile_message"));
+
+	popup_manager->display();
+
 	if (popups->modal_camp->show)
 		popups->modal_camp->display(_ctx.get_flag_ref("want_camp"));
 	if (popups->modal_elevator_top->show)

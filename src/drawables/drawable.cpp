@@ -20,37 +20,43 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#pragma once
-
 #include "drawables/drawable.hpp"
+#include "types/component.hpp"
 
-#include <string>
-#include <vector>
+Sorcery::Drawable::Drawable(Context &ctx)
+	: _ctx{ctx} {}
 
-	namespace Sorcery {
-	namespace Enums {
-		namespace Map { enum class Event; }
-	}
+auto Sorcery::Drawable::build(Component &component) -> void {
+
+	_component = &component;
+	_id = component.name + "##popup";
+	_open = false;
 }
 
-namespace Sorcery {
+auto Sorcery::Drawable::open() -> void {
 
-class Message final : public Drawable {
+	_open = true;
+}
 
-	public:
-		explicit Message(Context &ctx);
+auto Sorcery::Drawable::close() -> void {
 
-		auto build(Component &component) -> void override;
-		auto display() -> void override;
+	_open = false;
+}
 
-		auto set(std::vector<std::string> strings, Enums::Map::Event event_id)
-			-> void;
+auto Sorcery::Drawable::is_open() const -> bool {
 
-		[[nodiscard]] auto event_id() const -> Enums::Map::Event;
+	return _open;
+}
 
-	private:
-		std::vector<std::string> _strings;
-		Enums::Map::Event _event_id;
-};
+auto Sorcery::Drawable::id() const -> std::string_view {
 
+	return _id;
+}
+
+auto Sorcery::Drawable::name() const -> std::string_view {
+
+	if (!_component)
+		return {};
+
+	return _component->name;
 }

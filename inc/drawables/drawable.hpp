@@ -22,35 +22,41 @@
 
 #pragma once
 
-#include "drawables/drawable.hpp"
-
 #include <string>
-#include <vector>
+#include <string_view>
 
-	namespace Sorcery {
-	namespace Enums {
-		namespace Map { enum class Event; }
-	}
-}
+namespace Sorcery { class Component; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 
-class Message final : public Drawable {
+class Drawable {
 
 	public:
-		explicit Message(Context &ctx);
+		explicit Drawable(Context &ctx);
+		virtual ~Drawable() = default;
 
-		auto build(Component &component) -> void override;
-		auto display() -> void override;
+		Drawable(const Drawable &) = delete;
+		auto operator=(const Drawable &) -> Drawable & = delete;
+		Drawable(Drawable &&) = delete;
+		auto operator=(Drawable &&) -> Drawable & = delete;
 
-		auto set(std::vector<std::string> strings, Enums::Map::Event event_id)
-			-> void;
+		virtual auto build(Component &component) -> void;
+		virtual auto display() -> void = 0;
 
-		[[nodiscard]] auto event_id() const -> Enums::Map::Event;
+		auto open() -> void;
+		auto close() -> void;
 
-	private:
-		std::vector<std::string> _strings;
-		Enums::Map::Event _event_id;
+		[[nodiscard]] auto is_open() const -> bool;
+		[[nodiscard]] auto id() const -> std::string_view;
+		[[nodiscard]] auto name() const -> std::string_view;
+
+	protected:
+		Context &_ctx;
+		Component *_component{};
+
+		std::string _id;
+		bool _open{false};
 };
 
 }

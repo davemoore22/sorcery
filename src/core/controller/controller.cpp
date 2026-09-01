@@ -112,7 +112,6 @@ auto Sorcery::Controller::initialise() -> void {
 
 	// Note that the show_* flags don't need to be preset
 	for (const auto flag : {
-			 "after_tile_message",
 			 "napping_finished",
 			 "party_order_changed",
 			 "recuperating_finished",
@@ -443,7 +442,6 @@ auto Sorcery::Controller::clear_modal_flags() -> void {
 			 "want_spell",
 			 "want_take_stairs_up",
 			 "want_take_stairs_down",
-			 "after_tile_message",
 		 })
 		unset_flag(flag);
 }

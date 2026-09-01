@@ -25,10 +25,11 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
-#include "core/debug.hpp"				 // for DEBUG_LOG, DEBUG_LOGF, debu...
-#include "core/define.hpp"				 // for EXPEDITION_GOTO
-#include "core/enum.hpp"				 // for Screen, CharacterSlot
-#include "core/resources.hpp"			 // for Resources
+#include "core/debug.hpp"	  // for DEBUG_LOG, DEBUG_LOGF, debu...
+#include "core/define.hpp"	  // for EXPEDITION_GOTO
+#include "core/enum.hpp"	  // for Screen, CharacterSlot
+#include "core/resources.hpp" // for Resources
+#include "display/ui/popupmanager.hpp"
 #include "display/ui/popupstore.hpp"	 // for PopupStore
 #include "display/ui/ui.hpp"			 // for UI, TransientMode, Transien...
 #include "drawables/define.hpp"			 // for ABORT_GAME, INSPECT_MODE_AC...
@@ -139,11 +140,11 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			// Back closes popup first, otherwise opens camp.
 			if (_ctx.controller->input->back(event)) {
 
-				if (_ctx.ui->popups->in_popup()) {
+				if (_ctx.ui->popups->in_popup() ||
+					_ctx.ui->popup_manager->active()) {
 
 					_ctx.ui->popups->close_all_popups();
 					_ctx.controller->clear_modal_flags();
-
 				} else {
 
 					_ctx.ui->popups->modal_camp->show = true;
@@ -155,7 +156,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 			// From here down, no gameplay input while an active
 			// popup/modal/dialog is displayed.
-			if (_ctx.ui->popups->in_popup())
+			if (_ctx.ui->popups->in_popup() || _ctx.ui->popup_manager->active())
 				continue;
 
 			// Some transient messages deliberately block gameplay until
@@ -314,7 +315,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		// Popups block gameplay and module transitions, but they MUST NOT
 		// block rendering/ticking.
 		//
-		if (!_ctx.ui->popups->in_popup()) {
+		if (!_ctx.ui->popups->in_popup() && !_ctx.ui->popup_manager->active()) {
 
 			// Check for return-to-town teleport
 			if (_ctx.controller->has_flag("want_return_to_town")) {
@@ -475,10 +476,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		}
 
 		// Clear completed tile message state
-		if (_ctx.controller->has_flag("after_tile_message") &&
-			!_ctx.ui->popups->message_tile->show) {
-
-			_ctx.controller->unset_flag("after_tile_message");
+		// Complete a dismissed tile message
+		if (_ctx.ui->popup_manager->consume_completed("message_tile")) {
 
 			if (const auto result{_handle_completed_tile_event()})
 				return *result;
@@ -1157,10 +1156,9 @@ auto Sorcery::Engine::_search_event() -> bool {
 auto Sorcery::Engine::_show_tile_message(const Enums::Map::Event event)
 	-> void {
 
-	_ctx.ui->popups->message_tile->set(_ctx.ui->load_message(event), event);
-	_ctx.controller->set_flag("after_tile_message");
 	_ctx.controller->set_last_event(event);
-	_ctx.ui->popups->message_tile->show = true;
+	_ctx.ui->popup_manager->open_message("engine_base_ui:message_tile",
+										 _ctx.ui->load_message(event), event);
 }
 
 auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const

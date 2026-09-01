@@ -36,43 +36,35 @@
 #include <memory>					// for unique_ptr
 #include <optional>					// for optional
 
-Sorcery::Message::Message(Context &ctx, Component &component)
-	: _ctx{ctx},
-	  _component{component} {
+Sorcery::Message::Message(Context &ctx)
+	: Drawable{ctx},
+	  _event_id{Enums::Map::Event::NO_EVENT} {}
 
-	show = false;
-	_str = "NONE";
+auto Sorcery::Message::build(Component &component) -> void {
+
+	Drawable::build(component);
+
+	_strings.clear();
 	_event_id = Enums::Map::Event::NO_EVENT;
-	_name = _component.name;
 }
 
 auto Sorcery::Message::set(std::vector<std::string> strings,
 						   const Enums::Map::Event event_id) -> void {
 
-	_strings = strings;
+	_strings = std::move(strings);
 	_event_id = event_id;
 }
 
-auto Sorcery::Message::id() const -> std::string {
+auto Sorcery::Message::display() -> void {
 
-	return _id;
-}
-
-auto Sorcery::Message::name() const -> std::string {
-
-	return _name;
-}
-
-auto Sorcery::Message::display(bool &is_yes) -> void {
-
-	if (!show)
+	if (!is_open() || !_component)
 		return;
 
 	const auto continue_lbl{_ctx.get_string("MESSAGE_CONTINUE")};
 	const auto rounding{_ctx.ui->frame_rd};
 	const auto grid{_ctx.ui->metrics->grid_sz()};
 
-	set_Font(_ctx.ui->fonts->get_current_font(_component.font).value(),
+	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(),
 			 _ctx.ui->metrics->font_sz());
 
 	//
@@ -232,10 +224,7 @@ auto Sorcery::Message::display(bool &is_yes) -> void {
 
 		ImGui::SetCursorPos(ImVec2{actual_button_x, actual_button_y});
 
-		if (ImGui::Button(continue_lbl.c_str(), actual_button_size)) {
-
-			is_yes = true;
-			show = false;
-		}
+		if (ImGui::Button(continue_lbl.c_str(), actual_button_size))
+			close();
 	}
 }
