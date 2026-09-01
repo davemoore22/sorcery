@@ -39,6 +39,7 @@ Sorcery::PopupStore::PopupStore(Context &ctx)
 	: _ctx{ctx} {
 
 	// Custom components
+	/*
 	dialog_exit = std::make_unique<Dialog>(
 		_ctx, _ctx.components->get("main_menu:dialog_exit"),
 		Enums::Layout::DialogType::CONFIRM);
@@ -63,9 +64,6 @@ Sorcery::PopupStore::PopupStore(Context &ctx)
 	notice_renamed_ok = std::make_unique<Dialog>(
 		_ctx, _ctx.components->get("global:notice_renamed_ok"),
 		Enums::Layout::DialogType::OK);
-	notice_reclassed_ok = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("global:notice_reclassed_ok"),
-		Enums::Layout::DialogType::OK);
 	notice_pool_gold = std::make_unique<Dialog>(
 		_ctx, _ctx.components->get("global:notice_pool_gold"),
 		Enums::Layout::DialogType::OK);
@@ -78,6 +76,12 @@ Sorcery::PopupStore::PopupStore(Context &ctx)
 	notice_not_enough_gold = std::make_unique<Dialog>(
 		_ctx, _ctx.components->get("global:notice_not_enough_gold"),
 		Enums::Layout::DialogType::OK);
+		dialog_stairs_up = std::make_unique<Dialog>(
+		_ctx, _ctx.components->get("engine_base_ui:dialog_stairs_up"),
+		Enums::Layout::DialogType::CONFIRM);
+	dialog_stairs_down = std::make_unique<Dialog>(
+		_ctx, _ctx.components->get("engine_base_ui:dialog_stairs_down"),
+		Enums::Layout::DialogType::CONFIRM);*/
 	modal_camp = std::make_unique<Modal>(
 		_ctx, _ctx.components->get("engine_base_ui:modal_camp"));
 
@@ -113,13 +117,6 @@ Sorcery::PopupStore::PopupStore(Context &ctx)
 		_ctx, _ctx.components->get("global:input_donate"));
 	input_name = std::make_unique<Input>(
 		_ctx, _ctx.components->get("global:input_name"));
-
-	dialog_stairs_up = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("engine_base_ui:dialog_stairs_up"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_stairs_down = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("engine_base_ui:dialog_stairs_down"),
-		Enums::Layout::DialogType::CONFIRM);
 }
 
 Sorcery::PopupStore::~PopupStore() {}
@@ -157,21 +154,6 @@ auto Sorcery::PopupStore::_popup_states() const -> std::vector<bool *> {
 
 #define ADD_POPUP(popup) add(popup, #popup)
 
-	ADD_POPUP(dialog_exit);
-	ADD_POPUP(dialog_new);
-	ADD_POPUP(dialog_leave);
-	ADD_POPUP(dialog_rite);
-	ADD_POPUP(dialog_search);
-	ADD_POPUP(dialog_delete);
-	ADD_POPUP(notice_cannot_donate);
-	ADD_POPUP(notice_donated_ok);
-	ADD_POPUP(notice_not_enough_gold);
-	ADD_POPUP(notice_divvy);
-	ADD_POPUP(notice_pool_gold);
-	ADD_POPUP(notice_renamed_ok);
-	ADD_POPUP(notice_reclassed_ok);
-	ADD_POPUP(dialog_stairs_up);
-	ADD_POPUP(dialog_stairs_down);
 	ADD_POPUP(input_donate);
 	ADD_POPUP(input_name);
 	ADD_POPUP(modal_camp);
@@ -295,10 +277,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 				auto casted{(Modal *)component};
 				auto name{casted->name()};
 				return std::format("{:>26}: {}\n", name, casted->show);
-			} else if (type == "dialog") {
-				auto casted{(Dialog *)component};
-				auto name{casted->name()};
-				return std::format("{:>26}: {}\n", name, casted->show);
 			} else if (type == "popup") {
 				auto casted{(Popup *)component};
 				auto name{casted->name()};
@@ -314,24 +292,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 	}};
 
 	std::string output{};
-	if (dialog_exit)
-		output.append(get_popup_status((void *)dialog_exit.get(), "dialog"));
-	if (dialog_leave)
-		output.append(get_popup_status((void *)dialog_leave.get(), "dialog"));
-	if (dialog_new)
-		output.append(get_popup_status((void *)dialog_new.get(), "dialog"));
-	if (dialog_rite)
-		output.append(get_popup_status((void *)dialog_rite.get(), "dialog"));
-	if (dialog_search)
-		output.append(get_popup_status((void *)dialog_search.get(), "dialog"));
-	if (dialog_delete)
-		output.append(get_popup_status((void *)dialog_delete.get(), "dialog"));
-	if (dialog_stairs_down)
-		output.append(
-			get_popup_status((void *)dialog_stairs_down.get(), "dialog"));
-	if (dialog_stairs_up)
-		output.append(
-			get_popup_status((void *)dialog_stairs_up.get(), "dialog"));
 	if (input_donate)
 		output.append(get_popup_status((void *)input_donate.get(), "input"));
 	if (input_name)
@@ -370,27 +330,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 		output.append(get_popup_status((void *)modal_trade.get(), "modal"));
 	if (modal_use)
 		output.append(get_popup_status((void *)modal_use.get(), "modal"));
-
-	if (notice_cannot_donate)
-		output.append(
-			get_popup_status((void *)notice_cannot_donate.get(), "dialog"));
-	if (notice_divvy)
-		output.append(get_popup_status((void *)notice_divvy.get(), "dialog"));
-	if (notice_donated_ok)
-		output.append(
-			get_popup_status((void *)notice_donated_ok.get(), "dialog"));
-	if (notice_not_enough_gold)
-		output.append(
-			get_popup_status((void *)notice_not_enough_gold.get(), "dialog"));
-	if (notice_pool_gold)
-		output.append(
-			get_popup_status((void *)notice_pool_gold.get(), "dialog"));
-	if (notice_renamed_ok)
-		output.append(
-			get_popup_status((void *)notice_renamed_ok.get(), "dialog"));
-	if (notice_reclassed_ok)
-		output.append(
-			get_popup_status((void *)notice_reclassed_ok.get(), "dialog"));
 
 	return output;
 }

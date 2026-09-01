@@ -31,6 +31,7 @@
 #include "core/resources.hpp"
 #include "display/display.hpp"			// for Display, DisplayMetrics
 #include "display/render.hpp"			// for Render
+#include "display/ui/popupmanager.hpp"	// for PopupManager
 #include "display/ui/popupstore.hpp"	// for PopupStore
 #include "display/ui/ui.hpp"			// for UI
 #include "display/ui/uimetrics.hpp"		// for UIMetrics
@@ -353,7 +354,9 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 			_host._game->save_game();
 
 			_host.unset_flag("want_reclassed_ok");
-			_ctx.ui->popups->notice_reclassed_ok->show = true;
+
+			_ctx.ui->popup_manager->open_dialog("global:notice_reclassed_ok",
+												Enums::Layout::DialogType::OK);
 		}
 
 		return true;
@@ -1088,6 +1091,10 @@ auto Sorcery::ControllerMenuHandler::_execute(
 		break;
 	case GOTOSCREEN:
 		_host.go_to(action.screen);
+		break;
+	case OPEN_DIALOG:
+		_ctx.ui->popup_manager->open_dialog(action.popup_component,
+											action.dialog_type);
 		break;
 	default:
 		break;

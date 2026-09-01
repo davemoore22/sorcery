@@ -27,6 +27,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_EDIT, ABORT_GAME
 #include <SDL_events.h>						// for SDL_PollEvent
@@ -49,7 +50,6 @@ auto Sorcery::Rename::_initialise() -> bool {
 auto Sorcery::Rename::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::RENAME);
-	_ctx.controller->unset_flag("want_renamed_ok");
 
 	show_immediately();
 
@@ -82,12 +82,8 @@ auto Sorcery::Rename::start() -> int {
 
 		_ctx.tick();
 
-		if (_ctx.controller->has_flag("want_renamed_ok")) {
-
-			_ctx.controller->unset_flag("want_renamed_ok");
-
+		if (_ctx.ui->popup_manager->consume_accepted("notice_renamed_ok"))
 			return BACK_TO_EDIT;
-		}
 
 		if (!_ctx.controller->wants(Enums::Screen::RENAME) &&
 			_ctx.controller->wants(Enums::Screen::EDIT))

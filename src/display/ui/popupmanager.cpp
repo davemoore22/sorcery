@@ -22,12 +22,14 @@
 
 #include "display/ui/popupmanager.hpp"
 #include "core/context.hpp"
+#include "drawables/dialog.hpp"
 #include "drawables/message.hpp"
 #include "resources/componentstore.hpp"
 
 Sorcery::PopupManager::PopupManager(Context &ctx)
 	: _ctx{ctx},
-	  _message{std::make_unique<Message>(ctx)} {}
+	  _message{std::make_unique<Message>(ctx)},
+	  _dialog{std::make_unique<Dialog>(ctx)} {}
 
 Sorcery::PopupManager::~PopupManager() = default;
 
@@ -100,9 +102,35 @@ auto Sorcery::PopupManager::consume_result(const std::string_view name)
 	if (!_completed || _completed->name != name)
 		return std::nullopt;
 
+	_completed.reset();
+
 	const auto result{_completed->result};
 
 	_completed.reset();
 
 	return result;
+}
+
+auto Sorcery::PopupManager::open_dialog(const std::string_view component,
+										const Enums::Layout::DialogType type)
+	-> void {
+
+	close();
+
+	_completed.reset();
+
+	auto &cmp{_ctx.components->get(component)};
+
+	_dialog->build(cmp, type);
+	_dialog->open();
+
+	_active = _dialog.get();
+}
+
+auto Sorcery::PopupManager::consume_accepted(const std::string_view name)
+	-> bool {
+
+	const auto result{consume_result(name)};
+
+	return result && *result == DrawableResult::ACCEPTED;
 }

@@ -22,34 +22,24 @@
 
 #pragma once
 
-#include <string> // for string, basic_string
+#include "drawables/drawable.hpp"
+#include "types/enum.hpp"
 
-namespace Sorcery { class Component; }
-namespace Sorcery {
-namespace Enums {
-	namespace Layout { enum class DialogType; }
-}
-}
-namespace Sorcery { struct Context; }
 namespace Sorcery {
 
-class Dialog {
+class Dialog final : public Drawable {
 
 	public:
-		Dialog(Context &ctx, Component &component,
-			   const Enums::Layout::DialogType type);
+		explicit Dialog(Context &ctx);
 
-		auto display(bool &is_yes) -> void;
-		auto id() const -> std::string;
-		auto name() const -> std::string;
+		auto build(Component &component) -> void override;
+		auto build(Component &component, Enums::Layout::DialogType type)
+			-> void;
 
-		bool show;
+		auto display() -> void override;
 
 	private:
-		Context &_ctx;
-		Component &_component;
 		Enums::Layout::DialogType _type;
-		std::string _id;
-		std::string _name;
 };
+
 }

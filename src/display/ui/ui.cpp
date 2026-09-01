@@ -288,10 +288,7 @@ auto Sorcery::UI::display_engine() -> void {
 		draw_tiled_bg(&bg_c);
 	}
 
-	popups->dialog_leave->display(_ctx.controller->want_to_leave_game());
-	popups->dialog_stairs_up->display(_ctx.get_flag_ref("want_take_stairs_up"));
-	popups->dialog_stairs_down->display(
-		_ctx.get_flag_ref("want_take_stairs_down"));
+	_ctx.ui->popup_manager->display();
 
 	popup_manager->display();
 
@@ -305,8 +302,6 @@ auto Sorcery::UI::display_engine() -> void {
 			_ctx.get_flag_ref("want_elevator_bottom"));
 	if (popups->modal_inspect->show)
 		popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	if (popups->dialog_search->show)
-		popups->dialog_search->display(_ctx.get_flag_ref("want_search"));
 	if (popups->modal_identify->show)
 		popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
 	if (popups->modal_chest->show)
@@ -327,8 +322,6 @@ auto Sorcery::UI::display_engine() -> void {
 		popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	if (popups->modal_spell->show)
 		popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	if (popups->notice_pool_gold->show)
-		popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
 	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
 		draw_party_panel();
 	if (_ctx.get_flag("interface_ui")) {
@@ -3307,11 +3300,9 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	constexpr auto UI_FLAGS_COUNT{26};
+	constexpr auto UI_FLAGS_COUNT{22};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
-		{"tavern_menu", {std::ref(popups->notice_divvy->show)}},
-		{"store_menu", {std::ref(popups->notice_pool_gold->show)}},
 		{"temple_menu",
 		 {std::ref(popups->modal_help->show),
 		  std::ref(popups->modal_tithe->show)}},
@@ -3336,10 +3327,6 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 		 {std::ref(popups->modal_trade->show),
 		  std::ref(popups->modal_give->show)}},
 		{"give_menu", {std::ref(popups->modal_give->show)}},
-		{"main_menu",
-		 {std::ref(popups->dialog_new->show),
-		  std::ref(popups->dialog_exit->show)}},
-		{"edge_menu", {std::ref(popups->dialog_leave->show)}},
 		{"chest_open_menu", {std::ref(popups->modal_chest->show)}},
 		{"chest_inspect_menu", {std::ref(popups->modal_chest->show)}},
 		{"chest_calfo_menu", {std::ref(popups->modal_chest->show)}},

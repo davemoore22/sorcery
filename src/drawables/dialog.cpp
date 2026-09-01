@@ -35,98 +35,114 @@
 #include <memory>					// for unique_ptr
 #include <optional>					// for optional
 
-Sorcery::Dialog::Dialog(Context &ctx, Component &component,
-						const Enums::Layout::DialogType type)
-	: _ctx{ctx},
-	  _component{component},
-	  _type{type} {
+Sorcery::Dialog::Dialog(Context &ctx)
+	: Drawable{ctx},
+	  _type{Enums::Layout::DialogType::CONFIRM} {}
 
-	show = false;
-	_name = _component.name;
+auto Sorcery::Dialog::build(Component &component) -> void {
+
+	Drawable::build(component);
+
+	_type = Enums::Layout::DialogType::CONFIRM;
 }
 
-auto Sorcery::Dialog::id() const -> std::string {
+auto Sorcery::Dialog::build(Component &component,
+							const Enums::Layout::DialogType type) -> void {
 
-	return _id;
+	build(component);
+
+	_type = type;
 }
 
-auto Sorcery::Dialog::name() const -> std::string {
+auto Sorcery::Dialog::display() -> void {
 
-	return _name;
-}
+	if (!is_open() || !_component)
+		return;
 
-auto Sorcery::Dialog::display(bool &is_yes) -> void {
-
-	_id = _component.name + "##outer";
 	const auto yes_lbl{_ctx.get_string("DIALOG_YES")};
 	const auto no_lbl{_ctx.get_string("DIALOG_NO")};
 	const auto ok_lbl{_ctx.get_string("DIALOG_OK")};
-	const auto rounding{_ctx.ui->frame_rd};
-	set_Font(_ctx.ui->fonts->get_current_font(_component.font).value(),
-			 _ctx.ui->metrics->font_sz());
-	const auto width{
-		ImGui::CalcTextSize(_ctx.get_string(_component.string_key).c_str()).x +
-		(_ctx.ui->metrics->grid_sz() * 4)};
-	const auto height{_component.h * _ctx.ui->metrics->grid_sz()};
 
-	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
-	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+	const auto rounding{_ctx.ui->frame_rd};
+	const auto grid{_ctx.ui->metrics->grid_sz()};
+
+	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(),
+			 _ctx.ui->metrics->font_sz());
+
+	const auto text{_ctx.get_string(_component->string_key)};
+
+	const auto width{ImGui::CalcTextSize(text.c_str()).x + (grid * 4.0f)};
+
+	const auto height{_component->h * grid};
+
+	const auto centre{ImGui::GetMainViewport()->GetCenter()};
+
+	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2{0.5f, 0.5f});
+
 	ImGui::SetNextWindowSize(ImVec2{width, height});
 	ImGui::SetNextWindowBgAlpha(1.0f);
 
 	const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
-	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
-	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
-	set_StyleVar(ImGuiStyleVar_WindowRounding, _component.background);
-	set_StyleColor(ImGuiCol_PopupBg, _component.background);
-	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
+
+	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0f, 0.0f});
+	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	set_StyleVar(ImGuiStyleVar_WindowRounding, static_cast<float>(rounding));
+
+	set_StyleColor(ImGuiCol_PopupBg, _component->background);
+	set_StyleColor(ImGuiCol_ButtonHovered, static_cast<ImVec4>(col));
+
 	UIStyle::set_faded(_ctx);
 
-	if (show)
-		ImGui::OpenPopup(CSTR(_id));
+	ImGui::OpenPopup(_id.c_str());
 
-	with_PopupModal(CSTR(_id), nullptr, ImGuiWindowFlags_NoDecoration) {
+	with_PopupModal(_id.c_str(), nullptr, ImGuiWindowFlags_NoDecoration) {
+
 		const auto p_min{ImGui::GetWindowPos()};
-		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width,
-								ImGui::GetWindowPos().y + height}};
+
+		const auto p_max{ImVec2{p_min.x + width, p_min.y + height}};
 
 		_ctx.ui->draw_frame(p_min, p_max,
 							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
 								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
 							rounding);
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-security"
-		ImGui::SetCursorPos(ImVec2{_ctx.ui->metrics->grid_sz() * 2,
-								   _ctx.ui->metrics->grid_sz() * 2});
-		ImGui::TextWrapped(_ctx.get_string(_component.string_key).c_str());
-#pragma GCC diagnostic pop
+		ImGui::SetCursorPos(ImVec2{grid * 2.0f, grid * 2.0f});
 
-		ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
-		const auto centre{(width / 2)};
+		ImGui::TextWrapped("%s", text.c_str());
+
+		const ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
+
+		const auto button_centre{width / 2.0f};
 
 		using enum Enums::Layout::DialogType;
+
 		if (_type == CONFIRM) {
+
 			ImGui::SetCursorPos(
-				ImVec2{centre - (btn_size.x + _ctx.ui->metrics->grid_sz()),
-					   _ctx.ui->metrics->grid_sz() * 4});
+				ImVec2{button_centre - (btn_size.x + grid), grid * 4.0f});
+
 			if (ImGui::Button(yes_lbl.c_str(), btn_size)) {
-				is_yes = true;
-				show = false;
+
+				close(DrawableResult::ACCEPTED);
 				ImGui::CloseCurrentPopup();
 			}
-			ImGui::SetCursorPos(ImVec2{centre + _ctx.ui->metrics->grid_sz(),
-									   _ctx.ui->metrics->grid_sz() * 4});
+
+			ImGui::SetCursorPos(ImVec2{button_centre + grid, grid * 4.0f});
+
 			if (ImGui::Button(no_lbl.c_str(), btn_size)) {
-				show = false;
+
+				close(DrawableResult::CANCELLED);
 				ImGui::CloseCurrentPopup();
 			}
+
 		} else if (_type == OK) {
-			ImGui::SetCursorPos(ImVec2{centre - (btn_size.x / 2),
-									   _ctx.ui->metrics->grid_sz() * 4});
+
+			ImGui::SetCursorPos(
+				ImVec2{button_centre - (btn_size.x / 2.0f), grid * 4.0f});
+
 			if (ImGui::Button(ok_lbl.c_str(), btn_size)) {
-				is_yes = true;
-				show = false;
+
+				close(DrawableResult::ACCEPTED);
 				ImGui::CloseCurrentPopup();
 			}
 		}

@@ -31,6 +31,7 @@
 #include "core/resources.hpp"
 #include "display/display.hpp"			// for Display, DisplayMetrics
 #include "display/render.hpp"			// for Render
+#include "display/ui/popupmanager.hpp"	// for PopupManager
 #include "display/ui/popupstore.hpp"	// for PopupStore
 #include "display/ui/ui.hpp"			// for UI
 #include "display/ui/uimetrics.hpp"		// for UIMetrics
@@ -69,7 +70,6 @@ Sorcery::ControllerActionHandler::ControllerActionHandler(Controller &host,
 	  _ctx{ctx} {
 
 	  };
-
 auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 											  [[maybe_unused]] const int data)
 	-> void {
@@ -77,72 +77,99 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 	DEBUG_LOGF("Button Click: {} {}", component, data);
 
 	if (component == "button_identify") {
+
 		// Show Identify Modal
 		_ctx.ui->popups->modal_identify->regenerate();
 		_ctx.ui->popups->modal_identify->show = true;
+
 		_host.set_flag("want_identify");
+
 	} else if (component == "button_pool") {
-		// Show Pool Gold Notice
-		_ctx.ui->popups->notice_pool_gold->show = true;
-		_host.set_flag("want_pool_gold");
+
 		_host._game->pool_party_gold(
 			_host.get_character(Enums::CharacterSlot::INSPECT));
+
+		_ctx.ui->popup_manager->open_dialog("global:notice_pool_gold",
+											Enums::Layout::DialogType::OK);
+
 	} else if (component == "button_leave") {
+
 		// Leave Inspect
 		_host.unset_flag("want_inspect");
 		_host.request_back();
+
 		_ctx.ui->popups->modal_inspect->show = false;
+
 	} else if (component == "button_drop") {
+
 		// Show Drop Modal
 		_ctx.ui->popups->modal_drop->regenerate();
 		_ctx.ui->popups->modal_drop->show = true;
+
 		_host.set_flag("want_drop");
+
 	} else if (component == "button_trade") {
+
 		// Show Trade Modal
 		_ctx.ui->popups->modal_trade->regenerate();
 		_ctx.ui->popups->modal_trade->show = true;
+
 		_ctx.ui->popups->modal_give->regenerate();
 		_ctx.ui->popups->modal_give->show = false;
+
 		_host.set_flag("want_trade");
 		_host.unset_flag("want_give");
+
 	} else if (component == "button_use") {
+
 		// Show Use Modal
 		_ctx.ui->popups->modal_use->regenerate();
 		_ctx.ui->popups->modal_use->show = true;
+
 		_host.set_flag("want_use");
+
 	} else if (component == "button_equip") {
+
 		// Show Equip Modal
 		_ctx.ui->popups->modal_equip->regenerate();
 		_ctx.ui->popups->modal_equip->show = true;
+
 		_host.set_flag("want_equip");
+
 	} else if (component == "button_remove") {
+
 		// Show Remove Modal
 		_ctx.ui->popups->modal_remove->regenerate();
 		_ctx.ui->popups->modal_remove->show = true;
+
 		_host.set_flag("want_remove");
+
 	} else if (component == "button_spell") {
+
 		// Show Spell Modal
 		_ctx.ui->popups->modal_spell->regenerate();
 		_ctx.ui->popups->modal_spell->show = true;
+
 		_host.set_flag("want_spell");
+
 	} else if (component == "button_invoke") {
+
 		// Show Invoke Modal
 		_ctx.ui->popups->modal_invoke->regenerate();
 		_ctx.ui->popups->modal_invoke->show = true;
+
 		_host.set_flag("want_invoke");
+
 	} else if (component == "button_keep_yes") {
 
-		// Save Character
-		_ctx.controller->set_flag("confirm_keep_character");
+		_host.set_flag("confirm_keep_character");
 
 	} else if (component == "button_keep_no") {
 
-		// Don't save Character
-		_ctx.controller->set_flag("confirm_discard_character");
+		_host.set_flag("confirm_discard_character");
 
 	} else if (component == "button_buy_leave") {
 
-		// Return to the Store
 		_host.go_to(Enums::Screen::STORE);
 
 	} else if (component == "button_heal_return") {
@@ -151,27 +178,25 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 
 	} else if (component == "license_return") {
 
-		// Return to Main Menu
 		_host.go_to(Enums::Screen::MAINMENU);
+
 	} else if (component == "graveyard_return") {
 
-		// Return to Castle on a wipe
 		_host.go_to(Enums::Screen::CASTLE);
-	} else if (component == "nolevelup_leave") {
 
-		// No Level Up Notice - Return to Inn
-		_host.go_to(Enums::Screen::INN);
-	} else if (component == "levelup_leave") {
+	} else if (component == "nolevelup_leave" || component == "levelup_leave") {
 
-		// No Level Up Notice - C Return to Inn
 		_host.go_to(Enums::Screen::INN);
+
 	} else if (component == "automap_return") {
+
 		_host.go_to(Enums::Screen::ENGINE);
+
 	} else if (component == "button_victory") {
+
 		_host.go_to(Enums::Screen::CASTLE);
 	}
 }
-
 auto Sorcery::ControllerActionHandler::input(const std::string_view component,
 											 std::string &data) -> void {
 
@@ -179,12 +204,14 @@ auto Sorcery::ControllerActionHandler::input(const std::string_view component,
 
 	if (component == "name_input_ok") {
 
-		if (data.length() > 0) {
+		if (!data.empty()) {
 
 			_host._game->creation_candidate->create().set_name(data);
+
 			_host._game->creation_candidate->create().set_stage(
 				Enums::Character::Stage::CHOOSE_RACE);
 		}
+
 	} else if (component == "rename_input_ok") {
 
 		if (!data.empty()) {
@@ -193,9 +220,11 @@ auto Sorcery::ControllerActionHandler::input(const std::string_view component,
 				_host.get_character(Enums::CharacterSlot::EDIT))};
 
 			character.create().set_name(data);
+
 			_host._game->save_game();
-			_host.unset_flag("want_renamed_ok");
-			_ctx.ui->popups->notice_renamed_ok->show = true;
+
+			_ctx.ui->popup_manager->open_dialog("global:notice_renamed_ok",
+												Enums::Layout::DialogType::OK);
 
 		} else {
 

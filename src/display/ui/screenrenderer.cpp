@@ -28,34 +28,35 @@
 #include "core/enum.hpp"				  // for Screen, CharacterSlot
 #include "display/display.hpp"			  // for Display, DisplayMetrics
 #include "display/render.hpp"			  // for Render
-#include "display/ui/popupstore.hpp"	  // for PopupStore
-#include "display/ui/ui.hpp"			  // for UI
-#include "display/ui/uimetrics.hpp"		  // for UIMetrics
-#include "display/ui/uistyle.hpp"		  // for set_text_dim
-#include "drawables/define.hpp"			  // for RECOVERY_BIRTHDAY, CHOOSE_M...
-#include "drawables/dialog.hpp"			  // for Dialog
-#include "drawables/modal.hpp"			  // for Modal
-#include "engine/define.hpp"			  // for CHEST_GFX_ID
-#include "imgui.h"						  // for ImVec2, ImGuiWindowFlags_
-#include "resources/componentstore.hpp"	  // for ComponentStore
-#include "resources/define.hpp"			  // for EVENTS_TEXTURE
-#include "resources/fontstore.hpp"		  // for FontStore
-#include "types/character/character.hpp"  // for Character
-#include "types/character/create.hpp"	  // for CharacterCreate
-#include "types/component.hpp"			  // for Component
-#include "types/game.hpp"				  // for Game
-#include "types/meta.hpp"				  // for enum_cast
-#include <any>							  // for any_cast, any
-#include <format>						  // for format
-#include <functional>					  // for invoke
-#include <imgui_sugar.hpp>				  // for BooleanGuard, with_Window
-#include <map>							  // for map
-#include <memory>						  // for unique_ptr
-#include <optional>						  // for optional
-#include <string>						  // for basic_string, string
-#include <unordered_map>				  // for unordered_map, operator==
-#include <utility>						  // for pair, to_underlying
-#include <vector>						  // for vector
+#include "display/ui/popupmanager.hpp"
+#include "display/ui/popupstore.hpp"	 // for PopupStore
+#include "display/ui/ui.hpp"			 // for UI
+#include "display/ui/uimetrics.hpp"		 // for UIMetrics
+#include "display/ui/uistyle.hpp"		 // for set_text_dim
+#include "drawables/define.hpp"			 // for RECOVERY_BIRTHDAY, CHOOSE_M...
+#include "drawables/dialog.hpp"			 // for Dialog
+#include "drawables/modal.hpp"			 // for Modal
+#include "engine/define.hpp"			 // for CHEST_GFX_ID
+#include "imgui.h"						 // for ImVec2, ImGuiWindowFlags_
+#include "resources/componentstore.hpp"	 // for ComponentStore
+#include "resources/define.hpp"			 // for EVENTS_TEXTURE
+#include "resources/fontstore.hpp"		 // for FontStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/component.hpp"			 // for Component
+#include "types/game.hpp"				 // for Game
+#include "types/meta.hpp"				 // for enum_cast
+#include <any>							 // for any_cast, any
+#include <format>						 // for format
+#include <functional>					 // for invoke
+#include <imgui_sugar.hpp>				 // for BooleanGuard, with_Window
+#include <map>							 // for map
+#include <memory>						 // for unique_ptr
+#include <optional>						 // for optional
+#include <string>						 // for basic_string, string
+#include <unordered_map>				 // for unordered_map, operator==
+#include <utility>						 // for pair, to_underlying
+#include <vector>						 // for vector
 
 namespace Sorcery {
 namespace Enums {
@@ -157,9 +158,7 @@ auto Sorcery::ScreenRenderer::_display_main_menu() -> void {
 	_ui.draw_attract_mode();
 	_ui.draw_bg_video();
 
-	_ui.popups->dialog_exit->display(_ctx.get_flag_ref("want_exit_game"));
-	_ui.popups->dialog_new->display(_ctx.get_flag_ref("want_new_game"));
-	_ui.popups->dialog_leave->display(_ctx.controller->want_to_leave_game());
+	_ui.popup_manager->display();
 
 	// bool show = true;
 	// ImGui::PushFont(fontstore->get_default_font());
@@ -186,7 +185,7 @@ auto Sorcery::ScreenRenderer::_display_compendium() -> void {
 auto Sorcery::ScreenRenderer::_display_edge_of_town() -> void {
 
 	_ui.draw_components("edge_of_town");
-	_ui.popups->dialog_leave->display(_ctx.controller->want_to_leave_game());
+	_ui.popup_manager->display();
 	_ui.draw_party_panel();
 	_ui.draw_debug();
 }
@@ -194,7 +193,7 @@ auto Sorcery::ScreenRenderer::_display_edge_of_town() -> void {
 auto Sorcery::ScreenRenderer::_display_castle() -> void {
 
 	_ui.draw_components("castle");
-	_ui.popups->dialog_leave->display(_ctx.controller->want_to_leave_game());
+	_ui.popup_manager->display();
 	_ui.draw_party_panel();
 	_ui.draw_debug();
 }
@@ -224,16 +223,14 @@ auto Sorcery::ScreenRenderer::_display_reclass() -> void {
 
 	_ui.draw_components("change_class");
 	_draw_reclass();
-	_ui.popups->notice_reclassed_ok->display(
-		_ctx.get_flag_ref("want_reclassed_ok"));
+	_ui.popup_manager->display();
 }
 
 auto Sorcery::ScreenRenderer::_display_rename() -> void {
 
 	_ui.draw_components("rename");
 	_draw_rename();
-	_ui.popups->notice_renamed_ok->display(
-		_ctx.get_flag_ref("want_renamed_ok"));
+	_ui.popup_manager->display();
 }
 
 auto Sorcery::ScreenRenderer::_display_roster() -> void {
@@ -254,8 +251,7 @@ auto Sorcery::ScreenRenderer::_display_retrain() -> void {
 auto Sorcery::ScreenRenderer::_display_delete() -> void {
 
 	_ui.draw_components("delete");
-	if (_ui.popups->dialog_delete->show)
-		_ui.popups->dialog_delete->display(_ctx.get_flag_ref("want_delete_ok"));
+	_ui.popup_manager->display();
 }
 
 auto Sorcery::ScreenRenderer::_display_legate() -> void {
@@ -298,9 +294,8 @@ auto Sorcery::ScreenRenderer::_display_inspect(const int mode) -> void {
 		_ui.popups->modal_use->display(_ctx.get_flag_ref("want_use"));
 	if (_ui.popups->modal_invoke->show)
 		_ui.popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
-	if (_ui.popups->notice_pool_gold->show)
-		_ui.popups->notice_pool_gold->display(
-			_ctx.get_flag_ref("want_pool_gold"));
+
+	_ui.popup_manager->display();
 	_ui.draw_debug();
 }
 
@@ -358,7 +353,7 @@ auto Sorcery::ScreenRenderer::_display_inn() -> void {
 	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	_ui.popups->modal_use->display(_ctx.get_flag_ref("want_use"));
 	_ui.popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
-	_ui.popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	_ui.popup_manager->display();
 	_ui.draw_debug();
 }
 
@@ -413,7 +408,7 @@ auto Sorcery::ScreenRenderer::_display_store() -> void {
 	_ui.draw_components("store");
 	_draw_store();
 	_ui.draw_party_panel();
-	_ui.popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	_ui.popup_manager->display();
 	_ui.draw_debug();
 }
 
@@ -448,8 +443,7 @@ auto Sorcery::ScreenRenderer::_display_heal(int stage) -> void {
 auto Sorcery::ScreenRenderer::_display_rite(int stage) -> void {
 
 	_ui.draw_components("rite");
-	if (_ui.popups->dialog_rite->show)
-		_ui.popups->dialog_rite->display(_ctx.get_flag_ref("want_rite_ok"));
+	_ui.popup_manager->display();
 	_draw_rite(stage);
 }
 
@@ -472,8 +466,7 @@ auto Sorcery::ScreenRenderer::_display_level_up(const int mode) -> void {
 auto Sorcery::ScreenRenderer::_display_tavern() -> void {
 
 	_ui.draw_components("tavern");
-	_ui.popups->notice_divvy->display(_ctx.get_flag_ref("want_divvy_gold"));
-	_ui.popups->notice_pool_gold->display(_ctx.get_flag_ref("want_pool_gold"));
+	_ui.popup_manager->display();
 	_ui.popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	_ui.popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
 	_ui.popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));

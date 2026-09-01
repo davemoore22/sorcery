@@ -23,6 +23,7 @@
 #pragma once
 
 #include "core/enum.hpp" // for Screen, CharacterSlot (ptr only)
+#include "types/enum.hpp"
 #include <cstddef>		 // for size_t
 #include <string>		 // for basic_string, string
 #include <string_view>	 // for hash, operator==, string_view
@@ -44,6 +45,7 @@ namespace Enums::MenuAction {
 		SET_UI_BOOL,
 		CLEAR_UI_BOOL,
 		SET_SELECTED,
+		OPEN_DIALOG,
 		CUSTOM
 	};
 
@@ -65,6 +67,8 @@ struct MenuAction {
 			Enums::MenuAction::Function::NO_FUNCTION};
 		std::string_view selected_key{};
 		int selected_value{};
+		std::string popup_component{};
+		Enums::Layout::DialogType dialog_type{};
 };
 
 using ActionList = std::vector<std::vector<MenuAction>>;

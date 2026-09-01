@@ -135,7 +135,6 @@ auto Sorcery::Controller::initialise() -> void {
 			 "want_identify",
 			 "want_equip",
 			 "want_remove",
-			 "want_renamed_ok",
 			 "want_invoke",
 			 "want_spell",
 
@@ -143,7 +142,6 @@ auto Sorcery::Controller::initialise() -> void {
 			 "want_name_ok",
 			 "want_not_enough_gold",
 			 "want_new_game",
-			 "want_pool_gold",
 			 "want_quit_expedition",
 			 "want_stay",
 			 "want_take_stairs_down",

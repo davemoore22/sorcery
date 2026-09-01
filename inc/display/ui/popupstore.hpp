@@ -40,24 +40,6 @@ class PopupStore {
 		explicit PopupStore(Context &ctx);
 		~PopupStore();
 
-		std::unique_ptr<Dialog> dialog_exit;
-		std::unique_ptr<Dialog> dialog_new;
-		std::unique_ptr<Dialog> dialog_leave;
-		std::unique_ptr<Dialog> dialog_rite;
-		std::unique_ptr<Dialog> dialog_delete;
-		std::unique_ptr<Dialog> dialog_search;
-
-		std::unique_ptr<Dialog> notice_cannot_donate;
-		std::unique_ptr<Dialog> notice_donated_ok;
-		std::unique_ptr<Dialog> notice_not_enough_gold;
-		std::unique_ptr<Dialog> notice_divvy;
-		std::unique_ptr<Dialog> notice_renamed_ok;
-		std::unique_ptr<Dialog> notice_reclassed_ok;
-		std::unique_ptr<Dialog> notice_pool_gold;
-
-		std::unique_ptr<Dialog> dialog_stairs_up;
-		std::unique_ptr<Dialog> dialog_stairs_down;
-
 		std::unique_ptr<Input> input_donate;
 		std::unique_ptr<Input> input_name;
 

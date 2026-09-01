@@ -59,8 +59,6 @@ auto Sorcery::Delete::start() -> int {
 
 	_ctx.controller->unset_flag("want_delete_ok");
 
-	_ctx.ui->popups->dialog_delete->show = false;
-
 	show_immediately();
 
 	_ctx.audio->set_volume(1.0f);

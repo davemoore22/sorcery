@@ -26,6 +26,7 @@
 #include "core/enum.hpp"				  // for CharacterSlot
 #include "core/macro.hpp"				  // for CSTR
 #include "display/animation.hpp"		  // for Animation
+#include "display/ui/popupmanager.hpp"	  // for PopupManager
 #include "display/ui/popupstore.hpp"	  // for PopupStore
 #include "display/ui/ui.hpp"			  // for UI
 #include "display/ui/uimetrics.hpp"		  // for UIMetrics
@@ -167,24 +168,29 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 						// Too much!
 						_ctx.controller->unset_flag("want_tithe");
 						_ctx.controller->unset_flag("want_gold");
-						_ctx.controller->set_flag("want_not_enough_gold");
-						_ctx.ui->popups->notice_not_enough_gold->show = true;
+
 						_ctx.controller->clear_character(
 							Enums::CharacterSlot::TITHE);
+
+						_ctx.ui->popup_manager->open_dialog(
+							"global:notice_not_enough_gold",
+							Enums::Layout::DialogType::OK);
 					} else {
 
 						_ctx.controller->unset_flag("want_tithe");
 						_ctx.controller->unset_flag("want_gold");
-						_ctx.controller->set_flag("want_donated_ok");
-						_ctx.controller->clear_character(
-							Enums::CharacterSlot::TITHE);
+
 						character.grant_xp(amount);
 						character.grant_gold(0 - amount);
-						_ctx.ui->popups->notice_donated_ok->show = true;
+
 						_ctx.controller->clear_character(
 							Enums::CharacterSlot::TITHE);
+
 						_ctx.ui->popups->modal_tithe->regenerate();
 
+						_ctx.ui->popup_manager->open_dialog(
+							"global:notice_donated_ok",
+							Enums::Layout::DialogType::OK);
 						// TODO: Check highest level XP and only allow tithing
 						// up to that amount!
 					}

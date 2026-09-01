@@ -132,7 +132,6 @@ auto Sorcery::Store::start() -> int {
 
 auto Sorcery::Store::stop() -> int {
 
-	_ctx.controller->unset_flag("want_pool_gold");
 	_ctx.controller->clear_character(Enums::CharacterSlot::STORE);
 	_ctx.controller->go_to(Enums::Screen::SHOP);
 

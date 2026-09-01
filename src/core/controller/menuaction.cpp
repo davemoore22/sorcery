@@ -42,32 +42,44 @@ const ActionList CASTLE_ACTIONS{{{.type = GOTOSCREEN, .screen = TAVERN}},
 								{{.type = GOTOSCREEN, .screen = EDGEOFTOWN}}};
 
 const ActionList MAIN_MENU_ACTIONS{
-	{{.type = SET_UI_BOOL, .ui_index = 0}},
+	{{.type = OPEN_DIALOG,
+	  .popup_component = "main_menu:dialog_new",
+	  .dialog_type = Enums::Layout::DialogType::CONFIRM}},
 	{{.type = SETFLAG, .flag = "want_continue_game"}},
 	{{.type = GOTOSCREEN, .screen = OPTIONS}},
 	{{.type = GOTOSCREEN, .screen = COMPENDIUM}},
 	{{.type = GOTOSCREEN, .screen = LICENSE}},
-	{{.type = SET_UI_BOOL, .ui_index = 1}}};
+	{{.type = OPEN_DIALOG,
+	  .popup_component = "main_menu:dialog_exit",
+	  .dialog_type = Enums::Layout::DialogType::CONFIRM}}};
 
-const ActionList EDGE_ACTIONS{{{.type = GOTOSCREEN, .screen = TRAINING}},
-							  {{.type = GOTOSCREEN, .screen = ENGINE}},
-							  {{.type = GOTOSCREEN, .screen = RESTART}},
-							  {{.type = GOTOSCREEN, .screen = CASTLE}},
-							  {{.type = SET_UI_BOOL, .ui_index = 0}}};
+const ActionList EDGE_ACTIONS{
+	{{.type = GOTOSCREEN, .screen = TRAINING}},
+	{{.type = GOTOSCREEN, .screen = ENGINE}},
+	{{.type = GOTOSCREEN, .screen = RESTART}},
+	{{.type = GOTOSCREEN, .screen = CASTLE}},
+	{{.type = OPEN_DIALOG,
+	  .popup_component = "main_menu:dialog_leave",
+	  .dialog_type = Enums::Layout::DialogType::CONFIRM}}};
 
 const ActionList STORE_ACTIONS{{{.type = GOTOSCREEN, .screen = BUY}},
 							   {{.type = GOTOSCREEN, .screen = SELL}},
 							   {{.type = GOTOSCREEN, .screen = UNCURSE}},
 							   {{.type = GOTOSCREEN, .screen = IDENTIFY}},
-							   {{.type = SET_UI_BOOL, .ui_index = 0},
-								{.type = CUSTOM, .custom_function = POOL_GOLD}},
+							   {{.type = OPEN_DIALOG,
+								 .popup_component = "global:notice_pool_gold",
+								 .dialog_type = Enums::Layout::DialogType::OK}},
+							   {{.type = CUSTOM, .custom_function = POOL_GOLD}},
 							   {{.type = GOTOSCREEN, .screen = SHOP}}};
 
-const ActionList TAVERN_ACTIONS{{{.type = GOTOSCREEN, .screen = ADD}},
-								{{.type = GOTOSCREEN, .screen = REMOVE}},
-								{{.type = GOTOSCREEN, .screen = REORDER}},
-								{{.type = SET_UI_BOOL, .ui_index = 0}},
-								{{.type = GOTOSCREEN, .screen = CASTLE}}};
+const ActionList TAVERN_ACTIONS{
+	{{.type = GOTOSCREEN, .screen = ADD}},
+	{{.type = GOTOSCREEN, .screen = REMOVE}},
+	{{.type = GOTOSCREEN, .screen = REORDER}},
+	{{.type = OPEN_DIALOG,
+	  .popup_component = "global:notice_divvy",
+	  .dialog_type = Enums::Layout::DialogType::OK}},
+	{{.type = GOTOSCREEN, .screen = CASTLE}}};
 
 const ActionList TEMPLE_ACTIONS{{{.type = SET_UI_BOOL, .ui_index = 0}},
 								{{.type = SET_UI_BOOL, .ui_index = 1}},
@@ -225,5 +237,4 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"rest_menu", REST_ACTIONS},
 };
 #pragma GCC diagnostic pop
-
 }
