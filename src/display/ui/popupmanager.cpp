@@ -21,9 +21,7 @@
 // the resulting work.
 
 #include "display/ui/popupmanager.hpp"
-
 #include "core/context.hpp"
-#include "drawables/drawable.hpp"
 #include "drawables/message.hpp"
 #include "resources/componentstore.hpp"
 
@@ -67,7 +65,9 @@ auto Sorcery::PopupManager::display() -> void {
 
 	if (!_active->is_open()) {
 
-		_completed = _active->name();
+		_completed = PopupCompletion{.name = std::string{_active->name()},
+									 .result = _active->result()};
+
 		_active = nullptr;
 	}
 }
@@ -86,10 +86,23 @@ auto Sorcery::PopupManager::is_active(const std::string_view name) const
 auto Sorcery::PopupManager::consume_completed(const std::string_view name)
 	-> bool {
 
-	if (_completed != name)
+	if (!_completed || _completed->name != name)
 		return false;
 
-	_completed.clear();
+	_completed.reset();
 
 	return true;
+}
+
+auto Sorcery::PopupManager::consume_result(const std::string_view name)
+	-> std::optional<DrawableResult> {
+
+	if (!_completed || _completed->name != name)
+		return std::nullopt;
+
+	const auto result{_completed->result};
+
+	_completed.reset();
+
+	return result;
 }

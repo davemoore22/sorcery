@@ -35,12 +35,19 @@ auto Sorcery::Drawable::build(Component &component) -> void {
 
 auto Sorcery::Drawable::open() -> void {
 
+	_result = DrawableResult::NONE;
 	_open = true;
 }
 
-auto Sorcery::Drawable::close() -> void {
+auto Sorcery::Drawable::close(const DrawableResult result) -> void {
 
+	_result = result;
 	_open = false;
+}
+
+auto Sorcery::Drawable::result() const -> DrawableResult {
+
+	return _result;
 }
 
 auto Sorcery::Drawable::is_open() const -> bool {

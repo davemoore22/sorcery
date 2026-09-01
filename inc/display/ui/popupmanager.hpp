@@ -22,12 +22,13 @@
 
 #pragma once
 
+#include "drawables/drawable.hpp"
 #include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
 
-namespace Sorcery { class Drawable; }
 namespace Sorcery { class Message; }
 namespace Sorcery { struct Context; }
 
@@ -38,6 +39,11 @@ namespace Enums {
 }
 
 namespace Sorcery {
+
+struct PopupCompletion {
+		std::string name;
+		DrawableResult result{DrawableResult::NONE};
+};
 
 class PopupManager {
 
@@ -52,6 +58,8 @@ class PopupManager {
 		auto close() -> void;
 		auto display() -> void;
 		[[nodiscard]] auto consume_completed(std::string_view name) -> bool;
+		auto consume_result(const std::string_view name)
+			-> std::optional<DrawableResult>;
 		[[nodiscard]] auto active() const -> bool;
 		[[nodiscard]] auto is_active(std::string_view name) const -> bool;
 
@@ -60,7 +68,7 @@ class PopupManager {
 
 		std::unique_ptr<Message> _message;
 		Drawable *_active{};
-		std::string _completed;
+		std::optional<PopupCompletion> _completed;
 };
 
 }

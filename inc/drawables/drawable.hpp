@@ -30,6 +30,12 @@ namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 
+enum class DrawableResult {
+	NONE,
+	ACCEPTED,
+	CANCELLED
+};
+
 class Drawable {
 
 	public:
@@ -45,9 +51,10 @@ class Drawable {
 		virtual auto display() -> void = 0;
 
 		auto open() -> void;
-		auto close() -> void;
+		auto close(DrawableResult result = DrawableResult::CANCELLED) -> void;
 
 		[[nodiscard]] auto is_open() const -> bool;
+		[[nodiscard]] auto result() const -> DrawableResult;
 		[[nodiscard]] auto id() const -> std::string_view;
 		[[nodiscard]] auto name() const -> std::string_view;
 
@@ -57,6 +64,7 @@ class Drawable {
 
 		std::string _id;
 		bool _open{false};
+		DrawableResult _result{DrawableResult::NONE};
 };
 
 }
