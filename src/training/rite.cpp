@@ -27,6 +27,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for CharacterSlot, Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/popupstore.hpp"		// for PopupStore
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_EDIT
@@ -61,23 +62,26 @@ auto Sorcery::Rite::start() -> int {
 
 	show_immediately();
 
-	_ctx.controller->unset_flag("want_rite_ok");
-	_ctx.ui->popups->dialog_rite->show = true;
+	_ctx.ui->popup_manager->open_dialog("rite:dialog_rite",
+										Enums::Layout::DialogType::CONFIRM);
 
 	_ctx.audio->set_volume(1.0f);
+
 	_stage = 0;
 
-	auto done{false};
-	while (!done) {
+	//
+	// Confirm the rite.
+	//
+	while (true) {
 
 		SDL_Event event{};
+
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event)) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return ABORT_GAME;
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -87,29 +91,37 @@ auto Sorcery::Rite::start() -> int {
 			}
 
 			if (_ctx.controller->input->back(event)) {
-				_ctx.ui->popups->dialog_rite->show = false;
-				_ctx.controller->unset_flag("want_rite_ok");
+
+				_ctx.ui->popup_manager->close();
+
 				return BACK_TO_EDIT;
 			}
 		}
+
 		const auto stage{_stage.load()};
+
 		_ctx.ui->display_screen(Enums::Screen::RITE, stage);
 
 		_ctx.tick();
 
-		// Yes
-		if (_ctx.controller->has_flag("want_rite_ok")) {
-			_ctx.controller->unset_flag("want_rite_ok");
-			break;
-		}
+		if (const auto result{
+				_ctx.ui->popup_manager->consume_result("dialog_rite")}) {
 
-		// No
-		if (!_ctx.ui->popups->dialog_rite->show)
-			return BACK_TO_EDIT;
+			using enum DrawableResult;
+
+			if (*result == ACCEPTED)
+				break;
+
+			if (*result == CANCELLED)
+				return BACK_TO_EDIT;
+		}
 	}
 
+	//
 	// Rite proper starts here.
+	//
 	_stage = 1;
+
 	_stage_visible = true;
 	_rite_ready = false;
 	_rite_tick = 0;
@@ -146,7 +158,7 @@ auto Sorcery::Rite::start() -> int {
 
 		_ctx.tick();
 
-		// Ceremony complete, perform the actual rite on the selected character
+		// Ceremony complete, perform the actual rite on the selected character.
 		if (_rite_ready.load()) {
 
 			_rite_tick = 0;
@@ -163,15 +175,15 @@ auto Sorcery::Rite::start() -> int {
 			const auto result{_inspect->start(
 				INSPECT_MODE_BASE,
 				_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
+
 			_inspect->stop(INSPECT_MODE_BASE);
 
 			return BACK_TO_EDIT;
 		}
 	}
-
-	return ABORT_GAME;
 }
 
 auto Sorcery::Rite::stop() -> int {
@@ -181,12 +193,7 @@ auto Sorcery::Rite::stop() -> int {
 		_rite_tick = 0;
 	}
 
-	_ctx.ui->popups->dialog_rite->show = false;
-
-	_ctx.controller->unset_flag("want_rite_ok");
-
 	_ctx.controller->go_to(Enums::Screen::EDIT);
-	;
 
 	return 0;
 }

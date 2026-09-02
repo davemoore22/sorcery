@@ -397,14 +397,15 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			}
 
 			// Check for stairs
-			if (_ctx.controller->has_flag("want_take_stairs_up")) {
+			if (_ctx.ui->popup_manager->consume_accepted("dialog_stairs_up")) {
 
 				if (_ctx.game->state->get_depth() == -1)
 					return _go_back_to_town();
 
 				_go_up_a_level();
 
-			} else if (_ctx.controller->has_flag("want_take_stairs_down")) {
+			} else if (_ctx.ui->popup_manager->consume_accepted(
+						   "dialog_stairs_down")) {
 
 				_go_down_a_level();
 			}
@@ -426,14 +427,12 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					.execute_at = std::chrono::steady_clock::now() + 1s};
 			}
 
-			if (_ctx.controller->has_flag("after_event_search") &&
-				!_ctx.ui->popups->dialog_search->show) {
+			if (const auto result{
+					_ctx.ui->popup_manager->consume_result("dialog_search")}) {
 
-				_ctx.controller->unset_flag("after_event_search");
+				using enum DrawableResult;
 
-				if (_ctx.controller->has_flag("want_search")) {
-
-					_ctx.controller->unset_flag("want_search");
+				if (*result == ACCEPTED) {
 
 					if (_search_event()) {
 
@@ -442,7 +441,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 						DEBUG_LOG("MURPHY'S GHOSTS!");
 					}
 
-				} else {
+				} else if (*result == CANCELLED) {
 
 					// Player selected No: no search, no encounter.
 					_ctx.controller->set_last_event(
@@ -723,12 +722,8 @@ auto Sorcery::Engine::_go_up_a_level() -> void {
 				_ctx.game->state->get_depth());
 			_ctx.game->state->set_depth(to_level);
 			_set_tile_explored(_ctx.game->state->get_player_pos());
-
-			_ctx.controller->unset_flag("want_take_stairs_down");
 		}
 	}
-
-	_ctx.controller->unset_flag("want_take_stairs_up");
 }
 
 auto Sorcery::Engine::_move_backward() -> bool {
@@ -1023,6 +1018,7 @@ auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 
 	_ctx.controller->set_can_undo(false);
 }
+
 auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 
 	const auto event_type{_ctx.controller->get_last_event()};
@@ -1050,8 +1046,8 @@ auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 
 	if (event.search_after) {
 
-		_ctx.ui->popups->dialog_search->show = true;
-		_ctx.controller->set_flag("after_event_search");
+		_ctx.ui->popup_manager->open_dialog("engine_base_ui:dialog_search",
+											Enums::Layout::DialogType::CONFIRM);
 
 		return std::nullopt;
 	}
@@ -1269,9 +1265,14 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 	if (_ctx.game->state->level->stairs_at(loc)) {
 
 		if (tile.has(LADDER_UP) || tile.has(STAIRS_UP))
-			_ctx.ui->popups->dialog_stairs_up->show = true;
+			_ctx.ui->popup_manager->open_dialog(
+				"engine_base_ui:dialog_stairs_up",
+				Enums::Layout::DialogType::CONFIRM);
+
 		else if (tile.has(LADDER_DOWN) || tile.has(STAIRS_DOWN))
-			_ctx.ui->popups->dialog_stairs_down->show = true;
+			_ctx.ui->popup_manager->open_dialog(
+				"engine_base_ui:dialog_stairs_down",
+				Enums::Layout::DialogType::CONFIRM);
 	}
 
 	// Elevators / chute / teleport / spinner / pit / message

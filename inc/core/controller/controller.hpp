@@ -133,9 +133,7 @@ class Controller {
 		auto wants(const Enums::Screen value) const -> bool;
 		auto is_at() const -> Enums::Screen;
 		auto abort(const bool value = true) -> void;
-		auto leave_game(const bool value = true) -> void;
 		auto want_to_abort() const -> bool;
-		auto want_to_leave_game() -> bool &;
 		auto clear_modal_flags() -> void;
 
 		auto request_back() -> void;
@@ -160,7 +158,6 @@ class Controller {
 		bool _fullscreen{}; // Fullscreen mode active
 		bool _can_undo{};	// Can "undo" a movement action
 		bool _abort{};
-		bool _leave{};
 		std::vector<unsigned int> _candidate_party; // Used for Reordering
 		Enums::Map::Event _last_event;				// Last event in dungeon
 		Enums::Map::Direction _last_dir;			// Last movement in dungeon

@@ -31,6 +31,7 @@
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "display/display.hpp"
+#include "display/ui/popupmanager.hpp"
 #include "display/ui/popupstore.hpp"
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
@@ -126,21 +127,39 @@ auto Sorcery::Castle::start() -> int {
 				break;
 			}
 
-			_ctx.controller->input->back(event,
-										 _ctx.ui->popups->dialog_leave->show);
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active()) {
+
+					_ctx.ui->popup_manager->close();
+
+				} else {
+
+					_ctx.ui->popup_manager->open_dialog(
+						"main_menu:dialog_leave",
+						Enums::Layout::DialogType::CONFIRM);
+				}
+
+				continue;
+			}
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::CASTLE, _ctx.game);
 		_ctx.tick();
 
-		if (_ctx.controller->want_to_leave_game()) {
+		if (_ctx.ui->popup_manager->consume_accepted("dialog_leave")) {
+
 			_ctx.game->move_party_to_tavern();
 			_ctx.game->save_game();
 			_ctx.controller->set_game(nullptr);
+
 			return LEAVE_GAME;
+
 		} else if (!_ctx.controller->wants(Enums::Screen::CASTLE) &&
-				   _ctx.controller->wants(Enums::Screen::EDGEOFTOWN))
+				   _ctx.controller->wants(Enums::Screen::EDGEOFTOWN)) {
+
 			return CASTLE_GO_TO_EDGE_OF_TOWN;
+		}
 
 		// Check for the results of something being selected from a menu
 		if (_ctx.controller->wants(Enums::Screen::TAVERN)) {

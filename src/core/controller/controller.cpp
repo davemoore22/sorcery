@@ -85,7 +85,6 @@ auto Sorcery::Controller::initialise() -> void {
 	_has_save = _ctx.saves->has_game();
 
 	_abort = false;
-	_leave = false;
 
 	_go_back = false;
 
@@ -129,7 +128,6 @@ auto Sorcery::Controller::initialise() -> void {
 			 "want_donated_ok",
 			 "want_drop",
 			 "want_enter_maze",
-			 "want_exit_game",
 			 "want_help",
 			 "want_inspect",
 			 "want_identify",
@@ -144,8 +142,6 @@ auto Sorcery::Controller::initialise() -> void {
 			 "want_new_game",
 			 "want_quit_expedition",
 			 "want_stay",
-			 "want_take_stairs_down",
-			 "want_take_stairs_up",
 			 "want_tithe",
 			 "want_trade",
 			 "want_use",
@@ -438,8 +434,6 @@ auto Sorcery::Controller::clear_modal_flags() -> void {
 			 "want_equip",
 			 "want_remove",
 			 "want_spell",
-			 "want_take_stairs_up",
-			 "want_take_stairs_down",
 		 })
 		unset_flag(flag);
 }
@@ -452,16 +446,6 @@ auto Sorcery::Controller::abort(const bool value) -> void {
 auto Sorcery::Controller::want_to_abort() const -> bool {
 
 	return _abort || has_flag("want_abort_game");
-}
-
-auto Sorcery::Controller::leave_game(const bool value) -> void {
-
-	_leave = value;
-}
-
-auto Sorcery::Controller::want_to_leave_game() -> bool & {
-
-	return _leave;
 }
 
 auto Sorcery::Controller::get_input_buffer() -> std::string & {

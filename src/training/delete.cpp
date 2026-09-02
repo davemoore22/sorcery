@@ -27,6 +27,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for CharacterSlot, Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/popupstore.hpp"		// for PopupStore
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for BACK_TO_TRAINING_GROUNDS, ABOR...
@@ -49,15 +50,13 @@ auto Sorcery::Delete::_initialise() -> bool {
 
 	return true;
 }
-
 auto Sorcery::Delete::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::DELETE);
+
 	_ctx.controller->initialise();
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
-
-	_ctx.controller->unset_flag("want_delete_ok");
 
 	show_immediately();
 
@@ -89,9 +88,7 @@ auto Sorcery::Delete::start() -> int {
 
 				if (confirming) {
 
-					_ctx.ui->popups->dialog_delete->show = false;
-
-					_ctx.controller->unset_flag("want_delete_ok");
+					_ctx.ui->popup_manager->close();
 
 					_ctx.controller->clear_character(
 						Enums::CharacterSlot::EDIT);
@@ -102,6 +99,8 @@ auto Sorcery::Delete::start() -> int {
 
 					return BACK_TO_TRAINING_GROUNDS;
 				}
+
+				continue;
 			}
 		}
 
@@ -114,45 +113,50 @@ auto Sorcery::Delete::start() -> int {
 			_ctx.controller->wants(Enums::Screen::TRAINING))
 			return BACK_TO_TRAINING_GROUNDS;
 
-		// A character has just been selected: open confirmation.
-		if (!confirming &&
-			_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
+		//
+		// Deal with the result of an existing confirmation first.
+		//
+		if (confirming) {
 
-			_ctx.controller->unset_flag("want_delete_ok");
+			if (const auto result{
+					_ctx.ui->popup_manager->consume_result("dialog_delete")}) {
 
-			_ctx.ui->popups->dialog_delete->show = true;
+				using enum DrawableResult;
 
-			confirming = true;
+				if (*result == ACCEPTED) {
+
+					_ctx.game->delete_character(_ctx.controller->get_character(
+						Enums::CharacterSlot::EDIT));
+
+					_ctx.controller->clear_character(
+						Enums::CharacterSlot::EDIT);
+
+					_ctx.controller->go_to(Enums::Screen::TRAINING);
+
+					return BACK_TO_TRAINING_GROUNDS;
+				}
+
+				if (*result == CANCELLED) {
+
+					_ctx.controller->clear_character(
+						Enums::CharacterSlot::EDIT);
+
+					confirming = false;
+				}
+			}
 
 			continue;
 		}
 
-		if (confirming) {
+		//
+		// A character has just been selected: ask for confirmation.
+		//
+		if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
 
-			// Yes
-			if (_ctx.controller->has_flag("want_delete_ok")) {
+			_ctx.ui->popup_manager->open_dialog(
+				"delete:dialog_delete", Enums::Layout::DialogType::CONFIRM);
 
-				_ctx.controller->unset_flag("want_delete_ok");
-
-				_ctx.ui->popups->dialog_delete->show = false;
-
-				_ctx.game->delete_character(
-					_ctx.controller->get_character(Enums::CharacterSlot::EDIT));
-
-				_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
-
-				_ctx.controller->go_to(Enums::Screen::TRAINING);
-
-				return BACK_TO_TRAINING_GROUNDS;
-			}
-
-			// No
-			if (!_ctx.ui->popups->dialog_delete->show) {
-
-				_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
-
-				confirming = false;
-			}
+			confirming = true;
 		}
 	}
 

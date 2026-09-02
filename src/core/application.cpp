@@ -254,7 +254,6 @@ auto Sorcery::Application::start() -> int {
 
 	return 0;
 }
-
 auto Sorcery::Application::_run_town() -> AppFlow {
 
 	ctx.audio->load(ctx.files->get(TOWN_MUSIC));
@@ -262,22 +261,26 @@ auto Sorcery::Application::_run_town() -> AppFlow {
 	ctx.audio->play();
 
 	while (true) {
+
 		const auto castle_result{_castle->start()};
+
 		_castle->stop();
 
 		if (castle_result == ABORT_GAME)
 			return AppFlow::ABORT;
 
-		if (ctx.controller->want_to_leave_game())
+		if (castle_result == LEAVE_GAME)
 			return AppFlow::LEAVE_GAME;
 
 		if (castle_result != CASTLE_GO_TO_EDGE_OF_TOWN)
 			continue;
 
 		const auto edge_result{_edge_of_town->start(DEST_NONE)};
+
 		_edge_of_town->stop();
 
 		switch (edge_result) {
+
 		case EDGE_OF_TOWN_GO_TO_CASTLE:
 		case RETURN_TO_TOWN:
 			continue;
@@ -291,13 +294,13 @@ auto Sorcery::Application::_run_town() -> AppFlow {
 		case EDGE_OF_TOWN_GO_TO_TRAINING:
 			return AppFlow::TRAINING;
 
+		case LEAVE_GAME:
+			return AppFlow::LEAVE_GAME;
+
 		case ABORT_GAME:
 			return AppFlow::ABORT;
 
 		default:
-			if (ctx.controller->want_to_leave_game())
-				return AppFlow::LEAVE_GAME;
-
 			continue;
 		}
 	}
@@ -449,7 +452,6 @@ auto Sorcery::Application::update() -> void {
 
 	if (signal_shutdown_requested()) {
 		ctx.controller->set_flag("want_abort_game");
-		ctx.controller->set_flag("want_exit_game");
 	}
 
 	ctx.audio->update();

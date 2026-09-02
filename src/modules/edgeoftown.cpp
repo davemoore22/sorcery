@@ -27,6 +27,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen, CharacterSlot
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/popupstore.hpp"		// for PopupStore
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"	 // for ABORT_GAME, INSPECT_MODE_ACTIONS
@@ -111,23 +112,44 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			case ModuleEvent::NONE:
 				break;
 			}
-			_ctx.controller->input->back(event,
-										 _ctx.ui->popups->dialog_leave->show);
+
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active()) {
+
+					_ctx.ui->popup_manager->close();
+
+				} else {
+
+					_ctx.ui->popup_manager->open_dialog(
+						"main_menu:dialog_leave",
+						Enums::Layout::DialogType::CONFIRM);
+				}
+
+				continue;
+			}
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::EDGEOFTOWN, _ctx.game);
 		_ctx.tick();
 
-		if (_ctx.controller->want_to_leave_game()) {
+		if (_ctx.ui->popup_manager->consume_accepted("dialog_leave")) {
+
 			_ctx.game->move_party_to_tavern();
 			_ctx.game->save_game();
 			_ctx.controller->set_game(nullptr);
+
 			return LEAVE_GAME;
-		} else if (_ctx.controller->want_to_abort())
+
+		} else if (_ctx.controller->want_to_abort()) {
+
 			return ABORT_GAME;
-		else if (!_ctx.controller->wants(Enums::Screen::EDGEOFTOWN) &&
-				 _ctx.controller->wants(Enums::Screen::CASTLE))
+
+		} else if (!_ctx.controller->wants(Enums::Screen::EDGEOFTOWN) &&
+				   _ctx.controller->wants(Enums::Screen::CASTLE)) {
+
 			return EDGE_OF_TOWN_GO_TO_CASTLE;
+		}
 
 		// Check for the results of something being selected from a menu
 		if (_ctx.controller->wants(Enums::Screen::TRAINING)) {

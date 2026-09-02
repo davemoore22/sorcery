@@ -102,8 +102,6 @@ auto Sorcery::PopupManager::consume_result(const std::string_view name)
 	if (!_completed || _completed->name != name)
 		return std::nullopt;
 
-	_completed.reset();
-
 	const auto result{_completed->result};
 
 	_completed.reset();
