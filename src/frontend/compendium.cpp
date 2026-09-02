@@ -26,6 +26,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for ABORT_GAME, GO_TO_FRONT_END
 #include "frontend/atlas.hpp"				// for Atlas
@@ -85,8 +86,13 @@ auto Sorcery::Compendium::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return GO_TO_FRONT_END;
+			}
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::COMPENDIUM);

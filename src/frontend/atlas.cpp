@@ -26,6 +26,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for ABORT_GAME, GO_TO_COMPENDIUM
 #include <SDL_events.h>						// for SDL_PollEvent
@@ -73,8 +74,13 @@ auto Sorcery::Atlas::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return GO_TO_COMPENDIUM;
+			}
 		}
 
 		if (_ctx.controller->want_to_abort())

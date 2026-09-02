@@ -74,8 +74,13 @@ auto Sorcery::Rename::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return BACK_TO_EDIT;
+			}
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::RENAME, _ctx.game);

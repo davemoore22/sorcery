@@ -27,6 +27,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for ABORT_GAME, CHARACTER_SELECTED
 #include "training/enum.hpp"	// for Edit
@@ -85,8 +86,13 @@ auto Sorcery::Edit::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return BACK_TO_TRAINING_GROUNDS;
+			}
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::EDIT, _ctx.game);

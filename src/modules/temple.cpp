@@ -26,6 +26,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen, CharacterSlot
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_CASTLE
 #include "modules/pay.hpp"					// for Pay
@@ -76,8 +77,13 @@ auto Sorcery::Temple::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return BACK_TO_CASTLE;
+			}
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::TEMPLE, _ctx.game);

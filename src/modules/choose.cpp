@@ -25,6 +25,7 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "core/enum.hpp"					// for Screen, CharacterSlot
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_FROM_CHOOSE, ABORT_GAME
@@ -73,8 +74,13 @@ auto Sorcery::Choose::start(const int mode) -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return BACK_FROM_CHOOSE;
+			}
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::CHOOSE, mode);

@@ -88,13 +88,14 @@ auto Sorcery::Rite::start() -> int {
 
 			case ModuleEvent::NONE:
 				break;
-			}
 
-			if (_ctx.controller->input->back(event)) {
+				if (_ctx.controller->input->back(event)) {
 
-				_ctx.ui->popup_manager->close();
+					if (_ctx.ui->popup_manager->active())
+						_ctx.ui->popup_manager->close();
 
-				return BACK_TO_EDIT;
+					return BACK_TO_EDIT;
+				}
 			}
 		}
 
@@ -148,8 +149,13 @@ auto Sorcery::Rite::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return BACK_TO_EDIT;
+			}
 		}
 
 		const auto stage{_stage_visible.load() ? _stage.load() : 0};

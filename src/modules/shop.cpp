@@ -30,6 +30,7 @@
 #include "core/enum.hpp"
 #include "core/system.hpp"
 #include "display/display.hpp"
+#include "display/ui/popupmanager.hpp" // for PopupManager
 #include "display/ui/popupstore.hpp"
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
@@ -109,8 +110,13 @@ auto Sorcery::Shop::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return BACK_TO_CASTLE;
+			}
 		}
 
 		_ctx.ui->display_screen(Enums::Screen::SHOP, _ctx.game);

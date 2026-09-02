@@ -26,7 +26,7 @@
 #include "core/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller/controller.hpp"
-#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler#
 #include "core/define.hpp"
 #include "core/enum.hpp"
 #include "core/system.hpp"

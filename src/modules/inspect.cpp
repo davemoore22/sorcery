@@ -25,6 +25,7 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for CharacterSlot, Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for BACK_FROM_INSPECT, ABORT_GAME, INSPE...
 #include "types/game.hpp"		// for Game
@@ -83,8 +84,13 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return BACK_FROM_INSPECT;
+			}
 		}
 
 		if (!_ctx.controller->wants(Enums::Screen::INSPECT))

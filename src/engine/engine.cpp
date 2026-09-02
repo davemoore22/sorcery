@@ -138,6 +138,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			_ctx.controller->input->debug(event);
 
 			// Back closes popup first, otherwise opens camp.
+
+			// TOFO: fix this
 			if (_ctx.controller->input->back(event)) {
 
 				if (_ctx.ui->popups->in_popup() ||

@@ -88,16 +88,11 @@ auto Sorcery::Delete::start() -> int {
 			if (_ctx.controller->input->back(event)) {
 
 				if (confirming) {
-
 					_ctx.ui->popup_manager->close();
-
 					_ctx.controller->clear_character(
 						Enums::CharacterSlot::EDIT);
-
 					confirming = false;
-
 				} else {
-
 					return BACK_TO_TRAINING_GROUNDS;
 				}
 

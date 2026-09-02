@@ -26,6 +26,7 @@
 #include "core/controller/controller.hpp" // for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_TRAINING_GROUNDS
 #include "types/character/character.hpp"	// for Character
@@ -89,8 +90,13 @@ auto Sorcery::Create::start() -> int {
 				break;
 			}
 
-			if (_ctx.controller->input->back(event))
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
 				return BACK_TO_TRAINING_GROUNDS;
+			}
 		}
 
 		using enum Enums::Character::Stage;
