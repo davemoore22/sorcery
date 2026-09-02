@@ -167,7 +167,6 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 
 						// Too much!
 						_ctx.controller->unset_flag("want_tithe");
-						_ctx.controller->unset_flag("want_gold");
 
 						_ctx.controller->clear_character(
 							Enums::CharacterSlot::TITHE);
@@ -178,7 +177,6 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 					} else {
 
 						_ctx.controller->unset_flag("want_tithe");
-						_ctx.controller->unset_flag("want_gold");
 
 						character.grant_xp(amount);
 						character.grant_gold(0 - amount);

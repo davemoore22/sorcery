@@ -353,8 +353,6 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 
 			_host._game->save_game();
 
-			_host.unset_flag("want_reclassed_ok");
-
 			_ctx.ui->popup_manager->open_dialog("global:notice_reclassed_ok",
 												Enums::Layout::DialogType::OK);
 		}

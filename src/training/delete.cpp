@@ -84,6 +84,7 @@ auto Sorcery::Delete::start() -> int {
 				break;
 			}
 
+			// TODO: handle back button when a confirmation is open (close it)
 			if (_ctx.controller->input->back(event)) {
 
 				if (confirming) {

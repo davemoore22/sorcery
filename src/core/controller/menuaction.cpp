@@ -62,15 +62,18 @@ const ActionList EDGE_ACTIONS{
 	  .popup_component = "main_menu:dialog_leave",
 	  .dialog_type = Enums::Layout::DialogType::CONFIRM}}};
 
-const ActionList STORE_ACTIONS{{{.type = GOTOSCREEN, .screen = BUY}},
-							   {{.type = GOTOSCREEN, .screen = SELL}},
-							   {{.type = GOTOSCREEN, .screen = UNCURSE}},
-							   {{.type = GOTOSCREEN, .screen = IDENTIFY}},
-							   {{.type = OPEN_DIALOG,
-								 .popup_component = "global:notice_pool_gold",
-								 .dialog_type = Enums::Layout::DialogType::OK}},
-							   {{.type = CUSTOM, .custom_function = POOL_GOLD}},
-							   {{.type = GOTOSCREEN, .screen = SHOP}}};
+const ActionList STORE_ACTIONS{
+	{{.type = GOTOSCREEN, .screen = BUY}},
+	{{.type = GOTOSCREEN, .screen = SELL}},
+	{{.type = GOTOSCREEN, .screen = UNCURSE}},
+	{{.type = GOTOSCREEN, .screen = IDENTIFY}},
+	{
+		{.type = CUSTOM, .custom_function = POOL_GOLD},
+		{.type = OPEN_DIALOG,
+		 .popup_component = "global:notice_pool_gold",
+		 .dialog_type = Enums::Layout::DialogType::OK},
+	},
+	{{.type = GOTOSCREEN, .screen = SHOP}}};
 
 const ActionList TAVERN_ACTIONS{
 	{{.type = GOTOSCREEN, .screen = ADD}},
