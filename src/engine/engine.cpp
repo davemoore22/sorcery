@@ -121,7 +121,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			switch (process_event(event)) {
 
 			case ModuleEvent::ABORT:
-				done = true;
+				return _abort();
 				break;
 
 			case ModuleEvent::QUICKLOAD:
@@ -144,6 +144,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					_ctx.ui->popup_manager->active()) {
 
 					_ctx.ui->popups->close_all_popups();
+					_ctx.ui->close_all_popups();
 					_ctx.controller->clear_modal_flags();
 				} else {
 
@@ -172,7 +173,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				_automap->stop();
 
 				if (result == ABORT_GAME)
-					return ABORT_GAME;
+					return _abort();
 
 				fade_in(
 					[this] {
@@ -189,7 +190,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				_ctx.controller->unset_flag("debug_start_chest");
 
 				if (_start_chest() == ABORT_GAME)
-					return ABORT_GAME;
+					return _abort();
 
 				fade_in(
 					[this] {
@@ -332,7 +333,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				_graveyard->stop();
 
 				if (result == ABORT_GAME)
-					return ABORT_GAME;
+					return _abort();
 
 				fade_in(
 					[this] {
@@ -367,7 +368,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				_options->stop();
 
 				if (result == ABORT_GAME)
-					return ABORT_GAME;
+					return _abort();
 
 				fade_in(
 					[this] {
@@ -382,7 +383,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				_reorder->stop(REORDER_MODE_CAMP);
 
 				if (result == ABORT_GAME)
-					return ABORT_GAME;
+					return _abort();
 
 			} else if (_ctx.controller->wants(Enums::Screen::INSPECT)) {
 
@@ -391,7 +392,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					_ctx.game->state->get_party_char(1).value())};
 
 				if (result == ABORT_GAME)
-					return ABORT_GAME;
+					return _abort();
 
 				_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
 			}
@@ -498,6 +499,24 @@ auto Sorcery::Engine::stop() -> int {
 	_ctx.controller->unset_flag("in_engine");
 
 	return 0;
+}
+
+auto Sorcery::Engine::_abort() -> int {
+
+	// Discard any active popup workflow.
+	_ctx.ui->close_all_popups();
+	_ctx.controller->clear_modal_flags();
+
+	// Discard any engine overlays/transitions.
+	_ctx.ui->clear_transient();
+
+	_pending_elevator.reset();
+	_pending_chute.reset();
+
+	// Do not carry a partially processed tile event into another expedition.
+	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
+	return ABORT_GAME;
 }
 
 auto Sorcery::Engine::_tile_explored(const Coordinate loc) const -> bool {
@@ -661,7 +680,7 @@ auto Sorcery::Engine::_go_back_to_town() -> int {
 		_victory->stop();
 
 		if (result == ABORT_GAME)
-			return ABORT_GAME;
+			return _abort();
 
 		// Remove Amulet
 		_ctx.game->remove_party_item(AMULET_OF_WERDNA);
@@ -1404,7 +1423,8 @@ auto Sorcery::Engine::_start_chest() -> int {
 		return 0;
 
 	case Enums::Chests::Result::ABORT:
-		return ABORT_GAME;
+		return _abort();
+		;
 
 	default:
 		return 0;

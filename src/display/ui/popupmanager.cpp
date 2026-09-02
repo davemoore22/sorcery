@@ -37,8 +37,9 @@ auto Sorcery::PopupManager::open_message(const std::string_view component,
 										 std::vector<std::string> strings,
 										 const Enums::Map::Event event_id)
 	-> void {
-
 	close();
+
+	_completed.reset();
 
 	auto &cmp{_ctx.components->get(component)};
 
@@ -50,7 +51,6 @@ auto Sorcery::PopupManager::open_message(const std::string_view component,
 }
 
 auto Sorcery::PopupManager::close() -> void {
-
 	if (!_active)
 		return;
 
@@ -59,7 +59,6 @@ auto Sorcery::PopupManager::close() -> void {
 }
 
 auto Sorcery::PopupManager::display() -> void {
-
 	if (!_active)
 		return;
 
@@ -75,19 +74,16 @@ auto Sorcery::PopupManager::display() -> void {
 }
 
 auto Sorcery::PopupManager::active() const -> bool {
-
 	return _active != nullptr;
 }
 
 auto Sorcery::PopupManager::is_active(const std::string_view name) const
 	-> bool {
-
 	return _active && _active->name() == name;
 }
 
 auto Sorcery::PopupManager::consume_completed(const std::string_view name)
 	-> bool {
-
 	if (!_completed || _completed->name != name)
 		return false;
 
@@ -98,7 +94,6 @@ auto Sorcery::PopupManager::consume_completed(const std::string_view name)
 
 auto Sorcery::PopupManager::consume_result(const std::string_view name)
 	-> std::optional<DrawableResult> {
-
 	if (!_completed || _completed->name != name)
 		return std::nullopt;
 
@@ -109,10 +104,18 @@ auto Sorcery::PopupManager::consume_result(const std::string_view name)
 	return result;
 }
 
+auto Sorcery::PopupManager::reset() -> void {
+	if (_active) {
+		_active->close();
+		_active = nullptr;
+	}
+
+	_completed.reset();
+}
+
 auto Sorcery::PopupManager::open_dialog(const std::string_view component,
 										const Enums::Layout::DialogType type)
 	-> void {
-
 	close();
 
 	_completed.reset();
@@ -127,7 +130,6 @@ auto Sorcery::PopupManager::open_dialog(const std::string_view component,
 
 auto Sorcery::PopupManager::consume_accepted(const std::string_view name)
 	-> bool {
-
 	const auto result{consume_result(name)};
 
 	return result && *result == DrawableResult::ACCEPTED;

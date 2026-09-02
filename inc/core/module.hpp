@@ -64,8 +64,8 @@ class Module {
 		auto fade_out(Enums::Screen screen, std::chrono::milliseconds duration)
 			-> void;
 		auto fade_in_with_string(const Enums::Screen screen,
-								  const std::chrono::milliseconds duration,
-								  const std::string &string) -> void;
+								 const std::chrono::milliseconds duration,
+								 const std::string &string) -> void;
 		auto fade_out_with_string(const Enums::Screen screen,
 								  const std::chrono::milliseconds duration,
 								  const std::string &string) -> void;
@@ -76,6 +76,8 @@ class Module {
 		auto process_event(const SDL_Event &event,
 						   const EventOptions &options = {}) -> ModuleEvent;
 		auto show_immediately() -> void;
+
+		virtual auto abort() -> int;
 
 		Context &_ctx;
 

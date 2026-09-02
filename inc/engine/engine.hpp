@@ -86,6 +86,7 @@ class Engine final : public Module {
 		auto _turn_right() -> void;
 		auto _pit_oops() -> void;
 		auto _check_for_wipe() const -> bool;
+		auto _abort() -> int;
 
 		[[nodiscard]] auto
 		_movement_destination(Coordinate origin,

@@ -270,6 +270,12 @@ auto Sorcery::UI::display_refresh(std::any payload) -> void {
 	display_screen(_ctx.controller->get_last_screen(), payload);
 }
 
+auto Sorcery::UI::close_all_popups() -> void {
+
+	popups->close_all_popups();
+	popup_manager->reset();
+}
+
 // TODO: Don't move this for now
 auto Sorcery::UI::display_engine() -> void {
 
@@ -287,8 +293,6 @@ auto Sorcery::UI::display_engine() -> void {
 		auto bg_c{components->get("engine_base_ui:background_image")};
 		draw_tiled_bg(&bg_c);
 	}
-
-	_ctx.ui->popup_manager->display();
 
 	popup_manager->display();
 

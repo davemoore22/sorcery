@@ -61,6 +61,7 @@ class PopupManager {
 
 		auto close() -> void;
 		auto display() -> void;
+		auto reset() -> void;
 		[[nodiscard]] auto consume_completed(std::string_view name) -> bool;
 		[[nodiscard]] auto consume_result(const std::string_view name)
 			-> std::optional<DrawableResult>;

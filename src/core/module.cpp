@@ -172,3 +172,12 @@ auto Sorcery::Module::show_immediately() -> void {
 
 	_ctx.display->set_fade(0.0f);
 }
+
+auto Sorcery::Module::abort() -> int {
+
+	_ctx.ui->close_all_popups();
+	_ctx.controller->clear_modal_flags();
+	_ctx.ui->clear_transient();
+
+	return -1; // ABORT_GAME
+}

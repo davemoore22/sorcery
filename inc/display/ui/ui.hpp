@@ -181,6 +181,8 @@ class UI {
 		auto clear_transient() -> void;
 		auto clear_transient_on_action() -> void;
 
+		auto close_all_popups() -> void;
+
 		// Composite Drawing Drawables
 		auto draw_attract_mode() -> void;
 		auto draw_automap_legend(Component *component) -> void;
