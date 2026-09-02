@@ -39,12 +39,6 @@ Sorcery::PopupStore::PopupStore(Context &ctx)
 	: _ctx{ctx} {
 
 	// Custom components
-
-	modal_elevator_top = std::make_unique<Modal>(
-		_ctx, _ctx.components->get("global:modal_elevator_top"));
-	modal_elevator_bottom = std::make_unique<Modal>(
-		_ctx, _ctx.components->get("global:modal_elevator_bottom"));
-
 	modal_drop = std::make_unique<Modal>(
 		_ctx, _ctx.components->get("global:modal_drop"));
 	modal_inspect = std::make_unique<Modal>(
@@ -111,8 +105,6 @@ auto Sorcery::PopupStore::_popup_states() const -> std::vector<bool *> {
 
 	ADD_POPUP(input_donate);
 	ADD_POPUP(input_name);
-	ADD_POPUP(modal_elevator_top);
-	ADD_POPUP(modal_elevator_bottom);
 	ADD_POPUP(modal_inspect);
 	ADD_POPUP(modal_help);
 	ADD_POPUP(modal_tithe);
@@ -251,12 +243,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 
 	if (modal_chest)
 		output.append(get_popup_status((void *)modal_chest.get(), "modal"));
-	if (modal_elevator_bottom)
-		output.append(
-			get_popup_status((void *)modal_elevator_bottom.get(), "modal"));
-	if (modal_elevator_top)
-		output.append(
-			get_popup_status((void *)modal_elevator_top.get(), "modal"));
 	if (modal_drop)
 		output.append(get_popup_status((void *)modal_drop.get(), "modal"));
 	if (modal_equip)

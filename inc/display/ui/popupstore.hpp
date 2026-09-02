@@ -55,8 +55,6 @@ class PopupStore {
 		std::unique_ptr<Modal> modal_give;
 		std::unique_ptr<Modal> modal_use;
 		std::unique_ptr<Modal> modal_invoke;
-		std::unique_ptr<Modal> modal_elevator_top;
-		std::unique_ptr<Modal> modal_elevator_bottom;
 		std::unique_ptr<Modal> modal_chest;
 
 		auto in_popup() const -> bool;

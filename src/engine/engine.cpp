@@ -571,9 +571,6 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
-		_ctx.ui->popups->modal_elevator_bottom->regenerate();
-		_ctx.ui->popups->modal_elevator_top->regenerate();
-
 		_ctx.ui->popups->modal_identify->show = false;
 		_ctx.ui->popups->modal_chest->show = false;
 		_ctx.ui->popups->modal_equip->show = false;
@@ -584,12 +581,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->popups->modal_invoke->show = false;
 		_ctx.ui->popups->modal_trade->show = false;
 		_ctx.ui->popups->modal_give->show = false;
-		_ctx.ui->popups->modal_elevator_top->show = false;
-		_ctx.ui->popups->modal_elevator_bottom->show = false;
-
 	} else {
-		_ctx.ui->popups->modal_elevator_bottom->regenerate();
-		_ctx.ui->popups->modal_elevator_top->regenerate();
 
 		// Hide any other modals that might be showing
 		_ctx.ui->popups->modal_identify->show = false;
@@ -602,8 +594,6 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->popups->modal_invoke->show = false;
 		_ctx.ui->popups->modal_trade->show = false;
 		_ctx.ui->popups->modal_give->show = false;
-		_ctx.ui->popups->modal_elevator_top->show = false;
-		_ctx.ui->popups->modal_elevator_bottom->show = false;
 
 		(void)_process_current_tile();
 	}
@@ -1003,7 +993,6 @@ auto Sorcery::Engine::_move_player_to(const Coordinate destination) -> void {
 
 	_ctx.controller->set_can_undo(true);
 }
-
 auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 
 	const auto current_depth{_ctx.game->state->get_depth()};
@@ -1015,6 +1004,7 @@ auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 		return;
 
 	const auto loc{_ctx.game->state->get_player_pos()};
+
 	const auto facing{_ctx.game->state->get_player_facing()};
 
 	DEBUG_LOGF("Taking elevator from depth {} to depth {}", current_depth,
@@ -1023,6 +1013,13 @@ auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 	_go_to_location(depth, loc, facing);
 
 	_ctx.controller->set_can_undo(false);
+
+	const auto new_loc{_ctx.game->state->get_player_pos()};
+
+	const auto &tile{_ctx.game->state->level->at(new_loc)};
+
+	if (const auto elevator{tile.has_elevator()})
+		_show_elevator_modal(*elevator);
 }
 
 auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
@@ -1283,22 +1280,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 	// Elevators / chute / teleport / spinner / pit / message
 	if (const auto elevator{tile.has_elevator()}) {
-
-		const auto top_elevator{elevator->top_depth == -1};
-
-		if (top_elevator) {
-
-			_ctx.ui->popups->modal_elevator_top->show = true;
-
-			DEBUG_LOG("Player triggered top elevator");
-
-		} else {
-
-			_ctx.ui->popups->modal_elevator_bottom->show = true;
-
-			DEBUG_LOG("Player triggered bottom elevator");
-		}
-
+		_show_elevator_modal(*elevator);
 	} else if (const auto destination{tile.has_chute()}) {
 
 		DEBUG_LOG("Player triggered chute");
@@ -1415,5 +1397,23 @@ auto Sorcery::Engine::_start_chest() -> int {
 
 	default:
 		return 0;
+	}
+}
+
+auto Sorcery::Engine::_show_elevator_modal(const Elevator &elevator) -> void {
+
+	const auto top_elevator{elevator.top_depth == -1};
+
+	if (top_elevator) {
+
+		_ctx.ui->popup_manager->open_modal("global:modal_elevator_top");
+
+		DEBUG_LOG("Player triggered top elevator");
+
+	} else {
+
+		_ctx.ui->popup_manager->open_modal("global:modal_elevator_bottom");
+
+		DEBUG_LOG("Player triggered bottom elevator");
 	}
 }

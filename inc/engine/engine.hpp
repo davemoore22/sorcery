@@ -121,6 +121,7 @@ class Engine final : public Module {
 		[[nodiscard]] auto _process_current_tile() -> bool;
 
 		auto _start_chest() -> int;
+		auto _show_elevator_modal(const Elevator &elevator) -> void;
 
 		// Private Members
 		std::unique_ptr<Options> _options;

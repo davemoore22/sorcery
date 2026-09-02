@@ -94,7 +94,7 @@
 			"--mute",
 			"--quickstart",
 			"--start-engine",
-			"--Dgo-to"
+			"--go-to"
 		]
 	},
 	"editor.fontSize": 12,

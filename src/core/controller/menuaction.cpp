@@ -147,82 +147,84 @@ const ActionList REST_ACTIONS{// Stables
 							   {.type = GOTOSCREEN, .screen = INN}}};
 
 const ActionList TOP_ELEVATOR_ACTIONS{
+
 	// A - B1F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -1},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// B - B2F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -2},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// C - B3F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -3},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// D - B4F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -4},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// Leave
-	{{.type = CLEAR_UI_BOOL, .ui_index = 0}}};
+	{{.type = CLOSE_POPUP}}};
 
 const ActionList BOTTOM_ELEVATOR_ACTIONS{
+
 	// A - B4F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -4},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// B - B5F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -5},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// C - B6F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -6},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// D - B7F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -7},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// E - B8F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -8},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// F - B9F
 	{{.type = SET_SELECTED,
 	  .selected_key = "elevator_selected",
 	  .selected_value = -9},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
+	 {.type = CLOSE_POPUP}},
 
 	// Leave
-	{{.type = CLEAR_UI_BOOL, .ui_index = 0}}};
+	{{.type = CLOSE_POPUP}}};
 
 const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"compendium_menu", COMPENDIUM_ACTIONS},
