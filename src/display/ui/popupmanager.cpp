@@ -24,12 +24,14 @@
 #include "core/context.hpp"
 #include "drawables/dialog.hpp"
 #include "drawables/message.hpp"
+#include "drawables/modal2.hpp"
 #include "resources/componentstore.hpp"
 
 Sorcery::PopupManager::PopupManager(Context &ctx)
 	: _ctx{ctx},
 	  _message{std::make_unique<Message>(ctx)},
-	  _dialog{std::make_unique<Dialog>(ctx)} {}
+	  _dialog{std::make_unique<Dialog>(ctx)},
+	  _modal2{std::make_unique<Modal2>(ctx)} {}
 
 Sorcery::PopupManager::~PopupManager() = default;
 
@@ -59,15 +61,21 @@ auto Sorcery::PopupManager::close() -> void {
 }
 
 auto Sorcery::PopupManager::display() -> void {
+
 	if (!_active)
 		return;
 
-	_active->display();
+	auto *active{_active};
 
-	if (!_active->is_open()) {
+	active->display();
 
-		_completed = PopupCompletion{.name = std::string{_active->name()},
-									 .result = _active->result()};
+	if (_active != active)
+		return;
+
+	if (!active->is_open()) {
+
+		_completed = PopupCompletion{.name = std::string{active->name()},
+									 .result = active->result()};
 
 		_active = nullptr;
 	}
@@ -133,4 +141,35 @@ auto Sorcery::PopupManager::consume_accepted(const std::string_view name)
 	const auto result{consume_result(name)};
 
 	return result && *result == DrawableResult::ACCEPTED;
+}
+
+auto Sorcery::PopupManager::open_modal(const std::string_view component)
+	-> void {
+
+	close();
+
+	_completed.reset();
+
+	auto &cmp{_ctx.components->get(component)};
+
+	_modal2->build(cmp);
+	_modal2->open();
+
+	_active = _modal2.get();
+}
+
+auto Sorcery::PopupManager::open_modal(const std::string_view component,
+									   const std::string_view menu_name)
+	-> void {
+
+	close();
+
+	_completed.reset();
+
+	auto &cmp{_ctx.components->get(component)};
+
+	_modal2->build(cmp, menu_name);
+	_modal2->open();
+
+	_active = _modal2.get();
 }

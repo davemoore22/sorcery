@@ -100,15 +100,15 @@ const ActionList EDIT_ACTIONS{{{.type = GOTOSCREEN, .screen = SELECT}},
 							  {{.type = GOTOSCREEN, .screen = TRAINING}}};
 
 const ActionList CAMP_ACTIONS{
-	{{.type = GOTOSCREEN, .screen = INSPECT},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = GOTOSCREEN, .screen = REORDER},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = GOTOSCREEN, .screen = OPTIONS},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = SETFLAG, .flag = "want_quit_expedition"},
-	 {.type = CLEAR_UI_BOOL, .ui_index = 0}},
-	{{.type = CLEAR_UI_BOOL, .ui_index = 0}}};
+	{{.type = GOTOSCREEN, .screen = INSPECT}, {.type = CLOSE_POPUP}},
+	{{.type = GOTOSCREEN, .screen = REORDER}, {.type = CLOSE_POPUP}},
+	{{.type = GOTOSCREEN, .screen = OPTIONS}, {.type = CLOSE_POPUP}},
+	{
+		{.type = SETFLAG, .flag = "want_quit_expedition"},
+		{.type = CLOSE_POPUP},
+	},
+	{{.type = CLOSE_POPUP}},
+};
 
 const ActionList REST_ACTIONS{// Stables
 							  {{.type = SET_SELECTED,

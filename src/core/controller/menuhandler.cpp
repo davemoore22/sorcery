@@ -1094,6 +1094,9 @@ auto Sorcery::ControllerMenuHandler::_execute(
 		_ctx.ui->popup_manager->open_dialog(action.popup_component,
 											action.dialog_type);
 		break;
+	case CLOSE_POPUP:
+		_ctx.ui->popup_manager->close();
+		break;
 	default:
 		break;
 	}

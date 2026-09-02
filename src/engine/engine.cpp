@@ -146,8 +146,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					_ctx.controller->clear_modal_flags();
 				} else {
 
-					_ctx.ui->popups->modal_camp->show = true;
-					_ctx.controller->set_flag("want_camp");
+					_ctx.ui->popup_manager->open_modal(
+						"engine_base_ui:modal_camp");
 				}
 
 				continue;
@@ -571,12 +571,8 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
-		// REMOVED Start off in Camp
-		_ctx.ui->popups->modal_camp->regenerate();
 		_ctx.ui->popups->modal_elevator_bottom->regenerate();
 		_ctx.ui->popups->modal_elevator_top->regenerate();
-
-		//_ctx.ui->popups->modal_camp->show = true;
 
 		_ctx.ui->popups->modal_identify->show = false;
 		_ctx.ui->popups->modal_chest->show = false;
@@ -592,12 +588,8 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_ctx.ui->popups->modal_elevator_bottom->show = false;
 
 	} else {
-		// REMOVED Start off in Camp
-		_ctx.ui->popups->modal_camp->regenerate();
 		_ctx.ui->popups->modal_elevator_bottom->regenerate();
 		_ctx.ui->popups->modal_elevator_top->regenerate();
-
-		//_ctx.ui->popups->modal_camp->show = true;
 
 		// Hide any other modals that might be showing
 		_ctx.ui->popups->modal_identify->show = false;

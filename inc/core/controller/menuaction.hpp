@@ -46,6 +46,7 @@ namespace Enums::MenuAction {
 		CLEAR_UI_BOOL,
 		SET_SELECTED,
 		OPEN_DIALOG,
+		CLOSE_POPUP,
 		CUSTOM
 	};
 

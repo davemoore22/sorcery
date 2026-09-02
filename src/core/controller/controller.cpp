@@ -117,7 +117,6 @@ auto Sorcery::Controller::initialise() -> void {
 			 "select_previous_character",
 			 "select_next_character",
 
-			 "want_camp",
 			 "want_elevator_top",
 			 "want_elevator_bottom",
 			 "want_cannot_donate",
@@ -417,7 +416,6 @@ auto Sorcery::Controller::clear_character(const Enums::CharacterSlot slot)
 auto Sorcery::Controller::clear_modal_flags() -> void {
 
 	for (const auto flag : {
-			 "want_camp",
 			 "want_inspect",
 			 "want_stay",
 			 "want_help",

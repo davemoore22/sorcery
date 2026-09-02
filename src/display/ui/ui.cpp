@@ -296,8 +296,6 @@ auto Sorcery::UI::display_engine() -> void {
 
 	popup_manager->display();
 
-	if (popups->modal_camp->show)
-		popups->modal_camp->display(_ctx.get_flag_ref("want_camp"));
 	if (popups->modal_elevator_top->show)
 		popups->modal_elevator_top->display(
 			_ctx.get_flag_ref("want_elevator_top"));
@@ -3304,13 +3302,12 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	constexpr auto UI_FLAGS_COUNT{22};
+	constexpr auto UI_FLAGS_COUNT{21};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
 		{"temple_menu",
 		 {std::ref(popups->modal_help->show),
 		  std::ref(popups->modal_tithe->show)}},
-		{"camp_menu", {std::ref(popups->modal_camp->show)}},
 		{"top_elevator_menu", {std::ref(popups->modal_elevator_top->show)}},
 		{"bottom_elevator_menu",
 		 {std::ref(popups->modal_elevator_bottom->show)}},

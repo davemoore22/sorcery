@@ -363,7 +363,7 @@ auto Sorcery::ControllerActionHandler::icon(const int icon_idx) -> void {
 
 	switch (icon_idx) {
 	case ICON_CAMP:
-		_ctx.ui->popups->modal_camp->show = true;
+		_ctx.ui->popup_manager->open_modal("engine_base_ui:modal_camp");
 		break;
 
 	case ICON_PARTY:

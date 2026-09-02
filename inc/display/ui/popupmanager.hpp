@@ -32,6 +32,7 @@
 namespace Sorcery { class Message; }
 namespace Sorcery { class Dialog; }
 namespace Sorcery { struct Context; }
+namespace Sorcery { class Modal2; }
 
 namespace Sorcery {
 namespace Enums {
@@ -58,7 +59,9 @@ class PopupManager {
 						  Enums::Map::Event event_id) -> void;
 		auto open_dialog(const std::string_view component,
 						 const Enums::Layout::DialogType type) -> void;
-
+		auto open_modal(std::string_view component) -> void;
+		auto open_modal(std::string_view component, std::string_view menu_name)
+			-> void;
 		auto close() -> void;
 		auto display() -> void;
 		auto reset() -> void;
@@ -74,6 +77,7 @@ class PopupManager {
 
 		std::unique_ptr<Message> _message;
 		std::unique_ptr<Dialog> _dialog;
+		std::unique_ptr<Modal2> _modal2;
 		Drawable *_active{};
 		std::optional<PopupCompletion> _completed;
 };

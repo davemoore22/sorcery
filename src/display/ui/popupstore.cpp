@@ -39,51 +39,6 @@ Sorcery::PopupStore::PopupStore(Context &ctx)
 	: _ctx{ctx} {
 
 	// Custom components
-	/*
-	dialog_exit = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("main_menu:dialog_exit"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_new = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("main_menu:dialog_new"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_leave = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("main_menu:dialog_leave"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_rite =
-		std::make_unique<Dialog>(_ctx, _ctx.components->get("rite:dialog_rite"),
-								 Enums::Layout::DialogType::CONFIRM);
-	dialog_search = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("engine_base_ui:dialog_search"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_delete = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("delete:dialog_delete"),
-		Enums::Layout::DialogType::CONFIRM);
-	notice_divvy = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("global:notice_divvy"),
-		Enums::Layout::DialogType::OK);
-	notice_renamed_ok = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("global:notice_renamed_ok"),
-		Enums::Layout::DialogType::OK);
-	notice_pool_gold = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("global:notice_pool_gold"),
-		Enums::Layout::DialogType::OK);
-	notice_cannot_donate = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("global:notice_cannot_donate"),
-		Enums::Layout::DialogType::OK);
-	notice_donated_ok = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("global:notice_donated_ok"),
-		Enums::Layout::DialogType::OK);
-	notice_not_enough_gold = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("global:notice_not_enough_gold"),
-		Enums::Layout::DialogType::OK);
-		dialog_stairs_up = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("engine_base_ui:dialog_stairs_up"),
-		Enums::Layout::DialogType::CONFIRM);
-	dialog_stairs_down = std::make_unique<Dialog>(
-		_ctx, _ctx.components->get("engine_base_ui:dialog_stairs_down"),
-		Enums::Layout::DialogType::CONFIRM);*/
-	modal_camp = std::make_unique<Modal>(
-		_ctx, _ctx.components->get("engine_base_ui:modal_camp"));
 
 	modal_elevator_top = std::make_unique<Modal>(
 		_ctx, _ctx.components->get("global:modal_elevator_top"));
@@ -156,7 +111,6 @@ auto Sorcery::PopupStore::_popup_states() const -> std::vector<bool *> {
 
 	ADD_POPUP(input_donate);
 	ADD_POPUP(input_name);
-	ADD_POPUP(modal_camp);
 	ADD_POPUP(modal_elevator_top);
 	ADD_POPUP(modal_elevator_bottom);
 	ADD_POPUP(modal_inspect);
@@ -264,8 +218,6 @@ auto Sorcery::PopupStore::create_dynamic_modal(const std::string name) -> void {
 			_ctx, _ctx.components->get("global:modal_invoke"));
 		modal_invoke->regenerate();
 	}
-
-	// Note that modal_camp is not dynamic and thus isn't handled here
 }
 
 // Not an ideal function, really need to maintain a pointer status map instead
@@ -296,8 +248,7 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 		output.append(get_popup_status((void *)input_donate.get(), "input"));
 	if (input_name)
 		output.append(get_popup_status((void *)input_name.get(), "input"));
-	if (modal_camp)
-		output.append(get_popup_status((void *)modal_camp.get(), "modal"));
+
 	if (modal_chest)
 		output.append(get_popup_status((void *)modal_chest.get(), "modal"));
 	if (modal_elevator_bottom)
