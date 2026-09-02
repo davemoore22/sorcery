@@ -76,8 +76,7 @@ auto Sorcery::Compendium::start() -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -128,9 +127,7 @@ auto Sorcery::Compendium::start() -> int {
 			fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 		}
 
-		if (_ctx.controller->want_to_abort())
-			return ABORT_GAME;
-		else if (!_ctx.controller->wants(Enums::Screen::COMPENDIUM))
+		if (!_ctx.controller->wants(Enums::Screen::COMPENDIUM))
 			return GO_TO_FRONT_END;
 	}
 

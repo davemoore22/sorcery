@@ -64,8 +64,7 @@ auto Sorcery::Atlas::start() -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -83,9 +82,7 @@ auto Sorcery::Atlas::start() -> int {
 			}
 		}
 
-		if (_ctx.controller->want_to_abort())
-			return ABORT_GAME;
-		else if (!_ctx.controller->wants(Enums::Screen::ATLAS))
+		if (!_ctx.controller->wants(Enums::Screen::ATLAS))
 			return GO_TO_COMPENDIUM;
 
 		_ctx.ui->display_screen(Enums::Screen::ATLAS);

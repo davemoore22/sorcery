@@ -25,8 +25,8 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
-#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "core/enum.hpp"					// for Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_STORE, ABORT_GAME
 #include <SDL_events.h>						// for SDL_PollEvent
@@ -69,8 +69,7 @@ auto Sorcery::Buy::start() -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;

@@ -81,7 +81,7 @@ auto Sorcery::Rite::start() -> int {
 			switch (process_event(event)) {
 
 			case ModuleEvent::ABORT:
-				return ABORT_GAME;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;

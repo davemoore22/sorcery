@@ -441,11 +441,6 @@ auto Sorcery::Controller::abort(const bool value) -> void {
 	_abort = value;
 }
 
-auto Sorcery::Controller::want_to_abort() const -> bool {
-
-	return _abort || has_flag("want_abort_game");
-}
-
 auto Sorcery::Controller::get_input_buffer() -> std::string & {
 
 	return _input_buffer;

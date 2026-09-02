@@ -64,8 +64,7 @@ auto Sorcery::Rename::start() -> int {
 			switch (process_event(event)) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;

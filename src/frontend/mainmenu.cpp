@@ -86,8 +86,7 @@ auto Sorcery::MainMenu::start() -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -125,9 +124,6 @@ auto Sorcery::MainMenu::start() -> int {
 
 			if (_ctx.ui->popup_manager->consume_accepted("dialog_new"))
 				return MAIN_MENU_NEW_GAME;
-
-			if (_ctx.controller->want_to_abort())
-				return ABORT_GAME;
 
 			if (_ctx.controller->has_flag("want_continue_game"))
 				return MAIN_MENU_CONTINUE_GAME;

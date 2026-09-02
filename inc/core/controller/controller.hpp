@@ -133,7 +133,6 @@ class Controller {
 		auto wants(const Enums::Screen value) const -> bool;
 		auto is_at() const -> Enums::Screen;
 		auto abort(const bool value = true) -> void;
-		auto want_to_abort() const -> bool;
 		auto clear_modal_flags() -> void;
 
 		auto request_back() -> void;

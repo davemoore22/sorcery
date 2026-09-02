@@ -103,8 +103,7 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			switch (process_event(event, {.menu_key = true, .debug = true})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -140,10 +139,6 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 			_ctx.controller->set_game(nullptr);
 
 			return LEAVE_GAME;
-
-		} else if (_ctx.controller->want_to_abort()) {
-
-			return ABORT_GAME;
 
 		} else if (!_ctx.controller->wants(Enums::Screen::EDGEOFTOWN) &&
 				   _ctx.controller->wants(Enums::Screen::CASTLE)) {

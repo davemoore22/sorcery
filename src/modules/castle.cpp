@@ -117,8 +117,7 @@ auto Sorcery::Castle::start() -> int {
 			switch (process_event(event, {.menu_key = true, .debug = true})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;

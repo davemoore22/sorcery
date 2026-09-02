@@ -64,8 +64,7 @@ auto Sorcery::Bestiary::start() -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
-				break;
+				return abort();
 
 			case ModuleEvent::QUICKLOAD:
 				continue;
@@ -87,12 +86,7 @@ auto Sorcery::Bestiary::start() -> int {
 
 		_ctx.tick();
 
-		// If we have selected something, let's action it - either return to the
-		// calling object, or handle front-end stuff like options, license, or
-		// compendium here
-		if (_ctx.controller->want_to_abort())
-			return ABORT_GAME;
-		else if (!_ctx.controller->wants(Enums::Screen::BESTIARY))
+		if (!_ctx.controller->wants(Enums::Screen::BESTIARY))
 			return GO_TO_COMPENDIUM;
 	}
 
