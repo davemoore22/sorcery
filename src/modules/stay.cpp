@@ -70,7 +70,7 @@ auto Sorcery::Stay::start() -> int {
 
 	while (true) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(

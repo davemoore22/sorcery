@@ -73,9 +73,7 @@ auto Sorcery::MainMenu::start() -> int {
 	_ctx.audio->set_volume(1.0f);
 
 	// Main loop
-	auto done{false};
-
-	while (!done) {
+	while (true) {
 
 		SDL_Event event{};
 
@@ -114,54 +112,51 @@ auto Sorcery::MainMenu::start() -> int {
 
 		_ctx.tick();
 
-		if (!done) {
+		_ctx.ui->display_screen(Enums::Screen::MAINMENU);
 
-			_ctx.ui->display_screen(Enums::Screen::MAINMENU);
+		// Check for completed popup dialogs
+		if (_ctx.ui->popup_manager->consume_accepted("dialog_exit"))
+			return MAIN_MENU_EXIT_GAME;
 
-			// Check for completed popup dialogs
-			if (_ctx.ui->popup_manager->consume_accepted("dialog_exit"))
-				return MAIN_MENU_EXIT_GAME;
+		if (_ctx.ui->popup_manager->consume_accepted("dialog_new"))
+			return MAIN_MENU_NEW_GAME;
 
-			if (_ctx.ui->popup_manager->consume_accepted("dialog_new"))
-				return MAIN_MENU_NEW_GAME;
+		if (_ctx.controller->has_flag("want_continue_game"))
+			return MAIN_MENU_CONTINUE_GAME;
 
-			if (_ctx.controller->has_flag("want_continue_game"))
-				return MAIN_MENU_CONTINUE_GAME;
+		// Check for something being selected from a menu
+		if (_ctx.controller->wants(Enums::Screen::COMPENDIUM)) {
 
-			// Check for something being selected from a menu
-			if (_ctx.controller->wants(Enums::Screen::COMPENDIUM)) {
+			const auto result{_compendium->start()};
 
-				const auto result{_compendium->start()};
+			_compendium->stop();
 
-				_compendium->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 
-				if (result == ABORT_GAME)
-					return ABORT_GAME;
+			fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 
-				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
+		} else if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
 
-			} else if (_ctx.controller->wants(Enums::Screen::OPTIONS)) {
+			const auto result{_options->start(false)};
 
-				const auto result{_options->start(false)};
+			_options->stop();
 
-				_options->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 
-				if (result == ABORT_GAME)
-					return ABORT_GAME;
+			fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 
-				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
+		} else if (_ctx.controller->wants(Enums::Screen::LICENSE)) {
 
-			} else if (_ctx.controller->wants(Enums::Screen::LICENSE)) {
+			const auto result{_license->start()};
 
-				const auto result{_license->start()};
+			_license->stop();
 
-				_license->stop();
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
 
-				if (result == ABORT_GAME)
-					return ABORT_GAME;
-
-				fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
-			}
+			fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 		}
 	}
 

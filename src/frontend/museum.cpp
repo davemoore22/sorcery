@@ -53,10 +53,9 @@ auto Sorcery::Museum::start() -> int {
 	fade_in(Enums::Screen::MUSEUM, QUICK_FADE);
 
 	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(

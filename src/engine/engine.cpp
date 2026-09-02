@@ -111,8 +111,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		QUICK_FADE);
 
 	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
 		SDL_Event event{};
 
@@ -130,9 +129,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			case ModuleEvent::NONE:
 				break;
 			}
-
-			if (done)
-				break;
 
 			// Check for Debug
 			_ctx.controller->input->debug(event);
@@ -271,9 +267,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				}
 			}
 		}
-
-		if (done)
-			break;
 
 		//
 		// Frame/game-state processing

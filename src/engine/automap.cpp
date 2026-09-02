@@ -52,10 +52,9 @@ auto Sorcery::Automap::start(void) -> int {
 	fade_in(Enums::Screen::AUTOMAP, QUICK_FADE);
 
 	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(
@@ -63,7 +62,7 @@ auto Sorcery::Automap::start(void) -> int {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
+				return abort();
 				break;
 
 			case ModuleEvent::QUICKLOAD:

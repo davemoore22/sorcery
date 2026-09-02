@@ -55,9 +55,7 @@ auto Sorcery::Rename::start() -> int {
 
 	_ctx.audio->set_volume(1.0f);
 
-	auto done{false};
-	while (!done) {
-
+		while (true) {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 

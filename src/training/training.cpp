@@ -66,8 +66,7 @@ auto Sorcery::Training::start() -> int {
 	_ctx.audio->set_volume(1.0f);
 
 	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
 		SDL_Event event{};
 

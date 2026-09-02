@@ -54,12 +54,10 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 	fade_in(Enums::Screen::OPTIONS, QUICK_FADE);
 
 	// Main loop
-	auto done{false};
 	_fullscreen_before = _ctx.get_config(Enums::Config::FULLSCREEN);
 	_monochrome_before = _ctx.get_config(Enums::Config::COLOURED_WIREFRAME);
-	while (!done) {
-
-		SDL_Event event;
+	while (true) {
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(

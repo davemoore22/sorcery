@@ -69,10 +69,9 @@ auto Sorcery::Create::start() -> int {
 	_ctx.controller->clear_input_buffer();
 
 	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(

@@ -77,9 +77,7 @@ auto Sorcery::Select::start(const Enums::Selection::Edit mode) -> int {
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
-	auto done{false};
-	while (!done) {
-
+		while (true) {
 		SDL_Event event{};
 
 		while (SDL_PollEvent(&event)) {

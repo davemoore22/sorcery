@@ -67,10 +67,8 @@ auto Sorcery::Store::start() -> int {
 	show_immediately();
 
 	// Main loop
-	auto done{false};
-	while (!done) {
-
-		SDL_Event event;
+	while (true) {
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(

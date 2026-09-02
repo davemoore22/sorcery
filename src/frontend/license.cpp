@@ -65,10 +65,9 @@ auto Sorcery::License::start() -> int {
 	fade_in_with_string(Enums::Screen::LICENSE, QUICK_FADE, _license_text);
 
 	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(

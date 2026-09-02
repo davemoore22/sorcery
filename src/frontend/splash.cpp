@@ -61,10 +61,10 @@ auto Sorcery::Splash::start() -> int {
 	fade_in(Enums::Screen::SPLASH, QUICK_FADE);
 
 	// Main loop
-	auto done{false};
+	bool done{false};
 	while (!done) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 		}
 

@@ -80,11 +80,8 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 	fade_in(Enums::Screen::CHEST, QUICK_FADE);
 
-	auto done{false};
-
-	while (!done) {
-
-		SDL_Event event;
+	while (true) {
+		SDL_Event event{};
 
 		while (SDL_PollEvent(&event)) {
 
@@ -93,7 +90,7 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 				{.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
-				done = true;
+				return Enums::Chests::Result::ABORT;
 				break;
 
 			case ModuleEvent::QUICKLOAD:

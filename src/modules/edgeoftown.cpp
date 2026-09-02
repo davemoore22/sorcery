@@ -94,10 +94,9 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 	_ctx.audio->set_volume(1.0f);
 
 	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(event, {.menu_key = true, .debug = true})) {

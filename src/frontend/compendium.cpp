@@ -65,10 +65,9 @@ auto Sorcery::Compendium::start() -> int {
 	fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 
 	// Main loop
-	auto done{false};
-	while (!done) {
+	while (true) {
 
-		SDL_Event event;
+		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
 			switch (process_event(
