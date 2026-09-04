@@ -88,8 +88,6 @@ auto Sorcery::PopupStore::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(input_donate);
 	ADD_POPUP(input_name);
 
-	ADD_POPUP(modal_help);
-	ADD_POPUP(modal_tithe);
 	ADD_POPUP(modal_trade);
 	ADD_POPUP(modal_give);
 
@@ -105,19 +103,7 @@ auto Sorcery::PopupStore::create_dynamic_modal(const std::string name) -> void {
 
 	// DEBUG_LOGF("Creating Dynamic Modal: {}", name);
 
-	if (name == "modal_help") {
-		if (modal_help.get())
-			modal_help.reset();
-		modal_help = std::make_unique<Modal>(
-			_ctx, _ctx.components->get("global:modal_help"));
-		modal_help->regenerate();
-	} else if (name == "modal_tithe") {
-		if (modal_tithe.get())
-			modal_tithe.reset();
-		modal_tithe = std::make_unique<Modal>(
-			_ctx, _ctx.components->get("global:modal_tithe"));
-		modal_tithe->regenerate();
-	} else if (name == "modal_trade") {
+	if (name == "modal_trade") {
 		if (modal_trade.get())
 			modal_trade.reset();
 		modal_trade = std::make_unique<Modal>(
@@ -163,11 +149,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 
 	if (modal_give)
 		output.append(get_popup_status((void *)modal_give.get(), "modal"));
-	if (modal_help)
-		output.append(get_popup_status((void *)modal_help.get(), "modal"));
-	
-	if (modal_tithe)
-		output.append(get_popup_status((void *)modal_tithe.get(), "modal"));
 	if (modal_trade)
 		output.append(get_popup_status((void *)modal_trade.get(), "modal"));
 

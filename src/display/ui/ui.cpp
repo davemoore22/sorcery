@@ -3278,16 +3278,9 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	constexpr auto UI_FLAGS_COUNT{6};
+	constexpr auto UI_FLAGS_COUNT{2};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
-		{"temple_menu",
-		 {std::ref(popups->modal_help->show),
-		  std::ref(popups->modal_tithe->show)}},
-		{"help_menu", {std::ref(popups->modal_help->show)}},
-		{"tithe_menu",
-		 {std::ref(popups->modal_tithe->show),
-		  std::ref(popups->input_donate->show)}},
 		{"trade_menu",
 		 {std::ref(popups->modal_trade->show),
 		  std::ref(popups->modal_give->show)}},

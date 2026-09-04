@@ -43,8 +43,6 @@ class PopupStore {
 		std::unique_ptr<Input> input_donate;
 		std::unique_ptr<Input> input_name;
 
-		std::unique_ptr<Modal> modal_help;
-		std::unique_ptr<Modal> modal_tithe;
 		std::unique_ptr<Modal> modal_trade;
 		std::unique_ptr<Modal> modal_give;
 

@@ -416,37 +416,6 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		} else
 			_host.set_character(Enums::CharacterSlot::EDIT, data);
 		return true;
-	} else if (component == "tithe_menu") {
-
-		// Flags = &_ui->popups->modal_tithe->show, &_ui->input_donate->show,
-
-		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host.clear_character(Enums::CharacterSlot::TITHE);
-			_host.request_back();
-		} else {
-			_host.set_character(Enums::CharacterSlot::TITHE, data);
-			_host._flags["want_donate"] = true;
-			flags.at(1).get() = true;
-		}
-
-		// Remove the Modal
-		flags.at(0).get() = false;
-		return true;
-	} else if (component == "help_menu") {
-
-		// Flags = &_ui->popups->modal_help->show
-
-		// Get the Character ID of the Selected Character and set it
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host.clear_character(Enums::CharacterSlot::HELP);
-			_host.request_back();
-		} else
-			_host.set_character(Enums::CharacterSlot::HELP, data);
-
-		// Remove the Modal
-		flags.at(0).get() = false;
-		return true;
 	} else if (component == "temple_heal_menu") {
 
 		if (selection == static_cast<int>(items.size()) - 1) {

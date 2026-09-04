@@ -184,8 +184,6 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 						_ctx.controller->clear_character(
 							Enums::CharacterSlot::TITHE);
 
-						_ctx.ui->popups->modal_tithe->regenerate();
-
 						_ctx.ui->popup_manager->open_dialog(
 							"global:notice_donated_ok",
 							Enums::Layout::DialogType::OK);
