@@ -26,7 +26,8 @@
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for CharacterSlot, Screen
-#include "display/ui/popupstore.hpp"		// for PopupStore
+#include "display/ui/popupmanager.hpp"
+#include "display/ui/popupstore.hpp"	 // for PopupStore
 #include "display/ui/ui.hpp"			 // for UI, TransientMode, Transien...
 #include "drawables/modal.hpp"			 // for Modal
 #include "types/character/character.hpp" // for Character
@@ -75,10 +76,8 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 	_initialise();
 
-	_ctx.ui->popups->modal_chest->show = false;
-	_ctx.controller->unset_flag("want_chest");
-
-	fade_in(Enums::Screen::CHEST, QUICK_FADE);
+	fade_in_with_int(Enums::Screen::CHEST, QUICK_FADE,
+					 std::to_underlying(_state.state));
 
 	while (true) {
 		SDL_Event event{};
@@ -102,6 +101,21 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 			if (!_ctx.ui->transient_blocks_input() &&
 				_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active()) {
+
+					_ctx.ui->popup_manager->close();
+
+					_ctx.controller->clear_character(
+						Enums::CharacterSlot::TRAP);
+
+					_ctx.controller->unset_selected("chest_trap_selection");
+
+					_state.actor.reset();
+					_state.state = Enums::Chests::State::MENU;
+
+					continue;
+				}
 
 				return Enums::Chests::Result::LEFT;
 			}
@@ -144,21 +158,14 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 auto Sorcery::Chest::_show_trap_modal() -> void {
 
-	_ctx.ui->popups->modal_chest->set_title("CHEST_TRAP_TITLE");
-	_ctx.ui->popups->modal_chest->regenerate("chest_trap_menu");
-	_ctx.ui->popups->modal_chest->show = true;
+	_ctx.ui->popup_manager->open_modal("global:modal_chest", "chest_trap_menu",
+									   "CHEST_TRAP_TITLE");
 }
 
 auto Sorcery::Chest::stop(void) -> void {
 
-	fade_out(Enums::Screen::CHEST, QUICK_FADE);
-}
-
-auto Sorcery::Chest::_show_character_modal(const std::string_view menu_name)
-	-> void {
-
-	_ctx.ui->popups->modal_chest->regenerate(menu_name);
-	_ctx.ui->popups->modal_chest->show = true;
+	fade_out_with_int(Enums::Screen::CHEST, QUICK_FADE,
+					  std::to_underlying(_state.state));
 }
 
 auto Sorcery::Chest::_inspect(const int character_id) -> void {
@@ -421,34 +428,41 @@ auto Sorcery::Chest::_process_menu_action() -> void {
 	switch (action) {
 
 	case 0: // Open
+
 		_state.state = CHOOSE_OPEN_CHARACTER;
-		_ctx.ui->popups->modal_chest->set_title("CHEST_OPEN_TITLE");
-		_show_character_modal("chest_open_menu");
+		_show_character_modal("chest_open_menu", "CHEST_OPEN_TITLE");
+
 		break;
 
 	case 1: // Inspect
+
 		_state.state = CHOOSE_INSPECT_CHARACTER;
-		_ctx.ui->popups->modal_chest->set_title("CHEST_INSPECT_TITLE");
-		_show_character_modal("chest_inspect_menu");
+		_show_character_modal("chest_inspect_menu", "CHEST_INSPECT_TITLE");
+
 		break;
 
 	case 2: // Calfo
+
 		_state.state = CHOOSE_CALFO_CHARACTER;
-		_ctx.ui->popups->modal_chest->set_title("CHEST_CALFO_TITLE");
-		_show_character_modal("chest_calfo_menu");
+		_show_character_modal("chest_calfo_menu", "CHEST_CALFO_TITLE");
+
 		break;
 
 	case 3: // Disarm
+
 		_state.state = CHOOSE_DISARM_CHARACTER;
-		_ctx.ui->popups->modal_chest->set_title("CHEST_DISARM_TITLE");
-		_show_character_modal("chest_disarm_menu");
+		_show_character_modal("chest_disarm_menu", "CHEST_DISARM_TITLE");
+
 		break;
 
 	default:
+
 		_state.state = MENU;
+
 		break;
 	}
 }
+
 auto Sorcery::Chest::_process_character_action() -> void {
 
 	if (!_ctx.controller->has_character(Enums::CharacterSlot::TRAP))
@@ -626,4 +640,12 @@ auto Sorcery::Chest::_process_trap_action() -> void {
 	_state.actor.reset();
 
 	_disarm(character_id, trap);
+}
+
+auto Sorcery::Chest::_show_character_modal(const std::string_view menu_name,
+										   const std::string_view title_key)
+	-> void {
+
+	_ctx.ui->popup_manager->open_modal("global:modal_chest", menu_name,
+									   title_key);
 }

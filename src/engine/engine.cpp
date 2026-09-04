@@ -572,7 +572,6 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
 		_ctx.ui->popups->modal_identify->show = false;
-		_ctx.ui->popups->modal_chest->show = false;
 		_ctx.ui->popups->modal_equip->show = false;
 		_ctx.ui->popups->modal_remove->show = false;
 		_ctx.ui->popups->modal_spell->show = false;
@@ -585,7 +584,6 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 		// Hide any other modals that might be showing
 		_ctx.ui->popups->modal_identify->show = false;
-		_ctx.ui->popups->modal_chest->show = false;
 		_ctx.ui->popups->modal_spell->show = false;
 		_ctx.ui->popups->modal_equip->show = false;
 		_ctx.ui->popups->modal_remove->show = false;
@@ -1376,9 +1374,6 @@ auto Sorcery::Engine::_process_tile_entry(const Coordinate from,
 }
 
 auto Sorcery::Engine::_start_chest() -> int {
-
-	//_ctx.ui->popups->create_dynamic_modal("modal_chest");
-	//_ctx.ui->popups->modal_chest->regenerate();
 
 	const auto result{_chest->start()};
 	_chest->stop();

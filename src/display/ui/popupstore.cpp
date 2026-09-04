@@ -45,8 +45,6 @@ Sorcery::PopupStore::PopupStore(Context &ctx)
 		_ctx, _ctx.components->get("global:modal_inspect"));
 	modal_identify = std::make_unique<Modal>(
 		_ctx, _ctx.components->get("global:modal_identify"));
-	modal_chest = std::make_unique<Modal>(
-		_ctx, _ctx.components->get("global:modal_chest"));
 	modal_equip = std::make_unique<Modal>(
 		_ctx, _ctx.components->get("global:modal_equip"));
 	modal_remove = std::make_unique<Modal>(
@@ -109,7 +107,6 @@ auto Sorcery::PopupStore::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(modal_help);
 	ADD_POPUP(modal_tithe);
 	ADD_POPUP(modal_identify);
-	ADD_POPUP(modal_chest);
 	ADD_POPUP(modal_equip);
 	ADD_POPUP(modal_remove);
 	ADD_POPUP(modal_spell);
@@ -155,12 +152,6 @@ auto Sorcery::PopupStore::create_dynamic_modal(const std::string name) -> void {
 		modal_identify = std::make_unique<Modal>(
 			_ctx, _ctx.components->get("global:modal_identify"));
 		modal_identify->regenerate();
-	} else if (name == "modal_chest") {
-		if (modal_chest.get())
-			modal_chest.reset();
-		modal_chest = std::make_unique<Modal>(
-			_ctx, _ctx.components->get("global:modal_chest"));
-		modal_chest->regenerate();
 	} else if (name == "modal_equip") {
 		if (modal_equip.get())
 			modal_equip.reset();
@@ -241,8 +232,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 	if (input_name)
 		output.append(get_popup_status((void *)input_name.get(), "input"));
 
-	if (modal_chest)
-		output.append(get_popup_status((void *)modal_chest.get(), "modal"));
 	if (modal_drop)
 		output.append(get_popup_status((void *)modal_drop.get(), "modal"));
 	if (modal_equip)

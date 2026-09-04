@@ -69,6 +69,12 @@ class Module {
 		auto fade_out_with_string(const Enums::Screen screen,
 								  const std::chrono::milliseconds duration,
 								  const std::string &string) -> void;
+		auto fade_in_with_int(const Enums::Screen screen,
+							  const std::chrono::milliseconds duration,
+							  const int value) -> void;
+		auto fade_out_with_int(const Enums::Screen screen,
+							   const std::chrono::milliseconds duration,
+							   const int value) -> void;
 		auto fade_in(const std::function<void()> &draw,
 					 std::chrono::milliseconds duration) -> void;
 		auto fade_out(const std::function<void()> &draw,

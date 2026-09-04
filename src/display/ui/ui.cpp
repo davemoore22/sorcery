@@ -300,8 +300,6 @@ auto Sorcery::UI::display_engine() -> void {
 		popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	if (popups->modal_identify->show)
 		popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	if (popups->modal_chest->show)
-		popups->modal_chest->display(_ctx.get_flag_ref("want_chest"));
 	if (popups->modal_equip->show)
 		popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
 	if (popups->modal_remove->show)
@@ -3296,7 +3294,7 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	constexpr auto UI_FLAGS_COUNT{19};
+	constexpr auto UI_FLAGS_COUNT{14};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
 		{"temple_menu",
@@ -3319,11 +3317,6 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 		 {std::ref(popups->modal_trade->show),
 		  std::ref(popups->modal_give->show)}},
 		{"give_menu", {std::ref(popups->modal_give->show)}},
-		{"chest_open_menu", {std::ref(popups->modal_chest->show)}},
-		{"chest_inspect_menu", {std::ref(popups->modal_chest->show)}},
-		{"chest_calfo_menu", {std::ref(popups->modal_chest->show)}},
-		{"chest_disarm_menu", {std::ref(popups->modal_chest->show)}},
-		{"chest_trap_menu", {std::ref(popups->modal_chest->show)}},
 	}};
 
 	if (const auto it{std::ranges::find(flags, name,

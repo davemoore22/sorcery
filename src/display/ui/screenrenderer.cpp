@@ -416,12 +416,8 @@ auto Sorcery::ScreenRenderer::_display_chest(const int stage) -> void {
 
 	_ui.draw_components("chest");
 	_draw_chest(enum_cast<Enums::Chests::State>(stage).value());
-
-	// Transient overlay
+	_ui.popup_manager->display();
 	_ui.draw_transient();
-
-	if (_ui.popups->modal_chest->show)
-		_ui.popups->modal_chest->display(_ctx.get_flag_ref("want_chest"));
 }
 
 auto Sorcery::ScreenRenderer::_display_recovery(const int mode) -> void {

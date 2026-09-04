@@ -173,3 +173,21 @@ auto Sorcery::PopupManager::open_modal(const std::string_view component,
 
 	_active = _modal2.get();
 }
+
+auto Sorcery::PopupManager::open_modal(const std::string_view component,
+									   const std::string_view menu_name,
+									   const std::string_view title_key)
+	-> void {
+
+	close();
+
+	_completed.reset();
+
+	auto &cmp{_ctx.components->get(component)};
+
+	_modal2->build(cmp, menu_name);
+	_modal2->set_title(title_key);
+	_modal2->open();
+
+	_active = _modal2.get();
+}

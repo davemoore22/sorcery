@@ -319,25 +319,34 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 			   component == "chest_inspect_menu" ||
 			   component == "chest_disarm_menu") {
 
-		if (selection == (static_cast<int>(items.size()) - 1)) {
+		if (selection == static_cast<int>(items.size()) - 1) {
+
 			_host.clear_character(Enums::CharacterSlot::TRAP);
+
 			_host.set_flag("chest_character_cancelled");
+
 		} else {
+
 			_host.set_character(Enums::CharacterSlot::TRAP, data);
 		}
 
-		flags.at(0).get() = false;
+		_ctx.ui->popup_manager->close();
+
 		return true;
 
 	} else if (component == "chest_trap_menu") {
 
 		if (selection == static_cast<int>(items.size()) - 1) {
+
 			_host.set_flag("chest_trap_cancelled");
+
 		} else {
+
 			_host.set_selected("chest_trap_selection", selection);
 		}
 
-		flags.at(0).get() = false;
+		_ctx.ui->popup_manager->close();
+
 		return true;
 	} else if (component == "change_class_menu") {
 		if (selection == (static_cast<int>(items.size()) - 1)) {
@@ -466,16 +475,6 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		// Flags = &_ui->popups->modal_identify->show
 		if (selection == (static_cast<int>(items.size()) - 1)) {
 			_host._flags["want_identify"] = true;
-			flags.at(0).get() = false;
-		} else {
-			// TODO
-		}
-		return true;
-	} else if (component == "chest_open_menu") {
-
-		// Flags = &_ui->popups->modal_chest>show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_chest"] = true;
 			flags.at(0).get() = false;
 		} else {
 			// TODO

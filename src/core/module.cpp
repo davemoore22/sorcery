@@ -110,6 +110,28 @@ auto Sorcery::Module::fade_in_with_string(
 		1.0f, 0.0f, duration);
 }
 
+auto Sorcery::Module::fade_in_with_int(const Enums::Screen screen,
+									   const std::chrono::milliseconds duration,
+									   const int value) -> void {
+
+	_fade(
+		[this, screen, value] {
+			_ctx.ui->display_screen(screen, value);
+		},
+		1.0f, 0.0f, duration);
+}
+
+auto Sorcery::Module::fade_out_with_int(
+	const Enums::Screen screen, const std::chrono::milliseconds duration,
+	const int value) -> void {
+
+	_fade(
+		[this, screen, value] {
+			_ctx.ui->display_screen(screen, value);
+		},
+		0.0f, 1.0f, duration);
+}
+
 auto Sorcery::Module::fade_out_with_string(
 	const Enums::Screen screen, const std::chrono::milliseconds duration,
 	const std::string &string) -> void {

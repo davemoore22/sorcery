@@ -62,6 +62,8 @@ class PopupManager {
 		auto open_modal(std::string_view component) -> void;
 		auto open_modal(std::string_view component, std::string_view menu_name)
 			-> void;
+		auto open_modal(std::string_view component, std::string_view menu_name,
+						std::string_view title_key) -> void;
 		auto close() -> void;
 		auto display() -> void;
 		auto reset() -> void;
