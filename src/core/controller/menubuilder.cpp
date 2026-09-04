@@ -85,7 +85,7 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"use_menu", {"USE_RETURN"}},
 	{"invoke_menu", {"INVOKE_RETURN"}},
 	{"give_menu", {"GIVE_RETURN"}},
-	{"remove_item_menu", {"REMOVE_ITEM_RETURN, RETURN"}},
+	{"remove_item_menu", {"REMOVE_ITEM_RETURN"}},
 
 	{"inn_menu", {"INN_RETURN"}},
 
@@ -581,7 +581,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"use_menu", MENU_USE_ITEM},
 		std::pair{"invoke_menu", MENU_INVOKE_ITEM},
 		std::pair{"equip_menu", MENU_EQUIP_ITEM},
-		std::pair{"remove_menu", MENU_REMOVE_ITEM},
+		std::pair{"remove_item_menu", MENU_REMOVE_ITEM},
 		std::pair{"choose_menu", MENU_FULL_NAME},
 		std::pair{"inn_menu", MENU_FULL_NAME},
 		std::pair{"shop_menu", MENU_FULL_NAME},
@@ -590,7 +590,6 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const
 		std::pair{"temple_pay_menu", MENU_SHOW_GOLD},
 		std::pair{"pay_menu", MENU_SHOW_GOLD},
 		std::pair{"reorder_menu", MENU_SHOW_POSITION},
-		std::pair{"sell_menu", MENU_SHOP_SELL_ITEM},
 		std::pair{"chest_inspect_menu", MENU_SHOW_IDENTIFY_TRAP},
 		std::pair{"chest_open_menu", MENU_SHOW_AVOID_TRAP},
 		std::pair{"chest_calfo_menu", MENU_SHOW_CALFO_USES_LEFT},

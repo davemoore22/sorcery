@@ -490,16 +490,6 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 			// TODO
 		}
 		return true;
-	} else if (component == "remove_menu") {
-
-		// Flags = &_ui->popups->modal_remove->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_remove"] = true;
-			flags.at(0).get() = false;
-		} else {
-			// TODO
-		}
-		return true;
 	} else if (component == "spell_menu") {
 
 		// Flags = &_ui->popups->modalspell->show
