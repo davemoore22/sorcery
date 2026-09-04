@@ -571,27 +571,12 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
-		_ctx.ui->popups->modal_identify->show = false;
-		_ctx.ui->popups->modal_equip->show = false;
-		_ctx.ui->popups->modal_remove->show = false;
-		_ctx.ui->popups->modal_spell->show = false;
-		_ctx.ui->popups->modal_drop->show = false;
-		_ctx.ui->popups->modal_use->show = false;
-		_ctx.ui->popups->modal_invoke->show = false;
-		_ctx.ui->popups->modal_trade->show = false;
-		_ctx.ui->popups->modal_give->show = false;
+		_ctx.ui->close_all_popups();
+
 	} else {
 
 		// Hide any other modals that might be showing
-		_ctx.ui->popups->modal_identify->show = false;
-		_ctx.ui->popups->modal_spell->show = false;
-		_ctx.ui->popups->modal_equip->show = false;
-		_ctx.ui->popups->modal_remove->show = false;
-		_ctx.ui->popups->modal_drop->show = false;
-		_ctx.ui->popups->modal_use->show = false;
-		_ctx.ui->popups->modal_invoke->show = false;
-		_ctx.ui->popups->modal_trade->show = false;
-		_ctx.ui->popups->modal_give->show = false;
+		_ctx.ui->close_all_popups();
 
 		(void)_process_current_tile();
 	}

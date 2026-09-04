@@ -298,24 +298,10 @@ auto Sorcery::UI::display_engine() -> void {
 
 	if (popups->modal_inspect->show)
 		popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	if (popups->modal_identify->show)
-		popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	if (popups->modal_equip->show)
-		popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	if (popups->modal_remove->show)
-		popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	if (popups->modal_drop->show)
-		popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	if (popups->modal_trade->show)
 		popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	if (popups->modal_give->show)
 		popups->modal_give->display(_ctx.get_flag_ref("want_give"));
-	if (popups->modal_use->show)
-		popups->modal_use->display(_ctx.get_flag_ref("want_use"));
-	if (popups->modal_invoke->show)
-		popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
-	if (popups->modal_spell->show)
-		popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
 	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
 		draw_party_panel();
 	if (_ctx.get_flag("interface_ui")) {
@@ -3294,7 +3280,7 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	constexpr auto UI_FLAGS_COUNT{14};
+	constexpr auto UI_FLAGS_COUNT{7};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
 		{"temple_menu",
@@ -3306,13 +3292,6 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 		{"tithe_menu",
 		 {std::ref(popups->modal_tithe->show),
 		  std::ref(popups->input_donate->show)}},
-		{"identify_menu", {std::ref(popups->modal_identify->show)}},
-		{"equip_menu", {std::ref(popups->modal_equip->show)}},
-		{"remove_item_menu", {std::ref(popups->modal_remove->show)}},
-		{"spell_menu", {std::ref(popups->modal_spell->show)}},
-		{"drop_menu", {std::ref(popups->modal_drop->show)}},
-		{"use_menu", {std::ref(popups->modal_use->show)}},
-		{"invoke_menu", {std::ref(popups->modal_invoke->show)}},
 		{"trade_menu",
 		 {std::ref(popups->modal_trade->show),
 		  std::ref(popups->modal_give->show)}},

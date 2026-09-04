@@ -472,42 +472,68 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		return true;
 	} else if (component == "identify_menu") {
 
-		// Flags = &_ui->popups->modal_identify->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_identify"] = true;
-			flags.at(0).get() = false;
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.set_flag("want_identify");
+			_ctx.ui->popup_manager->close();
+
 		} else {
+
 			// TODO
 		}
+
+		return true;
+	} else if (component == "remove_item_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.set_flag("want_remove");
+			_ctx.ui->popup_manager->close();
+
+		} else {
+
+			// TODO
+		}
+
 		return true;
 	} else if (component == "equip_menu") {
 
-		// Flags = &_ui->popups->modal_equip->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_equip"] = true;
-			flags.at(0).get() = false;
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.set_flag("want_equip");
+			_ctx.ui->popup_manager->close();
+
 		} else {
+
 			// TODO
 		}
+
 		return true;
 	} else if (component == "spell_menu") {
 
-		// Flags = &_ui->popups->modalspell->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_spell"] = true;
-			flags.at(0).get() = false;
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.set_flag("want_spell");
+			_ctx.ui->popup_manager->close();
+
 		} else {
+
 			// TODO
 		}
+
 		return true;
 	} else if (component == "drop_menu") {
 
-		// Flags = &_ui->popups->modal_drop->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_drop"] = true;
-			flags.at(0).get() = false;
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.set_flag("want_drop");
+			_ctx.ui->popup_manager->close();
+
 		} else {
+
+			// TODO
 		}
+
 		return true;
 	} else if (component == "trade_menu") {
 
@@ -528,21 +554,31 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		return true;
 	} else if (component == "use_menu") {
 
-		// Flags = &_ui->popups->modal_use->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_use"] = true;
-			flags.at(0).get() = false;
-		} else {
-		}
-		return true;
-	} else if (component == "invoke_menu") {
+		if (selection == static_cast<int>(items.size()) - 1) {
 
-		// Flags = &_ui->popups->modal_invoke->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_invoke"] = true;
-			flags.at(0).get() = false;
+			_host.set_flag("want_use");
+			_ctx.ui->popup_manager->close();
+
 		} else {
+
+			// TODO
 		}
+
+		return true;
+	}
+
+	else if (component == "invoke_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.set_flag("want_invoke");
+			_ctx.ui->popup_manager->close();
+
+		} else {
+
+			// TODO
+		}
+
 		return true;
 	}
 
@@ -703,8 +739,8 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 				return false;
 			};
 
-			// And although we will never reach here really, onlu OK characters
-			// can be selected
+			// And although we will never reach here really, onlu OK
+			// characters can be selected
 			return character.get_status() != Enums::Character::Status::OK;
 		}
 	} else if (component == "temple_pay_menu") {
@@ -745,8 +781,8 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
 
-				// Data is not the item type here - its the slot so we can't use
-				// it to work out what is disabled or not!
+				// Data is not the item type here - its the slot so we can't
+				// use it to work out what is disabled or not!
 				const auto item{who.inventory.items().at(selection)};
 				const auto item_type{
 					_ctx.resources->items->get_item_type(item.get_type_id())};
@@ -772,8 +808,8 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 #pragma GCC diagnostic ignored "-Wsign-compare"
 			if (selection < who.inventory.items().size()) {
 
-				// Data is not the item type here - its the slot so we can't use
-				// it to work out what is disabled or not!
+				// Data is not the item type here - its the slot so we can't
+				// use it to work out what is disabled or not!
 				const auto item{who.inventory.items().at(selection)};
 				const auto item_type{
 					_ctx.resources->items->get_item_type(item.get_type_id())};
@@ -790,7 +826,8 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 
 	} else if (component == "equip_menu") {
 
-		// Remember this is returning true if the item is meant to be disabled!
+		// Remember this is returning true if the item is meant to be
+		// disabled!
 		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
 
 			const auto &who{_host._game->characters.at(
@@ -807,7 +844,8 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 			return false;
 	} else if (component == "remove_item_menu") {
 
-		// Remember this is returning true if the item is meant to be disabled!
+		// Remember this is returning true if the item is meant to be
+		// disabled!
 		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
 
 			const auto &who{_host._game->characters.at(

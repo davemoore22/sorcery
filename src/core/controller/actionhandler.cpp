@@ -78,9 +78,7 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 
 	if (component == "button_identify") {
 
-		// Show Identify Modal
-		_ctx.ui->popups->modal_identify->regenerate();
-		_ctx.ui->popups->modal_identify->show = true;
+		_ctx.ui->popup_manager->open_modal("global:modal_identify");
 
 		_host.set_flag("want_identify");
 
@@ -94,7 +92,6 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 
 	} else if (component == "button_leave") {
 
-		// Leave Inspect
 		_host.unset_flag("want_inspect");
 		_host.request_back();
 
@@ -102,15 +99,13 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 
 	} else if (component == "button_drop") {
 
-		// Show Drop Modal
-		_ctx.ui->popups->modal_drop->regenerate();
-		_ctx.ui->popups->modal_drop->show = true;
+		_ctx.ui->popup_manager->open_modal("global:modal_drop");
 
 		_host.set_flag("want_drop");
 
 	} else if (component == "button_trade") {
 
-		// Show Trade Modal
+		// Leave this legacy for now.
 		_ctx.ui->popups->modal_trade->regenerate();
 		_ctx.ui->popups->modal_trade->show = true;
 
@@ -122,41 +117,31 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 
 	} else if (component == "button_use") {
 
-		// Show Use Modal
-		_ctx.ui->popups->modal_use->regenerate();
-		_ctx.ui->popups->modal_use->show = true;
+		_ctx.ui->popup_manager->open_modal("global:modal_use");
 
 		_host.set_flag("want_use");
 
 	} else if (component == "button_equip") {
 
-		// Show Equip Modal
-		_ctx.ui->popups->modal_equip->regenerate();
-		_ctx.ui->popups->modal_equip->show = true;
+		_ctx.ui->popup_manager->open_modal("global:modal_equip");
 
 		_host.set_flag("want_equip");
 
 	} else if (component == "button_remove") {
 
-		// Show Remove Modal
-		_ctx.ui->popups->modal_remove->regenerate();
-		_ctx.ui->popups->modal_remove->show = true;
+		_ctx.ui->popup_manager->open_modal("global:modal_remove_item");
 
 		_host.set_flag("want_remove");
 
 	} else if (component == "button_spell") {
 
-		// Show Spell Modal
-		_ctx.ui->popups->modal_spell->regenerate();
-		_ctx.ui->popups->modal_spell->show = true;
+		_ctx.ui->popup_manager->open_modal("global:modal_spell");
 
 		_host.set_flag("want_spell");
 
 	} else if (component == "button_invoke") {
 
-		// Show Invoke Modal
-		_ctx.ui->popups->modal_invoke->regenerate();
-		_ctx.ui->popups->modal_invoke->show = true;
+		_ctx.ui->popup_manager->open_modal("global:modal_invoke");
 
 		_host.set_flag("want_invoke");
 

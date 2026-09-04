@@ -71,25 +71,11 @@ auto Sorcery::Tavern::start() -> int {
 
 	// Need this before accessing modal_inspect!
 	_ctx.ui->popups->create_dynamic_modal("modal_inspect");
-	_ctx.ui->popups->create_dynamic_modal("modal_identify");
-	_ctx.ui->popups->create_dynamic_modal("modal_equip");
-	_ctx.ui->popups->create_dynamic_modal("modal_remove");
-	_ctx.ui->popups->create_dynamic_modal("modal_spell");
-	_ctx.ui->popups->create_dynamic_modal("modal_drop");
 	_ctx.ui->popups->create_dynamic_modal("modal_give");
 	_ctx.ui->popups->create_dynamic_modal("modal_trade");
-	_ctx.ui->popups->create_dynamic_modal("modal_use");
-	_ctx.ui->popups->create_dynamic_modal("modal_invoke");
 	_ctx.ui->popups->modal_inspect->show = false;
-	_ctx.ui->popups->modal_equip->show = false;
-	_ctx.ui->popups->modal_remove->show = false;
-	_ctx.ui->popups->modal_spell->show = false;
-	_ctx.ui->popups->modal_drop->show = false;
-	_ctx.ui->popups->modal_trade->show = false;
-	_ctx.ui->popups->modal_use->show = false;
 	_ctx.ui->popups->modal_give->show = false;
 	_ctx.ui->popups->modal_trade->show = false;
-	_ctx.ui->popups->modal_invoke->show = false;
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	// Main loop

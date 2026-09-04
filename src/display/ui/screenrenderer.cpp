@@ -276,24 +276,9 @@ auto Sorcery::ScreenRenderer::_display_inspect(const int mode) -> void {
 	if (mode & INSPECT_MODE_ACTIONS)
 		_ui.draw_components("inspect_actions", mode);
 	_ui.draw_current_character(mode);
-	if (_ui.popups->modal_identify->show)
-		_ui.popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	if (_ui.popups->modal_equip->show)
-		_ui.popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	if (_ui.popups->modal_remove->show)
-		_ui.popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	if (_ui.popups->modal_spell->show)
-		_ui.popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	if (_ui.popups->modal_drop->show)
-		_ui.popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
-	if (_ui.popups->modal_trade->show)
-		_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
+	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	if (_ui.popups->modal_give->show)
 		_ui.popups->modal_give->display(_ctx.get_flag_ref("want_give"));
-	if (_ui.popups->modal_use->show)
-		_ui.popups->modal_use->display(_ctx.get_flag_ref("want_use"));
-	if (_ui.popups->modal_invoke->show)
-		_ui.popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 
 	_ui.popup_manager->display();
 	_ui.draw_debug();
@@ -344,15 +329,8 @@ auto Sorcery::ScreenRenderer::_display_inn() -> void {
 	_ui.draw_components("inn");
 	_ui.draw_party_panel();
 	_ui.popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	_ui.popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	_ui.popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	_ui.popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	_ui.popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	_ui.popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
 	_ui.popups->modal_give->display(_ctx.get_flag_ref("want_give"));
 	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	_ui.popups->modal_use->display(_ctx.get_flag_ref("want_use"));
-	_ui.popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	_ui.popup_manager->display();
 	_ui.draw_debug();
 }
@@ -463,16 +441,8 @@ auto Sorcery::ScreenRenderer::_display_tavern() -> void {
 
 	_ui.draw_components("tavern");
 	_ui.popup_manager->display();
-	_ui.popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
-	_ui.popups->modal_equip->display(_ctx.get_flag_ref("want_equip"));
-	_ui.popups->modal_remove->display(_ctx.get_flag_ref("want_remove"));
-	_ui.popups->modal_spell->display(_ctx.get_flag_ref("want_spell"));
-	_ui.popups->modal_identify->display(_ctx.get_flag_ref("want_identify"));
-	_ui.popups->modal_drop->display(_ctx.get_flag_ref("want_drop"));
-	_ui.popups->modal_use->display(_ctx.get_flag_ref("want_use"));
 	_ui.popups->modal_give->display(_ctx.get_flag_ref("want_give"));
 	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	_ui.popups->modal_invoke->display(_ctx.get_flag_ref("want_invoke"));
 	_ui.draw_party_panel();
 	_ui.draw_debug();
 }
