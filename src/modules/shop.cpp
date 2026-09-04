@@ -64,11 +64,9 @@ auto Sorcery::Shop::start() -> int {
 
 	show_immediately();
 
-	// Need this before accessing modal_inspect!
-	_ctx.ui->popups->create_dynamic_modal("modal_inspect");
-	_ctx.ui->popups->create_dynamic_modal("modal_trade");
+		_ctx.ui->popups->create_dynamic_modal("modal_trade");
 	_ctx.ui->popups->create_dynamic_modal("modal_give");
-	_ctx.ui->popups->modal_inspect->show = false;
+
 	_ctx.ui->popups->modal_give->show = false;
 	_ctx.ui->popups->modal_trade->show = false;
 

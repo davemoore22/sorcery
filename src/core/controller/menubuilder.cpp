@@ -71,7 +71,6 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	  "CHEST_ALARM", "CHEST_TRAP_LEAVE"}},
 
 	{"inspect_menu", {"INSPECT_RETURN"}},
-	{"modal_inspect", {"INSPECT_RETURN"}},
 
 	{"chest_inspect_menu", {"CHEST_RETURN"}},
 	{"chest_open_menu", {"CHEST_RETURN"}},

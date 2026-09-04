@@ -296,8 +296,6 @@ auto Sorcery::UI::display_engine() -> void {
 
 	popup_manager->display();
 
-	if (popups->modal_inspect->show)
-		popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
 	if (popups->modal_trade->show)
 		popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	if (popups->modal_give->show)
@@ -3280,14 +3278,12 @@ auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
 
 	using Flags = std::vector<std::reference_wrapper<bool>>;
 
-	constexpr auto UI_FLAGS_COUNT{7};
+	constexpr auto UI_FLAGS_COUNT{6};
 
 	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
 		{"temple_menu",
 		 {std::ref(popups->modal_help->show),
 		  std::ref(popups->modal_tithe->show)}},
-		{"inspect_menu", {std::ref(popups->modal_inspect->show)}},
-		{"roster_menu", {std::ref(popups->modal_inspect->show)}},
 		{"help_menu", {std::ref(popups->modal_help->show)}},
 		{"tithe_menu",
 		 {std::ref(popups->modal_tithe->show),

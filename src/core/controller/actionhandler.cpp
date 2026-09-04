@@ -95,8 +95,6 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 		_host.unset_flag("want_inspect");
 		_host.request_back();
 
-		_ctx.ui->popups->modal_inspect->show = false;
-
 	} else if (component == "button_drop") {
 
 		_ctx.ui->popup_manager->open_modal("global:modal_drop");

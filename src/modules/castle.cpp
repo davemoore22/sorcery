@@ -81,9 +81,7 @@ auto Sorcery::Castle::start() -> int {
 
 	fade_in(Enums::Screen::CASTLE, QUICK_FADE);
 
-	// Need this before accessing modal_inspect!
-	_ctx.ui->popups->create_dynamic_modal("modal_inspect");
-	_ctx.ui->popups->create_dynamic_modal("modal_trade");
+		_ctx.ui->popups->create_dynamic_modal("modal_trade");
 	_ctx.ui->popups->create_dynamic_modal("modal_give");
 	_ctx.ui->popups->modal_give->show = false;
 	_ctx.ui->popups->modal_trade->show = false;

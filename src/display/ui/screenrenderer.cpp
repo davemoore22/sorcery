@@ -328,7 +328,7 @@ auto Sorcery::ScreenRenderer::_display_inn() -> void {
 
 	_ui.draw_components("inn");
 	_ui.draw_party_panel();
-	_ui.popups->modal_inspect->display(_ctx.get_flag_ref("want_inspect"));
+
 	_ui.popups->modal_give->display(_ctx.get_flag_ref("want_give"));
 	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	_ui.popup_manager->display();

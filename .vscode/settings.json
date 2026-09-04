@@ -93,8 +93,8 @@
 		"args": [
 			"--mute",
 			"--quickstart",
-			"--start-engine",
-			"--go-to"
+			"--Dstart-engine",
+			"--Dgo-to"
 		]
 	},
 	"editor.fontSize": 12,
