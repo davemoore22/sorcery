@@ -67,7 +67,34 @@ auto Sorcery::PopupManager::display() -> void {
 
 	auto *active{_active};
 
+	_displaying = true;
+
 	active->display();
+
+	_displaying = false;
+
+	if (_pending_modal) {
+
+		auto pending{std::move(*_pending_modal)};
+
+		_pending_modal.reset();
+
+		if (pending.menu_name && pending.title_key) {
+
+			open_modal(pending.component, *pending.menu_name,
+					   *pending.title_key);
+
+		} else if (pending.menu_name) {
+
+			open_modal(pending.component, *pending.menu_name);
+
+		} else {
+
+			open_modal(pending.component);
+		}
+
+		return;
+	}
 
 	if (_active != active)
 		return;
@@ -146,6 +173,22 @@ auto Sorcery::PopupManager::consume_accepted(const std::string_view name)
 auto Sorcery::PopupManager::open_modal(const std::string_view component)
 	-> void {
 
+	if (_displaying) {
+
+		if (_active)
+			_active->close();
+
+		_pending_modal = PendingModal{.component = std::string{component}};
+
+		return;
+	}
+
+	_open_modal(component);
+}
+
+auto Sorcery::PopupManager::_open_modal(const std::string_view component)
+	-> void {
+
 	close();
 
 	_completed.reset();
@@ -160,6 +203,23 @@ auto Sorcery::PopupManager::open_modal(const std::string_view component)
 
 auto Sorcery::PopupManager::open_modal(const std::string_view component,
 									   const std::string_view menu_name)
+	-> void {
+
+	if (_displaying) {
+
+		if (_active)
+			_active->close();
+
+		_pending_modal = PendingModal{.component = std::string{component}};
+
+		return;
+	}
+
+	_open_modal(component, menu_name);
+}
+
+auto Sorcery::PopupManager::_open_modal(const std::string_view component,
+										const std::string_view menu_name)
 	-> void {
 
 	close();
@@ -177,6 +237,24 @@ auto Sorcery::PopupManager::open_modal(const std::string_view component,
 auto Sorcery::PopupManager::open_modal(const std::string_view component,
 									   const std::string_view menu_name,
 									   const std::string_view title_key)
+	-> void {
+
+	if (_displaying) {
+
+		if (_active)
+			_active->close();
+
+		_pending_modal = PendingModal{.component = std::string{component}};
+
+		return;
+	}
+
+	_open_modal(component, menu_name, title_key);
+}
+
+auto Sorcery::PopupManager::_open_modal(const std::string_view component,
+										const std::string_view menu_name,
+										const std::string_view title_key)
 	-> void {
 
 	close();

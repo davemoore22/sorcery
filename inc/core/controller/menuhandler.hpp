@@ -60,12 +60,9 @@ class ControllerMenuHandler {
 
 		auto handle_dynamic(std::string_view component,
 							const std::vector<std::string> &items, int data,
-							int selection,
-							std::vector<std::reference_wrapper<bool>> &flags)
-			-> bool;
+							int selection) -> bool;
 
-		auto handle_actions(std::string_view menu, int selection, int data,
-							std::vector<std::reference_wrapper<bool>> &flags)
+		auto handle_actions(std::string_view menu, int selection, int data)
 			-> bool;
 
 		auto item_disabled(std::string_view component, int selection, int data)
@@ -75,8 +72,7 @@ class ControllerMenuHandler {
 		Controller &_host;
 		Context &_ctx;
 
-		auto _execute(const MenuAction &action, int data,
-					  std::vector<std::reference_wrapper<bool>> &flags) -> void;
+		auto _execute(const MenuAction &action, int data) -> void;
 };
 
 }

@@ -48,6 +48,13 @@ struct PopupCompletion {
 		DrawableResult result{DrawableResult::NONE};
 };
 
+struct PendingModal {
+
+		std::string component;
+		std::optional<std::string> menu_name{std::nullopt};
+		std::optional<std::string> title_key{std::nullopt};
+};
+
 class PopupManager {
 
 	public:
@@ -82,6 +89,14 @@ class PopupManager {
 		std::unique_ptr<Modal2> _modal2;
 		Drawable *_active{};
 		std::optional<PopupCompletion> _completed;
+		bool _displaying{};
+		std::optional<PendingModal> _pending_modal;
+
+		auto _open_modal(const std::string_view component) -> void;
+		auto _open_modal(std::string_view component, std::string_view menu_name)
+			-> void;
+		auto _open_modal(std::string_view component, std::string_view menu_name,
+						 std::string_view title_key) -> void;
 };
 
 }

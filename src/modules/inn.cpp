@@ -62,12 +62,6 @@ auto Sorcery::Inn::start() -> int {
 	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::INN);
 
-		_ctx.ui->popups->create_dynamic_modal("modal_trade");
-	_ctx.ui->popups->create_dynamic_modal("modal_give");
-
-	_ctx.ui->popups->modal_give->show = false;
-	_ctx.ui->popups->modal_trade->show = false;
-
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 	_ctx.controller->clear_character(Enums::CharacterSlot::STAY);
 

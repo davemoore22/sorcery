@@ -104,14 +104,10 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 	} else if (component == "button_trade") {
 
 		// Leave this legacy for now.
-		_ctx.ui->popups->modal_trade->regenerate();
-		_ctx.ui->popups->modal_trade->show = true;
+		_host.unset_selected("trade_item_selected");
+		_host.unset_selected("trade_target_selected");
 
-		_ctx.ui->popups->modal_give->regenerate();
-		_ctx.ui->popups->modal_give->show = false;
-
-		_host.set_flag("want_trade");
-		_host.unset_flag("want_give");
+		_ctx.ui->popup_manager->open_modal("global:modal_trade");
 
 	} else if (component == "button_use") {
 

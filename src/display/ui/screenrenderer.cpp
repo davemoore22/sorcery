@@ -276,9 +276,6 @@ auto Sorcery::ScreenRenderer::_display_inspect(const int mode) -> void {
 	if (mode & INSPECT_MODE_ACTIONS)
 		_ui.draw_components("inspect_actions", mode);
 	_ui.draw_current_character(mode);
-	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	if (_ui.popups->modal_give->show)
-		_ui.popups->modal_give->display(_ctx.get_flag_ref("want_give"));
 
 	_ui.popup_manager->display();
 	_ui.draw_debug();
@@ -328,9 +325,6 @@ auto Sorcery::ScreenRenderer::_display_inn() -> void {
 
 	_ui.draw_components("inn");
 	_ui.draw_party_panel();
-
-	_ui.popups->modal_give->display(_ctx.get_flag_ref("want_give"));
-	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	_ui.popup_manager->display();
 	_ui.draw_debug();
 }
@@ -441,8 +435,6 @@ auto Sorcery::ScreenRenderer::_display_tavern() -> void {
 
 	_ui.draw_components("tavern");
 	_ui.popup_manager->display();
-	_ui.popups->modal_give->display(_ctx.get_flag_ref("want_give"));
-	_ui.popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
 	_ui.draw_party_panel();
 	_ui.draw_debug();
 }

@@ -265,8 +265,6 @@ class UI {
 		auto _activate_menu_item(const std::string_view name,
 								 const int selection, const int data_item,
 								 const std::vector<std::string> &items) -> void;
-		auto _get_legacy_menu_ui_flags(const std::string_view name)
-			-> std::vector<std::reference_wrapper<bool>>;
 		auto _handle_menu_reordering(const std::string_view name,
 									 std::vector<std::string> &items,
 									 std::vector<int> &data,

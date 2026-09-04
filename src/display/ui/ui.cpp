@@ -296,10 +296,6 @@ auto Sorcery::UI::display_engine() -> void {
 
 	popup_manager->display();
 
-	if (popups->modal_trade->show)
-		popups->modal_trade->display(_ctx.get_flag_ref("want_trade"));
-	if (popups->modal_give->show)
-		popups->modal_give->display(_ctx.get_flag_ref("want_give"));
 	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))
 		draw_party_panel();
 	if (_ctx.get_flag("interface_ui")) {
@@ -3273,30 +3269,6 @@ auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 										static_cast<float>(rounding));
 }
 
-auto Sorcery::UI::_get_legacy_menu_ui_flags(const std::string_view name)
-	-> std::vector<std::reference_wrapper<bool>> {
-
-	using Flags = std::vector<std::reference_wrapper<bool>>;
-
-	constexpr auto UI_FLAGS_COUNT{2};
-
-	const std::array<std::pair<std::string_view, Flags>, UI_FLAGS_COUNT> flags{{
-		{"trade_menu",
-		 {std::ref(popups->modal_trade->show),
-		  std::ref(popups->modal_give->show)}},
-		{"give_menu", {std::ref(popups->modal_give->show)}},
-	}};
-
-	if (const auto it{std::ranges::find(flags, name,
-										&decltype(flags)::value_type::first)};
-		it != flags.end()) {
-
-		return it->second;
-	}
-
-	return {};
-}
-
 auto Sorcery::UI::_handle_menu_reordering(const std::string_view name,
 										  std::vector<std::string> &items,
 										  std::vector<int> &data,
@@ -3343,14 +3315,11 @@ auto Sorcery::UI::_activate_menu_item(const std::string_view name,
 									  const std::vector<std::string> &items)
 	-> void {
 
-	auto ui_flags{_get_legacy_menu_ui_flags(name)};
-
-	if (_ctx.controller->menus->handle_actions(name, selection, data_item,
-											   ui_flags))
+	if (_ctx.controller->menus->handle_actions(name, selection, data_item))
 		return;
 
 	if (_ctx.controller->menus->handle_dynamic(name, items, data_item,
-											   selection, ui_flags))
+											   selection))
 		return;
 
 	_ctx.controller->menus->handle_standard(name, items, data_item, selection);

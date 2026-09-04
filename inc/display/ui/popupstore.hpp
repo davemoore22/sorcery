@@ -43,9 +43,6 @@ class PopupStore {
 		std::unique_ptr<Input> input_donate;
 		std::unique_ptr<Input> input_name;
 
-		std::unique_ptr<Modal> modal_trade;
-		std::unique_ptr<Modal> modal_give;
-
 		auto in_popup() const -> bool;
 		auto close_all_popups() -> void;
 		auto create_dynamic_modal(const std::string name) -> void;

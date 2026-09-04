@@ -64,12 +64,6 @@ auto Sorcery::Shop::start() -> int {
 
 	show_immediately();
 
-		_ctx.ui->popups->create_dynamic_modal("modal_trade");
-	_ctx.ui->popups->create_dynamic_modal("modal_give");
-
-	_ctx.ui->popups->modal_give->show = false;
-	_ctx.ui->popups->modal_trade->show = false;
-
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	// Main loop

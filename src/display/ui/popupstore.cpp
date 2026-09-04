@@ -38,12 +38,7 @@
 Sorcery::PopupStore::PopupStore(Context &ctx)
 	: _ctx{ctx} {
 
-	// Custom components
-	modal_trade = std::make_unique<Modal>(
-		_ctx, _ctx.components->get("global:modal_trade"));
-	modal_give = std::make_unique<Modal>(
-		_ctx, _ctx.components->get("global:modal_give"));
-
+	// Custom component
 	input_donate = std::make_unique<Input>(
 		_ctx, _ctx.components->get("global:input_donate"));
 	input_name = std::make_unique<Input>(
@@ -88,9 +83,6 @@ auto Sorcery::PopupStore::_popup_states() const -> std::vector<bool *> {
 	ADD_POPUP(input_donate);
 	ADD_POPUP(input_name);
 
-	ADD_POPUP(modal_trade);
-	ADD_POPUP(modal_give);
-
 #undef ADD_POPUP
 
 	return states;
@@ -102,20 +94,6 @@ auto Sorcery::PopupStore::_popup_states() const -> std::vector<bool *> {
 auto Sorcery::PopupStore::create_dynamic_modal(const std::string name) -> void {
 
 	// DEBUG_LOGF("Creating Dynamic Modal: {}", name);
-
-	if (name == "modal_trade") {
-		if (modal_trade.get())
-			modal_trade.reset();
-		modal_trade = std::make_unique<Modal>(
-			_ctx, _ctx.components->get("global:modal_trade"));
-		modal_trade->regenerate();
-	} else if (name == "modal_give") {
-		if (modal_give.get())
-			modal_give.reset();
-		modal_give = std::make_unique<Modal>(
-			_ctx, _ctx.components->get("global:modal_give"));
-		modal_give->regenerate();
-	}
 }
 
 // Not an ideal function, really need to maintain a pointer status map instead
@@ -146,11 +124,6 @@ auto Sorcery::PopupStore::get_popups() const -> std::string {
 		output.append(get_popup_status((void *)input_donate.get(), "input"));
 	if (input_name)
 		output.append(get_popup_status((void *)input_name.get(), "input"));
-
-	if (modal_give)
-		output.append(get_popup_status((void *)modal_give.get(), "modal"));
-	if (modal_trade)
-		output.append(get_popup_status((void *)modal_trade.get(), "modal"));
 
 	return output;
 }

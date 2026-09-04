@@ -243,11 +243,6 @@ auto Sorcery::ControllerMenuHandler::handle_standard(
 			_host.go_to(Enums::Screen::CASTLE);
 		else {
 		}
-	} else if (component == "temple_menu") {
-
-		// Temple
-		if (selection == (static_cast<int>(items.size()) - 1))
-			_host.go_to(Enums::Screen::CASTLE);
 	} else if (component == "bestiary_menu") {
 
 		// Bestiary
@@ -299,7 +294,7 @@ auto Sorcery::ControllerMenuHandler::handle_standard(
 
 auto Sorcery::ControllerMenuHandler::handle_dynamic(
 	std::string_view component, const std::vector<std::string> &items, int data,
-	int selection, std::vector<std::reference_wrapper<bool>> &flags) -> bool {
+	int selection) -> bool {
 
 	DEBUG_LOGF("Dynamic Menu: {} {} {}", component, data, selection);
 
@@ -312,7 +307,6 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		} else
 			_host.set_character(Enums::CharacterSlot::INSPECT, data);
 
-		flags[0].get() = false;
 		return true;
 	} else if (component == "chest_open_menu" ||
 			   component == "chest_calfo_menu" ||
@@ -506,20 +500,54 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		return true;
 	} else if (component == "trade_menu") {
 
-		// Flags = &_ui->popups->modal_trade->show,
-		// &_ui->popups->modal_give->show
-		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["want_trade"] = true;
-			_host._flags["want_give"] = true;
-			flags.at(0).get() = false;
-		} else {
-			flags.at(0).get() = false;
-			flags.at(1).get() = true;
-			_host._flags["want_give"] = true;
-			_host._flags["want_trade"] = false;
+		if (selection == static_cast<int>(items.size()) - 1) {
 
-			// Handle Trade
+			_host.unset_selected("trade_item_selected");
+
+			_ctx.ui->popup_manager->close();
+
+			return true;
 		}
+
+		_host.set_selected("trade_item_selected", data);
+
+		_ctx.ui->popup_manager->open_modal("global:modal_give");
+
+		return true;
+	} else if (component == "give_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host.unset_selected("trade_item_selected");
+
+			_host.unset_selected("trade_target_selected");
+
+			_ctx.ui->popup_manager->close();
+
+			return true;
+		}
+
+		_host.set_selected("trade_target_selected", data);
+
+		//
+		// TODO: Perform the actual trade.
+		//
+
+		const auto source{_host.get_character(Enums::CharacterSlot::INSPECT)};
+
+		const auto item_slot{_host.get_selected("trade_item_selected")};
+
+		const auto target{_host.get_selected("trade_target_selected")};
+
+		DEBUG_LOGF("Trade item slot {} from character {} to character {}",
+				   item_slot, source, target);
+
+		_host.unset_selected("trade_item_selected");
+
+		_host.unset_selected("trade_target_selected");
+
+		_ctx.ui->popup_manager->close();
+
 		return true;
 	} else if (component == "use_menu") {
 
@@ -554,9 +582,9 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 	return false;
 }
 
-auto Sorcery::ControllerMenuHandler::handle_actions(
-	std::string_view menu, int selection, int data,
-	std::vector<std::reference_wrapper<bool>> &flags) -> bool {
+auto Sorcery::ControllerMenuHandler::handle_actions(std::string_view menu,
+													int selection, int data)
+	-> bool {
 
 	DEBUG_LOGF("Action Table Menu: {} {} {}", menu, selection, data);
 
@@ -569,7 +597,7 @@ auto Sorcery::ControllerMenuHandler::handle_actions(
 
 	const auto &actions = it->second[selection];
 	for (const auto &action : actions)
-		_execute(action, data, flags);
+		_execute(action, data);
 
 	return true;
 }
@@ -600,19 +628,6 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 				break;
 			};
 		}
-	} else if (component == "temple_menu") {
-
-		// Check for Party Members
-		switch (selection) {
-		case 0: // Help
-			[[fallthrough]];
-		case 1: // Title
-			return !_host._game->state->party_has_members();
-			break;
-		default:
-			return false;
-		};
-
 	} else if (component == "edge_menu") {
 		if (_host._game != nullptr) {
 
@@ -1031,9 +1046,8 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 	return false;
 }
 
-auto Sorcery::ControllerMenuHandler::_execute(
-	const MenuAction &action, int data,
-	std::vector<std::reference_wrapper<bool>> &flags) -> void {
+auto Sorcery::ControllerMenuHandler::_execute(const MenuAction &action,
+											  int data) -> void {
 
 	using enum Enums::MenuAction::Type;
 	using enum Enums::MenuAction::Function;
@@ -1051,15 +1065,15 @@ auto Sorcery::ControllerMenuHandler::_execute(
 #pragma GCC diagnostic ignored "-Wtype-limits"
 
 	case SET_UI_BOOL:
-		if (action.ui_index >= 0 &&
-			static_cast<size_t>(action.ui_index) < flags.size())
-			flags[action.ui_index].get() = true;
+		// if (action.ui_index >= 0 &&
+		//	static_cast<size_t>(action.ui_index) < flags.size())
+		//	flags[action.ui_index].get() = true;
 		break;
 
 	case CLEAR_UI_BOOL:
-		if (action.ui_index >= 0 &&
-			static_cast<size_t>(action.ui_index) < flags.size())
-			flags[action.ui_index].get() = false;
+		// if (action.ui_index >= 0 &&
+		//	static_cast<size_t>(action.ui_index) < flags.size())
+		//	flags[action.ui_index].get() = false;
 		break;
 
 #pragma GCC diagnostic pop

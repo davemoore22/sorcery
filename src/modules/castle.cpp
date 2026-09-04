@@ -81,11 +81,6 @@ auto Sorcery::Castle::start() -> int {
 
 	fade_in(Enums::Screen::CASTLE, QUICK_FADE);
 
-		_ctx.ui->popups->create_dynamic_modal("modal_trade");
-	_ctx.ui->popups->create_dynamic_modal("modal_give");
-	_ctx.ui->popups->modal_give->show = false;
-	_ctx.ui->popups->modal_trade->show = false;
-
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	_ctx.audio->set_volume(1.0f);

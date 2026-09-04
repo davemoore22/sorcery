@@ -234,7 +234,6 @@ const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS{
 	{"tavern_menu", TAVERN_ACTIONS},
 	{"training_menu", TRAINING_ACTIONS},
 	{"store_menu", STORE_ACTIONS},
-	{"temple_menu", TEMPLE_ACTIONS},
 	{"camp_menu", CAMP_ACTIONS},
 	{"edit_menu", EDIT_ACTIONS},
 	{"top_elevator_menu", TOP_ELEVATOR_ACTIONS},
