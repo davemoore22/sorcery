@@ -3313,7 +3313,7 @@ auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 
 	// Black Background and Colour Foreground
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg,
-											  static_cast<float>(rounding));
+											  static_cast<float>(rounding * 2));
 	ImGui::GetWindowDrawList()->AddRect(fr_min, fr_max, col,
 										static_cast<float>(rounding),
 										static_cast<float>(rounding));

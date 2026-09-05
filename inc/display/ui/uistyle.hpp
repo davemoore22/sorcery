@@ -75,7 +75,7 @@ namespace UIStyle {
 				.colour = std::nullopt};
 	}
 
-	[[nodiscard]] [[nodiscard]] [[nodiscard]]
+	[[nodiscard]]
 	inline auto icon_colour(const int icon) -> ImVec4 {
 
 		switch (icon) {
@@ -96,28 +96,25 @@ namespace UIStyle {
 			return {0.75f, 0.35f, 1.00f, 1.0f};
 
 		case ICON_USE:
-			return {0.25f, 0.75f, 1.00f, 1.0f};
+			return {0.75f, 0.75f, 0.75f, 1.0f};
 
 		case ICON_BUFF_EXTRA_LIGHT:
-			return {0.75f, 1.00f, 0.25f, 1.0f};
+			return {1.00f, 0.90f, 0.45f, 1.0f};
 
 		case ICON_BUFF_LIGHT:
-			return {0.50f, 1.00f, 0.25f, 1.0f};
+			return {1.00f, 0.55f, 0.15f, 1.0f};
 
 		case ICON_COMPASS_NORTH:
-			return {0.25f, 0.75f, 1.00f, 1.0f};
-
+			[[fallthrough]];
 		case ICON_COMPASS_SOUTH:
-			return {0.25f, 0.75f, 1.00f, 1.0f};
-
+			[[fallthrough]];
 		case ICON_COMPASS_EAST:
-			return {0.25f, 0.75f, 1.00f, 1.0f};
-
+			[[fallthrough]];
 		case ICON_COMPASS_WEST:
-			return {0.25f, 0.75f, 1.00f, 1.0f};
+			return {0.80f, 0.55f, 0.20f, 1.0f};
 
 		case ICON_SAVE_AND_QUIT:
-			return {0.75f, 0.25f, 1.00f, 1.0f};
+			return {1.00f, 0.30f, 0.25f, 1.0f};
 
 		default:
 			return {0.33f, 1.00f, 1.00f, 1.0f};
