@@ -214,7 +214,7 @@ auto Sorcery::FileStore::_validate_files() const -> void {
 	for (const auto &dir : _required_directories) {
 		std::error_code error;
 
-		DEBUG_LOGF("Checking required directory: {}", dir.string());
+		// DEBUG_LOGF("Checking required directory: {}", dir.string());
 
 		const bool exists{std::filesystem::exists(dir, error)};
 		const bool directory{exists &&
@@ -228,7 +228,7 @@ auto Sorcery::FileStore::_validate_files() const -> void {
 	for (const auto &file : _required_files) {
 		std::error_code error;
 
-		DEBUG_LOGF("Checking required file: {}", file.string());
+		// DEBUG_LOGF("Checking required file: {}", file.string());
 
 		const bool exists{std::filesystem::exists(file, error)};
 		const bool regular{exists &&

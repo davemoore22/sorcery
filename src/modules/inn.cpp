@@ -29,7 +29,6 @@
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for ABORT_GAME, INSPECT_MODE_ACTIONS
-#include "drawables/modal.hpp"	// for Modal
 #include "modules/inspect.hpp"	// for Inspect
 #include "modules/stay.hpp"		// for Stay
 #include <SDL_events.h>			// for SDL_PollEvent

@@ -154,7 +154,7 @@ auto Sorcery::Application::save_state_to_binary(const std::string &filename)
 	cereal::BinaryOutputArchive archive(os);
 	archive(*_game, *_controller);
 
-	DEBUG_LOGF("Quicksave successfully written to {}!", filename);
+	// DEBUG_LOGF("Quicksave successfully written to {}!", filename);
 
 	return true;
 }
@@ -172,7 +172,7 @@ auto Sorcery::Application::load_state_from_binary(const std::string &filename)
 	cereal::BinaryInputArchive archive(is);
 	archive(*_game, *_controller);
 
-	DEBUG_LOGF("Quicksave successfully loaded from {}!", filename);
+	// DEBUG_LOGF("Quicksave successfully loaded from {}!", filename);
 
 	return true;
 }

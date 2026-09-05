@@ -34,7 +34,6 @@
 #include "drawables/define.hpp"			 // for ABORT_GAME, INSPECT_MODE_AC...
 #include "drawables/dialog.hpp"			 // for Dialog
 #include "drawables/message.hpp"		 // for Message
-#include "drawables/modal.hpp"			 // for Modal
 #include "engine/automap.hpp"			 // for Automap
 #include "engine/chest.hpp"				 // for Chest
 #include "engine/define.hpp"			 // for MAP_SIZE, MOVE_BACKWARD

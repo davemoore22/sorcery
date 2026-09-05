@@ -36,7 +36,6 @@
 #include "display/ui/uistyle.hpp"		// for set_text_dim
 #include "drawables/define.hpp"			// for RECOVERY_BIRTHDAY, CHOOSE_M...
 #include "drawables/dialog.hpp"			// for Dialog
-#include "drawables/modal.hpp"			// for Modal
 #include "engine/define.hpp"			// for CHEST_GFX_ID
 #include "imgui.h"						// for ImVec2, ImGuiWindowFlags_
 #include "resources/componentstore.hpp" // for ComponentStore

@@ -37,7 +37,6 @@
 #include "display/ui/uimetrics.hpp"		 // for UIMetrics
 #include "drawables/define.hpp"			 // for MAIN_MENU_CONTINUE_GAME
 #include "drawables/dialog.hpp"			 // for Dialog
-#include "drawables/modal.hpp"			 // for Modal
 #include "engine/define.hpp"			 // for MOVE_BACKWARD, MOVE_FORWARD
 #include "resources/itemstore.hpp"		 // for ItemStore
 #include "resources/savestore.hpp"		 // for SaveStore

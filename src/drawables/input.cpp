@@ -30,7 +30,6 @@
 #include "display/ui/ui.hpp"			  // for UI
 #include "display/ui/uimetrics.hpp"		  // for UIMetrics
 #include "drawables/dialog.hpp"			  // for Dialog
-#include "drawables/modal.hpp"			  // for Modal
 #include "misc/cpp/imgui_stdlib.h"		  // for InputText
 #include "resources/fontstore.hpp"		  // for FontStore
 #include "types/character/character.hpp"  // for Character

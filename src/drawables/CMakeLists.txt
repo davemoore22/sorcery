@@ -12,7 +12,6 @@ target_link_libraries(sorcery_drawables PUBLIC
 
 target_sources(sorcery_drawables PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/drawable.cpp
-	${CMAKE_CURRENT_LIST_DIR}/modal.cpp
 	${CMAKE_CURRENT_LIST_DIR}/modal2.cpp
 	${CMAKE_CURRENT_LIST_DIR}/dialog.cpp
 	${CMAKE_CURRENT_LIST_DIR}/frame.cpp

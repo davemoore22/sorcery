@@ -34,7 +34,6 @@
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
-#include "drawables/modal.hpp"
 #include "modules/add.hpp"
 #include "modules/inspect.hpp"
 #include "modules/remove.hpp"

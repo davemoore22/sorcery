@@ -86,8 +86,8 @@ void Sorcery::AudioPlayer::free_resources() {
 
 void Sorcery::AudioPlayer::load(const std::string &filename) {
 
-	PROFILE_SCOPE("AudioPlayer::load");
-	DEBUG_LOGF("Loading Resource: {}", filename);
+	// PROFILE_SCOPE("AudioPlayer::load");
+	//  DEBUG_LOGF("Loading Resource: {}", filename);
 
 	free_resources();
 

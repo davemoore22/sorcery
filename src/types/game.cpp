@@ -263,16 +263,16 @@ auto Sorcery::Game::create_game() -> void {
 
 auto Sorcery::Game::load_game() -> void {
 
-	PROFILE_SCOPE("Game::load_game");
-	DEBUG_LOG("Loading Game from DB");
+	// PROFILE_SCOPE("Game::load_game");
+	//  DEBUG_LOG("Loading Game from DB");
 
 	_load_game();
 }
 
 auto Sorcery::Game::save_game() -> void {
 
-	PROFILE_SCOPE("Game::save_game");
-	DEBUG_LOG("Saving Game to DB");
+	// PROFILE_SCOPE("Game::save_game");
+	//  DEBUG_LOG("Saving Game to DB");
 
 	_save_game();
 }

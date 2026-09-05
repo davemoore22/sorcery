@@ -78,9 +78,9 @@ Sorcery::SaveStore::SaveStore(const std::filesystem::path &game_file,
 	: _game_file{game_file},
 	  _characters_directory{characters_directory} {
 
-	DEBUG_LOGF(
-		"SaveStore::SaveStore(game_file='{}', characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::SaveStore(game_file='{}', characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	if (_game_file.empty())
 		throw std::invalid_argument{
@@ -117,7 +117,7 @@ Sorcery::SaveStore::SaveStore(const std::filesystem::path &game_file,
 
 auto Sorcery::SaveStore::has_game() const -> bool {
 
-	DEBUG_LOGF("SaveStore::has_game(game_file='{}')", _game_file.string());
+	// DEBUG_LOGF("SaveStore::has_game(game_file='{}')", _game_file.string());
 
 	std::error_code error;
 
@@ -144,9 +144,9 @@ auto Sorcery::SaveStore::has_game() const -> bool {
 
 auto Sorcery::SaveStore::wipe_data() -> void {
 
-	DEBUG_LOGF(
-		"SaveStore::wipe_data(game_file='{}', characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::wipe_data(game_file='{}', characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	std::error_code error;
 
@@ -241,10 +241,10 @@ auto Sorcery::SaveStore::wipe_data() -> void {
 auto Sorcery::SaveStore::create_game_state(std::string key, std::string data)
 	-> unsigned int {
 
-	DEBUG_LOGF(
-		"SaveStore::create_game_state(game_file='{}', "
-		"characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::create_game_state(game_file='{}', "
+	//	"characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	constexpr unsigned int game_id{1};
 	const auto now{std::chrono::system_clock::now()};
@@ -305,10 +305,10 @@ auto Sorcery::SaveStore::create_game_state(std::string key, std::string data)
 
 auto Sorcery::SaveStore::load_game_state() const -> std::optional<GameEntry> {
 
-	DEBUG_LOGF(
-		"SaveStore::load_game_state(game_file='{}', "
-		"characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::load_game_state(game_file='{}', "
+	//	"characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	if (!has_game())
 		return std::nullopt;
@@ -367,9 +367,9 @@ auto Sorcery::SaveStore::save_game_state(const unsigned int game_id,
 										 const std::string_view key,
 										 std::string data) -> void {
 
-	DEBUG_LOGF(
-		"SaveStore::save_game_state(game_file='{}', characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::save_game_state(game_file='{}', characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	if (!has_game()) {
 		throw std::runtime_error{
@@ -479,9 +479,9 @@ auto Sorcery::SaveStore::add_character(const unsigned int game_id,
 									   std::string name, std::string data)
 	-> unsigned int {
 
-	DEBUG_LOGF(
-		"SaveStore::add_character(game_file='{}', characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::add_character(game_file='{}', characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	if (!has_game()) {
 		throw std::runtime_error{
@@ -553,10 +553,10 @@ auto Sorcery::SaveStore::update_character(const unsigned int game_id,
 										  std::string name, std::string data)
 	-> bool {
 
-	DEBUG_LOGF(
-		"SaveStore::update_character(game_file='{}', "
-		"characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::update_character(game_file='{}', "
+	//	"characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	const auto character_file{_characters_directory /
 							  (std::to_string(character_id) + ".json")};
@@ -677,10 +677,10 @@ auto Sorcery::SaveStore::delete_character(const unsigned int game_id,
 										  const unsigned int character_id)
 	-> void {
 
-	DEBUG_LOGF(
-		"SaveStore::delete_character(game_file='{}', "
-		"characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::delete_character(game_file='{}', "
+	//	"characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	const auto character_file{_characters_directory /
 							  (std::to_string(character_id) + ".json")};
@@ -734,10 +734,10 @@ auto Sorcery::SaveStore::delete_character(const unsigned int game_id,
 auto Sorcery::SaveStore::get_character_ids(const unsigned int game_id) const
 	-> std::vector<unsigned int> {
 
-	DEBUG_LOGF(
-		"SaveStore::get_character_ids(game_file='{}', "
-		"characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::get_character_ids(game_file='{}', "
+	//	"characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	// There is currently only one active game, so character files all belong
 	// to that game
@@ -832,10 +832,10 @@ auto Sorcery::SaveStore::get_character(const unsigned int game_id,
 									   const unsigned int character_id) const
 	-> std::string {
 
-	DEBUG_LOGF(
-		"SaveStore::get_character(game_file='{}', "
-		"characters_directory='{}')",
-		_game_file.string(), _characters_directory.string());
+	// DEBUG_LOGF(
+	//	"SaveStore::get_character(game_file='{}', "
+	//	"characters_directory='{}')",
+	//	_game_file.string(), _characters_directory.string());
 
 	const auto character_file{_characters_directory /
 							  (std::to_string(character_id) + ".json")};

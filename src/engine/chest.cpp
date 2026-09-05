@@ -28,7 +28,6 @@
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"
 #include "display/ui/ui.hpp"			 // for UI, TransientMode, Transien...
-#include "drawables/modal.hpp"			 // for Modal
 #include "types/character/character.hpp" // for Character
 #include "types/character/magic.hpp"	 // for ConstCharacterMagic
 #include "types/game.hpp"				 // for Game

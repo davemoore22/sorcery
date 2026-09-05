@@ -96,8 +96,8 @@ auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
 		return false;
 	else {
 
-		PROFILE_SCOPE("ImageStore::_load_image");
-		DEBUG_LOGF("Loading Resource: {}", file);
+		// PROFILE_SCOPE("ImageStore::_load_image");
+		//  DEBUG_LOGF("Loading Resource: {}", file);
 
 		const auto path{_ctx.get_file(file)};
 

@@ -31,7 +31,6 @@
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"	 // for ABORT_GAME, INSPECT_MODE_ACTIONS
 #include "drawables/dialog.hpp"	 // for Dialog
-#include "drawables/modal.hpp"	 // for Modal
 #include "modules/inspect.hpp"	 // for Inspect
 #include "modules/restart.hpp"	 // for Restart
 #include "training/training.hpp" // for Training

@@ -186,8 +186,8 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, &gl_profile);
 
-	DEBUG_LOGF("OpenGL context: {}.{}, profile mask: {}", gl_major, gl_minor,
-			   gl_profile);
+	// DEBUG_LOGF("OpenGL context: {}.{}, profile mask: {}", gl_major, gl_minor,
+	//		   gl_profile);
 
 	return 1;
 }
@@ -256,9 +256,10 @@ auto Sorcery::Display::update_display_metrics() noexcept -> void {
 	_metrics.offset_y =
 		(static_cast<float>(_metrics.window_h) - content_h) / 2.0f;
 
-	DEBUG_LOGF("window={}x{} drawable={}x{} fbscale={}x{}", _metrics.window_w,
-			   _metrics.window_h, _metrics.drawable_w, _metrics.drawable_h,
-			   _metrics.framebuffer_scale_x, _metrics.framebuffer_scale_y);
+	// DEBUG_LOGF("window={}x{} drawable={}x{} fbscale={}x{}",
+	// _metrics.window_w, 		   _metrics.window_h, _metrics.drawable_w,
+	//_metrics.drawable_h, 		   _metrics.framebuffer_scale_x,
+	//_metrics.framebuffer_scale_y);
 }
 
 auto Sorcery::Display::resize() -> void {

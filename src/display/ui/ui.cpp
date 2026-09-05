@@ -50,7 +50,6 @@
 #include "drawables/input.hpp"			 // for Input
 #include "drawables/menu.hpp"			 // for Menu
 #include "drawables/message.hpp"		 // for Message
-#include "drawables/modal.hpp"			 // for Modal
 #include "drawables/videoplayer.hpp"	 // for VideoPlayer
 #include "engine/define.hpp"			 // for GRAVESTONE_GFX_ID
 #include "engine/types.hpp"				 // for Vertex, VertexArray
@@ -180,7 +179,7 @@ auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 
 auto Sorcery::UI::start() -> void {
 
-	DEBUG_LOG("Starting UI...");
+	// DEBUG_LOG("Starting UI...");
 
 	// Initialise ImGUI to use SDL2/OpenGL
 	ImGui::CreateContext();
@@ -189,7 +188,7 @@ auto Sorcery::UI::start() -> void {
 	_imgui_ini_path = _ctx.get_file(IMGUI_INI_FILE).string();
 	_io->IniFilename = CSTR(_imgui_ini_path);
 
-	DEBUG_LOGF("ImGui ini: {}", _imgui_ini_path);
+	// DEBUG_LOGF("ImGui ini: {}", _imgui_ini_path);
 
 	ImGui::StyleColorsClassic();
 	ImGui_ImplSDL2_InitForOpenGL(_ctx.display->get_SDL_window(),
@@ -251,7 +250,7 @@ auto Sorcery::UI::start() -> void {
 
 auto Sorcery::UI::stop() -> void {
 
-	DEBUG_LOG("Stopping UI...");
+	// DEBUG_LOG("Stopping UI...");
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
