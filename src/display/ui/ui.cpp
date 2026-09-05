@@ -437,10 +437,10 @@ auto Sorcery::UI::draw_view_image(std::string_view source,
 }
 
 // Handle drawing parts of a texture as specified by a tile index
-auto Sorcery::UI::draw_fg_image_with_idx(std::string_view layer,
-										 std::string_view source, const int idx,
-										 const ImVec2 p_min, const ImVec2 p_sz,
-										 const ImVec4 tint) -> void {
+auto Sorcery::UI::draw_fg_image_with_idx(
+	std::string_view layer, std::string_view source, const int idx,
+	const ImVec2 p_min, const ImVec2 p_sz, const ImVec4 tint,
+	std::optional<ImageOffsetEffect> effect) -> void {
 
 	if (!images->show_images) {
 
@@ -505,17 +505,46 @@ auto Sorcery::UI::draw_fg_image_with_idx(std::string_view layer,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		ImGui::SetCursorPos(ImVec2{p_min});
 		auto src_image{images->get(std::string{source})};
-		ImVec4 tint_col{ImVec4(tint.x, tint.y, tint.z, _ctx.animation->fade)};
-		ImGui::ImageWithBg(ImTextureRef(_to_imgui(src_image.texture)), p_sz,
-						   uv_0, uv_1, ImVec4(0.0f, 0.0f, 0.0f, 0.0f),
-						   tint_col);
+
+		const auto texture{ImTextureRef(_to_imgui(src_image.texture))};
+
+		if (effect) {
+
+			const auto &offset_effect{*effect};
+
+			const auto offset_colour{offset_effect.colour.value_or(
+				ImVec4{tint.x * offset_effect.brightness,
+					   tint.y * offset_effect.brightness,
+					   tint.z * offset_effect.brightness, tint.w})};
+
+			const ImVec4 offset_tint{
+				offset_colour.x, offset_colour.y, offset_colour.z,
+				offset_colour.w * offset_effect.alpha * _ctx.animation->fade};
+
+			const ImVec2 offset_pos{p_min.x + offset_effect.offset.x,
+									p_min.y + offset_effect.offset.y};
+
+			ImGui::SetCursorPos(offset_pos);
+
+			ImGui::ImageWithBg(texture, p_sz, uv_0, uv_1,
+							   ImVec4{0.0f, 0.0f, 0.0f, 0.0f}, offset_tint);
+		}
+
+		ImGui::SetCursorPos(p_min);
+
+		const ImVec4 tint_col{tint.x, tint.y, tint.z,
+							  tint.w * _ctx.animation->fade};
+
+		ImGui::ImageWithBg(texture, p_sz, uv_0, uv_1,
+						   ImVec4{0.0f, 0.0f, 0.0f, 0.0f}, tint_col);
 	}
 }
 
 // Handle drawing parts of a texture as specified by a tile index
-auto Sorcery::UI::draw_fg_image_with_idx(std::string_view source, const int idx,
-										 const ImVec2 p_min, const ImVec2 p_sz,
-										 const ImVec4 tint) -> void {
+auto Sorcery::UI::draw_fg_image_with_idx(
+	std::string_view source, const int idx, const ImVec2 p_min,
+	const ImVec2 p_sz, const ImVec4 tint,
+	std::optional<ImageOffsetEffect> effect) -> void {
 
 	draw_fg_image_with_idx(WINDOW_LAYER_IMAGES, source, idx, p_min, p_sz, tint);
 }
@@ -707,24 +736,27 @@ auto Sorcery::UI::draw_ui_status() -> void {
 
 		const auto tint{_ctx.controller->get_monochrome()
 							? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-							: ImVec4{1.0f, 0.0f, 1.0f, _ctx.animation->fade}};
+							: ImVec4{0.5f, 0.5f, 1.0f, _ctx.animation->fade}};
 
 		const auto scale{_ctx.display->get_display_metrics().scale};
 		auto pos{ImVec2{4 * scale, 4 * scale}};
-		auto size{ImVec2{32 * scale, 32 * scale}};
+		auto size{ImVec2{16 * scale, 16 * scale}};
+
+		// Get Icon Effects
+		const auto icon_depth{UIStyle::icon_depth(scale)};
 
 		with_Window(WINDOW_LAYER_TEXTS, nullptr,
 					ImGuiWindowFlags_NoDecoration) {
 
 			draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE,
-								   music_icon, pos, size, tint);
-			pos.x += 32 * scale;
+								   music_icon, pos, size, tint, icon_depth);
+			pos.x += 16 * scale;
 			draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE,
-								   sound_icon, pos, size, tint);
+								   sound_icon, pos, size, tint, icon_depth);
 
-			pos.x += 32 * scale;
+			pos.x += 16 * scale;
 			draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, cga_icon,
-								   pos, size, tint);
+								   pos, size, tint, icon_depth);
 		}
 	};
 };
@@ -2569,18 +2601,24 @@ auto Sorcery::UI::draw_buffbar() -> void {
 	const auto width{cmp.w * metrics->grid_sz() * scale};
 	const auto height{cmp.h * metrics->grid_sz()};
 
-	auto tint{_ctx.controller->get_monochrome()
-				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-				  : ImVec4{1.0f, 0.33f, 0.33f, _ctx.animation->fade}};
+	// Get Icon Effects
+	const auto icon_depth{UIStyle::icon_depth(scale)};
+
+	const auto light_idx{_ctx.game->state->get_lit() ? ICON_BUFF_EXTRA_LIGHT
+													 : ICON_BUFF_LIGHT};
+
+	const auto tint{_ctx.controller->get_monochrome()
+						? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
+						: UIStyle::icon_colour(light_idx)};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		draw_frame(&frame_cmp);
 		ImGui::SetCursorPos(ImVec2{x, y});
-		const auto light_idx{_ctx.game->state->get_lit() ? ICON_BUFF_EXTRA_LIGHT
-														 : ICON_BUFF_LIGHT};
+
 		draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, light_idx,
-							   ImVec2{x, y}, ImVec2{width, height}, tint);
+							   ImVec2{x, y}, ImVec2{width, height}, tint,
+							   icon_depth);
 
 		y += height;
 
@@ -2606,11 +2644,6 @@ auto Sorcery::UI::draw_icons() -> void {
 
 	const ImVec2 icon_size{width, height};
 
-	const auto normal_tint{
-		_ctx.controller->get_monochrome()
-			? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-			: ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
-
 	const auto hovered_tint{ImVec4{get_hl_colour(_ctx.animation->lerp)}};
 
 	// Passive frame.
@@ -2619,6 +2652,9 @@ auto Sorcery::UI::draw_icons() -> void {
 
 		draw_frame(&frame_cmp);
 	}
+
+	// Get Icon Effects
+	const auto icon_depth{UIStyle::icon_depth(scale)};
 
 	// Interactive icons.
 	with_Window(WINDOW_LAYER_MENUS, nullptr,
@@ -2634,11 +2670,19 @@ auto Sorcery::UI::draw_icons() -> void {
 
 			const auto activated{ImGui::InvisibleButton("##icon", icon_size)};
 
+			const auto colour{UIStyle::icon_colour(icon_idx)};
+
+			const auto normal_tint{
+				_ctx.controller->get_monochrome()
+					? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
+					: ImVec4{colour.x, colour.y, colour.z,
+							 _ctx.animation->fade}};
+
 			const auto hovered{ImGui::IsItemHovered()};
 			const auto tint{hovered ? hovered_tint : normal_tint};
 
 			draw_fg_image_with_idx(WINDOW_LAYER_MENUS, ICONS_TEXTURE, icon_idx,
-								   icon_pos, icon_size, tint);
+								   icon_pos, icon_size, tint, icon_depth);
 
 			if (activated)
 				_ctx.controller->actions->icon(icon_idx);
@@ -2664,10 +2708,13 @@ auto Sorcery::UI::draw_save() -> void {
 	const ImVec2 save_pos{x, y};
 	const ImVec2 save_size{width, height};
 
-	const auto normal_tint{
-		_ctx.controller->get_monochrome()
-			? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-			: ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
+	// Get Icon Effects
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto icon_depth{UIStyle::icon_depth(scale)};
+
+	const auto normal_tint{_ctx.controller->get_monochrome()
+							   ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
+							   : UIStyle::icon_colour(ICON_SAVE_AND_QUIT)};
 
 	const auto hovered_tint{ImVec4{get_hl_colour(_ctx.animation->lerp)}};
 
@@ -2691,7 +2738,8 @@ auto Sorcery::UI::draw_save() -> void {
 		const auto tint{hovered ? hovered_tint : normal_tint};
 
 		draw_fg_image_with_idx(WINDOW_LAYER_MENUS, ICONS_TEXTURE,
-							   ICON_SAVE_AND_QUIT, save_pos, save_size, tint);
+							   ICON_SAVE_AND_QUIT, save_pos, save_size, tint,
+							   icon_depth);
 
 		if (activated)
 			_ctx.game->save_game();
@@ -2703,15 +2751,14 @@ auto Sorcery::UI::draw_compass() -> void {
 	auto cmp{components->get("engine_base_ui:compass")};
 	auto frame_cmp{components->get("engine_base_ui:compass_frame")};
 
-	auto tint{_ctx.controller->get_monochrome()
-				  ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-				  : ImVec4{1.0f, 0.33f, 0.33f, _ctx.animation->fade}};
-
 	const auto x{metrics->grid_x(cmp.x)};
 	const auto y{metrics->grid_y(cmp.y)};
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const auto width{cmp.w * metrics->grid_sz() * scale};
 	const auto height{cmp.h * metrics->grid_sz() * scale};
+
+	// Get Icon Effects
+	const auto icon_depth{UIStyle::icon_depth(scale)};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
@@ -2738,8 +2785,13 @@ auto Sorcery::UI::draw_compass() -> void {
 				break;
 			}
 
+			const auto tint{_ctx.controller->get_monochrome()
+								? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
+								: UIStyle::icon_colour(icon_idx)};
+
 			draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, icon_idx,
-								   ImVec2{x, y}, ImVec2{width, height}, tint);
+								   ImVec2{x, y}, ImVec2{width, height}, tint,
+								   icon_depth);
 		}
 	}
 }

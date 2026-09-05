@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "display/ui/imageeffect.hpp"
 #include "imgui.h"	   // for ImVec2 (ptr only), ImVec4, ImColor, ImGuiIO (...
 #include <GL/glew.h>   // for GLuint
 #include <any>		   // for any
@@ -34,7 +35,7 @@
 #include <memory>	   // for unique_ptr, shared_ptr
 #include <optional>	   // for optional, nullopt, nullopt_t
 #include <string>	   // for string, basic_string
-#include <string_view> // for string_view
+#include <string_view> // for string_view`
 #include <vector>	   // for vector
 
 namespace Sorcery { class Character; }
@@ -130,15 +131,16 @@ class UI {
 		auto draw_button_click(Component *component, bool &is_clicked,
 							   const bool reverse = false) -> void;
 		auto draw_fg_image(Component *component) -> void;
-		auto draw_fg_image_with_idx(std::string_view source, const int idx,
-									const ImVec2 p_min, const ImVec2 p_sz,
-									const ImVec4 tint = ImVec4{1.0f, 1.0f, 1.0f,
-															   1.0f}) -> void;
-		auto draw_fg_image_with_idx(std::string_view layer,
-									std::string_view source, const int idx,
-									const ImVec2 p_min, const ImVec2 p_sz,
-									const ImVec4 tint = ImVec4{1.0f, 1.0f, 1.0f,
-															   1.0f}) -> void;
+		auto draw_fg_image_with_idx(
+			std::string_view source, const int idx, const ImVec2 p_min,
+			const ImVec2 p_sz,
+			const ImVec4 tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f},
+			std::optional<ImageOffsetEffect> effect = std::nullopt) -> void;
+		auto draw_fg_image_with_idx(
+			std::string_view layer, std::string_view source, const int idx,
+			const ImVec2 p_min, const ImVec2 p_sz,
+			const ImVec4 tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f},
+			std::optional<ImageOffsetEffect> effect = std::nullopt) -> void;
 		auto draw_frame(Component *component) -> void;
 		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 						const ImVec4 colour, const int rounding) -> void;
