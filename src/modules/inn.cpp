@@ -27,7 +27,6 @@
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
-#include "display/ui/popupstore.hpp"		// for PopupStore
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for ABORT_GAME, INSPECT_MODE_ACTIONS
 #include "drawables/modal.hpp"	// for Modal

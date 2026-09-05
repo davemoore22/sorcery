@@ -32,7 +32,6 @@
 #include "display/display.hpp"			// for Display, DisplayMetrics
 #include "display/render.hpp"			// for Render
 #include "display/ui/popupmanager.hpp"	// for PopupManager
-#include "display/ui/popupstore.hpp"	// for PopupStore
 #include "display/ui/ui.hpp"			// for UI
 #include "display/ui/uimetrics.hpp"		// for UIMetrics
 #include "display/ui/uistyle.hpp"		// for set_text_dim

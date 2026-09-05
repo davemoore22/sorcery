@@ -28,7 +28,6 @@
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
-#include "display/ui/popupstore.hpp"		// for PopupStore
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp" // for BACK_TO_TRAINING_GROUNDS, ABOR...
 #include "drawables/dialog.hpp" // for Dialog
@@ -62,7 +61,7 @@ auto Sorcery::Delete::start() -> int {
 
 	_ctx.audio->set_volume(1.0f);
 
-		auto confirming{false};
+	auto confirming{false};
 
 	while (true) {
 		SDL_Event event{};

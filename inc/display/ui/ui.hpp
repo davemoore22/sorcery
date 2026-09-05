@@ -45,7 +45,6 @@ namespace Sorcery { class Frame; }
 namespace Sorcery { class ImageStore; }
 namespace Sorcery { class Menu; }
 namespace Sorcery { class MenuBuilder; }
-namespace Sorcery { class PopupStore; }
 namespace Sorcery { class PopupManager; }
 namespace Sorcery { class Render; }
 namespace Sorcery { class ScreenRenderer; }
@@ -145,7 +144,9 @@ class UI {
 						const ImVec4 colour, const int rounding) -> void;
 		auto draw_image(std::string_view source, const int idx,
 						const ImVec2 p_min, const ImVec2 p_sz) -> void;
-		auto draw_input(Component *component, std::string &input) -> void;
+
+		auto draw_input(Component &component, std::string &input,
+						const ImGuiInputTextFlags input_flags) -> bool;
 		auto draw_menu(Component *component) -> void;
 		auto draw_menu(const std::string name, const ImColor sel_colour,
 					   const ImVec2 pos, const ImVec2 sz,
@@ -226,7 +227,6 @@ class UI {
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
 		std::unique_ptr<FontStore> fonts;
-		std::unique_ptr<PopupStore> popups;
 		std::unique_ptr<PopupManager> popup_manager;
 		std::unique_ptr<MenuBuilder> menubuilder;
 		std::unique_ptr<VideoPlayer> vfx_player;

@@ -29,7 +29,6 @@
 #include "core/enum.hpp"					// for Screen
 #include "display/animation.hpp"			// for Animation
 #include "display/ui/popupmanager.hpp"		// for PopupManager
-#include "display/ui/popupstore.hpp"		// for PopupStore
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"	   // for ABORT_GAME, MAIN_MENU_CONTINUE...
 #include "drawables/dialog.hpp"	   // for Dialog

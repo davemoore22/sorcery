@@ -20,16 +20,16 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "display/ui/screenrenderer.hpp"  // for ScreenRenderer
-#include "common/enum.hpp"				  // for Attribute, Attribute::LUCK
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/define.hpp"				  // for WINDOW_LAYER_MENUS, WINDOW_...
-#include "core/enum.hpp"				  // for Screen, CharacterSlot
-#include "display/display.hpp"			  // for Display, DisplayMetrics
-#include "display/render.hpp"			  // for Render
+#include "display/ui/screenrenderer.hpp"	 // for ScreenRenderer
+#include "common/enum.hpp"					 // for Attribute, Attribute::LUCK
+#include "core/context.hpp"					 // for Context
+#include "core/controller/actionhandler.hpp" // for ControllerActionHandler
+#include "core/controller/controller.hpp"	 // for Controller
+#include "core/define.hpp"	   // for WINDOW_LAYER_MENUS, WINDOW_...
+#include "core/enum.hpp"	   // for Screen, CharacterSlot
+#include "display/display.hpp" // for Display, DisplayMetrics
+#include "display/render.hpp"  // for Render
 #include "display/ui/popupmanager.hpp"
-#include "display/ui/popupstore.hpp"	 // for PopupStore
 #include "display/ui/ui.hpp"			 // for UI
 #include "display/ui/uimetrics.hpp"		 // for UIMetrics
 #include "display/ui/uistyle.hpp"		 // for set_text_dim
@@ -645,19 +645,30 @@ auto Sorcery::ScreenRenderer::_draw_store() -> void {
 auto Sorcery::ScreenRenderer::_draw_rename() -> void {
 
 	auto cmp_summary{_ui.components->get("rename:summary_text")};
-	auto character{_ctx.game->characters.at(
+
+	const auto &character{_ctx.game->characters.at(
 		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
-	auto summary_text{character.summary_text()};
+
+	const auto summary_text{character.summary_text()};
+
 	_ui.draw_text(&cmp_summary, summary_text);
 
 	// As next custom component is a text box, focus on that initially
 	if (_ui.first_frame) {
+
 		ImGui::SetKeyboardFocusHere();
+
 		_ui.first_frame = false;
 	}
 
 	auto cmp_name{_ui.components->get("rename:rename_input")};
-	_ui.draw_input(&cmp_name, _ctx.controller->get_input_buffer());
+
+	auto &input{_ctx.controller->get_input_buffer()};
+
+	if (_ui.draw_input(cmp_name, input, ImGuiInputTextFlags_None)) {
+
+		_ctx.controller->actions->input("rename_input_ok", input);
+	}
 }
 
 auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
@@ -783,18 +794,28 @@ auto Sorcery::ScreenRenderer::_draw_create_name([[maybe_unused]] const int mode)
 	-> void {
 
 	auto cmp_summary{_ui.components->get("create_name:summary_text")};
-	auto summary_text{
+
+	const auto summary_text{
 		_ctx.controller->get_candidate_character()->summary_text()};
+
 	_ui.draw_text(&cmp_summary, summary_text);
 
 	// As next custom component is a text box, focus on that initially
 	if (_ui.first_frame) {
+
 		ImGui::SetKeyboardFocusHere();
+
 		_ui.first_frame = false;
 	}
 
 	auto cmp_name{_ui.components->get("create_name:name_input")};
-	_ui.draw_input(&cmp_name, _ctx.controller->get_input_buffer());
+
+	auto &input{_ctx.controller->get_input_buffer()};
+
+	if (_ui.draw_input(cmp_name, input, ImGuiInputTextFlags_None)) {
+
+		_ctx.controller->actions->input("name_input_ok", input);
+	}
 }
 
 auto Sorcery::ScreenRenderer::_draw_choose(const int mode) -> void {

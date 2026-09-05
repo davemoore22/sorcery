@@ -42,7 +42,6 @@
 #include "display/display.hpp"			 // for Display, DisplayMetrics
 #include "display/render.hpp"			 // for Render
 #include "display/ui/popupmanager.hpp"	 // for PopupManager
-#include "display/ui/popupstore.hpp"	 // for PopupStore
 #include "display/ui/screenrenderer.hpp" // for ScreenRenderer
 #include "display/ui/uimetrics.hpp"		 // for UIMetrics, GLuint
 #include "display/ui/uistyle.hpp"		 // for set_text_bright, set_text_dim
@@ -123,7 +122,6 @@ Sorcery::UI::UI(Context &ctx)
 	menubuilder = std::make_unique<MenuBuilder>(_ctx);
 
 	_ctx.components = components.get();
-	popups = std::make_unique<PopupStore>(_ctx);
 	popup_manager = std::make_unique<PopupManager>(_ctx);
 	screens = std::make_unique<ScreenRenderer>(*this, _ctx);
 	metrics = std::make_unique<UIMetrics>(_ctx);
@@ -248,7 +246,6 @@ auto Sorcery::UI::start() -> void {
 	ms_selected.fill(false);
 	ps_selected.fill(false);
 
-	popups->close_all_popups();
 	_attract_data.clear();
 }
 
@@ -272,7 +269,6 @@ auto Sorcery::UI::display_refresh(std::any payload) -> void {
 
 auto Sorcery::UI::close_all_popups() -> void {
 
-	popups->close_all_popups();
 	popup_manager->reset();
 }
 
@@ -812,9 +808,6 @@ auto Sorcery::UI::draw_debug() -> void {
 		ImGui::SetCursorPos(ImVec2{8, 8});
 		set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 0.0f, 0.0f, 1.0f});
 		ImGui::TextUnformatted(_ctx.controller->get_flags().c_str());
-
-		ImGui::SetCursorPos(ImVec2{1000, 400});
-		ImGui::TextUnformatted(popups->get_popups().c_str());
 
 		ImGui::SetCursorPos(ImVec2{8, 700});
 		ImGui::TextUnformatted(_ctx.controller->get_characters().c_str());
@@ -1678,41 +1671,47 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name,
 	}
 }
 
-auto Sorcery::UI::draw_input(Component *component, std::string &input) -> void {
+auto Sorcery::UI::draw_input(Component &component, std::string &input,
+							 const ImGuiInputTextFlags input_flags) -> bool {
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
-		auto pos{metrics->grid_pos(component->x, component->y)};
+		const auto pos{metrics->grid_pos(component.x, component.y)};
+
 		ImGui::SetCursorPos(pos);
 
-		set_Font(fonts->get_current_font(component->font).value(),
+		set_Font(fonts->get_current_font(component.font).value(),
 				 metrics->font_sz());
 
-		ImGuiInputTextFlags flags{ImGuiInputTextFlags_AutoSelectAll |
-								  ImGuiInputTextFlags_EnterReturnsTrue};
+		const auto flags{input_flags | ImGuiInputTextFlags_AutoSelectAll |
+						 ImGuiInputTextFlags_EnterReturnsTrue};
 
-		const auto input_name{std::format("##{}", component->name)};
-		const auto input_button_name{std::format("##{}_ok", component->name)};
-		const auto input_button_id{std::format("{}_ok", component->name)};
-		ImGui::SetNextItemWidth(ImGui::GetFontSize() * component->w);
-		if (ImGui::InputText(input_name.c_str(), &input, flags)) {
-			_ctx.controller->actions->input(input_button_id, input);
-		}
+		const auto input_name{std::format("##{}", component.name)};
+
+		const auto button_name{std::format("##{}_ok", component.name)};
+
+		ImGui::SetNextItemWidth(ImGui::GetFontSize() * component.w);
+
+		auto submitted{ImGui::InputText(input_name.c_str(), &input, flags)};
 
 		ImGui::SameLine();
+
 		const auto col{get_hl_colour(_ctx.animation->lerp)};
+
 		UIStyle::set_faded(_ctx);
-		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 
-		with_ID(input_button_name.c_str()) {
-			if (ImGui::Button(">")) {
+		set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{col});
 
-				// Handle buttons being used to switch on AND off the flag
-				// flag = !reverse;
-				_ctx.controller->actions->input(input_button_id, input);
-			}
+		with_ID(button_name.c_str()) {
+
+			if (ImGui::Button(">"))
+				submitted = true;
 		}
+
+		return submitted;
 	}
+
+	return false;
 }
 
 auto Sorcery::UI::draw_text(Component *component, const std::string &string)

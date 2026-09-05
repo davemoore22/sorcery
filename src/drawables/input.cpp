@@ -27,7 +27,6 @@
 #include "core/macro.hpp"				  // for CSTR
 #include "display/animation.hpp"		  // for Animation
 #include "display/ui/popupmanager.hpp"	  // for PopupManager
-#include "display/ui/popupstore.hpp"	  // for PopupStore
 #include "display/ui/ui.hpp"			  // for UI
 #include "display/ui/uimetrics.hpp"		  // for UIMetrics
 #include "drawables/dialog.hpp"			  // for Dialog

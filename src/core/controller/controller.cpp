@@ -33,7 +33,6 @@
 #include "core/enum.hpp"				 // for CharacterSlot, Screen
 #include "core/resources.hpp"			 // for Resources
 #include "display/display.hpp"			 // for Display
-#include "display/ui/popupstore.hpp"	 // for PopupStore
 #include "display/ui/ui.hpp"			 // for UI
 #include "display/ui/uimetrics.hpp"		 // for UIMetrics
 #include "drawables/define.hpp"			 // for MAIN_MENU_CONTINUE_GAME

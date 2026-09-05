@@ -32,7 +32,6 @@
 #include "core/system.hpp"
 #include "display/display.hpp"
 #include "display/ui/popupmanager.hpp"
-#include "display/ui/popupstore.hpp"
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
