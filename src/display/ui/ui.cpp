@@ -91,26 +91,27 @@
 #include <array>						 // for array
 #include <cctype>						 // for tolower
 #include <chrono>						 // for steady_clock, operator+
-#include <compare>						 // for operator>=, strong_ordering
-#include <cstdint>						 // for intptr_t, uintptr_t
-#include <cstdlib>						 // for size_t, exit, EXIT_FAILURE
-#include <exception>					 // for exception
-#include <filesystem>					 // for path
-#include <format>						 // for format
-#include <functional>					 // for ref, reference_wrapper, invoke
-#include <imgui_sugar.hpp>				 // for BooleanGuard, with_Window
-#include <imgui_toggle.h>				 // for Toggle
-#include <initializer_list>				 // for initializer_list
-#include <iostream>						 // for basic_ostream, cerr
-#include <map>							 // for map, operator==
-#include <memory>						 // for unique_ptr, shared_ptr, mak...
-#include <optional>						 // for optional, nullopt, nullopt_t
-#include <ranges>						 // for _Filter, _Partial, filter
-#include <regex>						 // for regex, regex_token_iterator
-#include <string>						 // for basic_string, string, char_...
-#include <string_view>					 // for basic_string_view, string_view
-#include <utility>						 // for pair, to_underlying, move
-#include <vector>						 // for vector
+#include <cmath>
+#include <compare>			// for operator>=, strong_ordering
+#include <cstdint>			// for intptr_t, uintptr_t
+#include <cstdlib>			// for size_t, exit, EXIT_FAILURE
+#include <exception>		// for exception
+#include <filesystem>		// for path
+#include <format>			// for format
+#include <functional>		// for ref, reference_wrapper, invoke
+#include <imgui_sugar.hpp>	// for BooleanGuard, with_Window
+#include <imgui_toggle.h>	// for Toggle
+#include <initializer_list> // for initializer_list
+#include <iostream>			// for basic_ostream, cerr
+#include <map>				// for map, operator==
+#include <memory>			// for unique_ptr, shared_ptr, mak...
+#include <optional>			// for optional, nullopt, nullopt_t
+#include <ranges>			// for _Filter, _Partial, filter
+#include <regex>			// for regex, regex_token_iterator
+#include <string>			// for basic_string, string, char_...
+#include <string_view>		// for basic_string_view, string_view
+#include <utility>			// for pair, to_underlying, move
+#include <vector>			// for vector
 
 Sorcery::UI::UI(Context &ctx)
 	: _ctx{ctx} {
@@ -381,6 +382,31 @@ auto Sorcery::UI::get_hl_colour(const double percent) const -> ImColor {
 	const auto blue{static_cast<int>(first.z + percent * (second.z - first.z))};
 
 	return ImColor{red, green, blue};
+}
+
+auto Sorcery::UI::_get_cursor_colour(const bool busy,
+									 const double percent) const -> ImVec4 {
+
+	const auto pulse{
+		static_cast<float>(percent * percent * (3.0 - (2.0 * percent)))};
+
+	const auto dim{busy ? ImVec4{0.65f, 0.05f, 0.05f, 0.80f}
+						: ImVec4{0.05f, 0.60f, 0.15f, 0.80f}};
+
+	const auto bright{busy ? ImVec4{1.00f, 0.55f, 0.40f, 1.00f}
+						   : ImVec4{0.60f, 1.00f, 0.70f, 1.00f}};
+
+	return lerp_colour_engine(dim, bright, pulse);
+}
+// Colour Gradient Helper function
+auto Sorcery::UI::lerp_colour_engine(const ImVec4 col_from, const ImVec4 col_to,
+									 const double percent) const -> ImVec4 {
+
+	const auto p{static_cast<float>(percent)};
+
+	return ImVec4{std::lerp(col_from.x, col_to.x, p),
+				  std::lerp(col_from.y, col_to.y, p),
+				  std::lerp(col_from.z, col_to.z, p), _ctx.animation->fade};
 }
 
 // Colour Gradient Helper function
@@ -700,13 +726,6 @@ auto Sorcery::UI::draw_cursor() -> void {
 		const auto dest_sz{ImVec2{32 * scale, 32 * scale}};
 		const auto cursor_idx{_ctx.controller->get_busy() ? ICON_HOURGLASS
 														  : ICON_CURSOR};
-		const auto cursor_col{_ctx.controller->get_busy()
-								  ? lerp_colour(ImVec4{1.0f, 0.0f, 0.0f, 1.0f},
-												ImVec4{1.0f, 0.8f, 0.8f, 1.0f},
-												_ctx.animation->lerp)
-								  : lerp_colour(ImVec4{0.0f, 1.0f, 0.0f, 1.0f},
-												ImVec4{0.8f, 1.0f, 0.8f, 1.0f},
-												_ctx.animation->lerp)};
 
 		// Work out the source rect to copy (normalise to 0.0f - 1.0f)
 		const auto from{ImVec4{icon_sz * (cursor_idx % ICONS_TILE_ROW_COUNT),
@@ -716,10 +735,36 @@ auto Sorcery::UI::draw_cursor() -> void {
 		const auto uv_1{ImVec2{(from.x + icon_sz) / texture_sz.x,
 							   (from.y + icon_sz) / texture_sz.y}};
 
-		ImGui::GetForegroundDrawList()->AddImage(
-			(intptr_t)src_image.texture, ImVec2{pos.x, pos.y},
-			ImVec2{pos.x + dest_sz.x, pos.y + dest_sz.y}, uv_0, uv_1,
-			ImGui::ColorConvertFloat4ToU32(cursor_col));
+		// Handle the base cursor colour (complete with gentle "pulsing")
+		const auto cursor_col{_get_cursor_colour(_ctx.controller->get_busy(),
+												 _ctx.animation->lerp)};
+
+		// Get the offset/highlight for the Cursor
+		const auto cursor_depth{UIStyle::cursor_depth(scale)};
+		const auto offset_colour{cursor_depth.colour.value_or(
+			ImVec4{cursor_col.x * cursor_depth.brightness,
+				   cursor_col.y * cursor_depth.brightness,
+				   cursor_col.z * cursor_depth.brightness, cursor_col.w})};
+		const ImVec4 offset_tint{
+			offset_colour.x, offset_colour.y, offset_colour.z,
+			offset_colour.w * cursor_depth.alpha * _ctx.animation->fade};
+
+		auto *draw_list{ImGui::GetForegroundDrawList()};
+
+		// Draw the offset cursor first
+		const ImVec2 offset_min{pos.x + cursor_depth.offset.x,
+								pos.y + cursor_depth.offset.y};
+		const ImVec2 offset_max{offset_min.x + dest_sz.x,
+								offset_min.y + dest_sz.y};
+
+		draw_list->AddImage((intptr_t)src_image.texture, offset_min, offset_max,
+							uv_0, uv_1,
+							ImGui::ColorConvertFloat4ToU32(offset_tint));
+
+		// Then the real cursor
+		draw_list->AddImage((intptr_t)src_image.texture, pos,
+							ImVec2{pos.x + dest_sz.x, pos.y + dest_sz.y}, uv_0,
+							uv_1, ImGui::ColorConvertFloat4ToU32(cursor_col));
 	}
 }
 

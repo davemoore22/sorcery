@@ -117,6 +117,8 @@ class UI {
 		auto get_hl_colour(const double percent) const -> ImColor;
 		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo,
 						 const double percent) const -> ImVec4;
+		auto lerp_colour_engine(const ImVec4 col_from, const ImVec4 col_to,
+								const double percent) const -> ImVec4;
 		auto load_message(const Enums::Map::Event event)
 			-> std::vector<std::string>;
 		auto set_monochrome(const bool value) -> void;
@@ -281,5 +283,8 @@ class UI {
 									 std::vector<int> &data,
 									 const std::size_t index,
 									 const int data_item) -> void;
+		[[nodiscard]] auto _get_cursor_colour(const bool busy,
+											  const double percent) const
+			-> ImVec4;
 };
 };
