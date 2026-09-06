@@ -1753,7 +1753,13 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "COMPENDIUM_TITLE"
+							"title": "COMPENDIUM_TITLE",
+							"bg_source": "training.tga",
+							"bg_idx": "1",
+							"bg_tile_width": "480",
+							"bg_tile_height": "480",
+							"bg_mode": "stretch",
+							"bg_alpha": "0.5"
 						}
 					]
 				},
@@ -2277,7 +2283,7 @@
 							"bg_tile_width": "440",
 							"bg_tile_height": "420",
 							"bg_mode": "stretch",
-							"bg_alpha": "1.0"
+							"bg_alpha": "0.5"
 						}
 					]
 				},
@@ -2367,7 +2373,13 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "TAVERN_TITLE"
+							"title": "TAVERN_TITLE",
+							"bg_source": "town.tga",
+							"bg_idx": "4",
+							"bg_tile_width": "440",
+							"bg_tile_height": "420",
+							"bg_mode": "stretch",
+							"bg_alpha": "0.5"
 						}
 					]
 				},
@@ -2457,7 +2469,13 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "INN_TITLE"
+							"title": "INN_TITLE",
+							"bg_source": "town.tga",
+							"bg_idx": "2",
+							"bg_tile_width": "440",
+							"bg_tile_height": "420",
+							"bg_mode": "stretch",
+							"bg_alpha": "0.5"
 						}
 					]
 				},
@@ -3723,7 +3741,13 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "SHOP_TITLE"
+							"title": "SHOP_TITLE",
+							"bg_source": "town.tga",
+							"bg_idx": "3",
+							"bg_tile_width": "440",
+							"bg_tile_height": "420",
+							"bg_mode": "stretch",
+							"bg_alpha": "0.5"
 						}
 					]
 				},
@@ -3826,7 +3850,13 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "TEMPLE_TITLE"
+							"title": "TEMPLE_TITLE",
+							"bg_source": "town.tga",
+							"bg_idx": "5",
+							"bg_tile_width": "440",
+							"bg_tile_height": "420",
+							"bg_mode": "stretch",
+							"bg_alpha": "0.5"
 						}
 					]
 				},
@@ -4166,7 +4196,13 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "EDGE_OF_TOWN_TITLE"
+							"title": "EDGE_OF_TOWN_TITLE",
+							"bg_source": "town.tga",
+							"bg_idx": "1",
+							"bg_tile_width": "440",
+							"bg_tile_height": "420",
+							"bg_mode": "stretch",
+							"bg_alpha": "0.5"
 						}
 					]
 				},
@@ -4256,7 +4292,13 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "TRAINING_GROUNDS_TITLE"
+							"title": "TRAINING_GROUNDS_TITLE",
+							"bg_source": "training.tga",
+							"bg_idx": "0",
+							"bg_tile_width": "480",
+							"bg_tile_height": "480",
+							"bg_mode": "stretch",
+							"bg_alpha": "0.5"
 						}
 					]
 				},

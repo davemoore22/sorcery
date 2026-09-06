@@ -22,50 +22,31 @@
 
 #pragma once
 
-#include "common/types.hpp"			 // for Size
-#include "display/ui/atlasimage.hpp" // for AtlasDrawMode
-#include "imgui.h"					 // for ImU32, ImVec2
-#include <optional>					 // for optional
-#include <string>					 // for basic_string, string
-#include <string_view>				 // for string_view
+#include "common/imgui.hpp"
 
-namespace Sorcery { class Component; }
-namespace Sorcery { struct Context; }
+#include <string_view>
 
 namespace Sorcery {
 
-struct FrameBackground {
+enum class AtlasDrawMode {
+	STRETCH,
+	TILE
+};
 
-		std::string source{};
+struct AtlasImage {
+
+		std::string_view source{};
 		int idx{0};
 
 		ImVec2 source_tile_size{};
+		ImVec2 draw_tile_size{};
+
+		ImVec2 p_min{};
+		ImVec2 p_max{};
 
 		AtlasDrawMode mode{AtlasDrawMode::STRETCH};
 
-		float alpha{1.0f};
+		ImVec4 tint{1.0f, 1.0f, 1.0f, 1.0f};
 };
 
-class Frame {
-
-	public:
-		Frame() = delete;
-		Frame(Context &ctx, Component *component);
-		Frame(Context &ctx, std::string_view name, const ImVec2 pos,
-			  const Size size, const ImU32 colour, const ImU32 bg_colour);
-
-	private:
-		auto _draw(const bool foreground) -> void;
-
-		Context &_ctx;
-		Component *_component;
-		std::string _name;
-		ImVec2 _pos;
-		Size _size;
-		ImU32 _colour;
-		ImU32 _bg_colour;
-		std::optional<std::string> _title;
-		std::optional<FrameBackground> _bg_image{};
-};
-
-};
+}

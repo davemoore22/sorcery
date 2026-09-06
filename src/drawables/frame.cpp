@@ -43,10 +43,24 @@ Sorcery::Frame::Frame(Context &ctx, Component *component)
 	_bg_colour = _component->background;
 	_name = _component->name;
 
-	if (_component->get("background"))
-		_bg_image = _component->get("background").value();
-	else
+	if (_component->get("bg_source")) {
+
+		const auto mode{_component->get("bg_mode").value_or("stretch")};
+
+		_bg_image = FrameBackground{
+			.source = _component->get("bg_source").value(),
+			.idx = _component->get_int("bg_idx"),
+			.source_tile_size = ImVec2{_component->get_float("bg_tile_width"),
+									   _component->get_float("bg_tile_height")},
+			.mode =
+				mode == "tile" ? AtlasDrawMode::TILE : AtlasDrawMode::STRETCH,
+			.alpha = _component->get_float("bg_alpha")};
+
+	} else {
+
 		_bg_image = std::nullopt;
+	}
+
 	if (_component->get("title"))
 		_title = _component->get("title");
 	else
@@ -75,16 +89,18 @@ Sorcery::Frame::Frame(Context &ctx, std::string_view name, const ImVec2 pos,
 	_title = std::nullopt;
 	_draw(false);
 }
-
 auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 	const auto rounding{_ctx.ui->frame_rd};
+
 	const auto size{_ctx.ui->metrics->grid_delta(static_cast<float>(_size.w),
 												 static_cast<float>(_size.h))};
 
 	const auto x{std::invoke([&] {
 		if (_pos.x == -1) {
+
 			const auto viewport{ImGui::GetMainViewport()};
+
 			return (viewport->Size.x - size.x) / 2.0f;
 		}
 
@@ -93,7 +109,9 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 	const auto y{std::invoke([&] {
 		if (_pos.y == -1) {
+
 			const auto viewport{ImGui::GetMainViewport()};
+
 			return (viewport->Size.y - size.y) / 2.0f;
 		}
 
@@ -102,44 +120,74 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 	const auto layer{foreground ? WINDOW_LAYER_TEXTS : WINDOW_LAYER_FRAMES};
 
+	const ImVec2 p_min{x, y};
+	const ImVec2 p_max{x + size.x, y + size.y};
+
+	const ImVec4 frame_colour{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+							  _ctx.ui->ui_colour.z, _ctx.animation->fade};
+
 	with_Window(layer, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
+		// Draw the normal black frame backing first.
+		_ctx.ui->draw_frame_background(p_min, p_max, rounding);
+
+		// Optionally draw an atlas image inside the frame.
 		if (_bg_image) {
-			// Optionally draw background
+
+			const auto &bg{*_bg_image};
+
+			// Keep the image just inside the frame border.
+			const auto inset{static_cast<float>(rounding)};
+
+			const ImVec2 image_min{p_min.x + inset, p_min.y + inset};
+
+			const ImVec2 image_max{p_max.x - inset, p_max.y - inset};
+
+			_ctx.ui->draw_atlas_image(
+				ImGui::GetWindowDrawList(),
+				AtlasImage{.source = bg.source,
+						   .idx = bg.idx,
+						   .source_tile_size = bg.source_tile_size,
+						   .p_min = image_min,
+						   .p_max = image_max,
+						   .mode = bg.mode,
+						   .tint = ImVec4{1.0f, 1.0f, 1.0f, bg.alpha}});
 		}
 
-		_ctx.ui->draw_frame(ImVec2{x, y}, ImVec2{x + size.x, y + size.y},
-							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-							rounding);
+		// Draw the frame border over the background image.
+		_ctx.ui->draw_frame_border(p_min, p_max, frame_colour, rounding);
 
+		// Optional title.
 		if (_title) {
+
 			set_Font(
 				_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE)
 					.value(),
 				_ctx.ui->metrics->font_sz());
 
 			const auto title_txt{_ctx.get_string(_title.value())};
+
 			const auto one_cell{_ctx.ui->metrics->grid_delta(1.0f, 1.0f)};
+
 			const auto title_height{_ctx.ui->metrics->grid_delta(0.0f, 3.0f).y};
+
 			const auto title_sz{Size{ImGui::CalcTextSize(title_txt.c_str()).x +
 										 (_ctx.ui->metrics->font_sz() * 2),
 									 title_height}};
+
 			const auto title_pos{ImVec2{
 				x + (size.x / 2.0f) - (static_cast<float>(title_sz.w) / 2.0f),
 				y - one_cell.y}};
+
 			const auto text_pos{
 				ImVec2{title_pos.x + one_cell.x, title_pos.y + one_cell.y}};
 
 			_ctx.ui->draw_frame(
 				title_pos,
 				ImVec2{title_pos.x + static_cast<float>(title_sz.w),
-
 					   title_pos.y + static_cast<float>(title_sz.h)},
-				ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-					   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-				rounding);
+				frame_colour, rounding);
 
 			_ctx.ui->draw_text(title_txt,
 							   ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},

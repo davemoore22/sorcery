@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "display/ui/atlasimage.hpp"
 #include "display/ui/imageeffect.hpp"
 #include "imgui.h"	   // for ImVec2 (ptr only), ImVec4, ImColor, ImGuiIO (...
 #include <GL/glew.h>   // for GLuint
@@ -93,31 +94,6 @@ struct TransientMessage {
 		TransientMode mode{TransientMode::DISMISS_ON_ACTION};
 };
 
-enum class AtlasDrawMode {
-	STRETCH,
-	TILE
-};
-
-struct AtlasImage {
-
-		std::string_view source{};
-		int idx{0};
-
-		// Dimensions of one image in the source atlas.
-		ImVec2 source_tile_size{};
-
-		// Dimensions of each tile when rendered.
-		// A zero size means derive it from source_tile_size and display scale.
-		ImVec2 draw_tile_size{};
-
-		// Destination rectangle.
-		ImVec2 p_min{};
-		ImVec2 p_max{};
-
-		AtlasDrawMode mode{AtlasDrawMode::STRETCH};
-
-		ImVec4 tint{1.0f, 1.0f, 1.0f, 1.0f};
-};
 class UI {
 
 	public:
@@ -150,7 +126,9 @@ class UI {
 		[[nodiscard]] auto has_transient() const -> bool;
 
 		// Primitive Drawables
-		auto draw_atlas_image(std::string_view layer, const AtlasImage &image)
+		auto draw_atlas_image(const std::string_view layer,
+							  const AtlasImage &image) -> void;
+		auto draw_atlas_image(ImDrawList *draw_list, const AtlasImage &image)
 			-> void;
 		auto draw_tiled_bg_atlas([[maybe_unused]] Component *component) -> void;
 

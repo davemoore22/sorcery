@@ -3666,16 +3666,22 @@ auto Sorcery::UI::draw_transient() -> void {
 auto Sorcery::UI::draw_atlas_image(const std::string_view layer,
 								   const AtlasImage &image) -> void {
 
+	with_Window(std::string{layer}.c_str(), nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+
+		draw_atlas_image(ImGui::GetWindowDrawList(), image);
+	}
+}
+
+auto Sorcery::UI::draw_atlas_image(ImDrawList *draw_list,
+								   const AtlasImage &image) -> void {
+
 	// Draw a placeholder when images are disabled.
 	if (!images->show_images) {
 
-		with_Window(std::string{layer}.c_str(), nullptr,
-					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-
-			ImGui::GetWindowDrawList()->AddRectFilled(
-				image.p_min, image.p_max,
-				ImColor{ImVec4{0.2f, 0.2f, 0.2f, _ctx.animation->fade}});
-		}
+		draw_list->AddRectFilled(
+			image.p_min, image.p_max,
+			ImColor{ImVec4{0.2f, 0.2f, 0.2f, _ctx.animation->fade}});
 
 		return;
 	}
@@ -3722,53 +3728,46 @@ auto Sorcery::UI::draw_atlas_image(const std::string_view layer,
 	const ImU32 tint{ImColor{image.tint.x, image.tint.y, image.tint.z,
 							 image.tint.w * _ctx.animation->fade}};
 
-	with_Window(std::string{layer}.c_str(), nullptr,
-				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+	switch (image.mode) {
 
-		auto *draw_list{ImGui::GetWindowDrawList()};
+	case AtlasDrawMode::STRETCH:
 
-		switch (image.mode) {
+		draw_list->AddImage(texture, image.p_min, image.p_max, uv_0, uv_1,
+							tint);
 
-		case AtlasDrawMode::STRETCH:
+		break;
 
-			draw_list->AddImage(texture, image.p_min, image.p_max, uv_0, uv_1,
-								tint);
+	case AtlasDrawMode::TILE: {
 
+		const auto scale{_ctx.display->get_display_metrics().scale};
+
+		const auto draw_tile_size{
+			image.draw_tile_size.x > 0.0f && image.draw_tile_size.y > 0.0f
+				? image.draw_tile_size
+				: ImVec2{image.source_tile_size.x * scale,
+						 image.source_tile_size.y * scale}};
+
+		if (draw_tile_size.x <= 0.0f || draw_tile_size.y <= 0.0f)
 			break;
 
-		case AtlasDrawMode::TILE: {
+		draw_list->PushClipRect(image.p_min, image.p_max, true);
 
-			const auto scale{_ctx.display->get_display_metrics().scale};
+		for (auto y{image.p_min.y}; y < image.p_max.y; y += draw_tile_size.y) {
 
-			const auto draw_tile_size{
-				image.draw_tile_size.x > 0.0f && image.draw_tile_size.y > 0.0f
-					? image.draw_tile_size
-					: ImVec2{image.source_tile_size.x * scale,
-							 image.source_tile_size.y * scale}};
+			for (auto x{image.p_min.x}; x < image.p_max.x;
+				 x += draw_tile_size.x) {
 
-			if (draw_tile_size.x <= 0.0f || draw_tile_size.y <= 0.0f)
-				break;
-
-			draw_list->PushClipRect(image.p_min, image.p_max, true);
-
-			for (auto y{image.p_min.y}; y < image.p_max.y;
-				 y += draw_tile_size.y) {
-
-				for (auto x{image.p_min.x}; x < image.p_max.x;
-					 x += draw_tile_size.x) {
-
-					draw_list->AddImage(
-						texture, ImVec2{x, y},
-						ImVec2{x + draw_tile_size.x, y + draw_tile_size.y},
-						uv_0, uv_1, tint);
-				}
+				draw_list->AddImage(
+					texture, ImVec2{x, y},
+					ImVec2{x + draw_tile_size.x, y + draw_tile_size.y}, uv_0,
+					uv_1, tint);
 			}
-
-			draw_list->PopClipRect();
-
-			break;
 		}
-		}
+
+		draw_list->PopClipRect();
+
+		break;
+	}
 	}
 }
 
