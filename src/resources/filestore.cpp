@@ -97,6 +97,8 @@ Sorcery::FileStore::FileStore() {
 	_add_path(GFX_DIR, KNOWN_CREATURES_TEXTURE);
 	_add_path(GFX_DIR, LOGO_TEXTURE);
 	_add_path(GFX_DIR, MAPS_TEXTURE);
+	_add_path(GFX_DIR, TOWN_TEXTURE);
+	_add_path(GFX_DIR, TRAINING_TEXTURE);
 	_add_path(GFX_DIR, UNKNOWN_CREATURES_TEXTURE);
 	_add_path(GFX_DIR, WIREFRAME_TEXTURE);
 

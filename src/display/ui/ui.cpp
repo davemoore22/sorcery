@@ -679,41 +679,6 @@ auto Sorcery::UI::draw_tiled_bg(Component *component) -> void {
 	}
 };
 
-auto Sorcery::UI::draw_bg_image(Component *component) -> void {
-
-	if (!images->show_images) {
-
-		// If we aren't drawing images, draw a suitable placeholder
-		with_Window(WINDOW_LAYER_BG, nullptr,
-					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-			const auto viewport{ImGui::GetMainViewport()};
-			ImGui::SetCursorPos(ImVec2{0, 0});
-			ImGui::GetWindowDrawList()->AddRectFilled(
-				ImVec2{0, 0}, viewport->Size,
-				ImColor{ImVec4{0.2f, 0.2f, 0.2f, _ctx.animation->fade}});
-		}
-	}
-
-	if (component->get("source")) {
-
-		// Load the image if necessary
-		const auto source{component->get("source").value()};
-		if (!images->has_loaded(source))
-			images->load_image(source);
-
-		const auto viewport{ImGui::GetMainViewport()};
-		auto src_image{images->get(source)};
-
-		// Draw the Image
-		with_Window(WINDOW_LAYER_BG, nullptr,
-					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-			ImGui::SetCursorPos(ImVec2{0, 0});
-			ImGui::Image((intptr_t)src_image.texture, viewport->Size,
-						 ImVec2{0.0f, 0.0f}, ImVec2{1.0f, 1.0f});
-		}
-	}
-}
-
 auto Sorcery::UI::draw_cursor(const bool value) -> void {
 
 	_ctx.controller->set_busy(value);
@@ -3732,4 +3697,129 @@ auto Sorcery::UI::draw_transient() -> void {
 
 		ImGui::TextUnformatted(message.text.c_str());
 	}
+}
+
+auto Sorcery::UI::draw_atlas_image(const std::string_view layer,
+								   const AtlasImage &image) -> void {
+
+	// Draw a placeholder when images are disabled.
+	if (!images->show_images) {
+
+		with_Window(std::string{layer}.c_str(), nullptr,
+					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+
+			ImGui::GetWindowDrawList()->AddRectFilled(
+				image.p_min, image.p_max,
+				ImColor{ImVec4{0.2f, 0.2f, 0.2f, _ctx.animation->fade}});
+		}
+
+		return;
+	}
+
+	// Load the atlas if necessary.
+	const std::string source{image.source};
+
+	if (!images->has_loaded(source))
+		images->load_image(source);
+
+	const auto src_image{images->get(source)};
+
+	const auto tile_width{static_cast<int>(image.source_tile_size.x)};
+
+	const auto tile_height{static_cast<int>(image.source_tile_size.y)};
+
+	if (tile_width <= 0 || tile_height <= 0)
+		return;
+
+	const auto tiles_per_row{src_image.width / tile_width};
+
+	if (tiles_per_row <= 0)
+		return;
+
+	const auto tile_x{image.idx % tiles_per_row};
+
+	const auto tile_y{image.idx / tiles_per_row};
+
+	// UV coordinates of the requested atlas cell.
+	const ImVec2 uv_0{static_cast<float>(tile_x * tile_width) /
+						  static_cast<float>(src_image.width),
+
+					  static_cast<float>(tile_y * tile_height) /
+						  static_cast<float>(src_image.height)};
+
+	const ImVec2 uv_1{static_cast<float>((tile_x + 1) * tile_width) /
+						  static_cast<float>(src_image.width),
+
+					  static_cast<float>((tile_y + 1) * tile_height) /
+						  static_cast<float>(src_image.height)};
+
+	const auto texture{ImTextureRef(_to_imgui(src_image.texture))};
+
+	const ImU32 tint{ImColor{image.tint.x, image.tint.y, image.tint.z,
+							 image.tint.w * _ctx.animation->fade}};
+
+	with_Window(std::string{layer}.c_str(), nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+
+		auto *draw_list{ImGui::GetWindowDrawList()};
+
+		switch (image.mode) {
+
+		case AtlasDrawMode::STRETCH:
+
+			draw_list->AddImage(texture, image.p_min, image.p_max, uv_0, uv_1,
+								tint);
+
+			break;
+
+		case AtlasDrawMode::TILE: {
+
+			const auto scale{_ctx.display->get_display_metrics().scale};
+
+			const auto draw_tile_size{
+				image.draw_tile_size.x > 0.0f && image.draw_tile_size.y > 0.0f
+					? image.draw_tile_size
+					: ImVec2{image.source_tile_size.x * scale,
+							 image.source_tile_size.y * scale}};
+
+			if (draw_tile_size.x <= 0.0f || draw_tile_size.y <= 0.0f)
+				break;
+
+			draw_list->PushClipRect(image.p_min, image.p_max, true);
+
+			for (auto y{image.p_min.y}; y < image.p_max.y;
+				 y += draw_tile_size.y) {
+
+				for (auto x{image.p_min.x}; x < image.p_max.x;
+					 x += draw_tile_size.x) {
+
+					draw_list->AddImage(
+						texture, ImVec2{x, y},
+						ImVec2{x + draw_tile_size.x, y + draw_tile_size.y},
+						uv_0, uv_1, tint);
+				}
+			}
+
+			draw_list->PopClipRect();
+
+			break;
+		}
+		}
+	}
+}
+
+auto Sorcery::UI::draw_tiled_bg_atlas([[maybe_unused]] Component *component)
+	-> void {
+
+	const auto viewport{ImGui::GetMainViewport()};
+
+	draw_atlas_image(WINDOW_LAYER_BG,
+					 AtlasImage{.source = BACKGROUNDS_TEXTURE,
+								.idx = _ctx.animation->wp_idx,
+								.source_tile_size = ImVec2{400.0f, 400.0f},
+								.draw_tile_size = ImVec2{400.0f, 400.0f},
+								.p_min = ImVec2{0.0f, 0.0f},
+								.p_max = viewport->Size,
+								.mode = AtlasDrawMode::TILE,
+								.tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f}});
 }

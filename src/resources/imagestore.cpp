@@ -61,6 +61,7 @@ auto Sorcery::ImageStore::_initialise() -> bool {
 		 std::string{EVENTS_TEXTURE}, std::string{ICONS_TEXTURE},
 		 std::string{ITEMS_TEXTURE}, std::string{KNOWN_CREATURES_TEXTURE},
 		 std::string{LOGO_TEXTURE}, std::string{MAPS_TEXTURE},
+		 std::string{TOWN_TEXTURE}, std::string{TRAINING_TEXTURE},
 		 std::string{UNKNOWN_CREATURES_TEXTURE},
 		 std::string{WIREFRAME_TEXTURE}});
 	capacity = _sources.size();

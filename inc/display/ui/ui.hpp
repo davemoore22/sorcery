@@ -93,6 +93,31 @@ struct TransientMessage {
 		TransientMode mode{TransientMode::DISMISS_ON_ACTION};
 };
 
+enum class AtlasDrawMode {
+	STRETCH,
+	TILE
+};
+
+struct AtlasImage {
+
+		std::string_view source{};
+		int idx{0};
+
+		// Dimensions of one image in the source atlas.
+		ImVec2 source_tile_size{};
+
+		// Dimensions of each tile when rendered.
+		// A zero size means derive it from source_tile_size and display scale.
+		ImVec2 draw_tile_size{};
+
+		// Destination rectangle.
+		ImVec2 p_min{};
+		ImVec2 p_max{};
+
+		AtlasDrawMode mode{AtlasDrawMode::STRETCH};
+
+		ImVec4 tint{1.0f, 1.0f, 1.0f, 1.0f};
+};
 class UI {
 
 	public:
@@ -125,6 +150,10 @@ class UI {
 		[[nodiscard]] auto has_transient() const -> bool;
 
 		// Primitive Drawables
+		auto draw_atlas_image(std::string_view layer, const AtlasImage &image)
+			-> void;
+		auto draw_tiled_bg_atlas([[maybe_unused]] Component *component) -> void;
+
 		auto draw_button(Component *component,
 						 std::optional<bool *> is_clicked = std::nullopt)
 			-> void;
@@ -189,7 +218,6 @@ class UI {
 		// Composite Drawing Drawables
 		auto draw_attract_mode() -> void;
 		auto draw_automap_legend(Component *component) -> void;
-		auto draw_bg_image(Component *component) -> void;
 		auto draw_bg_video() -> void;
 		auto draw_buffbar() -> void;
 		auto draw_character_detailed(Component *component,
