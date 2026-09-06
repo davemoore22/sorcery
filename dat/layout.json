@@ -2271,7 +2271,13 @@
 					"alpha": "1.0",
 					"data": [
 						{
-							"title": "CASTLE_TITLE"
+							"title": "CASTLE_TITLE",
+							"bg_source": "town.tga",
+							"bg_idx": "0",
+							"bg_tile_width": "440",
+							"bg_tile_height": "420",
+							"bg_mode": "stretch",
+							"bg_alpha": "1.0"
 						}
 					]
 				},

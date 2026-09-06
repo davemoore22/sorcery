@@ -3217,19 +3217,35 @@ auto Sorcery::UI::draw_attract_mode() -> void {
 // Draw a Frame (a Rect) to the current window
 auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 							 const ImVec4 colour, const int rounding) -> void {
-	// Work out where to draw it on the screen
+
+	draw_frame_background(p_min, p_max, rounding);
+	draw_frame_border(p_min, p_max, colour, rounding);
+}
+
+auto Sorcery::UI::draw_frame_border(const ImVec2 p_min, const ImVec2 p_max,
+									const ImVec4 colour, const int rounding)
+	-> void {
+
 	const auto adj{rounding / 2.0f};
-	const auto fr_min{ImVec2{p_min.x + adj, p_min.y + adj}};
-	const auto fr_max{ImVec2{p_max.x - adj, p_max.y - adj}};
+
+	const ImVec2 fr_min{p_min.x + adj, p_min.y + adj};
+
+	const ImVec2 fr_max{p_max.x - adj, p_max.y - adj};
+
 	const ImU32 col{ImColor{colour}};
+
+	ImGui::GetWindowDrawList()->AddRect(
+		fr_min, fr_max, col, static_cast<float>(rounding), ImDrawFlags_None,
+		static_cast<float>(rounding));
+}
+
+auto Sorcery::UI::draw_frame_background(const ImVec2 p_min, const ImVec2 p_max,
+										const int rounding) -> void {
+
 	const ImU32 bg{ImColor{ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade}}};
 
-	// Black Background and Colour Foreground
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg,
 											  static_cast<float>(rounding * 2));
-	ImGui::GetWindowDrawList()->AddRect(fr_min, fr_max, col,
-										static_cast<float>(rounding),
-										static_cast<float>(rounding));
 }
 
 auto Sorcery::UI::_handle_menu_reordering(const std::string_view name,
