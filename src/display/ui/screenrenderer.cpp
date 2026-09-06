@@ -677,7 +677,7 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
 
 	if (!_ctx.controller->get_monochrome()) {
 		auto bg_c{_ui.components->get("engine_base_ui:background_image")};
-		_ui.draw_tiled_bg(&bg_c);
+		_ui.draw_tiled_bg_atlas(&bg_c);
 	}
 
 	if (_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel"))

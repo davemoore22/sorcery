@@ -286,7 +286,7 @@ auto Sorcery::UI::display_engine() -> void {
 
 	if (!_ctx.controller->get_monochrome()) {
 		auto bg_c{components->get("engine_base_ui:background_image")};
-		draw_tiled_bg(&bg_c);
+		draw_tiled_bg_atlas(&bg_c);
 	}
 
 	popup_manager->display();
@@ -626,58 +626,6 @@ auto Sorcery::UI::draw_fg_image(Component *component) -> void {
 		}
 	}
 }
-
-auto Sorcery::UI::draw_tiled_bg(Component *component) -> void {
-
-	if (!images->show_images) {
-
-		// If we aren't drawing images, draw a suitable placeholder
-		with_Window(WINDOW_LAYER_BG, nullptr,
-					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-			const auto viewport{ImGui::GetMainViewport()};
-			ImGui::SetCursorPos(ImVec2{0, 0});
-			ImGui::GetWindowDrawList()->AddRectFilled(
-				ImVec2{0, 0}, viewport->Size,
-				ImColor{ImVec4{0.2f, 0.2f, 0.2f, _ctx.animation->fade}});
-		}
-	}
-
-	with_Window(WINDOW_LAYER_BG, nullptr,
-				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-
-		auto src_image{images->get(std::string{BACKGROUNDS_TEXTURE})};
-
-		constexpr float TILE_SIZE{400.0f};
-
-		const int tiles_per_row{src_image.width / static_cast<int>(TILE_SIZE)};
-
-		const int idx{_ctx.animation->wp_idx};
-
-		const int tile_x{idx % tiles_per_row};
-		const int tile_y{idx / tiles_per_row};
-
-		// UV coordinates into atlas
-		const float u0{(tile_x * TILE_SIZE) / src_image.width};
-		const float v0{(tile_y * TILE_SIZE) / src_image.height};
-
-		const float u1{((tile_x + 1) * TILE_SIZE) / src_image.width};
-		const float v1{((tile_y + 1) * TILE_SIZE) / src_image.height};
-
-		const auto viewport{ImGui::GetMainViewport()};
-		auto *draw_list{ImGui::GetWindowDrawList()};
-
-		for (float y = 0; y < viewport->Size.y; y += TILE_SIZE) {
-
-			for (float x = 0; x < viewport->Size.x; x += TILE_SIZE) {
-
-				draw_list->AddImage((ImTextureID)(intptr_t)src_image.texture,
-									ImVec2{x, y},
-									ImVec2{x + TILE_SIZE, y + TILE_SIZE},
-									ImVec2{u0, v0}, ImVec2{u1, v1});
-			}
-		}
-	}
-};
 
 auto Sorcery::UI::draw_cursor(const bool value) -> void {
 
@@ -1943,7 +1891,7 @@ auto Sorcery::UI::draw_components(std::string_view screen,
 	for (auto cmps{(*components)(screen)}; auto c : cmps.value()) {
 		using enum Enums::Layout::ComponentType;
 		if (c.type == IMAGE_BG)
-			draw_tiled_bg(&c);
+			draw_tiled_bg_atlas(&c);
 		else if (c.type == FRAME)
 			draw_frame(&c);
 		else if (c.type == IMAGE_FG)

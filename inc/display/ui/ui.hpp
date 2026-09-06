@@ -196,7 +196,6 @@ class UI {
 		auto draw_text_with_layer(const std::string string,
 								  const ImColor colour, const ImVec2 pos,
 								  const Enums::Layout::Font font) -> void;
-		auto draw_tiled_bg(Component *component) -> void;
 		auto draw_view_image(std::string_view source, const VertexArray &array)
 			-> void;
 
