@@ -118,7 +118,11 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 		return _ctx.ui->metrics->grid_pos(0.0f, _pos.y).y;
 	})};
 
-	const auto layer{foreground ? WINDOW_LAYER_TEXTS : WINDOW_LAYER_FRAMES};
+	const auto border_layer{foreground ? WINDOW_LAYER_TEXTS
+									   : WINDOW_LAYER_FRAMES};
+
+	const auto background_layer{foreground ? WINDOW_LAYER_IMAGES
+										   : WINDOW_LAYER_FRAMES};
 
 	const ImVec2 p_min{x, y};
 	const ImVec2 p_max{x + size.x, y + size.y};
@@ -126,7 +130,7 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 	const ImVec4 frame_colour{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
 							  _ctx.ui->ui_colour.z, _ctx.animation->fade};
 
-	with_Window(layer, nullptr,
+	with_Window(background_layer, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		// Draw the normal black frame backing first.
@@ -154,6 +158,9 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 						   .mode = bg.mode,
 						   .tint = ImVec4{1.0f, 1.0f, 1.0f, bg.alpha}});
 		}
+	}
+	with_Window(border_layer, nullptr,
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		// Draw the frame border over the background image.
 		_ctx.ui->draw_frame_border(p_min, p_max, frame_colour, rounding);

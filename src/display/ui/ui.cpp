@@ -3157,7 +3157,7 @@ auto Sorcery::UI::draw_minimap() -> void {
 	const auto geometry{
 		draw_level_map(*level, component,
 					   MapView{.centre = player_pos,
-							   .radius = 2,
+							   .radius = 1,
 							   .visibility = MapVisibility::EXPLORED})};
 
 	draw_map_player(geometry);
