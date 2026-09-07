@@ -3201,7 +3201,8 @@ auto Sorcery::UI::draw_attract_mode() -> void {
 auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 							 const ImVec4 colour, const int rounding) -> void {
 
-	draw_frame_background(p_min, p_max, rounding);
+	draw_frame_background(p_min, p_max, ImVec4{0.0f, 0.0f, 0.0f, 1.0f},
+						  rounding);
 	draw_frame_border(p_min, p_max, colour, rounding);
 }
 
@@ -3223,9 +3224,11 @@ auto Sorcery::UI::draw_frame_border(const ImVec2 p_min, const ImVec2 p_max,
 }
 
 auto Sorcery::UI::draw_frame_background(const ImVec2 p_min, const ImVec2 p_max,
-										const int rounding) -> void {
+										const ImVec4 colour, const int rounding)
+	-> void {
 
-	const ImU32 bg{ImColor{ImVec4{0.0f, 0.0f, 0.0f, _ctx.animation->fade}}};
+	const ImU32 bg{
+		ImColor{colour.x, colour.y, colour.z, colour.w * _ctx.animation->fade}};
 
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg,
 											  static_cast<float>(rounding * 2));

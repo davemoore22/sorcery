@@ -11,20 +11,20 @@
 					"type": "dialog",
 					"drawmode": "manual",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
 					"name": "party_panel",
 					"x": "centre",
-					"y": "25",
+					"y": "26",
 					"w": "38",
 					"h": "7",
 					"type": "custom",
 					"font": "monospace",
 					"drawmode": "manual",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -55,7 +55,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "inspect_menu",
@@ -75,7 +75,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "help_menu",
@@ -95,7 +95,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"highlight": "0x6060c8",
@@ -115,7 +115,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"highlight": "0x6060c8",
@@ -135,7 +135,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "tithe_menu",
@@ -155,7 +155,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "identify_menu",
@@ -176,7 +176,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "modal_chest_menu",
@@ -197,7 +197,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "spell_menu",
@@ -218,7 +218,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "equip_menu",
@@ -239,7 +239,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "remove_item_menu",
@@ -260,7 +260,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "drop_menu",
@@ -281,7 +281,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "give_menu",
@@ -302,7 +302,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "trade_menu",
@@ -323,7 +323,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "use_menu",
@@ -344,7 +344,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "top_elevator_menu",
@@ -364,7 +364,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "bottom_elevator_menu",
@@ -384,7 +384,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "invoke_menu",
@@ -519,7 +519,7 @@
 					"colour": "0xffffffff",
 					"type": "panel",
 					"drawmode": "manual",
-					"background": "0x000000ff",
+					"bg_colour": "0x000000ff",
 					"w": "4",
 					"h": "4",
 					"x": "54",
@@ -533,7 +533,7 @@
 					"colour": "0xffffffff",
 					"type": "panel",
 					"drawmode": "manual",
-					"background": "0x000000ff",
+					"bg_colour": "0x000000ff",
 					"w": "4",
 					"h": "4",
 					"x": "2",
@@ -556,7 +556,7 @@
 					"drawmode": "manual",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -575,7 +575,7 @@
 					"drawmode": "manual",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -591,7 +591,7 @@
 					"colour": "0xffffffff",
 					"type": "panel",
 					"drawmode": "manual",
-					"background": "0x000000ff",
+					"bg_colour": "0x000000ff",
 					"w": "4",
 					"h": "4",
 					"x": "2",
@@ -623,7 +623,7 @@
 					"drawmode": "manual",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -642,7 +642,7 @@
 					"drawmode": "manual",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -658,7 +658,7 @@
 					"colour": "0xffffffff",
 					"type": "panel",
 					"drawmode": "manual",
-					"background": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"w": "4",
 					"h": "4",
 					"x": "54",
@@ -675,7 +675,7 @@
 					"drawmode": "manual",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -694,7 +694,7 @@
 					"drawmode": "manual",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -711,7 +711,7 @@
 					"drawmode": "manual",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"font": "monospace",
 					"type": "text",
@@ -725,7 +725,7 @@
 					"colour": "0xffffffff",
 					"type": "panel",
 					"drawmode": "manual",
-					"background": "0x000000ff",
+					"bg_colour": "0x000000ff",
 					"w": "4",
 					"h": "4",
 					"x": "2",
@@ -799,7 +799,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "camp_menu",
@@ -846,7 +846,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -865,14 +865,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "manual",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -896,11 +896,11 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
-							"background": "logo.tga",
+							"bg_colour": "logo.tga",
 							"title": "COMPENDIUM_BESTIARY"
 						}
 					]
@@ -916,7 +916,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -930,7 +930,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -944,7 +944,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -956,7 +956,7 @@
 					"font": "monospace",
 					"colour": "0xffffff",
 					"animated": "true",
-					"background": " 0xff0000",
+					"bg_colour": " 0xff0000",
 					"justification": "centre",
 					"type": "menu",
 					"priority": "10",
@@ -1012,7 +1012,7 @@
 					"drawmode": "manual",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"font": "monospace"
 				}
@@ -1030,7 +1030,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "3",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "graveyard_return",
@@ -1044,7 +1044,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1072,7 +1072,7 @@
 					"type": "frame",
 					"priority": "6",
 					"drawmode": "manual",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "menu",
@@ -1085,7 +1085,7 @@
 					"size": "24",
 					"animated": "true",
 					"width": "36",
-					"background": " 0xff0000ff",
+					"bg_colour": " 0xff0000ff",
 					"justification": "centre",
 					"type": "menu",
 					"priority": "8"
@@ -1097,7 +1097,7 @@
 					"scale": "0.35",
 					"type": "image",
 					"priority": "1",
-					"texture": "background",
+					"texture": "bg_colour",
 					"drawmode": "manual",
 					"data": [
 						{
@@ -1128,7 +1128,7 @@
 					"colour": "0xffffffff",
 					"size": "24",
 					"string": "GRAVEYARD_MESSAGE",
-					"background": " 0xff0000ff",
+					"bg_colour": " 0xff0000ff",
 					"justification": "centre",
 					"type": "text",
 					"drawmode": "manual",
@@ -1154,7 +1154,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "3",
-					"background": " 0x000000ff",
+					"bg_colour": " 0x000000ff",
 					"data": [
 						{
 							"foreground": "yes"
@@ -1183,7 +1183,7 @@
 					"scale": "0.35",
 					"type": "image",
 					"priority": "1",
-					"texture": "background",
+					"texture": "bg_colour",
 					"drawmode": "manual",
 					"data": [
 						{
@@ -1221,7 +1221,7 @@
 					"type": "frame",
 					"priority": "6",
 					"drawmode": "automatic",
-					"background": " 0x000000ff",
+					"bg_colour": " 0x000000ff",
 					"data": [
 						{
 							"foreground": "yes"
@@ -1240,7 +1240,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "40",
@@ -1264,7 +1264,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "26",
@@ -1287,7 +1287,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "26",
@@ -1310,7 +1310,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "26",
@@ -1333,7 +1333,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "26",
@@ -1356,7 +1356,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "26",
@@ -1383,11 +1383,11 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
-							"background": "logo.tga",
+							"bg_colour": "logo.tga",
 							"title": "COMPENDIUM_MUSEUM"
 						}
 					]
@@ -1403,7 +1403,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1417,7 +1417,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1431,7 +1431,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1443,7 +1443,7 @@
 					"font": "monospace",
 					"colour": "0xffffff",
 					"animated": "true",
-					"background": " 0xff0000",
+					"bg_colour": " 0xff0000",
 					"justification": "centre",
 					"type": "menu",
 					"priority": "10",
@@ -1483,7 +1483,7 @@
 					"drawmode": "manual",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"font": "monospace"
 				}
@@ -1503,7 +1503,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -1522,7 +1522,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1536,7 +1536,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1548,7 +1548,7 @@
 					"font": "monospace",
 					"colour": "0xffffff",
 					"animated": "true",
-					"background": " 0xff0000",
+					"bg_colour": " 0xff0000",
 					"justification": "centre",
 					"type": "menu",
 					"priority": "10",
@@ -1590,11 +1590,11 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
-							"background": "logo.tga",
+							"bg_colour": "logo.tga",
 							"title": "COMPENDIUM_ATLAS"
 						}
 					]
@@ -1610,7 +1610,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1624,7 +1624,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1636,7 +1636,7 @@
 					"font": "monospace",
 					"colour": "0xffffff",
 					"animated": "true",
-					"background": " 0xff0000",
+					"bg_colour": " 0xff0000",
 					"justification": "centre",
 					"type": "menu",
 					"priority": "10",
@@ -1683,7 +1683,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -1703,7 +1703,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"button_y": "26",
@@ -1724,7 +1724,7 @@
 					"drawmode": "manual",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -1743,7 +1743,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -1763,7 +1763,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"button_y": "26",
@@ -1788,7 +1788,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -1813,7 +1813,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1828,7 +1828,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "21",
@@ -1872,7 +1872,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{}
@@ -1889,7 +1889,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1929,7 +1929,7 @@
 					"font": "monospace",
 					"colour": "0xffffff",
 					"animated": "true",
-					"background": " 0xff0000",
+					"bg_colour": " 0xff0000",
 					"justification": "centre",
 					"type": "menu",
 					"priority": "10",
@@ -1997,7 +1997,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"menu_name": "options_menu",
@@ -2021,7 +2021,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2183,7 +2183,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -2312,7 +2312,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -2337,7 +2337,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2352,7 +2352,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "21",
@@ -2367,14 +2367,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -2408,7 +2408,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -2433,7 +2433,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2448,7 +2448,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "25",
@@ -2463,14 +2463,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -2504,7 +2504,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -2529,7 +2529,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2557,7 +2557,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "30",
@@ -2572,14 +2572,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -2613,7 +2613,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -2632,7 +2632,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2672,7 +2672,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2687,7 +2687,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "28",
@@ -2702,14 +2702,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -2743,7 +2743,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -2762,7 +2762,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2802,7 +2802,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2817,7 +2817,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "42",
@@ -2840,7 +2840,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -2852,14 +2852,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -2893,7 +2893,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -2912,7 +2912,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2952,7 +2952,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2967,7 +2967,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "42",
@@ -2982,14 +2982,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -3023,7 +3023,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -3042,7 +3042,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3082,7 +3082,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3097,7 +3097,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "42",
@@ -3112,14 +3112,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -3153,7 +3153,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -3172,7 +3172,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3212,7 +3212,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3227,7 +3227,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "42",
@@ -3242,14 +3242,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -3283,7 +3283,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -3302,7 +3302,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3342,7 +3342,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3357,7 +3357,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "28",
@@ -3372,14 +3372,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -3413,7 +3413,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -3432,7 +3432,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3460,7 +3460,7 @@
 					"drawmode": "manual",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3506,14 +3506,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -3547,7 +3547,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -3566,7 +3566,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3581,7 +3581,7 @@
 					"drawmode": "manual",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3614,14 +3614,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3668,7 +3668,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -3687,7 +3687,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3702,7 +3702,7 @@
 					"drawmode": "manual",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3735,14 +3735,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -3776,7 +3776,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -3801,7 +3801,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3829,7 +3829,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "30",
@@ -3844,14 +3844,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -3885,7 +3885,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -3910,7 +3910,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3951,7 +3951,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "25",
@@ -3966,14 +3966,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -4007,7 +4007,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4026,7 +4026,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4067,7 +4067,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "31",
@@ -4082,14 +4082,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -4123,7 +4123,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4168,7 +4168,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4183,21 +4183,21 @@
 					"drawmode": "manual",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -4231,7 +4231,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4256,7 +4256,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4271,7 +4271,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "21",
@@ -4286,14 +4286,14 @@
 					"name": "party_frame",
 					"type": "frame",
 					"x": "centre",
-					"y": "24",
+					"y": "25",
 					"w": "40",
 					"h": "9",
 					"string": "",
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				}
 			]
@@ -4327,7 +4327,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4352,7 +4352,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4367,7 +4367,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "21",
@@ -4409,7 +4409,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4428,7 +4428,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4443,7 +4443,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "21",
@@ -4485,7 +4485,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4504,7 +4504,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4516,7 +4516,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "summary_text",
@@ -4542,7 +4542,7 @@
 					"type": "frame",
 					"priority": "2",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "stage_text",
@@ -4566,7 +4566,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "name_input",
@@ -4579,7 +4579,7 @@
 					"alpha": "255",
 					"type": "other",
 					"priority": "2",
-					"background": " 0x000000ff",
+					"bg_colour": " 0x000000ff",
 					"data": [
 						{
 							"capacity": "17"
@@ -4617,7 +4617,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4636,7 +4636,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4648,7 +4648,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "old_frame",
@@ -4660,7 +4660,7 @@
 					"type": "frame",
 					"priority": "2",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "summary_text",
@@ -4697,7 +4697,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "rename_input",
@@ -4710,7 +4710,7 @@
 					"alpha": "255",
 					"type": "other",
 					"priority": "2",
-					"background": " 0x000000ff",
+					"bg_colour": " 0x000000ff",
 					"data": [
 						{
 							"capacity": "17"
@@ -4762,7 +4762,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4781,7 +4781,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4793,7 +4793,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "old_frame",
@@ -4805,7 +4805,7 @@
 					"type": "frame",
 					"priority": "2",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "summary_text",
@@ -4877,7 +4877,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -4896,7 +4896,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4908,7 +4908,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "old_frame",
@@ -4920,7 +4920,7 @@
 					"type": "frame",
 					"priority": "2",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "class_menu_frame",
@@ -4932,7 +4932,7 @@
 					"type": "frame",
 					"priority": "5",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "change_class_menu",
@@ -4947,7 +4947,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "11",
@@ -5016,7 +5016,7 @@
 					"drawmode": "manual",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5030,7 +5030,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5049,7 +5049,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5063,7 +5063,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5075,7 +5075,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "summary_text",
@@ -5101,7 +5101,7 @@
 					"type": "frame",
 					"priority": "2",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "stage_text",
@@ -5128,7 +5128,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5148,7 +5148,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5187,7 +5187,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5206,7 +5206,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5218,7 +5218,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "summary_text",
@@ -5244,7 +5244,7 @@
 					"type": "frame",
 					"priority": "2",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "stage_text",
@@ -5268,7 +5268,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "race_menu",
@@ -5282,7 +5282,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "13",
@@ -5324,7 +5324,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5343,7 +5343,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5355,7 +5355,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "summary_text",
@@ -5381,7 +5381,7 @@
 					"type": "frame",
 					"priority": "2",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "stage_text",
@@ -5405,7 +5405,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "alignment_menu",
@@ -5419,7 +5419,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "13",
@@ -5461,7 +5461,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5480,7 +5480,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5492,7 +5492,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "summary_text",
@@ -5518,7 +5518,7 @@
 					"type": "frame",
 					"priority": "2",
 					"drawmode": "automatic",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "stage_text",
@@ -5542,7 +5542,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "class_frame",
@@ -5553,7 +5553,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "3",
-					"background": " 0x000000ff"
+					"bg_colour": " 0x000000ff"
 				},
 				{
 					"name": "class_menu",
@@ -5568,7 +5568,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "13",
@@ -5736,7 +5736,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5781,7 +5781,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5796,7 +5796,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "26",
@@ -5838,7 +5838,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5857,7 +5857,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5872,7 +5872,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "42",
@@ -5913,7 +5913,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5932,7 +5932,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5947,7 +5947,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "46",
@@ -5988,7 +5988,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6007,7 +6007,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6022,7 +6022,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "56",
@@ -6077,7 +6077,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6096,7 +6096,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6111,7 +6111,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "56",
@@ -6152,7 +6152,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6171,7 +6171,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6186,7 +6186,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "56",
@@ -6240,7 +6240,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6259,7 +6259,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6273,7 +6273,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6288,7 +6288,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "21",
@@ -6329,7 +6329,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6361,7 +6361,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6376,7 +6376,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "32",
@@ -6418,7 +6418,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6437,7 +6437,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6465,7 +6465,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "30",
@@ -6507,7 +6507,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6526,7 +6526,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6554,7 +6554,7 @@
 					"drawmode": "automatic",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"data": [
 						{
 							"width": "30",
@@ -6595,7 +6595,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"type": "other",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6614,7 +6614,7 @@
 					"string": "",
 					"drawmode": "manual",
 					"priority": "1",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"type": "text"
 				},
@@ -6629,7 +6629,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6649,7 +6649,7 @@
 					"drawmode": "manual",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6663,7 +6663,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6715,7 +6715,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6734,7 +6734,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6748,7 +6748,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6762,7 +6762,7 @@
 					"drawmode": "manual",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"font": "monospace"
 				},
@@ -6778,7 +6778,7 @@
 					"drawmode": "manual",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6793,7 +6793,7 @@
 					"drawmode": "manual",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6808,7 +6808,7 @@
 					"drawmode": "manual",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6836,7 +6836,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6861,7 +6861,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6880,7 +6880,7 @@
 					"drawmode": "automatic",
 					"priority": "3",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6895,7 +6895,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6915,7 +6915,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6935,7 +6935,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6955,7 +6955,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6975,7 +6975,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -6995,7 +6995,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -7015,7 +7015,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -7035,7 +7035,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000",
+					"bg_colour": "0x000000ff",
 					"alpha": "1.0",
 					"data": [
 						{

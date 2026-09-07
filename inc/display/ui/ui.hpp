@@ -158,7 +158,8 @@ class UI {
 		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 						const ImVec4 colour, const int rounding) -> void;
 		auto draw_frame_background(const ImVec2 p_min, const ImVec2 p_max,
-								   const int rounding) -> void;
+								   const ImVec4 colour, const int rounding)
+			-> void;
 		auto draw_frame_border(const ImVec2 p_min, const ImVec2 p_max,
 							   const ImVec4 colour, const int rounding) -> void;
 		auto draw_image(std::string_view source, const int idx,

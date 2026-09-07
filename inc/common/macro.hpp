@@ -54,13 +54,21 @@ inline auto COL2VEC(std::string_view colour) -> ImVec4 {
 	const ImColor out{static_cast<ImU32>(val)};
 	return ImVec4{out};
 }
-
 inline auto COL2NUM(std::string_view colour) -> ImU32 {
 
-	const auto val{std::stoull(std::string{colour}, 0, 16)};
-	return static_cast<ImU32>(val);
-}
+	const auto value{static_cast<std::uint32_t>(
+		std::stoul(std::string{colour}, nullptr, 16))};
 
+	const auto r{static_cast<ImU8>((value >> 24) & 0xff)};
+
+	const auto g{static_cast<ImU8>((value >> 16) & 0xff)};
+
+	const auto b{static_cast<ImU8>((value >> 8) & 0xff)};
+
+	const auto a{static_cast<ImU8>(value & 0xff)};
+
+	return IM_COL32(r, g, b, a);
+}
 // String trim Functions from
 // https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 

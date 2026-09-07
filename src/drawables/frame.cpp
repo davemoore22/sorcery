@@ -21,7 +21,9 @@
 // the resulting work.
 
 #include "drawables/frame.hpp"
-#include "core/context.hpp"			// for Context
+#include "core/context.hpp" // for Context
+#include "core/controller/controller.hpp"
+#include "core/debug.hpp"
 #include "core/define.hpp"			// for WINDOW_LAYER_FRAMES, WINDOW_LAYE...
 #include "display/animation.hpp"	// for Animation
 #include "display/ui/ui.hpp"		// for UI
@@ -42,6 +44,11 @@ Sorcery::Frame::Frame(Context &ctx, Component *component)
 	_colour = _component->colour;
 	_bg_colour = _component->background;
 	_name = _component->name;
+
+	const auto test{ImGui::ColorConvertU32ToFloat4(_bg_colour)};
+
+	// DEBUG_LOGF("name = {}, bg={:08x} rgba={:.2f},{:.2f},{:.2f},{:.2f}",
+	// _name, 		   _bg_colour, test.x, test.y, test.z, test.w);
 
 	if (_component->get("bg_source")) {
 
@@ -130,11 +137,21 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 	const ImVec4 frame_colour{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
 							  _ctx.ui->ui_colour.z, _ctx.animation->fade};
 
+	const ImVec4 background_colour{std::invoke([&] {
+		if (_ctx.controller->get_monochrome())
+			return ImVec4{0.0f, 0.0f, 0.0f, 1.0f};
+
+		auto colour{ImGui::ColorConvertU32ToFloat4(_component->background)};
+
+		return colour;
+	})};
+
 	with_Window(background_layer, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		// Draw the normal black frame backing first.
-		_ctx.ui->draw_frame_background(p_min, p_max, rounding);
+		_ctx.ui->draw_frame_background(p_min, p_max, background_colour,
+									   rounding);
 
 		// Optionally draw an atlas image inside the frame.
 		if (_bg_image) {

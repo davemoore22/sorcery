@@ -333,16 +333,16 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 							return 0.0f;
 					}()};
 					auto background{[&] {
-						if (components[j].isMember("background")) {
-							if (components[j]["background"]
-									.asString()
-									.length() > 0)
-								return COL2NUM(
-									components[j]["background"].asString());
-							else
-								return COL2NUM("0");
-						} else
-							return COL2NUM("0");
+						if (components[j].isMember("bg_colour")) {
+
+							const auto value{
+								components[j]["bg_colour"].asString()};
+
+							if (!value.empty())
+								return COL2NUM(value);
+						}
+
+						return COL2NUM("0x000000ff");
 					}()};
 					Enums::Layout::Justification justification{[&] {
 						using enum Enums::Layout::Justification;
