@@ -57,6 +57,7 @@ class Level {
 		// Public Methods
 		auto at(const Coordinate loc) -> Tile &;
 		auto at(const int x, const int y) -> Tile &;
+		auto at(const int x, const int y) const -> const Tile &;
 		auto at(const Coordinate loc, const Enums::Map::Direction direction,
 				const int x, const int z) -> Tile &;
 		auto stairs_at(const Coordinate loc) -> bool;

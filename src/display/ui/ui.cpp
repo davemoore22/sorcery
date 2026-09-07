@@ -32,15 +32,16 @@
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/controller/menubuilder.hpp"	// for MenuBuilder
 #include "core/controller/menuhandler.hpp"
-#include "core/debug.hpp"				 // for DEBUG_LOG, DEBUG_LOGF, debu...
-#include "core/define.hpp"				 // for WINDOW_LAYER_TEXTS, WINDOW_...
-#include "core/enum.hpp"				 // for Screen, CharacterSlot
-#include "core/macro.hpp"				 // for CSTR
-#include "core/resources.hpp"			 // for Resources
-#include "core/system.hpp"				 // for System
-#include "display/animation.hpp"		 // for Animation
-#include "display/display.hpp"			 // for Display, DisplayMetrics
-#include "display/render.hpp"			 // for Render
+#include "core/debug.hpp"		 // for DEBUG_LOG, DEBUG_LOGF, debu...
+#include "core/define.hpp"		 // for WINDOW_LAYER_TEXTS, WINDOW_...
+#include "core/enum.hpp"		 // for Screen, CharacterSlot
+#include "core/macro.hpp"		 // for CSTR
+#include "core/resources.hpp"	 // for Resources
+#include "core/system.hpp"		 // for System
+#include "display/animation.hpp" // for Animation
+#include "display/display.hpp"	 // for Display, DisplayMetrics
+#include "display/render.hpp"	 // for Render
+#include "display/ui/mapview.hpp"
 #include "display/ui/popupmanager.hpp"	 // for PopupManager
 #include "display/ui/screenrenderer.hpp" // for ScreenRenderer
 #include "display/ui/uimetrics.hpp"		 // for UIMetrics, GLuint
@@ -297,6 +298,7 @@ auto Sorcery::UI::display_engine() -> void {
 	if (_ctx.get_flag("interface_ui")) {
 		draw_compass();
 		draw_buffbar();
+		draw_minimap();
 		draw_level_name();
 		draw_icons();
 		draw_save();
@@ -3083,119 +3085,31 @@ auto Sorcery::UI::draw_monster_info() -> void {
 auto Sorcery::UI::draw_current_level_map() -> void {
 
 	const auto level{_ctx.game->state->level.get()};
+
 	if (!level)
 		return;
 
-	const auto depth{_ctx.game->state->get_depth()};
-	const auto explored_it{_ctx.game->state->explored.find(depth)};
-	if (explored_it == _ctx.game->state->explored.end())
-		return;
+	const auto component{components->get("automap:map_graphic")};
 
-	const auto &explored{explored_it->second};
+	const auto geometry{draw_level_map(
+		*level, component, MapView{.visibility = MapVisibility::EXPLORED})};
 
-	constexpr auto tc{20};
-	const auto map_c{components->get("automap:map_graphic")};
-	const ImVec2 top_left_pos{metrics->grid_pos(map_c.x, map_c.y)};
-
-	const auto scale{_ctx.display->get_display_metrics().scale};
-	const auto spacing{map_c.get_int("tile_spacing") * scale};
-	const ImVec2 tile_sz{map_c.get_int("tile_size") * scale,
-						 map_c.get_int("tile_size") * scale};
-
-	// Remember to flip in Y-direction as (0,0) is at bottom left of map
-	const auto reverse_y{(tile_sz.x * tc) + ((tc - 1) * spacing) + 2};
-
-	for (auto y = 0; y < tc; ++y) {
-		for (auto x = 0; x < tc; ++x) {
-
-			if (const Coordinate loc{x, y}; !explored.at(loc))
-				continue;
-
-			const auto &tile{level->at(x, y)};
-			const auto tile_x{(x * tile_sz.x) + (x * spacing)};
-			const auto tile_y{(y * tile_sz.y) + (y * spacing)};
-
-			const ImVec2 tile_pos{top_left_pos.x + tile_x,
-								  top_left_pos.y + reverse_y - tile_y};
-
-			draw_map_tile(tile, tile_pos, tile_sz);
-		}
-	}
-
-	auto player_icon{ICON_COMPASS_NORTH};
-	auto tint{ImVec4{0.33f, 1.0f, 1.0f, _ctx.animation->fade}};
-
-	switch (_ctx.game->state->get_player_facing()) {
-		using enum Enums::Map::Direction;
-
-	case NORTH:
-		player_icon = ICON_COMPASS_NORTH;
-		break;
-	case SOUTH:
-		player_icon = ICON_COMPASS_SOUTH;
-		break;
-	case EAST:
-		player_icon = ICON_COMPASS_EAST;
-		break;
-	case WEST:
-		player_icon = ICON_COMPASS_WEST;
-		break;
-	default:
-		break;
-	}
-
-	const auto player_pos{_ctx.game->state->get_player_pos()};
-
-	const auto player_tile_x{(player_pos.x * tile_sz.x) +
-							 (player_pos.x * spacing)};
-	const auto player_tile_y{(player_pos.y * tile_sz.y) +
-							 (player_pos.y * spacing)};
-
-	const ImVec2 player_draw_pos{top_left_pos.x + player_tile_x,
-								 top_left_pos.y + reverse_y - player_tile_y};
-
-	draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, player_icon,
-						   player_draw_pos, tile_sz, tint);
+	draw_map_player(geometry);
 }
 
 auto Sorcery::UI::draw_level_no_player() -> void {
 
-	// Menu Selection for B1F to B10F is 0 to 0, thus convert it into -1 to
-	// -10 for depth
+	// Menu selection B1F..B10F is 0..9.
 	if (_ctx.get_selected("atlas_selected") == 10)
 		return;
 
 	const auto depth{-1 - _ctx.get_selected("atlas_selected")};
-	Level level{_ctx.resources->levels->get(depth).value()};
 
-	// Work out where and how to draw the grid
-	auto tc{20};
-	const auto map_c{components->get("atlas:map_graphic")};
-	ImVec2 top_left_pos{metrics->grid_pos(map_c.x, map_c.y)};
-	const auto spacing{map_c.get_int("tile_spacing")};
-	const auto scale{_ctx.display->get_display_metrics().scale};
-	ImVec2 tile_sz{map_c.get_int("tile_size") * scale,
-				   map_c.get_int("tile_size") * scale};
+	const auto level{_ctx.resources->levels->get(depth).value()};
 
-	// Remember to flip in Y-direction as (0,0) is at bottom left of map
-	const auto reverse_y{(tile_sz.x * tc) + ((tc - 1) * spacing) + 2};
-	auto tcx{0};
-	auto tcy{0};
+	const auto component{components->get("atlas:map_graphic")};
 
-	// Draw Map
-	for (auto y = 0; y <= 19; y++) {
-		for (auto x = 0; x <= 19; x++) {
-			const auto tile{level.at(x, y)};
-			const auto tile_x{(tcx * tile_sz.x) + (tcx * spacing)};
-			const auto tile_y{(tcy * tile_sz.y) + (tcy * spacing)};
-			const auto tile_pos{ImVec2{top_left_pos.x + tile_x,
-									   top_left_pos.y + reverse_y - tile_y}};
-			draw_map_tile(tile, tile_pos, tile_sz);
-			++tcx;
-		}
-		++tcy;
-		tcx = 0;
-	}
+	draw_level_map(level, component, MapView{.visibility = MapVisibility::ALL});
 }
 
 auto Sorcery::UI::draw_loading_progress() -> void {
@@ -3223,6 +3137,30 @@ auto Sorcery::UI::draw_loading_progress() -> void {
 
 		ImGui::ProgressBar(progress, ImVec2(width, 4), "");
 	}
+}
+
+auto Sorcery::UI::draw_minimap() -> void {
+
+	const auto level{_ctx.game->state->level.get()};
+
+	if (!level)
+		return;
+
+	const auto player_pos{_ctx.game->state->get_player_pos()};
+
+	const auto component{components->get("engine_base_ui:minimap")};
+
+	auto frame_cmp{components->get("engine_base_ui:minimap_frame")};
+
+	draw_frame(&frame_cmp);
+
+	const auto geometry{
+		draw_level_map(*level, component,
+					   MapView{.centre = player_pos,
+							   .radius = 2,
+							   .visibility = MapVisibility::EXPLORED})};
+
+	draw_map_player(geometry);
 }
 
 auto Sorcery::UI::draw_bg_video() -> void {
@@ -3830,4 +3768,140 @@ auto Sorcery::UI::draw_tiled_bg_atlas([[maybe_unused]] Component *component)
 								.p_max = viewport->Size,
 								.mode = AtlasDrawMode::TILE,
 								.tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f}});
+}
+
+auto Sorcery::UI::draw_level_map(const Level &level, const Component &component,
+								 const MapView &view) -> MapGeometry {
+
+	constexpr int level_size{20};
+
+	const auto scale{_ctx.display->get_display_metrics().scale};
+
+	const auto spacing{component.get_int("tile_spacing") * scale};
+
+	const ImVec2 tile_size{component.get_int("tile_size") * scale,
+						   component.get_int("tile_size") * scale};
+
+	const ImVec2 top_left{metrics->grid_pos(component.x, component.y)};
+
+	// Default: complete 20×20 level.
+	auto min_x{0};
+	auto min_y{0};
+	auto max_x{level_size - 1};
+	auto max_y{level_size - 1};
+
+	// Local view around a supplied centre.
+	if (view.centre && view.radius) {
+
+		min_x = view.centre->x - *view.radius;
+		min_y = view.centre->y - *view.radius;
+
+		max_x = view.centre->x + *view.radius;
+		max_y = view.centre->y + *view.radius;
+	}
+
+	const auto columns{max_x - min_x + 1};
+
+	const auto rows{max_y - min_y + 1};
+
+	const MapGeometry geometry{.origin = Coordinate{min_x, min_y},
+							   .columns = columns,
+							   .rows = rows,
+							   .top_left = top_left,
+							   .tile_size = tile_size,
+							   .spacing = spacing};
+
+	// Resolve explored-state once.
+	const auto depth{_ctx.game->state->get_depth()};
+
+	const auto explored_it{_ctx.game->state->explored.find(depth)};
+
+	for (auto world_y{min_y}; world_y <= max_y; ++world_y) {
+
+		for (auto world_x{min_x}; world_x <= max_x; ++world_x) {
+
+			// Outside the actual level: leave this minimap cell blank.
+			if (world_x < 0 || world_x >= level_size || world_y < 0 ||
+				world_y >= level_size)
+				continue;
+
+			const Coordinate loc{world_x, world_y};
+
+			if (view.visibility == MapVisibility::EXPLORED) {
+
+				if (explored_it == _ctx.game->state->explored.end())
+					continue;
+
+				if (!explored_it->second.at(loc))
+					continue;
+			}
+
+			// Coordinates relative to the displayed region.
+			const auto local_x{world_x - min_x};
+
+			const auto local_y{world_y - min_y};
+
+			const auto tile_x{local_x * (tile_size.x + spacing)};
+
+			// Y is reversed because dungeon coordinates start
+			// at the bottom-left.
+			const auto tile_y{(rows - 1 - local_y) * (tile_size.y + spacing)};
+
+			const ImVec2 tile_pos{top_left.x + tile_x, top_left.y + tile_y};
+
+			draw_map_tile(level.at(world_x, world_y), tile_pos, tile_size);
+		}
+	}
+
+	return geometry;
+}
+auto Sorcery::UI::_map_position(const MapGeometry &geometry,
+								const Coordinate location) const -> ImVec2 {
+
+	const auto local_x{location.x - geometry.origin.x};
+
+	const auto local_y{location.y - geometry.origin.y};
+
+	return ImVec2{geometry.top_left.x +
+					  (local_x * (geometry.tile_size.x + geometry.spacing)),
+
+				  geometry.top_left.y +
+					  ((geometry.rows - 1 - local_y) *
+					   (geometry.tile_size.y + geometry.spacing))};
+}
+
+auto Sorcery::UI::draw_map_player(const MapGeometry &geometry) -> void {
+
+	using enum Enums::Map::Direction;
+
+	const auto player_icon{[&] {
+		switch (_ctx.game->state->get_player_facing()) {
+
+		case NORTH:
+			return ICON_COMPASS_NORTH;
+
+		case SOUTH:
+			return ICON_COMPASS_SOUTH;
+
+		case EAST:
+			return ICON_COMPASS_EAST;
+
+		case WEST:
+			return ICON_COMPASS_WEST;
+
+		default:
+			return ICON_COMPASS_NORTH;
+		}
+	}()};
+
+	const auto player_pos{_ctx.game->state->get_player_pos()};
+
+	const auto draw_pos{_map_position(geometry, player_pos)};
+
+	const auto tint{_ctx.controller->get_monochrome()
+						? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
+						: UIStyle::icon_colour(player_icon)};
+
+	draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, player_icon,
+						   draw_pos, geometry.tile_size, tint);
 }

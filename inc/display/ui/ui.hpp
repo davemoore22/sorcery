@@ -49,6 +49,7 @@ namespace Sorcery { class Menu; }
 namespace Sorcery { class MenuBuilder; }
 namespace Sorcery { class PopupManager; }
 namespace Sorcery { class Render; }
+namespace Sorcery { class Level; }
 namespace Sorcery { class ScreenRenderer; }
 namespace Sorcery { class UIMetrics; }
 namespace Sorcery { class VideoPlayer; }
@@ -73,6 +74,9 @@ namespace Enums {
 namespace Sorcery { struct Context; }
 namespace Sorcery { struct Tile; }
 namespace Sorcery { struct VertexArray; }
+namespace Sorcery { struct MapView; };
+namespace Sorcery { struct MapGeometry; };
+namespace Sorcery { struct Coordinate; };
 
 // UI Generation Class (sits on top of, and heavily uses, ImGui)
 namespace Sorcery {
@@ -222,10 +226,12 @@ class UI {
 		auto draw_icons() -> void;
 		auto draw_item_info() -> void;
 		auto draw_level_name() -> void;
+
 		auto draw_level_no_player() -> void;
 		auto draw_loading_progress() -> void;
 		auto draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz)
 			-> void;
+		auto draw_minimap() -> void;
 		auto draw_monster_info() -> void;
 		auto draw_pay_info() -> void;
 		auto draw_options() -> void;
@@ -235,6 +241,10 @@ class UI {
 		auto draw_party_wipe() -> void;
 		auto draw_transient() -> void;
 		auto draw_ui_status() -> void;
+
+		auto draw_level_map(const Level &level, const Component &component,
+							const MapView &view) -> MapGeometry;
+		auto draw_map_player(const MapGeometry &geometry) -> void;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;
@@ -286,5 +296,8 @@ class UI {
 		[[nodiscard]] auto _get_cursor_colour(const bool busy,
 											  const double percent) const
 			-> ImVec4;
+
+		auto _map_position(const MapGeometry &geometry,
+						   const Coordinate location) const -> ImVec2;
 };
 };

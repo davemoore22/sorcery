@@ -946,3 +946,8 @@ auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
 
 	return edge;
 }
+
+auto Sorcery::Level::at(const int x, const int y) const -> const Tile & {
+
+	return _tiles.at(Coordinate{x, y});
+}
