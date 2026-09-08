@@ -11,7 +11,7 @@
 					"type": "dialog",
 					"drawmode": "manual",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -55,7 +55,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "inspect_menu",
@@ -75,7 +75,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "help_menu",
@@ -135,7 +135,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "tithe_menu",
@@ -155,7 +155,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "identify_menu",
@@ -176,7 +176,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "modal_chest_menu",
@@ -197,7 +197,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "spell_menu",
@@ -218,7 +218,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "equip_menu",
@@ -239,7 +239,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "remove_item_menu",
@@ -260,7 +260,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "drop_menu",
@@ -281,7 +281,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "give_menu",
@@ -302,7 +302,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "trade_menu",
@@ -323,7 +323,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "use_menu",
@@ -344,7 +344,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "top_elevator_menu",
@@ -364,7 +364,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "bottom_elevator_menu",
@@ -384,7 +384,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "invoke_menu",
@@ -405,7 +405,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "notice_divvy",
@@ -419,7 +419,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "notice_pool_gold",
@@ -433,7 +433,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "notice_cannot_donate",
@@ -447,7 +447,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "notice_donated_ok",
@@ -461,7 +461,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "notice_renamed_ok",
@@ -475,7 +475,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "notice_reclassed_ok",
@@ -489,7 +489,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				}
 			]
 		},
@@ -743,7 +743,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "dialog_search",
@@ -757,7 +757,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "message_tile",
@@ -771,7 +771,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "dialog_stairs_down",
@@ -785,7 +785,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "modal_camp",
@@ -799,7 +799,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"data": [
 						{
 							"menu_name": "camp_menu",
@@ -916,7 +916,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1072,7 +1072,7 @@
 					"type": "frame",
 					"priority": "6",
 					"drawmode": "manual",
-					"bg_colour": " 0x000000ff"
+					"bg_colour": " 0x102030ff"
 				},
 				{
 					"name": "menu",
@@ -1221,7 +1221,7 @@
 					"type": "frame",
 					"priority": "6",
 					"drawmode": "automatic",
-					"bg_colour": " 0x000000ff",
+					"bg_colour": " 0x102030ff",
 					"data": [
 						{
 							"foreground": "yes"
@@ -1403,7 +1403,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1522,7 +1522,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1610,7 +1610,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1889,7 +1889,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -1955,7 +1955,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "dialog_leave",
@@ -1969,7 +1969,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "dialog_new",
@@ -1983,7 +1983,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "options_popup",
@@ -2337,7 +2337,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2433,7 +2433,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2529,7 +2529,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2672,7 +2672,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -2802,7 +2802,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3342,7 +3342,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3801,7 +3801,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -3910,7 +3910,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4026,7 +4026,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4168,7 +4168,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4256,7 +4256,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4352,7 +4352,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4428,7 +4428,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -4749,7 +4749,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "outer_frame",
@@ -5128,7 +5128,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5148,7 +5148,7 @@
 					"drawmode": "automatic",
 					"priority": "1",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0",
 					"data": [
 						{
@@ -5268,7 +5268,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"bg_colour": " 0x000000ff"
+					"bg_colour": " 0x102030ff"
 				},
 				{
 					"name": "race_menu",
@@ -5405,7 +5405,7 @@
 					"alpha": "255",
 					"type": "frame",
 					"priority": "2",
-					"bg_colour": " 0x000000ff"
+					"bg_colour": " 0x102030ff"
 				},
 				{
 					"name": "alignment_menu",
@@ -5781,7 +5781,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5857,7 +5857,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -5932,7 +5932,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6007,7 +6007,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6064,7 +6064,7 @@
 					"drawmode": "manual",
 					"alpha": "1.0",
 					"colour": "0xffffff",
-					"bg_colour": "0x000000"
+					"bg_colour": "0x102030ff"
 				},
 				{
 					"name": "outer_frame",
@@ -6096,7 +6096,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6171,7 +6171,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6273,7 +6273,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6361,7 +6361,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6437,7 +6437,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{
@@ -6526,7 +6526,7 @@
 					"drawmode": "automatic",
 					"priority": "2",
 					"colour": "0xffffffff",
-					"bg_colour": "0x000000ff",
+					"bg_colour": "0x102030ff",
 					"alpha": "1.0"
 				},
 				{

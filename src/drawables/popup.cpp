@@ -88,10 +88,13 @@ auto Sorcery::Popup::display() -> void {
 		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width,
 								ImGui::GetWindowPos().y + height}};
 
-		_ctx.ui->draw_frame(p_min, p_max,
-							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-							rounding);
+		_ctx.ui->draw_frame(
+			p_min, p_max,
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
+				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			rounding);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"

@@ -157,6 +157,9 @@ class UI {
 		auto draw_frame(Component *component) -> void;
 		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 						const ImVec4 colour, const int rounding) -> void;
+		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
+						const ImVec4 colour, const ImVec4 bg_colour,
+						const int rounding) -> void;
 		auto draw_frame_background(const ImVec2 p_min, const ImVec2 p_max,
 								   const ImVec4 colour, const int rounding)
 			-> void;
@@ -260,6 +263,7 @@ class UI {
 		unsigned int frame_rd;
 		unsigned int ui_rd;
 		ImVec4 ui_colour;
+		ImVec4 ui_bg_colour;
 		std::map<std::string, int> selected;
 		std::map<std::string, int> highlighted;
 		std::map<std::string, bool> pressed;

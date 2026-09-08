@@ -92,8 +92,8 @@
 	"cmake.debugConfig": {
 		"args": [
 			"--mute",
-			"--quickstart",
-			"--start-engine",
+			"--Dquickstart",
+			"--Dstart-engine",
 			"--Dgo-to"
 		]
 	},

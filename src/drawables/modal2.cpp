@@ -153,10 +153,13 @@ auto Sorcery::Modal2::display() -> void {
 			static_cast<float>(
 				(_items.size() * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
 
-		_ctx.ui->draw_frame(p_min, p_max,
-							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-							rounding);
+		_ctx.ui->draw_frame(
+			p_min, p_max,
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
+				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			rounding);
 
 		const auto top{_has_title ? 3 : 1};
 

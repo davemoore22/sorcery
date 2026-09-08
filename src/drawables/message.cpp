@@ -172,10 +172,13 @@ auto Sorcery::Message::display() -> void {
 		const auto message_max{ImVec2{message_min.x + message_width,
 									  message_min.y + message_height}};
 
-		_ctx.ui->draw_frame(message_min, message_max,
-							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-							rounding);
+		_ctx.ui->draw_frame(
+			message_min, message_max,
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
+				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			rounding);
 
 		//
 		// Message text
@@ -208,10 +211,13 @@ auto Sorcery::Message::display() -> void {
 		const auto button_max{
 			ImVec2{button_min.x + button_width, button_min.y + button_height}};
 
-		_ctx.ui->draw_frame(button_min, button_max,
-							ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-								   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-							rounding);
+		_ctx.ui->draw_frame(
+			button_min, button_max,
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
+				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
+				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			rounding);
 
 		//
 		// Natural-sized Continue button centred within its frame

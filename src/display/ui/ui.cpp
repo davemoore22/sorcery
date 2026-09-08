@@ -207,6 +207,10 @@ auto Sorcery::UI::start() -> void {
 	ui_colour = ImVec4{std::stof(_ctx.get_config("Frame", "colour_red")),
 					   std::stof(_ctx.get_config("Frame", "colour_green")),
 					   std::stof(_ctx.get_config("Frame", "colour_blue")), 1.0};
+	ui_bg_colour =
+		ImVec4{std::stof(_ctx.get_config("Frame", "bg_colour_red")),
+			   std::stof(_ctx.get_config("Frame", "bg_colour_green")),
+			   std::stof(_ctx.get_config("Frame", "bg_colour_blue")), 1.0};
 
 	// Set the Default Fonts
 	using enum Enums::Layout::Font;
@@ -2498,6 +2502,16 @@ auto Sorcery::UI::draw_options() -> void {
 					ImGui::SetNextItemWidth(28.f);
 					ImGui::ColorEdit3(frame_name.c_str(), (float *)&ui_colour,
 									  flags);
+					ImGui::NewLine();
+					ImGuiColorEditFlags flags_2{ImGuiColorEditFlags_NoAlpha |
+												ImGuiColorEditFlags_NoInputs |
+												ImGuiColorEditFlags_NoTooltip |
+												ImGuiColorEditFlags_NoOptions};
+					auto frame_name_2{
+						std::format("{}##2", "UI Background Colour")};
+					ImGui::SetNextItemWidth(28.f);
+					ImGui::ColorEdit3(frame_name_2.c_str(),
+									  (float *)&ui_bg_colour, flags_2);
 				};
 			}
 			set_Font(fonts->get_current_font(component.font).value());
@@ -3206,6 +3220,15 @@ auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
 	draw_frame_border(p_min, p_max, colour, rounding);
 }
 
+// Draw a Frame (a Rect) to the current window
+auto Sorcery::UI::draw_frame(const ImVec2 p_min, const ImVec2 p_max,
+							 const ImVec4 colour, const ImVec4 bg_colour,
+							 const int rounding) -> void {
+
+	draw_frame_background(p_min, p_max, bg_colour, rounding);
+	draw_frame_border(p_min, p_max, colour, rounding);
+}
+
 auto Sorcery::UI::draw_frame_border(const ImVec2 p_min, const ImVec2 p_max,
 									const ImVec4 colour, const int rounding)
 	-> void {
@@ -3641,6 +3664,8 @@ auto Sorcery::UI::draw_transient() -> void {
 		draw_frame(
 			p_min, p_max,
 			ImVec4{ui_colour.x, ui_colour.y, ui_colour.z, _ctx.animation->fade},
+			ImVec4{ui_bg_colour.x, ui_bg_colour.y, ui_bg_colour.z,
+				   _ctx.animation->fade},
 			frame_rd);
 
 		ImGui::SetCursorPos(ImVec2{padding, padding});
