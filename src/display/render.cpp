@@ -39,10 +39,10 @@
 #include <memory>				 // for unique_ptr
 
 // Standard Constructor
-Sorcery::Render::Render(Context &ctx)
-	: _ctx{ctx} {
+Sorcery::Render::Render(Context &ctx, const bool monochrome)
+	: _ctx{ctx},
+	  _monochrome{monochrome} {
 
-	_monochrome = false;
 	_source_size = ImVec2{912.0f * 4, 880.0f * 4};
 	_pane_size = ImVec2{304 * 4, 176 * 4};
 
@@ -51,12 +51,7 @@ Sorcery::Render::Render(Context &ctx)
 
 Sorcery::Render::~Render() {}
 
-auto Sorcery::Render::get_monochrome() const -> bool {
-
-	return _monochrome;
-}
-
-auto Sorcery::Render::set_monochrome(bool value) -> void {
+auto Sorcery::Render::reset_monochrome(bool value) -> void {
 
 	_monochrome = value;
 
@@ -164,7 +159,7 @@ auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1,
 										const ImVec4 colour) -> void {
 
 	auto col{_monochrome ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-						 : colour};
+						   : colour};
 
 	// As we resized up the view, we resize it here too
 	auto scale{4};

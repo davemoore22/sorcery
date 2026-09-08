@@ -35,9 +35,11 @@
 #include "frontend/compendium.hpp" // for Compendium
 #include "frontend/license.hpp"	   // for License
 #include "frontend/options.hpp"	   // for Options
-#include <SDL_events.h>			   // for SDL_PollEvent
-#include <chrono>				   // for chrono_literals
-#include <string>				   // for basic_string
+#include "resources/define.hpp"
+#include "resources/filestore.hpp"
+#include <SDL_events.h> // for SDL_PollEvent
+#include <chrono>		// for chrono_literals
+#include <string>		// for basic_string
 
 Sorcery::MainMenu::MainMenu(Context &ctx)
 	: Module{ctx} {
@@ -126,9 +128,15 @@ auto Sorcery::MainMenu::start() -> int {
 		// Check for something being selected from a menu
 		if (_ctx.controller->wants(Enums::Screen::COMPENDIUM)) {
 
+			_ctx.audio->stop();
+			_ctx.audio->load(_ctx.files->get(COMPENDIUM_MUSIC));
+			_ctx.audio->play();
 			const auto result{_compendium->start()};
 
 			_compendium->stop();
+			_ctx.audio->stop();
+			_ctx.audio->load(_ctx.files->get(MAINMENU_MUSIC));
+			_ctx.audio->play();
 
 			if (result == ABORT_GAME)
 				return ABORT_GAME;

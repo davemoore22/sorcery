@@ -155,18 +155,14 @@ Sorcery::UI::UI(Context &ctx)
 	metrics->update(_ctx.display->get_display_metrics());
 
 	// Render window
-	render = std::make_unique<Render>(_ctx);
+	render = std::make_unique<Render>(
+		_ctx, !_ctx.get_config(Enums::Config::CGA_GRAPHICS));
 
 	// Ticks
 	ticks = SDL_GetTicks();
 };
 
 Sorcery::UI::~UI() {}
-
-auto Sorcery::UI::set_monochrome(const bool value) -> void {
-
-	render->set_monochrome(value);
-}
 
 auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 
@@ -674,7 +670,7 @@ auto Sorcery::UI::draw_ui_status() -> void {
 
 		const auto music_status{_ctx.get_config(Enums::Config::MUSIC)};
 		const auto sound_status{_ctx.get_config(Enums::Config::SOUND)};
-		const auto cga_status{!render->get_monochrome()};
+		const auto cga_status{!_ctx.controller->get_monochrome()};
 		const auto music_icon{music_status ? ICON_MUSIC_ON : ICON_MUSIC_OFF};
 		const auto sound_icon{sound_status ? ICON_SOUND_ON : ICON_SOUND_OFF};
 		const auto cga_icon{cga_status ? ICON_CGA_ON : ICON_CGA_OFF};
@@ -2363,9 +2359,8 @@ auto Sorcery::UI::draw_options() -> void {
 		"OPT_CURABLE_DRAINING",		 "OPT_SHARED_INVENTORY",
 		"OPT_PROTECT_TELEPORT"};
 
-	std::vector<std::string> graphics_opts{"OPT_COLOURED_WIREFRAME",
-										   "OPT_FULLSCREEN", "OPT_UI_MUSIC",
-										   "OPT_UI_SOUND"};
+	std::vector<std::string> graphics_opts{"OPT_CGA_GRAPHICS", "OPT_FULLSCREEN",
+										   "OPT_UI_MUSIC", "OPT_UI_SOUND"};
 
 	const auto save_lbl{_ctx.get_string("DIALOG_SAVE")};
 	const auto cancel_lbl{_ctx.get_string("DIALOG_CANCEL")};
@@ -3179,6 +3174,9 @@ auto Sorcery::UI::draw_minimap() -> void {
 
 auto Sorcery::UI::draw_bg_video() -> void {
 
+	// if (_ctx.controller->get_monochrome())
+	//	return;
+
 	auto elapsed_sec{(SDL_GetTicks() - ticks) / 1000.0};
 	vfx_player->update(elapsed_sec);
 	vfx_player->render(WINDOW_LAYER_BG);
@@ -3250,8 +3248,10 @@ auto Sorcery::UI::draw_frame_background(const ImVec2 p_min, const ImVec2 p_max,
 										const ImVec4 colour, const int rounding)
 	-> void {
 
-	const ImU32 bg{
-		ImColor{colour.x, colour.y, colour.z, colour.w * _ctx.animation->fade}};
+	const ImU32 bg{_ctx.controller->get_monochrome()
+					   ? ImColor{0.0f, 0.0f, 0.0f, 1.0f}
+					   : ImColor{colour.x, colour.y, colour.z,
+								 colour.w * _ctx.animation->fade}};
 
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg,
 											  static_cast<float>(rounding * 2));

@@ -38,22 +38,21 @@ class Render {
 
 	public:
 		// Constructors
-		Render(Context &ctx);
+		Render(Context &ctx, const bool monochrome);
 		~Render();
 
 		// Public Methods
-		auto get_monochrome() const -> bool;
-		auto set_monochrome(bool value) -> void;
+		auto reset_monochrome(bool value) -> void;
 		auto draw(Component *component) -> void;
 
 	private:
 		// Private Members
 		Context &_ctx;
-		bool _monochrome;
 		std::map<Coordinate3, TileView> _tileviews;
 		ImVec2 _source_size;
 		ImVec2 _pane_size;
 		ImVec2 _pos;
+		bool _monochrome;
 
 		// Private Methods
 		auto _get_left_side(const Enums::Map::Direction facing) const

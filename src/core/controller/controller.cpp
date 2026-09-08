@@ -28,11 +28,12 @@
 #include "core/controller/inputhandler.hpp"
 #include "core/controller/menuaction.hpp" // for MenuAction, MENU_ACTIONS
 #include "core/controller/menuhandler.hpp"
-#include "core/debug.hpp"				 // for DEBUG_LOGF
-#include "core/define.hpp"				 // for ICON_CAMP, ICON_CAST, ICON_...
-#include "core/enum.hpp"				 // for CharacterSlot, Screen
-#include "core/resources.hpp"			 // for Resources
-#include "display/display.hpp"			 // for Display
+#include "core/debug.hpp"	   // for DEBUG_LOGF
+#include "core/define.hpp"	   // for ICON_CAMP, ICON_CAST, ICON_...
+#include "core/enum.hpp"	   // for CharacterSlot, Screen
+#include "core/resources.hpp"  // for Resources
+#include "display/display.hpp" // for Display
+#include "display/render.hpp"
 #include "display/ui/ui.hpp"			 // for UI
 #include "display/ui/uimetrics.hpp"		 // for UIMetrics
 #include "drawables/define.hpp"			 // for MAIN_MENU_CONTINUE_GAME
@@ -225,7 +226,9 @@ auto Sorcery::Controller::get_characters() const -> std::string {
 auto Sorcery::Controller::set_monochrome(const bool value) -> void {
 
 	_monochrome = value;
+	_ctx.ui->render->reset_monochrome(value);
 }
+
 auto Sorcery::Controller::get_monochrome() const -> bool {
 
 	return _monochrome;

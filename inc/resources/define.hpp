@@ -72,6 +72,7 @@ inline constexpr auto BACKGROUNDS_TEXTURE{"backgrounds.tga"sv};
 inline constexpr auto TOWN_TEXTURE{"town.tga"sv};
 inline constexpr auto TRAINING_TEXTURE{"training.tga"sv};
 
+inline constexpr auto COMPENDIUM_MUSIC{"compendium.mp3"sv};
 inline constexpr auto ENGINE_MUSIC{"engine.mp3"sv};
 inline constexpr auto MAINMENU_MUSIC{"mainmenu.mp3"sv};
 inline constexpr auto TOWN_MUSIC{"town.mp3"sv};

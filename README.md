@@ -105,11 +105,11 @@ All comments and criticism and help welcome. You can mainly find me as *Typhon* 
 
 ## Credits
 
-Graphics used (all free/open source) are by:
+Graphics used (Creative Commons) are by:
 
-* Torio - <https://www.pixiv.net/en/users/5887541>
+* Toriotto - <https://www.pixiv.net/en/users/5887541>
 * Various - <https://game-icons.net/>
 
-Music used (Creative Commonds) is by:
+Music used (Soundimage International Public License) is by:
 
-* Kevin MacLeod - <https://incompetech.com/music/royalty-free/music.html>
+* Eric Matyas - <https://www.soundimage.org>

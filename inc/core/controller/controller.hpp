@@ -70,7 +70,7 @@ class Controller {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
 					_can_undo, _fullscreen, _candidate_party, _screen,
-					_characters, _flags, _texts, _monochrome);
+					_characters, _flags, _texts);
 		}
 
 		// Overloaded Operator
@@ -104,7 +104,6 @@ class Controller {
 		auto has_selected(const std::string_view flag) const -> bool;
 		auto get_selected(const std::string_view flag) const -> int;
 		auto unset_selected(const std::string_view flag) -> void;
-
 		auto set_monochrome(const bool value) -> void;
 		auto get_monochrome() const -> bool;
 		auto set_fullscreen(const bool value) -> void;
@@ -153,10 +152,10 @@ class Controller {
 		Game *_game{nullptr};
 		bool _busy{};		// Currently busy (e.g. loading an asset etc)
 		bool _has_save{};	// Is there a saved game present
-		bool _monochrome{}; // Monochrome wireframe mode active
 		bool _fullscreen{}; // Fullscreen mode active
 		bool _can_undo{};	// Can "undo" a movement action
 		bool _abort{};
+		bool _monochrome{};
 		std::vector<unsigned int> _candidate_party; // Used for Reordering
 		Enums::Map::Event _last_event;				// Last event in dungeon
 		Enums::Map::Direction _last_dir;			// Last movement in dungeon

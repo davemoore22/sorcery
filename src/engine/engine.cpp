@@ -201,7 +201,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			_ctx.controller->input->ui_toggle(event);
 
 			if (old_monochrome != _ctx.controller->get_monochrome())
-				_ctx.ui->set_monochrome(_ctx.controller->get_monochrome());
+				_ctx.controller->set_monochrome(
+					_ctx.controller->get_monochrome());
 
 			// Check for movement
 			if (const auto movement{_ctx.controller->input->movement(event)};
@@ -544,9 +545,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	_ctx.controller->set_last_dir(Enums::Map::Direction::NO_DIRECTION);
 	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 	_ctx.controller->set_can_undo(false);
-	_ctx.controller->set_monochrome(
-		_ctx.get_config(Enums::Config::COLOURED_WIREFRAME));
-	_ctx.ui->set_monochrome(_ctx.get_config(Enums::Config::COLOURED_WIREFRAME));
+	_ctx.controller->set_monochrome(_ctx.get_config(Enums::Config::CGA_GRAPHICS));
 
 	//_ctx.controller->set_flag("show_automap");
 	_ctx.controller->set_flag("interface_party_panel");

@@ -108,8 +108,8 @@ auto Sorcery::Config::_load() -> bool {
 	_options[SHARED_INVENTORY] = option.compare(on) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(OPT_PROTECT_TELEPORT), off);
 	_options[PROTECT_TELEPORT] = option.compare(on) == 0;
-	option = _settings->GetValue("Graphics", CSTR(OPT_COLOURED_WIREFRAME), off);
-	_options[COLOURED_WIREFRAME] = option.compare(on) == 0;
+	option = _settings->GetValue("Graphics", CSTR(OPT_CGA_GRAPHICS), off);
+	_options[CGA_GRAPHICS] = option.compare(on) == 0;
 	option = _settings->GetValue("Graphics", CSTR(OPT_FULLSCREEN), off);
 	_options[FULLSCREEN] = option.compare(on) == 0;
 	option = _settings->GetValue("Media", CSTR(OPT_SOUND), off);
@@ -159,8 +159,8 @@ bool Sorcery::Config::save() {
 						BOOL2OPTIONCSTR(_options[SHARED_INVENTORY]));
 	_settings->SetValue("Gameplay", CSTR(OPT_PROTECT_TELEPORT),
 						BOOL2OPTIONCSTR(_options[PROTECT_TELEPORT]));
-	_settings->SetValue("Graphics", CSTR(OPT_COLOURED_WIREFRAME),
-						BOOL2OPTIONCSTR(_options[COLOURED_WIREFRAME]));
+	_settings->SetValue("Graphics", CSTR(OPT_CGA_GRAPHICS),
+						BOOL2OPTIONCSTR(_options[CGA_GRAPHICS]));
 	_settings->SetValue("Graphics", CSTR(OPT_FULLSCREEN),
 						BOOL2OPTIONCSTR(_options[FULLSCREEN]));
 	_settings->SetValue("Media", CSTR(OPT_SOUND),
