@@ -76,6 +76,9 @@ inline constexpr auto COMPENDIUM_MUSIC{"compendium.mp3"sv};
 inline constexpr auto ENGINE_MUSIC{"engine.mp3"sv};
 inline constexpr auto MAINMENU_MUSIC{"mainmenu.mp3"sv};
 inline constexpr auto TOWN_MUSIC{"town.mp3"sv};
+inline constexpr auto VICTORY_MUSIC{"compendium.mp3"sv};
+inline constexpr auto GRAVEYARD_MUSIC{"compendium.mp3"sv};
+inline constexpr auto COMBAT_MUSIC{"compendium.mp3"sv};
 
 inline constexpr auto UNKNOWN_CREATURES_TEXTURE{"unknown.tga"sv};
 inline constexpr auto WIREFRAME_TEXTURE{"wireframe.tga"sv};

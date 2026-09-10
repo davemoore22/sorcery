@@ -71,6 +71,7 @@ auto Sorcery::MainMenu::start() -> int {
 
 	fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 
+	_ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
 	_ctx.audio->set_volume(1.0f);
 
 	// Main loop
@@ -128,15 +129,12 @@ auto Sorcery::MainMenu::start() -> int {
 		// Check for something being selected from a menu
 		if (_ctx.controller->wants(Enums::Screen::COMPENDIUM)) {
 
-			_ctx.audio->stop();
-			_ctx.audio->load(_ctx.files->get(COMPENDIUM_MUSIC));
-			_ctx.audio->play();
+			_ctx.audio->set_track(Enums::Audio::Track::COMPENDIUM);
 			const auto result{_compendium->start()};
 
 			_compendium->stop();
-			_ctx.audio->stop();
-			_ctx.audio->load(_ctx.files->get(MAINMENU_MUSIC));
-			_ctx.audio->play();
+
+			_ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
 
 			if (result == ABORT_GAME)
 				return ABORT_GAME;

@@ -22,10 +22,13 @@
 
 #pragma once
 
+#include "core/audio/music.hpp"
 #include <SDL2/SDL_audio.h> // for SDL_AudioDeviceID, SDL_AudioSpec
-#include <cstdint>			// for uint8_t
-#include <string>			// for string
-#include <vector>			// for vector
+#include <chrono>
+#include <cstdint> // for uint8_t
+#include <string>  // for string
+#include <string_view>
+#include <vector> // for vector
 
 struct AVCodecContext;	// Global Namespace Forward Declaration
 struct AVFormatContext; // Global Namespace Forward Declaration
@@ -35,21 +38,25 @@ struct SwrContext;		// Global Namespace Forward Declaration
 
 namespace Sorcery {
 
+class FileStore;
+
 class AudioPlayer {
+
+		using Clock = std::chrono::steady_clock;
+
 	public:
-		AudioPlayer();
+		AudioPlayer(FileStore *files);
 		~AudioPlayer();
 
-		void load(const std::string &filename);
-		void play();
-		void stop();
 		void update(); // call every frame
-		void set_volume(float v);
+		void set_volume(float volume);
+		void set_track(Enums::Audio::Track track);
 
 		bool mute;
 
 	private:
-		void free_resources();
+		static constexpr auto FADE_DURATION{std::chrono::milliseconds{750}};
+		static constexpr auto BUFFER_MS{100};
 
 		// FFmpeg
 		AVFormatContext *_fmt = nullptr;
@@ -68,7 +75,27 @@ class AudioPlayer {
 
 		bool _playing = false;
 
-		float _volume = 0.0f;
+		float _volume{0.0f};
+		float _fade{1.0f};
+
+		Clock::time_point _fade_updated{};
+
+		Enums::Audio::Track _current_track{Enums::Audio::Track::NONE};
+		Enums::Audio::Track _requested_track{Enums::Audio::Track::NONE};
+		Enums::Audio::State _state{Enums::Audio::State::STOPPED};
+
+		FileStore *_files;
+
+		void _free_resources();
+		void _begin_fade_in();
+		void _begin_fade_out();
+		void _update_transition();
+		void _stop_immediately();
+		void _finish_fade_out();
+		void _load(const std::string_view filename);
+		void _play();
+		void _stop();
+		void _start_requested_track();
 };
 
 }

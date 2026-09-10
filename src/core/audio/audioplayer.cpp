@@ -21,16 +21,19 @@
 // the resulting work.
 
 #include "core/audio/audioplayer.hpp"
-#include "common/ffmpeg.hpp"	 // IWYU pragma: keep
-#include "core/debug.hpp"		 // for DEBUG_LOGF, debug_logf
+#include "common/ffmpeg.hpp" // IWYU pragma: keep
+#include "core/debug.hpp"	 // for DEBUG_LOGF, debug_logf
+#include "resources/filestore.hpp"
 #include "types/scopedtimer.hpp" // for PROFILE_SCOPE
 #include <SDL_audio.h>			 // for SDL_PauseAudioDevice, SDL_Clea...
 #include <SDL_error.h>			 // for SDL_GetError
 #include <SDL_stdinc.h>			 // for Uint32
-#include <iostream>				 // for basic_ostream, operator<<, cerr
-#include <stdexcept>			 // for runtime_error
+#include <algorithm>
+#include <iostream>	 // for basic_ostream, operator<<, cerr
+#include <stdexcept> // for runtime_error
 
-Sorcery::AudioPlayer::AudioPlayer() {
+Sorcery::AudioPlayer::AudioPlayer(FileStore *files)
+	: _files{files} {
 
 	av_log_set_level(AV_LOG_ERROR);
 
@@ -56,13 +59,13 @@ Sorcery::AudioPlayer::AudioPlayer() {
 
 Sorcery::AudioPlayer::~AudioPlayer() {
 
-	free_resources();
+	_free_resources();
 
 	if (_device)
 		SDL_CloseAudioDevice(_device);
 }
 
-void Sorcery::AudioPlayer::free_resources() {
+void Sorcery::AudioPlayer::_free_resources() {
 
 	if (_packet)
 		av_packet_free(&_packet);
@@ -84,14 +87,15 @@ void Sorcery::AudioPlayer::free_resources() {
 	_stream_index = -1;
 }
 
-void Sorcery::AudioPlayer::load(const std::string &filename) {
+void Sorcery::AudioPlayer::_load(const std::string_view filename) {
 
 	// PROFILE_SCOPE("AudioPlayer::load");
 	//  DEBUG_LOGF("Loading Resource: {}", filename);
 
-	free_resources();
+	_free_resources();
 
-	if (avformat_open_input(&_fmt, filename.c_str(), nullptr, nullptr) < 0)
+	std::string str(filename);
+	if (avformat_open_input(&_fmt, str.c_str(), nullptr, nullptr) < 0)
 		throw std::runtime_error("Failed to open audio file");
 
 	if (avformat_find_stream_info(_fmt, nullptr) < 0)
@@ -139,40 +143,53 @@ void Sorcery::AudioPlayer::load(const std::string &filename) {
 	av_channel_layout_uninit(&out_layout);
 }
 
-void Sorcery::AudioPlayer::play() {
-
-	if (mute)
-		return;
+void Sorcery::AudioPlayer::_play() {
 
 	if (!_fmt)
 		return;
 
+	// Already playing: don't restart the track.
+	if (_playing) {
+
+		// If it was fading out, simply reverse direction.
+		if (_state == Enums::Audio::State::FADING_OUT)
+			_begin_fade_in();
+
+		return;
+	}
+
 	SDL_ClearQueuedAudio(_device);
 
 	_playing = true;
+	_fade = 0.0f;
 
-	// Fill buffer while device is still paused
+	_begin_fade_in();
+
+	// Fill buffer while device is still paused.
 	update();
 
 	SDL_PauseAudioDevice(_device, 0);
 }
 
-void Sorcery::AudioPlayer::stop() {
+void Sorcery::AudioPlayer::_stop() {
 
-	if (mute)
+	if (!_playing)
 		return;
 
-	_playing = false;
-	SDL_PauseAudioDevice(_device, 1);
-	SDL_ClearQueuedAudio(_device);
+	if (_state == Enums::Audio::State::FADING_OUT)
+		return;
+
+	_begin_fade_out();
 }
 
-void Sorcery::AudioPlayer::set_volume(float v) {
+void Sorcery::AudioPlayer::set_volume(float volume) {
 
-	_volume = v;
+	_volume = std::clamp(volume, 0.0f, 1.0f);
 }
 
 void Sorcery::AudioPlayer::update() {
+
+	_update_transition();
 
 	if (!_playing || !_fmt)
 		return;
@@ -180,7 +197,8 @@ void Sorcery::AudioPlayer::update() {
 	if (mute)
 		return;
 
-	const Uint32 target_buffer{_spec.freq * _spec.channels * sizeof(float)};
+	const Uint32 target_buffer{static_cast<Uint32>(
+		_spec.freq * _spec.channels * sizeof(float) * (BUFFER_MS / 1000.0f))};
 
 	while (SDL_GetQueuedAudioSize(_device) < target_buffer) {
 
@@ -214,8 +232,9 @@ void Sorcery::AudioPlayer::update() {
 					float *samples{reinterpret_cast<float *>(out_data)};
 					int sample_count{converted * _spec.channels};
 
+					const auto gain{_volume * _fade};
 					for (int i = 0; i < sample_count; ++i)
-						samples[i] *= _volume;
+						samples[i] *= gain;
 
 					SDL_QueueAudio(_device, out_data, size);
 
@@ -226,4 +245,121 @@ void Sorcery::AudioPlayer::update() {
 
 		av_packet_unref(_packet);
 	}
+}
+
+void Sorcery::AudioPlayer::_begin_fade_in() {
+
+	_fade_updated = Clock::now();
+	_state = Enums::Audio::State::FADING_IN;
+}
+
+void Sorcery::AudioPlayer::_begin_fade_out() {
+
+	_fade_updated = Clock::now();
+	_state = Enums::Audio::State::FADING_OUT;
+}
+
+void Sorcery::AudioPlayer::_stop_immediately() {
+
+	_playing = false;
+	_state = Enums::Audio::State::STOPPED;
+	_fade = 0.0f;
+
+	SDL_PauseAudioDevice(_device, 1);
+	SDL_ClearQueuedAudio(_device);
+}
+
+void Sorcery::AudioPlayer::_update_transition() {
+
+	if (_state != Enums::Audio::State::FADING_IN &&
+		_state != Enums::Audio::State::FADING_OUT)
+		return;
+
+	const auto now{Clock::now()};
+
+	const auto elapsed{
+		std::chrono::duration<float>{now - _fade_updated}.count()};
+
+	const auto duration{std::chrono::duration<float>{FADE_DURATION}.count()};
+
+	_fade_updated = now;
+
+	const auto delta{elapsed / duration};
+
+	if (_state == Enums::Audio::State::FADING_IN) {
+
+		_fade = std::min(1.0f, _fade + delta);
+
+		if (_fade >= 1.0f) {
+			_fade = 1.0f;
+			_state = Enums::Audio::State::PLAYING;
+		}
+
+	} else {
+
+		_fade = std::max(0.0f, _fade - delta);
+
+		if (_fade <= 0.0f) {
+
+			_fade = 0.0f;
+			_finish_fade_out();
+		}
+	}
+}
+
+void Sorcery::AudioPlayer::_finish_fade_out() {
+
+	_stop_immediately();
+
+	_current_track = Enums::Audio::Track::NONE;
+
+	if (_requested_track != Enums::Audio::Track::NONE)
+		_start_requested_track();
+}
+
+void Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) {
+
+	// We already want this track.
+	if (track == _requested_track)
+		return;
+
+	_requested_track = track;
+
+	// Requesting the track already playing.
+	// If it happens to be fading out, reverse the fade.
+	if (track == _current_track) {
+
+		if (_state == Enums::Audio::State::FADING_OUT)
+			_begin_fade_in();
+
+		return;
+	}
+
+	// Nothing currently playing.
+	if (_current_track == Enums::Audio::Track::NONE) {
+
+		if (_requested_track == Enums::Audio::Track::NONE)
+			return;
+
+		_start_requested_track();
+		return;
+	}
+
+	// Different track requested: fade the current one out first.
+	_begin_fade_out();
+}
+
+void Sorcery::AudioPlayer::_start_requested_track() {
+
+	if (_requested_track == Enums::Audio::Track::NONE)
+		return;
+
+	const auto track{_requested_track};
+	const auto resource{Music::resource(track)};
+
+	_load(_files->get_path(resource));
+
+	_current_track = track;
+
+	_play();
 }

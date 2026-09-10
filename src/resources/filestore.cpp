@@ -103,10 +103,13 @@ Sorcery::FileStore::FileStore() {
 	_add_path(GFX_DIR, WIREFRAME_TEXTURE);
 
 	// Audio Files (required)
+	_add_path(SFX_DIR, COMBAT_MUSIC);
 	_add_path(SFX_DIR, COMPENDIUM_MUSIC);
 	_add_path(SFX_DIR, ENGINE_MUSIC);
+	_add_path(SFX_DIR, GRAVEYARD_MUSIC);
 	_add_path(SFX_DIR, MAINMENU_MUSIC);
 	_add_path(SFX_DIR, TOWN_MUSIC);
+	_add_path(SFX_DIR, VICTORY_MUSIC);
 
 	// Video Files (required)
 	_add_path(VFX_DIR, MAINMENU_VIDEO);

@@ -198,9 +198,6 @@ auto Sorcery::Application::start() -> int {
 	ctx.animation->refresh_wp();
 	ctx.animation->start_wp_th();
 
-	ctx.audio->load(ctx.files->get(MAINMENU_MUSIC));
-	ctx.audio->set_volume(0.0f);
-
 	const auto plan{_build_startup_plan()};
 	auto flow{_flow_from_startup_plan(plan)};
 
@@ -248,17 +245,14 @@ auto Sorcery::Application::start() -> int {
 			break;
 		}
 	}
-
-	ctx.audio->stop();
+	ctx.audio->set_track(Enums::Audio::Track::NONE);
 	ctx.ui->stop();
 
 	return 0;
 }
 auto Sorcery::Application::_run_town() -> AppFlow {
 
-	ctx.audio->load(ctx.files->get(TOWN_MUSIC));
-	ctx.audio->set_volume(0.0f);
-	ctx.audio->play();
+	ctx.audio->set_track(Enums::Audio::Track::TOWN);
 
 	while (true) {
 
@@ -340,9 +334,7 @@ auto Sorcery::Application::_run_maze(const int mode) -> AppFlow {
 
 	ctx.game->enter_maze();
 
-	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
-	ctx.audio->set_volume(0.0f);
-	ctx.audio->play();
+	ctx.audio->set_track(Enums::Audio::Track::ENGINE);
 
 	const auto result{_engine->start(mode)};
 	_engine->stop();
@@ -361,9 +353,7 @@ auto Sorcery::Application::_run_restart_maze(const int mode) -> AppFlow {
 	ctx.game->restart_maze(
 		ctx.controller->get_character(Enums::CharacterSlot::RESTART));
 
-	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
-	ctx.audio->set_volume(0.0f);
-	ctx.audio->play();
+	ctx.audio->set_track(Enums::Audio::Track::ENGINE);
 
 	const auto result{_engine->start(mode)};
 	_engine->stop();
@@ -459,9 +449,7 @@ auto Sorcery::Application::update() -> void {
 
 auto Sorcery::Application::_run_main_menu() -> AppFlow {
 
-	ctx.audio->load(ctx.files->get(MAINMENU_MUSIC));
-	ctx.audio->set_volume(0.0f);
-	ctx.audio->play();
+	ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
 
 	const auto result{_main_menu->start()};
 	_main_menu->stop();
@@ -489,8 +477,7 @@ auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 	ctx.game->restart_maze(
 		ctx.controller->get_character(Enums::CharacterSlot::RESTART));
 
-	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
-	ctx.audio->set_volume(0.0f);
+	ctx.audio->set_track(Enums::Audio::Track::ENGINE);
 
 	auto what{_engine->start(mode)};
 	_engine->stop();
@@ -502,8 +489,9 @@ auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 auto Sorcery::Application::_do_start_expedition(const int mode) -> int {
 
 	ctx.game->enter_maze();
-	ctx.audio->load(ctx.files->get(ENGINE_MUSIC));
-	ctx.audio->set_volume(0.0f);
+
+	ctx.audio->set_track(Enums::Audio::Track::ENGINE);
+
 	auto what{_engine->start(mode)};
 	_engine->stop();
 

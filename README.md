@@ -59,7 +59,7 @@ See also some brief [gameplay videos](https://www.youtube.com/channel/UCEkmGGFyx
 * ~~Wipe Handling~~ (DONE)
 * ~~Dungeon Events~~ (DONE)
 * ~~Compendium~~ (DONE)
-* ~~Music~~ (DONE)
+* ~~Music/SFX~~ (DONE)
 * ~~Automap~~ (DONE)
 * ~~Character Editing/Deleting/Legating~~ (DONE)
 * ~~Inventory and Item Manipulation~~ (DONE)

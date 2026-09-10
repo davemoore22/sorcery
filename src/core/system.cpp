@@ -59,7 +59,7 @@ Sorcery::System::System(int argc __attribute__((unused)),
 			std::make_unique<Config>(_settings.get(), files->get(CONFIG_FILE));
 		random = std::make_unique<Random>();
 		animation = std::make_unique<Animation>(random.get());
-		audio = std::make_unique<AudioPlayer>();
+		audio = std::make_unique<AudioPlayer>(files.get());
 	}
 }
 
