@@ -23,7 +23,7 @@
 #include "modules/castle.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
-#include "core/audioplayer.hpp"
+#include "core/audio/audioplayer.hpp"
 #include "core/context.hpp"
 #include "core/controller/controller.hpp"
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler#

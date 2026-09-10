@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "core/audioplayer.hpp"
+#include "core/audio/audioplayer.hpp"
 #include "common/ffmpeg.hpp"	 // IWYU pragma: keep
 #include "core/debug.hpp"		 // for DEBUG_LOGF, debug_logf
 #include "types/scopedtimer.hpp" // for PROFILE_SCOPE

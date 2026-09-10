@@ -22,7 +22,7 @@
 
 #include "training/roster.hpp"
 #include "backends/imgui_impl_sdl2.h"		// for SDL_Event
-#include "core/audioplayer.hpp"				// for AudioPlayer
+#include "core/audio/audioplayer.hpp"		// for AudioPlayer
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler

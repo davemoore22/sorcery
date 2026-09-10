@@ -21,7 +21,7 @@
 // the resulting work.
 
 #include "engine/engine.hpp"
-#include "core/audioplayer.hpp"				// for AudioPlayer
+#include "core/audio/audioplayer.hpp"		// for AudioPlayer
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
@@ -545,7 +545,8 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	_ctx.controller->set_last_dir(Enums::Map::Direction::NO_DIRECTION);
 	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 	_ctx.controller->set_can_undo(false);
-	_ctx.controller->set_monochrome(_ctx.get_config(Enums::Config::CGA_GRAPHICS));
+	_ctx.controller->set_monochrome(
+		_ctx.get_config(Enums::Config::CGA_GRAPHICS));
 
 	//_ctx.controller->set_flag("show_automap");
 	_ctx.controller->set_flag("interface_party_panel");

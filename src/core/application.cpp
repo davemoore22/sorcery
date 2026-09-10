@@ -23,7 +23,7 @@
 #include "core/application.hpp"
 #include "cereal/archives/binary.hpp"	  // for BinaryInputArchive, BinaryO...
 #include "common/enum.hpp"				  // for Class, Align, Align::NO_ALIGN
-#include "core/audioplayer.hpp"			  // for AudioPlayer
+#include "core/audio/audioplayer.hpp"	  // for AudioPlayer
 #include "core/controller/controller.hpp" // for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/debug.hpp"					// for DEBUG_LOGF, debug_logf
