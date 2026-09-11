@@ -751,7 +751,7 @@
 	"TEMPLE_OOPS_ASHES_SUFFIX": "will be buried *",
 	"TEMPLE_HEALED_PREFIX": "*",
 	"TEMPLE_HEALED_SUFFIX": "has been cured *",
-	"DIALOG_CURSED": "* Cursed *",
+	"NOTICE_CURSED": "* Cursed *",
 	"DIALOG_FAILED": "Failed",
 	"DIALOG_SUCCESS": "Success!",
 	"CONFIRM_DROP_ITEM": "Are you sure?",

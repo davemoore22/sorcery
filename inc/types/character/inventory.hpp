@@ -95,6 +95,7 @@ class Inventory {
 			const Enums::Items::Category category) const -> bool;
 		auto _unequip_item_category(const Enums::Items::Category category)
 			-> bool;
+		auto _valid_slot(const unsigned int slot) const -> bool;
 
 		// Private Members
 		std::vector<Item> _items;

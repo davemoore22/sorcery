@@ -225,8 +225,7 @@ auto Sorcery::ControllerMenuHandler::handle_standard(
 		// Reorder has multiple entry points so need to rely upon calling
 		// screen to enable itself
 		if (selection == (static_cast<int>(items.size()) - 1)) {
-			_host._flags["show_reorder"] = false;
-			_host.request_back();
+			_host.go_to(Enums::Screen::TAVERN);
 		}
 	} else if (component == "pay_menu") {
 
@@ -448,12 +447,21 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 
 		if (selection == static_cast<int>(items.size()) - 1) {
 
-			_host.set_flag("want_remove");
+			_host.unset_flag("want_remove");
 			_ctx.ui->popup_manager->close();
 
-		} else {
+			return true;
+		}
 
-			// TODO
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(
+			_host.get_character(Enums::CharacterSlot::INSPECT))};
+
+		if (character.inventory.unequip_item(static_cast<unsigned int>(data))) {
+
+			_host._game->save_game();
 		}
 
 		return true;
@@ -461,12 +469,28 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 
 		if (selection == static_cast<int>(items.size()) - 1) {
 
-			_host.set_flag("want_equip");
+			_host.unset_flag("want_equip");
 			_ctx.ui->popup_manager->close();
 
-		} else {
+			return true;
+		}
 
-			// TODO
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(
+			_host.get_character(Enums::CharacterSlot::INSPECT))};
+
+		const auto slot{static_cast<unsigned int>(data)};
+
+		if (!character.inventory.equip_item(slot))
+			return true;
+
+		_host._game->save_game();
+
+		if (character.inventory.is_equipped_cursed(slot)) {
+			_ctx.ui->popup_manager->open_dialog("global:notice_cursed",
+												Enums::Layout::DialogType::OK);
 		}
 
 		return true;
@@ -487,12 +511,20 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 
 		if (selection == static_cast<int>(items.size()) - 1) {
 
-			_host.set_flag("want_drop");
 			_ctx.ui->popup_manager->close();
 
-		} else {
+			return true;
+		}
 
-			// TODO
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(
+			_host.get_character(Enums::CharacterSlot::INSPECT))};
+
+		if (character.inventory.drop_item(static_cast<unsigned int>(data))) {
+
+			_host._game->save_game();
 		}
 
 		return true;
@@ -808,40 +840,41 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 
 	} else if (component == "equip_menu") {
 
-		// Remember this is returning true if the item is meant to be
-		// disabled!
-		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
-
-			const auto &who{_host._game->characters.at(
-				_host._characters[Enums::CharacterSlot::INSPECT])};
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-			if (selection < who.inventory.items().size()) {
-				const auto item{who.inventory.items().at(selection)};
-				return !(!item.get_equipped() && item.get_usable());
-			} else
-				return false;
-#pragma GCC diagnostic pop
-		} else
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
 			return false;
+
+		auto &inventory{
+			_host._game->characters
+				.at(_host.get_character(Enums::CharacterSlot::INSPECT))
+				.inventory};
+
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return false;
+
+		const auto item{inventory.get(static_cast<unsigned int>(data))};
+
+		if (item.get_equipped() || !item.get_usable())
+			return true;
+
+		return inventory.has_cursed_equipped_item_category(item.get_category());
+
 	} else if (component == "remove_item_menu") {
 
-		// Remember this is returning true if the item is meant to be
-		// disabled!
-		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
-
-			const auto &who{_host._game->characters.at(
-				_host._characters[Enums::CharacterSlot::INSPECT])};
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-			if (selection < who.inventory.items().size()) {
-				const auto item{who.inventory.items().at(selection)};
-				return !(item.get_equipped() && !item.get_cursed());
-			} else
-				return false;
-#pragma GCC diagnostic pop
-		} else
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
 			return false;
+
+		auto &inventory{
+			_host._game->characters
+				.at(_host.get_character(Enums::CharacterSlot::INSPECT))
+				.inventory};
+
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return false;
+
+		const auto item{inventory.get(static_cast<unsigned int>(data))};
+
+		return !item.get_equipped() || item.get_cursed();
+
 	} else if (component == "sell_menu") {
 
 		if (_host.has_character(Enums::CharacterSlot::STORE)) {

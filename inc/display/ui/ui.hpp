@@ -213,10 +213,6 @@ class UI {
 		auto draw_automap_legend(Component *component) -> void;
 		auto draw_bg_video() -> void;
 		auto draw_buffbar() -> void;
-		auto draw_character_detailed(Component *component,
-									 const Character *character) -> void;
-		auto draw_character_detailed_again(Component *component,
-										   const Character *character) -> void;
 		auto draw_character_summary(Component *component,
 									const Character *character) -> void;
 		auto draw_compass() -> void;

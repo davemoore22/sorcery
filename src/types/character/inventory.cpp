@@ -79,7 +79,7 @@ auto Sorcery::Inventory::get_empty_slots() const -> unsigned int {
 
 auto Sorcery::Inventory::is_empty() const -> bool {
 
-	return _items.size() == 8;
+	return _items.empty();
 }
 
 auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool known)
@@ -205,7 +205,7 @@ auto Sorcery::Inventory::identify_item(const unsigned int slot,
 
 auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 
-	if (_items.size() < (slot - 1))
+	if (!_valid_slot(slot))
 		return false;
 
 	auto &candidate{_items.at(slot - 1)};
@@ -218,13 +218,31 @@ auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 		return false;
 
 	for (auto &item : _items) {
-
 		if (item.get_category() == item_category && item.get_equipped())
 			item.set_equipped(false);
-	};
+	}
 
 	candidate.set_equipped(true);
 	candidate.set_known(true);
+
+	return true;
+}
+
+auto Sorcery::Inventory::unequip_item(const unsigned int slot) -> bool {
+
+	if (!_valid_slot(slot))
+		return false;
+
+	auto &candidate{_items.at(slot - 1)};
+
+	if (!candidate.get_equipped())
+		return false;
+
+	if (candidate.get_cursed())
+		return false;
+
+	candidate.set_equipped(false);
+
 	return true;
 }
 
@@ -245,15 +263,14 @@ auto Sorcery::Inventory::discard_item(const Enums::Items::TypeID item_type)
 
 auto Sorcery::Inventory::drop_item(const unsigned int slot) -> bool {
 
-	if (_items.size() < (slot - 1))
+	if (!_valid_slot(slot))
 		return false;
 
-	auto candidate{_items.at(slot - 1)};
+	const auto &candidate{_items.at(slot - 1)};
+
 	if (candidate.get_equipped())
 		return false;
-	candidate.set_known(true);
 
-	// For now, just discard the item
 	_items.erase(_items.begin() + (slot - 1));
 
 	return true;
@@ -298,6 +315,11 @@ auto Sorcery::Inventory::_has_cursed_equipped_item_category(
 		return item.get_category() == category && item.get_equipped() &&
 			   item.get_cursed();
 	});
+}
+
+auto Sorcery::Inventory::_valid_slot(const unsigned int slot) const -> bool {
+
+	return slot > 0 && slot <= _items.size();
 }
 
 namespace Sorcery {

@@ -719,6 +719,15 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 	return ac;
 }
 
+auto Sorcery::Character::get_cur_ac_str() const -> std::string {
+
+	auto ac{get_cur_ac()};
+	if (ac <= -10)
+		return "LO";
+	else
+		return std::to_string(ac);
+}
+
 auto Sorcery::Character::get_cur_to_hit() const -> int {
 
 	auto to_hit{_abilities.at(Enums::Character::Ability::HIT_PROBABILITY)};
