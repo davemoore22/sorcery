@@ -1570,10 +1570,12 @@ auto Sorcery::UI::draw_current_character([[maybe_unused]] const int mode)
 					draw_character_detailed_again(&char_cmp, &character);
 				}
 				with_TabItem("Arcane") {
-					draw_character_mage_spells(&char_cmp, &character);
+					draw_character_spells(&char_cmp, &character,
+										  Enums::Magic::SpellType::ARCANE);
 				}
 				with_TabItem("Divine") {
-					draw_character_priest_spells(&char_cmp, &character);
+					draw_character_spells(&char_cmp, &character,
+										  Enums::Magic::SpellType::DIVINE);
 				}
 			}
 		}
@@ -2914,49 +2916,23 @@ auto Sorcery::UI::_get_status_color(Character *character) const -> ImVec4 {
 auto Sorcery::UI::draw_spell_info() -> void {
 
 	const auto idx{_ctx.get_selected("spellbook_selected")};
+
 	if (idx == 50)
 		return;
 
+	const auto spell_id{enum_cast<Enums::Magic::SpellID>(idx).value()};
+
 	auto cmp{components->get("spellbook:spell_data")};
-	auto pos{metrics->grid_pos(cmp.x, cmp.y)};
+	const auto pos{metrics->grid_pos(cmp.x, cmp.y)};
+
 	ImGui::SetNextWindowPos(pos);
+
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
-		with_Child("spell_child", ImVec2(metrics->grid_sz() * cmp.w,
-										 metrics->grid_sz() * cmp.h)) {
 
-			auto spell{_ctx.resources->spells->get(
-				enum_cast<Enums::Magic::SpellID>(idx).value())};
+		with_Child("spell_child", ImVec2{metrics->grid_sz() * cmp.w,
+										 metrics->grid_sz() * cmp.h}) {
 
-			const auto spell_name{
-				std::format("{} \"{}\"", spell.name, spell.translated_name)};
-			const auto spell_type{spell.type == Enums::Magic::SpellType::ARCANE
-									  ? "Mage"
-									  : "Priest"};
-
-			std::string spell_cat{enum_name(spell.category)};
-			std::transform(spell_cat.begin(), spell_cat.end(),
-						   spell_cat.begin(), ::tolower);
-			auto summary{std::format("Level {} {} {} spell", spell.level,
-									 spell_type, spell_cat)};
-
-			{
-				UIStyle::set_text_bright(_ctx);
-				set_Font(fonts->get_current_font(cmp.font).value(),
-						 metrics->font_sz());
-				ImGui::TextUnformatted(spell_name.c_str());
-				ImGui::NewLine();
-				ImGui::TextUnformatted(summary.c_str());
-				ImGui::NewLine();
-			}
-
-			set_Font(fonts->get_current_font(cmp.font).value(),
-					 metrics->font_sz());
-			UIStyle::set_text_dim(_ctx);
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-security"
-			ImGui::TextWrapped(spell.details.c_str());
-#pragma GCC diagnostic pop
+			draw_spell_info_contents(spell_id, cmp.font);
 		}
 	}
 }
@@ -3932,4 +3908,86 @@ auto Sorcery::UI::draw_map_player(const MapGeometry &geometry) -> void {
 
 	draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, player_icon,
 						   draw_pos, geometry.tile_size, tint);
+}
+
+auto Sorcery::UI::draw_spell_info_contents(const Enums::Magic::SpellID spell_id,
+										   const Enums::Layout::Font font)
+	-> void {
+
+	const auto spell{_ctx.resources->spells->get(spell_id)};
+
+	const auto spell_name{
+		std::format("{} \"{}\"", spell.name, spell.translated_name)};
+
+	const auto spell_type{
+		spell.type == Enums::Magic::SpellType::ARCANE ? "Mage" : "Priest"};
+
+	auto spell_cat{std::string{enum_name(spell.category)}};
+
+	std::ranges::transform(spell_cat, spell_cat.begin(),
+						   [](const unsigned char ch) {
+							   return static_cast<char>(std::tolower(ch));
+						   });
+
+	const auto summary{std::format("Level {} {} {} spell", spell.level,
+								   spell_type, spell_cat)};
+
+	{
+		UIStyle::set_text_bright(_ctx);
+
+		set_Font(fonts->get_current_font(font).value(), metrics->font_sz());
+
+		ImGui::TextUnformatted(spell_name.c_str());
+		ImGui::NewLine();
+
+		ImGui::TextUnformatted(summary.c_str());
+		ImGui::NewLine();
+	}
+
+	UIStyle::set_text_dim(_ctx);
+
+	set_Font(fonts->get_current_font(font).value(), metrics->font_sz());
+
+	ImGui::TextWrapped("%s", spell.details.c_str());
+}
+
+auto Sorcery::UI::draw_character_spells(
+	Component *component, const Character *character,
+	const Enums::Magic::SpellType spell_type) -> void {
+
+	const auto pos{metrics->grid_pos(component->x, component->y)};
+	ImGui::SetCursorPos(pos);
+
+	const auto tab_id{spell_type == Enums::Magic::SpellType::ARCANE
+						  ? "arcane_spell_levels"
+						  : "divine_spell_levels"};
+
+	with_TabBar(tab_id, ImGuiTabBarFlags_None) {
+
+		for (auto level = 1u; level <= 7u; ++level) {
+
+			const auto label{std::format("Lv.{}", level)};
+
+			with_TabItem(label.c_str()) {
+
+				for (const auto &spell : character->magic().get_spells()) {
+
+					const auto spell_data{
+						_ctx.resources->spells->get(spell.id)};
+
+					if (spell_data.type != spell_type ||
+						spell_data.level != level)
+						continue;
+
+					if (!spell.known)
+						ImGui::BeginDisabled();
+
+					ImGui::Selectable(spell_data.name.c_str());
+
+					if (!spell.known)
+						ImGui::EndDisabled();
+				}
+			}
+		}
+	}
 }

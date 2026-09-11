@@ -63,7 +63,10 @@ namespace Enums {
 }
 namespace Sorcery {
 namespace Enums {
-	namespace Magic { enum class SpellID; }
+	namespace Magic {
+		enum class SpellID;
+		enum class SpellType;
+	}
 }
 }
 namespace Sorcery {
@@ -239,7 +242,13 @@ class UI {
 		auto draw_pay_info() -> void;
 		auto draw_options() -> void;
 		auto draw_save() -> void;
+		auto draw_character_spells(Component *component,
+								   const Character *character,
+								   const Enums::Magic::SpellType spell_type)
+			-> void;
 		auto draw_spell_info() -> void;
+		auto draw_spell_info_contents(const Enums::Magic::SpellID spell_id,
+									  const Enums::Layout::Font font) -> void;
 		auto draw_party_panel() -> void;
 		auto draw_party_wipe() -> void;
 		auto draw_transient() -> void;

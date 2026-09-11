@@ -91,10 +91,10 @@
 	},
 	"cmake.debugConfig": {
 		"args": [
-			"--Dmute",
-			"--Dquickstart",
-			"--Dstart-engine",
-			"--Dgo-to"
+			"--mute",
+			"--quickstart",
+			"--start-engine",
+			"--go-to"
 		]
 	},
 	"editor.fontSize": 12,
