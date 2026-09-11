@@ -217,10 +217,6 @@ class UI {
 									 const Character *character) -> void;
 		auto draw_character_detailed_again(Component *component,
 										   const Character *character) -> void;
-		auto draw_character_mage_spells(Component *component,
-										const Character *character) -> void;
-		auto draw_character_priest_spells(Component *component,
-										  const Character *character) -> void;
 		auto draw_character_summary(Component *component,
 									const Character *character) -> void;
 		auto draw_compass() -> void;
@@ -258,6 +254,8 @@ class UI {
 							const MapView &view) -> MapGeometry;
 		auto draw_map_player(const MapGeometry &geometry) -> void;
 
+		auto reset_character_spell_view() -> void;
+
 		// Public Members
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
@@ -289,6 +287,10 @@ class UI {
 		std::vector<unsigned int> _attract_data;
 		std::string _imgui_ini_path;
 		std::optional<TransientMessage> _transient_message;
+
+		std::optional<Enums::Magic::SpellID> _character_spell_selected;
+		bool _reset_arcane_spell_tab{false};
+		bool _reset_divine_spell_tab{false};
 
 		auto _get_status_color(Character *character) const -> ImVec4;
 		auto _setup_windows() -> void;

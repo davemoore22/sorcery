@@ -1152,107 +1152,6 @@ auto Sorcery::UI::draw_character_detailed(Component *component,
 			.c_str());
 }
 
-auto Sorcery::UI::draw_character_mage_spells(Component *component,
-											 const Character *character)
-	-> void {
-
-	ImVec2 pos{metrics->grid_pos(component->x, component->y)};
-	ImGui::SetCursorPos(pos);
-	with_Table("mage_spells_1", 3, ImGuiTableFlags_NoSavedSettings) {
-
-		UIStyle::set_faded_with_disabled(_ctx);
-
-		// Row order since we need to do via rows not columns
-		auto comp_id{""s};
-		auto spell_idx{0};
-		for (auto spell_order = {0,	 4,	 6,	 1,	 5,	 7,	 2,	 -1, -1, 3,	 -1,
-								 -1, -1, -1, -1, 8,	 11, 14, 9,	 12, 15, 10,
-								 13, 16, -1, -1, 17, -1, -1, -1, 18, 19, 20};
-			 const int index : spell_order) {
-			comp_id = std::format("##spell_{}", spell_idx);
-			if (index != -1) {
-				ImGui::TableNextColumn();
-
-				auto spell_id{enum_cast<Enums::Magic::SpellID>(index).value()};
-				auto spells{character->magic().get_spells() |
-							std::views::filter([&](Spell spell) {
-								return (spell.id == spell_id);
-							})};
-				auto spell{spells.begin()};
-
-				if (!(*spell).known)
-					ImGui::BeginDisabled();
-
-				if (ImGui::Selectable(
-						(*spell).name.c_str(),
-						&ms_selected[_mage_spell_index(spell_id)])) {
-				};
-
-				if (!(*spell).known)
-					ImGui::EndDisabled();
-
-			} else {
-				ImGui::TableNextColumn();
-				ImGui::BeginDisabled();
-				ImGui::Selectable(comp_id.c_str());
-				ImGui::EndDisabled();
-			}
-			++spell_idx;
-		}
-	}
-}
-
-auto Sorcery::UI::draw_character_priest_spells(Component *component,
-											   const Character *character)
-	-> void {
-
-	auto pos{metrics->grid_pos(component->x, component->y)};
-	ImGui::SetCursorPos(pos);
-	with_Table("priest_spells_1", 3, ImGuiTableFlags_NoSavedSettings) {
-
-		UIStyle::set_faded_with_disabled(_ctx);
-
-		// Row order since we need to do via rows not columns
-		auto comp_id{""s};
-		auto spell_idx{0};
-		for (auto spell_order = {21, 26, 30, 22, 27, 31, 23, 28, 32, 24, 29,
-								 33, 25, -1, -1, -1, -1, -1, 34, 38, 44, 35,
-								 39, 45, 36, 40, 46, 37, 41, 47, -1, 42, -1,
-								 -1, 43, -1, -1, -1, -1, 48, 49, -1};
-			 const auto index : spell_order) {
-			comp_id = std::format("##spell_{}", spell_idx);
-			if (index != -1) {
-				ImGui::TableNextColumn();
-
-				auto spell_id{enum_cast<Enums::Magic::SpellID>(index).value()};
-				auto spells{character->magic().get_spells() |
-							std::views::filter([&](Spell spell) {
-								return (spell.id == spell_id);
-							})};
-				auto spell{spells.begin()};
-
-				if (!(*spell).known)
-					ImGui::BeginDisabled();
-
-				if (ImGui::Selectable(
-						(*spell).name.c_str(),
-						&ps_selected[_priest_spell_index(spell_id)])) {
-				};
-
-				if (!(*spell).known)
-					ImGui::EndDisabled();
-
-			} else {
-				ImGui::TableNextColumn();
-				ImGui::BeginDisabled();
-				ImGui::Selectable(comp_id.c_str());
-				ImGui::EndDisabled();
-			}
-			++spell_idx;
-		}
-	}
-}
-
 auto Sorcery::UI::draw_character_detailed_again(Component *component,
 												const Character *character)
 	-> void {
@@ -3950,7 +3849,6 @@ auto Sorcery::UI::draw_spell_info_contents(const Enums::Magic::SpellID spell_id,
 
 	ImGui::TextWrapped("%s", spell.details.c_str());
 }
-
 auto Sorcery::UI::draw_character_spells(
 	Component *component, const Character *character,
 	const Enums::Magic::SpellType spell_type) -> void {
@@ -3962,32 +3860,82 @@ auto Sorcery::UI::draw_character_spells(
 						  ? "arcane_spell_levels"
 						  : "divine_spell_levels"};
 
+	auto &reset_tab{spell_type == Enums::Magic::SpellType::ARCANE
+						? _reset_arcane_spell_tab
+						: _reset_divine_spell_tab};
+
 	with_TabBar(tab_id, ImGuiTabBarFlags_None) {
 
 		for (auto level = 1u; level <= 7u; ++level) {
 
 			const auto label{std::format("Lv.{}", level)};
 
-			with_TabItem(label.c_str()) {
+			const auto tab_flags{reset_tab && level == 1u
+									 ? ImGuiTabItemFlags_SetSelected
+									 : ImGuiTabItemFlags_None};
 
-				for (const auto &spell : character->magic().get_spells()) {
+			with_TabItem(label.c_str(), nullptr, tab_flags) {
 
-					const auto spell_data{
-						_ctx.resources->spells->get(spell.id)};
+				ImGui::NewLine();
 
-					if (spell_data.type != spell_type ||
-						spell_data.level != level)
-						continue;
+				with_Table("spell_level", 2,
+						   ImGuiTableFlags_NoSavedSettings |
+							   ImGuiTableFlags_SizingStretchProp) {
 
-					if (!spell.known)
-						ImGui::BeginDisabled();
+					ImGui::TableSetupColumn(
+						"Spells", ImGuiTableColumnFlags_WidthStretch, 0.30f);
 
-					ImGui::Selectable(spell_data.name.c_str());
+					ImGui::TableSetupColumn("Information",
+											ImGuiTableColumnFlags_WidthStretch,
+											0.70f);
 
-					if (!spell.known)
-						ImGui::EndDisabled();
+					ImGui::TableNextColumn();
+
+					const Spell *selected_spell{nullptr};
+
+					for (const auto &spell : character->magic().get_spells()) {
+
+						if (spell.type != spell_type || spell.level != level)
+							continue;
+
+						const auto selected{_character_spell_selected &&
+											*_character_spell_selected ==
+												spell.id};
+
+						if (!spell.known)
+							ImGui::BeginDisabled();
+
+						if (ImGui::Selectable(spell.name.c_str(), selected)) {
+
+							_character_spell_selected = spell.id;
+						}
+
+						if (!spell.known)
+							ImGui::EndDisabled();
+
+						if (_character_spell_selected &&
+							*_character_spell_selected == spell.id)
+							selected_spell = &spell;
+					}
+
+					reset_tab = false;
+
+					ImGui::TableNextColumn();
+
+					if (selected_spell) {
+						draw_spell_info_contents(selected_spell->id,
+												 component->font);
+					}
 				}
 			}
 		}
 	}
+}
+
+auto Sorcery::UI::reset_character_spell_view() -> void {
+
+	_character_spell_selected.reset();
+
+	_reset_arcane_spell_tab = true;
+	_reset_divine_spell_tab = true;
 }

@@ -104,6 +104,7 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 
 		if (_ctx.controller->has_flag("select_previous_character")) {
 
+			_ctx.ui->reset_character_spell_view();
 			const auto p_size{_ctx.game->state->get_party_size()};
 			const int char_id{
 				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
@@ -118,6 +119,7 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 			_ctx.controller->unset_flag("select_previous_character");
 		} else if (_ctx.controller->has_flag("select_next_character")) {
 
+			_ctx.ui->reset_character_spell_view();
 			const auto p_size{_ctx.game->state->get_party_size()};
 			const int char_id{
 				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
