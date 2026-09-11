@@ -189,7 +189,8 @@ auto Sorcery::Inventory::identify_item(const unsigned int slot,
 	if (roll < curse_chance) {
 		if (candidate.get_cursed()) {
 			cursed = true;
-			candidate.set_equipped(true);
+			_force_equip_item(slot);
+			candidate.set_known(true);
 		}
 	}
 
@@ -224,6 +225,27 @@ auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 
 	candidate.set_equipped(true);
 	candidate.set_known(true);
+
+	return true;
+}
+
+auto Sorcery::Inventory::_force_equip_item(const unsigned int slot) -> bool {
+
+	if (!_valid_slot(slot))
+		return false;
+
+	auto &candidate{_items.at(slot - 1)};
+	const auto category{candidate.get_category()};
+
+	if (_has_cursed_equipped_item_category(category))
+		return false;
+
+	for (auto &item : _items) {
+		if (item.get_category() == category && item.get_equipped())
+			item.set_equipped(false);
+	}
+
+	candidate.set_equipped(true);
 
 	return true;
 }

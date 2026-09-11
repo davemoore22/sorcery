@@ -434,12 +434,55 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 
 		if (selection == static_cast<int>(items.size()) - 1) {
 
-			_host.set_flag("want_identify");
 			_ctx.ui->popup_manager->close();
 
-		} else {
+			return true;
+		}
 
-			// TODO
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(
+			_host.get_character(Enums::CharacterSlot::INSPECT))};
+
+		using enum Enums::Character::Ability;
+		using enum Enums::Items::IdentifyOutcome;
+		using enum Enums::System::Random;
+
+		const auto roll{_ctx.get_random(D100)};
+
+		const auto outcome{character.inventory.identify_item(
+			static_cast<unsigned int>(data), roll,
+			character.abilities().at(IDENTIFY_ITEMS),
+			character.abilities().at(IDENTIFY_CURSE))};
+
+		if (outcome == NONE)
+			return true;
+
+		_host._game->save_game();
+
+		_ctx.ui->popup_manager->close();
+
+		switch (outcome) {
+
+		case SUCCESS:
+			_ctx.ui->popup_manager->open_dialog("global:notice_success",
+												Enums::Layout::DialogType::OK);
+			break;
+
+		case FAIL:
+			_ctx.ui->popup_manager->open_dialog("global:notice_failed",
+												Enums::Layout::DialogType::OK);
+			break;
+
+		case CURSED_SUCCESS:
+		case CURSED_FAIL:
+			_ctx.ui->popup_manager->open_dialog("global:notice_cursed",
+												Enums::Layout::DialogType::OK);
+			break;
+
+		default:
+			break;
 		}
 
 		return true;

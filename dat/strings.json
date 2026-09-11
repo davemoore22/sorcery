@@ -752,6 +752,8 @@
 	"TEMPLE_HEALED_PREFIX": "*",
 	"TEMPLE_HEALED_SUFFIX": "has been cured *",
 	"NOTICE_CURSED": "* Cursed *",
+	"NOTICE_FAILED": "Failed!",
+	"NOTICE_SUCCESS": "Success!",
 	"DIALOG_FAILED": "Failed",
 	"DIALOG_SUCCESS": "Success!",
 	"CONFIRM_DROP_ITEM": "Are you sure?",

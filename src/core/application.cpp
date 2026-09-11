@@ -594,6 +594,8 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 								  false);
 			pc.inventory.add_type(ctx.resources->items->get(LONG_SWORD_PLUS_2),
 								  false);
+			pc.inventory.add_type(ctx.resources->items->get(ROBE_OF_CURSES),
+								  false);
 
 			break;
 		case THIEF:
