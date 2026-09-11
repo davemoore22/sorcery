@@ -47,6 +47,11 @@ auto Sorcery::Inventory::get(const unsigned int slot) -> Item {
 	return _items.at(slot - 1);
 }
 
+auto Sorcery::Inventory::get(const unsigned int slot) const -> Item {
+
+	return _items.at(slot - 1);
+}
+
 auto Sorcery::Inventory::has(const unsigned int slot) const -> bool {
 
 	return _items.size() >= (slot - 1);
@@ -212,6 +217,9 @@ auto Sorcery::Inventory::equip_item(const unsigned int slot) -> bool {
 	auto &candidate{_items.at(slot - 1)};
 	const auto item_category{candidate.get_category()};
 
+	if (!is_equippable_category(item_category))
+		return false;
+
 	if (!candidate.get_usable())
 		return false;
 
@@ -342,6 +350,44 @@ auto Sorcery::Inventory::_has_cursed_equipped_item_category(
 auto Sorcery::Inventory::_valid_slot(const unsigned int slot) const -> bool {
 
 	return slot > 0 && slot <= _items.size();
+}
+
+const auto Sorcery::Inventory::is_equippable_category(
+	const Enums::Items::Category category) const -> bool {
+
+	using enum Enums::Items::Category;
+
+	switch (category) {
+	case WEAPON:
+	case ARMOUR:
+	case SHIELD:
+	case HELMET:
+	case GAUNTLETS:
+	case MISCELLANEOUS:
+		return true;
+
+	default:
+		return false;
+	}
+}
+
+const auto Sorcery::Inventory::is_equippable_category(
+	const Enums::Items::Category category) -> bool {
+
+	using enum Enums::Items::Category;
+
+	switch (category) {
+	case WEAPON:
+	case ARMOUR:
+	case SHIELD:
+	case HELMET:
+	case GAUNTLETS:
+	case MISCELLANEOUS:
+		return true;
+
+	default:
+		return false;
+	}
 }
 
 namespace Sorcery {

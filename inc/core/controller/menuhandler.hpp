@@ -43,6 +43,7 @@ namespace Sorcery { struct MenuAction; }
 namespace Sorcery {
 namespace Enums {
 	namespace MenuAction { enum class Function; }
+	namespace Items { enum class Category; }
 }
 }
 

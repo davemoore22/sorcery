@@ -78,6 +78,7 @@ class Inventory {
 						   const unsigned int curse_chance)
 			-> Enums::Items::IdentifyOutcome;
 		auto get(const unsigned int slot) -> Item;
+		auto get(const unsigned int slot) const -> Item;
 		auto has(const unsigned int slot) const -> bool;
 		auto has_item(const Enums::Items::TypeID item_type) const -> bool;
 
@@ -85,6 +86,10 @@ class Inventory {
 
 		auto invoke_item(const unsigned int slot) -> bool;
 		auto use_item(const unsigned int slot) -> bool;
+		auto is_equippable_category(const Enums::Items::Category category)
+			-> bool;
+		auto is_equippable_category(const Enums::Items::Category category) const
+			-> bool;
 
 	private:
 		// Private Methods

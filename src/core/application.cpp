@@ -537,7 +537,9 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 	}
 
 	for (int i = 0; i < 12; i++) {
+
 		auto pc{Character(&ctx)};
+
 		align = i > 5 ? first : second;
 
 		switch (i % 6) {
@@ -569,40 +571,39 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 		pc.create().set_stage(Enums::Character::Stage::COMPLETED);
 		pc.inventory.clear();
 
+		const auto add_item = [&](const Enums::Items::TypeID id,
+								  const bool known) {
+			const auto &item_type{ctx.resources->items->get(id)};
+
+			pc.inventory.add_type(
+				item_type, item_type.is_class_usable(pc.get_class()), known);
+		};
+
 		switch (pc.get_class()) { // NOLINT(clang-diagnostic-switch)
 			using enum Enums::Character::Class;
 			using enum Enums::Items::TypeID;
 		case FIGHTER:
 		case LORD:
 		case SAMURAI:
-			pc.inventory.add_type(ctx.resources->items->get(LEATHER_ARMOR),
-								  true);
-			pc.inventory.add_type(ctx.resources->items->get(LONG_SWORD), true);
+			add_item(LEATHER_ARMOR, true);
+			add_item(LONG_SWORD, true);
 			break;
 		case MAGE:
-			pc.inventory.add_type(ctx.resources->items->get(ROBE_OF_CURSES),
-								  true);
-			pc.inventory.add_type(ctx.resources->items->get(DAGGER), true);
-			pc.inventory.equip_item(1); // 1-indexed
-			pc.inventory.equip_item(2);
+			add_item(ROBE_OF_CURSES, true);
+			add_item(DAGGER, true);
 			break;
 		case PRIEST:
 		case BISHOP:
-			pc.inventory.add_type(ctx.resources->items->get(ROBES), true);
-			pc.inventory.add_type(ctx.resources->items->get(STAFF), true);
-			pc.inventory.add_type(ctx.resources->items->get(POTION_OF_DIOS),
-								  false);
-			pc.inventory.add_type(ctx.resources->items->get(LONG_SWORD_PLUS_2),
-								  false);
-			pc.inventory.add_type(ctx.resources->items->get(ROBE_OF_CURSES),
-								  false);
-
+			add_item(ROBES, true);
+			add_item(STAFF, true);
+			add_item(POTION_OF_DIOS, false);
+			add_item(LONG_SWORD_PLUS_2, false);
+			add_item(ROBE_OF_CURSES, false);
 			break;
 		case THIEF:
 		case NINJA:
-			pc.inventory.add_type(ctx.resources->items->get(LEATHER_ARMOR),
-								  true);
-			pc.inventory.add_type(ctx.resources->items->get(SHORT_SWORD), true);
+			add_item(LEATHER_ARMOR, true);
+			add_item(SHORT_SWORD, true);
 		default:
 			break;
 		}

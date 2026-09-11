@@ -886,7 +886,7 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
 			return false;
 
-		auto &inventory{
+		const auto &inventory{
 			_host._game->characters
 				.at(_host.get_character(Enums::CharacterSlot::INSPECT))
 				.inventory};
@@ -896,11 +896,16 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 
 		const auto item{inventory.get(static_cast<unsigned int>(data))};
 
-		if (item.get_equipped() || !item.get_usable())
+		if (!inventory.is_equippable_category(item.get_category()))
+			return true;
+
+		if (!item.get_usable())
+			return true;
+
+		if (item.get_equipped())
 			return true;
 
 		return inventory.has_cursed_equipped_item_category(item.get_category());
-
 	} else if (component == "remove_item_menu") {
 
 		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
