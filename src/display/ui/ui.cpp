@@ -1462,12 +1462,15 @@ auto Sorcery::UI::draw_current_character([[maybe_unused]] const int mode)
 				with_TabItem("Info") {
 					draw_character_summary(&char_cmp, &character);
 				}
-				with_TabItem("Stats##1") {
-					draw_character_detailed(&char_cmp, &character);
+				with_TabItem("Stats") {
+					draw_character_stats(&char_cmp, &character);
 				}
-				with_TabItem("Stats##2") {
-					draw_character_detailed_again(&char_cmp, &character);
-				}
+				// with_TabItem("Stats##1") {
+				//	draw_character_detailed(&char_cmp, &character);
+				// }
+				// with_TabItem("Stats##2") {
+				//	draw_character_detailed_again(&char_cmp, &character);
+				// }
 				with_TabItem("Arcane") {
 					draw_character_spells(&char_cmp, &character,
 										  Enums::Magic::SpellType::ARCANE);
@@ -3938,4 +3941,280 @@ auto Sorcery::UI::reset_character_spell_view() -> void {
 
 	_reset_arcane_spell_tab = true;
 	_reset_divine_spell_tab = true;
+}
+
+auto Sorcery::UI::draw_character_stats(Component *component,
+									   const Character *character) -> void {
+
+	const auto pos{metrics->grid_pos(component->x, component->y)};
+	ImGui::SetCursorPos(pos);
+
+	with_TabBar("character_stats_tabs", ImGuiTabBarFlags_None) {
+
+		with_TabItem("Str") {
+			draw_character_strength(component, character);
+		}
+
+		with_TabItem("IQ") {
+			draw_character_iq(component, character);
+		}
+
+		with_TabItem("Pie") {
+			draw_character_piety(component, character);
+		}
+
+		with_TabItem("Vit") {
+			draw_character_vitality(component, character);
+		}
+
+		with_TabItem("Agi") {
+			draw_character_agility(component, character);
+		}
+
+		with_TabItem("Lk") {
+			draw_character_luck(component, character);
+		}
+
+		with_TabItem("Res") {
+			draw_character_res(component, character);
+		}
+	}
+}
+
+auto Sorcery::UI::draw_stat_heading(const std::string_view name,
+									const unsigned value) -> void {
+
+	UIStyle::set_text_bright(_ctx);
+
+	ImGui::TextUnformatted(std::format("{:>14} {:>2}", name, value).c_str());
+}
+
+auto Sorcery::UI::draw_stat_value(const std::string_view name, const int value)
+	-> void {
+
+	UIStyle::set_text_dark(_ctx);
+
+	ImGui::TextUnformatted(std::format("{:>14} {:>2}", name, value).c_str());
+}
+
+auto Sorcery::UI::draw_stat_percent(const std::string_view name,
+									const int value) -> void {
+
+	UIStyle::set_text_dark(_ctx);
+
+	ImGui::TextUnformatted(std::format("{:>14} {:>2}%", name, value).c_str());
+}
+
+auto Sorcery::UI::draw_stat_modifier(const std::string_view name,
+									 const int value) -> void {
+
+	UIStyle::set_text_dark(_ctx);
+
+	ImGui::TextUnformatted(std::format("{:>14} {:+2}", name, value).c_str());
+}
+
+auto Sorcery::UI::draw_character_strength([[maybe_unused]] Component *component,
+										  const Character *character) -> void {
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Attribute;
+
+	ImGui::NewLine();
+
+	draw_stat_heading("Strength", character->get_cur_attr(STRENGTH));
+
+	ImGui::NewLine();
+
+	draw_stat_modifier("Atk Mod", character->abilities().at(ATTACK_MODIFIER));
+
+	draw_stat_modifier("Hit Prob", character->abilities().at(HIT_PROBABILITY));
+
+	draw_stat_modifier("Bonus Damg", character->abilities().at(BONUS_DAMAGE));
+
+	draw_stat_value("Num Attacks",
+					character->abilities().at(BASE_NUMBER_OF_ATTACKS));
+
+	draw_stat_value("Unarmed Damg", character->abilities().at(UNARMED_DAMAGE));
+}
+
+auto Sorcery::UI::draw_character_vitality([[maybe_unused]] Component *component,
+										  const Character *character) -> void {
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Attribute;
+
+	ImGui::NewLine();
+
+	draw_stat_heading("Vitality", character->get_cur_attr(VITALITY));
+
+	ImGui::NewLine();
+
+	draw_stat_modifier("Vit Bonus", character->abilities().at(VITALITY_BONUS));
+
+	draw_stat_modifier("Bonus HP", character->abilities().at(BONUS_HIT_POINTS));
+
+	draw_stat_percent("Ress / Dead", character->abilities().at(DEAD_RESURRECT));
+
+	draw_stat_percent("Ress / Ashes",
+					  character->abilities().at(ASHES_RESURRECT));
+
+	draw_stat_percent("Ress / Spell",
+					  character->abilities().at(DI_KADORTO_RESURRECT));
+}
+
+auto Sorcery::UI::draw_character_iq([[maybe_unused]] Component *component,
+									const Character *character) -> void {
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Attribute;
+
+	ImGui::NewLine();
+
+	draw_stat_heading("I.Q.", character->get_cur_attr(IQ));
+
+	ImGui::NewLine();
+
+	draw_stat_percent("Spell Learn",
+					  character->abilities().at(MAGE_SPELL_LEARN));
+
+	draw_stat_percent("ID Items", character->abilities().at(IDENTIFY_ITEMS));
+
+	draw_stat_percent("ID Curse", character->abilities().at(IDENTIFY_CURSE));
+
+	draw_stat_percent("ID Foes", character->abilities().at(IDENTIFY_FOES));
+}
+
+auto Sorcery::UI::draw_character_agility([[maybe_unused]] Component *component,
+										 const Character *character) -> void {
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Attribute;
+
+	ImGui::NewLine();
+
+	draw_stat_heading("Agility", character->get_cur_attr(AGILITY));
+
+	ImGui::NewLine();
+
+	draw_stat_modifier("Int Mod",
+					   character->abilities().at(INITIATIVE_MODIFIER));
+
+	draw_stat_percent("Crit Hit", character->abilities().at(BASE_CRITICAL_HIT));
+
+	draw_stat_percent("ID Trap", character->abilities().at(IDENTIFY_TRAP));
+
+	draw_stat_percent("Disarm Trap",
+					  character->abilities().at(BASE_DISARM_TRAP));
+
+	draw_stat_percent("Avoid Trap",
+					  100 - character->abilities().at(ACTIVATE_TRAP));
+
+	draw_stat_percent("Avoid Pit", character->abilities().at(BASE_AVOID_PIT));
+}
+
+auto Sorcery::UI::draw_character_piety([[maybe_unused]] Component *component,
+									   const Character *character) -> void {
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Attribute;
+
+	ImGui::NewLine();
+
+	draw_stat_heading("Piety", character->get_cur_attr(PIETY));
+
+	ImGui::NewLine();
+
+	draw_stat_percent("Spell Learn",
+					  character->abilities().at(PRIEST_SPELL_LEARN));
+
+	draw_stat_percent("Rec Chance",
+					  character->abilities().at(LOKTOFELT_SUCCESS));
+
+	draw_stat_percent("Base Dispell", character->abilities().at(BASE_DISPELL));
+}
+
+auto Sorcery::UI::draw_character_luck([[maybe_unused]] Component *component,
+									  const Character *character) -> void {
+
+	using enum Enums::Character::Ability;
+	using enum Enums::Character::Attribute;
+
+	ImGui::NewLine();
+
+	draw_stat_heading("Luck", character->get_cur_attr(LUCK));
+
+	ImGui::NewLine();
+
+	draw_stat_percent("Res Bonus",
+					  character->abilities().at(BASE_RESIST_BONUS));
+
+	draw_stat_percent("Wipe Rec",
+					  character->abilities().at(EQUIPMENT_INTACT_ON_WIPE));
+}
+auto Sorcery::UI::draw_character_res([[maybe_unused]] Component *component,
+									 const Character *character) -> void {
+
+	using enum Enums::Character::Ability;
+
+	ImGui::NewLine();
+	ImGui::TextUnformatted("Resistances");
+	ImGui::NewLine();
+
+	with_Table("character_resistances", 2,
+			   ImGuiTableFlags_NoSavedSettings |
+				   ImGuiTableFlags_SizingStretchSame) {
+
+		ImGui::TableNextColumn();
+		draw_stat_percent(
+			"vs Crit Hit",
+			character->abilities().at(RESISTANCE_VS_CRITICAL_HIT) * 5);
+
+		ImGui::TableNextColumn();
+		draw_stat_percent("vs Sleep",
+						  character->abilities().at(RESISTANCE_VS_KATINO));
+
+		ImGui::TableNextColumn();
+		draw_stat_percent(
+			"vs Pois / Para",
+			character->abilities().at(RESISTANCE_VS_POISON_PARALYSIS) * 5);
+
+		ImGui::TableNextColumn();
+		draw_stat_percent("vs Death",
+						  character->abilities().at(RESISTANCE_VS_BADI));
+
+		ImGui::TableNextColumn();
+		draw_stat_percent("vs Stoning",
+						  character->abilities().at(RESISTANCE_VS_STONING) * 5);
+
+		ImGui::TableNextColumn();
+		draw_stat_percent("vs Statue",
+						  character->abilities().at(RESISTANCE_VS_MANIFO));
+
+		ImGui::TableNextColumn();
+		draw_stat_percent(
+			"vs Breath",
+			character->abilities().at(RESISTANCE_VS_BREATH_ATTACKS) * 5);
+
+		ImGui::TableNextColumn();
+		draw_stat_percent("Rec / Sleep",
+						  character->abilities().at(RECOVER_FROM_SLEEP) * 5);
+
+		ImGui::TableNextColumn();
+		draw_stat_percent(
+			"vs Gas Trap",
+			character->abilities().at(RESISTANCE_VS_POISON_GAS_TRAP) * 5);
+
+		ImGui::TableNextColumn();
+		draw_stat_percent("Rec / Fear",
+						  character->abilities().at(RECOVER_FROM_FEAR) * 5);
+
+		ImGui::TableNextColumn();
+		draw_stat_percent(
+			"vs Spell Trap",
+			character->abilities().at(RESISTANCE_VS_MAGE_PRIEST_TRAP) * 5);
+
+		ImGui::TableNextColumn();
+		draw_stat_percent("vs Silence",
+						  character->abilities().at(RESISTANCE_VS_SILENCE) * 5);
+	}
 }

@@ -256,6 +256,32 @@ class UI {
 
 		auto reset_character_spell_view() -> void;
 
+		auto draw_character_stats(Component *component,
+								  const Character *character) -> void;
+
+		auto draw_stat_heading(const std::string_view name,
+							   const unsigned value) -> void;
+		auto draw_stat_value(const std::string_view name, const int value)
+			-> void;
+		auto draw_stat_percent(const std::string_view name, const int value)
+			-> void;
+		auto draw_stat_modifier(const std::string_view name, const int value)
+			-> void;
+		auto draw_character_strength([[maybe_unused]] Component *component,
+									 const Character *character) -> void;
+		auto draw_character_vitality([[maybe_unused]] Component *component,
+									 const Character *character) -> void;
+		auto draw_character_iq([[maybe_unused]] Component *component,
+							   const Character *character) -> void;
+		auto draw_character_agility([[maybe_unused]] Component *component,
+									const Character *character) -> void;
+		auto draw_character_piety([[maybe_unused]] Component *component,
+								  const Character *character) -> void;
+		auto draw_character_luck([[maybe_unused]] Component *component,
+								 const Character *character) -> void;
+		auto draw_character_res([[maybe_unused]] Component *component,
+								const Character *character) -> void;
+
 		// Public Members
 		std::unique_ptr<ImageStore> images;
 		std::unique_ptr<ComponentStore> components;
