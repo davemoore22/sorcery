@@ -28,11 +28,11 @@
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp" // for BACK_TO_EDGE_OF_TOWN, ABORT_GAME
-#include "types/game.hpp"		// for Game
-#include <SDL_events.h>			// for SDL_PollEvent
-#include <any>					// for any
-#include <string>				// for basic_string
+#include "drawables/define.hpp"				// for BACK_TO_EDGE_OF_TOWN, ABORT_GAME
+#include "types/game.hpp"					// for Game
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
+#include <string>							// for basic_string
 
 Sorcery::Restart::Restart(Context &ctx)
 	: Module{ctx} {
@@ -60,9 +60,7 @@ auto Sorcery::Restart::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -88,8 +86,7 @@ auto Sorcery::Restart::start() -> int {
 
 		if (_ctx.controller->has_flag("want_restart_expedition")) {
 			return RESTART_MAZE;
-		} else if (!_ctx.controller->wants(Enums::Screen::RESTART) &&
-				   _ctx.controller->wants(Enums::Screen::EDGEOFTOWN))
+		} else if (!_ctx.controller->wants(Enums::Screen::RESTART) && _ctx.controller->wants(Enums::Screen::EDGEOFTOWN))
 			return BACK_TO_EDGE_OF_TOWN;
 	}
 

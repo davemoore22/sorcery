@@ -60,9 +60,7 @@ auto Sorcery::Add::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -86,8 +84,7 @@ auto Sorcery::Add::start() -> int {
 		_ctx.ui->display_screen(Enums::Screen::ADD, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::ADD) &&
-			_ctx.controller->wants(Enums::Screen::TAVERN))
+		if (!_ctx.controller->wants(Enums::Screen::ADD) && _ctx.controller->wants(Enums::Screen::TAVERN))
 			return BACK_TO_TAVERN;
 	}
 

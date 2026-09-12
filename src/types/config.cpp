@@ -26,8 +26,7 @@
 #include "core/macro.hpp"	// for CSTR
 #include "types/define.hpp" // for NUM_GAME_SETTINGS, OPT_AMBUSH_HIDE, OPT_...
 
-Sorcery::Config::Config(CSimpleIniA *settings,
-						const std::filesystem::path cfg_path)
+Sorcery::Config::Config(CSimpleIniA *settings, const std::filesystem::path cfg_path)
 	: _settings{settings},
 	  _cfg_path{cfg_path} {
 
@@ -39,12 +38,10 @@ auto Sorcery::Config::get(const unsigned int i) -> bool & {
 	return _options.at(i);
 }
 
-auto Sorcery::Config::get(std::string_view section,
-						  std::string_view value) const -> std::string {
+auto Sorcery::Config::get(std::string_view section, std::string_view value) const -> std::string {
 
 	// Get a value from the config file
-	return _settings->GetValue(CSTR(std::string{section}),
-							   CSTR(std::string{value}));
+	return _settings->GetValue(CSTR(std::string{section}), CSTR(std::string{value}));
 }
 
 bool Sorcery::Config::has_changed() {
@@ -93,8 +90,7 @@ auto Sorcery::Config::_load() -> bool {
 	_options[CLASS_CHANGE_AGING] = option.compare(on) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(OPT_AMBUSH_HIDE), off);
 	_options[AMBUSH_HIDE] = option.compare(on) == 0;
-	option =
-		_settings->GetValue("Gameplay", CSTR(OPT_SURPRISE_SPELLCASTING), off);
+	option = _settings->GetValue("Gameplay", CSTR(OPT_SURPRISE_SPELLCASTING), off);
 	_options[SURPRISE_SPELLCASTING] = option.compare(on) == 0;
 	option = _settings->GetValue("Gameplay", CSTR(OPT_INN_HEALING), off);
 	_options[INN_HEALING] = option.compare(on) == 0;
@@ -123,50 +119,28 @@ auto Sorcery::Config::_load() -> bool {
 bool Sorcery::Config::save() {
 
 	using enum Enums::Config::Options;
-	_settings->SetValue("Options", CSTR(OPT_RECOMMENDED_MODE),
-						BOOL2OPTIONCSTR(_options[RECOMMENDED_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_STRICT_MODE),
-						BOOL2OPTIONCSTR(_options[STRICT_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_CHEAT_MODE),
-						BOOL2OPTIONCSTR(_options[CHEAT_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE),
-						BOOL2OPTIONCSTR(_options[AUTO_SAVE]));
-	_settings->SetValue("Options", CSTR(OPT_DICE_ROLLS),
-						BOOL2OPTIONCSTR(_options[DICE_ROLLS]));
-	_settings->SetValue("Gameplay", CSTR(OPT_MIXED_ALIGNMENT),
-						BOOL2OPTIONCSTR(_options[MIXED_ALIGNMENT]));
-	_settings->SetValue("Gameplay", CSTR(OPT_LEVEL_STAT_LOSS),
-						BOOL2OPTIONCSTR(_options[LEVEL_STAT_LOSS]));
-	_settings->SetValue("Gameplay", CSTR(OPT_LEVEL_REROLL_HP),
-						BOOL2OPTIONCSTR(_options[LEVEL_REROLL_HP]));
-	_settings->SetValue("Gameplay", CSTR(OPT_CLASS_CHANGE_RESET),
-						BOOL2OPTIONCSTR(_options[CLASS_CHANGE_RESET]));
-	_settings->SetValue("Gameplay", CSTR(OPT_CLASS_CHANGE_AGING),
-						BOOL2OPTIONCSTR(_options[CLASS_CHANGE_AGING]));
-	_settings->SetValue("Gameplay", CSTR(OPT_AMBUSH_HIDE),
-						BOOL2OPTIONCSTR(_options[AMBUSH_HIDE]));
-	_settings->SetValue("Gameplay", CSTR(OPT_SURPRISE_SPELLCASTING),
-						BOOL2OPTIONCSTR(_options[SURPRISE_SPELLCASTING]));
-	_settings->SetValue("Gameplay", CSTR(OPT_INN_HEALING),
-						BOOL2OPTIONCSTR(_options[INN_HEALING]));
-	_settings->SetValue("Gameplay", CSTR(OPT_REROLL_ONES),
-						BOOL2OPTIONCSTR(_options[REROLL_ONES]));
-	_settings->SetValue("Gameplay", CSTR(OPT_LOST_LEGATION),
-						BOOL2OPTIONCSTR(_options[LOST_LEGATION]));
-	_settings->SetValue("Gameplay", CSTR(OPT_CURABLE_DRAINING),
-						BOOL2OPTIONCSTR(_options[CURABLE_DRAIN]));
-	_settings->SetValue("Gameplay", CSTR(OPT_SHARED_INVENTORY),
-						BOOL2OPTIONCSTR(_options[SHARED_INVENTORY]));
-	_settings->SetValue("Gameplay", CSTR(OPT_PROTECT_TELEPORT),
-						BOOL2OPTIONCSTR(_options[PROTECT_TELEPORT]));
-	_settings->SetValue("Graphics", CSTR(OPT_CGA_GRAPHICS),
-						BOOL2OPTIONCSTR(_options[CGA_GRAPHICS]));
-	_settings->SetValue("Graphics", CSTR(OPT_FULLSCREEN),
-						BOOL2OPTIONCSTR(_options[FULLSCREEN]));
-	_settings->SetValue("Media", CSTR(OPT_SOUND),
-						BOOL2OPTIONCSTR(_options[SOUND]));
-	_settings->SetValue("Media", CSTR(OPT_MUSIC),
-						BOOL2OPTIONCSTR(_options[MUSIC]));
+	_settings->SetValue("Options", CSTR(OPT_RECOMMENDED_MODE), BOOL2OPTIONCSTR(_options[RECOMMENDED_MODE]));
+	_settings->SetValue("Options", CSTR(OPT_STRICT_MODE), BOOL2OPTIONCSTR(_options[STRICT_MODE]));
+	_settings->SetValue("Options", CSTR(OPT_CHEAT_MODE), BOOL2OPTIONCSTR(_options[CHEAT_MODE]));
+	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE), BOOL2OPTIONCSTR(_options[AUTO_SAVE]));
+	_settings->SetValue("Options", CSTR(OPT_DICE_ROLLS), BOOL2OPTIONCSTR(_options[DICE_ROLLS]));
+	_settings->SetValue("Gameplay", CSTR(OPT_MIXED_ALIGNMENT), BOOL2OPTIONCSTR(_options[MIXED_ALIGNMENT]));
+	_settings->SetValue("Gameplay", CSTR(OPT_LEVEL_STAT_LOSS), BOOL2OPTIONCSTR(_options[LEVEL_STAT_LOSS]));
+	_settings->SetValue("Gameplay", CSTR(OPT_LEVEL_REROLL_HP), BOOL2OPTIONCSTR(_options[LEVEL_REROLL_HP]));
+	_settings->SetValue("Gameplay", CSTR(OPT_CLASS_CHANGE_RESET), BOOL2OPTIONCSTR(_options[CLASS_CHANGE_RESET]));
+	_settings->SetValue("Gameplay", CSTR(OPT_CLASS_CHANGE_AGING), BOOL2OPTIONCSTR(_options[CLASS_CHANGE_AGING]));
+	_settings->SetValue("Gameplay", CSTR(OPT_AMBUSH_HIDE), BOOL2OPTIONCSTR(_options[AMBUSH_HIDE]));
+	_settings->SetValue("Gameplay", CSTR(OPT_SURPRISE_SPELLCASTING), BOOL2OPTIONCSTR(_options[SURPRISE_SPELLCASTING]));
+	_settings->SetValue("Gameplay", CSTR(OPT_INN_HEALING), BOOL2OPTIONCSTR(_options[INN_HEALING]));
+	_settings->SetValue("Gameplay", CSTR(OPT_REROLL_ONES), BOOL2OPTIONCSTR(_options[REROLL_ONES]));
+	_settings->SetValue("Gameplay", CSTR(OPT_LOST_LEGATION), BOOL2OPTIONCSTR(_options[LOST_LEGATION]));
+	_settings->SetValue("Gameplay", CSTR(OPT_CURABLE_DRAINING), BOOL2OPTIONCSTR(_options[CURABLE_DRAIN]));
+	_settings->SetValue("Gameplay", CSTR(OPT_SHARED_INVENTORY), BOOL2OPTIONCSTR(_options[SHARED_INVENTORY]));
+	_settings->SetValue("Gameplay", CSTR(OPT_PROTECT_TELEPORT), BOOL2OPTIONCSTR(_options[PROTECT_TELEPORT]));
+	_settings->SetValue("Graphics", CSTR(OPT_CGA_GRAPHICS), BOOL2OPTIONCSTR(_options[CGA_GRAPHICS]));
+	_settings->SetValue("Graphics", CSTR(OPT_FULLSCREEN), BOOL2OPTIONCSTR(_options[FULLSCREEN]));
+	_settings->SetValue("Media", CSTR(OPT_SOUND), BOOL2OPTIONCSTR(_options[SOUND]));
+	_settings->SetValue("Media", CSTR(OPT_MUSIC), BOOL2OPTIONCSTR(_options[MUSIC]));
 
 	// Save current settings to ini file
 	SI_Error result{_settings->SaveFile(CSTR(_cfg_path))};
@@ -181,38 +155,32 @@ auto Sorcery::Config::store() -> void {
 
 auto Sorcery::Config::set_rec_mode() -> void {
 
-	std::array<bool, NUM_GAME_SETTINGS> rec{
-		true,  false, false, false, true,  true, false,
-		false, false, false, true,	false, true, true,
-		true,  true,  true,	 true,	true,  true, true};
+	std::array<bool, NUM_GAME_SETTINGS> rec{true,  false, false, false, true, true, false, false, false, false, true,
+											false, true,  true,	 true,	true, true, true,  true,  true,	 true};
 	std::swap(_options, rec);
 }
 
 auto Sorcery::Config::set_strict_mode() -> void {
 
-	std::array<bool, NUM_GAME_SETTINGS> strict{
-		false, true,  false, true,	false, false, true,
-		true,  true,  true,	 false, false, false, false,
-		false, false, false, false, false, false, false};
+	std::array<bool, NUM_GAME_SETTINGS> strict{false, true,	 false, true,  false, false, true,
+											   true,  true,	 true,	false, false, false, false,
+											   false, false, false, false, false, false, false};
 	std::swap(_options, strict);
 }
 
 auto Sorcery::Config::is_strict_mode() const -> bool {
 
-	std::array<bool, NUM_GAME_SETTINGS> strict{
-		false, true,  false, true,	false, true,  true,
-		true,  true,  true,	 false, false, false, false,
-		false, false, false, false, false, false, false};
+	std::array<bool, NUM_GAME_SETTINGS> strict{false, true,	 false, true,  false, true,	 true,
+											   true,  true,	 true,	false, false, false, false,
+											   false, false, false, false, false, false, false};
 
 	return _options == strict;
 }
 
 auto Sorcery::Config::is_rec_mode() const -> bool {
 
-	std::array<bool, NUM_GAME_SETTINGS> rec{
-		true,  false, false, false, true,  true, false,
-		false, false, false, true,	false, true, true,
-		true,  true,  true,	 true,	true,  true, true};
+	std::array<bool, NUM_GAME_SETTINGS> rec{true,  false, false, false, true, true, false, false, false, false, true,
+											false, true,  true,	 true,	true, true, true,  true,  true,	 true};
 
 	return _options == rec;
 }

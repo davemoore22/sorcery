@@ -28,8 +28,7 @@ Sorcery::Image::Image()
 	  width{0},
 	  height{0} {};
 
-Sorcery::Image::Image(std::string key_, GLuint texture_, int width_,
-					  int height_)
+Sorcery::Image::Image(std::string key_, GLuint texture_, int width_, int height_)
 	: key{key_},
 	  texture{texture_},
 	  width{width_},

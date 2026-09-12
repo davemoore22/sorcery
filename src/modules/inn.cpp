@@ -28,12 +28,12 @@
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp" // for ABORT_GAME, INSPECT_MODE_ACTIONS
-#include "modules/inspect.hpp"	// for Inspect
-#include "modules/stay.hpp"		// for Stay
-#include <SDL_events.h>			// for SDL_PollEvent
-#include <any>					// for any
-#include <string>				// for basic_string
+#include "drawables/define.hpp"				// for ABORT_GAME, INSPECT_MODE_ACTIONS
+#include "modules/inspect.hpp"				// for Inspect
+#include "modules/stay.hpp"					// for Stay
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
+#include <string>							// for basic_string
 
 Sorcery::Inn::Inn(Context &ctx)
 	: Module{ctx} {
@@ -69,9 +69,7 @@ auto Sorcery::Inn::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -95,14 +93,12 @@ auto Sorcery::Inn::start() -> int {
 		_ctx.ui->display_screen(Enums::Screen::INN, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::INN) &&
-			_ctx.controller->wants(Enums::Screen::CASTLE))
+		if (!_ctx.controller->wants(Enums::Screen::INN) && _ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 
 		if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
-			const auto result{_inspect->start(
-				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+			const auto result{_inspect->start(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
+											  _ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);

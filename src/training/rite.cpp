@@ -61,8 +61,7 @@ auto Sorcery::Rite::start() -> int {
 
 	show_immediately();
 
-	_ctx.ui->popup_manager->open_dialog("rite:dialog_rite",
-										Enums::Layout::DialogType::CONFIRM);
+	_ctx.ui->popup_manager->open_dialog("rite:dialog_rite", Enums::Layout::DialogType::CONFIRM);
 
 	_ctx.audio->set_volume(1.0f);
 
@@ -104,8 +103,7 @@ auto Sorcery::Rite::start() -> int {
 
 		_ctx.tick();
 
-		if (const auto result{
-				_ctx.ui->popup_manager->consume_result("dialog_rite")}) {
+		if (const auto result{_ctx.ui->popup_manager->consume_result("dialog_rite")}) {
 
 			using enum DrawableResult;
 
@@ -134,9 +132,7 @@ auto Sorcery::Rite::start() -> int {
 
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return ABORT_GAME;
@@ -168,8 +164,7 @@ auto Sorcery::Rite::start() -> int {
 
 			_rite_tick = 0;
 
-			auto &character{_ctx.game->characters.at(
-				_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+			auto &character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
 
 			const auto alignment{character.get_alignment()};
 
@@ -177,9 +172,8 @@ auto Sorcery::Rite::start() -> int {
 
 			_ctx.game->save_game();
 
-			const auto result{_inspect->start(
-				INSPECT_MODE_BASE,
-				_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+			const auto result{
+				_inspect->start(INSPECT_MODE_BASE, _ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
 
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
@@ -203,8 +197,7 @@ auto Sorcery::Rite::stop() -> int {
 	return 0;
 }
 
-auto Sorcery::Rite::_callback_rite_tick(std::uint32_t, void *param)
-	-> std::uint32_t {
+auto Sorcery::Rite::_callback_rite_tick(std::uint32_t, void *param) -> std::uint32_t {
 
 	auto *rite{static_cast<Rite *>(param)};
 

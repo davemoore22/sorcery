@@ -146,8 +146,7 @@ auto Sorcery::Monster::set_name(const std::string value) -> void {
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Monster &monster)
-	-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Monster &monster) -> std::ostream & {
 
 	const auto type{std::to_underlying(monster.get_type_id())};
 	const auto name{monster.get_name()};

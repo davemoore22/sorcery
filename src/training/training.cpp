@@ -29,14 +29,14 @@
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp" // for ABORT_GAME, BACK_TO_EDGE_OF_TOWN
-#include "training/create.hpp"	// for Create
-#include "training/delete.hpp"	// for Delete
-#include "training/edit.hpp"	// for Edit
-#include "training/roster.hpp"	// for Roster
-#include "types/game.hpp"		// for Game
-#include <SDL_events.h>			// for SDL_PollEvent
-#include <any>					// for any
+#include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_EDGE_OF_TOWN
+#include "training/create.hpp"				// for Create
+#include "training/delete.hpp"				// for Delete
+#include "training/edit.hpp"				// for Edit
+#include "training/roster.hpp"				// for Roster
+#include "types/game.hpp"					// for Game
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
 
 Sorcery::Training::Training(Context &ctx)
 	: Module{ctx} {
@@ -96,8 +96,7 @@ auto Sorcery::Training::start() -> int {
 		_ctx.ui->display_screen(Enums::Screen::TRAINING, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::TRAINING) &&
-			_ctx.controller->wants(Enums::Screen::EDGEOFTOWN)) {
+		if (!_ctx.controller->wants(Enums::Screen::TRAINING) && _ctx.controller->wants(Enums::Screen::EDGEOFTOWN)) {
 
 			_ctx.game->save_game();
 

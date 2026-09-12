@@ -21,9 +21,9 @@
 // the resulting work.
 
 #include "training/create.hpp"
-#include "common/enum.hpp"				  // for Stage, Stage::CHOOSE_ALIGNMENT
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
+#include "common/enum.hpp"					// for Stage, Stage::CHOOSE_ALIGNMENT
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
@@ -60,8 +60,7 @@ auto Sorcery::Create::start() -> int {
 	show_immediately();
 
 	_ctx.game->creation_candidate = std::make_shared<Character>(&_ctx);
-	_ctx.game->creation_candidate->create().reset(
-		Enums::Character::Stage::ENTER_NAME);
+	_ctx.game->creation_candidate->create().reset(Enums::Character::Stage::ENTER_NAME);
 
 	auto candidate{_ctx.game->creation_candidate};
 
@@ -74,9 +73,7 @@ auto Sorcery::Create::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -100,39 +97,28 @@ auto Sorcery::Create::start() -> int {
 		using enum Enums::Character::Stage;
 		switch (candidate->create().get_stage()) {
 		case ENTER_NAME:
-			_ctx.ui->display_screen(
-				Enums::Screen::CREATE_NAME,
-				std::to_underlying(candidate->create().get_stage()));
+			_ctx.ui->display_screen(Enums::Screen::CREATE_NAME, std::to_underlying(candidate->create().get_stage()));
 
-			if (candidate->create().get_stage() !=
-				Enums::Character::Stage::ENTER_NAME) {
+			if (candidate->create().get_stage() != Enums::Character::Stage::ENTER_NAME) {
 				candidate->create().set_stage(CHOOSE_RACE);
 			}
 			break;
 		case CHOOSE_RACE:
-			_ctx.ui->display_screen(
-				Enums::Screen::CREATE_RACE,
-				std::to_underlying(candidate->create().get_stage()));
-			if (candidate->create().get_stage() !=
-				Enums::Character::Stage::CHOOSE_RACE) {
+			_ctx.ui->display_screen(Enums::Screen::CREATE_RACE, std::to_underlying(candidate->create().get_stage()));
+			if (candidate->create().get_stage() != Enums::Character::Stage::CHOOSE_RACE) {
 				candidate->create().set_stage(CHOOSE_ALIGNMENT);
 			}
 			break;
 		case CHOOSE_ALIGNMENT:
-			_ctx.ui->display_screen(
-				Enums::Screen::CREATE_ALIGNMENT,
-				std::to_underlying(candidate->create().get_stage()));
-			if (candidate->create().get_stage() !=
-				Enums::Character::Stage::CHOOSE_ALIGNMENT) {
+			_ctx.ui->display_screen(Enums::Screen::CREATE_ALIGNMENT,
+									std::to_underlying(candidate->create().get_stage()));
+			if (candidate->create().get_stage() != Enums::Character::Stage::CHOOSE_ALIGNMENT) {
 				candidate->create().set_stage(CHOOSE_CLASS);
 			}
 			break;
 		case CHOOSE_CLASS:
-			_ctx.ui->display_screen(
-				Enums::Screen::CREATE_CLASS,
-				std::to_underlying(candidate->create().get_stage()));
-			if (candidate->create().get_stage() !=
-				Enums::Character::Stage::CHOOSE_CLASS) {
+			_ctx.ui->display_screen(Enums::Screen::CREATE_CLASS, std::to_underlying(candidate->create().get_stage()));
+			if (candidate->create().get_stage() != Enums::Character::Stage::CHOOSE_CLASS) {
 				candidate->create().finalise();
 				candidate->create().set_stage(REVIEW_AND_CONFIRM);
 			}
@@ -140,14 +126,11 @@ auto Sorcery::Create::start() -> int {
 		case REVIEW_AND_CONFIRM:
 
 			// Order is changed to avoid doing a display before returning after
-			if (candidate->create().get_stage() !=
-				Enums::Character::Stage::REVIEW_AND_CONFIRM) {
+			if (candidate->create().get_stage() != Enums::Character::Stage::REVIEW_AND_CONFIRM) {
 				return BACK_TO_TRAINING_GROUNDS;
 			}
 
-			_ctx.ui->display_screen(
-				Enums::Screen::CREATE_CONFIRM,
-				std::to_underlying(candidate->create().get_stage()));
+			_ctx.ui->display_screen(Enums::Screen::CREATE_CONFIRM, std::to_underlying(candidate->create().get_stage()));
 
 			if (_ctx.controller->has_flag("confirm_keep_character")) {
 

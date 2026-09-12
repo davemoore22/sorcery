@@ -42,9 +42,7 @@ Sorcery::SpellBook::SpellBook(Context &ctx)
 
 auto Sorcery::SpellBook::_initialise() -> bool {
 
-	_ctx.controller->set_selected(
-		"spellbook_selected",
-		std::to_underlying(Enums::Magic::SpellID::DUMAPIC));
+	_ctx.controller->set_selected("spellbook_selected", std::to_underlying(Enums::Magic::SpellID::DUMAPIC));
 
 	return true;
 }
@@ -62,9 +60,7 @@ auto Sorcery::SpellBook::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();

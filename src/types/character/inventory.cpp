@@ -34,8 +34,7 @@ Sorcery::Inventory::Inventory() {
 	_items.clear();
 }
 
-auto Sorcery::Inventory::operator[](const unsigned int slot)
-	-> std::optional<Item *> {
+auto Sorcery::Inventory::operator[](const unsigned int slot) -> std::optional<Item *> {
 
 	if (_items.size() >= (slot - 1))
 		return &_items.at(slot - 1);
@@ -88,8 +87,7 @@ auto Sorcery::Inventory::is_empty() const -> bool {
 	return _items.empty();
 }
 
-auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool known)
-	-> bool {
+auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool known) -> bool {
 
 	if (_items.size() != 8) {
 		Item item{item_type};
@@ -106,8 +104,7 @@ auto Sorcery::Inventory::add(Item item) -> void {
 	_items.emplace_back(item);
 }
 
-auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool usable,
-								  const bool known) -> bool {
+auto Sorcery::Inventory::add_type(const ItemType &item_type, const bool usable, const bool known) -> bool {
 
 	if (_items.size() != 8) {
 		Item item{item_type};
@@ -160,8 +157,7 @@ auto Sorcery::Inventory::is_equipped_cursed(const unsigned int slot) -> bool {
 	return candidate.get_cursed() && candidate.get_equipped();
 }
 
-auto Sorcery::Inventory::_unequip_item_category(
-	const Enums::Items::Category category) -> bool {
+auto Sorcery::Inventory::_unequip_item_category(const Enums::Items::Category category) -> bool {
 
 	for (auto &item : _items) {
 		if (item.get_equipped() && item.get_category() == category) {
@@ -174,11 +170,8 @@ auto Sorcery::Inventory::_unequip_item_category(
 }
 
 // Attempt to identify an Item
-auto Sorcery::Inventory::identify_item(const unsigned int slot,
-									   const unsigned int roll,
-									   const unsigned int id_chance,
-									   const unsigned int curse_chance)
-	-> Enums::Items::IdentifyOutcome {
+auto Sorcery::Inventory::identify_item(const unsigned int slot, const unsigned int roll, const unsigned int id_chance,
+									   const unsigned int curse_chance) -> Enums::Items::IdentifyOutcome {
 
 	auto cursed{false};
 	auto success{false};
@@ -277,8 +270,7 @@ auto Sorcery::Inventory::unequip_item(const unsigned int slot) -> bool {
 	return true;
 }
 
-auto Sorcery::Inventory::discard_item(const Enums::Items::TypeID item_type)
-	-> bool {
+auto Sorcery::Inventory::discard_item(const Enums::Items::TypeID item_type) -> bool {
 
 	const auto it{std::ranges::find_if(_items, [item_type](const auto &item) {
 		return item.get_type_id() == item_type;
@@ -307,8 +299,7 @@ auto Sorcery::Inventory::drop_item(const unsigned int slot) -> bool {
 	return true;
 }
 
-auto Sorcery::Inventory::has_item(const Enums::Items::TypeID item_type) const
-	-> bool {
+auto Sorcery::Inventory::has_item(const Enums::Items::TypeID item_type) const -> bool {
 
 	return std::ranges::any_of(_items, [item_type](const auto &item) {
 		return item.get_type_id() == item_type;
@@ -326,25 +317,21 @@ auto Sorcery::Inventory::discard_item(const unsigned int slot) -> bool {
 	return true;
 }
 
-auto Sorcery::Inventory::_has_equipped_item_category(
-	Enums::Items::Category category) const -> bool {
+auto Sorcery::Inventory::_has_equipped_item_category(Enums::Items::Category category) const -> bool {
 
 	return std::ranges::any_of(_items, [category](const auto &item) {
 		return item.get_category() == category && item.get_equipped();
 	});
 }
-auto Sorcery::Inventory::has_cursed_equipped_item_category(
-	const Enums::Items::Category category) const -> bool {
+auto Sorcery::Inventory::has_cursed_equipped_item_category(const Enums::Items::Category category) const -> bool {
 
 	return _has_cursed_equipped_item_category(category);
 }
 
-auto Sorcery::Inventory::_has_cursed_equipped_item_category(
-	Enums::Items::Category category) const -> bool {
+auto Sorcery::Inventory::_has_cursed_equipped_item_category(Enums::Items::Category category) const -> bool {
 
 	return std::ranges::any_of(_items, [category](const auto &item) {
-		return item.get_category() == category && item.get_equipped() &&
-			   item.get_cursed();
+		return item.get_category() == category && item.get_equipped() && item.get_cursed();
 	});
 }
 
@@ -353,8 +340,7 @@ auto Sorcery::Inventory::_valid_slot(const unsigned int slot) const -> bool {
 	return slot > 0 && slot <= _items.size();
 }
 
-const auto Sorcery::Inventory::is_equippable_category(
-	const Enums::Items::Category category) const -> bool {
+const auto Sorcery::Inventory::is_equippable_category(const Enums::Items::Category category) const -> bool {
 
 	using enum Enums::Items::Category;
 
@@ -372,8 +358,7 @@ const auto Sorcery::Inventory::is_equippable_category(
 	}
 }
 
-const auto Sorcery::Inventory::is_equippable_category(
-	const Enums::Items::Category category) -> bool {
+const auto Sorcery::Inventory::is_equippable_category(const Enums::Items::Category category) -> bool {
 
 	using enum Enums::Items::Category;
 
@@ -391,8 +376,7 @@ const auto Sorcery::Inventory::is_equippable_category(
 	}
 }
 
-auto Sorcery::Inventory::replace_item(const unsigned int slot, Item item)
-	-> bool {
+auto Sorcery::Inventory::replace_item(const unsigned int slot, Item item) -> bool {
 
 	if (!_valid_slot(slot))
 		return false;
@@ -404,16 +388,14 @@ auto Sorcery::Inventory::replace_item(const unsigned int slot, Item item)
 
 auto Sorcery::Inventory::get_regeneration() const -> int {
 
-	return std::ranges::fold_left(
-		_items, 0, [](const int regeneration, const Item &item) {
-			return std::max(regeneration, item.get_regen());
-		});
+	return std::ranges::fold_left(_items, 0, [](const int regeneration, const Item &item) {
+		return std::max(regeneration, item.get_regen());
+	});
 }
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &inventory)
-	-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &inventory) -> std::ostream & {
 
 	using namespace std::string_literals;
 

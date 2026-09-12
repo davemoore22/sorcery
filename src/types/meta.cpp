@@ -35,24 +35,20 @@ namespace {
 
 	template <Enum E> consteval auto make_enum_entries() {
 
-		static constexpr auto enumerators{
-			std::define_static_array(std::meta::enumerators_of(^^E))};
+		static constexpr auto enumerators{std::define_static_array(std::meta::enumerators_of(^^E))};
 
-		std::array<std::pair<E, std::string_view>, enumerators.size()>
-			entries{};
+		std::array<std::pair<E, std::string_view>, enumerators.size()> entries{};
 
 		std::size_t index{};
 
 		template for (constexpr auto enumerator : enumerators) {
-			entries[index++] = {[:enumerator:], std::meta::identifier_of(
-													enumerator)};
+			entries[index++] = {[:enumerator:], std::meta::identifier_of(enumerator)};
 		}
 
 		return entries;
 	}
 
-	template <Enum E>
-	inline constexpr auto enum_entries{make_enum_entries<E>()};
+	template <Enum E> inline constexpr auto enum_entries{make_enum_entries<E>()};
 
 } // namespace
 
@@ -74,8 +70,7 @@ template <Enum E> auto enum_cast(std::string_view name) -> std::optional<E> {
 	return std::nullopt;
 }
 
-template <Enum E>
-auto enum_cast_signed(std::intmax_t value) -> std::optional<E> {
+template <Enum E> auto enum_cast_signed(std::intmax_t value) -> std::optional<E> {
 
 	for (const auto &entry : enum_entries<E>)
 		if (std::cmp_equal(std::to_underlying(entry.first), value))
@@ -84,8 +79,7 @@ auto enum_cast_signed(std::intmax_t value) -> std::optional<E> {
 	return std::nullopt;
 }
 
-template <Enum E>
-auto enum_cast_unsigned(std::uintmax_t value) -> std::optional<E> {
+template <Enum E> auto enum_cast_unsigned(std::uintmax_t value) -> std::optional<E> {
 
 	for (const auto &entry : enum_entries<E>)
 		if (std::cmp_equal(std::to_underlying(entry.first), value))
@@ -94,10 +88,10 @@ auto enum_cast_unsigned(std::uintmax_t value) -> std::optional<E> {
 	return std::nullopt;
 }
 
-#define INSTANTIATE_ENUM(E)                                                    \
-	template auto enum_name(E)->std::string_view;                              \
-	template auto enum_cast<E>(std::string_view)->std::optional<E>;            \
-	template auto enum_cast_signed<E>(std::intmax_t)->std::optional<E>;        \
+#define INSTANTIATE_ENUM(E)                                                                                            \
+	template auto enum_name(E)->std::string_view;                                                                      \
+	template auto enum_cast<E>(std::string_view)->std::optional<E>;                                                    \
+	template auto enum_cast_signed<E>(std::intmax_t)->std::optional<E>;                                                \
 	template auto enum_cast_unsigned<E>(std::uintmax_t) -> std::optional<E>
 
 INSTANTIATE_ENUM(Enums::CharacterSlot);

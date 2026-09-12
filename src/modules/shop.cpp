@@ -70,9 +70,7 @@ auto Sorcery::Shop::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -96,8 +94,7 @@ auto Sorcery::Shop::start() -> int {
 		_ctx.ui->display_screen(Enums::Screen::SHOP, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::SHOP) &&
-			_ctx.controller->wants(Enums::Screen::CASTLE))
+		if (!_ctx.controller->wants(Enums::Screen::SHOP) && _ctx.controller->wants(Enums::Screen::CASTLE))
 			return BACK_TO_CASTLE;
 		else if (_ctx.controller->has_character(Enums::CharacterSlot::STORE)) {
 			const auto result{_store->start()};
@@ -105,11 +102,9 @@ auto Sorcery::Shop::start() -> int {
 				return ABORT_GAME;
 			_store->stop();
 			_ctx.controller->clear_character(Enums::CharacterSlot::STORE);
-		} else if (_ctx.controller->has_character(
-					   Enums::CharacterSlot::INSPECT)) {
-			const auto result{_inspect->start(
-				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+		} else if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
+			const auto result{_inspect->start(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
+											  _ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);

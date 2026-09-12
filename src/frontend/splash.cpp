@@ -27,13 +27,13 @@
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/ui.hpp"				// for UI
-#include "imgui.h"					// for ImGuiMouseCursor_, SetMouseCursor
-#include "resources/define.hpp"		// for BANNER_TEXTURE
-#include "resources/imagestore.hpp" // for ImageStore
-#include <SDL_events.h>				// for SDL_PollEvent
-#include <chrono>					// for chrono_literals
-#include <string>					// for basic_string, string
-#include <string_view>				// for basic_string_view
+#include "imgui.h"							// for ImGuiMouseCursor_, SetMouseCursor
+#include "resources/define.hpp"				// for BANNER_TEXTURE
+#include "resources/imagestore.hpp"			// for ImageStore
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <chrono>							// for chrono_literals
+#include <string>							// for basic_string, string
+#include <string_view>						// for basic_string_view
 
 Sorcery::Splash::Splash(Context &ctx)
 	: Module{ctx} {

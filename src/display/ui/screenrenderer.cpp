@@ -25,10 +25,10 @@
 #include "core/context.hpp"					 // for Context
 #include "core/controller/actionhandler.hpp" // for ControllerActionHandler
 #include "core/controller/controller.hpp"	 // for Controller
-#include "core/define.hpp"	   // for WINDOW_LAYER_MENUS, WINDOW_...
-#include "core/enum.hpp"	   // for Screen, CharacterSlot
-#include "display/display.hpp" // for Display, DisplayMetrics
-#include "display/render.hpp"  // for Render
+#include "core/define.hpp"					 // for WINDOW_LAYER_MENUS, WINDOW_...
+#include "core/enum.hpp"					 // for Screen, CharacterSlot
+#include "display/display.hpp"				 // for Display, DisplayMetrics
+#include "display/render.hpp"				 // for Render
 #include "display/ui/popupmanager.hpp"
 #include "display/ui/ui.hpp"			 // for UI
 #include "display/ui/uimetrics.hpp"		 // for UIMetrics
@@ -111,10 +111,8 @@ Sorcery::ScreenRenderer::ScreenRenderer(UI &ui, Context &ctx)
 	_draw_modules_with_int = {
 		{Enums::Screen::CREATE_NAME, &ScreenRenderer::_display_create_name},
 		{Enums::Screen::CREATE_RACE, &ScreenRenderer::_display_create_race},
-		{Enums::Screen::CREATE_ALIGNMENT,
-		 &ScreenRenderer::_display_create_alignment},
-		{Enums::Screen::CREATE_CONFIRM,
-		 &ScreenRenderer::_display_create_confirm},
+		{Enums::Screen::CREATE_ALIGNMENT, &ScreenRenderer::_display_create_alignment},
+		{Enums::Screen::CREATE_CONFIRM, &ScreenRenderer::_display_create_confirm},
 		{Enums::Screen::CREATE_CLASS, &ScreenRenderer::_display_create_class},
 		{Enums::Screen::CHEST, &ScreenRenderer::_display_chest},
 		{Enums::Screen::HEAL, &ScreenRenderer::_display_heal},
@@ -131,23 +129,19 @@ Sorcery::ScreenRenderer::ScreenRenderer(UI &ui, Context &ctx)
 	};
 }
 
-auto Sorcery::ScreenRenderer::display(const Enums::Screen screen,
-									  const std::any &payload) -> void {
+auto Sorcery::ScreenRenderer::display(const Enums::Screen screen, const std::any &payload) -> void {
 
 	if (const auto it{_draw_modules.find(screen)}; it != _draw_modules.end()) {
 
 		std::invoke(it->second, this);
 
-	} else if (const auto it{_draw_modules_with_int.find(screen)};
-			   it != _draw_modules_with_int.end()) {
+	} else if (const auto it{_draw_modules_with_int.find(screen)}; it != _draw_modules_with_int.end()) {
 
 		std::invoke(it->second, this, std::any_cast<int>(payload));
 
-	} else if (const auto it{_draw_modules_with_string.find(screen)};
-			   it != _draw_modules_with_string.end()) {
+	} else if (const auto it{_draw_modules_with_string.find(screen)}; it != _draw_modules_with_string.end()) {
 
-		std::invoke(it->second, this,
-					std::any_cast<const std::string &>(payload));
+		std::invoke(it->second, this, std::any_cast<const std::string &>(payload));
 	}
 }
 
@@ -475,8 +469,7 @@ auto Sorcery::ScreenRenderer::_display_options() -> void {
 	_ui.draw_options();
 }
 
-auto Sorcery::ScreenRenderer::_display_license(const std::string &string)
-	-> void {
+auto Sorcery::ScreenRenderer::_display_license(const std::string &string) -> void {
 
 	_ui.draw_components("license");
 	_ui.draw_bg_video();
@@ -485,8 +478,7 @@ auto Sorcery::ScreenRenderer::_display_license(const std::string &string)
 	_draw_license(&component, string);
 }
 
-auto Sorcery::ScreenRenderer::_display_create_alignment(const int mode)
-	-> void {
+auto Sorcery::ScreenRenderer::_display_create_alignment(const int mode) -> void {
 
 	_ui.draw_components("create_alignment", mode);
 	_draw_create_alignment(mode);
@@ -521,80 +513,67 @@ auto Sorcery::ScreenRenderer::_display_create_name(const int mode) -> void {
 auto Sorcery::ScreenRenderer::_draw_reclass() -> void {
 
 	auto cmp_summary{_ui.components->get("change_class:summary_text")};
-	auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+	auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
 	auto summary_text{character.summary_text()};
 	_ui.draw_text(&cmp_summary, summary_text);
 }
 
 auto Sorcery::ScreenRenderer::_draw_stay() -> void {
 
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
+	const auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 
 	auto cmp_welcome{_ui.components->get("stay:stay_welcome")};
-	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STAY_WELCOME_P"),
-								  character.get_name(),
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STAY_WELCOME_P"), character.get_name(),
 								  _ctx.get_string("STAY_WELCOME_S"))};
 	_ui.draw_text(&cmp_welcome, welcome_text);
 
 	auto cmp_gold{_ui.components->get("stay:stay_gold")};
-	auto gold_text{std::format("{}{}{}", _ctx.get_string("STAY_GOLD_P"),
-							   character.get_gold(),
-							   _ctx.get_string("STAY_GOLD_S"))};
+	auto gold_text{
+		std::format("{}{}{}", _ctx.get_string("STAY_GOLD_P"), character.get_gold(), _ctx.get_string("STAY_GOLD_S"))};
 	_ui.draw_text(&cmp_gold, gold_text);
 }
 
 auto Sorcery::ScreenRenderer::_draw_buy() -> void {
 
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
+	const auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
 
 	auto cmp_welcome{_ui.components->get("buy:buy_welcome")};
-	auto welcome_text{std::format("{}{}{}", _ctx.get_string("BUY_WELCOME_P"),
-								  character.get_name(),
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("BUY_WELCOME_P"), character.get_name(),
 								  _ctx.get_string("BUY_WELCOME_S"))};
 	_ui.draw_text(&cmp_welcome, welcome_text);
 
 	auto cmp_gold{_ui.components->get("buy:buy_gold")};
-	auto gold_text{std::format("{}{}{}", _ctx.get_string("BUY_GOLD_P"),
-							   character.get_gold(),
-							   _ctx.get_string("BUY_GOLD_S"))};
+	auto gold_text{
+		std::format("{}{}{}", _ctx.get_string("BUY_GOLD_P"), character.get_gold(), _ctx.get_string("BUY_GOLD_S"))};
 	_ui.draw_text(&cmp_gold, gold_text);
 }
 
 auto Sorcery::ScreenRenderer::_draw_sell() -> void {
 
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
+	const auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
 
 	auto cmp_welcome{_ui.components->get("sell:sell_welcome")};
-	auto welcome_text{std::format("{}{}{}", _ctx.get_string("SELL_WELCOME_P"),
-								  character.get_name(),
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("SELL_WELCOME_P"), character.get_name(),
 								  _ctx.get_string("SELL_WELCOME_S"))};
 	_ui.draw_text(&cmp_welcome, welcome_text);
 
 	auto cmp_gold{_ui.components->get("sell:sell_gold")};
-	auto gold_text{std::format("{}{}{}", _ctx.get_string("SELL_GOLD_P"),
-							   character.get_gold(),
-							   _ctx.get_string("SELL_GOLD_S"))};
+	auto gold_text{
+		std::format("{}{}{}", _ctx.get_string("SELL_GOLD_P"), character.get_gold(), _ctx.get_string("SELL_GOLD_S"))};
 	_ui.draw_text(&cmp_gold, gold_text);
 }
 
 auto Sorcery::ScreenRenderer::_draw_identify() -> void {
 
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
+	const auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
 
 	auto cmp_welcome{_ui.components->get("identify:identify_welcome")};
-	auto welcome_text{std::format(
-		"{}{}{}", _ctx.get_string("IDENTIFY_WELCOME_P"), character.get_name(),
-		_ctx.get_string("IDENTIFY_WELCOME_S"))};
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("IDENTIFY_WELCOME_P"), character.get_name(),
+								  _ctx.get_string("IDENTIFY_WELCOME_S"))};
 	_ui.draw_text(&cmp_welcome, welcome_text);
 
 	auto cmp_gold{_ui.components->get("identify:identify_gold")};
-	auto gold_text{std::format("{}{}{}", _ctx.get_string("IDENTIFY_GOLD_P"),
-							   character.get_gold(),
+	auto gold_text{std::format("{}{}{}", _ctx.get_string("IDENTIFY_GOLD_P"), character.get_gold(),
 							   _ctx.get_string("IDENTIFY_GOLD_S"))};
 	_ui.draw_text(&cmp_gold, gold_text);
 
@@ -604,18 +583,15 @@ auto Sorcery::ScreenRenderer::_draw_identify() -> void {
 
 auto Sorcery::ScreenRenderer::_draw_uncurse() -> void {
 
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
+	const auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
 
 	auto cmp_welcome{_ui.components->get("uncurse:uncurse_welcome")};
-	auto welcome_text{std::format(
-		"{}{}{}", _ctx.get_string("UNCURSE_WELCOME_P"), character.get_name(),
-		_ctx.get_string("UNCURSE_WELCOME_S"))};
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("UNCURSE_WELCOME_P"), character.get_name(),
+								  _ctx.get_string("UNCURSE_WELCOME_S"))};
 	_ui.draw_text(&cmp_welcome, welcome_text);
 
 	auto cmp_gold{_ui.components->get("uncurse:uncurse_gold")};
-	auto gold_text{std::format("{}{}{}", _ctx.get_string("UNCURSE_GOLD_P"),
-							   character.get_gold(),
+	auto gold_text{std::format("{}{}{}", _ctx.get_string("UNCURSE_GOLD_P"), character.get_gold(),
 							   _ctx.get_string("UNCURSE_GOLD_S"))};
 	_ui.draw_text(&cmp_gold, gold_text);
 
@@ -625,19 +601,16 @@ auto Sorcery::ScreenRenderer::_draw_uncurse() -> void {
 
 auto Sorcery::ScreenRenderer::_draw_store() -> void {
 
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
+	const auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STORE))};
 
 	auto cmp_welcome{_ui.components->get("store:store_welcome")};
-	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STORE_WELCOME_P"),
-								  character.get_name(),
+	auto welcome_text{std::format("{}{}{}", _ctx.get_string("STORE_WELCOME_P"), character.get_name(),
 								  _ctx.get_string("STORE_WELCOME_S"))};
 	_ui.draw_text(&cmp_welcome, welcome_text);
 
 	auto cmp_gold{_ui.components->get("store:store_gold")};
-	auto gold_text{std::format("{}{}{}", _ctx.get_string("STORE_GOLD_P"),
-							   character.get_gold(),
-							   _ctx.get_string("STORE_GOLD_S"))};
+	auto gold_text{
+		std::format("{}{}{}", _ctx.get_string("STORE_GOLD_P"), character.get_gold(), _ctx.get_string("STORE_GOLD_S"))};
 	_ui.draw_text(&cmp_gold, gold_text);
 }
 
@@ -645,8 +618,7 @@ auto Sorcery::ScreenRenderer::_draw_rename() -> void {
 
 	auto cmp_summary{_ui.components->get("rename:summary_text")};
 
-	const auto &character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+	const auto &character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
 
 	const auto summary_text{character.summary_text()};
 
@@ -670,8 +642,7 @@ auto Sorcery::ScreenRenderer::_draw_rename() -> void {
 	}
 }
 
-auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
-	-> void {
+auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state) -> void {
 
 	_ui.draw_components("engine_base_ui");
 
@@ -700,10 +671,7 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
 
 	const auto x{(_ui.metrics->grid_x(cmp.x) - (chest_w / 2)) + 2};
 
-	const auto adj_y{_ctx.get_flag("interface_ui") &&
-							 _ctx.get_flag("interface_party_panel")
-						 ? cmp.y
-						 : cmp.y + 7};
+	const auto adj_y{_ctx.get_flag("interface_ui") && _ctx.get_flag("interface_party_panel") ? cmp.y : cmp.y + 7};
 
 	const auto y{_ui.metrics->grid_y(adj_y) - (chest_h / 2)};
 
@@ -711,67 +679,52 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state)
 	const auto p_max{ImVec2{x + chest_w, y + chest_h}};
 
 	// Opaque backing behind the chest graphic.
-	with_Window(WINDOW_LAYER_IMAGES, nullptr,
-				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+	with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max,
-												  IM_COL32(0, 0, 0, 255));
+		ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, IM_COL32(0, 0, 0, 255));
 	}
 
-	_ui.draw_fg_image_with_idx(EVENTS_TEXTURE, chest_idx, p_min,
-							   ImVec2{chest_w, chest_h});
+	_ui.draw_fg_image_with_idx(EVENTS_TEXTURE, chest_idx, p_min, ImVec2{chest_w, chest_h});
 
 	_ui.draw_debug();
 	_ui.draw_ui_status();
 }
 
-auto Sorcery::ScreenRenderer::_draw_create_alignment(
-	[[maybe_unused]] const int mode) -> void {
+auto Sorcery::ScreenRenderer::_draw_create_alignment([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{_ui.components->get("create_alignment:summary_text")};
-	auto summary_text{
-		_ctx.controller->get_candidate_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_candidate_character()->summary_text()};
 	_ui.draw_text(&cmp_summary, summary_text);
 }
 
-auto Sorcery::ScreenRenderer::_draw_create_confirm(
-	[[maybe_unused]] const int mode) -> void {
+auto Sorcery::ScreenRenderer::_draw_create_confirm([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{_ui.components->get("create_confirm:summary_text")};
-	auto summary_text{
-		_ctx.controller->get_candidate_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_candidate_character()->summary_text()};
 	_ui.draw_text(&cmp_summary, summary_text);
 
 	auto cmp_char{_ui.components->get("create_confirm:character_data")};
-	with_Window(WINDOW_LAYER_TEXTS, nullptr,
-				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
-		set_Font(_ui.fonts->get_current_font(cmp_char.font).value(),
-				 _ui.metrics->font_sz());
-		_ui.draw_character_summary(&cmp_char,
-								   _ctx.controller->get_candidate_character());
+	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+		set_Font(_ui.fonts->get_current_font(cmp_char.font).value(), _ui.metrics->font_sz());
+		_ui.draw_character_summary(&cmp_char, _ctx.controller->get_candidate_character());
 	}
 }
 
-auto Sorcery::ScreenRenderer::_draw_create_class(
-	[[maybe_unused]] const int mode) -> void {
+auto Sorcery::ScreenRenderer::_draw_create_class([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{_ui.components->get("create_class:summary_text")};
-	auto summary_text{
-		_ctx.controller->get_candidate_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_candidate_character()->summary_text()};
 	_ui.draw_text(&cmp_summary, summary_text);
 
 	auto cmp_points_left{_ui.components->get("create_class:points_left_text")};
 	const auto points_left_text{
-		std::format("{:>2}", _ctx.controller->get_candidate_character()
-								 ->create()
-								 .get_points_left())};
+		std::format("{:>2}", _ctx.controller->get_candidate_character()->create().get_points_left())};
 	_ui.draw_text(&cmp_points_left, points_left_text);
 
 	// Now draw the class buttons
 	using enum Enums::Character::Attribute;
 	auto cmp_attribute{_ui.components->get("create_class:current_stats")};
-	for (auto i = std::to_underlying(STRENGTH); i <= std::to_underlying(LUCK);
-		 ++i) {
+	for (auto i = std::to_underlying(STRENGTH); i <= std::to_underlying(LUCK); ++i) {
 		auto attribute{_ctx.controller->get_candidate_character()->get_attr_ptr(
 			enum_cast<Enums::Character::Attribute>(i).value())};
 		auto cmp_name{std::format("stepper_attribute_{}", i)};
@@ -780,22 +733,18 @@ auto Sorcery::ScreenRenderer::_draw_create_class(
 	}
 }
 
-auto Sorcery::ScreenRenderer::_draw_create_race([[maybe_unused]] const int mode)
-	-> void {
+auto Sorcery::ScreenRenderer::_draw_create_race([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{_ui.components->get("create_race:summary_text")};
-	auto summary_text{
-		_ctx.controller->get_candidate_character()->summary_text()};
+	auto summary_text{_ctx.controller->get_candidate_character()->summary_text()};
 	_ui.draw_text(&cmp_summary, summary_text);
 }
 
-auto Sorcery::ScreenRenderer::_draw_create_name([[maybe_unused]] const int mode)
-	-> void {
+auto Sorcery::ScreenRenderer::_draw_create_name([[maybe_unused]] const int mode) -> void {
 
 	auto cmp_summary{_ui.components->get("create_name:summary_text")};
 
-	const auto summary_text{
-		_ctx.controller->get_candidate_character()->summary_text()};
+	const auto summary_text{_ctx.controller->get_candidate_character()->summary_text()};
 
 	_ui.draw_text(&cmp_summary, summary_text);
 
@@ -829,8 +778,7 @@ auto Sorcery::ScreenRenderer::_draw_choose(const int mode) -> void {
 
 auto Sorcery::ScreenRenderer::_draw_level_up(const int mode) -> void {
 
-	auto &character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
+	auto &character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 
 	if (mode & RECOVERY_BIRTHDAY) {
 
@@ -886,8 +834,7 @@ auto Sorcery::ScreenRenderer::_draw_heal(int stage) -> void {
 	if (!text.empty())
 		_ui.draw_text(&cmp, text);
 
-	if (_ctx.controller->has_flag("heal_finished") &&
-		_ctx.controller->has_text("heal_results")) {
+	if (_ctx.controller->has_flag("heal_finished") && _ctx.controller->has_text("heal_results")) {
 
 		auto summary{_ui.components->get("heal:heal_results")};
 		const auto results{_ctx.controller->get_text("heal_results")};
@@ -895,8 +842,7 @@ auto Sorcery::ScreenRenderer::_draw_heal(int stage) -> void {
 		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 			auto leave{_ui.components->get("heal:button_heal_return")};
-			_ui.draw_button_click(&leave, _ctx.get_flag_ref("heal_return"),
-								  true);
+			_ui.draw_button_click(&leave, _ctx.get_flag_ref("heal_return"), true);
 		}
 	}
 }
@@ -904,8 +850,7 @@ auto Sorcery::ScreenRenderer::_draw_heal(int stage) -> void {
 auto Sorcery::ScreenRenderer::_draw_rite(const int stage) -> void {
 
 	auto cmp_summary{_ui.components->get("rite:summary_text")};
-	auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
+	auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::EDIT))};
 	auto summary_text{character.summary_text()};
 	_ui.draw_text(&cmp_summary, summary_text);
 
@@ -953,12 +898,11 @@ auto Sorcery::ScreenRenderer::_draw_rite(const int stage) -> void {
 
 auto Sorcery::ScreenRenderer::_draw_no_level_up(const int mode) -> void {
 
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
+	const auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 	const auto birth_text{_ctx.get_string("REST_BIRTHDAY_YOU")};
 	const auto needed{character.get_next_xp() - character.get_cur_xp()};
-	const auto need_text{std::format("{}{}{}", _ctx.get_string("REST_NEED_1_P"),
-									 needed, _ctx.get_string("REST_NEED_1_S"))};
+	const auto need_text{
+		std::format("{}{}{}", _ctx.get_string("REST_NEED_1_P"), needed, _ctx.get_string("REST_NEED_1_S"))};
 	const auto make_text{_ctx.get_string("REST_NEED_2")};
 
 	if (mode & RECOVERY_BIRTHDAY) {
@@ -979,55 +923,47 @@ auto Sorcery::ScreenRenderer::_draw_no_level_up(const int mode) -> void {
 
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto leave{_ui.components->get("nolevelup:nolevelup_leave")};
-		_ui.draw_button_click(&leave, _ctx.get_flag_ref("show_nolevelup"),
-							  true);
+		_ui.draw_button_click(&leave, _ctx.get_flag_ref("show_nolevelup"), true);
 	}
 }
 
 auto Sorcery::ScreenRenderer::_draw_recovery(const int mode) -> void {
 
-	const auto character{_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
+	const auto character{_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STAY))};
 	if (mode == RECOVERY_MODE_FREE) {
 
 		auto cmp{_ui.components->get("recovery:recovery_napping")};
-		auto text{std::format("{}{}", character.get_name(),
-							  _ctx.get_string("RECOVERY_NAPPING"))};
+		auto text{std::format("{}{}", character.get_name(), _ctx.get_string("RECOVERY_NAPPING"))};
 		_ui.draw_text(&cmp, text);
 
 	} else {
 
 		auto cmp{_ui.components->get("recovery:recovery_recuperating")};
-		auto text{std::format("{} {}", character.get_name(),
-							  _ctx.get_string("REST_RECUPERATING"))};
+		auto text{std::format("{} {}", character.get_name(), _ctx.get_string("REST_RECUPERATING"))};
 		_ui.draw_text(&cmp, text);
 
 		cmp = _ui.components->get("recovery:recovery_recuperating_hp");
-		text = std::format("{} ({:>5}/{:>5})", _ctx.get_string("REST_HP"),
-						   character.get_current_hp(), character.get_max_hp());
+		text = std::format("{} ({:>5}/{:>5})", _ctx.get_string("REST_HP"), character.get_current_hp(),
+						   character.get_max_hp());
 		_ui.draw_text(&cmp, text);
 
 		cmp = _ui.components->get("recovery:recovery_recuperating_gold");
-		text = std::format("{} {:>7}", _ctx.get_string("REST_GOLD"),
-						   character.get_gold());
+		text = std::format("{} {:>7}", _ctx.get_string("REST_GOLD"), character.get_gold());
 		_ui.draw_text(&cmp, text);
 
 		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 			auto stop{_ui.components->get("recovery:recovery_stop")};
-			_ui.draw_button_click(&stop, _ctx.get_flag_ref("show_recovery"),
-								  true);
+			_ui.draw_button_click(&stop, _ctx.get_flag_ref("show_recovery"), true);
 		}
 	}
 }
 
-auto Sorcery::ScreenRenderer::_draw_license(Component *component,
-											const std::string &string) -> void {
+auto Sorcery::ScreenRenderer::_draw_license(Component *component, const std::string &string) -> void {
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 		// To adjust for Window Resizing etc
 		const auto x{std::invoke([&] {
-			const auto width{_ui.metrics->grid_sz() *
-							 component->get_float("grid_width")};
+			const auto width{_ui.metrics->grid_sz() * component->get_float("grid_width")};
 			const auto viewport{ImGui::GetMainViewport()};
 			return (viewport->Size.x - width) / 2;
 		})};
@@ -1035,14 +971,11 @@ auto Sorcery::ScreenRenderer::_draw_license(Component *component,
 		const auto pos{ImVec2{x, _ui.metrics->grid_y(component->y)}};
 		ImGui::SetNextWindowPos(pos);
 		with_Child("license_child",
-				   ImVec2(_ui.metrics->grid_sz() * component->w,
-						  _ui.metrics->grid_sz() * component->h),
-				   ImGuiChildFlags_NavFlattened,
-				   ImGuiWindowFlags_AlwaysVerticalScrollbar) {
+				   ImVec2(_ui.metrics->grid_sz() * component->w, _ui.metrics->grid_sz() * component->h),
+				   ImGuiChildFlags_NavFlattened, ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
 			UIStyle::set_text_dim(_ctx);
-			set_Font(_ui.fonts->get_current_font(component->font).value(),
-					 _ui.metrics->font_sz());
+			set_Font(_ui.fonts->get_current_font(component->font).value(), _ui.metrics->font_sz());
 			with_TextWrapPos(ImGui::GetFontSize() * component->w) {
 				ImGui::TextUnformatted(string.c_str());
 			}

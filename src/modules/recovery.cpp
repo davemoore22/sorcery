@@ -82,8 +82,7 @@ auto Sorcery::Recovery::_initialise() -> bool {
 }
 
 // Napping timer only ever runs once.
-auto Sorcery::Recovery::_callback_napping(std::uint32_t, void *param)
-	-> std::uint32_t {
+auto Sorcery::Recovery::_callback_napping(std::uint32_t, void *param) -> std::uint32_t {
 
 	auto *recovery{static_cast<Recovery *>(param)};
 
@@ -94,8 +93,7 @@ auto Sorcery::Recovery::_callback_napping(std::uint32_t, void *param)
 
 // Recuperation continues while the character needs healing and can afford
 // another week.
-auto Sorcery::Recovery::_callback_recuperating(std::uint32_t, void *param)
-	-> std::uint32_t {
+auto Sorcery::Recovery::_callback_recuperating(std::uint32_t, void *param) -> std::uint32_t {
 
 	auto *recovery{static_cast<Recovery *>(param)};
 	auto *character{recovery->_character};
@@ -144,8 +142,7 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 
 	show_immediately();
 
-	_character = &_ctx.game->characters.at(
-		_ctx.controller->get_character(Enums::CharacterSlot::STAY));
+	_character = &_ctx.game->characters.at(_ctx.controller->get_character(Enums::CharacterSlot::STAY));
 
 	_mode = mode;
 	_finished = false;
@@ -153,17 +150,14 @@ auto Sorcery::Recovery::start(const int mode) -> int {
 	if (mode == RECOVERY_MODE_FREE)
 		_rest_tick = SDL_AddTimer(1000, &Recovery::_callback_napping, this);
 	else
-		_rest_tick =
-			SDL_AddTimer(1000, &Recovery::_callback_recuperating, this);
+		_rest_tick = SDL_AddTimer(1000, &Recovery::_callback_recuperating, this);
 
 	while (true) {
 
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();

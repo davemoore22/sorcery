@@ -64,10 +64,8 @@ Sorcery::Tile::Tile(const std::optional<Coordinate> location)
 	s_id++;
 }
 
-Sorcery::Tile::Tile(std::optional<Coordinate> location,
-					std::optional<Enums::Tile::Edge> north,
-					std::optional<Enums::Tile::Edge> south,
-					std::optional<Enums::Tile::Edge> east,
+Sorcery::Tile::Tile(std::optional<Coordinate> location, std::optional<Enums::Tile::Edge> north,
+					std::optional<Enums::Tile::Edge> south, std::optional<Enums::Tile::Edge> east,
 					std::optional<Enums::Tile::Edge> west)
 	: _location{location},
 	  _north{north},
@@ -89,8 +87,7 @@ auto Sorcery::Tile::loc() const -> Coordinate {
 		return _location.value();
 
 	} catch (std::exception &e) {
-		Error error{Enums::System::Error::OPTIONAL_RETURNED, e,
-					"tile.location has no value !"};
+		Error error{Enums::System::Error::OPTIONAL_RETURNED, e, "tile.location has no value !"};
 		std::cerr << error;
 		exit(EXIT_FAILURE);
 	}
@@ -100,20 +97,16 @@ auto Sorcery::Tile::has(const Enums::Map::Direction direction) const -> bool {
 
 	switch (direction) {
 	case Enums::Map::Direction::NORTH:
-		return _north.has_value() ? (_north != Enums::Tile::Edge::NO_EDGE)
-								  : false;
+		return _north.has_value() ? (_north != Enums::Tile::Edge::NO_EDGE) : false;
 		break;
 	case Enums::Map::Direction::SOUTH:
-		return _south.has_value() ? (_south != Enums::Tile::Edge::NO_EDGE)
-								  : false;
+		return _south.has_value() ? (_south != Enums::Tile::Edge::NO_EDGE) : false;
 		break;
 	case Enums::Map::Direction::EAST:
-		return _east.has_value() ? (_east != Enums::Tile::Edge::NO_EDGE)
-								 : false;
+		return _east.has_value() ? (_east != Enums::Tile::Edge::NO_EDGE) : false;
 		break;
 	case Enums::Map::Direction::WEST:
-		return _west.has_value() ? (_west != Enums::Tile::Edge::NO_EDGE)
-								 : false;
+		return _west.has_value() ? (_west != Enums::Tile::Edge::NO_EDGE) : false;
 		break;
 	default:
 		return false;
@@ -121,8 +114,7 @@ auto Sorcery::Tile::has(const Enums::Map::Direction direction) const -> bool {
 	}
 }
 
-auto Sorcery::Tile::has(const Enums::Map::Direction direction,
-						const Enums::Tile::Edge wall_type) const -> bool {
+auto Sorcery::Tile::has(const Enums::Map::Direction direction, const Enums::Tile::Edge wall_type) const -> bool {
 
 	switch (direction) {
 	case Enums::Map::Direction::NORTH:
@@ -165,8 +157,7 @@ auto Sorcery::Tile::is(const Enums::Tile::Properties property) const -> bool {
 	return _properties[std::to_underlying(property)];
 }
 
-auto Sorcery::Tile::walkable(const Enums::Map::Direction direction) const
-	-> bool {
+auto Sorcery::Tile::walkable(const Enums::Map::Direction direction) const -> bool {
 
 	auto edge{Enums::Tile::Edge::NO_EDGE};
 	switch (direction) {
@@ -187,17 +178,13 @@ auto Sorcery::Tile::walkable(const Enums::Map::Direction direction) const
 		break;
 	}
 
-	return (edge == Enums::Tile::Edge::SECRET_DOOR) ||
-		   (edge == Enums::Tile::Edge::NO_EDGE) ||
-		   (edge == Enums::Tile::Edge::UNLOCKED_DOOR) ||
-		   (edge == Enums::Tile::Edge::ONE_WAY_DOOR) ||
-		   (edge == Enums::Tile::Edge::ONE_WAY_HIDDEN_DOOR) ||
-		   (edge == Enums::Tile::Edge::HIDDEN_DOOR) ||
+	return (edge == Enums::Tile::Edge::SECRET_DOOR) || (edge == Enums::Tile::Edge::NO_EDGE) ||
+		   (edge == Enums::Tile::Edge::UNLOCKED_DOOR) || (edge == Enums::Tile::Edge::ONE_WAY_DOOR) ||
+		   (edge == Enums::Tile::Edge::ONE_WAY_HIDDEN_DOOR) || (edge == Enums::Tile::Edge::HIDDEN_DOOR) ||
 		   (edge == Enums::Tile::Edge::ONE_WAY_WALL);
 }
 
-auto Sorcery::Tile::wall(const Enums::Map::Direction direction) const
-	-> Enums::Tile::Edge {
+auto Sorcery::Tile::wall(const Enums::Map::Direction direction) const -> Enums::Tile::Edge {
 
 	switch (direction) {
 	case Enums::Map::Direction::NORTH:
@@ -290,8 +277,7 @@ auto Sorcery::Tile::set(const Enums::Tile::Properties property) -> void {
 	_properties[std::to_underlying(property)] = true;
 }
 
-auto Sorcery::Tile::set(const Enums::Map::Direction direction,
-						const Enums::Tile::Edge new_wall) -> void {
+auto Sorcery::Tile::set(const Enums::Map::Direction direction, const Enums::Tile::Edge new_wall) -> void {
 
 	switch (direction) {
 	case Enums::Map::Direction::NORTH:
@@ -407,8 +393,7 @@ auto Sorcery::Tile::x() const -> int {
 		return _location.value().x;
 
 	} catch (std::exception &e) {
-		Error error{Enums::System::Error::OPTIONAL_RETURNED, e,
-					"tile.location.x has no value!"};
+		Error error{Enums::System::Error::OPTIONAL_RETURNED, e, "tile.location.x has no value!"};
 		std::cerr << error;
 		exit(EXIT_FAILURE);
 	}

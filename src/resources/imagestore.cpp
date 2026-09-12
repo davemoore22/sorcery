@@ -55,15 +55,12 @@ auto Sorcery::ImageStore::_initialise() -> bool {
 	show_images = true;
 
 	// Work out what we need to load and just store it in a list
-	_sources.insert(
-		_sources.end(),
-		{std::string{BANNER_TEXTURE}, std::string{BACKGROUNDS_TEXTURE},
-		 std::string{EVENTS_TEXTURE}, std::string{ICONS_TEXTURE},
-		 std::string{ITEMS_TEXTURE}, std::string{KNOWN_CREATURES_TEXTURE},
-		 std::string{LOGO_TEXTURE}, std::string{MAPS_TEXTURE},
-		 std::string{TOWN_TEXTURE}, std::string{TRAINING_TEXTURE},
-		 std::string{UNKNOWN_CREATURES_TEXTURE},
-		 std::string{WIREFRAME_TEXTURE}});
+	_sources.insert(_sources.end(),
+					{std::string{BANNER_TEXTURE}, std::string{BACKGROUNDS_TEXTURE}, std::string{EVENTS_TEXTURE},
+					 std::string{ICONS_TEXTURE}, std::string{ITEMS_TEXTURE}, std::string{KNOWN_CREATURES_TEXTURE},
+					 std::string{LOGO_TEXTURE}, std::string{MAPS_TEXTURE}, std::string{TOWN_TEXTURE},
+					 std::string{TRAINING_TEXTURE}, std::string{UNKNOWN_CREATURES_TEXTURE},
+					 std::string{WIREFRAME_TEXTURE}});
 	capacity = _sources.size();
 
 	// Now set things as unloaded to begin with
@@ -104,8 +101,7 @@ auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
 
 		// If not loaded, load the image
 		Image image{};
-		_load_texture_from_disc(path.c_str(), &image.texture, &image.width,
-								&image.height);
+		_load_texture_from_disc(path.c_str(), &image.texture, &image.width, &image.height);
 
 		_images.try_emplace(file, image);
 		_loaded[file] = true;
@@ -115,9 +111,7 @@ auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
 }
 
 // Load an image file from disk into a texture (using stb)
-auto Sorcery::ImageStore::_load_texture_from_disc(const char *filename,
-												  GLuint *out_texture,
-												  int *out_width,
+auto Sorcery::ImageStore::_load_texture_from_disc(const char *filename, GLuint *out_texture, int *out_width,
 												  int *out_height) -> bool {
 
 	busy = true;
@@ -127,8 +121,7 @@ auto Sorcery::ImageStore::_load_texture_from_disc(const char *filename,
 	int image_height{0};
 
 	// Get image data
-	unsigned char *image_data{
-		stbi_load(filename, &image_width, &image_height, nullptr, 4)};
+	unsigned char *image_data{stbi_load(filename, &image_width, &image_height, nullptr, 4)};
 	if (image_data == nullptr)
 		return false;
 
@@ -147,8 +140,7 @@ auto Sorcery::ImageStore::_load_texture_from_disc(const char *filename,
 #if defined(GL_UNPACK_ROW_LENGTH) && !defined(__EMSCRIPTEN__)
 	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 #endif
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0,
-				 GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 
 	// Free up image data
 	stbi_image_free(image_data);

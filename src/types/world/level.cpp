@@ -36,9 +36,8 @@ Sorcery::Level::Level() {
 }
 
 // Standard Constructor
-Sorcery::Level::Level(const Enums::Map::Type type, const std::string dungeon,
-					  const int depth, const Coordinate bottom_left,
-					  const Size size)
+Sorcery::Level::Level(const Enums::Map::Type type, const std::string dungeon, const int depth,
+					  const Coordinate bottom_left, const Size size)
 	: _type{type},
 	  _dungeon{dungeon},
 	  _depth{depth},
@@ -93,8 +92,7 @@ auto Sorcery::Level::bottom_left() const -> Coordinate {
 
 auto Sorcery::Level::top_right() const -> Coordinate {
 
-	return Coordinate{_bottom_left.x + static_cast<int>(_size.w),
-					  _bottom_left.y + static_cast<int>(_size.h)};
+	return Coordinate{_bottom_left.x + static_cast<int>(_size.w), _bottom_left.y + static_cast<int>(_size.h)};
 }
 
 auto Sorcery::Level::wrap_bottom_left() const -> Coordinate {
@@ -113,8 +111,7 @@ auto Sorcery::Level::wrap_top_right() const -> Coordinate {
 	// having an extra square on top (its 21x21 squares)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
-	return Coordinate{_bottom_left.x + _size.w - 1,
-					  _bottom_left.y + _size.h - 2};
+	return Coordinate{_bottom_left.x + _size.w - 1, _bottom_left.y + _size.h - 2};
 #pragma GCC diagnostic pop
 }
 
@@ -130,14 +127,11 @@ auto Sorcery::Level::type() const -> Enums::Map::Type {
 
 auto Sorcery::Level::in(const Coordinate loc) const -> bool {
 
-	return (loc.x >= _bottom_left.x) &&
-		   (loc.x <= _bottom_left.x + static_cast<int>(_size.w)) &&
-		   (loc.y >= _bottom_left.y) &&
-		   (loc.y <= _bottom_left.y + static_cast<int>(_size.h));
+	return (loc.x >= _bottom_left.x) && (loc.x <= _bottom_left.x + static_cast<int>(_size.w)) &&
+		   (loc.y >= _bottom_left.y) && (loc.y <= _bottom_left.y + static_cast<int>(_size.h));
 }
 
-auto Sorcery::Level::load(const Json::Value row_data,
-						  const Json::Value note_data) -> bool {
+auto Sorcery::Level::load(const Json::Value row_data, const Json::Value note_data) -> bool {
 
 	_create();
 	_load_simple_walls(row_data);
@@ -164,9 +158,8 @@ auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
 	return _tiles.at(loc);
 }
 
-auto Sorcery::Level::at(const Coordinate loc,
-						const Enums::Map::Direction direction, const int x,
-						const int z) -> Tile & {
+auto Sorcery::Level::at(const Coordinate loc, const Enums::Map::Direction direction, const int x, const int z)
+	-> Tile & {
 
 	// Needs to be done seperately since levels have an extra row/column, and we
 	// must also remember that N/E is actually y/x
@@ -244,10 +237,8 @@ auto Sorcery::Level::_create() -> void {
 
 	// Create the blank tiles because GC export data doesn't always include
 	// empty tiles to save space in the export
-	for (auto y = _bottom_left.y;
-		 y <= _bottom_left.y + static_cast<int>(_size.h); y++) {
-		for (auto x = _bottom_left.x;
-			 x <= _bottom_left.x + static_cast<int>(_size.w); x++) {
+	for (auto y = _bottom_left.y; y <= _bottom_left.y + static_cast<int>(_size.h); y++) {
+		for (auto x = _bottom_left.x; x <= _bottom_left.x + static_cast<int>(_size.w); x++) {
 			_add_tile(Coordinate{x, y});
 		}
 	}
@@ -321,46 +312,31 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 		const auto found_pos{text.find("METADATA")};
 		if (found_pos != std::string::npos) {
 
-			if (const auto metadata{text.substr(found_pos)};
-				metadata.starts_with("METADATA")) {
+			if (const auto metadata{text.substr(found_pos)}; metadata.starts_with("METADATA")) {
 
 				auto data{SPLIT(metadata)};
 				if (data.at(1) == "TELEPORT" && data.at(2) == "TO") {
-					Teleport teleport{std::stoi(data.at(3)),
-									  Coordinate{std::stoi(data.at(4)),
-												 std::stoi(data.at(5))}};
+					Teleport teleport{std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)), std::stoi(data.at(5))}};
 					_tiles.at(Coordinate{x, y}).set_teleport(teleport);
 				} else if (data.at(1) == "CHUTE" && data.at(2) == "TO") {
 
-					Chute chute{std::stoi(data.at(3)),
-								Coordinate{std::stoi(data.at(4)),
-										   std::stoi(data.at(5))}};
+					Chute chute{std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)), std::stoi(data.at(5))}};
 
 					_tiles.at(Coordinate{x, y}).set_chute(chute);
 				} else if (data.at(1) == "STAIRS" && data.at(2) == "TO") {
-					Teleport stairs{std::stoi(data.at(3)),
-									Coordinate{std::stoi(data.at(4)),
-											   std::stoi(data.at(5))}};
+					Teleport stairs{std::stoi(data.at(3)), Coordinate{std::stoi(data.at(4)), std::stoi(data.at(5))}};
 					_tiles.at(Coordinate{x, y}).set_stairs(stairs);
 				} else if (data.at(1) == "ELEVATOR") {
 					const auto up{data.at(2) == "UP"};
 					const auto down{data.at(3) == "DOWN"};
 					const auto up_loc{up ? Coordinate{x, y} : Coordinate{0, 0}};
-					const auto down_loc{down ? Coordinate{x, y}
-											 : Coordinate{0, 0}};
-					Elevator elevator{up,
-									  up_loc,
-									  down,
-									  down_loc,
-									  std::stoi(data.at(4)),
-									  std::stoi(data.at(5))};
+					const auto down_loc{down ? Coordinate{x, y} : Coordinate{0, 0}};
+					Elevator elevator{up, up_loc, down, down_loc, std::stoi(data.at(4)), std::stoi(data.at(5))};
 					_tiles.at(Coordinate{x, y}).set_elevator(elevator);
 					if (up)
-						_tiles.at(Coordinate{x, y})
-							.set(Enums::Tile::Features::ELEVATOR_UP);
+						_tiles.at(Coordinate{x, y}).set(Enums::Tile::Features::ELEVATOR_UP);
 					if (down)
-						_tiles.at(Coordinate{x, y})
-							.set(Enums::Tile::Features::ELEVATOR_DOWN);
+						_tiles.at(Coordinate{x, y}).set(Enums::Tile::Features::ELEVATOR_DOWN);
 				} else if (data.at(1) == "EVENT") {
 					const auto &what{data.at(2)};
 					const auto event{_map_event_types(what)};
@@ -373,8 +349,7 @@ auto Sorcery::Level::_load_metadata(const Json::Value note_data) -> bool {
 	return true;
 }
 
-auto Sorcery::Level::_map_event_types(const std::string &string) const
-	-> std::optional<Enums::Map::Event> {
+auto Sorcery::Level::_map_event_types(const std::string &string) const -> std::optional<Enums::Map::Event> {
 
 	if (_event_mappings.contains(string))
 		return _event_mappings.at(string);
@@ -404,8 +379,7 @@ auto Sorcery::Level::_load_markers(const Json::Value row_data) -> bool {
 
 			auto darkness{std::invoke([&] {
 				if (tile.isMember("d"))
-					return static_cast<std::string>(tile["d"].asString()) ==
-						   "1";
+					return static_cast<std::string>(tile["d"].asString()) == "1";
 				else
 					return false;
 			})};
@@ -429,8 +403,7 @@ auto Sorcery::Level::_load_markers(const Json::Value row_data) -> bool {
 	return true;
 }
 
-auto Sorcery::Level::_set_complicated_walls(const Json::Value row_data)
-	-> bool {
+auto Sorcery::Level::_set_complicated_walls(const Json::Value row_data) -> bool {
 
 	for (auto j = 0u; j < row_data.size(); j++) {
 
@@ -515,10 +488,8 @@ auto Sorcery::Level::_load_simple_walls(const Json::Value row_data) -> bool {
 // Since Grid Cartographer only defines s/e walls in our format, we do two
 // updates, first with the tile in question, and then from the adjacent tile
 // on another pass - but for now only update simple walls
-auto Sorcery::Level::_update_tile_walls_simple(const Coordinate location,
-											   const unsigned int south_wall,
-											   const unsigned int east_wall)
-	-> void {
+auto Sorcery::Level::_update_tile_walls_simple(const Coordinate location, const unsigned int south_wall,
+											   const unsigned int east_wall) -> void {
 
 	auto south_edge{_convert_edge_se(south_wall)};
 	auto east_edge{_convert_edge_se(east_wall)};
@@ -541,8 +512,7 @@ auto Sorcery::Level::_fill_in_simple_walls() -> bool {
 	return true;
 }
 
-auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
-	-> void {
+auto Sorcery::Level::_set_other_simple_edges(const Coordinate location) -> void {
 
 	auto &tile{_tiles.at(location)};
 	using enum Enums::Map::Direction;
@@ -551,8 +521,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 	if (north_edge == NO_EDGE) {
 
 		// Check north adjacent wall (i.e. south wall of above tile)
-		auto adj_north{
-			_tiles.at(Coordinate{location.x, get_delta_y(location.y, 1)})};
+		auto adj_north{_tiles.at(Coordinate{location.x, get_delta_y(location.y, 1)})};
 		auto adj_north_edge{adj_north.wall(SOUTH)};
 
 		switch (adj_north_edge) {
@@ -574,8 +543,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 	if (south_edge == NO_EDGE) {
 
 		// Check south adjacent wall (i.e. borth wall of below tile)
-		auto adj_south{
-			_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
+		auto adj_south{_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
 		auto adj_south_edge{adj_south.wall(NORTH)};
 
 		switch (adj_south_edge) {
@@ -597,8 +565,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 	if (west_edge == NO_EDGE) {
 
 		// Check west adjacent wall (i.e. east wall of left tile)
-		auto adj_west{
-			_tiles.at(Coordinate{get_delta_x(location.x, -1), location.y})};
+		auto adj_west{_tiles.at(Coordinate{get_delta_x(location.x, -1), location.y})};
 		auto adj_west_edge{adj_west.wall(EAST)};
 
 		switch (adj_west_edge) {
@@ -620,8 +587,7 @@ auto Sorcery::Level::_set_other_simple_edges(const Coordinate location)
 	if (east_edge == NO_EDGE) {
 
 		// Check west adjacent wall (i.e. east wall of left tile)
-		auto adj_east{
-			_tiles.at(Coordinate{get_delta_x(location.x, 1), location.y})};
+		auto adj_east{_tiles.at(Coordinate{get_delta_x(location.x, 1), location.y})};
 		auto adj_east_edge{adj_east.wall(WEST)};
 
 		switch (adj_east_edge) {
@@ -652,9 +618,8 @@ auto Sorcery::Level::_add_tile(const Coordinate location) -> void {
 	_tiles[location] = tile;
 }
 
-auto Sorcery::Level::_update_tile_markers(
-	const Coordinate location, const bool darkness, const unsigned int marker,
-	[[maybe_unused]] const unsigned int terrain) -> void {
+auto Sorcery::Level::_update_tile_markers(const Coordinate location, const bool darkness, const unsigned int marker,
+										  [[maybe_unused]] const unsigned int terrain) -> void {
 
 	// https://docs.gridcartographer.com/ref/table/marker
 	auto &tile{_tiles.at(location)};
@@ -731,14 +696,11 @@ auto Sorcery::Level::stairs_at(const Coordinate loc) -> bool {
 
 	const auto &tile{_tiles.at(loc)};
 	using enum Enums::Tile::Features;
-	return ((tile.has(LADDER_UP)) || (tile.has(LADDER_DOWN)) ||
-			(tile.has(STAIRS_UP)) || (tile.has(STAIRS_DOWN)));
+	return ((tile.has(LADDER_UP)) || (tile.has(LADDER_DOWN)) || (tile.has(STAIRS_UP)) || (tile.has(STAIRS_DOWN)));
 }
 
-auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
-												const unsigned int south_wall,
-												const unsigned int east_wall)
-	-> void {
+auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location, const unsigned int south_wall,
+												const unsigned int east_wall) -> void {
 
 	// OK, so this is a bit complicated due to GC only storing one set of
 	// walls per tile - we have to back fill in complicated walls (walls
@@ -755,8 +717,7 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 	auto &tile{_tiles.at(location)};
 
 	// Do South/North Walls
-	auto &adj_south{
-		_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
+	auto &adj_south{_tiles.at(Coordinate{location.x, get_delta_y(location.y, -1)})};
 
 	switch (south_wall) {
 		using enum Enums::Tile::Edge;
@@ -815,8 +776,7 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 	}
 
 	// Do East/West Walls
-	auto &adj_east{
-		_tiles.at(Coordinate{get_delta_x(location.x, 1), location.y})};
+	auto &adj_east{_tiles.at(Coordinate{get_delta_x(location.x, 1), location.y})};
 
 	switch (east_wall) {
 		using enum Enums::Tile::Edge;
@@ -878,8 +838,7 @@ auto Sorcery::Level::_fill_in_complicated_walls(const Coordinate location,
 // Due to the way GC defines levels, we need to handle different edges
 // differently so this is the inner function - this only works for simple
 // non-directional wall-types - the complicated walls we handle later
-auto Sorcery::Level::_convert_edge_simple(const unsigned int wall) const
-	-> std::optional<Enums::Tile::Edge> {
+auto Sorcery::Level::_convert_edge_simple(const unsigned int wall) const -> std::optional<Enums::Tile::Edge> {
 
 	std::optional<Enums::Tile::Edge> edge{std::nullopt};
 	switch (wall) { // NOLINT(clang-diagnostic-switch)
@@ -916,8 +875,7 @@ auto Sorcery::Level::_convert_edge_simple(const unsigned int wall) const
 	return edge;
 }
 
-auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
-	-> std::optional<Enums::Tile::Edge> {
+auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const -> std::optional<Enums::Tile::Edge> {
 
 	std::optional<Enums::Tile::Edge> standard_edge{_convert_edge_simple(wall)};
 	return standard_edge.value_or(Enums::Tile::Edge::NO_EDGE);
@@ -925,8 +883,7 @@ auto Sorcery::Level::_convert_edge_se(const unsigned int wall) const
 
 // Only populate walls that we need to populate at this point - those ones
 // that have some meaning for N or W (i.e. types 5/6/7)
-auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const
-	-> std::optional<Enums::Tile::Edge> {
+auto Sorcery::Level::_convert_edge_nw(const unsigned int wall) const -> std::optional<Enums::Tile::Edge> {
 
 	std::optional<Enums::Tile::Edge> edge{std::nullopt};
 	switch (wall) { // NOLINT(clang-diagnostic-switch)

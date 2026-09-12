@@ -59,8 +59,7 @@ Sorcery::ComponentStore::ComponentStore(const std::filesystem::path filename) {
 	}
 }
 
-auto Sorcery::ComponentStore::get(std::string_view combined_key)
-	-> Component & {
+auto Sorcery::ComponentStore::get(std::string_view combined_key) -> Component & {
 
 	// swap into _load instead and check if refresh needed is called unnecessary
 	try {
@@ -71,8 +70,7 @@ auto Sorcery::ComponentStore::get(std::string_view combined_key)
 
 	} catch (std::exception &e) {
 
-		Error error{Enums::System::Error::JSON_PARSE_ERROR, e,
-					"layout.json is not valid JSON!"};
+		Error error{Enums::System::Error::JSON_PARSE_ERROR, e, "layout.json is not valid JSON!"};
 		std::cerr << error;
 		exit(EXIT_FAILURE);
 	}
@@ -90,16 +88,14 @@ auto Sorcery::ComponentStore::get(std::string_view combined_key)
 
 	} catch (std::exception &e) {
 		Error error{Enums::System::Error::UNKNOWN_COMPONENT, e,
-					std::format("Unable to find Component '{}' in layout.json!",
-								combined_key)};
+					std::format("Unable to find Component '{}' in layout.json!", combined_key)};
 		std::cerr << error;
 		exit(EXIT_FAILURE);
 	}
 }
 
 // Overload () Operator
-auto Sorcery::ComponentStore::operator()(std::string_view screen)
-	-> std::optional<std::vector<Component>> {
+auto Sorcery::ComponentStore::operator()(std::string_view screen) -> std::optional<std::vector<Component>> {
 
 	// First check if we need to reload if anything has changed!
 	if (need_refresh())
@@ -110,17 +106,15 @@ auto Sorcery::ComponentStore::operator()(std::string_view screen)
 	if (_loaded) {
 
 		for (const auto &[unique_key, component] : _components) {
-			if ((component.form == screen) &&
-				(component.drawmode == Enums::Layout::DrawMode::AUTOMATIC)) {
+			if ((component.form == screen) && (component.drawmode == Enums::Layout::DrawMode::AUTOMATIC)) {
 				results.push_back(component);
 			}
 		}
 
 		// Sort by priority
-		std::sort(results.begin(), results.end(),
-				  [](const auto &first, const auto &second) {
-					  return first.priority < second.priority;
-				  });
+		std::sort(results.begin(), results.end(), [](const auto &first, const auto &second) {
+			return first.priority < second.priority;
+		});
 
 		return results;
 	}
@@ -128,8 +122,7 @@ auto Sorcery::ComponentStore::operator()(std::string_view screen)
 	return std::nullopt;
 }
 
-auto Sorcery::ComponentStore::get_custom(std::string_view screen)
-	-> std::optional<std::vector<Component>> {
+auto Sorcery::ComponentStore::get_custom(std::string_view screen) -> std::optional<std::vector<Component>> {
 
 	// First check if we need to reload if anything has changed!
 	if (need_refresh())
@@ -140,17 +133,15 @@ auto Sorcery::ComponentStore::get_custom(std::string_view screen)
 	if (_loaded) {
 
 		for (const auto &[unique_key, component] : _components) {
-			if ((component.form == screen) &&
-				(component.drawmode == Enums::Layout::DrawMode::MANUAL)) {
+			if ((component.form == screen) && (component.drawmode == Enums::Layout::DrawMode::MANUAL)) {
 				results.push_back(component);
 			}
 		}
 
 		// Sort by priority
-		std::sort(results.begin(), results.end(),
-				  [](const auto &first, const auto &second) {
-					  return first.priority < second.priority;
-				  });
+		std::sort(results.begin(), results.end(), [](const auto &first, const auto &second) {
+			return first.priority < second.priority;
+		});
 
 		return results;
 	}
@@ -158,14 +149,12 @@ auto Sorcery::ComponentStore::get_custom(std::string_view screen)
 	return std::nullopt;
 }
 
-auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
-	-> bool {
+auto Sorcery::ComponentStore::load(const std::filesystem::path filename) -> bool {
 
 	_components.clear();
 
 	// Attempt to load Layout File
-	if (std::ifstream file{filename.string(), std::ifstream::binary};
-		file.good()) {
+	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -195,29 +184,21 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 							if (components[j]["type"].asString().length() > 0) {
 								if (components[j]["type"].asString() == "text")
 									return TEXT;
-								else if (components[j]["type"].asString() ==
-										 "frame")
+								else if (components[j]["type"].asString() == "frame")
 									return FRAME;
-								else if (components[j]["type"].asString() ==
-										 "button")
+								else if (components[j]["type"].asString() == "button")
 									return BUTTON;
-								else if (components[j]["type"].asString() ==
-										 "image_fg")
+								else if (components[j]["type"].asString() == "image_fg")
 									return IMAGE_FG;
-								else if (components[j]["type"].asString() ==
-										 "image_bg")
+								else if (components[j]["type"].asString() == "image_bg")
 									return IMAGE_BG;
-								else if (components[j]["type"].asString() ==
-										 "menu")
+								else if (components[j]["type"].asString() == "menu")
 									return MENU;
-								else if (components[j]["type"].asString() ==
-										 "text")
+								else if (components[j]["type"].asString() == "text")
 									return TEXT;
-								else if (components[j]["type"].asString() ==
-										 "paragraph")
+								else if (components[j]["type"].asString() == "paragraph")
 									return PARAGRAPH;
-								else if (components[j]["type"].asString() ==
-										 "other")
+								else if (components[j]["type"].asString() == "other")
 									return OTHER;
 								else
 									return NO_CT;
@@ -233,8 +214,7 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 							if (components[j]["x"].asString() == "centre")
 								return -1;
 							else if (components[j]["x"].asString().length() > 0)
-								return (
-									std::stoi(components[j]["x"].asString()));
+								return (std::stoi(components[j]["x"].asString()));
 							else
 								return 0;
 						} else
@@ -245,8 +225,7 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 							if (components[j]["y"].asString() == "centre")
 								return -1;
 							else if (components[j]["y"].asString().length() > 0)
-								return (
-									std::stoi(components[j]["y"].asString()));
+								return (std::stoi(components[j]["y"].asString()));
 							else
 								return 0;
 						} else
@@ -255,8 +234,7 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					auto w{[&] {
 						if (components[j].isMember("w")) {
 							if (components[j]["w"].asString().length() > 0) {
-								return static_cast<unsigned int>(
-									std::stoi(components[j]["w"].asString()));
+								return static_cast<unsigned int>(std::stoi(components[j]["w"].asString()));
 							} else
 								return 0u;
 						} else
@@ -265,8 +243,7 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					auto h{[&] {
 						if (components[j].isMember("h")) {
 							if (components[j]["w"].asString().length() > 0) {
-								return static_cast<unsigned int>(
-									std::stoi(components[j]["h"].asString()));
+								return static_cast<unsigned int>(std::stoi(components[j]["h"].asString()));
 							} else
 								return 0u;
 						} else
@@ -276,17 +253,13 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 						using enum Enums::Layout::Font;
 						if (components[j].isMember("font")) {
 							if (components[j]["font"].asString().length() > 0) {
-								if (components[j]["font"].asString() ==
-									"monospace")
+								if (components[j]["font"].asString() == "monospace")
 									return MONOSPACE;
-								else if (components[j]["font"].asString() ==
-										 "proportional")
+								else if (components[j]["font"].asString() == "proportional")
 									return PROPORTIONAL;
-								else if (components[j]["font"].asString() ==
-										 "text")
+								else if (components[j]["font"].asString() == "text")
 									return TEXT;
-								else if (components[j]["font"].asString() ==
-										 "default")
+								else if (components[j]["font"].asString() == "default")
 									return DEFAULT;
 								else
 									return NO_FONT;
@@ -298,8 +271,7 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					auto colour{[&] {
 						if (components[j].isMember("colour")) {
 							if (components[j]["colour"].asString().length() > 0)
-								return COL2NUM(
-									components[j]["colour"].asString());
+								return COL2NUM(components[j]["colour"].asString());
 							else
 								return COL2NUM("0");
 						} else
@@ -307,10 +279,8 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					}()};
 					auto animated{[&] {
 						if (components[j].isMember("animated")) {
-							if (components[j]["animated"].asString().length() >
-								0)
-								return components[j]["animated"].asString() ==
-									   "true";
+							if (components[j]["animated"].asString().length() > 0)
+								return components[j]["animated"].asString() == "true";
 							else
 								return false;
 						} else
@@ -325,8 +295,7 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					auto alpha{[&] {
 						if (components[j].isMember("alpha")) {
 							if (components[j]["alpha"].asString().length() > 0)
-								return std::stof(
-									components[j]["alpha"].asString());
+								return std::stof(components[j]["alpha"].asString());
 							else
 								return 0.0f;
 						} else
@@ -335,8 +304,7 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					auto background{[&] {
 						if (components[j].isMember("bg_colour")) {
 
-							const auto value{
-								components[j]["bg_colour"].asString()};
+							const auto value{components[j]["bg_colour"].asString()};
 
 							if (!value.empty())
 								return COL2NUM(value);
@@ -347,11 +315,8 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					Enums::Layout::Justification justification{[&] {
 						using enum Enums::Layout::Justification;
 						if (components[j].isMember("justification")) {
-							if (components[j]["justification"]
-									.asString()
-									.length() > 0) {
-								if (components[j]["justification"].asString() ==
-									"left")
+							if (components[j]["justification"].asString().length() > 0) {
+								if (components[j]["justification"].asString() == "left")
 									return LEFT;
 								else if (components[j]["justificati"
 													   "on"]
@@ -370,10 +335,8 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					}()};
 					auto priority{[&] {
 						if (components[j].isMember("priority")) {
-							if (components[j]["priority"].asString().length() >
-								0)
-								return static_cast<unsigned int>(std::stoi(
-									components[j]["priority"].asString()));
+							if (components[j]["priority"].asString().length() > 0)
+								return static_cast<unsigned int>(std::stoi(components[j]["priority"].asString()));
 							else
 								return 999u;
 						} else
@@ -382,13 +345,10 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 					Enums::Layout::DrawMode drawmode{[&] {
 						using enum Enums::Layout::DrawMode;
 						if (components[j].isMember("drawmode")) {
-							if (components[j]["drawmode"].asString().length() >
-								0) {
-								if (components[j]["drawmode"].asString() ==
-									"manual")
+							if (components[j]["drawmode"].asString().length() > 0) {
+								if (components[j]["drawmode"].asString() == "manual")
 									return MANUAL;
-								else if (components[j]["drawmode"].asString() ==
-										 "automatic")
+								else if (components[j]["drawmode"].asString() == "automatic")
 									return AUTOMATIC;
 								else
 									return AUTOMATIC;
@@ -400,28 +360,14 @@ auto Sorcery::ComponentStore::load(const std::filesystem::path filename)
 
 					// Add the Component
 					const auto key{std::format("{}:{}", form_name, name)};
-					Component component{form_name,
-										name,
-										x,
-										y,
-										w,
-										h,
-										font,
-										colour,
-										animated,
-										string_key,
-										alpha,
-										background,
-										justification,
-										component_type,
-										priority,
-										drawmode};
+					Component component{form_name,	   name,		   x,		 y,			 w,		h,
+										font,		   colour,		   animated, string_key, alpha, background,
+										justification, component_type, priority, drawmode};
 
 					// Now look for any extra data
 					if (components[j].isMember("data")) {
 						auto &extra_data{components[j]["data"][0]};
-						for (auto data_keys{extra_data.getMemberNames()};
-							 auto &data_key : data_keys) {
+						for (auto data_keys{extra_data.getMemberNames()}; auto &data_key : data_keys) {
 							auto data_value{extra_data[data_key].asString()};
 							component.set(data_key, data_value);
 						}

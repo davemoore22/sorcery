@@ -36,8 +36,7 @@ Sorcery::Resources::Resources(Context &ctx)
 	items = std::make_unique<ItemStore>(_ctx, _ctx.get_file(ITEMS_FILE));
 	levels = std::make_unique<LevelStore>(_ctx.get_file(MAPS_FILE));
 	spells = std::make_unique<SpellStore>(_ctx);
-	saves = std::make_unique<SaveStore>(
-		_ctx.get_file(SAVE_GAME_FILE), _ctx.get_directory(SAVE_CHARACTERS_DIR));
+	saves = std::make_unique<SaveStore>(_ctx.get_file(SAVE_GAME_FILE), _ctx.get_directory(SAVE_CHARACTERS_DIR));
 }
 
 Sorcery::Resources::~Resources() = default;

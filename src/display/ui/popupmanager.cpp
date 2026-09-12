@@ -35,10 +35,8 @@ Sorcery::PopupManager::PopupManager(Context &ctx)
 
 Sorcery::PopupManager::~PopupManager() = default;
 
-auto Sorcery::PopupManager::open_message(const std::string_view component,
-										 std::vector<std::string> strings,
-										 const Enums::Map::Event event_id)
-	-> void {
+auto Sorcery::PopupManager::open_message(const std::string_view component, std::vector<std::string> strings,
+										 const Enums::Map::Event event_id) -> void {
 	close();
 
 	_completed.reset();
@@ -81,8 +79,7 @@ auto Sorcery::PopupManager::display() -> void {
 
 		if (pending.menu_name && pending.title_key) {
 
-			open_modal(pending.component, *pending.menu_name,
-					   *pending.title_key);
+			open_modal(pending.component, *pending.menu_name, *pending.title_key);
 
 		} else if (pending.menu_name) {
 
@@ -101,8 +98,7 @@ auto Sorcery::PopupManager::display() -> void {
 
 	if (!active->is_open()) {
 
-		_completed = PopupCompletion{.name = std::string{active->name()},
-									 .result = active->result()};
+		_completed = PopupCompletion{.name = std::string{active->name()}, .result = active->result()};
 
 		_active = nullptr;
 	}
@@ -112,13 +108,11 @@ auto Sorcery::PopupManager::active() const -> bool {
 	return _active != nullptr;
 }
 
-auto Sorcery::PopupManager::is_active(const std::string_view name) const
-	-> bool {
+auto Sorcery::PopupManager::is_active(const std::string_view name) const -> bool {
 	return _active && _active->name() == name;
 }
 
-auto Sorcery::PopupManager::consume_completed(const std::string_view name)
-	-> bool {
+auto Sorcery::PopupManager::consume_completed(const std::string_view name) -> bool {
 	if (!_completed || _completed->name != name)
 		return false;
 
@@ -127,8 +121,7 @@ auto Sorcery::PopupManager::consume_completed(const std::string_view name)
 	return true;
 }
 
-auto Sorcery::PopupManager::consume_result(const std::string_view name)
-	-> std::optional<DrawableResult> {
+auto Sorcery::PopupManager::consume_result(const std::string_view name) -> std::optional<DrawableResult> {
 	if (!_completed || _completed->name != name)
 		return std::nullopt;
 
@@ -148,8 +141,7 @@ auto Sorcery::PopupManager::reset() -> void {
 	_completed.reset();
 }
 
-auto Sorcery::PopupManager::open_dialog(const std::string_view component,
-										const Enums::Layout::DialogType type)
+auto Sorcery::PopupManager::open_dialog(const std::string_view component, const Enums::Layout::DialogType type)
 	-> void {
 	close();
 
@@ -163,15 +155,13 @@ auto Sorcery::PopupManager::open_dialog(const std::string_view component,
 	_active = _dialog.get();
 }
 
-auto Sorcery::PopupManager::consume_accepted(const std::string_view name)
-	-> bool {
+auto Sorcery::PopupManager::consume_accepted(const std::string_view name) -> bool {
 	const auto result{consume_result(name)};
 
 	return result && *result == DrawableResult::ACCEPTED;
 }
 
-auto Sorcery::PopupManager::open_modal(const std::string_view component)
-	-> void {
+auto Sorcery::PopupManager::open_modal(const std::string_view component) -> void {
 
 	if (_displaying) {
 
@@ -186,8 +176,7 @@ auto Sorcery::PopupManager::open_modal(const std::string_view component)
 	_open_modal(component);
 }
 
-auto Sorcery::PopupManager::_open_modal(const std::string_view component)
-	-> void {
+auto Sorcery::PopupManager::_open_modal(const std::string_view component) -> void {
 
 	close();
 
@@ -201,9 +190,7 @@ auto Sorcery::PopupManager::_open_modal(const std::string_view component)
 	_active = _modal2.get();
 }
 
-auto Sorcery::PopupManager::open_modal(const std::string_view component,
-									   const std::string_view menu_name)
-	-> void {
+auto Sorcery::PopupManager::open_modal(const std::string_view component, const std::string_view menu_name) -> void {
 
 	if (_displaying) {
 
@@ -218,9 +205,7 @@ auto Sorcery::PopupManager::open_modal(const std::string_view component,
 	_open_modal(component, menu_name);
 }
 
-auto Sorcery::PopupManager::_open_modal(const std::string_view component,
-										const std::string_view menu_name)
-	-> void {
+auto Sorcery::PopupManager::_open_modal(const std::string_view component, const std::string_view menu_name) -> void {
 
 	close();
 
@@ -234,10 +219,8 @@ auto Sorcery::PopupManager::_open_modal(const std::string_view component,
 	_active = _modal2.get();
 }
 
-auto Sorcery::PopupManager::open_modal(const std::string_view component,
-									   const std::string_view menu_name,
-									   const std::string_view title_key)
-	-> void {
+auto Sorcery::PopupManager::open_modal(const std::string_view component, const std::string_view menu_name,
+									   const std::string_view title_key) -> void {
 
 	if (_displaying) {
 
@@ -252,10 +235,8 @@ auto Sorcery::PopupManager::open_modal(const std::string_view component,
 	_open_modal(component, menu_name, title_key);
 }
 
-auto Sorcery::PopupManager::_open_modal(const std::string_view component,
-										const std::string_view menu_name,
-										const std::string_view title_key)
-	-> void {
+auto Sorcery::PopupManager::_open_modal(const std::string_view component, const std::string_view menu_name,
+										const std::string_view title_key) -> void {
 
 	close();
 

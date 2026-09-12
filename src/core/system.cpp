@@ -38,8 +38,7 @@
 #include <iterator>					  // for size, data
 #include <print>					  // for println
 
-Sorcery::System::System(int argc __attribute__((unused)),
-						char **argv __attribute__((unused))) {
+Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
 
 	// Initialise SDL Audio first as it's a dependency of AudioPlayer, but we
 	// initialise the video subsystem in Display as it's not needed until then
@@ -47,7 +46,7 @@ Sorcery::System::System(int argc __attribute__((unused)),
 		std::println("Error: {}", SDL_GetError());
 	} else {
 
-		// Modules
+		// Initialise modules (note the order here is important)
 		files = std::make_unique<FileStore>();
 		strings = std::make_unique<StringStore>(files->get(STRINGS_FILE));
 
@@ -55,8 +54,7 @@ Sorcery::System::System(int argc __attribute__((unused)),
 		_settings->SetUnicode();
 		_settings->LoadFile(CSTR(files->get(CONFIG_FILE)));
 
-		config =
-			std::make_unique<Config>(_settings.get(), files->get(CONFIG_FILE));
+		config = std::make_unique<Config>(_settings.get(), files->get(CONFIG_FILE));
 		random = std::make_unique<Random>();
 		animation = std::make_unique<Animation>(random.get());
 		audio = std::make_unique<AudioPlayer>(files.get());
@@ -66,16 +64,14 @@ Sorcery::System::System(int argc __attribute__((unused)),
 Sorcery::System::~System() {}
 
 // Diceroll to String
-auto Sorcery::System::dice_roll_to_str(const std::string &message,
-									   const int dice, const int roll,
+auto Sorcery::System::dice_roll_to_str(const std::string &message, const int dice, const int roll,
 									   const int needed) const -> std::string {
 
 	return std::format("d{:<3}: {:>3}/{:>3}: {}", dice, roll, needed, message);
 }
 
 // Timepoint to String
-auto Sorcery::System::convert_tp_to_str(
-	const std::chrono::time_point<std::chrono::system_clock> tp) const
+auto Sorcery::System::convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) const
 	-> std::string {
 
 	// Need to do it this way til std::chrono::locate_zone etc is supported

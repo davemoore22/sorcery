@@ -148,16 +148,13 @@ auto Sorcery::Animation::_change_wp(bool force) -> void {
 		do {
 			_ctime_wp = std::chrono::steady_clock::now();
 			const auto elapsed{_ctime_wp - _last_wp};
-			if (const auto elapsed_ms{
-					std::chrono::duration_cast<std::chrono::milliseconds>(
-						elapsed)};
+			if (const auto elapsed_ms{std::chrono::duration_cast<std::chrono::milliseconds>(elapsed)};
 				elapsed_ms.count() > WALLPAPER_INTERVAL) {
 				if (_allow_wp)
 					_do_wp();
 			}
 
-			std::this_thread::sleep_for(
-				std::chrono::milliseconds(DELAY_TSLEEP));
+			std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_TSLEEP));
 		} while (!_finished);
 	}
 }
@@ -171,15 +168,12 @@ auto Sorcery::Animation::_animate_attract(bool force) -> void {
 		do {
 			_ctime_attract = std::chrono::steady_clock::now();
 			const auto elapsed{_ctime_attract - _last_attract};
-			if (const auto elapsed_ms{
-					std::chrono::duration_cast<std::chrono::milliseconds>(
-						elapsed)};
+			if (const auto elapsed_ms{std::chrono::duration_cast<std::chrono::milliseconds>(elapsed)};
 				elapsed_ms.count() > DELAY_ATTRACT)
 				if (_allow_attract)
 					_do_attract();
 
-			std::this_thread::sleep_for(
-				std::chrono::milliseconds(DELAY_TSLEEP));
+			std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_TSLEEP));
 		} while (!_finished);
 	}
 }

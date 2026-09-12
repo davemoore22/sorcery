@@ -45,8 +45,7 @@ auto Sorcery::Result::_initialise() -> bool {
 
 auto Sorcery::Result::start(const ResultType type, const int mode) -> int {
 
-	const auto screen{type == ResultType::LEVEL_UP ? Enums::Screen::LEVELUP
-												   : Enums::Screen::NOLEVELUP};
+	const auto screen{type == ResultType::LEVEL_UP ? Enums::Screen::LEVELUP : Enums::Screen::NOLEVELUP};
 
 	_ctx.controller->go_to(screen);
 
@@ -57,9 +56,7 @@ auto Sorcery::Result::start(const ResultType type, const int mode) -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();

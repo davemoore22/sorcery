@@ -57,8 +57,7 @@ auto Sorcery::FontStore::_get_fonts() const -> const std::vector<FontInfo> & {
 	return fonts;
 }
 
-auto Sorcery::FontStore::get_font_by_name(const std::string &name) const
-	-> std::optional<ImFont *> {
+auto Sorcery::FontStore::get_font_by_name(const std::string &name) const -> std::optional<ImFont *> {
 
 	for (const auto &f : fonts)
 		if (f.name == name)
@@ -120,15 +119,13 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory) -> void {
 	_io->Fonts->Build();
 }
 
-auto Sorcery::FontStore::_load_font(const std::string &path, bool is_monospace,
-									Enums::Layout::Font font_type) -> void {
+auto Sorcery::FontStore::_load_font(const std::string &path, bool is_monospace, Enums::Layout::Font font_type) -> void {
 
 	std::ifstream file(path, std::ios::binary);
 	if (!file.is_open())
 		return;
 
-	std::vector<unsigned char> buffer((std::istreambuf_iterator<char>(file)),
-									  {});
+	std::vector<unsigned char> buffer((std::istreambuf_iterator<char>(file)), {});
 
 	std::string name = _get_font_full_name(buffer);
 	if (name.empty())
@@ -166,15 +163,12 @@ auto Sorcery::FontStore::_is_valid_ttf(const std::string &path) const -> bool {
 	return true;
 }
 
-auto Sorcery::FontStore::_get_font_full_name(
-	const std::vector<unsigned char> &buffer) -> std::string {
+auto Sorcery::FontStore::_get_font_full_name(const std::vector<unsigned char> &buffer) -> std::string {
 
 	FT_Face face = nullptr;
 
 	// Load font from memory instead of file
-	if (FT_New_Memory_Face(_ft, buffer.data(),
-						   static_cast<FT_Long>(buffer.size()), 0,
-						   &face) != 0) {
+	if (FT_New_Memory_Face(_ft, buffer.data(), static_cast<FT_Long>(buffer.size()), 0, &face) != 0) {
 		return "";
 	}
 
@@ -193,8 +187,7 @@ auto Sorcery::FontStore::_get_font_full_name(
 }
 
 // Is a valid TTF font a monospace font?
-auto Sorcery::FontStore::_is_monospace_ttf(const std::string &path) const
-	-> bool {
+auto Sorcery::FontStore::_is_monospace_ttf(const std::string &path) const -> bool {
 
 	FT_Face face = nullptr;
 
@@ -232,8 +225,7 @@ auto Sorcery::FontStore::_is_monospace_ttf(const std::string &path) const
 	return true;
 };
 
-auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,
-										  ImFont *font) -> void {
+auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type, ImFont *font) -> void {
 
 	if (!font)
 		return;
@@ -245,16 +237,14 @@ auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,
 		_io->FontDefault = font;
 }
 
-auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type,
-										  const std::string &name) -> void {
+auto Sorcery::FontStore::set_current_font(Enums::Layout::Font type, const std::string &name) -> void {
 
 	auto font{get_font_by_name(name)};
 	if (font)
 		set_current_font(type, font.value());
 }
 
-auto Sorcery::FontStore::get_current_font(Enums::Layout::Font type) const
-	-> std::optional<ImFont *> {
+auto Sorcery::FontStore::get_current_font(Enums::Layout::Font type) const -> std::optional<ImFont *> {
 
 	if (auto it = current_fonts.find(type); it != current_fonts.end())
 		return it->second;
@@ -262,17 +252,14 @@ auto Sorcery::FontStore::get_current_font(Enums::Layout::Font type) const
 	return std::nullopt;
 }
 
-auto Sorcery::FontStore::get_current_monospace_font() const
-	-> std::optional<ImFont *> {
+auto Sorcery::FontStore::get_current_monospace_font() const -> std::optional<ImFont *> {
 
 	return get_current_font(Enums::Layout::Font::MONOSPACE);
 }
 
-auto Sorcery::FontStore::get_current_monospace_font_name() const
-	-> std::string {
+auto Sorcery::FontStore::get_current_monospace_font_name() const -> std::string {
 
-	ImFont *current_mono =
-		get_current_font(Enums::Layout::Font::MONOSPACE).value();
+	ImFont *current_mono = get_current_font(Enums::Layout::Font::MONOSPACE).value();
 	if (!current_mono)
 		return "";
 
@@ -284,19 +271,16 @@ auto Sorcery::FontStore::get_current_monospace_font_name() const
 	return "";
 }
 
-auto Sorcery::FontStore::get_all_fonts() const
-	-> const std::vector<FontInfo> & {
+auto Sorcery::FontStore::get_all_fonts() const -> const std::vector<FontInfo> & {
 
 	return fonts;
 }
 
-auto Sorcery::FontStore::get_all_monospace_fonts() const
-	-> const std::vector<FontInfo> {
+auto Sorcery::FontStore::get_all_monospace_fonts() const -> const std::vector<FontInfo> {
 
 	std::vector<FontInfo> monospace_fonts;
 	for (const auto &font : fonts) {
-		if (font.is_monospace &&
-			font.font_type == Enums::Layout::Font::MONOSPACE) {
+		if (font.is_monospace && font.font_type == Enums::Layout::Font::MONOSPACE) {
 			monospace_fonts.push_back(font);
 		}
 	}
@@ -307,17 +291,16 @@ auto Sorcery::FontStore::_sort_fonts_by_name(bool case_insensitive) -> void {
 
 	if (case_insensitive) {
 
-		const auto icompare{
-			[](std::string_view lhs, std::string_view rhs) -> bool {
-				return std::ranges::lexicographical_compare(
-					lhs, rhs, {},
-					[](unsigned char c) {
-						return static_cast<char>(std::tolower(c));
-					},
-					[](unsigned char c) {
-						return static_cast<char>(std::tolower(c));
-					});
-			}};
+		const auto icompare{[](std::string_view lhs, std::string_view rhs) -> bool {
+			return std::ranges::lexicographical_compare(
+				lhs, rhs, {},
+				[](unsigned char c) {
+					return static_cast<char>(std::tolower(c));
+				},
+				[](unsigned char c) {
+					return static_cast<char>(std::tolower(c));
+				});
+		}};
 
 		std::ranges::sort(fonts, [&](const FontInfo &a, const FontInfo &b) {
 			return icompare(a.name, b.name);

@@ -109,9 +109,7 @@ auto Sorcery::Castle::start() -> int {
 
 				} else {
 
-					_ctx.ui->popup_manager->open_dialog(
-						"main_menu:dialog_leave",
-						Enums::Layout::DialogType::CONFIRM);
+					_ctx.ui->popup_manager->open_dialog("main_menu:dialog_leave", Enums::Layout::DialogType::CONFIRM);
 				}
 
 				continue;
@@ -156,11 +154,9 @@ auto Sorcery::Castle::start() -> int {
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
 			_temple->stop();
-		} else if (_ctx.controller->has_character(
-					   Enums::CharacterSlot::INSPECT)) {
-			const auto result{_inspect->start(
-				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+		} else if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
+			const auto result{_inspect->start(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
+											  _ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);

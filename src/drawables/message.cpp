@@ -48,8 +48,7 @@ auto Sorcery::Message::build(Component &component) -> void {
 	_event_id = Enums::Map::Event::NO_EVENT;
 }
 
-auto Sorcery::Message::set(std::vector<std::string> strings,
-						   const Enums::Map::Event event_id) -> void {
+auto Sorcery::Message::set(std::vector<std::string> strings, const Enums::Map::Event event_id) -> void {
 
 	_strings = std::move(strings);
 	_event_id = event_id;
@@ -64,8 +63,7 @@ auto Sorcery::Message::display() -> void {
 	const auto rounding{_ctx.ui->frame_rd};
 	const auto grid{_ctx.ui->metrics->grid_sz()};
 
-	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(),
-			 _ctx.ui->metrics->font_sz());
+	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(), _ctx.ui->metrics->font_sz());
 
 	//
 	// Work out the size of the text frame
@@ -84,17 +82,15 @@ auto Sorcery::Message::display() -> void {
 	const auto message_width{text_width + (text_padding * 2.0f)};
 
 	// One spare line at the bottom before the continue frame overlaps it.
-	const auto message_height{(static_cast<float>(_strings.size() + 1) * grid) +
-							  (text_padding * 2.0f)};
+	const auto message_height{(static_cast<float>(_strings.size() + 1) * grid) + (text_padding * 2.0f)};
 
 	//
 	// Continue button/frame
 	//
 	const auto label_size{ImGui::CalcTextSize(continue_lbl.c_str())};
 
-	const auto actual_button_size{
-		ImVec2{label_size.x + (ImGui::GetStyle().FramePadding.x * 2.0f),
-			   label_size.y + (ImGui::GetStyle().FramePadding.y * 2.0f)}};
+	const auto actual_button_size{ImVec2{label_size.x + (ImGui::GetStyle().FramePadding.x * 2.0f),
+										 label_size.y + (ImGui::GetStyle().FramePadding.y * 2.0f)}};
 
 	const auto button_width{actual_button_size.x + (grid * 2.0f)};
 
@@ -111,17 +107,14 @@ auto Sorcery::Message::display() -> void {
 	//
 	const auto viewport{ImGui::GetMainViewport()};
 
-	const auto pos{ImVec2{
-		std::round(viewport->Pos.x + ((viewport->Size.x - total_width) * 0.5f)),
-		std::round(viewport->Pos.y +
-				   ((viewport->Size.y - total_height) * 0.5f))}};
+	const auto pos{ImVec2{std::round(viewport->Pos.x + ((viewport->Size.x - total_width) * 0.5f)),
+						  std::round(viewport->Pos.y + ((viewport->Size.y - total_height) * 0.5f))}};
 
 	//
 	// Draw modal-style background dimming
 	//
 	{
-		const auto dim_colour{
-			ImGui::GetStyleColorVec4(ImGuiCol_ModalWindowDimBg)};
+		const auto dim_colour{ImGui::GetStyleColorVec4(ImGuiCol_ModalWindowDimBg)};
 
 		ImGui::SetNextWindowPos(viewport->Pos, ImGuiCond_Always);
 
@@ -136,9 +129,8 @@ auto Sorcery::Message::display() -> void {
 		set_StyleColor(ImGuiCol_WindowBg, dim_colour);
 
 		with_Window("##message_dim", nullptr,
-					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
-						ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoNav |
-						ImGuiWindowFlags_NoSavedSettings |
+					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs |
+						ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoSavedSettings |
 						ImGuiWindowFlags_NoBringToFrontOnFocus) {}
 	}
 
@@ -158,26 +150,21 @@ auto Sorcery::Message::display() -> void {
 	UIStyle::set_faded(_ctx);
 
 	with_Window("##message", nullptr,
-				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
-					ImGuiWindowFlags_NoSavedSettings) {
+				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings) {
 
 		//
 		// Message frame
 		//
 		const auto message_x{std::round((total_width - message_width) * 0.5f)};
 
-		const auto message_min{ImVec2{ImGui::GetWindowPos().x + message_x,
-									  ImGui::GetWindowPos().y}};
+		const auto message_min{ImVec2{ImGui::GetWindowPos().x + message_x, ImGui::GetWindowPos().y}};
 
-		const auto message_max{ImVec2{message_min.x + message_width,
-									  message_min.y + message_height}};
+		const auto message_max{ImVec2{message_min.x + message_width, message_min.y + message_height}};
 
 		_ctx.ui->draw_frame(
 			message_min, message_max,
-			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
-				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y, _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y, _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
 			rounding);
 
 		//
@@ -190,8 +177,7 @@ auto Sorcery::Message::display() -> void {
 			const auto text{_ctx.get_string(key)};
 			const auto size{ImGui::CalcTextSize(text.c_str())};
 
-			ImGui::SetCursorPos(
-				ImVec2{std::round((total_width - size.x) * 0.5f), y_pos});
+			ImGui::SetCursorPos(ImVec2{std::round((total_width - size.x) * 0.5f), y_pos});
 
 			ImGui::TextUnformatted(text.c_str());
 
@@ -205,28 +191,22 @@ auto Sorcery::Message::display() -> void {
 
 		const auto button_x{std::round((total_width - button_width) * 0.5f)};
 
-		const auto button_min{ImVec2{ImGui::GetWindowPos().x + button_x,
-									 ImGui::GetWindowPos().y + button_y}};
+		const auto button_min{ImVec2{ImGui::GetWindowPos().x + button_x, ImGui::GetWindowPos().y + button_y}};
 
-		const auto button_max{
-			ImVec2{button_min.x + button_width, button_min.y + button_height}};
+		const auto button_max{ImVec2{button_min.x + button_width, button_min.y + button_height}};
 
 		_ctx.ui->draw_frame(
 			button_min, button_max,
-			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
-				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y, _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y, _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
 			rounding);
 
 		//
 		// Natural-sized Continue button centred within its frame
 		//
-		const auto actual_button_x{std::round(
-			button_x + ((button_width - actual_button_size.x) * 0.5f))};
+		const auto actual_button_x{std::round(button_x + ((button_width - actual_button_size.x) * 0.5f))};
 
-		const auto actual_button_y{std::round(
-			button_y + ((button_height - actual_button_size.y) * 0.5f))};
+		const auto actual_button_y{std::round(button_y + ((button_height - actual_button_size.y) * 0.5f))};
 
 		ImGui::SetCursorPos(ImVec2{actual_button_x, actual_button_y});
 

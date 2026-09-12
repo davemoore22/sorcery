@@ -46,8 +46,7 @@ auto Sorcery::Dialog::build(Component &component) -> void {
 	_type = Enums::Layout::DialogType::CONFIRM;
 }
 
-auto Sorcery::Dialog::build(Component &component,
-							const Enums::Layout::DialogType type) -> void {
+auto Sorcery::Dialog::build(Component &component, const Enums::Layout::DialogType type) -> void {
 
 	build(component);
 
@@ -66,8 +65,7 @@ auto Sorcery::Dialog::display() -> void {
 	const auto rounding{_ctx.ui->frame_rd};
 	const auto grid{_ctx.ui->metrics->grid_sz()};
 
-	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(),
-			 _ctx.ui->metrics->font_sz());
+	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(), _ctx.ui->metrics->font_sz());
 
 	const auto text{_ctx.get_string(_component->string_key)};
 
@@ -103,10 +101,8 @@ auto Sorcery::Dialog::display() -> void {
 
 		_ctx.ui->draw_frame(
 			p_min, p_max,
-			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
-				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y, _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y, _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
 			rounding);
 
 		ImGui::SetCursorPos(ImVec2{grid * 2.0f, grid * 2.0f});
@@ -121,8 +117,7 @@ auto Sorcery::Dialog::display() -> void {
 
 		if (_type == CONFIRM) {
 
-			ImGui::SetCursorPos(
-				ImVec2{button_centre - (btn_size.x + grid), grid * 4.0f});
+			ImGui::SetCursorPos(ImVec2{button_centre - (btn_size.x + grid), grid * 4.0f});
 
 			if (ImGui::Button(yes_lbl.c_str(), btn_size)) {
 
@@ -140,8 +135,7 @@ auto Sorcery::Dialog::display() -> void {
 
 		} else if (_type == OK) {
 
-			ImGui::SetCursorPos(
-				ImVec2{button_centre - (btn_size.x / 2.0f), grid * 4.0f});
+			ImGui::SetCursorPos(ImVec2{button_centre - (btn_size.x / 2.0f), grid * 4.0f});
 
 			if (ImGui::Button(ok_lbl.c_str(), btn_size)) {
 

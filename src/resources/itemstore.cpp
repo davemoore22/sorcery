@@ -47,8 +47,7 @@
 #include <vector>				   // for vector
 
 // Standard Constructor
-Sorcery::ItemStore::ItemStore(Context &ctx,
-							  const std::filesystem::path filename)
+Sorcery::ItemStore::ItemStore(Context &ctx, const std::filesystem::path filename)
 	: _ctx{ctx} {
 
 	_items.clear();
@@ -59,8 +58,7 @@ Sorcery::ItemStore::ItemStore(Context &ctx,
 
 auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 
-	if (std::ifstream file{filename.string(), std::ifstream::binary};
-		file.good()) {
+	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -75,14 +73,12 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 			for (auto i = 0u; i < items.size(); i++) {
 
 				// Some fields are always present
-				const auto id{
-					enum_cast<Enums::Items::TypeID>(items[i]["id"].asInt())};
+				const auto id{enum_cast<Enums::Items::TypeID>(items[i]["id"].asInt())};
 				const auto category{std::invoke([&] {
 					using enum Enums::Items::Category;
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
-							auto category{enum_cast<Enums::Items::Category>(
-								items[i]["category"].asString())};
+							auto category{enum_cast<Enums::Items::Category>(items[i]["category"].asString())};
 							return category.value_or(NO_ITEM_CATEGORY);
 						} else
 							return NO_ITEM_CATEGORY;
@@ -90,16 +86,12 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 						return NO_ITEM_CATEGORY;
 				})};
 				const std::string known_name(items[i]["known name"].asString());
-				const std::string unknown_name(
-					items[i]["unknown name"].asString());
-				const std::string display_name(
-					items[i]["display name"].asString());
-				const auto value{static_cast<unsigned int>(
-					std::stoul(items[i]["value"].asString()))};
+				const std::string unknown_name(items[i]["unknown name"].asString());
+				const std::string display_name(items[i]["display name"].asString());
+				const auto value{static_cast<unsigned int>(std::stoul(items[i]["value"].asString()))};
 				const std::string allowed_classes_s{std::invoke([&] {
 					if (items[i].isMember("allowed classes")) {
-						return items[i]["allowed classes"].asString().length() >
-									   0
+						return items[i]["allowed classes"].asString().length() > 0
 								   ? items[i]["allowed classes"].asString()
 								   : "";
 					} else
@@ -107,9 +99,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 				const std::string allowed_alignments_s{std::invoke([&] {
 					if (items[i].isMember("allowed alignments"))
-						return items[i]["allowed alignments"]
-										   .asString()
-										   .length() > 0
+						return items[i]["allowed alignments"].asString().length() > 0
 								   ? items[i]["allowed alignments"].asString()
 								   : "";
 					else
@@ -123,9 +113,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 				const std::string damage_s{std::invoke([&] {
 					if (items[i].isMember("damage"))
-						return items[i]["damage"].asString().length() > 0
-								   ? items[i]["damage"].asString()
-								   : "";
+						return items[i]["damage"].asString().length() > 0 ? items[i]["damage"].asString() : "";
 					else
 						return std::string{};
 				})};
@@ -151,8 +139,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					using enum Enums::Magic::SpellID;
 					if (items[i].isMember("use")) {
 						if (items[i]["use"].asString().length() > 0) {
-							auto use{enum_cast<Enums::Magic::SpellID>(
-								items[i]["use"].asString())};
+							auto use{enum_cast<Enums::Magic::SpellID>(items[i]["use"].asString())};
 							return use.value_or(NO_SPELL);
 						} else
 							return NO_SPELL;
@@ -167,17 +154,13 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 				const std::string offensive_s{std::invoke([&] {
 					if (items[i].isMember("offensive"))
-						return items[i]["offensive"].asString().length() > 0
-								   ? items[i]["offensive"].asString()
-								   : "";
+						return items[i]["offensive"].asString().length() > 0 ? items[i]["offensive"].asString() : "";
 					else
 						return std::string{};
 				})};
 				const std::string defensive_s{std::invoke([&] {
 					if (items[i].isMember("defensive"))
-						return items[i]["defensive"].asString().length() > 0
-								   ? items[i]["defensive"].asString()
-								   : "";
+						return items[i]["defensive"].asString().length() > 0 ? items[i]["defensive"].asString() : "";
 					else
 						return std::string{};
 				})};
@@ -185,9 +168,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					using enum Enums::Items::Effects::Invoke;
 					if (items[i].isMember("invoke")) {
 						if (items[i]["invoke"].asString().length() > 0) {
-							auto invoke{
-								enum_cast<Enums::Items::Effects::Invoke>(
-									items[i]["invoke"].asString())};
+							auto invoke{enum_cast<Enums::Items::Effects::Invoke>(items[i]["invoke"].asString())};
 							return invoke.value_or(NO_INV_EFFECT);
 						} else
 							return NO_INV_EFFECT;
@@ -226,25 +207,19 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				})};
 				const std::string effects{std::invoke([&] {
 					if (items[i].isMember("effects"))
-						return items[i]["effects"].asString().length() > 0
-								   ? items[i]["effects"].asString()
-								   : "";
+						return items[i]["effects"].asString().length() > 0 ? items[i]["effects"].asString() : "";
 					else
 						return std::string{};
 				})};
 				const std::string usage{std::invoke([&] {
 					if (items[i].isMember("usage"))
-						return items[i]["usage"].asString().length() > 0
-								   ? items[i]["usage"].asString()
-								   : "";
+						return items[i]["usage"].asString().length() > 0 ? items[i]["usage"].asString() : "";
 					else
 						return std::string{};
 				})};
 				const std::string invokage{std::invoke([&] {
 					if (items[i].isMember("invokage"))
-						return items[i]["invokage"].asString().length() > 0
-								   ? items[i]["invokage"].asString()
-								   : "";
+						return items[i]["invokage"].asString().length() > 0 ? items[i]["invokage"].asString() : "";
 					else
 						return std::string{};
 				})};
@@ -298,8 +273,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 				item_type.set_usage(usage);
 
 				// Parse Damage Dice String
-				if (!damage_s.empty() &&
-					category == Enums::Items::Category::WEAPON)
+				if (!damage_s.empty() && category == Enums::Items::Category::WEAPON)
 					item_type.set_damage_dice(damage_s);
 				else
 					item_type.set_damage_dice("");
@@ -328,8 +302,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 		return false;
 }
 
-auto Sorcery::ItemStore::get(Enums::Items::TypeID item_type_id) const
-	-> ItemType {
+auto Sorcery::ItemStore::get(Enums::Items::TypeID item_type_id) const -> ItemType {
 
 	return _items.at(item_type_id);
 }
@@ -339,8 +312,7 @@ auto Sorcery::ItemStore::get(unsigned int item_type_id) const -> ItemType {
 	return _items.at(enum_cast<Enums::Items::TypeID>(item_type_id).value());
 }
 
-auto Sorcery::ItemStore::get_item_type(
-	const Enums::Items::TypeID item_type_id) const -> ItemType {
+auto Sorcery::ItemStore::get_item_type(const Enums::Items::TypeID item_type_id) const -> ItemType {
 
 	return _items.at(item_type_id);
 }
@@ -357,8 +329,7 @@ auto Sorcery::ItemStore::get(std::string_view name) const -> ItemType {
 	return it->second;
 }
 
-auto Sorcery::ItemStore::get(const Enums::Items::Category category) const
-	-> std::vector<ItemType> {
+auto Sorcery::ItemStore::get(const Enums::Items::Category category) const -> std::vector<ItemType> {
 
 	std::vector<ItemType> items;
 	for (const auto &[key, value] : _items)
@@ -369,54 +340,43 @@ auto Sorcery::ItemStore::get(const Enums::Items::Category category) const
 }
 
 // Public methods
-auto Sorcery::ItemStore::get_an_item(
-	const Enums::Items::TypeID item_type_id) const -> Item {
+auto Sorcery::ItemStore::get_an_item(const Enums::Items::TypeID item_type_id) const -> Item {
 
 	return Item{_items.at(item_type_id)};
 }
 
-auto Sorcery::ItemStore::is_usable(const Enums::Items::TypeID item_type_id,
-								   const Enums::Character::Class cclass,
-								   const Enums::Character::Align calign) const
-	-> bool {
+auto Sorcery::ItemStore::is_usable(const Enums::Items::TypeID item_type_id, const Enums::Character::Class cclass,
+								   const Enums::Character::Align calign) const -> bool {
 
-	return _items.at(item_type_id).is_class_usable(cclass) &&
-		   _items.at(item_type_id).is_align_usable(calign);
+	return _items.at(item_type_id).is_class_usable(cclass) && _items.at(item_type_id).is_align_usable(calign);
 }
 
-auto Sorcery::ItemStore::has_usable(
-	const Enums::Items::TypeID item_type_id) const -> bool {
+auto Sorcery::ItemStore::has_usable(const Enums::Items::TypeID item_type_id) const -> bool {
 
 	return _items.at(item_type_id).has_usable();
 }
 
-auto Sorcery::ItemStore::sellable_price(
-	const Enums::Items::TypeID item_type_id) const -> unsigned int {
+auto Sorcery::ItemStore::sellable_price(const Enums::Items::TypeID item_type_id) const -> unsigned int {
 
 	return _items.at(item_type_id).get_value() / 2;
 }
 
-auto Sorcery::ItemStore::sellable_to_shop(
-	const Enums::Items::TypeID item_type_id) const -> bool {
+auto Sorcery::ItemStore::sellable_to_shop(const Enums::Items::TypeID item_type_id) const -> bool {
 
 	return _items.at(item_type_id).get_buy();
 }
 
-auto Sorcery::ItemStore::has_invokable(
-	const Enums::Items::TypeID item_type_id) const -> bool {
+auto Sorcery::ItemStore::has_invokable(const Enums::Items::TypeID item_type_id) const -> bool {
 
 	return _items.at(item_type_id).has_invokable();
 }
 
-auto Sorcery::ItemStore::get_random_item(
-	const Enums::Items::TypeID min_item_type_id,
-	const Enums::Items::TypeID max_item_type_id) const -> Item {
+auto Sorcery::ItemStore::get_random_item(const Enums::Items::TypeID min_item_type_id,
+										 const Enums::Items::TypeID max_item_type_id) const -> Item {
 
-	auto item_type_id{_ctx.random->get(std::to_underlying(min_item_type_id),
-									   std::to_underlying(max_item_type_id))};
+	auto item_type_id{_ctx.random->get(std::to_underlying(min_item_type_id), std::to_underlying(max_item_type_id))};
 
-	return Item{
-		_items.at(enum_cast<Enums::Items::TypeID>(item_type_id).value())};
+	return Item{_items.at(enum_cast<Enums::Items::TypeID>(item_type_id).value())};
 }
 
 auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
@@ -428,16 +388,14 @@ auto Sorcery::ItemStore::get_all_types() const -> std::vector<ItemType> {
 	return items;
 }
 
-auto Sorcery::ItemStore::_get_defensive_effects(
-	const std::string defensive_s) const -> std::array<bool, 22> {
+auto Sorcery::ItemStore::_get_defensive_effects(const std::string defensive_s) const -> std::array<bool, 22> {
 
 	std::array<bool, 22> effects{};
 	effects.fill(false);
 
 	if (defensive_s.length() > 0) {
 		std::regex regex{R"([,]+)"};
-		std::sregex_token_iterator it{defensive_s.begin(), defensive_s.end(),
-									  regex, -1};
+		std::sregex_token_iterator it{defensive_s.begin(), defensive_s.end(), regex, -1};
 		std::vector<std::string> split{it, {}};
 		split.erase(std::remove_if(split.begin(), split.end(),
 								   [](std::string_view s) {
@@ -448,35 +406,31 @@ auto Sorcery::ItemStore::_get_defensive_effects(
 		for (const auto &term : split) {
 			using enum Enums::Items::Effects::Defensive;
 			if (term == "RESIST_ALL") {
-				for (auto i = std::to_underlying(RESIST_COLD);
-					 i <= std::to_underlying(PREVENT_DECAPITATION); i++)
+				for (auto i = std::to_underlying(RESIST_COLD); i <= std::to_underlying(PREVENT_DECAPITATION); i++)
 					effects[i] = true;
 			}
 			if (term == "PROTECT_VS_ALL") {
-				for (auto i = std::to_underlying(PROTECTION_VS_ANIMAL);
-					 i <= std::to_underlying(PROTECTION_VS_WERE); i++)
+				for (auto i = std::to_underlying(PROTECTION_VS_ANIMAL); i <= std::to_underlying(PROTECTION_VS_WERE);
+					 i++)
 					effects[i] = true;
 			};
 			auto def{enum_cast<Enums::Items::Effects::Defensive>(term)};
 			if (def.has_value())
-				effects[std::to_underlying(def.value())] =
-					term.starts_with('!') ? false : true;
+				effects[std::to_underlying(def.value())] = term.starts_with('!') ? false : true;
 		}
 	}
 
 	return effects;
 }
 
-auto Sorcery::ItemStore::_get_offensive_effects(
-	const std::string offsensive_s) const -> std::array<bool, 15> {
+auto Sorcery::ItemStore::_get_offensive_effects(const std::string offsensive_s) const -> std::array<bool, 15> {
 
 	std::array<bool, 15> effects{};
 	effects.fill(false);
 
 	if (offsensive_s.length() > 0) {
 		std::regex regex{R"([,]+)"};
-		std::sregex_token_iterator it{offsensive_s.begin(), offsensive_s.end(),
-									  regex, -1};
+		std::sregex_token_iterator it{offsensive_s.begin(), offsensive_s.end(), regex, -1};
 		std::vector<std::string> split{it, {}};
 		split.erase(std::remove_if(split.begin(), split.end(),
 								   [](std::string_view s) {
@@ -487,8 +441,7 @@ auto Sorcery::ItemStore::_get_offensive_effects(
 		for (const auto &term : split) {
 			auto off{enum_cast<Enums::Items::Effects::Offensive>(term)};
 			if (off.has_value())
-				effects[std::to_underlying(off.value())] =
-					term.starts_with('!') ? false : true;
+				effects[std::to_underlying(off.value())] = term.starts_with('!') ? false : true;
 		}
 	}
 	return effects;

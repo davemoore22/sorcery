@@ -41,8 +41,7 @@ Sorcery::FileStore::FileStore() {
 	_base_path = _get_exe_path();
 
 	if (_base_path.empty()) {
-		throw std::runtime_error{
-			"Unable to determine the Sorcery executable directory."};
+		throw std::runtime_error{"Unable to determine the Sorcery executable directory."};
 	}
 
 	_file_paths.clear();
@@ -118,42 +117,32 @@ Sorcery::FileStore::FileStore() {
 	_validate_files();
 }
 
-auto Sorcery::FileStore::get(const std::string_view key) const
-	-> std::filesystem::path {
+auto Sorcery::FileStore::get(const std::string_view key) const -> std::filesystem::path {
 
 	const auto found{_file_paths.find(std::string{key})};
 
-	return found != _file_paths.end() ? found->second
-									  : std::filesystem::path{FILE_NOT_FOUND};
+	return found != _file_paths.end() ? found->second : std::filesystem::path{FILE_NOT_FOUND};
 }
 
-auto Sorcery::FileStore::get_path(const std::string_view key) const
-	-> std::string {
+auto Sorcery::FileStore::get_path(const std::string_view key) const -> std::string {
 
 	const auto found{_file_paths.find(std::string{key})};
 
-	return found != _file_paths.end() ? found->second.string()
-									  : std::string{FILE_NOT_FOUND};
+	return found != _file_paths.end() ? found->second.string() : std::string{FILE_NOT_FOUND};
 }
 
-auto Sorcery::FileStore::get_directory(std::string_view key) const
-	-> std::filesystem::path {
+auto Sorcery::FileStore::get_directory(std::string_view key) const -> std::filesystem::path {
 
 	const auto found{_directory_paths.find(std::string{key})};
 
-	return found != _directory_paths.end()
-			   ? found->second
-			   : std::filesystem::path{FILE_NOT_FOUND};
+	return found != _directory_paths.end() ? found->second : std::filesystem::path{FILE_NOT_FOUND};
 }
 
-auto Sorcery::FileStore::get_directory_path(std::string_view key) const
-	-> std::string {
+auto Sorcery::FileStore::get_directory_path(std::string_view key) const -> std::string {
 
 	const auto found{_directory_paths.find(std::string{key})};
 
-	return found != _directory_paths.end()
-			   ? found->second
-			   : std::filesystem::path{FILE_NOT_FOUND};
+	return found != _directory_paths.end() ? found->second : std::filesystem::path{FILE_NOT_FOUND};
 }
 
 auto Sorcery::FileStore::get_base_path() const -> std::filesystem::path {
@@ -161,9 +150,8 @@ auto Sorcery::FileStore::get_base_path() const -> std::filesystem::path {
 	return _base_path;
 }
 
-auto Sorcery::FileStore::_add_path(const std::string_view dir,
-								   const std::string_view file,
-								   const bool required) -> void {
+auto Sorcery::FileStore::_add_path(const std::string_view dir, const std::string_view file, const bool required)
+	-> void {
 
 	const std::filesystem::path file_path{_base_path / dir / file};
 
@@ -173,9 +161,8 @@ auto Sorcery::FileStore::_add_path(const std::string_view dir,
 		_required_files.emplace_back(file_path);
 }
 
-auto Sorcery::FileStore::_add_directory(const std::string_view dir,
-										const std::string_view sub_dir,
-										const bool required) -> void {
+auto Sorcery::FileStore::_add_directory(const std::string_view dir, const std::string_view sub_dir, const bool required)
+	-> void {
 
 	const std::filesystem::path dir_path{_base_path / dir / sub_dir};
 	const std::string key{std::string{sub_dir}};
@@ -186,8 +173,7 @@ auto Sorcery::FileStore::_add_directory(const std::string_view dir,
 		_required_directories.emplace_back(dir_path);
 }
 
-auto Sorcery::FileStore::_add_directory(const std::string_view dir,
-										const bool required) -> void {
+auto Sorcery::FileStore::_add_directory(const std::string_view dir, const bool required) -> void {
 
 	const std::filesystem::path dir_path{_base_path / dir};
 
@@ -197,10 +183,8 @@ auto Sorcery::FileStore::_add_directory(const std::string_view dir,
 		_required_directories.emplace_back(dir_path);
 }
 
-auto Sorcery::FileStore::_add_path(const std::string_view dir,
-								   const std::string_view sub_dir,
-								   const std::string_view file,
-								   const bool required) -> void {
+auto Sorcery::FileStore::_add_path(const std::string_view dir, const std::string_view sub_dir,
+								   const std::string_view file, const bool required) -> void {
 
 	const std::filesystem::path file_path{_base_path / dir / sub_dir / file};
 
@@ -223,8 +207,7 @@ auto Sorcery::FileStore::_validate_files() const -> void {
 		// DEBUG_LOGF("Checking required directory: {}", dir.string());
 
 		const bool exists{std::filesystem::exists(dir, error)};
-		const bool directory{exists &&
-							 std::filesystem::is_directory(dir, error)};
+		const bool directory{exists && std::filesystem::is_directory(dir, error)};
 
 		if (error || !directory)
 			missing_directories.emplace_back(dir);
@@ -237,8 +220,7 @@ auto Sorcery::FileStore::_validate_files() const -> void {
 		// DEBUG_LOGF("Checking required file: {}", file.string());
 
 		const bool exists{std::filesystem::exists(file, error)};
-		const bool regular{exists &&
-						   std::filesystem::is_regular_file(file, error)};
+		const bool regular{exists && std::filesystem::is_regular_file(file, error)};
 
 		if (error || !regular)
 			missing_files.emplace_back(file);
@@ -251,8 +233,7 @@ auto Sorcery::FileStore::_validate_files() const -> void {
 
 	std::ostringstream message;
 
-	message << "Sorcery could not start because " << missing_files.size()
-			<< " required runtime file";
+	message << "Sorcery could not start because " << missing_files.size() << " required runtime file";
 	if (missing_files.size() != 1)
 		message << 's';
 	message << " could not be found:\n";
@@ -260,8 +241,7 @@ auto Sorcery::FileStore::_validate_files() const -> void {
 		message << "\n  " << file.string();
 
 	if (!missing_directories.empty()) {
-		message << "\n\nAdditionally, " << missing_directories.size()
-				<< " required runtime directory";
+		message << "\n\nAdditionally, " << missing_directories.size() << " required runtime directory";
 		if (missing_directories.size() != 1)
 			message << 's';
 		message << " could not be found:\n";
@@ -281,8 +261,7 @@ auto Sorcery::FileStore::_get_exe_path() const -> std::filesystem::path {
 
 	std::array<char, PATH_MAX> result{};
 
-	const ssize_t count{
-		::readlink("/proc/self/exe", result.data(), result.size() - 1)};
+	const ssize_t count{::readlink("/proc/self/exe", result.data(), result.size() - 1)};
 
 	if (count < 0)
 		return {};
@@ -296,8 +275,7 @@ auto Sorcery::FileStore::_get_exe_path() const -> std::filesystem::path {
 	std::vector<wchar_t> buffer(MAX_PATH);
 
 	for (;;) {
-		const DWORD copied{GetModuleFileNameW(
-			nullptr, buffer.data(), static_cast<DWORD>(buffer.size()))};
+		const DWORD copied{GetModuleFileNameW(nullptr, buffer.data(), static_cast<DWORD>(buffer.size()))};
 
 		if (copied == 0)
 			return {};
@@ -305,9 +283,7 @@ auto Sorcery::FileStore::_get_exe_path() const -> std::filesystem::path {
 		if (copied < buffer.size() - 1) {
 			buffer.resize(copied);
 
-			return std::filesystem::path{
-				std::wstring{buffer.begin(), buffer.end()}}
-				.parent_path();
+			return std::filesystem::path{std::wstring{buffer.begin(), buffer.end()}}.parent_path();
 		}
 
 		buffer.resize(buffer.size() * 2);

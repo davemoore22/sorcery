@@ -26,8 +26,7 @@
 #include "types/enum.hpp"
 #include "types/game.hpp"
 
-auto Sorcery::apply_invoke(Game *game, Character &character,
-						   const Enums::Items::Effects::Invoke effect) -> bool {
+auto Sorcery::apply_invoke(Game *game, Character &character, const Enums::Items::Effects::Invoke effect) -> bool {
 
 	using enum Enums::Items::Effects::Invoke;
 
@@ -49,10 +48,8 @@ auto Sorcery::apply_invoke(Game *game, Character &character,
 		return true;
 
 	case INC_STRENGTH:
-		if (character.get_cur_attr(Enums::Character::Attribute::STRENGTH) <
-			18) {
-			character.adjust_attribute(Enums::Character::Attribute::STRENGTH,
-									   1);
+		if (character.get_cur_attr(Enums::Character::Attribute::STRENGTH) < 18) {
+			character.adjust_attribute(Enums::Character::Attribute::STRENGTH, 1);
 		}
 		return true;
 

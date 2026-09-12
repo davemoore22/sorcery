@@ -29,14 +29,14 @@
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp" // for ABORT_GAME, CHARACTER_SELECTED
-#include "training/enum.hpp"	// for Edit
-#include "training/reclass.hpp" // for Reclass
-#include "training/rename.hpp"	// for Rename
-#include "training/rite.hpp"	// for Rite
-#include "training/select.hpp"	// for Select
-#include <SDL_events.h>			// for SDL_PollEvent
-#include <any>					// for any
+#include "drawables/define.hpp"				// for ABORT_GAME, CHARACTER_SELECTED
+#include "training/enum.hpp"				// for Edit
+#include "training/reclass.hpp"				// for Reclass
+#include "training/rename.hpp"				// for Rename
+#include "training/rite.hpp"				// for Rite
+#include "training/select.hpp"				// for Select
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
 
 Sorcery::Edit::Edit(Context &ctx)
 	: Module{ctx} {
@@ -97,8 +97,7 @@ auto Sorcery::Edit::start() -> int {
 
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::EDIT) &&
-			_ctx.controller->wants(Enums::Screen::TRAINING)) {
+		if (!_ctx.controller->wants(Enums::Screen::EDIT) && _ctx.controller->wants(Enums::Screen::TRAINING)) {
 
 			return BACK_TO_TRAINING_GROUNDS;
 		}

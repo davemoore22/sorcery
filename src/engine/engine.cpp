@@ -25,10 +25,10 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
-#include "core/debug.hpp"	  // for DEBUG_LOG, DEBUG_LOGF, debu...
-#include "core/define.hpp"	  // for EXPEDITION_GOTO
-#include "core/enum.hpp"	  // for Screen, CharacterSlot
-#include "core/resources.hpp" // for Resources
+#include "core/debug.hpp"					// for DEBUG_LOG, DEBUG_LOGF, debu...
+#include "core/define.hpp"					// for EXPEDITION_GOTO
+#include "core/enum.hpp"					// for Screen, CharacterSlot
+#include "core/resources.hpp"				// for Resources
 #include "display/ui/popupmanager.hpp"
 #include "display/ui/ui.hpp"			 // for UI, TransientMode, Transien...
 #include "drawables/define.hpp"			 // for ABORT_GAME, INSPECT_MODE_AC...
@@ -94,9 +94,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 	_ctx.controller->go_to(Enums::Screen::ENGINE);
 
 	if (_ctx.game->state->get_party_size() > 0)
-		_ctx.controller->set_character(
-			Enums::CharacterSlot::INSPECT,
-			_ctx.game->state->get_party_char(1).value());
+		_ctx.controller->set_character(Enums::CharacterSlot::INSPECT, _ctx.game->state->get_party_char(1).value());
 
 	_start_expedition(mode);
 
@@ -142,8 +140,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					_ctx.controller->clear_modal_flags();
 				} else {
 
-					_ctx.ui->popup_manager->open_modal(
-						"engine_base_ui:modal_camp");
+					_ctx.ui->popup_manager->open_modal("engine_base_ui:modal_camp");
 				}
 
 				continue;
@@ -201,12 +198,10 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			_ctx.controller->input->ui_toggle(event);
 
 			if (old_monochrome != _ctx.controller->get_monochrome())
-				_ctx.controller->set_monochrome(
-					_ctx.controller->get_monochrome());
+				_ctx.controller->set_monochrome(_ctx.controller->get_monochrome());
 
 			// Check for movement
-			if (const auto movement{_ctx.controller->input->movement(event)};
-				movement != MOVE_NONE) {
+			if (const auto movement{_ctx.controller->input->movement(event)}; movement != MOVE_NONE) {
 
 				_ctx.ui->clear_transient_on_action();
 
@@ -219,8 +214,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					if (const auto has_moved{_move_forward()}; has_moved) {
 
 						if (!_tile_explored(_ctx.game->state->get_player_pos()))
-							_set_tile_explored(
-								_ctx.game->state->get_player_pos());
+							_set_tile_explored(_ctx.game->state->get_player_pos());
 					}
 
 					break;
@@ -232,8 +226,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					if (const auto has_moved{_move_backward()}; has_moved) {
 
 						if (!_tile_explored(_ctx.game->state->get_player_pos()))
-							_set_tile_explored(
-								_ctx.game->state->get_player_pos());
+							_set_tile_explored(_ctx.game->state->get_player_pos());
 					}
 
 					break;
@@ -272,8 +265,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		//
 		// Complete pending timed transitions
 		//
-		if (_pending_elevator &&
-			std::chrono::steady_clock::now() >= _pending_elevator->execute_at) {
+		if (_pending_elevator && std::chrono::steady_clock::now() >= _pending_elevator->execute_at) {
 
 			const auto depth{_pending_elevator->depth};
 
@@ -284,8 +276,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			_take_elevator(depth);
 		}
 
-		if (_pending_chute &&
-			std::chrono::steady_clock::now() >= _pending_chute->execute_at) {
+		if (_pending_chute && std::chrono::steady_clock::now() >= _pending_chute->execute_at) {
 
 			const auto depth{_pending_chute->depth};
 			const auto loc{_pending_chute->loc};
@@ -337,11 +328,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				for (auto &[id, character] : _ctx.game->characters) {
 
-					if (std::find(party.begin(), party.end(), id) !=
-						party.end()) {
+					if (std::find(party.begin(), party.end(), id) != party.end()) {
 
-						character.set_location(
-							Enums::Character::Location::MAZE);
+						character.set_location(Enums::Character::Location::MAZE);
 
 						character.set_current_hp(0);
 					}
@@ -379,9 +368,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 			} else if (_ctx.controller->wants(Enums::Screen::INSPECT)) {
 
-				const auto result{_inspect->start(
-					INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-					_ctx.game->state->get_party_char(1).value())};
+				const auto result{_inspect->start(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
+												  _ctx.game->state->get_party_char(1).value())};
 
 				if (result == ABORT_GAME)
 					return _abort();
@@ -397,8 +385,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				_go_up_a_level();
 
-			} else if (_ctx.ui->popup_manager->consume_accepted(
-						   "dialog_stairs_down")) {
+			} else if (_ctx.ui->popup_manager->consume_accepted("dialog_stairs_down")) {
 
 				_go_down_a_level();
 			}
@@ -406,22 +393,18 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			// Check for Elevator
 			if (_ctx.controller->has_flag("want_take_elevator")) {
 
-				const auto depth{
-					_ctx.controller->get_selected("elevator_selected")};
+				const auto depth{_ctx.controller->get_selected("elevator_selected")};
 
 				_ctx.controller->unset_flag("want_take_elevator");
 
-				_ctx.ui->show_transient(_ctx.get_string("POP_UP_ELEVATOR"), 1s,
-										TransientWidth::FIT_TEXT,
+				_ctx.ui->show_transient(_ctx.get_string("POP_UP_ELEVATOR"), 1s, TransientWidth::FIT_TEXT,
 										TransientMode::UNTIL_EXPIRY);
 
-				_pending_elevator = PendingElevator{
-					.depth = depth,
-					.execute_at = std::chrono::steady_clock::now() + 1s};
+				_pending_elevator =
+					PendingElevator{.depth = depth, .execute_at = std::chrono::steady_clock::now() + 1s};
 			}
 
-			if (const auto result{
-					_ctx.ui->popup_manager->consume_result("dialog_search")}) {
+			if (const auto result{_ctx.ui->popup_manager->consume_result("dialog_search")}) {
 
 				using enum DrawableResult;
 
@@ -437,8 +420,7 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				} else if (*result == CANCELLED) {
 
 					// Player selected No: no search, no encounter.
-					_ctx.controller->set_last_event(
-						Enums::Map::Event::NO_EVENT);
+					_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 				}
 			}
 
@@ -449,11 +431,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 				for (auto &[id, character] : _ctx.game->characters) {
 
-					if (std::find(party.begin(), party.end(), id) !=
-						party.end()) {
+					if (std::find(party.begin(), party.end(), id) != party.end()) {
 
-						character.set_location(
-							Enums::Character::Location::MAZE);
+						character.set_location(Enums::Character::Location::MAZE);
 					}
 				}
 
@@ -528,8 +508,7 @@ auto Sorcery::Engine::_set_tile_explored(const Coordinate loc) -> void {
 	_ctx.game->state->explored[depth].set(loc);
 }
 
-auto Sorcery::Engine::_go_to_location(const int depth, const Coordinate loc,
-									  const Enums::Map::Direction dir) -> void {
+auto Sorcery::Engine::_go_to_location(const int depth, const Coordinate loc, const Enums::Map::Direction dir) -> void {
 
 	Level level{_ctx.resources->levels->get(depth).value()};
 	_ctx.game->state->set_current_level(&level);
@@ -545,8 +524,7 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 	_ctx.controller->set_last_dir(Enums::Map::Direction::NO_DIRECTION);
 	_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 	_ctx.controller->set_can_undo(false);
-	_ctx.controller->set_monochrome(
-		_ctx.get_config(Enums::Config::CGA_GRAPHICS));
+	_ctx.controller->set_monochrome(_ctx.get_config(Enums::Config::CGA_GRAPHICS));
 
 	//_ctx.controller->set_flag("show_automap");
 	_ctx.controller->set_flag("interface_party_panel");
@@ -557,13 +535,10 @@ auto Sorcery::Engine::_start_expedition(const int mode) -> void {
 
 	if (mode & EXPEDITION_GOTO) {
 		// Check we have an override to go to a specific placein the maze
-		const auto goto_depth{
-			std::stoi(_ctx.get_config("Debug", "quick_start_depth"))};
-		const auto goto_loc{
-			Coordinate{std::stoi(_ctx.get_config("Debug", "quick_start_x")),
-					   std::stoi(_ctx.get_config("Debug", "quick_start_y"))}};
-		const auto goto_dir{static_cast<Enums::Map::Direction>(
-			std::stoi(_ctx.get_config("Debug", "quick_start_dir")))};
+		const auto goto_depth{std::stoi(_ctx.get_config("Debug", "quick_start_depth"))};
+		const auto goto_loc{Coordinate{std::stoi(_ctx.get_config("Debug", "quick_start_x")),
+									   std::stoi(_ctx.get_config("Debug", "quick_start_y"))}};
+		const auto goto_dir{static_cast<Enums::Map::Direction>(std::stoi(_ctx.get_config("Debug", "quick_start_dir")))};
 
 		_go_to_location(goto_depth, goto_loc, goto_dir);
 
@@ -611,8 +586,7 @@ auto Sorcery::Engine::_check_for_tile_message(const Tile &tile) -> bool {
 	using enum Enums::Map::Event;
 	using enum Enums::Items::TypeID;
 
-	if (*event == WERDNA_SIGN_IN &&
-		_ctx.game->party_has_item(AMULET_OF_WERDNA)) {
+	if (*event == WERDNA_SIGN_IN && _ctx.game->party_has_item(AMULET_OF_WERDNA)) {
 
 		event = WERDNA_SIGN_OUT;
 	}
@@ -657,9 +631,7 @@ auto Sorcery::Engine::_go_back_to_town() -> int {
 }
 auto Sorcery::Engine::_go_down_a_level() -> void {
 
-	if (const auto tile{
-			_ctx.game->state->level->at(_ctx.game->state->get_player_pos())};
-		tile.has_stairs()) {
+	if (const auto tile{_ctx.game->state->level->at(_ctx.game->state->get_player_pos())}; tile.has_stairs()) {
 
 		auto destination{tile.has_stairs().value()};
 		auto to_level{destination.to_level};
@@ -669,8 +641,7 @@ auto Sorcery::Engine::_go_down_a_level() -> void {
 			Level level{_ctx.resources->levels->get(to_level).value()};
 			_ctx.game->state->set_current_level(&level);
 			_ctx.game->state->set_player_pos(destination.to_loc);
-			_ctx.game->state->set_player_prev_depth(
-				_ctx.game->state->get_depth());
+			_ctx.game->state->set_player_prev_depth(_ctx.game->state->get_depth());
 			_ctx.game->state->set_depth(to_level);
 			_set_tile_explored(_ctx.game->state->get_player_pos());
 
@@ -681,9 +652,7 @@ auto Sorcery::Engine::_go_down_a_level() -> void {
 
 auto Sorcery::Engine::_go_up_a_level() -> void {
 
-	if (const auto tile{
-			_ctx.game->state->level->at(_ctx.game->state->get_player_pos())};
-		tile.has_stairs()) {
+	if (const auto tile{_ctx.game->state->level->at(_ctx.game->state->get_player_pos())}; tile.has_stairs()) {
 
 		auto destination{tile.has_stairs().value()};
 		auto to_level{destination.to_level};
@@ -693,8 +662,7 @@ auto Sorcery::Engine::_go_up_a_level() -> void {
 			Level level{_ctx.resources->levels->get(to_level).value()};
 			_ctx.game->state->set_current_level(&level);
 			_ctx.game->state->set_player_pos(destination.to_loc);
-			_ctx.game->state->set_player_prev_depth(
-				_ctx.game->state->get_depth());
+			_ctx.game->state->set_player_prev_depth(_ctx.game->state->get_depth());
 			_ctx.game->state->set_depth(to_level);
 			_set_tile_explored(_ctx.game->state->get_player_pos());
 		}
@@ -746,8 +714,7 @@ auto Sorcery::Engine::_turn_left() -> void {
 	const auto at{_ctx.game->state->get_player_pos()};
 	if (_ctx.game->state->level->at(at).has_spinner()) {
 
-		auto new_facing{static_cast<Enums::Map::Direction>(
-			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+		auto new_facing{static_cast<Enums::Map::Direction>(_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
 		_ctx.game->state->set_player_facing(new_facing);
 
 		DEBUG_LOG("Player triggered spinner");
@@ -780,8 +747,7 @@ auto Sorcery::Engine::_turn_right() -> void {
 	const auto at{_ctx.game->state->get_player_pos()};
 	if (_ctx.game->state->level->at(at).has_spinner()) {
 
-		auto new_facing{static_cast<Enums::Map::Direction>(
-			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+		auto new_facing{static_cast<Enums::Map::Direction>(_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
 		_ctx.game->state->set_player_facing(new_facing);
 
 		DEBUG_LOG("Player triggered spinner");
@@ -814,8 +780,7 @@ auto Sorcery::Engine::_turn_around() -> void {
 	const auto at{_ctx.game->state->get_player_pos()};
 	if (_ctx.game->state->level->at(at).has_spinner()) {
 
-		auto new_facing{static_cast<Enums::Map::Direction>(
-			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+		auto new_facing{static_cast<Enums::Map::Direction>(_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
 		_ctx.game->state->set_player_facing(new_facing);
 
 		DEBUG_LOG("Player triggered spinner");
@@ -832,9 +797,7 @@ auto Sorcery::Engine::_pit_oops() -> void {
 		if (std::find(party.begin(), party.end(), id) != party.end()) {
 
 			const auto chance{
-				(character.get_cur_attr(Enums::Character::Attribute::AGILITY) -
-				 _ctx.game->state->get_depth()) *
-				4};
+				(character.get_cur_attr(Enums::Character::Attribute::AGILITY) - _ctx.game->state->get_depth()) * 4};
 			const auto roll(_ctx.get_random(Enums::System::Random::D100));
 			//_ctx.game->state->add_log_dice_roll(
 			//	fmt::format("{:>16} - {}", character.get_name(), "Avoid Pit"),
@@ -891,8 +854,7 @@ auto Sorcery::Engine::_check_for_wipe() const -> bool {
 	for (auto &[id, character] : _ctx.game->characters) {
 		if (std::find(party.begin(), party.end(), id) != party.end()) {
 			using enum Enums::Character::Status;
-			if ((character.get_status() == OK) ||
-				(character.get_status() == AFRAID) ||
+			if ((character.get_status() == OK) || (character.get_status() == AFRAID) ||
 				(character.get_status() == SILENCED))
 				return false;
 		}
@@ -901,8 +863,7 @@ auto Sorcery::Engine::_check_for_wipe() const -> bool {
 	return true;
 }
 
-auto Sorcery::Engine::_opposite_direction(
-	const Enums::Map::Direction direction) const -> Enums::Map::Direction {
+auto Sorcery::Engine::_opposite_direction(const Enums::Map::Direction direction) const -> Enums::Map::Direction {
 
 	using enum Enums::Map::Direction;
 
@@ -920,8 +881,7 @@ auto Sorcery::Engine::_opposite_direction(
 	}
 }
 
-auto Sorcery::Engine::_movement_destination(
-	const Coordinate origin, const Enums::Map::Direction direction) const
+auto Sorcery::Engine::_movement_destination(const Coordinate origin, const Enums::Map::Direction direction) const
 	-> Coordinate {
 
 	auto destination{origin};
@@ -986,8 +946,7 @@ auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 
 	const auto facing{_ctx.game->state->get_player_facing()};
 
-	DEBUG_LOGF("Taking elevator from depth {} to depth {}", current_depth,
-			   depth);
+	DEBUG_LOGF("Taking elevator from depth {} to depth {}", current_depth, depth);
 
 	_go_to_location(depth, loc, facing);
 
@@ -1028,8 +987,7 @@ auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 
 	if (event.search_after) {
 
-		_ctx.ui->popup_manager->open_dialog("engine_base_ui:dialog_search",
-											Enums::Layout::DialogType::CONFIRM);
+		_ctx.ui->popup_manager->open_dialog("engine_base_ui:dialog_search", Enums::Layout::DialogType::CONFIRM);
 
 		return std::nullopt;
 	}
@@ -1051,8 +1009,7 @@ auto Sorcery::Engine::_handle_completed_tile_event() -> std::optional<int> {
 			// TODO: change this to give back the name of the character given an
 			// item
 			if (_ctx.game->give_party_item(BLUE_RIBBON, false)) {
-				_ctx.ui->show_transient(
-					_ctx.get_string("POP_UP_PARTY_FOUND_AN_ITEM"));
+				_ctx.ui->show_transient(_ctx.get_string("POP_UP_PARTY_FOUND_AN_ITEM"));
 			}
 
 			break;
@@ -1113,12 +1070,10 @@ auto Sorcery::Engine::_search_event() -> bool {
 			if (character.inventory.get_empty_slots() == 0)
 				continue;
 
-			character.inventory.add_type(_ctx.resources->items->get(*item_type),
-										 false);
+			character.inventory.add_type(_ctx.resources->items->get(*item_type), false);
 
 			_ctx.ui->show_transient(
-				std::format("{} {}", character.get_name(),
-							_ctx.get_string("POP_UP_FOUND_AN_ITEM")));
+				std::format("{} {}", character.get_name(), _ctx.get_string("POP_UP_FOUND_AN_ITEM")));
 
 			break;
 		}
@@ -1131,16 +1086,13 @@ auto Sorcery::Engine::_search_event() -> bool {
 	return combat_after;
 }
 
-auto Sorcery::Engine::_show_tile_message(const Enums::Map::Event event)
-	-> void {
+auto Sorcery::Engine::_show_tile_message(const Enums::Map::Event event) -> void {
 
 	_ctx.controller->set_last_event(event);
-	_ctx.ui->popup_manager->open_message("engine_base_ui:message_tile",
-										 _ctx.ui->load_message(event), event);
+	_ctx.ui->popup_manager->open_message("engine_base_ui:message_tile", _ctx.ui->load_message(event), event);
 }
 
-auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const
-	-> bool {
+auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const -> bool {
 
 	using enum Enums::Map::Event;
 	using enum Enums::Items::TypeID;
@@ -1170,9 +1122,8 @@ auto Sorcery::Engine::_skip_tile_event(const Enums::Map::Event event) const
 }
 
 // Handle the guaranteed combats on Level 4!
-auto Sorcery::Engine::_triggers_guaranteed_encounter(
-	const int depth, const Coordinate from,
-	[[maybe_unused]] const Coordinate to) const -> bool {
+auto Sorcery::Engine::_triggers_guaranteed_encounter(const int depth, const Coordinate from,
+													 [[maybe_unused]] const Coordinate to) const -> bool {
 
 	return depth == -4 && from == Coordinate{10, 15};
 }
@@ -1247,14 +1198,11 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 	if (_ctx.game->state->level->stairs_at(loc)) {
 
 		if (tile.has(LADDER_UP) || tile.has(STAIRS_UP))
-			_ctx.ui->popup_manager->open_dialog(
-				"engine_base_ui:dialog_stairs_up",
-				Enums::Layout::DialogType::CONFIRM);
+			_ctx.ui->popup_manager->open_dialog("engine_base_ui:dialog_stairs_up", Enums::Layout::DialogType::CONFIRM);
 
 		else if (tile.has(LADDER_DOWN) || tile.has(STAIRS_DOWN))
-			_ctx.ui->popup_manager->open_dialog(
-				"engine_base_ui:dialog_stairs_down",
-				Enums::Layout::DialogType::CONFIRM);
+			_ctx.ui->popup_manager->open_dialog("engine_base_ui:dialog_stairs_down",
+												Enums::Layout::DialogType::CONFIRM);
 	}
 
 	// Elevators / chute / teleport / spinner / pit / message
@@ -1264,15 +1212,12 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 		DEBUG_LOG("Player triggered chute");
 
-		_ctx.ui->show_transient(
-			_ctx.get_string("DIALOG_CHUTE"), std::chrono::seconds{2},
-			TransientWidth::FIT_TEXT, TransientMode::UNTIL_EXPIRY);
+		_ctx.ui->show_transient(_ctx.get_string("DIALOG_CHUTE"), std::chrono::seconds{2}, TransientWidth::FIT_TEXT,
+								TransientMode::UNTIL_EXPIRY);
 
-		_pending_chute =
-			PendingChute{.depth = destination->to_level,
-						 .loc = destination->to_loc,
-						 .execute_at = std::chrono::steady_clock::now() +
-									   std::chrono::seconds{2}};
+		_pending_chute = PendingChute{.depth = destination->to_level,
+									  .loc = destination->to_loc,
+									  .execute_at = std::chrono::steady_clock::now() + std::chrono::seconds{2}};
 
 		return true;
 
@@ -1291,16 +1236,14 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 			_ctx.game->state->set_player_pos(destination->to_loc);
 			_ctx.controller->set_can_undo(false);
-			const auto &destination_tile{
-				_ctx.game->state->level->at(destination->to_loc)};
+			const auto &destination_tile{_ctx.game->state->level->at(destination->to_loc)};
 			if (_check_for_tile_message(destination_tile))
 				_ctx.ui->clear_transient();
 
 			return true;
 		} else {
 
-			_ctx.game->state->set_player_prev_depth(
-				_ctx.game->state->get_depth());
+			_ctx.game->state->set_player_prev_depth(_ctx.game->state->get_depth());
 			_ctx.game->state->set_depth(destination->to_level);
 			_ctx.game->state->set_player_pos(destination->to_loc);
 			_ctx.controller->set_can_undo(false);
@@ -1310,8 +1253,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 	} else if (tile.has_spinner()) {
 
-		const auto new_facing{static_cast<Enums::Map::Direction>(
-			_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
+		const auto new_facing{static_cast<Enums::Map::Direction>(_ctx.get_random(Enums::System::Random::ZERO_TO_3))};
 
 		_ctx.game->state->set_player_facing(new_facing);
 
@@ -1337,8 +1279,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 	return true;
 }
 
-auto Sorcery::Engine::_process_tile_entry(const Coordinate from,
-										  const Coordinate to) -> bool {
+auto Sorcery::Engine::_process_tile_entry(const Coordinate from, const Coordinate to) -> bool {
 
 	const auto depth{_ctx.game->state->get_depth()};
 

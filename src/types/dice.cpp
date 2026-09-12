@@ -67,8 +67,7 @@ Sorcery::Dice::Dice(const std::string dice_) {
 	}
 }
 
-Sorcery::Dice::Dice(const unsigned int num_, const unsigned int dice_,
-					const int mod_)
+Sorcery::Dice::Dice(const unsigned int num_, const unsigned int dice_, const int mod_)
 	: num{num_},
 	  dice{dice_},
 	  mod{mod_} {}
@@ -105,8 +104,7 @@ auto Sorcery::Dice::str() const -> std::string {
 	return result;
 }
 
-auto Sorcery::Dice::set(const unsigned int num_, const unsigned int dice_,
-						const int mod_) {
+auto Sorcery::Dice::set(const unsigned int num_, const unsigned int dice_, const int mod_) {
 
 	num = num_;
 	dice = dice_;

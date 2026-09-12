@@ -50,11 +50,9 @@ Sorcery::MonsterStore::MonsterStore(const std::filesystem::path filename) {
 	_loaded = _load(filename);
 }
 
-auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
-	-> bool {
+auto Sorcery::MonsterStore::_load(const std::filesystem::path filename) -> bool {
 
-	if (std::ifstream file{filename.string(), std::ifstream::binary};
-		file.good()) {
+	if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -69,15 +67,11 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
 			for (auto i = 0u; i < items.size(); i++) {
 
 				// Some fields are always present
-				const auto id{
-					enum_cast<Enums::Monsters::TypeID>(items[i]["id"].asInt())};
+				const auto id{enum_cast<Enums::Monsters::TypeID>(items[i]["id"].asInt())};
 				const std::string known_name{items[i]["known name"].asString()};
-				const std::string unknown_name{
-					items[i]["unknown name"].asString()};
-				const std::string known_name_plural{
-					items[i]["known name plural"].asString()};
-				const std::string unknown_name_plural{
-					items[i]["unknown name plural"].asString()};
+				const std::string unknown_name{items[i]["unknown name"].asString()};
+				const std::string known_name_plural{items[i]["known name plural"].asString()};
+				const std::string unknown_name_plural{items[i]["unknown name plural"].asString()};
 				const auto known_gfx{items[i]["gfx known index"].asInt()};
 				const auto unknown_gfx{items[i]["gfx unknown index"].asInt()};
 				const std::string group_size{items[i]["group size"].asString()};
@@ -92,8 +86,7 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
 					using enum Enums::Monsters::Category;
 					if (items[i].isMember("category")) {
 						if (items[i]["category"].asString().length() > 0) {
-							auto category{enum_cast<Enums::Monsters::Category>(
-								items[i]["category"].asString())};
+							auto category{enum_cast<Enums::Monsters::Category>(items[i]["category"].asString())};
 							return category.value_or(HUMANOID);
 						} else
 							return HUMANOID;
@@ -103,8 +96,7 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
 				const auto mclass{std::invoke([&] {
 					using enum Enums::Monsters::Class;
 					if (category == Enums::Monsters::Category::HUMANOID) {
-						auto mclass{enum_cast<Enums::Monsters::Class>(
-							items[i]["category"].asString())};
+						auto mclass{enum_cast<Enums::Monsters::Class>(items[i]["category"].asString())};
 						return mclass.value_or(NO_CLASS);
 					} else
 						return NO_CLASS;
@@ -235,16 +227,14 @@ auto Sorcery::MonsterStore::_load(const std::filesystem::path filename)
 		return false;
 }
 
-auto Sorcery::MonsterStore::get(Enums::Monsters::TypeID monster_type_id) const
-	-> MonsterType {
+auto Sorcery::MonsterStore::get(Enums::Monsters::TypeID monster_type_id) const -> MonsterType {
 
 	return _items.at(monster_type_id);
 }
 
 auto Sorcery::MonsterStore::get(int monster_type_id) const -> MonsterType {
 
-	return _items.at(
-		enum_cast<Enums::Monsters::TypeID>(monster_type_id).value());
+	return _items.at(enum_cast<Enums::Monsters::TypeID>(monster_type_id).value());
 }
 
 auto Sorcery::MonsterStore::get_all_types() const -> std::vector<MonsterType> {
@@ -256,8 +246,7 @@ auto Sorcery::MonsterStore::get_all_types() const -> std::vector<MonsterType> {
 	return items;
 }
 
-auto Sorcery::MonsterStore::_parse_attacks(const std::string value) const
-	-> std::vector<Dice> {
+auto Sorcery::MonsterStore::_parse_attacks(const std::string value) const -> std::vector<Dice> {
 
 	std::vector<Dice> attacks;
 	attacks.clear();
@@ -280,8 +269,7 @@ auto Sorcery::MonsterStore::_parse_attacks(const std::string value) const
 	return attacks;
 }
 
-auto Sorcery::MonsterStore::_parse_breath_weapons(const std::string value) const
-	-> Enums::Monsters::Breath {
+auto Sorcery::MonsterStore::_parse_breath_weapons(const std::string value) const -> Enums::Monsters::Breath {
 
 	using enum Enums::Monsters::Breath;
 	if (value.contains("Drain Breath"))
@@ -298,32 +286,27 @@ auto Sorcery::MonsterStore::_parse_breath_weapons(const std::string value) const
 		return NO_BREATH_WEAPON;
 }
 
-auto Sorcery::MonsterStore::_parse_level_drain(const std::string value) const
-	-> unsigned int {
+auto Sorcery::MonsterStore::_parse_level_drain(const std::string value) const -> unsigned int {
 
 	if (value.contains("Level Drain")) {
-		std::string output{std::regex_replace(
-			value, std::regex("[^0-9]*([0-9]+).*"), std::string("$1"))};
+		std::string output{std::regex_replace(value, std::regex("[^0-9]*([0-9]+).*"), std::string("$1"))};
 		return std::stoi(output);
 	} else
 		return 0;
 }
 
-auto Sorcery::MonsterStore::_parse_regen(const std::string value) const
-	-> unsigned int {
+auto Sorcery::MonsterStore::_parse_regen(const std::string value) const -> unsigned int {
 
 	auto pos{value.find("Heal")};
 	if (pos != std::string::npos) {
 		auto heal_portion{value.substr(pos)};
-		std::string output{std::regex_replace(
-			heal_portion, std::regex("[^0-9]*([0-9]+).*"), std::string("$1"))};
+		std::string output{std::regex_replace(heal_portion, std::regex("[^0-9]*([0-9]+).*"), std::string("$1"))};
 		return std::stoi(output);
 	} else
 		return 0;
 }
 
-auto Sorcery::MonsterStore::_parse_resistances(const std::string value) const
-	-> std::array<bool, 7> {
+auto Sorcery::MonsterStore::_parse_resistances(const std::string value) const -> std::array<bool, 7> {
 
 	using enum Enums::Monsters::Resistance;
 	std::array<bool, 7> res;
@@ -345,8 +328,7 @@ auto Sorcery::MonsterStore::_parse_resistances(const std::string value) const
 	return res;
 }
 
-auto Sorcery::MonsterStore::_parse_properties(const std::string value) const
-	-> std::array<bool, 7> {
+auto Sorcery::MonsterStore::_parse_properties(const std::string value) const -> std::array<bool, 7> {
 
 	using enum Enums::Monsters::Property;
 	std::array<bool, 7> props;

@@ -37,9 +37,7 @@
 
 namespace Sorcery {
 namespace Enums {
-	namespace Items {
-		enum class TypeID;
-	}
+	namespace Items { enum class TypeID; }
 }
 }
 
@@ -59,10 +57,8 @@ Sorcery::State::State(Context *ctx)
 auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
 
 	for (int id = 0; id < 101; id++) {
-		const auto item_type{
-			itemstore->get(enum_cast<Enums::Items::TypeID>(id).value())};
-		_shop[id] = {item_type.get_shop_inital_stock(),
-					 item_type.get_shop_inital_stock(), item_type.get_buy(),
+		const auto item_type{itemstore->get(enum_cast<Enums::Items::TypeID>(id).value())};
+		_shop[id] = {item_type.get_shop_inital_stock(), item_type.get_shop_inital_stock(), item_type.get_buy(),
 					 item_type.get_sell()};
 	}
 }
@@ -122,8 +118,7 @@ auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
 	return add_character_to_party(char_id);
 }
 
-auto Sorcery::State::reorder_party(std::vector<unsigned int> &new_order)
-	-> void {
+auto Sorcery::State::reorder_party(std::vector<unsigned int> &new_order) -> void {
 
 	_party.clear();
 	for (auto char_id : new_order)
@@ -184,8 +179,7 @@ auto Sorcery::State::set(Context *ctx) -> void {
 	_ctx = ctx;
 }
 
-auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party)
-	-> void {
+auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party) -> void {
 
 	_party = candidate_party;
 }
@@ -222,10 +216,9 @@ auto Sorcery::State::add_character_to_party(unsigned int char_id) -> bool {
 auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
 
 	if (_party.size() > 0) {
-		const auto found{
-			std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
-				return id == char_id;
-			})};
+		const auto found{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
+			return id == char_id;
+		})};
 		return found != std::end(_party);
 	} else
 		return false;
@@ -237,15 +230,13 @@ auto Sorcery::State::set_current_level(Level *other) -> void {
 }
 
 // Return the *slot* of a character in the party (note this is 1-indexed!)
-auto Sorcery::State::get_char_slot(unsigned int char_id)
-	-> std::optional<unsigned int> {
+auto Sorcery::State::get_char_slot(unsigned int char_id) -> std::optional<unsigned int> {
 
 	if (_party.size() > 0) {
 
-		const auto distance{
-			std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
-				return id == char_id;
-			})};
+		const auto distance{std::find_if(_party.begin(), _party.end(), [&](unsigned int id) {
+			return id == char_id;
+		})};
 		if (distance != _party.end())
 			return (std::distance(_party.begin(), distance)) + 1;
 		else
@@ -269,8 +260,7 @@ auto Sorcery::State::get_player_prev_pos() const -> Coordinate {
 	return _previous_pos;
 }
 
-auto Sorcery::State::set_player_facing(const Enums::Map::Direction direction)
-	-> void {
+auto Sorcery::State::set_player_facing(const Enums::Map::Direction direction) -> void {
 
 	_playing_facing = direction;
 }
@@ -295,8 +285,7 @@ auto Sorcery::State::remove_character_by_id(unsigned int char_id) -> bool {
 }
 
 // 1-indexed!
-auto Sorcery::State::get_party_char(unsigned int index)
-	-> std::optional<unsigned int> {
+auto Sorcery::State::get_party_char(unsigned int index) -> std::optional<unsigned int> {
 
 	if (_party.size() < index)
 		return std::nullopt;
@@ -304,8 +293,7 @@ auto Sorcery::State::get_party_char(unsigned int index)
 		return _party.at(index - 1);
 }
 
-auto Sorcery::State::get_next_party_character(unsigned int character_id)
-	-> std::optional<unsigned int> {
+auto Sorcery::State::get_next_party_character(unsigned int character_id) -> std::optional<unsigned int> {
 
 	auto index{get_char_slot(character_id)};
 	if (!index)
@@ -317,8 +305,7 @@ auto Sorcery::State::get_next_party_character(unsigned int character_id)
 	return _party.at(next_slot - 1); // return character ID
 }
 
-auto Sorcery::State::get_previous_party_character(unsigned int character_id)
-	-> std::optional<unsigned int> {
+auto Sorcery::State::get_previous_party_character(unsigned int character_id) -> std::optional<unsigned int> {
 
 	auto index{get_char_slot(character_id)};
 	if (!index)
@@ -339,9 +326,8 @@ auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
 		return false;
 }
 
-auto Sorcery::State::add_log_message(
-	std::string text,
-	Enums::Internal::MessageType type = Enums::Internal::MessageType::STANDARD)
+auto Sorcery::State::add_log_message(std::string text,
+									 Enums::Internal::MessageType type = Enums::Internal::MessageType::STANDARD)
 	-> void {
 
 	_log.emplace_back(ConsoleMessage{type, text});
@@ -352,22 +338,18 @@ auto Sorcery::State::clear_log_messages() -> void {
 	_log.clear();
 }
 
-auto Sorcery::State::add_log_dice_roll(const std::string &message,
-									   const int dice, const int roll,
-									   const int needed) -> void {
+auto Sorcery::State::add_log_dice_roll(const std::string &message, const int dice, const int roll, const int needed)
+	-> void {
 
 	if (dice != -1 || roll != -1 || needed != -1) {
 		const auto success{roll < needed ? "SUCCESS" : "FAILURE"};
 		const auto string{std::format("{} ({})", message, success)};
-		add_log_message(
-			_ctx->system->dice_roll_to_str(string, dice, roll, needed),
-			Enums::Internal::MessageType::ROLL);
+		add_log_message(_ctx->system->dice_roll_to_str(string, dice, roll, needed), Enums::Internal::MessageType::ROLL);
 	} else
 		add_log_message(message, Enums::Internal::MessageType::GAME);
 }
 
-auto Sorcery::State::get_log_messages(unsigned int last) const
-	-> std::vector<ConsoleMessage> {
+auto Sorcery::State::get_log_messages(unsigned int last) const -> std::vector<ConsoleMessage> {
 
 	if (last == 0)
 		return _log;
@@ -380,26 +362,22 @@ auto Sorcery::State::get_log_messages(unsigned int last) const
 	}
 }
 
-auto Sorcery::State::check_shop_stock(
-	const Enums::Items::TypeID item_type) const -> int {
+auto Sorcery::State::check_shop_stock(const Enums::Items::TypeID item_type) const -> int {
 
 	return _shop[std::to_underlying(item_type)].current_stock;
 }
 
-auto Sorcery::State::check_shop_will_sell(
-	const Enums::Items::TypeID item_type) const -> bool {
+auto Sorcery::State::check_shop_will_sell(const Enums::Items::TypeID item_type) const -> bool {
 
 	return _shop[std::to_underlying(item_type)].sellable;
 }
 
-auto Sorcery::State::check_shop_will_buy(
-	const Enums::Items::TypeID item_type) const -> bool {
+auto Sorcery::State::check_shop_will_buy(const Enums::Items::TypeID item_type) const -> bool {
 
 	return _shop[std::to_underlying(item_type)].buyable;
 }
 
-auto Sorcery::State::sell_to_shop(ItemStore *itemstore,
-								  const Enums::Items::TypeID item_type) -> int {
+auto Sorcery::State::sell_to_shop(ItemStore *itemstore, const Enums::Items::TypeID item_type) -> int {
 
 	if (_shop[std::to_underlying(item_type)].current_stock != -1) {
 		++_shop[std::to_underlying(item_type)].current_stock;
@@ -408,9 +386,7 @@ auto Sorcery::State::sell_to_shop(ItemStore *itemstore,
 		return 0;
 }
 
-auto Sorcery::State::buy_from_shop(ItemStore *itemstore,
-								   const Enums::Items::TypeID item_type)
-	-> int {
+auto Sorcery::State::buy_from_shop(ItemStore *itemstore, const Enums::Items::TypeID item_type) -> int {
 
 	if (_shop[std::to_underlying(item_type)].current_stock > 0) {
 		--_shop[std::to_underlying(item_type)].current_stock;
@@ -419,22 +395,17 @@ auto Sorcery::State::buy_from_shop(ItemStore *itemstore,
 		return 0;
 }
 
-auto Sorcery::State::get_shop_display(ItemStore *itemstore,
-									  const Enums::Items::TypeID item_type)
-	-> std::string {
+auto Sorcery::State::get_shop_display(ItemStore *itemstore, const Enums::Items::TypeID item_type) -> std::string {
 
 	const auto item{itemstore->get(item_type)};
 	const std::string flag{std::invoke([&] {
 		if (_shop[std::to_underlying(item_type)].current_stock == -1)
 			return std::string{"(*)"};
 		else
-			return std::format(
-				"({})", _shop[std::to_underlying(item_type)].current_stock);
+			return std::format("({})", _shop[std::to_underlying(item_type)].current_stock);
 	})};
 
-	const std::string line{std::format("{:>16} {:<5} {:>7} GP",
-									   item.get_display_name(), flag,
-									   item.get_value())};
+	const std::string line{std::format("{:>16} {:<5} {:>7} GP", item.get_display_name(), flag, item.get_value())};
 
 	return line;
 }

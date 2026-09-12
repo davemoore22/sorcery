@@ -34,8 +34,8 @@
 #include <any>								// for any
 #include <filesystem>						// for path
 #include <fstream>							// for basic_ifstream, ifstream
-#include <iterator> // for istreambuf_iterator, operator==
-#include <string>	// for basic_string
+#include <iterator>							// for istreambuf_iterator, operator==
+#include <string>							// for basic_string
 
 Sorcery::License::License(Context &ctx)
 	: Module{ctx} {
@@ -47,11 +47,9 @@ auto Sorcery::License::_initialise() -> bool {
 
 	auto file_path{_ctx.get_file(LICENSE_FILE).string()};
 
-	if (std::ifstream file{(file_path.c_str()), std::ifstream::in};
-		file.good()) {
+	if (std::ifstream file{(file_path.c_str()), std::ifstream::in}; file.good()) {
 
-		_license_text.assign((std::istreambuf_iterator<char>(file)),
-							 (std::istreambuf_iterator<char>()));
+		_license_text.assign((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
 	}
 
 	return true;
@@ -70,9 +68,7 @@ auto Sorcery::License::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();

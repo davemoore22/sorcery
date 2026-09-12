@@ -176,8 +176,7 @@ auto Sorcery::Controller::get_candidate_party() -> std::vector<unsigned int> & {
 
 	return _candidate_party;
 }
-auto Sorcery::Controller::get_candidate_party() const
-	-> const std::vector<unsigned int> & {
+auto Sorcery::Controller::get_candidate_party() const -> const std::vector<unsigned int> & {
 
 	return _candidate_party;
 }
@@ -187,8 +186,7 @@ auto Sorcery::Controller::get_last_event() const -> Enums::Map::Event {
 	return _last_event;
 }
 
-auto Sorcery::Controller::set_last_event(const Enums::Map::Event value)
-	-> void {
+auto Sorcery::Controller::set_last_event(const Enums::Map::Event value) -> void {
 
 	_last_event = value;
 }
@@ -198,8 +196,7 @@ auto Sorcery::Controller::get_last_dir() const -> Enums::Map::Direction {
 	return _last_dir;
 }
 
-auto Sorcery::Controller::set_last_dir(const Enums::Map::Direction value)
-	-> void {
+auto Sorcery::Controller::set_last_dir(const Enums::Map::Direction value) -> void {
 
 	_last_dir = value;
 }
@@ -217,8 +214,7 @@ auto Sorcery::Controller::get_characters() const -> std::string {
 
 	std::string output{};
 	for (const auto &character : _characters)
-		output.append(std::format("{:>26}: {}\n", enum_name(character.first),
-								  character.second));
+		output.append(std::format("{:>26}: {}\n", enum_name(character.first), character.second));
 
 	return output;
 }
@@ -257,8 +253,7 @@ auto Sorcery::Controller::has_saved_game() const -> bool {
 	return _has_save;
 }
 
-auto Sorcery::Controller::set_flag_value(const std::string_view flag,
-										 const bool value) -> void {
+auto Sorcery::Controller::set_flag_value(const std::string_view flag, const bool value) -> void {
 
 	_flags[std::string{flag}] = value;
 }
@@ -328,8 +323,7 @@ auto Sorcery::Controller::has_flag(const std::string_view flag) const -> bool {
 	return false;
 }
 
-auto Sorcery::Controller::has_selected(const std::string_view flag) const
-	-> bool {
+auto Sorcery::Controller::has_selected(const std::string_view flag) const -> bool {
 
 	if (_selected.contains(flag))
 		return _selected.at(std::string{flag}) != -1;
@@ -337,14 +331,12 @@ auto Sorcery::Controller::has_selected(const std::string_view flag) const
 	return false;
 }
 
-auto Sorcery::Controller::set_selected(const std::string_view flag,
-									   const int value) -> void {
+auto Sorcery::Controller::set_selected(const std::string_view flag, const int value) -> void {
 
 	_selected[std::string{flag}] = value;
 }
 
-auto Sorcery::Controller::get_selected(const std::string_view flag) const
-	-> int {
+auto Sorcery::Controller::get_selected(const std::string_view flag) const -> int {
 
 	if (_selected.contains(flag))
 		return _selected.at(std::string{flag});
@@ -364,8 +356,7 @@ auto Sorcery::Controller::has_text(const std::string_view flag) const -> bool {
 
 	return false;
 }
-auto Sorcery::Controller::set_text(const std::string_view flag,
-								   const std::string &text) -> void {
+auto Sorcery::Controller::set_text(const std::string_view flag, const std::string &text) -> void {
 
 	_texts[std::string{flag}] = text;
 }
@@ -374,16 +365,14 @@ auto Sorcery::Controller::unset_text(const std::string_view flag) -> void {
 	_texts[std::string{flag}] = "";
 }
 
-auto Sorcery::Controller::get_text(const std::string_view flag) const
-	-> std::string {
+auto Sorcery::Controller::get_text(const std::string_view flag) const -> std::string {
 	if (_texts.contains(std::string{flag}))
 		return _texts.at(std::string{flag});
 
 	return "";
 }
 
-auto Sorcery::Controller::get_character(const Enums::CharacterSlot slot) const
-	-> int {
+auto Sorcery::Controller::get_character(const Enums::CharacterSlot slot) const -> int {
 
 	if (_characters.contains(slot))
 		return _characters.at(slot);
@@ -391,8 +380,7 @@ auto Sorcery::Controller::get_character(const Enums::CharacterSlot slot) const
 		return -1;
 }
 
-auto Sorcery::Controller::has_character(const Enums::CharacterSlot slot) const
-	-> bool {
+auto Sorcery::Controller::has_character(const Enums::CharacterSlot slot) const -> bool {
 
 	if (_characters.contains(slot))
 		if (_characters.at(slot) != -1)
@@ -401,14 +389,12 @@ auto Sorcery::Controller::has_character(const Enums::CharacterSlot slot) const
 	return false;
 }
 
-auto Sorcery::Controller::set_character(const Enums::CharacterSlot slot,
-										const int value) -> void {
+auto Sorcery::Controller::set_character(const Enums::CharacterSlot slot, const int value) -> void {
 
 	_characters[slot] = value;
 }
 
-auto Sorcery::Controller::clear_character(const Enums::CharacterSlot slot)
-	-> void {
+auto Sorcery::Controller::clear_character(const Enums::CharacterSlot slot) -> void {
 
 	_characters[slot] = -1;
 }
@@ -492,19 +478,16 @@ auto Sorcery::Controller::consume_back() -> bool {
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
-	-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller) -> std::ostream & {
 
 	for (const auto &f : controller._flags)
 		out_stream << "  Flag: " << f.first << " = " << f.second << std::endl;
 
 	for (const auto &s : controller._selected)
-		out_stream << "  Selected: " << s.first << " = " << s.second
-				   << std::endl;
+		out_stream << "  Selected: " << s.first << " = " << s.second << std::endl;
 
 	for (const auto &[slot, character_id] : controller._characters) {
-		out_stream << std::format("  Character: {:>26} = {}\n", enum_name(slot),
-								  character_id);
+		out_stream << std::format("  Character: {:>26} = {}\n", enum_name(slot), character_id);
 	}
 
 	return out_stream << std::endl;

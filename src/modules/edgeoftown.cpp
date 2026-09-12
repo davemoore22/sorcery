@@ -29,15 +29,15 @@
 #include "core/enum.hpp"					// for Screen, CharacterSlot
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp"	 // for ABORT_GAME, INSPECT_MODE_ACTIONS
-#include "drawables/dialog.hpp"	 // for Dialog
-#include "modules/inspect.hpp"	 // for Inspect
-#include "modules/restart.hpp"	 // for Restart
-#include "training/training.hpp" // for Training
-#include "types/game.hpp"		 // for Game
-#include <SDL_events.h>			 // for SDL_PollEvent
-#include <any>					 // for any
-#include <string>				 // for basic_string
+#include "drawables/define.hpp"				// for ABORT_GAME, INSPECT_MODE_ACTIONS
+#include "drawables/dialog.hpp"				// for Dialog
+#include "modules/inspect.hpp"				// for Inspect
+#include "modules/restart.hpp"				// for Restart
+#include "training/training.hpp"			// for Training
+#include "types/game.hpp"					// for Game
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
+#include <string>							// for basic_string
 
 Sorcery::EdgeOfTown::EdgeOfTown(Context &ctx)
 	: Module{ctx} {
@@ -95,9 +95,7 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 
 				} else {
 
-					_ctx.ui->popup_manager->open_dialog(
-						"main_menu:dialog_leave",
-						Enums::Layout::DialogType::CONFIRM);
+					_ctx.ui->popup_manager->open_dialog("main_menu:dialog_leave", Enums::Layout::DialogType::CONFIRM);
 				}
 
 				continue;
@@ -141,11 +139,9 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 				return RESTART_MAZE;
 		} else if (_ctx.controller->wants(Enums::Screen::ENGINE))
 			return EDGE_OF_TOWN_GO_TO_MAZE;
-		else if (_ctx.controller->has_character(
-					 Enums::CharacterSlot::INSPECT)) {
-			const auto result{_inspect->start(
-				INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+		else if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
+			const auto result{_inspect->start(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS,
+											  _ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);

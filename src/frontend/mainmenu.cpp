@@ -30,11 +30,11 @@
 #include "display/animation.hpp"			// for Animation
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp"	   // for ABORT_GAME, MAIN_MENU_CONTINUE...
-#include "drawables/dialog.hpp"	   // for Dialog
-#include "frontend/compendium.hpp" // for Compendium
-#include "frontend/license.hpp"	   // for License
-#include "frontend/options.hpp"	   // for Options
+#include "drawables/define.hpp"				// for ABORT_GAME, MAIN_MENU_CONTINUE...
+#include "drawables/dialog.hpp"				// for Dialog
+#include "frontend/compendium.hpp"			// for Compendium
+#include "frontend/license.hpp"				// for License
+#include "frontend/options.hpp"				// for Options
 #include "resources/define.hpp"
 #include "resources/filestore.hpp"
 #include <SDL_events.h> // for SDL_PollEvent
@@ -81,9 +81,7 @@ auto Sorcery::MainMenu::start() -> int {
 
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -103,9 +101,7 @@ auto Sorcery::MainMenu::start() -> int {
 
 				} else {
 
-					_ctx.ui->popup_manager->open_dialog(
-						"main_menu:dialog_exit",
-						Enums::Layout::DialogType::CONFIRM);
+					_ctx.ui->popup_manager->open_dialog("main_menu:dialog_exit", Enums::Layout::DialogType::CONFIRM);
 				}
 
 				continue;

@@ -87,8 +87,7 @@ auto Sorcery::Rename::start() -> int {
 		if (_ctx.ui->popup_manager->consume_accepted("notice_renamed_ok"))
 			return BACK_TO_EDIT;
 
-		if (!_ctx.controller->wants(Enums::Screen::RENAME) &&
-			_ctx.controller->wants(Enums::Screen::EDIT))
+		if (!_ctx.controller->wants(Enums::Screen::RENAME) && _ctx.controller->wants(Enums::Screen::EDIT))
 			return BACK_TO_EDIT;
 	}
 

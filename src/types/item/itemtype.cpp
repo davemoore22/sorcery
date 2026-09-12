@@ -218,16 +218,14 @@ auto Sorcery::ItemType::get_gfx() const -> unsigned int {
 	return _gfx;
 }
 
-auto Sorcery::ItemType::is_class_usable(
-	const Enums::Character::Class cclass) const -> bool {
+auto Sorcery::ItemType::is_class_usable(const Enums::Character::Class cclass) const -> bool {
 
 	auto cc{std::to_underlying(cclass)};
 
 	return _usable[cc];
 }
 
-auto Sorcery::ItemType::is_align_usable(
-	const Enums::Character::Align calign) const -> bool {
+auto Sorcery::ItemType::is_align_usable(const Enums::Character::Align calign) const -> bool {
 
 	auto ca{std::to_underlying(calign)};
 
@@ -264,8 +262,7 @@ auto Sorcery::ItemType::set_unknown_name(const std::string value) -> void {
 	_unknown_name = value;
 }
 
-auto Sorcery::ItemType::set_category(const Enums::Items::Category value)
-	-> void {
+auto Sorcery::ItemType::set_category(const Enums::Items::Category value) -> void {
 
 	_category = value;
 }
@@ -285,14 +282,12 @@ auto Sorcery::ItemType::set_sellable(const bool value) -> void {
 	_sellable = value;
 }
 
-auto Sorcery::ItemType::set_usable_class(const std::array<bool, 9> value)
-	-> void {
+auto Sorcery::ItemType::set_usable_class(const std::array<bool, 9> value) -> void {
 
 	_usable = value;
 }
 
-auto Sorcery::ItemType::set_usable_alignment(const std::array<bool, 4> value)
-	-> void {
+auto Sorcery::ItemType::set_usable_alignment(const std::array<bool, 4> value) -> void {
 
 	_alignment = value;
 }
@@ -332,8 +327,7 @@ auto Sorcery::ItemType::set_eff_off(const std::array<bool, 15> value) -> void {
 	_offensive_effects = value;
 }
 
-auto Sorcery::ItemType::set_eff_inv(const Enums::Items::Effects::Invoke value)
-	-> void {
+auto Sorcery::ItemType::set_eff_inv(const Enums::Items::Effects::Invoke value) -> void {
 
 	_invocation_effect = value;
 }
@@ -341,28 +335,20 @@ auto Sorcery::ItemType::set_eff_inv(const Enums::Items::Effects::Invoke value)
 auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 
 	std::string effects{""};
-	for (auto i =
-			 std::to_underlying(Enums::Items::Effects::Defensive::RESIST_COLD);
-		 i <= std::to_underlying(
-				  Enums::Items::Effects::Defensive::PREVENT_DECAPITATION);
-		 i++) {
+	for (auto i = std::to_underlying(Enums::Items::Effects::Defensive::RESIST_COLD);
+		 i <= std::to_underlying(Enums::Items::Effects::Defensive::PREVENT_DECAPITATION); i++) {
 		if (_defensive_effects[i]) {
-			const auto eff_enum{
-				enum_cast<Enums::Items::Effects::Defensive>(i).value()};
+			const auto eff_enum{enum_cast<Enums::Items::Effects::Defensive>(i).value()};
 			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
 			effects.append(", ");
 		}
 	}
-	for (auto i = std::to_underlying(
-			 Enums::Items::Effects::Defensive::PROTECTION_VS_ANIMAL);
-		 i <= std::to_underlying(
-				  Enums::Items::Effects::Defensive::PROTECTION_VS_WERE);
-		 i++) {
+	for (auto i = std::to_underlying(Enums::Items::Effects::Defensive::PROTECTION_VS_ANIMAL);
+		 i <= std::to_underlying(Enums::Items::Effects::Defensive::PROTECTION_VS_WERE); i++) {
 		if (_defensive_effects[i]) {
-			const auto eff_enum{
-				enum_cast<Enums::Items::Effects::Defensive>(i).value()};
+			const auto eff_enum{enum_cast<Enums::Items::Effects::Defensive>(i).value()};
 			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
@@ -376,13 +362,10 @@ auto Sorcery::ItemType::get_eff_def_str() const -> std::string {
 auto Sorcery::ItemType::get_eff_off_str() const -> std::string {
 
 	std::string effects{""};
-	for (auto i = std::to_underlying(
-			 Enums::Items::Effects::Offensive::PURPOSED_VS_ANIMAL);
-		 i <= std::to_underlying(Enums::Items::Effects::Offensive::AUTOKILL);
-		 i++) {
+	for (auto i = std::to_underlying(Enums::Items::Effects::Offensive::PURPOSED_VS_ANIMAL);
+		 i <= std::to_underlying(Enums::Items::Effects::Offensive::AUTOKILL); i++) {
 		if (_offensive_effects[i]) {
-			const auto eff_enum{
-				enum_cast<Enums::Items::Effects::Offensive>(i).value()};
+			const auto eff_enum{enum_cast<Enums::Items::Effects::Offensive>(i).value()};
 			std::string str{enum_name(eff_enum)};
 			std::replace(str.begin(), str.end(), '_', ' ');
 			effects.append(str);
@@ -408,8 +391,7 @@ auto Sorcery::ItemType::set_eff_use_decay(const unsigned int value) -> void {
 	_use_decay_chance = value;
 }
 
-auto Sorcery::ItemType::set_decay_type_id(const Enums::Items::TypeID value)
-	-> void {
+auto Sorcery::ItemType::set_decay_type_id(const Enums::Items::TypeID value) -> void {
 
 	_decay_type = value;
 }
@@ -497,8 +479,7 @@ auto Sorcery::ItemType::get_equippable_display() const -> std::string {
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::ItemType &itemtype)
-	-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::ItemType &itemtype) -> std::ostream & {
 
 	const auto type{std::to_underlying(itemtype.get_type_id())};
 	const auto name{itemtype.get_known_name()};

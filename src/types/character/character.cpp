@@ -83,8 +83,7 @@ auto Sorcery::Character::create() const -> ConstCharacterCreate {
 }
 
 // Overloaded Operator
-auto Sorcery::Character::operator[](const Enums::Character::Ability &key)
-	-> int & {
+auto Sorcery::Character::operator[](const Enums::Character::Ability &key) -> int & {
 
 	return _abilities[key];
 }
@@ -96,8 +95,7 @@ auto Sorcery::Character::get_location() const -> Enums::Character::Location {
 	return _location;
 }
 
-auto Sorcery::Character::set_location(const Enums::Character::Location value)
-	-> void {
+auto Sorcery::Character::set_location(const Enums::Character::Location value) -> void {
 
 	_location = value;
 
@@ -108,20 +106,17 @@ auto Sorcery::Character::set_location(const Enums::Character::Location value)
 	}
 }
 
-auto Sorcery::Character::abilities()
-	-> std::map<Enums::Character::Ability, int> & {
+auto Sorcery::Character::abilities() -> std::map<Enums::Character::Ability, int> & {
 
 	return _abilities;
 }
 
-auto Sorcery::Character::abilities() const
-	-> const std::map<Enums::Character::Ability, int> & {
+auto Sorcery::Character::abilities() const -> const std::map<Enums::Character::Ability, int> & {
 
 	return _abilities;
 }
 
-auto Sorcery::Character::attributes()
-	-> std::map<Enums::Character::Attribute, int> & {
+auto Sorcery::Character::attributes() -> std::map<Enums::Character::Attribute, int> & {
 
 	return _cur_attr;
 }
@@ -138,17 +133,14 @@ auto Sorcery::Character::get_name_and_status() const -> std::string {
 
 auto Sorcery::Character::get_name_and_loc() const -> std::string {
 
-	return std::format("{:<16} B{}F {:>2}N/{:>2}E", _name,
-					   std::abs(depth.value()), coordinate.value().y,
+	return std::format("{:<16} B{}F {:>2}N/{:>2}E", _name, std::abs(depth.value()), coordinate.value().y,
 					   coordinate.value().x);
 }
 
 auto Sorcery::Character::get_name_status_and_loc() const -> std::string {
 
-	const auto out{_location == Enums::Character::Location::MAZE ? "(OUT)"
-																 : ""};
-	const auto status{
-		_status != Enums::Character::Status::OK ? get_status_string() : ""};
+	const auto out{_location == Enums::Character::Location::MAZE ? "(OUT)" : ""};
+	const auto status{_status != Enums::Character::Status::OK ? get_status_string() : ""};
 	const auto desc{full_desc_text()};
 
 	return std::format("{:<24} {:<9} {:^5}", desc, status, out);
@@ -174,63 +166,54 @@ auto Sorcery::Character::get_class() const -> Enums::Character::Class {
 	return _class;
 }
 
-auto Sorcery::Character::get_attr_ptr(Enums::Character::Attribute attribute)
-	-> int * {
+auto Sorcery::Character::get_attr_ptr(Enums::Character::Attribute attribute) -> int * {
 
 	return &_cur_attr.at(attribute);
 }
 
-auto Sorcery::Character::get_cur_attr(
-	const Enums::Character::Attribute attribute) const -> unsigned int {
+auto Sorcery::Character::get_cur_attr(const Enums::Character::Attribute attribute) const -> unsigned int {
 
 	return _cur_attr.at(attribute);
 }
 
-auto Sorcery::Character::get_cur_attr() const
-	-> std::map<Enums::Character::Attribute, int> {
+auto Sorcery::Character::get_cur_attr() const -> std::map<Enums::Character::Attribute, int> {
 
 	return _cur_attr;
 }
 
 // Enum to String functions
-auto Sorcery::Character::alignment_to_str(
-	Enums::Character::Align character_alignment) const -> std::string {
+auto Sorcery::Character::alignment_to_str(Enums::Character::Align character_alignment) const -> std::string {
 
-	static const std::array<std::string, 4> alignments{
-		"", _ctx->get_string("CHARACTER_ALIGNMENT_GOOD"),
-		_ctx->get_string("CHARACTER_ALIGNMENT_NEUTRAL"),
-		_ctx->get_string("CHARACTER_ALIGNMENT_EVIL")};
+	static const std::array<std::string, 4> alignments{"", _ctx->get_string("CHARACTER_ALIGNMENT_GOOD"),
+													   _ctx->get_string("CHARACTER_ALIGNMENT_NEUTRAL"),
+													   _ctx->get_string("CHARACTER_ALIGNMENT_EVIL")};
 
 	return alignments[std::to_underlying(character_alignment)];
 }
 
-auto Sorcery::Character::race_to_str(
-	Enums::Character::Race character_race) const -> std::string {
+auto Sorcery::Character::race_to_str(Enums::Character::Race character_race) const -> std::string {
 
-	static const std::array<std::string, 6> races{
-		"",
-		_ctx->get_string("CHARACTER_RACE_HUMAN"),
-		_ctx->get_string("CHARACTER_RACE_ELF"),
-		_ctx->get_string("CHARACTER_RACE_DWARF"),
-		_ctx->get_string("CHARACTER_RACE_GNOME"),
-		_ctx->get_string("CHARACTER_RACE_HOBBIT")};
+	static const std::array<std::string, 6> races{"",
+												  _ctx->get_string("CHARACTER_RACE_HUMAN"),
+												  _ctx->get_string("CHARACTER_RACE_ELF"),
+												  _ctx->get_string("CHARACTER_RACE_DWARF"),
+												  _ctx->get_string("CHARACTER_RACE_GNOME"),
+												  _ctx->get_string("CHARACTER_RACE_HOBBIT")};
 
 	return races[std::to_underlying(character_race)];
 }
 
-auto Sorcery::Character::class_to_str(
-	Enums::Character::Class character_class) const -> std::string {
+auto Sorcery::Character::class_to_str(Enums::Character::Class character_class) const -> std::string {
 
-	static const std::array<std::string, 10> classes{
-		"",
-		_ctx->get_string("CHARACTER_CLASS_FIGHTER"),
-		_ctx->get_string("CHARACTER_CLASS_MAGE"),
-		_ctx->get_string("CHARACTER_CLASS_PRIEST"),
-		_ctx->get_string("CHARACTER_CLASS_THIEF"),
-		_ctx->get_string("CHARACTER_CLASS_BISHOP"),
-		_ctx->get_string("CHARACTER_CLASS_SAMURAI"),
-		_ctx->get_string("CHARACTER_CLASS_LORD"),
-		_ctx->get_string("CHARACTER_CLASS_NINJA")};
+	static const std::array<std::string, 10> classes{"",
+													 _ctx->get_string("CHARACTER_CLASS_FIGHTER"),
+													 _ctx->get_string("CHARACTER_CLASS_MAGE"),
+													 _ctx->get_string("CHARACTER_CLASS_PRIEST"),
+													 _ctx->get_string("CHARACTER_CLASS_THIEF"),
+													 _ctx->get_string("CHARACTER_CLASS_BISHOP"),
+													 _ctx->get_string("CHARACTER_CLASS_SAMURAI"),
+													 _ctx->get_string("CHARACTER_CLASS_LORD"),
+													 _ctx->get_string("CHARACTER_CLASS_NINJA")};
 
 	return classes[std::to_underlying(character_class)];
 }
@@ -243,8 +226,7 @@ auto Sorcery::Character::get_ress_chance(bool ashes) -> unsigned int {
 
 auto Sorcery::Character::grant_gold(const int value) -> void {
 
-	_abilities[Enums::Character::Ability::GOLD] =
-		_abilities[Enums::Character::Ability::GOLD] + value;
+	_abilities[Enums::Character::Ability::GOLD] = _abilities[Enums::Character::Ability::GOLD] + value;
 }
 
 auto Sorcery::Character::get_gold() const -> unsigned int {
@@ -304,8 +286,7 @@ auto Sorcery::Character::get_max_hp() const -> int {
 	return _abilities.at(Enums::Character::Ability::MAX_HP);
 }
 
-auto Sorcery::Character::adjust_attribute(
-	const Enums::Character::Attribute attribute, const int value) -> void {
+auto Sorcery::Character::adjust_attribute(const Enums::Character::Attribute attribute, const int value) -> void {
 
 	_cur_attr.at(attribute) += value;
 	_cur_attr.at(attribute) = std::clamp(_cur_attr.at(attribute), 3, 18);
@@ -343,8 +324,7 @@ auto Sorcery::Character::get_short_cond() const -> std::string {
 	if (_status != Enums::Character::Status::OK)
 		return std::format("{:>6}", _get_condition());
 	else
-		return std::format("{:>4}",
-						   _abilities.at(Enums::Character::Ability::MAX_HP));
+		return std::format("{:>4}", _abilities.at(Enums::Character::Ability::MAX_HP));
 }
 
 auto Sorcery::Character::_get_condition() const -> std::string {
@@ -472,8 +452,7 @@ auto Sorcery::Character::get_poisoned_rate() const -> int {
 auto Sorcery::Character::get_hp_adjustment() const -> int {
 
 	using enum Enums::Character::Ability;
-	return _abilities.at(HP_GAIN_PER_TURN) - _abilities.at(HP_LOSS_PER_TURN) -
-		   _abilities.at(POISON_STRENGTH);
+	return _abilities.at(HP_GAIN_PER_TURN) - _abilities.at(HP_LOSS_PER_TURN) - _abilities.at(POISON_STRENGTH);
 }
 
 auto Sorcery::Character::get_hp_adjustment_symbol() const -> char {
@@ -517,9 +496,7 @@ auto Sorcery::Character::set_poisoned_rate(int value) -> void {
 auto Sorcery::Character::get_poisoned_string() const -> std::string {
 
 	return _abilities.at(Enums::Character::Ability::POISON_STRENGTH) > 0
-			   ? std::format(
-					 "{:->2}",
-					 _abilities.at(Enums::Character::Ability::POISON_STRENGTH))
+			   ? std::format("{:->2}", _abilities.at(Enums::Character::Ability::POISON_STRENGTH))
 			   : "";
 }
 
@@ -530,11 +507,8 @@ auto Sorcery::Character::get_short_hp_summary() const -> std::string {
 
 auto Sorcery::Character::get_hp_summary() const -> std::string {
 
-	return std::format(
-		"{}/{}{}",
-		std::to_string(_abilities.at(Enums::Character::Ability::CURRENT_HP)),
-		std::to_string(_abilities.at(Enums::Character::Ability::MAX_HP)),
-		get_hp_adjustment_symbol());
+	return std::format("{}/{}{}", std::to_string(_abilities.at(Enums::Character::Ability::CURRENT_HP)),
+					   std::to_string(_abilities.at(Enums::Character::Ability::MAX_HP)), get_hp_adjustment_symbol());
 }
 
 // For level draining, optionally keep a track of negative levels unless in
@@ -545,10 +519,8 @@ auto Sorcery::Character::get_summary() -> std::string {
 	// if (_display->get_upper())
 	//	std::ranges::transform(name.begin(), name.end(), name.begin(),
 	//						   ::toupper);
-	return std::format("{:<15} L {:>2} {}-{} {}", name,
-					   _abilities.at(Enums::Character::Ability::CURRENT_LEVEL),
-					   alignment_to_str(_alignment).substr(0, 1),
-					   class_to_str(_class).substr(0, 3),
+	return std::format("{:<15} L {:>2} {}-{} {}", name, _abilities.at(Enums::Character::Ability::CURRENT_LEVEL),
+					   alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3),
 					   race_to_str(_race).substr(0, 3));
 }
 
@@ -567,10 +539,8 @@ auto Sorcery::Character::get_summary_and_out() -> std::string {
 			return "    ";
 	})};
 
-	return std::format("{:<15} L {:>2} {}-{} {}{:>5}", name,
-					   _abilities.at(Enums::Character::Ability::CURRENT_LEVEL),
-					   alignment_to_str(_alignment).substr(0, 1),
-					   class_to_str(_class).substr(0, 3),
+	return std::format("{:<15} L {:>2} {}-{} {}{:>5}", name, _abilities.at(Enums::Character::Ability::CURRENT_LEVEL),
+					   alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3),
 					   race_to_str(_race).substr(0, 3), location);
 }
 
@@ -601,24 +571,19 @@ auto Sorcery::Character::get_cure_cost() const -> unsigned int {
 		return 0;
 	}
 
-	return cost_per_level *
-		   _abilities.at(Enums::Character::Ability::CURRENT_LEVEL);
+	return cost_per_level * _abilities.at(Enums::Character::Ability::CURRENT_LEVEL);
 }
 
-auto Sorcery::Character::get_party_panel_text(const int position)
-	-> std::string {
+auto Sorcery::Character::get_party_panel_text(const int position) -> std::string {
 
 	auto name{_name};
-	auto can_level{
-		_abilities.at(Enums::Character::Ability::CURRENT_XP) >
-				_abilities.at(Enums::Character::Ability::NEXT_LEVEL_XP)
-			? "*"
-			: " "};
-	return std::format(
-		"{}{}{:<15} {}-{} {:>2} {:>4}{}{:<6}", position, can_level, name,
-		alignment_to_str(_alignment).substr(0, 1),
-		class_to_str(_class).substr(0, 3), get_cur_ac(), get_short_hp_summary(),
-		get_hp_adjustment_symbol(), get_short_cond());
+	auto can_level{_abilities.at(Enums::Character::Ability::CURRENT_XP) >
+						   _abilities.at(Enums::Character::Ability::NEXT_LEVEL_XP)
+					   ? "*"
+					   : " "};
+	return std::format("{}{}{:<15} {}-{} {:>2} {:>4}{}{:<6}", position, can_level, name,
+					   alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3), get_cur_ac(),
+					   get_short_hp_summary(), get_hp_adjustment_symbol(), get_short_cond());
 }
 
 auto Sorcery::Character::get_age() const -> int {
@@ -628,8 +593,7 @@ auto Sorcery::Character::get_age() const -> int {
 
 auto Sorcery::Character::set_age(const int adjustment) -> void {
 
-	_abilities.at(Enums::Character::Ability::AGE) =
-		_abilities.at(Enums::Character::Ability::AGE) + adjustment;
+	_abilities.at(Enums::Character::Ability::AGE) = _abilities.at(Enums::Character::Ability::AGE) + adjustment;
 }
 
 auto Sorcery::Character::full_desc_text() const -> std::string {
@@ -637,10 +601,8 @@ auto Sorcery::Character::full_desc_text() const -> std::string {
 	auto name{_name};
 	const auto level{_abilities.at(Enums::Character::Ability::CURRENT_LEVEL)};
 
-	return std::format("{:<15} L {:>2} {}-{} {}", name, level,
-					   alignment_to_str(_alignment).substr(0, 1),
-					   class_to_str(_class).substr(0, 3),
-					   race_to_str(_race).substr(0, 3));
+	return std::format("{:<15} L {:>2} {}-{} {}", name, level, alignment_to_str(_alignment).substr(0, 1),
+					   class_to_str(_class).substr(0, 3), race_to_str(_race).substr(0, 3));
 };
 
 auto Sorcery::Character::summary_text_with_awards() const -> std::string {
@@ -650,10 +612,8 @@ auto Sorcery::Character::summary_text_with_awards() const -> std::string {
 	const auto level{_abilities.at(Enums::Character::Ability::CURRENT_LEVEL)};
 	const auto award{_wiz_1_award ? " \">\"" : ""};
 
-	return std::format("{} L {:>2} {}-{} {}{}{}", name, level,
-					   alignment_to_str(_alignment).substr(0, 1),
-					   class_to_str(_class).substr(0, 3), race_to_str(_race),
-					   legacy, award);
+	return std::format("{} L {:>2} {}-{} {}{}{}", name, level, alignment_to_str(_alignment).substr(0, 1),
+					   class_to_str(_class).substr(0, 3), race_to_str(_race), legacy, award);
 }
 
 auto Sorcery::Character::summary_text() const -> std::string {
@@ -671,22 +631,18 @@ auto Sorcery::Character::summary_text() const -> std::string {
 		return std::format("{:<15} L {:>2} ?-??? ???", name, level);
 		break;
 	case CHOOSE_ALIGNMENT:
-		return std::format("{:<15} L {:>2} ?-??? {}", name, level,
-						   race_to_str(_race));
+		return std::format("{:<15} L {:>2} ?-??? {}", name, level, race_to_str(_race));
 		break;
 
 	case CHOOSE_CLASS:
-		return std::format("{:<15} L {:>2} {}-??? {}", name, level,
-						   alignment_to_str(_alignment).substr(0, 1),
+		return std::format("{:<15} L {:>2} {}-??? {}", name, level, alignment_to_str(_alignment).substr(0, 1),
 						   race_to_str(_race));
 		break;
 	case REVIEW_AND_CONFIRM:
 		[[fallthrough]];
 	case COMPLETED:
-		return std::format("{} L {:>2} {}-{} {}{}", name, level,
-						   alignment_to_str(_alignment).substr(0, 1),
-						   class_to_str(_class).substr(0, 3),
-						   race_to_str(_race), legacy);
+		return std::format("{} L {:>2} {}-{} {}{}", name, level, alignment_to_str(_alignment).substr(0, 1),
+						   class_to_str(_class).substr(0, 3), race_to_str(_race), legacy);
 		break;
 	default:
 		return "";
@@ -741,11 +697,9 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 
 	for (const auto &item : inventory.items()) {
 		if (item.get_equipped() && item.get_cursed())
-			ac = ac +
-				 _ctx->resources->items->get(item.get_type_id()).get_ac_mod();
+			ac = ac + _ctx->resources->items->get(item.get_type_id()).get_ac_mod();
 		else if (item.get_equipped())
-			ac = ac -
-				 _ctx->resources->items->get(item.get_type_id()).get_ac_mod();
+			ac = ac - _ctx->resources->items->get(item.get_type_id()).get_ac_mod();
 	}
 
 	return ac;
@@ -765,42 +719,35 @@ auto Sorcery::Character::get_cur_to_hit() const -> int {
 	auto to_hit{_abilities.at(Enums::Character::Ability::HIT_PROBABILITY)};
 
 	for (const auto &item : inventory.items())
-		to_hit =
-			to_hit +
-			_ctx->resources->items->get(item.get_type_id()).get_to_hit_mod();
+		to_hit = to_hit + _ctx->resources->items->get(item.get_type_id()).get_to_hit_mod();
 
 	return to_hit;
 }
 
 auto Sorcery::Character::get_cur_num_attacks() const -> int {
 
-	auto base_attacks{
-		_abilities.at(Enums::Character::Ability::BASE_NUMBER_OF_ATTACKS)};
+	auto base_attacks{_abilities.at(Enums::Character::Ability::BASE_NUMBER_OF_ATTACKS)};
 	auto extra_attacks{0};
 
 	for (const auto &item : inventory.items())
-		extra_attacks =
-			extra_attacks +
-			_ctx->resources->items->get(item.get_type_id()).get_swings();
+		extra_attacks = extra_attacks + _ctx->resources->items->get(item.get_type_id()).get_swings();
 
 	return extra_attacks > base_attacks ? extra_attacks : base_attacks;
 }
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Character &character)
-	-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Character &character) -> std::ostream & {
 
 	auto name{character.get_name()};
 	auto cclass{character.get_class()};
 	auto alignment{character.get_alignment()};
 	auto hp{character.get_hp_summary()};
 
-	auto body{std::format(
-		"{:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", name, character.get_level(),
-		character.alignment_to_str(alignment).substr(0, 1),
-		character.class_to_str(cclass).substr(0, 3), character.get_cur_ac(),
-		character.get_hp_summary(), character.get_condition())};
+	auto body{std::format("{:<15} {:>2} {}-{} {:>3} {:>6} {:^10}", name, character.get_level(),
+						  character.alignment_to_str(alignment).substr(0, 1),
+						  character.class_to_str(cclass).substr(0, 3), character.get_cur_ac(),
+						  character.get_hp_summary(), character.get_condition())};
 
 	return out_stream << body << std::endl;
 }

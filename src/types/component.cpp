@@ -57,14 +57,13 @@ Sorcery::Component::Component()
 	_visible = false;
 }
 
-Sorcery::Component::Component(
-	const std::string &form_, const std::string &name_, const int _x,
-	const int y_, const unsigned int w_, const unsigned int h_,
-	const Enums::Layout::Font font_, const ImU32 colour_, const bool animated_,
-	const std::string &string_key_, const float alpha_, const ImU32 background_,
-	const Enums::Layout::Justification justification_,
-	const Enums::Layout::ComponentType _type, const unsigned int priority_,
-	const Enums::Layout::DrawMode drawmode_)
+Sorcery::Component::Component(const std::string &form_, const std::string &name_, const int _x, const int y_,
+							  const unsigned int w_, const unsigned int h_, const Enums::Layout::Font font_,
+							  const ImU32 colour_, const bool animated_, const std::string &string_key_,
+							  const float alpha_, const ImU32 background_,
+							  const Enums::Layout::Justification justification_,
+							  const Enums::Layout::ComponentType _type, const unsigned int priority_,
+							  const Enums::Layout::DrawMode drawmode_)
 	: form{form_},
 	  name{name_},
 	  x{_x},
@@ -94,23 +93,19 @@ Sorcery::Component::Component(
 }
 
 // Overload the [] operator
-auto Sorcery::Component::get(std::string_view key)
-	-> std::optional<std::string> {
+auto Sorcery::Component::get(std::string_view key) -> std::optional<std::string> {
 
 	return _get(key);
 }
 
-auto Sorcery::Component::get(std::string_view key) const
-	-> std::optional<std::string> {
+auto Sorcery::Component::get(std::string_view key) const -> std::optional<std::string> {
 
 	return _get(key);
 }
 
-auto Sorcery::Component::set(std::string_view key, std::string_view value)
-	-> void {
+auto Sorcery::Component::set(std::string_view key, std::string_view value) -> void {
 
-	const auto it = std::ranges::find(
-		_data, key, &std::pair<std::string, std::string>::first);
+	const auto it = std::ranges::find(_data, key, &std::pair<std::string, std::string>::first);
 
 	if (it == _data.end())
 		_data.emplace_back(key, value);
@@ -138,11 +133,9 @@ auto Sorcery::Component::get_visible() const -> bool {
 	return _visible;
 }
 
-auto Sorcery::Component::_get(std::string_view key) const
-	-> std::optional<std::string> {
+auto Sorcery::Component::_get(std::string_view key) const -> std::optional<std::string> {
 
-	const auto it = std::ranges::find(
-		_data, key, &std::pair<std::string, std::string>::first);
+	const auto it = std::ranges::find(_data, key, &std::pair<std::string, std::string>::first);
 
 	if (it == _data.end())
 		return std::nullopt;
@@ -155,8 +148,7 @@ auto Sorcery::Component::id() const -> long {
 	return _id;
 }
 
-auto Sorcery::Component::get_int(std::string_view key, int fallback) const
-	-> int {
+auto Sorcery::Component::get_int(std::string_view key, int fallback) const -> int {
 
 	if (_get(key))
 		return std::stoi(_get(key).value());
@@ -164,8 +156,7 @@ auto Sorcery::Component::get_int(std::string_view key, int fallback) const
 		return fallback;
 }
 
-auto Sorcery::Component::get_float(std::string_view key, float fallback) const
-	-> float {
+auto Sorcery::Component::get_float(std::string_view key, float fallback) const -> float {
 
 	if (_get(key))
 		return std::stof(_get(key).value());
@@ -173,8 +164,7 @@ auto Sorcery::Component::get_float(std::string_view key, float fallback) const
 		return fallback;
 }
 
-auto Sorcery::Component::get_bool(std::string_view key, bool fallback) const
-	-> bool {
+auto Sorcery::Component::get_bool(std::string_view key, bool fallback) const -> bool {
 
 	if (_get(key))
 		return _get(key).value() == "true";

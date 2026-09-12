@@ -31,8 +31,7 @@ Sorcery::ScopedTimer::ScopedTimer(std::string_view name)
 Sorcery::ScopedTimer::~ScopedTimer() {
 
 	const auto end{clock::now()};
-	const auto elapsed{
-		std::chrono::duration_cast<std::chrono::microseconds>(end - _start)};
+	const auto elapsed{std::chrono::duration_cast<std::chrono::microseconds>(end - _start)};
 
 	std::println("[TIMER] {}: {} us", _name, elapsed.count());
 }

@@ -28,12 +28,10 @@ using enum Enums::MenuAction::Type;
 using enum Enums::MenuAction::Function;
 using enum Enums::Screen;
 
-const ActionList COMPENDIUM_ACTIONS{{{.type = GOTOSCREEN, .screen = ATLAS}},
-									{{.type = GOTOSCREEN, .screen = BESTIARY}},
-									{{.type = NO_ACTION, .screen = NONE}},
-									{{.type = GOTOSCREEN, .screen = MUSEUM}},
-									{{.type = GOTOSCREEN, .screen = SPELLBOOK}},
-									{{.type = GOTOSCREEN, .screen = MAINMENU}}};
+const ActionList COMPENDIUM_ACTIONS{
+	{{.type = GOTOSCREEN, .screen = ATLAS}},	 {{.type = GOTOSCREEN, .screen = BESTIARY}},
+	{{.type = NO_ACTION, .screen = NONE}},		 {{.type = GOTOSCREEN, .screen = MUSEUM}},
+	{{.type = GOTOSCREEN, .screen = SPELLBOOK}}, {{.type = GOTOSCREEN, .screen = MAINMENU}}};
 
 const ActionList CASTLE_ACTIONS{{{.type = GOTOSCREEN, .screen = TAVERN}},
 								{{.type = GOTOSCREEN, .screen = INN}},
@@ -41,47 +39,42 @@ const ActionList CASTLE_ACTIONS{{{.type = GOTOSCREEN, .screen = TAVERN}},
 								{{.type = GOTOSCREEN, .screen = TEMPLE}},
 								{{.type = GOTOSCREEN, .screen = EDGEOFTOWN}}};
 
-const ActionList MAIN_MENU_ACTIONS{
-	{{.type = OPEN_DIALOG,
-	  .popup_component = "main_menu:dialog_new",
-	  .dialog_type = Enums::Layout::DialogType::CONFIRM}},
-	{{.type = SETFLAG, .flag = "want_continue_game"}},
-	{{.type = GOTOSCREEN, .screen = OPTIONS}},
-	{{.type = GOTOSCREEN, .screen = COMPENDIUM}},
-	{{.type = GOTOSCREEN, .screen = LICENSE}},
-	{{.type = OPEN_DIALOG,
-	  .popup_component = "main_menu:dialog_exit",
-	  .dialog_type = Enums::Layout::DialogType::CONFIRM}}};
+const ActionList MAIN_MENU_ACTIONS{{{.type = OPEN_DIALOG,
+									 .popup_component = "main_menu:dialog_new",
+									 .dialog_type = Enums::Layout::DialogType::CONFIRM}},
+								   {{.type = SETFLAG, .flag = "want_continue_game"}},
+								   {{.type = GOTOSCREEN, .screen = OPTIONS}},
+								   {{.type = GOTOSCREEN, .screen = COMPENDIUM}},
+								   {{.type = GOTOSCREEN, .screen = LICENSE}},
+								   {{.type = OPEN_DIALOG,
+									 .popup_component = "main_menu:dialog_exit",
+									 .dialog_type = Enums::Layout::DialogType::CONFIRM}}};
 
-const ActionList EDGE_ACTIONS{
-	{{.type = GOTOSCREEN, .screen = TRAINING}},
-	{{.type = GOTOSCREEN, .screen = ENGINE}},
-	{{.type = GOTOSCREEN, .screen = RESTART}},
-	{{.type = GOTOSCREEN, .screen = CASTLE}},
-	{{.type = OPEN_DIALOG,
-	  .popup_component = "main_menu:dialog_leave",
-	  .dialog_type = Enums::Layout::DialogType::CONFIRM}}};
+const ActionList EDGE_ACTIONS{{{.type = GOTOSCREEN, .screen = TRAINING}},
+							  {{.type = GOTOSCREEN, .screen = ENGINE}},
+							  {{.type = GOTOSCREEN, .screen = RESTART}},
+							  {{.type = GOTOSCREEN, .screen = CASTLE}},
+							  {{.type = OPEN_DIALOG,
+								.popup_component = "main_menu:dialog_leave",
+								.dialog_type = Enums::Layout::DialogType::CONFIRM}}};
 
-const ActionList STORE_ACTIONS{
-	{{.type = GOTOSCREEN, .screen = BUY}},
-	{{.type = GOTOSCREEN, .screen = SELL}},
-	{{.type = GOTOSCREEN, .screen = UNCURSE}},
-	{{.type = GOTOSCREEN, .screen = IDENTIFY}},
-	{
-		{.type = CUSTOM, .custom_function = POOL_GOLD},
-		{.type = OPEN_DIALOG,
-		 .popup_component = "global:notice_pool_gold",
-		 .dialog_type = Enums::Layout::DialogType::OK},
-	},
-	{{.type = GOTOSCREEN, .screen = SHOP}}};
+const ActionList STORE_ACTIONS{{{.type = GOTOSCREEN, .screen = BUY}},
+							   {{.type = GOTOSCREEN, .screen = SELL}},
+							   {{.type = GOTOSCREEN, .screen = UNCURSE}},
+							   {{.type = GOTOSCREEN, .screen = IDENTIFY}},
+							   {
+								   {.type = CUSTOM, .custom_function = POOL_GOLD},
+								   {.type = OPEN_DIALOG,
+									.popup_component = "global:notice_pool_gold",
+									.dialog_type = Enums::Layout::DialogType::OK},
+							   },
+							   {{.type = GOTOSCREEN, .screen = SHOP}}};
 
 const ActionList TAVERN_ACTIONS{
 	{{.type = GOTOSCREEN, .screen = ADD}},
 	{{.type = GOTOSCREEN, .screen = REMOVE}},
 	{{.type = GOTOSCREEN, .screen = REORDER}},
-	{{.type = OPEN_DIALOG,
-	  .popup_component = "global:notice_divvy",
-	  .dialog_type = Enums::Layout::DialogType::OK}},
+	{{.type = OPEN_DIALOG, .popup_component = "global:notice_divvy", .dialog_type = Enums::Layout::DialogType::OK}},
 	{{.type = GOTOSCREEN, .screen = CASTLE}}};
 
 const ActionList TEMPLE_ACTIONS{{{.type = SET_UI_BOOL, .ui_index = 0}},
@@ -111,68 +104,48 @@ const ActionList CAMP_ACTIONS{
 };
 
 const ActionList REST_ACTIONS{// Stables
-							  {{.type = SET_SELECTED,
-								.selected_key = "room_selected",
-								.selected_value = 0},
+							  {{.type = SET_SELECTED, .selected_key = "room_selected", .selected_value = 0},
 							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
 							  // Cot
-							  {{.type = SET_SELECTED,
-								.selected_key = "room_selected",
-								.selected_value = 1},
+							  {{.type = SET_SELECTED, .selected_key = "room_selected", .selected_value = 1},
 							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
 							  // Economy Rooms
-							  {{.type = SET_SELECTED,
-								.selected_key = "room_selected",
-								.selected_value = 2},
+							  {{.type = SET_SELECTED, .selected_key = "room_selected", .selected_value = 2},
 							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
 							  // Merchant Suites
-							  {{.type = SET_SELECTED,
-								.selected_key = "room_selected",
-								.selected_value = 3},
+							  {{.type = SET_SELECTED, .selected_key = "room_selected", .selected_value = 3},
 							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
 							  // Royal Suite
-							  {{.type = SET_SELECTED,
-								.selected_key = "room_selected",
-								.selected_value = 4},
+							  {{.type = SET_SELECTED, .selected_key = "room_selected", .selected_value = 4},
 							   {.type = GOTOSCREEN, .screen = RECOVERY}},
 
 							  // Return
-							  {{.type = SET_SELECTED,
-								.selected_key = "room_selected",
-								.selected_value = -1},
+							  {{.type = SET_SELECTED, .selected_key = "room_selected", .selected_value = -1},
 							   {.type = GOTOSCREEN, .screen = INN}}};
 
 const ActionList TOP_ELEVATOR_ACTIONS{
 
 	// A - B1F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -1},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -1},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
 	// B - B2F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -2},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -2},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
 	// C - B3F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -3},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -3},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
 	// D - B4F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -4},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -4},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
@@ -182,44 +155,32 @@ const ActionList TOP_ELEVATOR_ACTIONS{
 const ActionList BOTTOM_ELEVATOR_ACTIONS{
 
 	// A - B4F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -4},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -4},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
 	// B - B5F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -5},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -5},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
 	// C - B6F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -6},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -6},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
 	// D - B7F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -7},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -7},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
 	// E - B8F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -8},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -8},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 
 	// F - B9F
-	{{.type = SET_SELECTED,
-	  .selected_key = "elevator_selected",
-	  .selected_value = -9},
+	{{.type = SET_SELECTED, .selected_key = "elevator_selected", .selected_value = -9},
 	 {.type = SETFLAG, .flag = "want_take_elevator"},
 	 {.type = CLOSE_POPUP}},
 

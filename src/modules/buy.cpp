@@ -63,9 +63,7 @@ auto Sorcery::Buy::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -97,8 +95,7 @@ auto Sorcery::Buy::start() -> int {
 			// return BACK_TO_INN;
 		}
 
-		if (!_ctx.controller->wants(Enums::Screen::BUY) &&
-			_ctx.controller->wants(Enums::Screen::STORE))
+		if (!_ctx.controller->wants(Enums::Screen::BUY) && _ctx.controller->wants(Enums::Screen::STORE))
 			return BACK_TO_STORE;
 	}
 

@@ -40,8 +40,7 @@ auto Sorcery::Context::tick() -> void {
 	application->update();
 };
 
-auto Sorcery::Context::get_random(const Enums::System::Random random_type)
-	-> unsigned int {
+auto Sorcery::Context::get_random(const Enums::System::Random random_type) -> unsigned int {
 
 	return random->get(random_type);
 }
@@ -56,26 +55,22 @@ auto Sorcery::Context::get_config(const unsigned int i) -> bool & {
 	return config->get(i);
 }
 
-auto Sorcery::Context::get_config(std::string_view section,
-								  std::string_view value) const -> std::string {
+auto Sorcery::Context::get_config(std::string_view section, std::string_view value) const -> std::string {
 
 	return config->get(section, value);
 }
 
-auto Sorcery::Context::get_file(std::string_view key) const
-	-> std::filesystem::path {
+auto Sorcery::Context::get_file(std::string_view key) const -> std::filesystem::path {
 
 	return files->get(key);
 }
 
-auto Sorcery::Context::get_directory(std::string_view key) const
-	-> std::filesystem::path {
+auto Sorcery::Context::get_directory(std::string_view key) const -> std::filesystem::path {
 
 	return files->get_directory(key);
 }
 
-auto Sorcery::Context::get_component(std::string_view combined_key)
-	-> Component & {
+auto Sorcery::Context::get_component(std::string_view combined_key) -> Component & {
 
 	return components->get(combined_key);
 }

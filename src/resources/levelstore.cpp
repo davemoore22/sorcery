@@ -84,8 +84,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 
 	try {
 
-		if (std::ifstream file{filename.string(), std::ifstream::binary};
-			file.good()) {
+		if (std::ifstream file{filename.string(), std::ifstream::binary}; file.good()) {
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -113,8 +112,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 					auto height{bounds["height"].asInt()};
 
 					// Create the Level
-					Level level{Enums::Map::Type::MAZE, dungeon, depth,
-								Coordinate(x_origin, y_origin),
+					Level level{Enums::Map::Type::MAZE, dungeon, depth, Coordinate(x_origin, y_origin),
 								Size(width, height)};
 					level.load(rows, notes);
 
@@ -130,8 +128,7 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 	}
 
 	catch (std::exception &e) {
-		Error error{Enums::System::Error::JSON_PARSE_ERROR, e,
-					"error loading levels.json!"};
+		Error error{Enums::System::Error::JSON_PARSE_ERROR, e, "error loading levels.json!"};
 		std::cerr << error;
 		exit(EXIT_FAILURE);
 	}

@@ -87,8 +87,7 @@ Sorcery::Display::Display(Context &ctx)
 
 auto Sorcery::Display::_initialise_SDL() -> int {
 
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) !=
-		0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
 
 		std::println("SDL initialisation failed: {}", SDL_GetError());
 		return -1;
@@ -97,8 +96,7 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 	_GLSL_version = "#version 130";
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-						SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
@@ -116,11 +114,10 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 
 	const auto min_window_h{std::stoi(_ctx.get_config("Window", "min_height"))};
 
-	_SDL_window_flags = static_cast<SDL_WindowFlags>(
-		SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE);
+	_SDL_window_flags =
+		static_cast<SDL_WindowFlags>(SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE);
 
-	_SDL_window = SDL_CreateWindow(window_title.c_str(), SDL_WINDOWPOS_CENTERED,
-								   SDL_WINDOWPOS_CENTERED, _base_window_w,
+	_SDL_window = SDL_CreateWindow(window_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _base_window_w,
 								   _base_window_h, _SDL_window_flags);
 
 	if (_SDL_window == nullptr) {
@@ -143,8 +140,7 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 	}
 
 	if (SDL_GL_MakeCurrent(_SDL_window, _GL_context) != 0) {
-		std::println("Making OpenGL context current failed: {}",
-					 SDL_GetError());
+		std::println("Making OpenGL context current failed: {}", SDL_GetError());
 
 		SDL_GL_DeleteContext(_GL_context);
 		_GL_context = nullptr;
@@ -159,9 +155,7 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 
 	const auto glew_status{glewInit()};
 	if (glew_status != GLEW_OK) {
-		std::println(
-			"GLEW initialisation failed: {}",
-			reinterpret_cast<const char *>(glewGetErrorString(glew_status)));
+		std::println("GLEW initialisation failed: {}", reinterpret_cast<const char *>(glewGetErrorString(glew_status)));
 
 		return -1;
 	}
@@ -213,8 +207,7 @@ auto Sorcery::Display::get_GLSL_version() const -> const char * {
 	return _GLSL_version.c_str();
 }
 
-auto Sorcery::Display::get_display_metrics() const noexcept
-	-> const DisplayMetrics & {
+auto Sorcery::Display::get_display_metrics() const noexcept -> const DisplayMetrics & {
 
 	return _metrics;
 }
@@ -226,23 +219,18 @@ auto Sorcery::Display::update_display_metrics() noexcept -> void {
 
 	SDL_GetWindowSize(_SDL_window, &_metrics.window_w, &_metrics.window_h);
 
-	SDL_GL_GetDrawableSize(_SDL_window, &_metrics.drawable_w,
-						   &_metrics.drawable_h);
+	SDL_GL_GetDrawableSize(_SDL_window, &_metrics.drawable_w, &_metrics.drawable_h);
 
 	if (_metrics.window_w <= 0 || _metrics.window_h <= 0)
 		return;
 
-	_metrics.framebuffer_scale_x = static_cast<float>(_metrics.drawable_w) /
-								   static_cast<float>(_metrics.window_w);
+	_metrics.framebuffer_scale_x = static_cast<float>(_metrics.drawable_w) / static_cast<float>(_metrics.window_w);
 
-	_metrics.framebuffer_scale_y = static_cast<float>(_metrics.drawable_h) /
-								   static_cast<float>(_metrics.window_h);
+	_metrics.framebuffer_scale_y = static_cast<float>(_metrics.drawable_h) / static_cast<float>(_metrics.window_h);
 
-	_metrics.scale_x = static_cast<float>(_metrics.window_w) /
-					   static_cast<float>(_base_window_w);
+	_metrics.scale_x = static_cast<float>(_metrics.window_w) / static_cast<float>(_base_window_w);
 
-	_metrics.scale_y = static_cast<float>(_metrics.window_h) /
-					   static_cast<float>(_base_window_h);
+	_metrics.scale_y = static_cast<float>(_metrics.window_h) / static_cast<float>(_base_window_h);
 
 	_metrics.scale = std::min(_metrics.scale_x, _metrics.scale_y);
 
@@ -250,11 +238,9 @@ auto Sorcery::Display::update_display_metrics() noexcept -> void {
 
 	const auto content_h{static_cast<float>(_base_window_h) * _metrics.scale};
 
-	_metrics.offset_x =
-		(static_cast<float>(_metrics.window_w) - content_w) / 2.0f;
+	_metrics.offset_x = (static_cast<float>(_metrics.window_w) - content_w) / 2.0f;
 
-	_metrics.offset_y =
-		(static_cast<float>(_metrics.window_h) - content_h) / 2.0f;
+	_metrics.offset_y = (static_cast<float>(_metrics.window_h) - content_h) / 2.0f;
 
 	// DEBUG_LOGF("window={}x{} drawable={}x{} fbscale={}x{}",
 	// _metrics.window_w, 		   _metrics.window_h, _metrics.drawable_w,
@@ -340,8 +326,7 @@ auto Sorcery::Display::set_fade(const float fade) -> void {
 	_fade = std::clamp(fade, 0.0f, 1.0f);
 }
 
-auto Sorcery::Display::_compile_shader(const GLenum type, const char *source)
-	-> GLuint {
+auto Sorcery::Display::_compile_shader(const GLenum type, const char *source) -> GLuint {
 
 	const auto shader{glCreateShader(type)};
 
@@ -358,8 +343,7 @@ auto Sorcery::Display::_compile_shader(const GLenum type, const char *source)
 
 		glDeleteShader(shader);
 
-		throw std::runtime_error{std::string{"Shader compilation failed: "} +
-								 log};
+		throw std::runtime_error{std::string{"Shader compilation failed: "} + log};
 	}
 
 	return shader;
@@ -394,14 +378,12 @@ auto Sorcery::Display::_create_post_processor() -> void {
 
 	glGenVertexArrays(1, &_post_vao);
 
-	_screen_texture_location =
-		glGetUniformLocation(_post_program, "screen_texture");
+	_screen_texture_location = glGetUniformLocation(_post_program, "screen_texture");
 
 	_fade_location = glGetUniformLocation(_post_program, "fade");
 
 	if (_screen_texture_location == -1 || _fade_location == -1) {
 
-		throw std::runtime_error{
-			"Unable to find post-processing shader uniforms."};
+		throw std::runtime_error{"Unable to find post-processing shader uniforms."};
 	}
 }

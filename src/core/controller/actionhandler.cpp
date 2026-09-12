@@ -62,14 +62,12 @@
 #include <utility>		   // for pair, to_underlying
 #include <vector>		   // for vector
 
-Sorcery::ControllerActionHandler::ControllerActionHandler(Controller &host,
-														  Context &ctx)
+Sorcery::ControllerActionHandler::ControllerActionHandler(Controller &host, Context &ctx)
 	: _host{host},
 	  _ctx{ctx} {
 
 	  };
-auto Sorcery::ControllerActionHandler::button(const std::string_view component,
-											  [[maybe_unused]] const int data)
+auto Sorcery::ControllerActionHandler::button(const std::string_view component, [[maybe_unused]] const int data)
 	-> void {
 
 	DEBUG_LOGF("Button Click: {} {}", component, data);
@@ -82,11 +80,9 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 
 	} else if (component == "button_pool") {
 
-		_host._game->pool_party_gold(
-			_host.get_character(Enums::CharacterSlot::INSPECT));
+		_host._game->pool_party_gold(_host.get_character(Enums::CharacterSlot::INSPECT));
 
-		_ctx.ui->popup_manager->open_dialog("global:notice_pool_gold",
-											Enums::Layout::DialogType::OK);
+		_ctx.ui->popup_manager->open_dialog("global:notice_pool_gold", Enums::Layout::DialogType::OK);
 
 	} else if (component == "button_leave") {
 
@@ -174,8 +170,7 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component,
 		_host.go_to(Enums::Screen::CASTLE);
 	}
 }
-auto Sorcery::ControllerActionHandler::input(const std::string_view component,
-											 std::string &data) -> void {
+auto Sorcery::ControllerActionHandler::input(const std::string_view component, std::string &data) -> void {
 
 	DEBUG_LOGF("Input Button Click: {} {}", component, data);
 
@@ -185,23 +180,20 @@ auto Sorcery::ControllerActionHandler::input(const std::string_view component,
 
 			_host._game->creation_candidate->create().set_name(data);
 
-			_host._game->creation_candidate->create().set_stage(
-				Enums::Character::Stage::CHOOSE_RACE);
+			_host._game->creation_candidate->create().set_stage(Enums::Character::Stage::CHOOSE_RACE);
 		}
 
 	} else if (component == "rename_input_ok") {
 
 		if (!data.empty()) {
 
-			auto &character{_host._game->characters.at(
-				_host.get_character(Enums::CharacterSlot::EDIT))};
+			auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::EDIT))};
 
 			character.create().set_name(data);
 
 			_host._game->save_game();
 
-			_ctx.ui->popup_manager->open_dialog("global:notice_renamed_ok",
-												Enums::Layout::DialogType::OK);
+			_ctx.ui->popup_manager->open_dialog("global:notice_renamed_ok", Enums::Layout::DialogType::OK);
 
 		} else {
 
@@ -211,8 +203,7 @@ auto Sorcery::ControllerActionHandler::input(const std::string_view component,
 	}
 }
 
-auto Sorcery::ControllerActionHandler::stepper(const std::string_view component,
-											   const bool positive, int &data)
+auto Sorcery::ControllerActionHandler::stepper(const std::string_view component, const bool positive, int &data)
 	-> void {
 
 	DEBUG_LOGF("Stepper Button Click: {} {}", component, positive);
@@ -227,64 +218,50 @@ auto Sorcery::ControllerActionHandler::stepper(const std::string_view component,
 			if ((candidate->create().get_points_left() > 0) && (data <= 17)) {
 
 				data++;
-				candidate->create().set_points_left(
-					candidate->create().get_points_left() - 1);
+				candidate->create().set_points_left(candidate->create().get_points_left() - 1);
 				candidate->create().set_possible_classes();
 			}
 
 		} else {
 
-			if (candidate->create().get_points_left() <
-				candidate->create().get_start_points()) {
+			if (candidate->create().get_points_left() < candidate->create().get_start_points()) {
 
 				// Down: If we are above staring points
 				using enum Enums::Character::Attribute;
 				if (component.starts_with("##stepper_attribute_1")) {
-					if (candidate->get_cur_attr(STRENGTH) >
-						candidate->create().get_start_attribute(STRENGTH)) {
+					if (candidate->get_cur_attr(STRENGTH) > candidate->create().get_start_attribute(STRENGTH)) {
 						data--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
+						candidate->create().set_points_left(candidate->create().get_points_left() + 1);
 						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_2")) {
-					if (candidate->get_cur_attr(IQ) >
-						candidate->create().get_start_attribute(IQ)) {
+					if (candidate->get_cur_attr(IQ) > candidate->create().get_start_attribute(IQ)) {
 						data--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
+						candidate->create().set_points_left(candidate->create().get_points_left() + 1);
 						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_3")) {
-					if (candidate->get_cur_attr(PIETY) >
-						candidate->create().get_start_attribute(PIETY)) {
+					if (candidate->get_cur_attr(PIETY) > candidate->create().get_start_attribute(PIETY)) {
 						data--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
+						candidate->create().set_points_left(candidate->create().get_points_left() + 1);
 						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_4")) {
-					if (candidate->get_cur_attr(VITALITY) >
-						candidate->create().get_start_attribute(VITALITY)) {
+					if (candidate->get_cur_attr(VITALITY) > candidate->create().get_start_attribute(VITALITY)) {
 						data--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
+						candidate->create().set_points_left(candidate->create().get_points_left() + 1);
 						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_5")) {
-					if (candidate->get_cur_attr(AGILITY) >
-						candidate->create().get_start_attribute(AGILITY)) {
+					if (candidate->get_cur_attr(AGILITY) > candidate->create().get_start_attribute(AGILITY)) {
 						data--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
+						candidate->create().set_points_left(candidate->create().get_points_left() + 1);
 						candidate->create().set_possible_classes();
 					}
 				} else if (component.starts_with("##stepper_attribute_6")) {
-					if (candidate->get_cur_attr(LUCK) >
-						candidate->create().get_start_attribute(LUCK)) {
+					if (candidate->get_cur_attr(LUCK) > candidate->create().get_start_attribute(LUCK)) {
 						data--;
-						candidate->create().set_points_left(
-							candidate->create().get_points_left() + 1);
+						candidate->create().set_points_left(candidate->create().get_points_left() + 1);
 						candidate->create().set_possible_classes();
 					}
 				}
@@ -294,8 +271,7 @@ auto Sorcery::ControllerActionHandler::stepper(const std::string_view component,
 };
 
 // Toggle Handling
-auto Sorcery::ControllerActionHandler::toggle(const std::string_view component,
-											  const std::string_view tab,
+auto Sorcery::ControllerActionHandler::toggle(const std::string_view component, const std::string_view tab,
 											  const int selection) -> void {
 
 	DEBUG_LOGF("Toggle: {} {} {}", component, tab, selection);
@@ -306,11 +282,9 @@ auto Sorcery::ControllerActionHandler::toggle(const std::string_view component,
 		if (tab == "Options") {
 
 			// This happens after the corresponding data is changed
-			if (selection == static_cast<int>(RECOMMENDED_MODE) &&
-				_ctx.get_config(RECOMMENDED_MODE))
+			if (selection == static_cast<int>(RECOMMENDED_MODE) && _ctx.get_config(RECOMMENDED_MODE))
 				_ctx.config->set_rec_mode();
-			else if (selection == static_cast<int>(STRICT_MODE) &&
-					 _ctx.get_config(STRICT_MODE))
+			else if (selection == static_cast<int>(STRICT_MODE) && _ctx.get_config(STRICT_MODE))
 				_ctx.config->set_strict_mode();
 			else {
 				if (_ctx.config->is_strict_mode())

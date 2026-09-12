@@ -67,30 +67,18 @@ auto Sorcery::Render::_set_texture_coordinates(TileView &tileview) -> void {
 		tileview.ceiling[i].tex_coord = tileview.ceiling[i].position;
 		tileview.up[i].tex_coord = tileview.up[i].position;
 		tileview.down[i].tex_coord = tileview.down[i].position;
-		tileview.darkness[i].tex_coord.x =
-			tileview.darkness[i].position.x + (0 * size_panel_x);
-		tileview.darkness[i].tex_coord.y =
-			tileview.darkness[i].position.y + (1 * size_panel_y);
-		tileview.side_darkness[i].tex_coord.x =
-			tileview.side_darkness[i].position.x + (1 * size_panel_x);
-		tileview.side_darkness[i].tex_coord.y =
-			tileview.side_darkness[i].position.y + (0 * size_panel_y);
-		tileview.left_side_wall[i].tex_coord.x =
-			tileview.left_side_wall[i].position.x + (1 * size_panel_x);
-		tileview.left_side_wall[i].tex_coord.y =
-			tileview.left_side_wall[i].position.y + (1 * size_panel_y);
-		tileview.right_side_wall[i].tex_coord.x =
-			tileview.right_side_wall[i].position.x + (1 * size_panel_x);
-		tileview.right_side_wall[i].tex_coord.y =
-			tileview.right_side_wall[i].position.y + (1 * size_panel_y);
-		tileview.left_side_door[i].tex_coord.x =
-			tileview.left_side_door[i].position.x + (2 * size_panel_x);
-		tileview.left_side_door[i].tex_coord.y =
-			tileview.left_side_door[i].position.y + (0 * size_panel_y);
-		tileview.right_side_door[i].tex_coord.x =
-			tileview.right_side_door[i].position.x + (2 * size_panel_x);
-		tileview.right_side_door[i].tex_coord.y =
-			tileview.right_side_door[i].position.y + (0 * size_panel_y);
+		tileview.darkness[i].tex_coord.x = tileview.darkness[i].position.x + (0 * size_panel_x);
+		tileview.darkness[i].tex_coord.y = tileview.darkness[i].position.y + (1 * size_panel_y);
+		tileview.side_darkness[i].tex_coord.x = tileview.side_darkness[i].position.x + (1 * size_panel_x);
+		tileview.side_darkness[i].tex_coord.y = tileview.side_darkness[i].position.y + (0 * size_panel_y);
+		tileview.left_side_wall[i].tex_coord.x = tileview.left_side_wall[i].position.x + (1 * size_panel_x);
+		tileview.left_side_wall[i].tex_coord.y = tileview.left_side_wall[i].position.y + (1 * size_panel_y);
+		tileview.right_side_wall[i].tex_coord.x = tileview.right_side_wall[i].position.x + (1 * size_panel_x);
+		tileview.right_side_wall[i].tex_coord.y = tileview.right_side_wall[i].position.y + (1 * size_panel_y);
+		tileview.left_side_door[i].tex_coord.x = tileview.left_side_door[i].position.x + (2 * size_panel_x);
+		tileview.left_side_door[i].tex_coord.y = tileview.left_side_door[i].position.y + (0 * size_panel_y);
+		tileview.right_side_door[i].tex_coord.x = tileview.right_side_door[i].position.x + (2 * size_panel_x);
+		tileview.right_side_door[i].tex_coord.y = tileview.right_side_door[i].position.y + (0 * size_panel_y);
 
 		auto offset_x{0};
 		auto offset_y{0};
@@ -107,10 +95,8 @@ auto Sorcery::Render::_set_texture_coordinates(TileView &tileview) -> void {
 			offset_x = 0;
 			offset_y = 4;
 		}
-		tileview.back_wall[i].tex_coord.x =
-			tileview.back_wall[i].position.x + (offset_x * size_panel_x);
-		tileview.back_wall[i].tex_coord.y =
-			tileview.back_wall[i].position.y + (offset_y * size_panel_y);
+		tileview.back_wall[i].tex_coord.x = tileview.back_wall[i].position.x + (offset_x * size_panel_x);
+		tileview.back_wall[i].tex_coord.y = tileview.back_wall[i].position.y + (offset_y * size_panel_y);
 
 		if (tileview.offset.z == 0) {
 			offset_x = 2;
@@ -125,18 +111,14 @@ auto Sorcery::Render::_set_texture_coordinates(TileView &tileview) -> void {
 			offset_x = 2;
 			offset_y = 2;
 		}
-		tileview.back_door[i].tex_coord.x =
-			tileview.back_door[i].position.x + (offset_x * size_panel_x);
-		tileview.back_door[i].tex_coord.y =
-			tileview.back_door[i].position.y + (offset_y * size_panel_y);
+		tileview.back_door[i].tex_coord.x = tileview.back_door[i].position.x + (offset_x * size_panel_x);
+		tileview.back_door[i].tex_coord.y = tileview.back_door[i].position.y + (offset_y * size_panel_y);
 	}
 }
 
 // Note Texture Coordinates (e.g. the source) is set by _set_texture_coordinates
 // above, not here
-auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1,
-										ImVec2 p2, ImVec2 p3, ImVec2 p4)
-	-> void {
+auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1, ImVec2 p2, ImVec2 p3, ImVec2 p4) -> void {
 
 	ImVec4 colour{1.0f, 1.0f, 1.0f, _ctx.animation->fade};
 
@@ -154,12 +136,10 @@ auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1,
 
 // Note Texture Coordinates (e.g. the source) is set by _set_texture_coordinates
 // above, not here
-auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1,
-										ImVec2 p2, ImVec2 p3, ImVec2 p4,
+auto Sorcery::Render::_set_vertex_array(VertexArray &array, ImVec2 p1, ImVec2 p2, ImVec2 p3, ImVec2 p4,
 										const ImVec4 colour) -> void {
 
-	auto col{_monochrome ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}
-						   : colour};
+	auto col{_monochrome ? ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade} : colour};
 
 	// As we resized up the view, we resize it here too
 	auto scale{4};
@@ -204,28 +184,21 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.floor, ImVec2{88, 167}, ImVec2{95, 160},
-						  ImVec2{208, 160}, ImVec2{215, 167}, floor_colour);
-		_set_vertex_array(tileview.ceiling, ImVec2{95, 15}, ImVec2{88, 8},
-						  ImVec2{215, 8}, ImVec2{208, 15}, ceiling_colour);
-		_set_vertex_array(tileview.down, ImVec2{88, 167}, ImVec2{95, 160},
-						  ImVec2{208, 160}, ImVec2{215, 167}, stairs_colour);
-		_set_vertex_array(tileview.up, ImVec2{95, 15}, ImVec2{88, 8},
-						  ImVec2{215, 8}, ImVec2{208, 15}, stairs_colour);
-		_set_vertex_array(tileview.darkness, ImVec2{8, 167}, ImVec2{8, 8},
-						  ImVec2{296, 8}, ImVec2{296, 167}, darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{87, 153}, ImVec2{87, 23},
-						  ImVec2{217, 23}, ImVec2{217, 153});
-		_set_vertex_array(tileview.back_door, ImVec2{87, 153}, ImVec2{87, 23},
-						  ImVec2{217, 23}, ImVec2{217, 153});
-		_set_vertex_array(tileview.left_side_wall, ImVec2{8, 167}, ImVec2{8, 8},
-						  ImVec2{87, 8}, ImVec2{87, 167});
-		_set_vertex_array(tileview.left_side_door, ImVec2{8, 167}, ImVec2{8, 8},
-						  ImVec2{87, 8}, ImVec2{87, 167});
-		_set_vertex_array(tileview.right_side_wall, ImVec2{216, 167},
-						  ImVec2{216, 8}, ImVec2{296, 8}, ImVec2{296, 167});
-		_set_vertex_array(tileview.right_side_door, ImVec2{216, 167},
-						  ImVec2{216, 8}, ImVec2{296, 8}, ImVec2{296, 167});
+		_set_vertex_array(tileview.floor, ImVec2{88, 167}, ImVec2{95, 160}, ImVec2{208, 160}, ImVec2{215, 167},
+						  floor_colour);
+		_set_vertex_array(tileview.ceiling, ImVec2{95, 15}, ImVec2{88, 8}, ImVec2{215, 8}, ImVec2{208, 15},
+						  ceiling_colour);
+		_set_vertex_array(tileview.down, ImVec2{88, 167}, ImVec2{95, 160}, ImVec2{208, 160}, ImVec2{215, 167},
+						  stairs_colour);
+		_set_vertex_array(tileview.up, ImVec2{95, 15}, ImVec2{88, 8}, ImVec2{215, 8}, ImVec2{208, 15}, stairs_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{8, 167}, ImVec2{8, 8}, ImVec2{296, 8}, ImVec2{296, 167},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{87, 153}, ImVec2{87, 23}, ImVec2{217, 23}, ImVec2{217, 153});
+		_set_vertex_array(tileview.back_door, ImVec2{87, 153}, ImVec2{87, 23}, ImVec2{217, 23}, ImVec2{217, 153});
+		_set_vertex_array(tileview.left_side_wall, ImVec2{8, 167}, ImVec2{8, 8}, ImVec2{87, 8}, ImVec2{87, 167});
+		_set_vertex_array(tileview.left_side_door, ImVec2{8, 167}, ImVec2{8, 8}, ImVec2{87, 8}, ImVec2{87, 167});
+		_set_vertex_array(tileview.right_side_wall, ImVec2{216, 167}, ImVec2{216, 8}, ImVec2{296, 8}, ImVec2{296, 167});
+		_set_vertex_array(tileview.right_side_door, ImVec2{216, 167}, ImVec2{216, 8}, ImVec2{296, 8}, ImVec2{296, 167});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -236,29 +209,25 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.floor, ImVec2{112, 143}, ImVec2{127, 128},
-						  ImVec2{176, 128}, ImVec2{191, 143}, floor_colour);
-		_set_vertex_array(tileview.ceiling, ImVec2{127, 47}, ImVec2{112, 32},
-						  ImVec2{191, 32}, ImVec2{176, 47}, ceiling_colour);
-		_set_vertex_array(tileview.down, ImVec2{112, 143}, ImVec2{127, 128},
-						  ImVec2{176, 128}, ImVec2{191, 143}, stairs_colour);
-		_set_vertex_array(tileview.up, ImVec2{127, 47}, ImVec2{112, 32},
-						  ImVec2{191, 32}, ImVec2{176, 47}, stairs_colour);
-		_set_vertex_array(tileview.darkness, ImVec2{87, 152}, ImVec2{87, 23},
-						  ImVec2{216, 23}, ImVec2{216, 152}, darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{119, 121}, ImVec2{119, 55},
-						  ImVec2{185, 55}, ImVec2{185, 121});
-		_set_vertex_array(tileview.back_door, ImVec2{119, 121}, ImVec2{119, 55},
-						  ImVec2{185, 55}, ImVec2{185, 121});
+		_set_vertex_array(tileview.floor, ImVec2{112, 143}, ImVec2{127, 128}, ImVec2{176, 128}, ImVec2{191, 143},
+						  floor_colour);
+		_set_vertex_array(tileview.ceiling, ImVec2{127, 47}, ImVec2{112, 32}, ImVec2{191, 32}, ImVec2{176, 47},
+						  ceiling_colour);
+		_set_vertex_array(tileview.down, ImVec2{112, 143}, ImVec2{127, 128}, ImVec2{176, 128}, ImVec2{191, 143},
+						  stairs_colour);
+		_set_vertex_array(tileview.up, ImVec2{127, 47}, ImVec2{112, 32}, ImVec2{191, 32}, ImVec2{176, 47},
+						  stairs_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{87, 152}, ImVec2{87, 23}, ImVec2{216, 23}, ImVec2{216, 152},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{119, 121}, ImVec2{119, 55}, ImVec2{185, 55}, ImVec2{185, 121});
+		_set_vertex_array(tileview.back_door, ImVec2{119, 121}, ImVec2{119, 55}, ImVec2{185, 55}, ImVec2{185, 121});
 
-		_set_vertex_array(tileview.left_side_wall, ImVec2{87, 153},
-						  ImVec2{87, 23}, ImVec2{120, 23}, ImVec2{120, 153});
-		_set_vertex_array(tileview.left_side_door, ImVec2{87, 153},
-						  ImVec2{87, 23}, ImVec2{120, 23}, ImVec2{120, 153});
-		_set_vertex_array(tileview.right_side_wall, ImVec2{184, 121},
-						  ImVec2{184, 55}, ImVec2{217, 23}, ImVec2{217, 153});
-		_set_vertex_array(tileview.right_side_door, ImVec2{184, 121},
-						  ImVec2{184, 55}, ImVec2{217, 23}, ImVec2{217, 153});
+		_set_vertex_array(tileview.left_side_wall, ImVec2{87, 153}, ImVec2{87, 23}, ImVec2{120, 23}, ImVec2{120, 153});
+		_set_vertex_array(tileview.left_side_door, ImVec2{87, 153}, ImVec2{87, 23}, ImVec2{120, 23}, ImVec2{120, 153});
+		_set_vertex_array(tileview.right_side_wall, ImVec2{184, 121}, ImVec2{184, 55}, ImVec2{217, 23},
+						  ImVec2{217, 153});
+		_set_vertex_array(tileview.right_side_door, ImVec2{184, 121}, ImVec2{184, 55}, ImVec2{217, 23},
+						  ImVec2{217, 153});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -269,20 +238,18 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{120, 119}, ImVec2{120, 56},
-						  ImVec2{183, 56}, ImVec2{183, 119}, darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{135, 105}, ImVec2{135, 71},
-						  ImVec2{169, 71}, ImVec2{169, 105});
-		_set_vertex_array(tileview.back_door, ImVec2{135, 105}, ImVec2{139, 71},
-						  ImVec2{169, 71}, ImVec2{168, 105});
-		_set_vertex_array(tileview.left_side_wall, ImVec2{119, 120},
-						  ImVec2{119, 54}, ImVec2{135, 71}, ImVec2{135, 120});
-		_set_vertex_array(tileview.left_side_door, ImVec2{119, 120},
-						  ImVec2{119, 54}, ImVec2{135, 71}, ImVec2{135, 120});
-		_set_vertex_array(tileview.right_side_wall, ImVec2{168, 105},
-						  ImVec2{168, 71}, ImVec2{184, 54}, ImVec2{184, 120});
-		_set_vertex_array(tileview.right_side_door, ImVec2{168, 105},
-						  ImVec2{168, 71}, ImVec2{184, 54}, ImVec2{184, 120});
+		_set_vertex_array(tileview.darkness, ImVec2{120, 119}, ImVec2{120, 56}, ImVec2{183, 56}, ImVec2{183, 119},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{135, 105}, ImVec2{135, 71}, ImVec2{169, 71}, ImVec2{169, 105});
+		_set_vertex_array(tileview.back_door, ImVec2{135, 105}, ImVec2{139, 71}, ImVec2{169, 71}, ImVec2{168, 105});
+		_set_vertex_array(tileview.left_side_wall, ImVec2{119, 120}, ImVec2{119, 54}, ImVec2{135, 71},
+						  ImVec2{135, 120});
+		_set_vertex_array(tileview.left_side_door, ImVec2{119, 120}, ImVec2{119, 54}, ImVec2{135, 71},
+						  ImVec2{135, 120});
+		_set_vertex_array(tileview.right_side_wall, ImVec2{168, 105}, ImVec2{168, 71}, ImVec2{184, 54},
+						  ImVec2{184, 120});
+		_set_vertex_array(tileview.right_side_door, ImVec2{168, 105}, ImVec2{168, 71}, ImVec2{184, 54},
+						  ImVec2{184, 120});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -293,20 +260,18 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{135, 104}, ImVec2{135, 71},
-						  ImVec2{168, 71}, ImVec2{168, 104}, darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{143, 97}, ImVec2{143, 79},
-						  ImVec2{161, 79}, ImVec2{161, 97});
-		_set_vertex_array(tileview.back_door, ImVec2{143, 97}, ImVec2{143, 79},
-						  ImVec2{161, 79}, ImVec2{161, 97});
-		_set_vertex_array(tileview.left_side_wall, ImVec2{135, 105},
-						  ImVec2{135, 71}, ImVec2{144, 79}, ImVec2{144, 105});
-		_set_vertex_array(tileview.left_side_door, ImVec2{135, 105},
-						  ImVec2{135, 71}, ImVec2{144, 79}, ImVec2{144, 105});
-		_set_vertex_array(tileview.right_side_wall, ImVec2{160, 97},
-						  ImVec2{160, 79}, ImVec2{168, 71}, ImVec2{168, 105});
-		_set_vertex_array(tileview.right_side_door, ImVec2{160, 97},
-						  ImVec2{160, 79}, ImVec2{168, 71}, ImVec2{168, 105});
+		_set_vertex_array(tileview.darkness, ImVec2{135, 104}, ImVec2{135, 71}, ImVec2{168, 71}, ImVec2{168, 104},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{143, 97}, ImVec2{143, 79}, ImVec2{161, 79}, ImVec2{161, 97});
+		_set_vertex_array(tileview.back_door, ImVec2{143, 97}, ImVec2{143, 79}, ImVec2{161, 79}, ImVec2{161, 97});
+		_set_vertex_array(tileview.left_side_wall, ImVec2{135, 105}, ImVec2{135, 71}, ImVec2{144, 79},
+						  ImVec2{144, 105});
+		_set_vertex_array(tileview.left_side_door, ImVec2{135, 105}, ImVec2{135, 71}, ImVec2{144, 79},
+						  ImVec2{144, 105});
+		_set_vertex_array(tileview.right_side_wall, ImVec2{160, 97}, ImVec2{160, 79}, ImVec2{168, 71},
+						  ImVec2{168, 105});
+		_set_vertex_array(tileview.right_side_door, ImVec2{160, 97}, ImVec2{160, 79}, ImVec2{168, 71},
+						  ImVec2{168, 105});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -317,8 +282,8 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{143, 96}, ImVec2{143, 79},
-						  ImVec2{160, 79}, ImVec2{160, 96}, darkness_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{143, 96}, ImVec2{143, 79}, ImVec2{160, 79}, ImVec2{160, 96},
+						  darkness_colour);
 
 		_set_texture_coordinates(tileview);
 	}
@@ -329,22 +294,18 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.floor, ImVec2{8, 167}, ImVec2{8, 160},
-						  ImVec2{63, 160}, ImVec2{56, 167}, floor_colour);
-		_set_vertex_array(tileview.ceiling, ImVec2{8, 15}, ImVec2{8, 8},
-						  ImVec2{56, 8}, ImVec2{63, 15}, ceiling_colour);
-		_set_vertex_array(tileview.down, ImVec2{8, 167}, ImVec2{8, 160},
-						  ImVec2{63, 160}, ImVec2{56, 167}, stairs_colour);
-		_set_vertex_array(tileview.up, ImVec2{8, 15}, ImVec2{8, 8},
-						  ImVec2{56, 8}, ImVec2{63, 15}, stairs_colour);
-		_set_vertex_array(tileview.darkness, ImVec2{8, 152}, ImVec2{8, 24},
-						  ImVec2{87, 24}, ImVec2{87, 152}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, ImVec2{8, 167}, ImVec2{8, 8},
-						  ImVec2{87, 8}, ImVec2{87, 167}, darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{8, 153}, ImVec2{8, 23},
-						  ImVec2{88, 23}, ImVec2{88, 153});
-		_set_vertex_array(tileview.back_door, ImVec2{8, 153}, ImVec2{8, 23},
-						  ImVec2{88, 23}, ImVec2{88, 153});
+		_set_vertex_array(tileview.floor, ImVec2{8, 167}, ImVec2{8, 160}, ImVec2{63, 160}, ImVec2{56, 167},
+						  floor_colour);
+		_set_vertex_array(tileview.ceiling, ImVec2{8, 15}, ImVec2{8, 8}, ImVec2{56, 8}, ImVec2{63, 15}, ceiling_colour);
+		_set_vertex_array(tileview.down, ImVec2{8, 167}, ImVec2{8, 160}, ImVec2{63, 160}, ImVec2{56, 167},
+						  stairs_colour);
+		_set_vertex_array(tileview.up, ImVec2{8, 15}, ImVec2{8, 8}, ImVec2{56, 8}, ImVec2{63, 15}, stairs_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{8, 152}, ImVec2{8, 24}, ImVec2{87, 24}, ImVec2{87, 152},
+						  darkness_colour);
+		_set_vertex_array(tileview.side_darkness, ImVec2{8, 167}, ImVec2{8, 8}, ImVec2{87, 8}, ImVec2{87, 167},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{8, 153}, ImVec2{8, 23}, ImVec2{88, 23}, ImVec2{88, 153});
+		_set_vertex_array(tileview.back_door, ImVec2{8, 153}, ImVec2{8, 23}, ImVec2{88, 23}, ImVec2{88, 153});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -355,23 +316,19 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.floor, ImVec2{239, 167}, ImVec2{232, 160},
-						  ImVec2{295, 160}, ImVec2{295, 167}, floor_colour);
-		_set_vertex_array(tileview.ceiling, ImVec2{232, 15}, ImVec2{239, 8},
-						  ImVec2{295, 8}, ImVec2{295, 15}, ceiling_colour);
-		_set_vertex_array(tileview.down, ImVec2{239, 167}, ImVec2{232, 160},
-						  ImVec2{295, 160}, ImVec2{295, 167}, stairs_colour);
-		_set_vertex_array(tileview.up, ImVec2{232, 15}, ImVec2{239, 8},
-						  ImVec2{295, 8}, ImVec2{295, 15}, stairs_colour);
-		_set_vertex_array(tileview.darkness, ImVec2{216, 152}, ImVec2{216, 24},
-						  ImVec2{295, 24}, ImVec2{295, 152}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, ImVec2{216, 167},
-						  ImVec2{216, 8}, ImVec2{295, 8}, ImVec2{296, 167},
+		_set_vertex_array(tileview.floor, ImVec2{239, 167}, ImVec2{232, 160}, ImVec2{295, 160}, ImVec2{295, 167},
+						  floor_colour);
+		_set_vertex_array(tileview.ceiling, ImVec2{232, 15}, ImVec2{239, 8}, ImVec2{295, 8}, ImVec2{295, 15},
+						  ceiling_colour);
+		_set_vertex_array(tileview.down, ImVec2{239, 167}, ImVec2{232, 160}, ImVec2{295, 160}, ImVec2{295, 167},
+						  stairs_colour);
+		_set_vertex_array(tileview.up, ImVec2{232, 15}, ImVec2{239, 8}, ImVec2{295, 8}, ImVec2{295, 15}, stairs_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{216, 152}, ImVec2{216, 24}, ImVec2{295, 24}, ImVec2{295, 152},
 						  darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{216, 153}, ImVec2{216, 23},
-						  ImVec2{296, 23}, ImVec2{296, 153});
-		_set_vertex_array(tileview.back_door, ImVec2{216, 153}, ImVec2{216, 23},
-						  ImVec2{296, 23}, ImVec2{296, 153});
+		_set_vertex_array(tileview.side_darkness, ImVec2{216, 167}, ImVec2{216, 8}, ImVec2{295, 8}, ImVec2{296, 167},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{216, 153}, ImVec2{216, 23}, ImVec2{296, 23}, ImVec2{296, 153});
+		_set_vertex_array(tileview.back_door, ImVec2{216, 153}, ImVec2{216, 23}, ImVec2{296, 23}, ImVec2{296, 153});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -382,23 +339,19 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.floor, ImVec2{16, 143}, ImVec2{46, 128},
-						  ImVec2{95, 128}, ImVec2{80, 143}, floor_colour);
-		_set_vertex_array(tileview.ceiling, ImVec2{46, 47}, ImVec2{16, 32},
-						  ImVec2{80, 32}, ImVec2{95, 47}, ceiling_colour);
-		_set_vertex_array(tileview.down, ImVec2{16, 143}, ImVec2{46, 128},
-						  ImVec2{95, 128}, ImVec2{80, 143}, stairs_colour);
-		_set_vertex_array(tileview.up, ImVec2{46, 47}, ImVec2{16, 32},
-						  ImVec2{80, 32}, ImVec2{95, 47}, stairs_colour);
-		_set_vertex_array(tileview.darkness, ImVec2{56, 119}, ImVec2{56, 56},
-						  ImVec2{119, 56}, ImVec2{120, 119}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, ImVec2{88, 151},
-						  ImVec2{88, 24}, ImVec2{119, 55}, ImVec2{119, 120},
+		_set_vertex_array(tileview.floor, ImVec2{16, 143}, ImVec2{46, 128}, ImVec2{95, 128}, ImVec2{80, 143},
+						  floor_colour);
+		_set_vertex_array(tileview.ceiling, ImVec2{46, 47}, ImVec2{16, 32}, ImVec2{80, 32}, ImVec2{95, 47},
+						  ceiling_colour);
+		_set_vertex_array(tileview.down, ImVec2{16, 143}, ImVec2{46, 128}, ImVec2{95, 128}, ImVec2{80, 143},
+						  stairs_colour);
+		_set_vertex_array(tileview.up, ImVec2{46, 47}, ImVec2{16, 32}, ImVec2{80, 32}, ImVec2{95, 47}, stairs_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{56, 119}, ImVec2{56, 56}, ImVec2{119, 56}, ImVec2{120, 119},
 						  darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{55, 121}, ImVec2{55, 55},
-						  ImVec2{120, 55}, ImVec2{120, 121});
-		_set_vertex_array(tileview.back_door, ImVec2{55, 121}, ImVec2{55, 55},
-						  ImVec2{120, 55}, ImVec2{120, 121});
+		_set_vertex_array(tileview.side_darkness, ImVec2{88, 151}, ImVec2{88, 24}, ImVec2{119, 55}, ImVec2{119, 120},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{55, 121}, ImVec2{55, 55}, ImVec2{120, 55}, ImVec2{120, 121});
+		_set_vertex_array(tileview.back_door, ImVec2{55, 121}, ImVec2{55, 55}, ImVec2{120, 55}, ImVec2{120, 121});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -409,15 +362,12 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{105, 104}, ImVec2{104, 72},
-						  ImVec2{135, 72}, ImVec2{136, 103}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, ImVec2{120, 119},
-						  ImVec2{120, 56}, ImVec2{135, 71}, ImVec2{135, 104},
+		_set_vertex_array(tileview.darkness, ImVec2{105, 104}, ImVec2{104, 72}, ImVec2{135, 72}, ImVec2{136, 103},
 						  darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{103, 105}, ImVec2{103, 71},
-						  ImVec2{136, 71}, ImVec2{136, 105});
-		_set_vertex_array(tileview.back_door, ImVec2{103, 105}, ImVec2{103, 71},
-						  ImVec2{136, 71}, ImVec2{136, 105});
+		_set_vertex_array(tileview.side_darkness, ImVec2{120, 119}, ImVec2{120, 56}, ImVec2{135, 71}, ImVec2{135, 104},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{103, 105}, ImVec2{103, 71}, ImVec2{136, 71}, ImVec2{136, 105});
+		_set_vertex_array(tileview.back_door, ImVec2{103, 105}, ImVec2{103, 71}, ImVec2{136, 71}, ImVec2{136, 105});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -428,15 +378,12 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{103, 103}, ImVec2{104, 72},
-						  ImVec2{136, 72}, ImVec2{136, 103}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, ImVec2{136, 103},
-						  ImVec2{136, 72}, ImVec2{144, 79}, ImVec2{144, 96},
+		_set_vertex_array(tileview.darkness, ImVec2{103, 103}, ImVec2{104, 72}, ImVec2{136, 72}, ImVec2{136, 103},
 						  darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{127, 97}, ImVec2{127, 79},
-						  ImVec2{144, 79}, ImVec2{144, 97});
-		_set_vertex_array(tileview.back_door, ImVec2{127, 97}, ImVec2{127, 79},
-						  ImVec2{144, 79}, ImVec2{144, 97});
+		_set_vertex_array(tileview.side_darkness, ImVec2{136, 103}, ImVec2{136, 72}, ImVec2{144, 79}, ImVec2{144, 96},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{127, 97}, ImVec2{127, 79}, ImVec2{144, 79}, ImVec2{144, 97});
+		_set_vertex_array(tileview.back_door, ImVec2{127, 97}, ImVec2{127, 79}, ImVec2{144, 79}, ImVec2{144, 97});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -447,8 +394,8 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{126, 95}, ImVec2{126, 80},
-						  ImVec2{143, 80}, ImVec2{144, 95}, darkness_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{126, 95}, ImVec2{126, 80}, ImVec2{143, 80}, ImVec2{144, 95},
+						  darkness_colour);
 
 		_set_texture_coordinates(tileview);
 	}
@@ -459,23 +406,20 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.floor, ImVec2{215, 143}, ImVec2{200, 128},
-						  ImVec2{257, 128}, ImVec2{287, 143}, floor_colour);
-		_set_vertex_array(tileview.ceiling, ImVec2{200, 47}, ImVec2{215, 32},
-						  ImVec2{287, 32}, ImVec2{257, 47}, ceiling_colour);
-		_set_vertex_array(tileview.down, ImVec2{215, 143}, ImVec2{200, 128},
-						  ImVec2{257, 128}, ImVec2{287, 143}, stairs_colour);
-		_set_vertex_array(tileview.up, ImVec2{200, 47}, ImVec2{215, 32},
-						  ImVec2{287, 32}, ImVec2{257, 47}, stairs_colour);
-		_set_vertex_array(tileview.darkness, ImVec2{184, 119}, ImVec2{184, 56},
-						  ImVec2{247, 56}, ImVec2{247, 119}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, ImVec2{185, 120},
-						  ImVec2{185, 55}, ImVec2{217, 24}, ImVec2{217, 151},
+		_set_vertex_array(tileview.floor, ImVec2{215, 143}, ImVec2{200, 128}, ImVec2{257, 128}, ImVec2{287, 143},
+						  floor_colour);
+		_set_vertex_array(tileview.ceiling, ImVec2{200, 47}, ImVec2{215, 32}, ImVec2{287, 32}, ImVec2{257, 47},
+						  ceiling_colour);
+		_set_vertex_array(tileview.down, ImVec2{215, 143}, ImVec2{200, 128}, ImVec2{257, 128}, ImVec2{287, 143},
+						  stairs_colour);
+		_set_vertex_array(tileview.up, ImVec2{200, 47}, ImVec2{215, 32}, ImVec2{287, 32}, ImVec2{257, 47},
+						  stairs_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{184, 119}, ImVec2{184, 56}, ImVec2{247, 56}, ImVec2{247, 119},
 						  darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{184, 121}, ImVec2{184, 55},
-						  ImVec2{249, 55}, ImVec2{249, 121});
-		_set_vertex_array(tileview.back_door, ImVec2{184, 121}, ImVec2{184, 55},
-						  ImVec2{249, 55}, ImVec2{249, 121});
+		_set_vertex_array(tileview.side_darkness, ImVec2{185, 120}, ImVec2{185, 55}, ImVec2{217, 24}, ImVec2{217, 151},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{184, 121}, ImVec2{184, 55}, ImVec2{249, 55}, ImVec2{249, 121});
+		_set_vertex_array(tileview.back_door, ImVec2{184, 121}, ImVec2{184, 55}, ImVec2{249, 55}, ImVec2{249, 121});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -486,15 +430,12 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{168, 105}, ImVec2{168, 72},
-						  ImVec2{199, 72}, ImVec2{199, 105}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, ImVec2{168, 105},
-						  ImVec2{168, 71}, ImVec2{184, 56}, ImVec2{184, 119},
+		_set_vertex_array(tileview.darkness, ImVec2{168, 105}, ImVec2{168, 72}, ImVec2{199, 72}, ImVec2{199, 105},
 						  darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{168, 105}, ImVec2{168, 71},
-						  ImVec2{201, 71}, ImVec2{201, 105});
-		_set_vertex_array(tileview.back_door, ImVec2{168, 105}, ImVec2{168, 71},
-						  ImVec2{201, 71}, ImVec2{201, 105});
+		_set_vertex_array(tileview.side_darkness, ImVec2{168, 105}, ImVec2{168, 71}, ImVec2{184, 56}, ImVec2{184, 119},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{168, 105}, ImVec2{168, 71}, ImVec2{201, 71}, ImVec2{201, 105});
+		_set_vertex_array(tileview.back_door, ImVec2{168, 105}, ImVec2{168, 71}, ImVec2{201, 71}, ImVec2{201, 105});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -505,15 +446,12 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{168, 105}, ImVec2{168, 72},
-						  ImVec2{199, 72}, ImVec2{199, 105}, darkness_colour);
-		_set_vertex_array(tileview.side_darkness, ImVec2{161, 98},
-						  ImVec2{161, 79}, ImVec2{168, 72}, ImVec2{168, 105},
+		_set_vertex_array(tileview.darkness, ImVec2{168, 105}, ImVec2{168, 72}, ImVec2{199, 72}, ImVec2{199, 105},
 						  darkness_colour);
-		_set_vertex_array(tileview.back_wall, ImVec2{160, 97}, ImVec2{160, 79},
-						  ImVec2{177, 79}, ImVec2{177, 97});
-		_set_vertex_array(tileview.back_door, ImVec2{160, 97}, ImVec2{160, 79},
-						  ImVec2{177, 79}, ImVec2{177, 97});
+		_set_vertex_array(tileview.side_darkness, ImVec2{161, 98}, ImVec2{161, 79}, ImVec2{168, 72}, ImVec2{168, 105},
+						  darkness_colour);
+		_set_vertex_array(tileview.back_wall, ImVec2{160, 97}, ImVec2{160, 79}, ImVec2{177, 79}, ImVec2{177, 97});
+		_set_vertex_array(tileview.back_door, ImVec2{160, 97}, ImVec2{160, 79}, ImVec2{177, 79}, ImVec2{177, 97});
 
 		_set_texture_coordinates(tileview);
 	}
@@ -524,15 +462,14 @@ auto Sorcery::Render::_load_tile_views() -> void {
 		auto &tileview{_tileviews.at(tile)};
 
 		// Set Vertex Arrays
-		_set_vertex_array(tileview.darkness, ImVec2{160, 95}, ImVec2{160, 80},
-						  ImVec2{176, 80}, ImVec2{176, 95}, darkness_colour);
+		_set_vertex_array(tileview.darkness, ImVec2{160, 95}, ImVec2{160, 80}, ImVec2{176, 80}, ImVec2{176, 95},
+						  darkness_colour);
 
 		_set_texture_coordinates(tileview);
 	}
 }
 
-auto Sorcery::Render::_get_left_side(const Enums::Map::Direction facing) const
-	-> Enums::Map::Direction {
+auto Sorcery::Render::_get_left_side(const Enums::Map::Direction facing) const -> Enums::Map::Direction {
 
 	switch (facing) {
 		using enum Enums::Map::Direction;
@@ -554,8 +491,7 @@ auto Sorcery::Render::_get_left_side(const Enums::Map::Direction facing) const
 	}
 }
 
-auto Sorcery::Render::_get_right_side(const Enums::Map::Direction facing) const
-	-> Enums::Map::Direction {
+auto Sorcery::Render::_get_right_side(const Enums::Map::Direction facing) const -> Enums::Map::Direction {
 
 	switch (facing) {
 		using enum Enums::Map::Direction;
@@ -577,30 +513,22 @@ auto Sorcery::Render::_get_right_side(const Enums::Map::Direction facing) const
 	}
 }
 
-auto Sorcery::Render::_has_secret_door(
-	const Tile &tile, const Sorcery::Enums::Map::Direction direction) const
-	-> bool {
+auto Sorcery::Render::_has_secret_door(const Tile &tile, const Sorcery::Enums::Map::Direction direction) const -> bool {
 
 	using enum Enums::Tile::Edge;
 
-	return ((tile.has(direction, ONE_WAY_HIDDEN_DOOR)) ||
-			(tile.has(direction, SECRET_DOOR)));
+	return ((tile.has(direction, ONE_WAY_HIDDEN_DOOR)) || (tile.has(direction, SECRET_DOOR)));
 }
 
-auto Sorcery::Render::_has_normal_door(
-	const Tile &tile, const Sorcery::Enums::Map::Direction direction) const
-	-> bool {
+auto Sorcery::Render::_has_normal_door(const Tile &tile, const Sorcery::Enums::Map::Direction direction) const -> bool {
 
 	using enum Enums::Tile::Edge;
 
-	return ((tile.has(direction, ONE_WAY_DOOR)) ||
-			(tile.has(direction, UNLOCKED_DOOR)) ||
+	return ((tile.has(direction, ONE_WAY_DOOR)) || (tile.has(direction, UNLOCKED_DOOR)) ||
 			(tile.has(direction, LOCKED_DOOR)));
 }
 
-auto Sorcery::Render::_has_wall(
-	const Tile &tile, const Sorcery::Enums::Map::Direction direction) const
-	-> bool {
+auto Sorcery::Render::_has_wall(const Tile &tile, const Sorcery::Enums::Map::Direction direction) const -> bool {
 
 	using enum Enums::Tile::Edge;
 
@@ -624,8 +552,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 	constexpr auto new_base_width{1024.0f};
 	constexpr auto new_base_height{600.0f};
 
-	constexpr auto base_scale{std::min(new_base_width / old_base_width,
-									   new_base_height / old_base_height)};
+	constexpr auto base_scale{std::min(new_base_width / old_base_width, new_base_height / old_base_height)};
 
 	const auto scale{metrics.scale * base_scale};
 	const auto width{scale * _pane_size.x};
@@ -647,54 +574,39 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 	const ImVec2 pos{x, y};
 
 	// TODO - change level at to use z- into the screen
-	const auto tl0{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 0)};
+	const auto tl0{_ctx.game->state->level->at(player_pos, player_facing, -1, 0)};
 	auto vl0{_tileviews.at(Coordinate3{-1, 0, 0})};
-	const auto tm0{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 0)};
+	const auto tm0{_ctx.game->state->level->at(player_pos, player_facing, 0, 0)};
 	auto vm0{_tileviews.at(Coordinate3{0, 0, 0})};
-	const auto tr0{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 0)};
+	const auto tr0{_ctx.game->state->level->at(player_pos, player_facing, 1, 0)};
 	auto vr0{_tileviews.at(Coordinate3{1, 0, 0})};
 
-	const auto tl1{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 1)};
+	const auto tl1{_ctx.game->state->level->at(player_pos, player_facing, -1, 1)};
 	auto vl1{_tileviews.at(Coordinate3{-1, 0, -1})};
-	const auto tm1{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 1)};
+	const auto tm1{_ctx.game->state->level->at(player_pos, player_facing, 0, 1)};
 	auto vm1{_tileviews.at(Coordinate3{0, 0, -1})};
-	const auto tr1{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 1)};
+	const auto tr1{_ctx.game->state->level->at(player_pos, player_facing, 1, 1)};
 	auto vr1{_tileviews.at(Coordinate3{1, 0, -1})};
 
-	const auto tl2{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 2)};
+	const auto tl2{_ctx.game->state->level->at(player_pos, player_facing, -1, 2)};
 	auto vl2{_tileviews.at(Coordinate3{-1, 0, -2})};
-	const auto tm2{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 2)};
+	const auto tm2{_ctx.game->state->level->at(player_pos, player_facing, 0, 2)};
 	auto vm2{_tileviews.at(Coordinate3{0, 0, -2})};
-	const auto tr2{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 2)};
+	const auto tr2{_ctx.game->state->level->at(player_pos, player_facing, 1, 2)};
 	auto vr2{_tileviews.at(Coordinate3{1, 0, -2})};
 
-	const auto tl3{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 3)};
+	const auto tl3{_ctx.game->state->level->at(player_pos, player_facing, -1, 3)};
 	auto vl3{_tileviews.at(Coordinate3{-1, 0, -3})};
-	const auto tm3{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 3)};
+	const auto tm3{_ctx.game->state->level->at(player_pos, player_facing, 0, 3)};
 	auto vm3{_tileviews.at(Coordinate3{0, 0, -3})};
-	const auto tr3{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 3)};
+	const auto tr3{_ctx.game->state->level->at(player_pos, player_facing, 1, 3)};
 	auto vr3{_tileviews.at(Coordinate3{1, 0, -3})};
 
-	const auto tl4{
-		_ctx.game->state->level->at(player_pos, player_facing, -1, 4)};
+	const auto tl4{_ctx.game->state->level->at(player_pos, player_facing, -1, 4)};
 	auto vl4{_tileviews.at(Coordinate3{-1, 0, -4})};
-	const auto tm4{
-		_ctx.game->state->level->at(player_pos, player_facing, 0, 4)};
+	const auto tm4{_ctx.game->state->level->at(player_pos, player_facing, 0, 4)};
 	auto vm4{_tileviews.at(Coordinate3{0, 0, -4})};
-	const auto tr4{
-		_ctx.game->state->level->at(player_pos, player_facing, 1, 4)};
+	const auto tr4{_ctx.game->state->level->at(player_pos, player_facing, 1, 4)};
 	auto vr4{_tileviews.at(Coordinate3{1, 0, -4})};
 
 	// If we are in darkness, only draw that!
@@ -897,11 +809,9 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 
 			if (tl1.has(MESSAGE) || tl1.has(NOTICE))
 				_draw_vertex_array(vl1.floor, scale, pos);
-			if (tl1.has(STAIRS_DOWN) || tl1.has(LADDER_DOWN) ||
-				tl1.has(ELEVATOR_DOWN))
+			if (tl1.has(STAIRS_DOWN) || tl1.has(LADDER_DOWN) || tl1.has(ELEVATOR_DOWN))
 				_draw_vertex_array(vl1.down, scale, pos);
-			if (tl1.has(STAIRS_UP) || tl1.has(LADDER_UP) ||
-				tl1.has(ELEVATOR_UP))
+			if (tl1.has(STAIRS_UP) || tl1.has(LADDER_UP) || tl1.has(ELEVATOR_UP))
 				_draw_vertex_array(vl1.up, scale, pos);
 		}
 
@@ -922,11 +832,9 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 			}
 			if (tr1.has(MESSAGE) || tr1.has(NOTICE))
 				_draw_vertex_array(vr1.floor, scale, pos);
-			if (tr1.has(STAIRS_DOWN) || tr1.has(LADDER_DOWN) ||
-				tr1.has(ELEVATOR_DOWN))
+			if (tr1.has(STAIRS_DOWN) || tr1.has(LADDER_DOWN) || tr1.has(ELEVATOR_DOWN))
 				_draw_vertex_array(vr1.down, scale, pos);
-			if (tr1.has(STAIRS_UP) || tr1.has(LADDER_UP) ||
-				tr1.has(ELEVATOR_UP))
+			if (tr1.has(STAIRS_UP) || tr1.has(LADDER_UP) || tr1.has(ELEVATOR_UP))
 				_draw_vertex_array(vr1.up, scale, pos);
 		}
 		if (tm1.is(DARKNESS))
@@ -946,11 +854,9 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 
 			if (tm1.has(MESSAGE) || tm1.has(NOTICE))
 				_draw_vertex_array(vm1.floor, scale, pos);
-			if (tm1.has(STAIRS_DOWN) || tm1.has(LADDER_DOWN) ||
-				tm1.has(ELEVATOR_DOWN))
+			if (tm1.has(STAIRS_DOWN) || tm1.has(LADDER_DOWN) || tm1.has(ELEVATOR_DOWN))
 				_draw_vertex_array(vm1.down, scale, pos);
-			if (tm1.has(STAIRS_UP) || tm1.has(LADDER_UP) ||
-				tm1.has(ELEVATOR_UP))
+			if (tm1.has(STAIRS_UP) || tm1.has(LADDER_UP) || tm1.has(ELEVATOR_UP))
 				_draw_vertex_array(vm1.up, scale, pos);
 		}
 
@@ -1001,11 +907,9 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 
 			if (tl0.has(MESSAGE) || tl0.has(NOTICE))
 				_draw_vertex_array(vl0.floor, scale, pos);
-			if (tl0.has(STAIRS_DOWN) || tl0.has(LADDER_DOWN) ||
-				tl0.has(ELEVATOR_DOWN))
+			if (tl0.has(STAIRS_DOWN) || tl0.has(LADDER_DOWN) || tl0.has(ELEVATOR_DOWN))
 				_draw_vertex_array(vl0.down, scale, pos);
-			if (tl0.has(STAIRS_UP) || tl0.has(LADDER_UP) ||
-				tl0.has(ELEVATOR_UP))
+			if (tl0.has(STAIRS_UP) || tl0.has(LADDER_UP) || tl0.has(ELEVATOR_UP))
 				_draw_vertex_array(vl0.up, scale, pos);
 		}
 
@@ -1024,8 +928,7 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 
 		if (tm0.has(MESSAGE) || tm0.has(NOTICE))
 			_draw_vertex_array(vm0.floor, scale, pos);
-		if (tm0.has(STAIRS_DOWN) || tm0.has(LADDER_DOWN) ||
-			tm0.has(ELEVATOR_DOWN))
+		if (tm0.has(STAIRS_DOWN) || tm0.has(LADDER_DOWN) || tm0.has(ELEVATOR_DOWN))
 			_draw_vertex_array(vm0.down, scale, pos);
 		if (tm0.has(STAIRS_UP) || tm0.has(LADDER_UP) || tm0.has(ELEVATOR_UP))
 			_draw_vertex_array(vm0.up, scale, pos);
@@ -1049,11 +952,9 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 
 			if (tr0.has(MESSAGE) || tr0.has(NOTICE))
 				_draw_vertex_array(vr0.floor, scale, pos);
-			if (tr0.has(STAIRS_DOWN) || tr0.has(LADDER_DOWN) ||
-				tr0.has(ELEVATOR_DOWN))
+			if (tr0.has(STAIRS_DOWN) || tr0.has(LADDER_DOWN) || tr0.has(ELEVATOR_DOWN))
 				_draw_vertex_array(vr0.down, scale, pos);
-			if (tr0.has(STAIRS_UP) || tr0.has(LADDER_UP) ||
-				tr0.has(ELEVATOR_UP))
+			if (tr0.has(STAIRS_UP) || tr0.has(LADDER_UP) || tr0.has(ELEVATOR_UP))
 				_draw_vertex_array(vr0.up, scale, pos);
 		}
 
@@ -1085,29 +986,19 @@ auto Sorcery::Render::_render_wireframe(Component *component) -> void {
 	}
 }
 
-auto Sorcery::Render::_draw_vertex_array(const VertexArray &array,
-										 const float scale, const ImVec2 pos)
-	-> void {
+auto Sorcery::Render::_draw_vertex_array(const VertexArray &array, const float scale, const ImVec2 pos) -> void {
 
 	// Work out the Quad (Rect) on the Screen where we are going to draw!
-	const ImVec2 p1{pos.x + (array.data[0].position.x * scale),
-					pos.y + (array.data[0].position.y * scale)};
-	const ImVec2 p2{pos.x + (array.data[1].position.x * scale),
-					pos.y + (array.data[1].position.y * scale)};
-	const ImVec2 p3{pos.x + (array.data[2].position.x * scale),
-					pos.y + (array.data[2].position.y * scale)};
-	const ImVec2 p4{pos.x + (array.data[3].position.x * scale),
-					pos.y + (array.data[3].position.y * scale)};
+	const ImVec2 p1{pos.x + (array.data[0].position.x * scale), pos.y + (array.data[0].position.y * scale)};
+	const ImVec2 p2{pos.x + (array.data[1].position.x * scale), pos.y + (array.data[1].position.y * scale)};
+	const ImVec2 p3{pos.x + (array.data[2].position.x * scale), pos.y + (array.data[2].position.y * scale)};
+	const ImVec2 p4{pos.x + (array.data[3].position.x * scale), pos.y + (array.data[3].position.y * scale)};
 
 	// Then work out the Source Quad (Rect)
-	const ImVec2 uv_0{array.data[0].tex_coord.x / _source_size.x,
-					  array.data[0].tex_coord.y / _source_size.y};
-	const ImVec2 uv_1{array.data[1].tex_coord.x / _source_size.x,
-					  array.data[1].tex_coord.y / _source_size.y};
-	const ImVec2 uv_2{array.data[2].tex_coord.x / _source_size.x,
-					  array.data[2].tex_coord.y / _source_size.y};
-	const ImVec2 uv_3{array.data[3].tex_coord.x / _source_size.x,
-					  array.data[3].tex_coord.y / _source_size.y};
+	const ImVec2 uv_0{array.data[0].tex_coord.x / _source_size.x, array.data[0].tex_coord.y / _source_size.y};
+	const ImVec2 uv_1{array.data[1].tex_coord.x / _source_size.x, array.data[1].tex_coord.y / _source_size.y};
+	const ImVec2 uv_2{array.data[2].tex_coord.x / _source_size.x, array.data[2].tex_coord.y / _source_size.y};
+	const ImVec2 uv_3{array.data[3].tex_coord.x / _source_size.x, array.data[3].tex_coord.y / _source_size.y};
 
 	VertexArray adjusted;
 	adjusted.data[0].position = p1;
@@ -1125,10 +1016,7 @@ auto Sorcery::Render::_draw_vertex_array(const VertexArray &array,
 	_ctx.ui->draw_view_image(WIREFRAME_TEXTURE, adjusted);
 }
 
-auto Sorcery::Render::_blocks_view(const Tile &tile,
-								   const Enums::Map::Direction direction) const
-	-> bool {
+auto Sorcery::Render::_blocks_view(const Tile &tile, const Enums::Map::Direction direction) const -> bool {
 
-	return _has_wall(tile, direction) || _has_normal_door(tile, direction) ||
-		   _has_secret_door(tile, direction);
+	return _has_wall(tile, direction) || _has_normal_door(tile, direction) || _has_secret_door(tile, direction);
 }

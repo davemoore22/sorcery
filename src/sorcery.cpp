@@ -23,7 +23,10 @@
 #include "core/application.hpp"
 #include <memory>
 
-// Executablele Entry Point
+/// @brief Executablele Entry Point
+/// @param argc Command Line Argument Count
+/// @param argv Command Line Arguments
+/// @return An exit code
 auto main(int argc, char *argv[]) -> int {
 
 	// Create an Application Instance

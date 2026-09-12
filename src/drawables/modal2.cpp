@@ -41,14 +41,12 @@ auto Sorcery::Modal2::build(Component &component) -> void {
 	_build(component, component.get("menu_name").value_or(""));
 }
 
-auto Sorcery::Modal2::build(Component &component,
-							const std::string_view menu_name) -> void {
+auto Sorcery::Modal2::build(Component &component, const std::string_view menu_name) -> void {
 
 	_build(component, menu_name);
 }
 
-auto Sorcery::Modal2::_build(Component &component,
-							 const std::string_view menu_name) -> void {
+auto Sorcery::Modal2::_build(Component &component, const std::string_view menu_name) -> void {
 
 	Drawable::build(component);
 
@@ -93,8 +91,7 @@ auto Sorcery::Modal2::_update_height() -> void {
 	const auto frame_rows{3U};
 	const auto title_rows{_has_title ? 2U : 0U};
 
-	_height =
-		static_cast<unsigned int>(_items.size()) + frame_rows + title_rows;
+	_height = static_cast<unsigned int>(_items.size()) + frame_rows + title_rows;
 }
 
 auto Sorcery::Modal2::set_title(const std::string_view key) -> void {
@@ -119,46 +116,32 @@ auto Sorcery::Modal2::display() -> void {
 	const ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
 
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2{0.5f, 0.5f});
-
 	ImGui::SetNextWindowSize(ImVec2{width, height});
-
 	ImGui::SetNextWindowBgAlpha(1.0f);
 
 	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
-
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
-
 	set_StyleVar(ImGuiStyleVar_WindowRounding, rounding);
 
 	set_StyleColor(ImGuiCol_PopupBg, _component->background);
 
-	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(),
-			 _ctx.ui->metrics->font_sz());
+	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(), _ctx.ui->metrics->font_sz());
 
 	if (is_open())
 		ImGui::OpenPopup(CSTR(_id));
 
-	with_PopupModal(CSTR(_id), nullptr,
-					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove) {
+	with_PopupModal(CSTR(_id), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove) {
 
 		const auto p_min{ImGui::GetWindowPos()};
-
 		const auto p_max{ImVec2{p_min.x + width, p_min.y + height}};
-
 		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
-
-		const auto sz{ImVec2{
-			static_cast<float>((_width + 2) * _ctx.ui->metrics->font_sz()),
-
-			static_cast<float>(
-				(_items.size() * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
+		const auto sz{ImVec2{static_cast<float>((_width + 2) * _ctx.ui->metrics->font_sz()),
+							 static_cast<float>((_items.size() * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
 
 		_ctx.ui->draw_frame(
 			p_min, p_max,
-			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
-				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y, _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y, _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
 			rounding);
 
 		const auto top{_has_title ? 3 : 1};
@@ -166,16 +149,12 @@ auto Sorcery::Modal2::display() -> void {
 		if (_has_title) {
 
 			const auto title{_ctx.get_string(_title_key)};
+			const auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) * _ctx.ui->metrics->grid_sz()};
 
-			const auto centre_x{(((_width + 4) / 2) - (title.length() / 2)) *
-								_ctx.ui->metrics->grid_sz()};
-
-			_ctx.ui->draw_text(
-				title, ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
-				ImVec2{centre_x, _ctx.ui->metrics->grid_sz()}, _font);
+			_ctx.ui->draw_text(title, ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade},
+							   ImVec2{centre_x, _ctx.ui->metrics->grid_sz()}, _font);
 		}
 
-		_ctx.ui->draw_menu(_menu_name, col, ImVec2{1, top}, sz, _font, _items,
-						   _data, false, false, false);
+		_ctx.ui->draw_menu(_menu_name, col, ImVec2{1, top}, sz, _font, _items, _data, false, false, false);
 	}
 }

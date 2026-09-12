@@ -29,13 +29,13 @@
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp" // for BACK_TO_TRAINING_GROUNDS, ABOR...
-#include "drawables/dialog.hpp" // for Dialog
-#include "types/game.hpp"		// for Game
-#include <SDL_events.h>			// for SDL_PollEvent
-#include <any>					// for any
-#include <memory>				// for unique_ptr
-#include <string>				// for basic_string
+#include "drawables/define.hpp"				// for BACK_TO_TRAINING_GROUNDS, ABOR...
+#include "drawables/dialog.hpp"				// for Dialog
+#include "types/game.hpp"					// for Game
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
+#include <memory>							// for unique_ptr
+#include <string>							// for basic_string
 
 Sorcery::Delete::Delete(Context &ctx)
 	: Module{ctx} {
@@ -85,8 +85,7 @@ auto Sorcery::Delete::start() -> int {
 
 				if (confirming) {
 					_ctx.ui->popup_manager->close();
-					_ctx.controller->clear_character(
-						Enums::CharacterSlot::EDIT);
+					_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 					confirming = false;
 				} else {
 					return BACK_TO_TRAINING_GROUNDS;
@@ -101,8 +100,7 @@ auto Sorcery::Delete::start() -> int {
 		_ctx.tick();
 
 		// Return selected from the menu.
-		if (!_ctx.controller->wants(Enums::Screen::DELETE) &&
-			_ctx.controller->wants(Enums::Screen::TRAINING))
+		if (!_ctx.controller->wants(Enums::Screen::DELETE) && _ctx.controller->wants(Enums::Screen::TRAINING))
 			return BACK_TO_TRAINING_GROUNDS;
 
 		//
@@ -110,18 +108,15 @@ auto Sorcery::Delete::start() -> int {
 		//
 		if (confirming) {
 
-			if (const auto result{
-					_ctx.ui->popup_manager->consume_result("dialog_delete")}) {
+			if (const auto result{_ctx.ui->popup_manager->consume_result("dialog_delete")}) {
 
 				using enum DrawableResult;
 
 				if (*result == ACCEPTED) {
 
-					_ctx.game->delete_character(_ctx.controller->get_character(
-						Enums::CharacterSlot::EDIT));
+					_ctx.game->delete_character(_ctx.controller->get_character(Enums::CharacterSlot::EDIT));
 
-					_ctx.controller->clear_character(
-						Enums::CharacterSlot::EDIT);
+					_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
 					_ctx.controller->go_to(Enums::Screen::TRAINING);
 
@@ -130,8 +125,7 @@ auto Sorcery::Delete::start() -> int {
 
 				if (*result == CANCELLED) {
 
-					_ctx.controller->clear_character(
-						Enums::CharacterSlot::EDIT);
+					_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
 					confirming = false;
 				}
@@ -145,8 +139,7 @@ auto Sorcery::Delete::start() -> int {
 		//
 		if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
 
-			_ctx.ui->popup_manager->open_dialog(
-				"delete:dialog_delete", Enums::Layout::DialogType::CONFIRM);
+			_ctx.ui->popup_manager->open_dialog("delete:dialog_delete", Enums::Layout::DialogType::CONFIRM);
 
 			confirming = true;
 		}

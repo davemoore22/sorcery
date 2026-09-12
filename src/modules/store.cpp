@@ -71,9 +71,7 @@ auto Sorcery::Store::start() -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -124,8 +122,7 @@ auto Sorcery::Store::start() -> int {
 		_ctx.ui->display_screen(Enums::Screen::STORE, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::STORE) &&
-			_ctx.controller->wants(Enums::Screen::SHOP))
+		if (!_ctx.controller->wants(Enums::Screen::STORE) && _ctx.controller->wants(Enums::Screen::SHOP))
 			return BACK_TO_INN;
 	}
 

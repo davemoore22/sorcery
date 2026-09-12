@@ -21,50 +21,50 @@
 // the resulting work.
 
 #include "core/application.hpp"
-#include "cereal/archives/binary.hpp"	  // for BinaryInputArchive, BinaryO...
-#include "common/enum.hpp"				  // for Class, Align, Align::NO_ALIGN
-#include "core/audio/audioplayer.hpp"	  // for AudioPlayer
-#include "core/controller/controller.hpp" // for Controller
+#include "cereal/archives/binary.hpp"		// for BinaryInputArchive, BinaryO...
+#include "common/enum.hpp"					// for Class, Align, Align::NO_ALIGN
+#include "core/audio/audioplayer.hpp"		// for AudioPlayer
+#include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // For ControllerInputHandler
 #include "core/debug.hpp"					// for DEBUG_LOGF, debug_logf
-#include "core/define.hpp"				 // for EXPEDITION_GOTO, EXPEDITION...
-#include "core/enum.hpp"				 // for CharacterSlot
-#include "core/resources.hpp"			 // for Resources
-#include "core/system.hpp"				 // for System
-#include "display/animation.hpp"		 // for Animation
-#include "display/display.hpp"			 // for Display
-#include "display/ui/ui.hpp"			 // for UI
-#include "drawables/define.hpp"			 // for ABORT_GAME, DEST_NONE, LEAV...
-#include "engine/define.hpp"			 // for RETURN_TO_TOWN
-#include "engine/engine.hpp"			 // for Engine
-#include "frontend/mainmenu.hpp"		 // for MainMenu
-#include "frontend/splash.hpp"			 // for Splash
-#include "modules/castle.hpp"			 // for Castle
-#include "modules/edgeoftown.hpp"		 // for EdgeOfTown
-#include "resources/define.hpp"			 // for ENGINE_MUSIC, MAINMENU_MUSIC
-#include "resources/filestore.hpp"		 // for FileStore
-#include "resources/imagestore.hpp"		 // for ImageStore
-#include "resources/itemstore.hpp"		 // for ItemStore
-#include "types/character/character.hpp" // for Character
-#include "types/character/create.hpp"	 // for CharacterCreate
-#include "types/character/inventory.hpp" // for Inventory
-#include "types/enum.hpp"				 // for TypeID, TypeID::LEATHER_ARMOR
-#include "types/game.hpp"				 // for Game
-#include "types/state.hpp"				 // for State
-#include <algorithm>					 // for __contains_fn, __transform_fn
-#include <cctype>						 // for tolower
-#include <cerrno>						 // for errno
-#include <csignal>						 // for signal, SIGINT, SIGTERM
-#include <cstdlib>						 // for abort
-#include <cstring>						 // for strerror
-#include <exception>					 // for exception, exception_ptr
-#include <filesystem>					 // for path
-#include <fstream>						 // for basic_ostream, operator<<
-#include <iostream>						 // for cerr
-#include <map>							 // for map
-#include <stdexcept>					 // for runtime_error
-#include <typeinfo>						 // for type_info
-#include <utility>						 // for move
+#include "core/define.hpp"					// for EXPEDITION_GOTO, EXPEDITION...
+#include "core/enum.hpp"					// for CharacterSlot
+#include "core/resources.hpp"				// for Resources
+#include "core/system.hpp"					// for System
+#include "display/animation.hpp"			// for Animation
+#include "display/display.hpp"				// for Display
+#include "display/ui/ui.hpp"				// for UI
+#include "drawables/define.hpp"				// for ABORT_GAME, DEST_NONE, LEAV...
+#include "engine/define.hpp"				// for RETURN_TO_TOWN
+#include "engine/engine.hpp"				// for Engine
+#include "frontend/mainmenu.hpp"			// for MainMenu
+#include "frontend/splash.hpp"				// for Splash
+#include "modules/castle.hpp"				// for Castle
+#include "modules/edgeoftown.hpp"			// for EdgeOfTown
+#include "resources/define.hpp"				// for ENGINE_MUSIC, MAINMENU_MUSIC
+#include "resources/filestore.hpp"			// for FileStore
+#include "resources/imagestore.hpp"			// for ImageStore
+#include "resources/itemstore.hpp"			// for ItemStore
+#include "types/character/character.hpp"	// for Character
+#include "types/character/create.hpp"		// for CharacterCreate
+#include "types/character/inventory.hpp"	// for Inventory
+#include "types/enum.hpp"					// for TypeID, TypeID::LEATHER_ARMOR
+#include "types/game.hpp"					// for Game
+#include "types/state.hpp"					// for State
+#include <algorithm>						// for __contains_fn, __transform_fn
+#include <cctype>							// for tolower
+#include <cerrno>							// for errno
+#include <csignal>							// for signal, SIGINT, SIGTERM
+#include <cstdlib>							// for abort
+#include <cstring>							// for strerror
+#include <exception>						// for exception, exception_ptr
+#include <filesystem>						// for path
+#include <fstream>							// for basic_ostream, operator<<
+#include <iostream>							// for cerr
+#include <map>								// for map
+#include <stdexcept>						// for runtime_error
+#include <typeinfo>							// for type_info
+#include <utility>							// for move
 
 // Standard Constructor
 Sorcery::Application::Application(int argc, char **argv) {
@@ -81,8 +81,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 			std::cerr << typeid(std::current_exception()).name() << std::endl;
 			std::cerr << " ...something else!" << std::endl;
 		}
-		std::cerr << "errno: " << errno << ": " << std::strerror(errno)
-				  << std::endl;
+		std::cerr << "errno: " << errno << ": " << std::strerror(errno) << std::endl;
 		std::abort();
 	});
 
@@ -94,10 +93,9 @@ Sorcery::Application::Application(int argc, char **argv) {
 	for (int i = 0; i < argc; ++i) {
 		_args.emplace_back(argv[i]);
 
-		std::ranges::transform(_args.back(), _args.back().begin(),
-							   [](unsigned char c) {
-								   return static_cast<char>(std::tolower(c));
-							   });
+		std::ranges::transform(_args.back(), _args.back().begin(), [](unsigned char c) {
+			return static_cast<char>(std::tolower(c));
+		});
 	}
 	// And the Context object used for DI
 	ctx = Context{};
@@ -141,8 +139,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	_engine = std::make_unique<Engine>(ctx);
 }
 
-auto Sorcery::Application::save_state_to_binary(const std::string &filename)
-	-> bool {
+auto Sorcery::Application::save_state_to_binary(const std::string &filename) -> bool {
 
 	std::ofstream os(filename, std::ios::binary);
 	if (!os.is_open()) {
@@ -159,8 +156,7 @@ auto Sorcery::Application::save_state_to_binary(const std::string &filename)
 	return true;
 }
 
-auto Sorcery::Application::load_state_from_binary(const std::string &filename)
-	-> bool {
+auto Sorcery::Application::load_state_from_binary(const std::string &filename) -> bool {
 
 	std::ifstream is(filename, std::ios::binary);
 	if (!is.is_open()) {
@@ -300,8 +296,7 @@ auto Sorcery::Application::_run_town() -> AppFlow {
 	}
 }
 
-auto Sorcery::Application::_flow_from_startup_plan(const StartupPlan &plan)
-	-> AppFlow {
+auto Sorcery::Application::_flow_from_startup_plan(const StartupPlan &plan) -> AppFlow {
 
 	if (!plan.bypass_menu)
 		return AppFlow::MAIN_MENU;
@@ -350,8 +345,7 @@ auto Sorcery::Application::_run_maze(const int mode) -> AppFlow {
 
 auto Sorcery::Application::_run_restart_maze(const int mode) -> AppFlow {
 
-	ctx.game->restart_maze(
-		ctx.controller->get_character(Enums::CharacterSlot::RESTART));
+	ctx.game->restart_maze(ctx.controller->get_character(Enums::CharacterSlot::RESTART));
 
 	ctx.audio->set_track(Enums::Audio::Track::ENGINE);
 
@@ -391,15 +385,13 @@ auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 		ctx.audio->mute = true;
 
 	// Validate mutually exclusive bootstrap options
-	const int bootstrap_count =
-		(load_game ? 1 : 0) + (new_game ? 1 : 0) + (quickstart ? 1 : 0);
+	const int bootstrap_count = (load_game ? 1 : 0) + (new_game ? 1 : 0) + (quickstart ? 1 : 0);
 
 	if (bootstrap_count > 1)
 		throw std::runtime_error("Invalid startup parameters");
 
 	if (load_game && start_engine)
-		throw std::runtime_error(
-			"--load cannot be combined with --start-engine");
+		throw std::runtime_error("--load cannot be combined with --start-engine");
 
 	if (go_to && !start_engine)
 		throw std::runtime_error("--go-to requires --start-engine");
@@ -474,8 +466,7 @@ auto Sorcery::Application::_run_main_menu() -> AppFlow {
 
 auto Sorcery::Application::_do_restart_expedition(const int mode) -> int {
 
-	ctx.game->restart_maze(
-		ctx.controller->get_character(Enums::CharacterSlot::RESTART));
+	ctx.game->restart_maze(ctx.controller->get_character(Enums::CharacterSlot::RESTART));
 
 	ctx.audio->set_track(Enums::Audio::Track::ENGINE);
 
@@ -571,12 +562,10 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 		pc.create().set_stage(Enums::Character::Stage::COMPLETED);
 		pc.inventory.clear();
 
-		const auto add_item = [&](const Enums::Items::TypeID id,
-								  const bool known) {
+		const auto add_item = [&](const Enums::Items::TypeID id, const bool known) {
 			const auto &item_type{ctx.resources->items->get(id)};
 
-			pc.inventory.add_type(
-				item_type, item_type.is_class_usable(pc.get_class()), known);
+			pc.inventory.add_type(item_type, item_type.is_class_usable(pc.get_class()), known);
 		};
 
 		switch (pc.get_class()) { // NOLINT(clang-diagnostic-switch)

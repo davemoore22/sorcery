@@ -31,8 +31,7 @@
 #include <sstream>			// for basic_ostream, basic_stringstream, endl
 #include <utility>			// for to_underlying
 
-Sorcery::Error::Error(Enums::System::Error error_code,
-					  std::exception &exception, std::string notes)
+Sorcery::Error::Error(Enums::System::Error error_code, std::exception &exception, std::string notes)
 	: _error_code{error_code},
 	  _exception{exception},
 	  _notes{notes} {
@@ -49,8 +48,7 @@ Sorcery::Error::Error(Enums::System::Error error_code,
 	// Split the display lines
 	auto wrapped_notes{WORDWRAP(_details[4], 80)};
 	const std::regex regex(R"([@]+)");
-	std::sregex_token_iterator it{wrapped_notes.begin(), wrapped_notes.end(),
-								  regex, -1};
+	std::sregex_token_iterator it{wrapped_notes.begin(), wrapped_notes.end(), regex, -1};
 	std::vector<std::string> lines{it, {}};
 	lines.erase(std::remove_if(lines.begin(), lines.end(),
 							   [](std::string const &s) {
@@ -97,18 +95,12 @@ auto Sorcery::Error::get() -> std::vector<std::string> {
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Error &error)
-	-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Error &error) -> std::ostream & {
 
-	out_stream << std::format("{:>5}: {} - {}", "Error", error._details[0],
-							  error._details[1])
-			   << std::endl;
-	out_stream << std::format("{:>5}: {}", "What", error._details[2])
-			   << std::endl;
-	out_stream << std::format("{:>5}: {}", "When", error._details[3])
-			   << std::endl;
-	out_stream << std::format("{:>5}: {}", "Info", error._details[4])
-			   << std::endl;
+	out_stream << std::format("{:>5}: {} - {}", "Error", error._details[0], error._details[1]) << std::endl;
+	out_stream << std::format("{:>5}: {}", "What", error._details[2]) << std::endl;
+	out_stream << std::format("{:>5}: {}", "When", error._details[3]) << std::endl;
+	out_stream << std::format("{:>5}: {}", "Info", error._details[4]) << std::endl;
 
 	return out_stream;
 }

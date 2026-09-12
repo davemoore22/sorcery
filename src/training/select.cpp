@@ -29,10 +29,10 @@
 #include "core/enum.hpp"					// for Screen, CharacterSlot
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp" // for BACK_TO_EDIT, ABORT_GAME, CHAR...
-#include "training/enum.hpp"	// for Edit, Edit::LEGATE, Edit::RECLASS
-#include <SDL_events.h>			// for SDL_PollEvent
-#include <any>					// for any
+#include "drawables/define.hpp"				// for BACK_TO_EDIT, ABORT_GAME, CHAR...
+#include "training/enum.hpp"				// for Edit, Edit::LEGATE, Edit::RECLASS
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
 
 Sorcery::Select::Select(Context &ctx)
 	: Module{ctx} {
@@ -47,8 +47,7 @@ auto Sorcery::Select::_initialise() -> bool {
 	return true;
 }
 
-auto Sorcery::Select::_screen(Enums::Selection::Edit mode) const
-	-> Enums::Screen {
+auto Sorcery::Select::_screen(Enums::Selection::Edit mode) const -> Enums::Screen {
 
 	using enum Enums::Selection::Edit;
 
@@ -112,8 +111,7 @@ auto Sorcery::Select::start(const Enums::Selection::Edit mode) -> int {
 			return CHARACTER_SELECTED;
 
 		// Return menu item selected.
-		if (!_ctx.controller->wants(screen) &&
-			_ctx.controller->wants(Enums::Screen::EDIT))
+		if (!_ctx.controller->wants(screen) && _ctx.controller->wants(Enums::Screen::EDIT))
 			return BACK_TO_EDIT;
 	}
 

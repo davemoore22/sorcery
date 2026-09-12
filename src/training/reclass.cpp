@@ -87,8 +87,7 @@ auto Sorcery::Reclass::start() -> int {
 		if (_ctx.ui->popup_manager->consume_accepted("notice_reclassed_ok"))
 			return BACK_TO_EDIT;
 
-		if (!_ctx.controller->wants(Enums::Screen::RECLASS) &&
-			_ctx.controller->wants(Enums::Screen::EDIT))
+		if (!_ctx.controller->wants(Enums::Screen::RECLASS) && _ctx.controller->wants(Enums::Screen::EDIT))
 			return BACK_TO_EDIT;
 	}
 

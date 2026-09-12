@@ -58,12 +58,9 @@ auto Sorcery::Popup::display() -> void {
 	const auto text{_ctx.get_string(_component.string_key)};
 	const auto rounding{_ctx.ui->frame_rd};
 
-	set_Font(_ctx.ui->fonts->get_current_font(_component.font).value(),
-			 _ctx.ui->metrics->font_sz());
-	const auto width{ImGui::CalcTextSize(text.c_str()).x +
-					 (_ctx.ui->metrics->grid_sz() * 4)};
-	const auto height{_component.h * _ctx.ui->metrics->grid_sz() +
-					  (_ctx.ui->metrics->grid_sz() * 4)};
+	set_Font(_ctx.ui->fonts->get_current_font(_component.font).value(), _ctx.ui->metrics->font_sz());
+	const auto width{ImGui::CalcTextSize(text.c_str()).x + (_ctx.ui->metrics->grid_sz() * 4)};
+	const auto height{_component.h * _ctx.ui->metrics->grid_sz() + (_ctx.ui->metrics->grid_sz() * 4)};
 
 	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
@@ -78,28 +75,23 @@ auto Sorcery::Popup::display() -> void {
 	set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
 	UIStyle::set_faded(_ctx);
 
-	set_Font(_ctx.ui->fonts->get_current_font(_component.font).value(),
-			 _ctx.ui->metrics->font_sz());
+	set_Font(_ctx.ui->fonts->get_current_font(_component.font).value(), _ctx.ui->metrics->font_sz());
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 
 	with_Popup(CSTR(_id)) {
 		const auto p_min{ImGui::GetWindowPos()};
-		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width,
-								ImGui::GetWindowPos().y + height}};
+		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width, ImGui::GetWindowPos().y + height}};
 
 		_ctx.ui->draw_frame(
 			p_min, p_max,
-			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y,
-				   _ctx.ui->ui_colour.z, _ctx.animation->fade},
-			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y,
-				   _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y, _ctx.ui->ui_colour.z, _ctx.animation->fade},
+			ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y, _ctx.ui->ui_bg_colour.z, _ctx.animation->fade},
 			rounding);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
-		ImGui::SetCursorPos(ImVec2{_ctx.ui->metrics->grid_sz() * 2,
-								   _ctx.ui->metrics->grid_sz() * 2});
+		ImGui::SetCursorPos(ImVec2{_ctx.ui->metrics->grid_sz() * 2, _ctx.ui->metrics->grid_sz() * 2});
 		ImGui::Text(text.c_str());
 #pragma GCC diagnostic pop
 	}

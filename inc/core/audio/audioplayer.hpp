@@ -48,9 +48,9 @@ class AudioPlayer {
 		AudioPlayer(FileStore *files);
 		~AudioPlayer();
 
-		void update(); // call every frame
-		void set_volume(float volume);
-		void set_track(Enums::Audio::Track track);
+		auto update() -> void; // call every frame
+		auto set_volume(float volume) -> void;
+		auto set_track(Enums::Audio::Track track) -> void;
 
 		bool mute;
 
@@ -86,16 +86,16 @@ class AudioPlayer {
 
 		FileStore *_files;
 
-		void _free_resources();
-		void _begin_fade_in();
-		void _begin_fade_out();
-		void _update_transition();
-		void _stop_immediately();
-		void _finish_fade_out();
-		void _load(const std::string_view filename);
-		void _play();
-		void _stop();
-		void _start_requested_track();
+		auto _free_resources() -> void;
+		auto _begin_fade_in() -> void;
+		auto _begin_fade_out() -> void;
+		auto _update_transition() -> void;
+		auto _stop_immediately() -> void;
+		auto _finish_fade_out() -> void;
+		auto _load(const std::string_view filename) -> void;
+		auto _play() -> void;
+		auto _stop() -> void;
+		auto _start_requested_track() -> void;
 };
 
 }

@@ -32,6 +32,8 @@
 #include <iostream>	 // for basic_ostream, operator<<, cerr
 #include <stdexcept> // for runtime_error
 
+/// @brief
+/// @param files
 Sorcery::AudioPlayer::AudioPlayer(FileStore *files)
 	: _files{files} {
 
@@ -57,6 +59,7 @@ Sorcery::AudioPlayer::AudioPlayer(FileStore *files)
 	SDL_PauseAudioDevice(_device, 1);
 }
 
+/// @brief
 Sorcery::AudioPlayer::~AudioPlayer() {
 
 	_free_resources();
@@ -65,7 +68,9 @@ Sorcery::AudioPlayer::~AudioPlayer() {
 		SDL_CloseAudioDevice(_device);
 }
 
-void Sorcery::AudioPlayer::_free_resources() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_free_resources() -> void {
 
 	if (_packet)
 		av_packet_free(&_packet);
@@ -87,7 +92,10 @@ void Sorcery::AudioPlayer::_free_resources() {
 	_stream_index = -1;
 }
 
-void Sorcery::AudioPlayer::_load(const std::string_view filename) {
+/// @brief
+/// @param filename
+/// @return
+auto Sorcery::AudioPlayer::_load(const std::string_view filename) -> void {
 
 	// PROFILE_SCOPE("AudioPlayer::load");
 	//  DEBUG_LOGF("Loading Resource: {}", filename);
@@ -103,16 +111,14 @@ void Sorcery::AudioPlayer::_load(const std::string_view filename) {
 
 	const AVCodec *codec{nullptr};
 
-	_stream_index =
-		av_find_best_stream(_fmt, AVMEDIA_TYPE_AUDIO, -1, -1, &codec, 0);
+	_stream_index = av_find_best_stream(_fmt, AVMEDIA_TYPE_AUDIO, -1, -1, &codec, 0);
 
 	if (_stream_index < 0)
 		throw std::runtime_error("No audio stream");
 
 	_codec = avcodec_alloc_context3(codec);
 
-	avcodec_parameters_to_context(_codec,
-								  _fmt->streams[_stream_index]->codecpar);
+	avcodec_parameters_to_context(_codec, _fmt->streams[_stream_index]->codecpar);
 
 	if (avcodec_open2(_codec, codec, nullptr) < 0)
 		throw std::runtime_error("Failed to open codec");
@@ -126,9 +132,8 @@ void Sorcery::AudioPlayer::_load(const std::string_view filename) {
 
 	const AVChannelLayout *in_layout{&_codec->ch_layout};
 
-	if (swr_alloc_set_opts2(&_swr, &out_layout, AV_SAMPLE_FMT_FLT, _spec.freq,
-							in_layout, _codec->sample_fmt, _codec->sample_rate,
-							0, nullptr) < 0) {
+	if (swr_alloc_set_opts2(&_swr, &out_layout, AV_SAMPLE_FMT_FLT, _spec.freq, in_layout, _codec->sample_fmt,
+							_codec->sample_rate, 0, nullptr) < 0) {
 
 		av_channel_layout_uninit(&out_layout);
 		throw std::runtime_error("Failed to allocate resampler");
@@ -143,7 +148,9 @@ void Sorcery::AudioPlayer::_load(const std::string_view filename) {
 	av_channel_layout_uninit(&out_layout);
 }
 
-void Sorcery::AudioPlayer::_play() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_play() -> void {
 
 	if (!_fmt)
 		return;
@@ -171,7 +178,9 @@ void Sorcery::AudioPlayer::_play() {
 	SDL_PauseAudioDevice(_device, 0);
 }
 
-void Sorcery::AudioPlayer::_stop() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_stop() -> void {
 
 	if (!_playing)
 		return;
@@ -182,12 +191,16 @@ void Sorcery::AudioPlayer::_stop() {
 	_begin_fade_out();
 }
 
-void Sorcery::AudioPlayer::set_volume(float volume) {
+/// @brief
+/// @param volume
+auto Sorcery::AudioPlayer::set_volume(float volume) -> void {
 
 	_volume = std::clamp(volume, 0.0f, 1.0f);
 }
 
-void Sorcery::AudioPlayer::update() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::update() -> void {
 
 	_update_transition();
 
@@ -197,8 +210,8 @@ void Sorcery::AudioPlayer::update() {
 	if (mute)
 		return;
 
-	const Uint32 target_buffer{static_cast<Uint32>(
-		_spec.freq * _spec.channels * sizeof(float) * (BUFFER_MS / 1000.0f))};
+	const Uint32 target_buffer{
+		static_cast<Uint32>(_spec.freq * _spec.channels * sizeof(float) * (BUFFER_MS / 1000.0f))};
 
 	while (SDL_GetQueuedAudioSize(_device) < target_buffer) {
 
@@ -214,18 +227,15 @@ void Sorcery::AudioPlayer::update() {
 
 				while (avcodec_receive_frame(_codec, _frame) == 0) {
 
-					int out_samples{
-						swr_get_out_samples(_swr, _frame->nb_samples)};
+					int out_samples{swr_get_out_samples(_swr, _frame->nb_samples)};
 
 					uint8_t *out_data{nullptr};
 					int out_linesize;
 
-					av_samples_alloc(&out_data, &out_linesize, _spec.channels,
-									 out_samples, AV_SAMPLE_FMT_FLT, 0);
+					av_samples_alloc(&out_data, &out_linesize, _spec.channels, out_samples, AV_SAMPLE_FMT_FLT, 0);
 
-					int converted{swr_convert(_swr, &out_data, out_samples,
-											  (const uint8_t **)_frame->data,
-											  _frame->nb_samples)};
+					int converted{
+						swr_convert(_swr, &out_data, out_samples, (const uint8_t **)_frame->data, _frame->nb_samples)};
 
 					int size{converted * _spec.channels * sizeof(float)};
 
@@ -247,19 +257,25 @@ void Sorcery::AudioPlayer::update() {
 	}
 }
 
-void Sorcery::AudioPlayer::_begin_fade_in() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_begin_fade_in() -> void {
 
 	_fade_updated = Clock::now();
 	_state = Enums::Audio::State::FADING_IN;
 }
 
-void Sorcery::AudioPlayer::_begin_fade_out() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_begin_fade_out() -> void {
 
 	_fade_updated = Clock::now();
 	_state = Enums::Audio::State::FADING_OUT;
 }
 
-void Sorcery::AudioPlayer::_stop_immediately() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_stop_immediately() -> void {
 
 	_playing = false;
 	_state = Enums::Audio::State::STOPPED;
@@ -269,17 +285,15 @@ void Sorcery::AudioPlayer::_stop_immediately() {
 	SDL_ClearQueuedAudio(_device);
 }
 
-void Sorcery::AudioPlayer::_update_transition() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_update_transition() -> void {
 
-	if (_state != Enums::Audio::State::FADING_IN &&
-		_state != Enums::Audio::State::FADING_OUT)
+	if (_state != Enums::Audio::State::FADING_IN && _state != Enums::Audio::State::FADING_OUT)
 		return;
 
 	const auto now{Clock::now()};
-
-	const auto elapsed{
-		std::chrono::duration<float>{now - _fade_updated}.count()};
-
+	const auto elapsed{std::chrono::duration<float>{now - _fade_updated}.count()};
 	const auto duration{std::chrono::duration<float>{FADE_DURATION}.count()};
 
 	_fade_updated = now;
@@ -307,7 +321,9 @@ void Sorcery::AudioPlayer::_update_transition() {
 	}
 }
 
-void Sorcery::AudioPlayer::_finish_fade_out() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_finish_fade_out() -> void {
 
 	_stop_immediately();
 
@@ -317,7 +333,10 @@ void Sorcery::AudioPlayer::_finish_fade_out() {
 		_start_requested_track();
 }
 
-void Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) {
+/// @brief
+/// @param track
+/// @return
+auto Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) -> void {
 
 	// We already want this track.
 	if (track == _requested_track)
@@ -349,7 +368,9 @@ void Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) {
 	_begin_fade_out();
 }
 
-void Sorcery::AudioPlayer::_start_requested_track() {
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_start_requested_track() -> void {
 
 	if (_requested_track == Enums::Audio::Track::NONE)
 		return;

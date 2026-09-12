@@ -29,8 +29,7 @@
 Sorcery::UIMetrics::UIMetrics(Context &ctx)
 	: _ctx{ctx} {}
 
-auto Sorcery::UIMetrics::update(const DisplayMetrics &metrics) noexcept
-	-> void {
+auto Sorcery::UIMetrics::update(const DisplayMetrics &metrics) noexcept -> void {
 
 	const auto content_w{static_cast<float>(_base_width) * metrics.scale};
 	const auto content_h{static_cast<float>(_base_height) * metrics.scale};
@@ -40,25 +39,21 @@ auto Sorcery::UIMetrics::update(const DisplayMetrics &metrics) noexcept
 
 	_grid_sz = std::min(_adj_grid_w, _adj_grid_h);
 
-	_base_font_sz =
-		static_cast<float>(_base_width) / static_cast<float>(_columns);
+	_base_font_sz = static_cast<float>(_base_width) / static_cast<float>(_columns);
 	_font_sz = _base_font_sz * metrics.scale;
 
 	_offset_x = metrics.offset_x;
 	_offset_y = metrics.offset_y;
 }
 
-auto Sorcery::UIMetrics::grid_pos(const float x, const float y) const noexcept
-	-> ImVec2 {
+auto Sorcery::UIMetrics::grid_pos(const float x, const float y) const noexcept -> ImVec2 {
 
 	const auto &metrics{_ctx.display->get_display_metrics()};
 
-	return {metrics.offset_x + (x * _adj_grid_w),
-			metrics.offset_y + (y * _adj_grid_h)};
+	return {metrics.offset_x + (x * _adj_grid_w), metrics.offset_y + (y * _adj_grid_h)};
 }
 
-auto Sorcery::UIMetrics::grid_delta(const float x, const float y) const noexcept
-	-> ImVec2 {
+auto Sorcery::UIMetrics::grid_delta(const float x, const float y) const noexcept -> ImVec2 {
 
 	return {x * _adj_grid_w, y * _adj_grid_h};
 }

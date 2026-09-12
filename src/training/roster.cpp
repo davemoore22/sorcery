@@ -93,15 +93,12 @@ auto Sorcery::Roster::start() -> int {
 		_ctx.ui->display_screen(Enums::Screen::ROSTER, _ctx.game);
 		_ctx.tick();
 
-		if (!_ctx.controller->wants(Enums::Screen::ROSTER) &&
-			_ctx.controller->wants(Enums::Screen::TRAINING)) {
+		if (!_ctx.controller->wants(Enums::Screen::ROSTER) && _ctx.controller->wants(Enums::Screen::TRAINING)) {
 			_ctx.game->save_game();
 			return BACK_TO_TRAINING_GROUNDS;
-		} else if (_ctx.controller->has_character(
-					   Enums::CharacterSlot::INSPECT)) {
-			const auto result{_inspect->start(
-				INSPECT_MODE_BASE,
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
+		} else if (_ctx.controller->has_character(Enums::CharacterSlot::INSPECT)) {
+			const auto result{
+				_inspect->start(INSPECT_MODE_BASE, _ctx.controller->get_character(Enums::CharacterSlot::INSPECT))};
 			if (result == ABORT_GAME)
 				return ABORT_GAME;
 			_inspect->stop(INSPECT_MODE_BASE);

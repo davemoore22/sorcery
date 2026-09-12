@@ -76,8 +76,7 @@ auto Sorcery::MonsterType::get_unknown_gfx() const -> unsigned int {
 	return _unknown_gfx;
 }
 
-auto Sorcery::MonsterType::set_type_id(const Enums::Monsters::TypeID value)
-	-> void {
+auto Sorcery::MonsterType::set_type_id(const Enums::Monsters::TypeID value) -> void {
 
 	_type = value;
 }
@@ -112,14 +111,12 @@ auto Sorcery::MonsterType::get_armour_class() const -> int {
 	return _armour_class;
 }
 
-auto Sorcery::MonsterType::set_known_name_plural(const std::string value)
-	-> void {
+auto Sorcery::MonsterType::set_known_name_plural(const std::string value) -> void {
 
 	_known_name_plural = value;
 }
 
-auto Sorcery::MonsterType::set_unknown_name_plural(const std::string value)
-	-> void {
+auto Sorcery::MonsterType::set_unknown_name_plural(const std::string value) -> void {
 
 	_unknown_name_plural = value;
 }
@@ -188,14 +185,12 @@ auto Sorcery::MonsterType::get_category() const -> Enums::Monsters::Category {
 	return _category;
 }
 
-auto Sorcery::MonsterType::set_category(const Enums::Monsters::Category value)
-	-> void {
+auto Sorcery::MonsterType::set_category(const Enums::Monsters::Category value) -> void {
 
 	_category = value;
 }
 
-auto Sorcery::MonsterType::set_class(const Enums::Monsters::Class value)
-	-> void {
+auto Sorcery::MonsterType::set_class(const Enums::Monsters::Class value) -> void {
 
 	_class = value;
 }
@@ -228,14 +223,12 @@ auto Sorcery::MonsterType::get_attack(const unsigned int attack) const -> Dice {
 		return Dice{};
 }
 
-auto Sorcery::MonsterType::get_breath_weapon() const
-	-> Enums::Monsters::Breath {
+auto Sorcery::MonsterType::get_breath_weapon() const -> Enums::Monsters::Breath {
 
 	return _breath_weapon;
 }
 
-auto Sorcery::MonsterType::set_breath_weapon(
-	const Enums::Monsters::Breath value) -> void {
+auto Sorcery::MonsterType::set_breath_weapon(const Enums::Monsters::Breath value) -> void {
 
 	_breath_weapon = value;
 }
@@ -260,14 +253,12 @@ auto Sorcery::MonsterType::set_regeneration(const unsigned int value) -> void {
 	_regeneration = value;
 }
 
-auto Sorcery::MonsterType::get_rewards() const
-	-> std::tuple<unsigned int, unsigned int> {
+auto Sorcery::MonsterType::get_rewards() const -> std::tuple<unsigned int, unsigned int> {
 
 	return std::make_tuple(_reward_1, _reward_2);
 }
 
-auto Sorcery::MonsterType::set_rewards(const unsigned int value_1,
-									   const unsigned int value_2) -> void {
+auto Sorcery::MonsterType::set_rewards(const unsigned int value_1, const unsigned int value_2) -> void {
 
 	_reward_1 = value_1;
 	_reward_2 = value_2;
@@ -283,16 +274,14 @@ auto Sorcery::MonsterType::set_properties(std::array<bool, 7> value) -> void {
 	_properties = value;
 }
 
-auto Sorcery::MonsterType::has_resistance(Enums::Monsters::Resistance value)
-	-> bool {
+auto Sorcery::MonsterType::has_resistance(Enums::Monsters::Resistance value) -> bool {
 
 	const auto res{std::to_underlying(value)};
 
 	return _resistances[res];
 }
 
-auto Sorcery::MonsterType::has_property(Enums::Monsters::Property value)
-	-> bool {
+auto Sorcery::MonsterType::has_property(Enums::Monsters::Property value) -> bool {
 
 	const auto prop{std::to_underlying(value)};
 
@@ -319,14 +308,12 @@ auto Sorcery::MonsterType::set_xp(const unsigned int value) -> void {
 	_xp = value;
 }
 
-auto Sorcery::MonsterType::get_partners() const
-	-> std::tuple<unsigned int, unsigned int> {
+auto Sorcery::MonsterType::get_partners() const -> std::tuple<unsigned int, unsigned int> {
 
 	return std::make_tuple(_partner_type_id, _partner_chance);
 }
 
-auto Sorcery::MonsterType::set_partners(const unsigned int value_1,
-										const unsigned int value_2) -> void {
+auto Sorcery::MonsterType::set_partners(const unsigned int value_1, const unsigned int value_2) -> void {
 
 	_partner_type_id = value_1;
 	_partner_chance = value_2;
@@ -357,16 +344,14 @@ auto Sorcery::MonsterType::get_spell_resistance() const -> unsigned int {
 	return _mage_level;
 }
 
-auto Sorcery::MonsterType::set_spell_resistance(const unsigned int value)
-	-> void {
+auto Sorcery::MonsterType::set_spell_resistance(const unsigned int value) -> void {
 
 	_spell_resistance = value;
 }
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream,
-				const Sorcery::MonsterType &monstertype) -> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::MonsterType &monstertype) -> std::ostream & {
 
 	const auto type{std::to_underlying(monstertype.get_type_id())};
 	const auto name{monstertype.get_known_name()};

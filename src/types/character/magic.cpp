@@ -33,12 +33,10 @@
 #include <utility>						 // for pair
 #include <vector>						 // for vector
 
-Sorcery::ConstCharacterMagic::ConstCharacterMagic(
-	const Character &character) noexcept
+Sorcery::ConstCharacterMagic::ConstCharacterMagic(const Character &character) noexcept
 	: _character{&character} {}
 
-auto Sorcery::ConstCharacterMagic::can_cast(
-	const Enums::Magic::SpellType spell_type, const int spell_level) const
+auto Sorcery::ConstCharacterMagic::can_cast(const Enums::Magic::SpellType spell_type, const int spell_level) const
 	-> bool {
 
 	using enum Enums::Magic::SpellType;
@@ -58,32 +56,27 @@ auto Sorcery::ConstCharacterMagic::get_calfo_uses_left() const -> int {
 	return _character->_priest_cur_sp.at(2);
 }
 
-auto Sorcery::ConstCharacterMagic::get_spells() const
-	-> const std::vector<Spell> & {
+auto Sorcery::ConstCharacterMagic::get_spells() const -> const std::vector<Spell> & {
 
 	return _character->_spells;
 }
 
-auto Sorcery::ConstCharacterMagic::priest_current_spellpoints() const
-	-> const std::map<unsigned int, unsigned int> & {
+auto Sorcery::ConstCharacterMagic::priest_current_spellpoints() const -> const std::map<unsigned int, unsigned int> & {
 
 	return _character->_priest_cur_sp;
 }
 
-auto Sorcery::ConstCharacterMagic::mage_current_spellpoints() const
-	-> const std::map<unsigned int, unsigned int> & {
+auto Sorcery::ConstCharacterMagic::mage_current_spellpoints() const -> const std::map<unsigned int, unsigned int> & {
 
 	return _character->_mage_cur_sp;
 }
 
-auto Sorcery::ConstCharacterMagic::priest_max_spellpoints() const
-	-> const std::map<unsigned int, unsigned int> & {
+auto Sorcery::ConstCharacterMagic::priest_max_spellpoints() const -> const std::map<unsigned int, unsigned int> & {
 
 	return _character->_priest_max_sp;
 }
 
-auto Sorcery::ConstCharacterMagic::mage_max_spellpoints() const
-	-> const std::map<unsigned int, unsigned int> & {
+auto Sorcery::ConstCharacterMagic::mage_max_spellpoints() const -> const std::map<unsigned int, unsigned int> & {
 
 	return _character->_mage_max_sp;
 }
@@ -110,10 +103,8 @@ auto Sorcery::CharacterMagic::reset_spells() -> void {
 auto Sorcery::CharacterMagic::replenish_spells() -> void {
 
 	for (auto level = 1; level <= 7; level++) {
-		_m_character->_mage_cur_sp.at(level) =
-			_m_character->_mage_max_sp.at(level);
-		_m_character->_priest_cur_sp.at(level) =
-			_m_character->_priest_max_sp.at(level);
+		_m_character->_mage_cur_sp.at(level) = _m_character->_mage_max_sp.at(level);
+		_m_character->_priest_cur_sp.at(level) = _m_character->_priest_max_sp.at(level);
 	}
 }
 
@@ -123,10 +114,9 @@ auto Sorcery::CharacterMagic::set_spells() -> void {
 	for (auto &spell_known : _m_character->_spells_known) {
 
 		std::vector<Spell>::iterator it;
-		it = std::find_if(_m_character->_spells.begin(),
-						  _m_character->_spells.end(), [&](auto item) {
-							  return item.id == spell_known.first;
-						  });
+		it = std::find_if(_m_character->_spells.begin(), _m_character->_spells.end(), [&](auto item) {
+			return item.id == spell_known.first;
+		});
 		if (it != _m_character->_spells.end())
 			(*it).known = spell_known.second;
 	}

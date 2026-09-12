@@ -30,16 +30,15 @@
 #include "display/ui/ui.hpp"				// for UI
 #include "resources/define.hpp"				// for SAVE_STATE_FILENAME
 #include <algorithm>						// for clamp
-#include <chrono>	  // for duration, milliseconds, operator-
-#include <cmath>	  // for lerp
-#include <filesystem> // for path
+#include <chrono>							// for duration, milliseconds, operator-
+#include <cmath>							// for lerp
+#include <filesystem>						// for path
 
 namespace Sorcery {
 namespace Enums { enum class Screen; }
 }
 
-auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from,
-							const float to,
+auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from, const float to,
 							const std::chrono::milliseconds duration) -> void {
 
 	using clock = std::chrono::steady_clock;
@@ -59,8 +58,7 @@ auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from,
 
 		const auto total{std::chrono::duration<float>(duration)};
 
-		const auto progress{
-			std::clamp(elapsed.count() / total.count(), 0.0f, 1.0f)};
+		const auto progress{std::clamp(elapsed.count() / total.count(), 0.0f, 1.0f)};
 
 		_ctx.display->set_fade(std::lerp(from, to, progress));
 
@@ -77,9 +75,7 @@ auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from,
 	draw();
 }
 
-auto Sorcery::Module::fade_in(const Enums::Screen screen,
-							  const std::chrono::milliseconds duration)
-	-> void {
+auto Sorcery::Module::fade_in(const Enums::Screen screen, const std::chrono::milliseconds duration) -> void {
 
 	_fade(
 		[this, screen] {
@@ -88,9 +84,7 @@ auto Sorcery::Module::fade_in(const Enums::Screen screen,
 		1.0f, 0.0f, duration);
 }
 
-auto Sorcery::Module::fade_out(const Enums::Screen screen,
-							   const std::chrono::milliseconds duration)
-	-> void {
+auto Sorcery::Module::fade_out(const Enums::Screen screen, const std::chrono::milliseconds duration) -> void {
 
 	_fade(
 		[this, screen] {
@@ -99,9 +93,8 @@ auto Sorcery::Module::fade_out(const Enums::Screen screen,
 		0.0f, 1.0f, duration);
 }
 
-auto Sorcery::Module::fade_in_with_string(
-	const Enums::Screen screen, const std::chrono::milliseconds duration,
-	const std::string &string) -> void {
+auto Sorcery::Module::fade_in_with_string(const Enums::Screen screen, const std::chrono::milliseconds duration,
+										  const std::string &string) -> void {
 
 	_fade(
 		[this, screen, string] {
@@ -110,8 +103,7 @@ auto Sorcery::Module::fade_in_with_string(
 		1.0f, 0.0f, duration);
 }
 
-auto Sorcery::Module::fade_in_with_int(const Enums::Screen screen,
-									   const std::chrono::milliseconds duration,
+auto Sorcery::Module::fade_in_with_int(const Enums::Screen screen, const std::chrono::milliseconds duration,
 									   const int value) -> void {
 
 	_fade(
@@ -121,9 +113,8 @@ auto Sorcery::Module::fade_in_with_int(const Enums::Screen screen,
 		1.0f, 0.0f, duration);
 }
 
-auto Sorcery::Module::fade_out_with_int(
-	const Enums::Screen screen, const std::chrono::milliseconds duration,
-	const int value) -> void {
+auto Sorcery::Module::fade_out_with_int(const Enums::Screen screen, const std::chrono::milliseconds duration,
+										const int value) -> void {
 
 	_fade(
 		[this, screen, value] {
@@ -132,9 +123,8 @@ auto Sorcery::Module::fade_out_with_int(
 		0.0f, 1.0f, duration);
 }
 
-auto Sorcery::Module::fade_out_with_string(
-	const Enums::Screen screen, const std::chrono::milliseconds duration,
-	const std::string &string) -> void {
+auto Sorcery::Module::fade_out_with_string(const Enums::Screen screen, const std::chrono::milliseconds duration,
+										   const std::string &string) -> void {
 
 	_fade(
 		[this, screen, string] {
@@ -143,23 +133,17 @@ auto Sorcery::Module::fade_out_with_string(
 		0.0f, 1.0f, duration);
 }
 
-auto Sorcery::Module::fade_in(const std::function<void()> &draw,
-							  const std::chrono::milliseconds duration)
-	-> void {
+auto Sorcery::Module::fade_in(const std::function<void()> &draw, const std::chrono::milliseconds duration) -> void {
 
 	_fade(draw, 1.0f, 0.0f, duration);
 }
 
-auto Sorcery::Module::fade_out(const std::function<void()> &draw,
-							   const std::chrono::milliseconds duration)
-	-> void {
+auto Sorcery::Module::fade_out(const std::function<void()> &draw, const std::chrono::milliseconds duration) -> void {
 
 	_fade(draw, 0.0f, 1.0f, duration);
 }
 
-auto Sorcery::Module::process_event(const SDL_Event &event,
-									const EventOptions &options)
-	-> ModuleEvent {
+auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &options) -> ModuleEvent {
 
 	ImGui_ImplSDL2_ProcessEvent(&event);
 
@@ -176,13 +160,11 @@ auto Sorcery::Module::process_event(const SDL_Event &event,
 
 	if (options.quicksave && _ctx.controller->input->quicksave(event)) {
 
-		_ctx.application->save_state_to_binary(
-			_ctx.get_file(SAVE_STATE_FILENAME));
+		_ctx.application->save_state_to_binary(_ctx.get_file(SAVE_STATE_FILENAME));
 
 	} else if (options.quickload && _ctx.controller->input->quickload(event)) {
 
-		_ctx.application->load_state_from_binary(
-			_ctx.get_file(SAVE_STATE_FILENAME));
+		_ctx.application->load_state_from_binary(_ctx.get_file(SAVE_STATE_FILENAME));
 
 		return ModuleEvent::QUICKLOAD;
 	}

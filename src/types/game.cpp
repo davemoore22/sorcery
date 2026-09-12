@@ -124,105 +124,65 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 
 	// Level 1
 	using enum Enums::Map::Event;
-	_events.emplace_back(AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds", false,
-						 false, false, false, false);
-	_events.emplace_back(MAN_TELEPORT_CASTLE, "event_man_teleport_castle",
-						 false, false, false, true, false);
-	_events.emplace_back(OBTAIN_SILVER_KEY, "event_silver_key", true, false,
-						 false, false, false);
-	_events.emplace_back(OBTAIN_BRONZE_KEY, "event_bronze_key", true, false,
-						 false, false, false);
-	_events.emplace_back(MURPHYS_GHOSTS, "event_murphys_ghosts", true, true,
-						 false, false, false);
+	_events.emplace_back(AREA_OF_OUT_BOUNDS, "event_area_out_of_bounds", false, false, false, false, false);
+	_events.emplace_back(MAN_TELEPORT_CASTLE, "event_man_teleport_castle", false, false, false, true, false);
+	_events.emplace_back(OBTAIN_SILVER_KEY, "event_silver_key", true, false, false, false, false);
+	_events.emplace_back(OBTAIN_BRONZE_KEY, "event_bronze_key", true, false, false, false, false);
+	_events.emplace_back(MURPHYS_GHOSTS, "event_murphys_ghosts", true, true, false, false, false);
 
-	_events.emplace_back(TOP_ELEVATOR, "event_top_elevator", false, false,
-						 false, false, false);
+	_events.emplace_back(TOP_ELEVATOR, "event_top_elevator", false, false, false, false, false);
 
 	// Level 2
-	_events.emplace_back(OBTAIN_GOLD_KEY, "event_gold_key", true, false, false,
-						 false, false);
-	_events.emplace_back(OBTAIN_BEAR_STATUE, "event_bear_statue", true, false,
-						 false, false, false);
-	_events.emplace_back(OBTAIN_FROG_STATUE, "event_frog_statue", true, false,
-						 false, false, false);
-	_events.emplace_back(PLACARD_PIT_1, "event_placard_pit_1", false, false,
-						 false, false, false);
-	_events.emplace_back(PLACARD_PIT_2, "event_placard_pit_2", false, false,
-						 false, false, false);
-	_events.emplace_back(PLACARD_PIT_3, "event_placard_pit_3", false, false,
-						 false, false, false);
-	_events.emplace_back(NEED_SILVER_KEY, "event_need_silver_key", false, false,
-						 true, false, false);
-	_events.emplace_back(NEED_BRONZE_KEY, "event_need_bronze_key", false, false,
-						 true, false, false);
-	_events.emplace_back(NEED_BEAR_STATUE, "event_cannot_break_doors_down",
-						 false, false, true, false, false);
-	_events.emplace_back(NEED_FROG_STATUE, "event_cannot_break_doors_down",
-						 false, false, true, false, false);
+	_events.emplace_back(OBTAIN_GOLD_KEY, "event_gold_key", true, false, false, false, false);
+	_events.emplace_back(OBTAIN_BEAR_STATUE, "event_bear_statue", true, false, false, false, false);
+	_events.emplace_back(OBTAIN_FROG_STATUE, "event_frog_statue", true, false, false, false, false);
+	_events.emplace_back(PLACARD_PIT_1, "event_placard_pit_1", false, false, false, false, false);
+	_events.emplace_back(PLACARD_PIT_2, "event_placard_pit_2", false, false, false, false, false);
+	_events.emplace_back(PLACARD_PIT_3, "event_placard_pit_3", false, false, false, false, false);
+	_events.emplace_back(NEED_SILVER_KEY, "event_need_silver_key", false, false, true, false, false);
+	_events.emplace_back(NEED_BRONZE_KEY, "event_need_bronze_key", false, false, true, false, false);
+	_events.emplace_back(NEED_BEAR_STATUE, "event_cannot_break_doors_down", false, false, true, false, false);
+	_events.emplace_back(NEED_FROG_STATUE, "event_cannot_break_doors_down", false, false, true, false, false);
 
 	// Level 3
-	_events.emplace_back(TURN_LEFT, "event_turn_left", false, false, false,
-						 false, false);
-	_events.emplace_back(TURN_AROUND, "event_turn_around", false, false, false,
-						 false, false);
-	_events.emplace_back(TURN_RIGHT, "event_turn_right", false, false, false,
-						 false, false);
+	_events.emplace_back(TURN_LEFT, "event_turn_left", false, false, false, false, false);
+	_events.emplace_back(TURN_AROUND, "event_turn_around", false, false, false, false, false);
+	_events.emplace_back(TURN_RIGHT, "event_turn_right", false, false, false, false, false);
 
 	// Level 4
-	_events.emplace_back(NEED_GOLD_KEY, "event_need_gold_key", false, false,
-						 true, false, false);
-	_events.emplace_back(TESTING_GROUNDS, "event_testing_grounds", false, false,
-						 false, false, false);
-	_events.emplace_back(ALARM_BELLS, "event_alarm_bells", false, true, false,
-						 false, false);
-	_events.emplace_back(TREASURE_REPOSITORY, "event_treasure_repository",
-						 false, false, false, false, false);
-	_events.emplace_back(MONSTER_ALLOCATION_CENTRE,
-						 "event_monster_allocation_centre", false, false, false,
-						 false, false);
-	_events.emplace_back(NEED_BLUE_RIBBON, "event_need_blue_ribbon", false,
-						 false, true, false, false);
-	_events.emplace_back(SERVICE_ELEVATOR, "event_service_elevator", false,
-						 false, false, false, false);
-	_events.emplace_back(LARGE_DESK, "event_large_desk", false, false, false,
-						 false, false);
-	_events.emplace_back(DEADLY_RING_COMBAT, "event_deadly_ring_combat", false,
-						 true, false, false, false);
-	_events.emplace_back(TREBOR_VOICE, "event_trebor_voice", false, false,
-						 false, false, true);
+	_events.emplace_back(NEED_GOLD_KEY, "event_need_gold_key", false, false, true, false, false);
+	_events.emplace_back(TESTING_GROUNDS, "event_testing_grounds", false, false, false, false, false);
+	_events.emplace_back(ALARM_BELLS, "event_alarm_bells", false, true, false, false, false);
+	_events.emplace_back(TREASURE_REPOSITORY, "event_treasure_repository", false, false, false, false, false);
+	_events.emplace_back(MONSTER_ALLOCATION_CENTRE, "event_monster_allocation_centre", false, false, false, false,
+						 false);
+	_events.emplace_back(NEED_BLUE_RIBBON, "event_need_blue_ribbon", false, false, true, false, false);
+	_events.emplace_back(SERVICE_ELEVATOR, "event_service_elevator", false, false, false, false, false);
+	_events.emplace_back(LARGE_DESK, "event_large_desk", false, false, false, false, false);
+	_events.emplace_back(DEADLY_RING_COMBAT, "event_deadly_ring_combat", false, true, false, false, false);
+	_events.emplace_back(TREBOR_VOICE, "event_trebor_voice", false, false, false, false, true);
 
 	// Level 6
-	_events.emplace_back(THREE_HUMANOIDS, "event_three_humanoids", false, false,
-						 false, false, false);
+	_events.emplace_back(THREE_HUMANOIDS, "event_three_humanoids", false, false, false, false, false);
 
 	// Level 7
-	_events.emplace_back(GETTING_WARM_1, "event_getting_warm_1", false, false,
-						 false, false, false);
-	_events.emplace_back(GETTING_WARM_2, "event_getting_warm_2", false, false,
-						 false, false, false);
-	_events.emplace_back(GETTING_WARM_3, "event_getting_warm_3", false, false,
-						 false, false, false);
-	_events.emplace_back(FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat",
-						 false, true, false, false, false);
+	_events.emplace_back(GETTING_WARM_1, "event_getting_warm_1", false, false, false, false, false);
+	_events.emplace_back(GETTING_WARM_2, "event_getting_warm_2", false, false, false, false, false);
+	_events.emplace_back(GETTING_WARM_3, "event_getting_warm_3", false, false, false, false, false);
+	_events.emplace_back(FIRE_DRAGONS_COMBAT, "event_fire_dragons_combat", false, true, false, false, false);
 
 	// Level 10
-	_events.emplace_back(WERDNA_BOAST, "event_werdna_boast", false, false,
-						 false, false, false);
-	_events.emplace_back(TURN_BACK, "event_turn_back", false, false, false,
-						 false, false);
-	_events.emplace_back(WERDNA_SIGN_IN, "event_werdna_sign_1", false, false,
-						 false, false, false);
-	_events.emplace_back(WERDNA_SIGN_OUT, "event_werdna_sign_2", false, false,
-						 false, false, false);
+	_events.emplace_back(WERDNA_BOAST, "event_werdna_boast", false, false, false, false, false);
+	_events.emplace_back(TURN_BACK, "event_turn_back", false, false, false, false, false);
+	_events.emplace_back(WERDNA_SIGN_IN, "event_werdna_sign_1", false, false, false, false, false);
+	_events.emplace_back(WERDNA_SIGN_OUT, "event_werdna_sign_2", false, false, false, false, false);
 }
 
-auto Sorcery::Game::get_event(Enums::Map::Event event_type) const
-	-> DungeonEvent {
+auto Sorcery::Game::get_event(Enums::Map::Event event_type) const -> DungeonEvent {
 
-	auto it{std::ranges::find_if(_events.begin(), _events.end(),
-								 [&](const auto &dungeon_event) {
-									 return (dungeon_event.event == event_type);
-								 })};
+	auto it{std::ranges::find_if(_events.begin(), _events.end(), [&](const auto &dungeon_event) {
+		return (dungeon_event.event == event_type);
+	})};
 
 	return *it;
 
@@ -231,10 +191,9 @@ auto Sorcery::Game::get_event(Enums::Map::Event event_type) const
 
 auto Sorcery::Game::enable_event(Enums::Map::Event event_type) -> void {
 
-	auto it{std::ranges::find_if(_events.begin(), _events.end(),
-								 [&](const auto &dungeon_event) {
-									 return (dungeon_event.event == event_type);
-								 })};
+	auto it{std::ranges::find_if(_events.begin(), _events.end(), [&](const auto &dungeon_event) {
+		return (dungeon_event.event == event_type);
+	})};
 
 	if (it != _events.end())
 		(*it).enabled = true;
@@ -242,10 +201,9 @@ auto Sorcery::Game::enable_event(Enums::Map::Event event_type) -> void {
 
 auto Sorcery::Game::disable_event(Enums::Map::Event event_type) -> void {
 
-	auto it{std::ranges::find_if(_events.begin(), _events.end(),
-								 [&](const auto &dungeon_event) {
-									 return (dungeon_event.event == event_type);
-								 })};
+	auto it{std::ranges::find_if(_events.begin(), _events.end(), [&](const auto &dungeon_event) {
+		return (dungeon_event.event == event_type);
+	})};
 
 	if (it != _events.end())
 		(*it).enabled = false;
@@ -295,8 +253,7 @@ auto Sorcery::Game::restart_maze(unsigned int char_id) -> void {
 	state->clear_party();
 	for (auto &[id, character] : characters) {
 		if (character.get_location() == Enums::Character::Location::MAZE) {
-			if (character.depth.value() == to_depth &&
-				character.coordinate.value() == to_loc) {
+			if (character.depth.value() == to_depth && character.coordinate.value() == to_loc) {
 				character.set_location(Enums::Character::Location::PARTY);
 				state->add_character_by_id(id);
 			}
@@ -343,8 +300,7 @@ auto Sorcery::Game::_create_game() -> void {
 	std::stringstream ss;
 	{
 		cereal::XMLOutputArchive out_archive(ss);
-		state->add_log_message("New Game Started",
-							   Enums::Internal::MessageType::GAME);
+		state->add_log_message("New Game Started", Enums::Internal::MessageType::GAME);
 		out_archive(state);
 	}
 	const auto data{ss.str()};
@@ -356,8 +312,7 @@ auto Sorcery::Game::_create_game() -> void {
 auto Sorcery::Game::_load_game() -> void {
 
 	// Get Game and State Data
-	auto [id, key, status, start_time, last_time, data] =
-		_ctx.saves->load_game_state().value();
+	auto [id, key, status, start_time, last_time, data] = _ctx.saves->load_game_state().value();
 	_id = id;
 	_key = key;
 	_status = status;
@@ -432,8 +387,7 @@ auto Sorcery::Game::_save_characters() -> void {
 		}
 		const auto char_data{ss.str()};
 
-		_ctx.saves->update_character(_id, char_id, character.get_name(),
-									 char_data);
+		_ctx.saves->update_character(_id, char_id, character.get_name(), char_data);
 	}
 }
 
@@ -485,8 +439,7 @@ auto Sorcery::Game::save_character(Character character) -> unsigned int {
 	return _ctx.saves->add_character(_id, character.get_name(), char_data);
 }
 
-auto Sorcery::Game::update_character(unsigned int game_id, unsigned int char_id,
-									 Character &character) -> bool {
+auto Sorcery::Game::update_character(unsigned int game_id, unsigned int char_id, Character &character) -> bool {
 
 	std::stringstream ss;
 	{
@@ -495,8 +448,7 @@ auto Sorcery::Game::update_character(unsigned int game_id, unsigned int char_id,
 	}
 	const auto character_data{ss.str()};
 
-	return _ctx.saves->update_character(game_id, char_id, character.get_name(),
-										character_data);
+	return _ctx.saves->update_character(game_id, char_id, character.get_name(), character_data);
 }
 
 auto Sorcery::Game::_load_characters() -> void {
@@ -584,8 +536,7 @@ auto Sorcery::Game::print() -> void {
 	auto text{"Game:\n\n"s};
 
 	for (const auto &[char_id, character] : characters) {
-		auto line{std::format("{}){:>16} {}", char_id, character.get_name(),
-							  enum_name(character.get_location()))};
+		auto line{std::format("{}){:>16} {}", char_id, character.get_name(), enum_name(character.get_location()))};
 		text.append(line);
 		text.append("\n");
 	}
@@ -632,16 +583,14 @@ auto Sorcery::Game::_debug_give_party_quest_items() -> void {
 	give_party_item(AMULET_OF_WERDNA);
 }
 
-auto Sorcery::Game::give_party_item(const Enums::Items::TypeID item_type,
-									const bool known) -> bool {
+auto Sorcery::Game::give_party_item(const Enums::Items::TypeID item_type, const bool known) -> bool {
 
 	for (const auto char_id : _ctx.game->state->get_party_characters()) {
 
 		auto &character{_ctx.game->characters.at(char_id)};
 		if (character.inventory.get_empty_slots() == 0)
 			continue;
-		character.inventory.add_type(_ctx.resources->items->get(item_type),
-									 known);
+		character.inventory.add_type(_ctx.resources->items->get(item_type), known);
 		return true;
 	}
 
@@ -668,13 +617,9 @@ auto Sorcery::Game::_debug_give_party_random_status() -> void {
 		auto &cur_char{characters.at(idx)};
 
 		cur_char.set_status(
-			enum_cast<Enums::Character::Status>(
-				_ctx.get_random(Enums::System::Random::ZERO_TO_8))
-				.value());
+			enum_cast<Enums::Character::Status>(_ctx.get_random(Enums::System::Random::ZERO_TO_8)).value());
 		using enum Enums::Character::Status;
-		if ((cur_char.get_status() == DEAD) ||
-			(cur_char.get_status() == ASHES) ||
-			(cur_char.get_status() == LOST)) {
+		if ((cur_char.get_status() == DEAD) || (cur_char.get_status() == ASHES) || (cur_char.get_status() == LOST)) {
 			cur_char.set_current_hp(0);
 		} else
 			cur_char.set_current_hp(cur_char.get_max_hp());
@@ -721,8 +666,7 @@ auto Sorcery::Game::_debug_give_party_random_items() -> void {
 		for (auto i = 0u; i < slots_free; i++) {
 			using enum Enums::Items::TypeID;
 			if (cur_char.inventory.get_empty_slots() > 0) {
-				auto item{_ctx.resources->items->get_random_item(
-					LONG_SWORD, RING_OF_DEATH)};
+				auto item{_ctx.resources->items->get_random_item(LONG_SWORD, RING_OF_DEATH)};
 				cur_char.inventory.add(item);
 			}
 		}
@@ -747,9 +691,8 @@ auto Sorcery::Game::_debug_create_random_party() -> void {
 	PRINT("debug_create_random_party");
 
 	// Create a new random party of a random alignment
-	const auto align{_ctx.get_random(Enums::System::Random::D2) == 1
-						 ? Enums::Character::Align::GOOD
-						 : Enums::Character::Align::EVIL};
+	const auto align{_ctx.get_random(Enums::System::Random::D2) == 1 ? Enums::Character::Align::GOOD
+																	 : Enums::Character::Align::EVIL};
 	for (int i = 0; i < 6; i++) {
 		auto pc{Character(&_ctx)};
 		switch (i) {
@@ -788,8 +731,7 @@ auto Sorcery::Game::_debug_create_random_party() -> void {
 		case FIGHTER:
 		case LORD:
 		case SAMURAI:
-			pc.inventory.add_type(_ctx.resources->items->get(LEATHER_ARMOR),
-								  true);
+			pc.inventory.add_type(_ctx.resources->items->get(LEATHER_ARMOR), true);
 			pc.inventory.add_type(_ctx.resources->items->get(LONG_SWORD), true);
 			break;
 		case MAGE:
@@ -803,10 +745,8 @@ auto Sorcery::Game::_debug_create_random_party() -> void {
 			break;
 		case THIEF:
 		case NINJA:
-			pc.inventory.add_type(_ctx.resources->items->get(LEATHER_ARMOR),
-								  true);
-			pc.inventory.add_type(_ctx.resources->items->get(SHORT_SWORD),
-								  true);
+			pc.inventory.add_type(_ctx.resources->items->get(LEATHER_ARMOR), true);
+			pc.inventory.add_type(_ctx.resources->items->get(SHORT_SWORD), true);
 		default:
 			break;
 		}
@@ -828,9 +768,8 @@ auto Sorcery::Game::_debug_fill_party_unid_items() -> void {
 		auto slots_free = cur_char.inventory.get_empty_slots();
 		for (auto i = 0u; i < slots_free; i++) {
 			if (cur_char.inventory.get_empty_slots() > 0) {
-				auto item{_ctx.resources->items->get_random_item(
-					Enums::Items::TypeID::LONG_SWORD,
-					Enums::Items::TypeID::RING_OF_DEATH)};
+				auto item{_ctx.resources->items->get_random_item(Enums::Items::TypeID::LONG_SWORD,
+																 Enums::Items::TypeID::RING_OF_DEATH)};
 				cur_char.inventory.add(item);
 			}
 		}
@@ -839,8 +778,7 @@ auto Sorcery::Game::_debug_fill_party_unid_items() -> void {
 	save_game();
 }
 
-auto Sorcery::Game::party_has_item(const Enums::Items::TypeID item_type) const
-	-> bool {
+auto Sorcery::Game::party_has_item(const Enums::Items::TypeID item_type) const -> bool {
 
 	for (const auto party{state->get_party_characters()}; auto idx : party) {
 		const auto &cur_char{characters.at(idx)};
@@ -851,8 +789,7 @@ auto Sorcery::Game::party_has_item(const Enums::Items::TypeID item_type) const
 	return false;
 }
 
-auto Sorcery::Game::remove_party_item(const Enums::Items::TypeID item_type)
-	-> bool {
+auto Sorcery::Game::remove_party_item(const Enums::Items::TypeID item_type) -> bool {
 
 	for (const auto char_id : state->get_party_characters()) {
 
@@ -884,15 +821,13 @@ auto Sorcery::Game::grant_party_members_xp(const int adjustment) -> void {
 }
 
 namespace Sorcery {
-auto operator<<(std::ostream &out_stream, const Sorcery::Game &game)
-	-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Game &game) -> std::ostream & {
 
 	using namespace std::string_literals;
 	auto text{"Game:\n\n"s};
 
 	for (const auto &[char_id, character] : game.characters) {
-		auto line{std::format("{}){:>16}{}", char_id, character.get_name(),
-							  (int)character.get_location())};
+		auto line{std::format("{}){:>16}{}", char_id, character.get_name(), (int)character.get_location())};
 		text.append(line);
 		text.append("\n");
 	}

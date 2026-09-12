@@ -33,9 +33,9 @@
 #include "types/enum.hpp"				   // for Font
 #include "types/game.hpp"				   // for Game
 #include "types/state.hpp"				   // for State
-#include <imgui_sugar.hpp> // for BooleanGuard, set_Font, with_Wi...
-#include <memory>		   // for unique_ptr
-#include <optional>		   // for optional
+#include <imgui_sugar.hpp>				   // for BooleanGuard, set_Font, with_Wi...
+#include <memory>						   // for unique_ptr
+#include <optional>						   // for optional
 
 Sorcery::Menu::Menu(Context &ctx, Component *component, Game *game)
 	: _ctx{ctx},
@@ -73,22 +73,15 @@ auto Sorcery::Menu::regenerate() -> void {
 
 auto Sorcery::Menu::draw() -> void {
 
-	with_Window(WINDOW_LAYER_MENUS, nullptr,
-				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
+	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
 		const auto col{_ctx.ui->get_hl_colour(_ctx.animation->lerp)};
-		set_Font(
-			_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE)
-				.value(),
-			_ctx.ui->metrics->font_sz());
-		const auto sz{
-			ImVec2{static_cast<float>(_width * _ctx.ui->metrics->font_sz()),
-				   static_cast<float>(
-					   (_height * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
+		set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE).value(), _ctx.ui->metrics->font_sz());
+		const auto sz{ImVec2{static_cast<float>(_width * _ctx.ui->metrics->font_sz()),
+							 static_cast<float>((_height * ImGui::GetTextLineHeightWithSpacing()) + 2)}};
 
 		// Note that _pos is in grid units whereas sz is in pixels!
-		_ctx.ui->draw_menu(_name, col, _pos, sz, _font, _items, _data, _reorder,
-						   _across, _numeric_input);
+		_ctx.ui->draw_menu(_name, col, _pos, sz, _font, _items, _data, _reorder, _across, _numeric_input);
 
 		// Handle SpecialEvents such as Reordering Party Menu
 		if (_ctx.controller->has_flag("party_order_changed")) {

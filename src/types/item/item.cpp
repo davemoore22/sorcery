@@ -220,8 +220,7 @@ auto Sorcery::Item::operator=(Item &&item) noexcept -> Item & {
 
 namespace Sorcery {
 
-auto operator<<(std::ostream &out_stream, const Sorcery::Item &item)
-	-> std::ostream & {
+auto operator<<(std::ostream &out_stream, const Sorcery::Item &item) -> std::ostream & {
 
 	const auto type{std::to_underlying(item.get_type_id())};
 	const auto name{item.get_name()};
