@@ -450,6 +450,20 @@
 					"bg_colour": "0x102030ff"
 				},
 				{
+					"name": "notice_oops",
+					"x": "centre",
+					"y": "centre",
+					"w": "8",
+					"h": "7",
+					"font": "monospace",
+					"type": "dialog",
+					"string": "NOTICE_OOPS",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x102030ff"
+				},
+				{
 					"name": "notice_success",
 					"x": "centre",
 					"y": "centre",

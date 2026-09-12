@@ -756,6 +756,7 @@
 	"NOTICE_SUCCESS": "Success!",
 	"DIALOG_FAILED": "Failed",
 	"DIALOG_SUCCESS": "Success!",
+	"NOTICE_OOPS": "Oops!",
 	"CONFIRM_DROP_ITEM": "Are you sure?",
 	"EDIT_TITLE": "Edit Character",
 	"EDIT_CHANGE_NAME": "Change Name",

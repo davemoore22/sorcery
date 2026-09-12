@@ -24,7 +24,8 @@
 #include "common/enum.hpp"				   // for Attribute, Attribute::LUCK
 #include "core/context.hpp"				   // for Context
 #include "core/controller/controller.hpp"  // for Controller
-#include "core/controller/menuaction.hpp"  // for Controller
+#include "core/controller/iteminvoke.hpp"
+#include "core/controller/menuaction.hpp" // for Controller
 #include "core/debug.hpp"
 #include "core/define.hpp" // for WINDOW_LAYER_MENUS, WINDOW_...
 #include "core/enum.hpp"   // for Screen, CharacterSlot
@@ -663,18 +664,58 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		}
 
 		return true;
-	}
-
-	else if (component == "invoke_menu") {
+	} else if (component == "invoke_menu") {
 
 		if (selection == static_cast<int>(items.size()) - 1) {
-
-			_host.set_flag("want_invoke");
 			_ctx.ui->popup_manager->close();
+			return true;
+		}
 
-		} else {
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
 
-			// TODO
+		auto &character{_host._game->characters.at(
+			_host.get_character(Enums::CharacterSlot::INSPECT))};
+
+		const auto slot{static_cast<unsigned int>(data)};
+		const auto item{character.inventory.get(slot)};
+
+		const auto &item_type{
+			_ctx.resources->items->get_item_type(item.get_type_id())};
+
+		// Whatever your actual ItemType getter is named.
+		const auto effect{item_type.get_eff_inv()};
+
+		if (!apply_invoke(character, effect))
+			return true;
+
+		using enum Enums::System::Random;
+
+		const auto roll{_ctx.get_random(D100)};
+		const auto decayed{roll < item_type.get_eff_inv_decay()};
+
+		if (decayed) {
+
+			const auto &decay_type{
+				_ctx.resources->items->get(item_type.get_decay_type_id())};
+
+			Item replacement{decay_type};
+
+			// We have just seen it decay, so its identity isn't mysterious.
+			replacement.set_known(true);
+			replacement.set_usable(
+				decay_type.is_class_usable(character.get_class()));
+
+			character.inventory.replace_item(slot, std::move(replacement));
+		}
+
+		_host._game->save_game();
+
+		_ctx.ui->popup_manager->close();
+
+		if (decayed) {
+			_ctx.ui->popup_manager->open_dialog("global:notice_oops",
+												Enums::Layout::DialogType::OK);
 		}
 
 		return true;
@@ -1036,7 +1077,8 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 				const auto item{who.inventory.items().at(selection)};
 				const auto item_type{
 					_ctx.resources->items->get_item_type(item.get_type_id())};
-				return !(item_type.has_invokable() && item.get_known());
+				return !(item_type.has_invokable() && item.get_known() &&
+						 item.get_usable());
 			} else
 				return false;
 #pragma GCC diagnostic pop

@@ -90,6 +90,7 @@ class Inventory {
 			-> bool;
 		auto is_equippable_category(const Enums::Items::Category category) const
 			-> bool;
+		auto replace_item(unsigned int slot, Item item) -> bool;
 
 	private:
 		// Private Methods

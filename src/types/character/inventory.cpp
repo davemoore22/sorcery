@@ -390,6 +390,17 @@ const auto Sorcery::Inventory::is_equippable_category(
 	}
 }
 
+auto Sorcery::Inventory::replace_item(const unsigned int slot, Item item)
+	-> bool {
+
+	if (!_valid_slot(slot))
+		return false;
+
+	_items.at(slot - 1) = std::move(item);
+
+	return true;
+}
+
 namespace Sorcery {
 
 auto operator<<(std::ostream &out_stream, const Sorcery::Inventory &inventory)

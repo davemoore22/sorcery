@@ -587,23 +587,28 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 		case SAMURAI:
 			add_item(LEATHER_ARMOR, true);
 			add_item(LONG_SWORD, true);
+			add_item(GARB_OF_LORDS, true);
+			add_item(MURAMASA_BLADE, true);
 			break;
 		case MAGE:
 			add_item(ROBE_OF_CURSES, true);
 			add_item(DAGGER, true);
+			add_item(AMULET_OF_WERDNA, true);
 			break;
 		case PRIEST:
 		case BISHOP:
 			add_item(ROBES, true);
 			add_item(STAFF, true);
-			add_item(POTION_OF_DIOS, false);
-			add_item(LONG_SWORD_PLUS_2, false);
-			add_item(ROBE_OF_CURSES, false);
+			// add_item(POTION_OF_DIOS, false);
+			// add_item(LONG_SWORD_PLUS_2, false);
+			// add_item(ROBE_OF_CURSES, false);
 			break;
 		case THIEF:
 		case NINJA:
 			add_item(LEATHER_ARMOR, true);
 			add_item(SHORT_SWORD, true);
+			add_item(DAGGER_OF_THIEVES, true);
+			add_item(SHURIKENS, true);
 		default:
 			break;
 		}
