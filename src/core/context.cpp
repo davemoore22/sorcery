@@ -50,9 +50,14 @@ auto Sorcery::Context::get_string(std::string_view key) -> std::string {
 	return strings->get(key);
 }
 
-auto Sorcery::Context::get_config(const unsigned int i) -> bool & {
+auto Sorcery::Context::get_config(Enums::Config::Options option) -> bool & {
 
-	return config->get(i);
+	return config->get(option);
+}
+
+auto Sorcery::Context::get_config(Enums::Config::Options option) const -> bool {
+
+	return config->get(option);
 }
 
 auto Sorcery::Context::get_config(std::string_view section, std::string_view value) const -> std::string {

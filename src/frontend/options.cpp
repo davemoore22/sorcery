@@ -54,8 +54,8 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 	fade_in(Enums::Screen::OPTIONS, QUICK_FADE);
 
 	// Main loop
-	_fullscreen_before = _ctx.get_config(Enums::Config::FULLSCREEN);
-	_monochrome_before = _ctx.get_config(Enums::Config::CGA_GRAPHICS);
+	_fullscreen_before = _ctx.get_config(Enums::Config::Options::FULLSCREEN);
+	_monochrome_before = _ctx.get_config(Enums::Config::Options::CGA_GRAPHICS);
 	while (true) {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
@@ -94,11 +94,11 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 
 auto Sorcery::Options::stop() -> int {
 
-	auto fullscreen_after{_ctx.get_config(Enums::Config::FULLSCREEN)};
+	auto fullscreen_after{_ctx.get_config(Enums::Config::Options::FULLSCREEN)};
 	if (_fullscreen_before != fullscreen_after)
 		_ctx.ui->set_fullscreen(fullscreen_after);
 
-	auto monochrome_after{_ctx.get_config(Enums::Config::CGA_GRAPHICS)};
+	auto monochrome_after{_ctx.get_config(Enums::Config::Options::CGA_GRAPHICS)};
 	if (_monochrome_before != monochrome_after) {
 		_ctx.controller->set_monochrome(monochrome_after);
 	}

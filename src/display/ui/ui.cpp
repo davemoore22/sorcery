@@ -154,7 +154,7 @@ Sorcery::UI::UI(Context &ctx)
 	metrics->update(_ctx.display->get_display_metrics());
 
 	// Render window
-	render = std::make_unique<Render>(_ctx, !_ctx.get_config(Enums::Config::CGA_GRAPHICS));
+	render = std::make_unique<Render>(_ctx, !_ctx.get_config(Enums::Config::Options::CGA_GRAPHICS));
 
 	// Ticks
 	ticks = SDL_GetTicks();
@@ -189,7 +189,7 @@ auto Sorcery::UI::start() -> void {
 	ImGui_ImplSDL2_InitForOpenGL(_ctx.display->get_SDL_window(), _ctx.display->get_GL_context());
 	ImGui_ImplOpenGL3_Init(_ctx.display->get_GLSL_version());
 
-	if (_ctx.get_config(Enums::Config::FULLSCREEN))
+	if (_ctx.get_config(Enums::Config::Options::FULLSCREEN))
 		set_fullscreen(true);
 	else
 		set_fullscreen(false);
@@ -621,8 +621,8 @@ auto Sorcery::UI::draw_ui_status() -> void {
 
 	if (images->has_loaded(std::string{ICONS_TEXTURE})) {
 
-		const auto music_status{_ctx.get_config(Enums::Config::MUSIC)};
-		const auto sound_status{_ctx.get_config(Enums::Config::SOUND)};
+		const auto music_status{_ctx.get_config(Enums::Config::Options::MUSIC)};
+		const auto sound_status{_ctx.get_config(Enums::Config::Options::SOUND)};
 		const auto cga_status{!_ctx.controller->get_monochrome()};
 		const auto music_icon{music_status ? ICON_MUSIC_ON : ICON_MUSIC_OFF};
 		const auto sound_icon{sound_status ? ICON_SOUND_ON : ICON_SOUND_OFF};
@@ -1780,167 +1780,183 @@ auto Sorcery::UI::load_message(const Enums::Map::Event event) -> std::vector<std
 }
 
 auto Sorcery::UI::draw_options() -> void {
+
+	using enum Enums::Config::Options;
+	using Option = Enums::Config::Options;
+
+	struct OptionEntry {
+			Option option;
+			std::string_view label;
+	};
+
+	static constexpr std::array summary_opts{
+		OptionEntry{RECOMMENDED_MODE, "OPT_RECOMMENDED_MODE"},
+		OptionEntry{STRICT_MODE, "OPT_STRICT_MODE"},
+		OptionEntry{CHEAT_MODE, "OPT_CHEAT_MODE"},
+		OptionEntry{AUTO_SAVE, "OPT_AUTO_SAVE"},
+		OptionEntry{DICE_ROLLS, "OPT_DICE_ROLLS"},
+	};
+
+	static constexpr std::array gameplay_opts{
+		OptionEntry{MIXED_ALIGNMENT, "OPT_MIXED_ALIGNMENT"},
+		OptionEntry{LEVEL_STAT_LOSS, "OPT_LEVEL_STAT_LOSS"},
+		OptionEntry{LEVEL_REROLL_HP, "OPT_LEVEL_REROLL_HP"},
+		OptionEntry{CLASS_CHANGE_RESET, "OPT_CLASS_CHANGE_RESET"},
+		OptionEntry{CLASS_CHANGE_AGING, "OPT_CLASS_CHANGE_AGING"},
+		OptionEntry{AMBUSH_HIDE, "OPT_AMBUSH_HIDE"},
+		OptionEntry{SURPRISE_SPELLCASTING, "OPT_SURPRISE_SPELLCASTING"},
+		OptionEntry{INN_HEALING, "OPT_INN_HEALING"},
+		OptionEntry{REROLL_ONES, "OPT_REROLL_ONES"},
+		OptionEntry{LOST_LEGATION, "OPT_LOST_LEGATION"},
+		OptionEntry{CURABLE_DRAIN, "OPT_CURABLE_DRAINING"},
+		OptionEntry{SHARED_INVENTORY, "OPT_SHARED_INVENTORY"},
+		OptionEntry{PROTECT_TELEPORT, "OPT_PROTECT_TELEPORT"},
+	};
+
+	static constexpr std::array ui_opts{
+		OptionEntry{CGA_GRAPHICS, "OPT_CGA_GRAPHICS"},
+		OptionEntry{FULLSCREEN, "OPT_FULLSCREEN"},
+		OptionEntry{MUSIC, "OPT_UI_MUSIC"},
+		OptionEntry{SOUND, "OPT_UI_SOUND"},
+	};
+
 	const auto component{components->get("options:options_info")};
-
-	std::vector<std::string> summary_opts{"OPT_RECOMMENDED_MODE", "OPT_STRICT_MODE", "OPT_CHEAT_MODE", "OPT_AUTO_SAVE",
-										  "OPT_DICE_ROLLS"};
-	std::vector<std::string> gameplay_opts{
-		"OPT_MIXED_ALIGNMENT",	  "OPT_LEVEL_STAT_LOSS", "OPT_LEVEL_REROLL_HP",		  "OPT_CLASS_CHANGE_RESET",
-		"OPT_CLASS_CHANGE_AGING", "OPT_AMBUSH_HIDE",	 "OPT_SURPRISE_SPELLCASTING", "OPT_INN_HEALING",
-		"OPT_REROLL_ONES",		  "OPT_LOST_LEGATION",	 "OPT_CURABLE_DRAINING",	  "OPT_SHARED_INVENTORY",
-		"OPT_PROTECT_TELEPORT"};
-
-	std::vector<std::string> graphics_opts{"OPT_CGA_GRAPHICS", "OPT_FULLSCREEN", "OPT_UI_MUSIC", "OPT_UI_SOUND"};
 
 	const auto save_lbl{_ctx.get_string("DIALOG_SAVE")};
 	const auto cancel_lbl{_ctx.get_string("DIALOG_CANCEL")};
+
 	set_Font(fonts->get_current_font(component.font).value(), metrics->font_sz());
+
 	const auto col{get_hl_colour(_ctx.animation->lerp)};
+
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
-		// To adjust for Window Resizing etc
-		const auto x{std::invoke([&] {
-			const auto width{metrics->grid_sz() * component.get_float("grid_width")};
-			const auto viewport{ImGui::GetMainViewport()};
-			return (viewport->Size.x - width) / 2;
-		})};
+		const auto width{metrics->grid_sz() * component.get_float("grid_width")};
 
-		const auto pos{ImVec2{x, metrics->grid_y(component.y)}};
+		const auto viewport{ImGui::GetMainViewport()};
+		const auto x{(viewport->Size.x - width) / 2.0f};
+
+		const ImVec2 pos{x, metrics->grid_y(component.y)};
+
 		ImGui::SetCursorPos(pos);
 
-		// Now draw tab bar
 		UIStyle::set_faded(_ctx);
-		set_StyleColor(ImGuiCol_ButtonHovered, (ImVec4)col);
+		set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{col});
+
 		const auto tabs_width{component.w * metrics->grid_sz()};
 		const auto tabs_height{component.h * metrics->grid_sz()};
-		ImGuiTabBarFlags tb_flags{ImGuiTabBarFlags_None};
-		with_Child("options_tab_bar_child", ImVec2(tabs_width, tabs_height)) {
-			UIStyle::set_tab_black(_ctx);
 
-			auto summary_idx{0u};
-			auto gameplay_idx(5u);
-			auto graphics_idx(18u);
+		with_Child("options_tab_bar_child", ImVec2{tabs_width, tabs_height}) {
+
+			UIStyle::set_tab_black(_ctx);
 
 			set_StyleColor(ImGuiCol_Button, ImVec4{0.16f, 0.66f, 0.45f, _ctx.animation->fade});
 			set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{0.0f, 1.0f, 0.57f, _ctx.animation->fade});
 			set_StyleColor(ImGuiCol_Text, ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade});
 
-			// now draw tabs
-			with_TabBar("options_tab_bar", tb_flags) {
-				auto tabname{"Options"};
-				with_TabItem(tabname) {
-					for (const auto &opt : summary_opts) {
-						if (opt.length() > 0) {
-							const auto text{std::format(" {}", _ctx.get_string(opt))};
-							if (ImGui::Toggle(text.c_str(), &_ctx.get_config(summary_idx))) {
+			const auto draw_option_list = [&](const auto &options, const std::string_view tabname) {
+				for (const auto &[option, label] : options) {
 
-								// Do additonal handling such as switching
-								// on strict mode etc inside the controller
-								_ctx.controller->actions->toggle(component.name, tabname, summary_idx);
-							};
-						}
-						++summary_idx;
+					const auto text{std::format(" {}", _ctx.get_string(label))};
+
+					if (ImGui::Toggle(text.c_str(), &_ctx.get_config(option))) {
+
+						_ctx.controller->actions->toggle(component.name, tabname, std::to_underlying(option));
 					}
 				}
-				tabname = "Gameplay";
-				with_TabItem(tabname) {
-					for (const auto &opt : gameplay_opts) {
-						if (opt.length() > 0) {
-							const auto text{std::format(" {}", _ctx.get_string(opt))};
-							if (ImGui::Toggle(text.c_str(), &_ctx.get_config(gameplay_idx))) {
+			};
 
-								// Do additonal handling such as switching
-								// on strict mode etc
-								_ctx.controller->actions->toggle(component.name, tabname, gameplay_idx);
-							};
-						}
-						++gameplay_idx;
-					}
+			with_TabBar("options_tab_bar", ImGuiTabBarFlags_None) {
+
+				with_TabItem("Options") {
+
+					draw_option_list(summary_opts, "Options");
 				}
-				tabname = "UI";
-				with_TabItem(tabname) {
 
-					for (const auto &opt : graphics_opts) {
-						if (opt.length() > 0) {
-							const auto text{std::format(" {}", _ctx.get_string(opt))};
-							if (ImGui::Toggle(text.c_str(), &_ctx.get_config(graphics_idx))) {
+				with_TabItem("Gameplay") {
 
-								// Do additonal handling such as switching
-								// on strict mode etc
-								_ctx.controller->actions->toggle(component.name, tabname, graphics_idx);
-							};
-						}
-						++graphics_idx;
-					}
+					draw_option_list(gameplay_opts, "Gameplay");
+				}
 
-					// Font Selection dropdown
+				with_TabItem("UI") {
+
+					draw_option_list(ui_opts, "UI");
+
 					ImGui::Separator();
-					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + metrics->grid_sz());
-					const auto item_height{ImGui::GetTextLineHeightWithSpacing()};
-					const auto max_visible_items{10};
-					ImGui::SetNextWindowSize(ImVec2(0, item_height * max_visible_items));
-					with_Combo("##font_combobox", "Chooose Font...") {
 
-						auto font_list{fonts->get_all_monospace_fonts()};
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + metrics->grid_sz());
+
+					const auto item_height{ImGui::GetTextLineHeightWithSpacing()};
+
+					constexpr auto max_visible_items{10};
+
+					ImGui::SetNextWindowSize(ImVec2{0.0f, item_height * max_visible_items});
+
+					with_Combo("##font_combobox", "Choose Font...") {
+
+						const auto font_list{fonts->get_all_monospace_fonts()};
+
 						auto font_idx{0u};
+
 						for (const auto &font : font_list) {
-							const bool is_selected{font.name == fonts->get_current_monospace_font_name()};
+
+							const auto is_selected{font.name == fonts->get_current_monospace_font_name()};
+
 							set_Font(font.font, metrics->font_sz());
-							auto selectable_name{std::format("{}##{}", font.name, font_idx)};
+
+							const auto selectable_name{std::format("{}##{}", font.name, font_idx)};
+
 							if (ImGui::Selectable(selectable_name.c_str(), is_selected)) {
+
 								fonts->set_current_font(Enums::Layout::Font::MONOSPACE, font.name);
 							}
+
 							++font_idx;
 						}
 					}
 
 					ImGui::NewLine();
 
-					// Color Pickers
-					ImGuiColorEditFlags flags{ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_NoInputs |
-											  ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoOptions};
-					auto frame_name{std::format("{}##1", "UI Colour")};
-					ImGui::SetNextItemWidth(28.f);
-					ImGui::ColorEdit3(frame_name.c_str(), (float *)&ui_colour, flags);
+					constexpr ImGuiColorEditFlags flags{ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_NoInputs |
+														ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoOptions};
+
+					ImGui::SetNextItemWidth(28.0f);
+					ImGui::ColorEdit3("UI Colour##1", reinterpret_cast<float *>(&ui_colour), flags);
+
 					ImGui::NewLine();
-					ImGuiColorEditFlags flags_2{ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_NoInputs |
-												ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoOptions};
-					auto frame_name_2{std::format("{}##2", "UI Background Colour")};
-					ImGui::SetNextItemWidth(28.f);
-					ImGui::ColorEdit3(frame_name_2.c_str(), (float *)&ui_bg_colour, flags_2);
-				};
+
+					ImGui::SetNextItemWidth(28.0f);
+					ImGui::ColorEdit3("UI Background Colour##2", reinterpret_cast<float *>(&ui_bg_colour), flags);
+				}
 			}
+
 			set_Font(fonts->get_current_font(component.font).value());
 
-			// Save and Cancel Buttons
-			const auto centre{(tabs_width / 2)};
+			const auto centre{tabs_width / 2.0f};
 			const auto button_y{std::stoi(component.get("button_y").value())};
-			ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
+
+			const ImVec2 btn_size{ImGui::GetFontSize() * 7.0f, 0.0f};
 
 			UIStyle::set_faded(_ctx);
 			set_StyleColor(ImGuiCol_ButtonHovered, ImVec4{col});
-			set_StyleColor(ImGuiCol_ButtonActive, (ImVec4)col);
+			set_StyleColor(ImGuiCol_ButtonActive, ImVec4{col});
 
 			ImGui::SetCursorPos(ImVec2{centre - (btn_size.x + metrics->grid_sz()), button_y * metrics->grid_sz()});
+
 			if (ImGui::Button(save_lbl.c_str(), btn_size)) {
+
 				_ctx.system->config->save();
 
-				if (_ctx.get_flag("in_engine"))
-					_ctx.controller->go_to(Enums::Screen::ENGINE);
-				else
-					_ctx.controller->go_to(Enums::Screen::MAINMENU);
-
-				//_ctx.controller->unset_flag("show_options");
+				_ctx.controller->go_to(_ctx.get_flag("in_engine") ? Enums::Screen::ENGINE : Enums::Screen::MAINMENU);
 			}
+
 			ImGui::SetCursorPos(ImVec2{centre + metrics->grid_sz(), button_y * metrics->grid_sz()});
+
 			if (ImGui::Button(cancel_lbl.c_str(), btn_size)) {
+
 				_ctx.system->config->load();
 
-				if (_ctx.get_flag("in_engine"))
-					_ctx.controller->go_to(Enums::Screen::ENGINE);
-				else
-					_ctx.controller->go_to(Enums::Screen::MAINMENU);
-				//_ctx.controller->unset_flag("show_options");
+				_ctx.controller->go_to(_ctx.get_flag("in_engine") ? Enums::Screen::ENGINE : Enums::Screen::MAINMENU);
 			}
 		}
 	}

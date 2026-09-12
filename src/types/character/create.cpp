@@ -1262,7 +1262,7 @@ auto Sorcery::CharacterCreate::_update_hp_for_level() -> int {
 	// MaxLevel achieved when in strict mode
 	using enum Enums::Character::Ability;
 	auto hp_gained{0};
-	if (_m_character->_ctx->get_config(Enums::Config::LEVEL_REROLL_HP)) {
+	if (_m_character->_ctx->get_config(Enums::Config::Options::LEVEL_REROLL_HP)) {
 		auto hp_total{0};
 		for (auto level = 1; level < _m_character->_abilities[CURRENT_LEVEL]; level++)
 			hp_total += _get_hp_per_level();

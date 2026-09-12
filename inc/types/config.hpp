@@ -22,45 +22,53 @@
 
 #pragma once
 
-#include "types/define.hpp" // for NUM_GAME_SETTINGS
-#include <SimpleIni.h>		// for CSimpleIniA
-#include <array>			// for array
-#include <filesystem>		// for path
-#include <string>			// for string
-#include <string_view>		// for string_view
+#include "common/enum.hpp"
+#include "types/define.hpp"
+
+#include <SimpleIni.h>
+#include <array>
+#include <filesystem>
+#include <string>
+#include <string_view>
 
 namespace Sorcery {
 
 class Config {
 
 	public:
-		Config(CSimpleIniA *settings, const std::filesystem::path cfg_path);
+		Config(CSimpleIniA *settings, std::filesystem::path cfg_path);
 		Config() = delete;
 
-		auto get(const unsigned int i) -> bool &;
-		auto get(std::string_view section, std::string_view value) const -> std::string;
-		auto has_changed() -> bool;
+		auto get(Enums::Config::Options option) -> bool &;
+		auto get(Enums::Config::Options option) const -> bool;
+
+		[[nodiscard]]
+		auto get(std::string_view section, std::string_view key) const -> std::string;
+
+		[[nodiscard]]
+		auto has_changed() const -> bool;
+
 		auto load() -> bool;
 		auto save() -> bool;
 		auto store() -> void;
+
 		auto set_rec_mode() -> void;
 		auto set_strict_mode() -> void;
-		auto is_strict_mode() const -> bool;
+
+		[[nodiscard]]
 		auto is_rec_mode() const -> bool;
 
+		[[nodiscard]]
+		auto is_strict_mode() const -> bool;
+
 	private:
-		CSimpleIniA *_settings;
+		CSimpleIniA *_settings{};
 		std::filesystem::path _cfg_path;
-		std::array<bool, NUM_GAME_SETTINGS> _options;
-		std::array<bool, NUM_GAME_SETTINGS> _options_bkp;
+
+		std::array<bool, NUM_GAME_SETTINGS> _options{};
+		std::array<bool, NUM_GAME_SETTINGS> _options_bkp{};
 
 		auto _load() -> bool;
 };
 
-// Macro to convert bool to C string
-inline auto BOOL2OPTIONCSTR(bool bool_to_convert) -> const char * {
-
-	return bool_to_convert ? "on" : "off";
-}
-
-}
+} // namespace Sorcery

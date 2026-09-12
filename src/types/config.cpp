@@ -21,166 +21,207 @@
 // the resulting work.
 
 #include "types/config.hpp"
-#include "SimpleIni.h"		// for CSimpleIniA, SI_Error
-#include "common/enum.hpp"	// for Options, AMBUSH_HIDE, AUTO_SAVE, CHEAT_MODE
-#include "core/macro.hpp"	// for CSTR
-#include "types/define.hpp" // for NUM_GAME_SETTINGS, OPT_AMBUSH_HIDE, OPT_...
+#include "common/enum.hpp"
+#include "types/define.hpp"
 
-Sorcery::Config::Config(CSimpleIniA *settings, const std::filesystem::path cfg_path)
+#include <array>
+#include <initializer_list>
+#include <string>
+#include <string_view>
+#include <utility>
+
+namespace Sorcery {
+
+using Option = Enums::Config::Options;
+
+struct ConfigOption {
+		Option option;
+		std::string_view section;
+		std::string_view key;
+};
+
+constexpr std::array CONFIG_OPTIONS{
+	ConfigOption{Option::RECOMMENDED_MODE, "Options", OPT_RECOMMENDED_MODE},
+	ConfigOption{Option::STRICT_MODE, "Options", OPT_STRICT_MODE},
+	ConfigOption{Option::CHEAT_MODE, "Options", OPT_CHEAT_MODE},
+	ConfigOption{Option::AUTO_SAVE, "Options", OPT_AUTO_SAVE},
+	ConfigOption{Option::DICE_ROLLS, "Options", OPT_DICE_ROLLS},
+
+	ConfigOption{Option::MIXED_ALIGNMENT, "Gameplay", OPT_MIXED_ALIGNMENT},
+	ConfigOption{Option::LEVEL_STAT_LOSS, "Gameplay", OPT_LEVEL_STAT_LOSS},
+	ConfigOption{Option::LEVEL_REROLL_HP, "Gameplay", OPT_LEVEL_REROLL_HP},
+	ConfigOption{Option::CLASS_CHANGE_RESET, "Gameplay", OPT_CLASS_CHANGE_RESET},
+	ConfigOption{Option::CLASS_CHANGE_AGING, "Gameplay", OPT_CLASS_CHANGE_AGING},
+	ConfigOption{Option::AMBUSH_HIDE, "Gameplay", OPT_AMBUSH_HIDE},
+	ConfigOption{Option::SURPRISE_SPELLCASTING, "Gameplay", OPT_SURPRISE_SPELLCASTING},
+	ConfigOption{Option::INN_HEALING, "Gameplay", OPT_INN_HEALING},
+	ConfigOption{Option::REROLL_ONES, "Gameplay", OPT_REROLL_ONES},
+	ConfigOption{Option::LOST_LEGATION, "Gameplay", OPT_LOST_LEGATION},
+	ConfigOption{Option::CURABLE_DRAIN, "Gameplay", OPT_CURABLE_DRAINING},
+	ConfigOption{Option::SHARED_INVENTORY, "Gameplay", OPT_SHARED_INVENTORY},
+	ConfigOption{Option::PROTECT_TELEPORT, "Gameplay", OPT_PROTECT_TELEPORT},
+
+	ConfigOption{Option::CGA_GRAPHICS, "Graphics", OPT_CGA_GRAPHICS},
+	ConfigOption{Option::FULLSCREEN, "Graphics", OPT_FULLSCREEN},
+
+	ConfigOption{Option::SOUND, "Media", OPT_SOUND},
+	ConfigOption{Option::MUSIC, "Media", OPT_MUSIC},
+};
+
+/// @brief
+/// @param enabled
+/// @return
+constexpr auto make_options(const std::initializer_list<Option> enabled) -> std::array<bool, NUM_GAME_SETTINGS> {
+
+	std::array<bool, NUM_GAME_SETTINGS> options{};
+
+	for (const auto option : enabled)
+		options[std::to_underlying(option)] = true;
+
+	return options;
+}
+
+constexpr auto RECOMMENDED_OPTIONS{make_options({
+	Option::RECOMMENDED_MODE,
+	Option::DICE_ROLLS,
+	Option::MIXED_ALIGNMENT,
+	Option::AMBUSH_HIDE,
+	Option::INN_HEALING,
+	Option::REROLL_ONES,
+	Option::LOST_LEGATION,
+	Option::CURABLE_DRAIN,
+	Option::SHARED_INVENTORY,
+	Option::PROTECT_TELEPORT,
+	Option::CGA_GRAPHICS,
+	Option::FULLSCREEN,
+	Option::SOUND,
+	Option::MUSIC,
+})};
+
+constexpr auto STRICT_OPTIONS{make_options({
+	Option::STRICT_MODE,
+	Option::AUTO_SAVE,
+	Option::LEVEL_STAT_LOSS,
+	Option::LEVEL_REROLL_HP,
+	Option::CLASS_CHANGE_RESET,
+	Option::CLASS_CHANGE_AGING,
+})};
+
+} // namespace
+
+/// @brief
+/// @param settings
+/// @param cfg_path
+Sorcery::Config::Config(CSimpleIniA *settings, std::filesystem::path cfg_path)
 	: _settings{settings},
-	  _cfg_path{cfg_path} {
+	  _cfg_path{std::move(cfg_path)} {
 
 	_load();
 }
 
-auto Sorcery::Config::get(const unsigned int i) -> bool & {
+// TODO: replace array of bools with an ordered std::map or similar so we can get rid of all the std::to_underlying
 
-	return _options.at(i);
+/// @brief
+/// @param option
+/// @return
+auto Sorcery::Config::get(Enums::Config::Options option) const -> bool {
+
+	return _options.at(std::to_underlying(option));
 }
 
-auto Sorcery::Config::get(std::string_view section, std::string_view value) const -> std::string {
+/// @brief
+/// @param option
+/// @return
+auto Sorcery::Config::get(const Enums::Config::Options option) -> bool & {
 
-	// Get a value from the config file
-	return _settings->GetValue(CSTR(std::string{section}), CSTR(std::string{value}));
+	return _options.at(std::to_underlying(option));
 }
 
-bool Sorcery::Config::has_changed() {
+/// @brief
+/// @param section
+/// @param key
+/// @return
+auto Sorcery::Config::get(const std::string_view section, const std::string_view key) const -> std::string {
 
-	// Check if the options have changed
-	return _options == _options_bkp;
+	return _settings->GetValue(section.data(), key.data(), "");
 }
 
+/// @brief
+/// @return
+auto Sorcery::Config::has_changed() const -> bool {
+
+	return _options != _options_bkp;
+}
+
+/// @brief
+/// @return
 auto Sorcery::Config::load() -> bool {
 
 	return _load();
 }
 
+/// @brief
+/// @return
 auto Sorcery::Config::_load() -> bool {
 
-	// Attempt to read the settings from the Settings file if possible
 	_options.fill(false);
 
-	// Gameplay Settings
-	using namespace std::string_literals;
+	for (const auto &[option, section, key] : CONFIG_OPTIONS) {
 
-	auto option{""s};
-	const char *on{"on"};
-	const char *off{"on"};
+		const auto value{_settings->GetValue(section.data(), key.data(), "off")};
 
-	using enum Enums::Config::Options;
-	option = _settings->GetValue("Options", CSTR(OPT_RECOMMENDED_MODE), off);
-	_options[RECOMMENDED_MODE] = option.compare(on) == 0;
-	option = _settings->GetValue("Options", CSTR(OPT_STRICT_MODE), off);
-	_options[STRICT_MODE] = option.compare(on) == 0;
-	option = _settings->GetValue("Options", CSTR(OPT_CHEAT_MODE), off);
-	_options[CHEAT_MODE] = option.compare(on) == 0;
-	option = _settings->GetValue("Options", CSTR(OPT_AUTO_SAVE), off);
-	_options[AUTO_SAVE] = option.compare(on) == 0;
-	option = _settings->GetValue("Options", CSTR(OPT_DICE_ROLLS), off);
-	_options[DICE_ROLLS] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_MIXED_ALIGNMENT), off);
-	_options[MIXED_ALIGNMENT] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_LEVEL_STAT_LOSS), off);
-	_options[LEVEL_STAT_LOSS] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_LEVEL_REROLL_HP), off);
-	_options[LEVEL_REROLL_HP] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_CLASS_CHANGE_RESET), off);
-	_options[CLASS_CHANGE_RESET] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_CLASS_CHANGE_AGING), off);
-	_options[CLASS_CHANGE_AGING] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_AMBUSH_HIDE), off);
-	_options[AMBUSH_HIDE] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_SURPRISE_SPELLCASTING), off);
-	_options[SURPRISE_SPELLCASTING] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_INN_HEALING), off);
-	_options[INN_HEALING] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_REROLL_ONES), off);
-	_options[REROLL_ONES] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_LOST_LEGATION), off);
-	_options[LOST_LEGATION] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_CURABLE_DRAINING), off);
-	_options[CURABLE_DRAIN] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_SHARED_INVENTORY), off);
-	_options[SHARED_INVENTORY] = option.compare(on) == 0;
-	option = _settings->GetValue("Gameplay", CSTR(OPT_PROTECT_TELEPORT), off);
-	_options[PROTECT_TELEPORT] = option.compare(on) == 0;
-	option = _settings->GetValue("Graphics", CSTR(OPT_CGA_GRAPHICS), off);
-	_options[CGA_GRAPHICS] = option.compare(on) == 0;
-	option = _settings->GetValue("Graphics", CSTR(OPT_FULLSCREEN), off);
-	_options[FULLSCREEN] = option.compare(on) == 0;
-	option = _settings->GetValue("Media", CSTR(OPT_SOUND), off);
-	_options[SOUND] = option.compare(on) == 0;
-	option = _settings->GetValue("Media", CSTR(OPT_MUSIC), off);
-	_options[MUSIC] = option.compare(on) == 0;
+		_options[std::to_underlying(option)] = std::string_view{value} == "on";
+	}
 
 	return true;
 }
 
-bool Sorcery::Config::save() {
+/// @brief
+/// @return
+auto Sorcery::Config::save() -> bool {
 
-	using enum Enums::Config::Options;
-	_settings->SetValue("Options", CSTR(OPT_RECOMMENDED_MODE), BOOL2OPTIONCSTR(_options[RECOMMENDED_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_STRICT_MODE), BOOL2OPTIONCSTR(_options[STRICT_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_CHEAT_MODE), BOOL2OPTIONCSTR(_options[CHEAT_MODE]));
-	_settings->SetValue("Options", CSTR(OPT_AUTO_SAVE), BOOL2OPTIONCSTR(_options[AUTO_SAVE]));
-	_settings->SetValue("Options", CSTR(OPT_DICE_ROLLS), BOOL2OPTIONCSTR(_options[DICE_ROLLS]));
-	_settings->SetValue("Gameplay", CSTR(OPT_MIXED_ALIGNMENT), BOOL2OPTIONCSTR(_options[MIXED_ALIGNMENT]));
-	_settings->SetValue("Gameplay", CSTR(OPT_LEVEL_STAT_LOSS), BOOL2OPTIONCSTR(_options[LEVEL_STAT_LOSS]));
-	_settings->SetValue("Gameplay", CSTR(OPT_LEVEL_REROLL_HP), BOOL2OPTIONCSTR(_options[LEVEL_REROLL_HP]));
-	_settings->SetValue("Gameplay", CSTR(OPT_CLASS_CHANGE_RESET), BOOL2OPTIONCSTR(_options[CLASS_CHANGE_RESET]));
-	_settings->SetValue("Gameplay", CSTR(OPT_CLASS_CHANGE_AGING), BOOL2OPTIONCSTR(_options[CLASS_CHANGE_AGING]));
-	_settings->SetValue("Gameplay", CSTR(OPT_AMBUSH_HIDE), BOOL2OPTIONCSTR(_options[AMBUSH_HIDE]));
-	_settings->SetValue("Gameplay", CSTR(OPT_SURPRISE_SPELLCASTING), BOOL2OPTIONCSTR(_options[SURPRISE_SPELLCASTING]));
-	_settings->SetValue("Gameplay", CSTR(OPT_INN_HEALING), BOOL2OPTIONCSTR(_options[INN_HEALING]));
-	_settings->SetValue("Gameplay", CSTR(OPT_REROLL_ONES), BOOL2OPTIONCSTR(_options[REROLL_ONES]));
-	_settings->SetValue("Gameplay", CSTR(OPT_LOST_LEGATION), BOOL2OPTIONCSTR(_options[LOST_LEGATION]));
-	_settings->SetValue("Gameplay", CSTR(OPT_CURABLE_DRAINING), BOOL2OPTIONCSTR(_options[CURABLE_DRAIN]));
-	_settings->SetValue("Gameplay", CSTR(OPT_SHARED_INVENTORY), BOOL2OPTIONCSTR(_options[SHARED_INVENTORY]));
-	_settings->SetValue("Gameplay", CSTR(OPT_PROTECT_TELEPORT), BOOL2OPTIONCSTR(_options[PROTECT_TELEPORT]));
-	_settings->SetValue("Graphics", CSTR(OPT_CGA_GRAPHICS), BOOL2OPTIONCSTR(_options[CGA_GRAPHICS]));
-	_settings->SetValue("Graphics", CSTR(OPT_FULLSCREEN), BOOL2OPTIONCSTR(_options[FULLSCREEN]));
-	_settings->SetValue("Media", CSTR(OPT_SOUND), BOOL2OPTIONCSTR(_options[SOUND]));
-	_settings->SetValue("Media", CSTR(OPT_MUSIC), BOOL2OPTIONCSTR(_options[MUSIC]));
+	for (const auto &[option, section, key] : CONFIG_OPTIONS) {
 
-	// Save current settings to ini file
-	SI_Error result{_settings->SaveFile(CSTR(_cfg_path))};
-	return (result >= 0);
+		_settings->SetValue(section.data(), key.data(), _options[std::to_underlying(option)] ? "on" : "off");
+	}
+
+	const auto filename{_cfg_path.string()};
+	const auto result{_settings->SaveFile(filename.c_str())};
+
+	return result >= 0;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Config::store() -> void {
 
-	// Store to enable comparison for checking if anything has changed on cancel
 	_options_bkp = _options;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Config::set_rec_mode() -> void {
 
-	std::array<bool, NUM_GAME_SETTINGS> rec{true,  false, false, false, true, true, false, false, false, false, true,
-											false, true,  true,	 true,	true, true, true,  true,  true,	 true};
-	std::swap(_options, rec);
+	_options = RECOMMENDED_OPTIONS;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Config::set_strict_mode() -> void {
 
-	std::array<bool, NUM_GAME_SETTINGS> strict{false, true,	 false, true,  false, false, true,
-											   true,  true,	 true,	false, false, false, false,
-											   false, false, false, false, false, false, false};
-	std::swap(_options, strict);
+	_options = STRICT_OPTIONS;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Config::is_strict_mode() const -> bool {
 
-	std::array<bool, NUM_GAME_SETTINGS> strict{false, true,	 false, true,  false, true,	 true,
-											   true,  true,	 true,	false, false, false, false,
-											   false, false, false, false, false, false, false};
-
-	return _options == strict;
+	return _options == STRICT_OPTIONS;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Config::is_rec_mode() const -> bool {
 
-	std::array<bool, NUM_GAME_SETTINGS> rec{true,  false, false, false, true, true, false, false, false, false, true,
-											false, true,  true,	 true,	true, true, true,  true,  true,	 true};
-
-	return _options == rec;
+	return _options == RECOMMENDED_OPTIONS;
 }

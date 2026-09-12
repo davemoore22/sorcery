@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "common/enum.hpp"
 #include <string>
 
 namespace Sorcery {
@@ -31,27 +32,30 @@ inline constexpr auto OPT_ON{"on"};
 inline constexpr auto OPT_OFF{"off"};
 
 // Gameplay settings
-static const int NUM_GAME_SETTINGS{22};
-static const std::string OPT_RECOMMENDED_MODE{"recommended_mode"};
-static const std::string OPT_STRICT_MODE{"strict_mode"};
-static const std::string OPT_CHEAT_MODE{"cheat_mode"};
-static const std::string OPT_AUTO_SAVE{"autosave"};
-static const std::string OPT_DICE_ROLLS{"dice_rolls"};
-static const std::string OPT_CGA_GRAPHICS{"cga_graphics"};
-static const std::string OPT_FULLSCREEN{"fullscreen"};
-static const std::string OPT_MIXED_ALIGNMENT{"mixed_alignment"};
-static const std::string OPT_LEVEL_STAT_LOSS{"level_stat_loss"};
-static const std::string OPT_LEVEL_REROLL_HP{"level_reroll_hp"};
-static const std::string OPT_CLASS_CHANGE_RESET{"class_change_reset"};
-static const std::string OPT_CLASS_CHANGE_AGING{"class_change_aging"};
-static const std::string OPT_AMBUSH_HIDE{"ambush_hide"};
-static const std::string OPT_SURPRISE_SPELLCASTING{"surprise_spellcasting"};
-static const std::string OPT_INN_HEALING{"inn_healing"};
-static const std::string OPT_REROLL_ONES{"reroll_ones"};
-static const std::string OPT_LOST_LEGATION{"lost_legation"};
-static const std::string OPT_CURABLE_DRAINING{"curable_draining"};
-static const std::string OPT_SHARED_INVENTORY{"shared_inventory"};
-static const std::string OPT_PROTECT_TELEPORT{"protect_teleport"};
-static const std::string OPT_SOUND{"sound"};
-static const std::string OPT_MUSIC{"music"};
+inline constexpr auto NUM_GAME_SETTINGS{static_cast<std::size_t>(Enums::Config::Options::NUM_OPTIONS)};
+inline constexpr std::string_view OPT_RECOMMENDED_MODE{"recommended_mode"};
+inline constexpr std::string_view OPT_STRICT_MODE{"strict_mode"};
+inline constexpr std::string_view OPT_CHEAT_MODE{"cheat_mode"};
+inline constexpr std::string_view OPT_AUTO_SAVE{"autosave"};
+inline constexpr std::string_view OPT_DICE_ROLLS{"dice_rolls"};
+
+inline constexpr std::string_view OPT_MIXED_ALIGNMENT{"mixed_alignment"};
+inline constexpr std::string_view OPT_LEVEL_STAT_LOSS{"level_stat_loss"};
+inline constexpr std::string_view OPT_LEVEL_REROLL_HP{"level_reroll_hp"};
+inline constexpr std::string_view OPT_CLASS_CHANGE_RESET{"class_change_reset"};
+inline constexpr std::string_view OPT_CLASS_CHANGE_AGING{"class_change_aging"};
+inline constexpr std::string_view OPT_AMBUSH_HIDE{"ambush_hide"};
+inline constexpr std::string_view OPT_SURPRISE_SPELLCASTING{"surprise_spellcasting"};
+inline constexpr std::string_view OPT_INN_HEALING{"inn_healing"};
+inline constexpr std::string_view OPT_REROLL_ONES{"reroll_ones"};
+inline constexpr std::string_view OPT_LOST_LEGATION{"lost_legation"};
+inline constexpr std::string_view OPT_CURABLE_DRAINING{"curable_draining"};
+inline constexpr std::string_view OPT_SHARED_INVENTORY{"shared_inventory"};
+inline constexpr std::string_view OPT_PROTECT_TELEPORT{"protect_teleport"};
+
+inline constexpr std::string_view OPT_CGA_GRAPHICS{"cga_graphics"};
+inline constexpr std::string_view OPT_FULLSCREEN{"fullscreen"};
+
+inline constexpr std::string_view OPT_SOUND{"sound"};
+inline constexpr std::string_view OPT_MUSIC{"music"};
 }
