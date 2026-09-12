@@ -75,14 +75,17 @@ auto Sorcery::ControllerMenuHandler::handle_standard(
 
 	if (component == "remove_character_menu") {
 
-		if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == static_cast<int>(items.size()) - 1) {
 			_host.go_to(Enums::Screen::TAVERN);
-		else {
+		} else {
 
-			// if we can, remove the character from the party
-			auto &character{_host._game->characters[data]};
+			auto &character{
+				_host._game->characters.at(static_cast<unsigned int>(data))};
+
 			character.set_location(Enums::Character::Location::TAVERN);
-			_host._game->state->remove_character_by_id(data);
+			_host._game->state->remove_character_by_id(
+				static_cast<unsigned int>(data));
+
 			_host._game->save_game();
 		}
 
@@ -130,14 +133,17 @@ auto Sorcery::ControllerMenuHandler::handle_standard(
 
 	} else if (component == "add_menu") {
 
-		if (selection == (static_cast<int>(items.size()) - 1))
+		if (selection == static_cast<int>(items.size()) - 1) {
 			_host.go_to(Enums::Screen::TAVERN);
-		else {
+		} else {
 
-			// if we can, add the character to the party
-			auto &character{_host._game->characters[data]};
+			auto &character{
+				_host._game->characters.at(static_cast<unsigned int>(data))};
+
 			character.set_location(Enums::Character::Location::PARTY);
-			_host._game->state->add_character_to_party(data);
+			_host._game->state->add_character_to_party(
+				static_cast<unsigned int>(data));
+
 			_host._game->save_game();
 		}
 
@@ -592,7 +598,6 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		if (selection == static_cast<int>(items.size()) - 1) {
 
 			_host.unset_selected("trade_item_selected");
-
 			_host.unset_selected("trade_target_selected");
 
 			_ctx.ui->popup_manager->close();
@@ -600,23 +605,46 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 			return true;
 		}
 
-		_host.set_selected("trade_target_selected", data);
-
-		//
-		// TODO: Perform the actual trade.
-		//
-
 		const auto source{_host.get_character(Enums::CharacterSlot::INSPECT)};
 
 		const auto item_slot{_host.get_selected("trade_item_selected")};
 
-		const auto target{_host.get_selected("trade_target_selected")};
+		const auto target{data};
 
-		DEBUG_LOGF("Trade item slot {} from character {} to character {}",
-				   item_slot, source, target);
+		if (source == target)
+			return true;
+
+		auto &source_character{_host._game->characters.at(source)};
+
+		auto &target_character{_host._game->characters.at(target)};
+
+		if (item_slot < 1 || static_cast<unsigned int>(item_slot) >
+								 source_character.inventory.size())
+			return true;
+
+		if (target_character.inventory.is_full())
+			return true;
+
+		auto item{source_character.inventory.get(
+			static_cast<unsigned int>(item_slot))};
+
+		if (item.get_equipped())
+			return true;
+
+		const auto &item_type{
+			_ctx.resources->items->get_item_type(item.get_type_id())};
+
+		item.set_usable(
+			item_type.is_class_usable(target_character.get_class()));
+
+		target_character.inventory.add(item);
+
+		source_character.inventory.discard_item(
+			static_cast<unsigned int>(item_slot));
+
+		_host._game->save_game();
 
 		_host.unset_selected("trade_item_selected");
-
 		_host.unset_selected("trade_target_selected");
 
 		_ctx.ui->popup_manager->close();
@@ -738,7 +766,7 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 	} else if (component == "add_menu") {
 		if (_host._game != nullptr) {
 
-			if (data == -1)
+			if (data < 0)
 				return false;
 
 			if (_host._game->state->get_party_size() == 6)
@@ -746,7 +774,8 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 
 			// Check for Alignment
 			const auto party_align{_host._game->get_party_alignment()};
-			const auto &candidate{_host._game->characters[data]};
+			const auto &candidate{
+				_host._game->characters.at(static_cast<unsigned int>(data))};
 			if (candidate.get_alignment() == Enums::Character::Align::NEUTRAL)
 				return false;
 			else if (party_align != Enums::Character::Align::NEUTRAL)
@@ -756,18 +785,23 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 		}
 	} else if (component == "give_menu") {
 
-		if (_host._game != nullptr) {
+		if (_host._game == nullptr)
+			return false;
 
-			const auto current_char_id{
-				_host._characters[Enums::CharacterSlot::INSPECT]};
+		// Fixed "Return" entry has no associated character.
+		if (data < 0)
+			return false;
 
-			if (current_char_id == data)
-				return true;
+		const auto current_char_id{
+			_host.get_character(Enums::CharacterSlot::INSPECT)};
 
-			const auto slots_free{
-				_host._game->characters[data].inventory.get_empty_slots()};
-			return slots_free == 0;
-		}
+		if (current_char_id == data)
+			return true;
+
+		const auto &target{
+			_host._game->characters.at(static_cast<unsigned int>(data))};
+
+		return target.inventory.is_full();
 	} else if (component == "rest_menu") {
 
 		if (_host._game != nullptr) {
@@ -803,12 +837,13 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component,
 	} else if (component == "temple_pay_menu") {
 		if (_host._game != nullptr) {
 
-			if (data == -1)
+			if (data < 0)
 				return false;
 
 			const auto &help{_host._game->characters.at(
 				_host._characters[Enums::CharacterSlot::HELP])};
-			const auto &who{_host._game->characters[data]};
+			const auto &who{
+				_host._game->characters.at(static_cast<unsigned int>(data))};
 			return help.get_cure_cost() > who.get_gold();
 		}
 	} else if (component == "identify_menu") {
