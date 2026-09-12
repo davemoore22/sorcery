@@ -24,8 +24,9 @@
 #include "core/debug.hpp"
 #include "types/character/character.hpp"
 #include "types/enum.hpp"
+#include "types/game.hpp"
 
-auto Sorcery::apply_invoke(Character &character,
+auto Sorcery::apply_invoke(Game *game, Character &character,
 						   const Enums::Items::Effects::Invoke effect) -> bool {
 
 	using enum Enums::Items::Effects::Invoke;
@@ -33,24 +34,26 @@ auto Sorcery::apply_invoke(Character &character,
 	switch (effect) {
 
 	case BECOME_NINJA:
-
-		DEBUG_LOG("BECOME_NINJA INVOKE");
-		// perform class change
+		character.create().set_class(Enums::Character::Class::NINJA);
 		return true;
 
 	case HEAL_ALL:
-		DEBUG_LOG("HEAL_ALL INVOKE");
-		// character.set_current_hp(character.get_max_hp());
+		for (const auto character_id : game->state->get_party_characters()) {
+			auto &member{game->characters.at(character_id)};
+			member.set_current_hp(member.get_max_hp());
+		}
 		return true;
 
 	case INC_HP:
-		// increase max HP according to original rule
-		DEBUG_LOG("INC_HP INVOKE");
+		character.adjust_max_hp(1);
 		return true;
 
 	case INC_STRENGTH:
-		DEBUG_LOG("INC_STRENGTH INVOKE");
-		// increase strength according to original rule
+		if (character.get_cur_attr(Enums::Character::Attribute::STRENGTH) <
+			18) {
+			character.adjust_attribute(Enums::Character::Attribute::STRENGTH,
+									   1);
+		}
 		return true;
 
 	case AGE_BY_A_YEAR:

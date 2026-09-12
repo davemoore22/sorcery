@@ -686,7 +686,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(
 		// Whatever your actual ItemType getter is named.
 		const auto effect{item_type.get_eff_inv()};
 
-		if (!apply_invoke(character, effect))
+		if (!apply_invoke(_ctx.game, character, effect))
 			return true;
 
 		using enum Enums::System::Random;

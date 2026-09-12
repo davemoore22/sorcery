@@ -304,6 +304,20 @@ auto Sorcery::Character::get_max_hp() const -> int {
 	return _abilities.at(Enums::Character::Ability::MAX_HP);
 }
 
+auto Sorcery::Character::adjust_attribute(
+	const Enums::Character::Attribute attribute, const int value) -> void {
+
+	_cur_attr.at(attribute) += value;
+	_cur_attr.at(attribute) = std::clamp(_cur_attr.at(attribute), 3, 18);
+}
+
+auto Sorcery::Character::adjust_max_hp(const int value) -> void {
+
+	_abilities.at(Enums::Character::Ability::MAX_HP) += value;
+	if (_abilities.at(Enums::Character::Ability::MAX_HP) == 0)
+		_abilities.at(Enums::Character::Ability::MAX_HP) = 1;
+}
+
 auto Sorcery::Character::get_wiz_1_award() const -> bool {
 
 	return _wiz_1_award;

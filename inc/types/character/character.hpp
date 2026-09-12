@@ -119,6 +119,9 @@ class Character {
 		auto get_party_panel_text(const int position) -> std::string;
 		auto get_current_hp() const -> int;
 		auto get_max_hp() const -> int;
+		auto adjust_max_hp(const int value) -> void;
+		auto adjust_attribute(const Enums::Character::Attribute attribute,
+							  const int value) -> void;
 		auto set_current_hp(const int hp) -> void;
 		auto get_hp_adjustment() const -> int;
 		auto set_hp_gain_per_turn(const int adjustment) -> void;
