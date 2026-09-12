@@ -141,6 +141,12 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					else
 						return 0;
 				})};
+				const auto regeneration{std::invoke([&] {
+					if (items[i].isMember("regeneration"))
+						return items[i]["regeneration"].asInt();
+					else
+						return 0;
+				})};
 				const auto use_spell{std::invoke([&] {
 					using enum Enums::Magic::SpellID;
 					if (items[i].isMember("use")) {
@@ -299,6 +305,7 @@ auto Sorcery::ItemStore::_load(const std::filesystem::path filename) -> bool {
 					item_type.set_damage_dice("");
 				item_type.set_swings(attacks);
 				item_type.set_ac_mod(ac);
+				item_type.set_regen(regeneration);
 				item_type.set_eff_use(use_spell);
 				item_type.set_eff_use_decay(use_decay);
 				item_type.set_eff_def(_get_defensive_effects(defensive_s));

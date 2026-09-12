@@ -111,6 +111,7 @@ class Character {
 		auto is_poisoned() const -> bool;
 		auto get_poisoned_rate() const -> int;
 		auto set_poisoned_rate(int value) -> void;
+		auto apply_regeneration_and_poison() -> bool;
 		auto get_poisoned_string() const -> std::string;
 		auto get_hp_summary() const -> std::string;
 		auto get_short_hp_summary() const -> std::string;

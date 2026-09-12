@@ -40,6 +40,12 @@ class Item {
 
 		// Copy Constructor
 		Item(const Item &item);
+		Item(Item &&item) noexcept = default;
+
+		auto operator=(const Item &item) -> Item &;
+		auto operator=(Item &&item) noexcept -> Item &;
+
+		~Item() = default;
 
 		// Overloaded Operators
 		auto friend operator<<(std::ostream &out_stream, const Item &item)
@@ -68,6 +74,8 @@ class Item {
 		auto set_usable(const bool value) -> void;
 		auto get_usable() const -> bool;
 		auto get_display_name() const -> std::string;
+		[[nodiscard]]
+		auto get_regen() const -> int;
 
 	private:
 		Enums::Items::TypeID _type;		  // Type
@@ -79,6 +87,7 @@ class Item {
 		bool _usable;					  // Is usable
 		std::string _name; // Individual Name (or if not set, the ITT Name)
 		std::string _uname;
+		int _regeneration{0};
 
 		long _id;
 		static inline long s_id{0};

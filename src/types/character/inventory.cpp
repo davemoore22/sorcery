@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "types/character/inventory.hpp"
+#include "core/debug.hpp"
 #include <algorithm>  // for __any_of_fn, any_of, find_if
 #include <format>	  // for format
 #include <functional> // for invoke
@@ -399,6 +400,14 @@ auto Sorcery::Inventory::replace_item(const unsigned int slot, Item item)
 	_items.at(slot - 1) = std::move(item);
 
 	return true;
+}
+
+auto Sorcery::Inventory::get_regeneration() const -> int {
+
+	return std::ranges::fold_left(
+		_items, 0, [](const int regeneration, const Item &item) {
+			return std::max(regeneration, item.get_regen());
+		});
 }
 
 namespace Sorcery {

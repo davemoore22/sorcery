@@ -54,6 +54,7 @@ Sorcery::Item::Item(const ItemType &item_type, const bool usable) {
 	_marked = false;
 	_name = item_type.get_known_name();
 	_uname = item_type.get_unknown_name();
+	_regeneration = item_type.get_regen();
 
 	_id = s_id++;
 }
@@ -70,6 +71,7 @@ Sorcery::Item::Item(const ItemType &item_type) {
 	_usable = true;
 	_name = item_type.get_known_name();
 	_uname = item_type.get_unknown_name();
+	_regeneration = item_type.get_regen();
 
 	_id = s_id++;
 }
@@ -85,6 +87,14 @@ Sorcery::Item::Item(const Item &item) {
 	_usable = item._usable;
 	_name = item._name;
 	_uname = item._uname;
+	_regeneration = item._regeneration;
+
+	_id = s_id++;
+}
+
+auto Sorcery::Item::get_regen() const -> int {
+
+	return _regeneration;
 }
 
 auto Sorcery::Item::get_type_id() const -> Enums::Items::TypeID {
@@ -165,6 +175,47 @@ auto Sorcery::Item::set_name(const std::string &value) -> void {
 auto Sorcery::Item::decay_to(const Enums::Items::TypeID value) -> void {
 
 	_type = value;
+}
+
+auto Sorcery::Item::operator=(const Item &item) -> Item & {
+
+	if (this == &item)
+		return *this;
+
+	_type = item._type;
+	_category = item._category;
+	_known = item._known;
+	_equipped = item._equipped;
+	_cursed = item._cursed;
+	_marked = item._marked;
+	_usable = item._usable;
+	_name = item._name;
+	_uname = item._uname;
+
+	_regeneration = item._regeneration;
+
+	return *this;
+}
+
+auto Sorcery::Item::operator=(Item &&item) noexcept -> Item & {
+
+	if (this == &item)
+		return *this;
+
+	_id = item._id;
+	_type = item._type;
+	_category = item._category;
+	_known = item._known;
+	_equipped = item._equipped;
+	_cursed = item._cursed;
+	_marked = item._marked;
+	_usable = item._usable;
+	_name = std::move(item._name);
+	_uname = std::move(item._uname);
+
+	_regeneration = item._regeneration;
+
+	return *this;
 }
 
 namespace Sorcery {

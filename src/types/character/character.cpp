@@ -413,6 +413,27 @@ auto Sorcery::Character::get_loc_str() const -> std::string {
 	return "";
 }
 
+auto Sorcery::Character::apply_regeneration_and_poison() -> bool {
+
+	using enum Enums::Character::Ability;
+
+	const auto regeneration{inventory.get_regeneration()};
+	const auto poison{abilities().at(POISON_STRENGTH)};
+	const auto adjustment{regeneration - poison};
+
+	if (adjustment == 0)
+		return false;
+
+	set_current_hp(std::clamp(get_current_hp() + adjustment, 0, get_max_hp()));
+
+	if (get_current_hp() == 0) {
+		set_status(Enums::Character::Status::DEAD);
+		set_poisoned_rate(0);
+	}
+
+	return true;
+}
+
 auto Sorcery::Character::get_status_string() const -> std::string {
 
 	if (!_hidden) {
@@ -457,10 +478,7 @@ auto Sorcery::Character::get_hp_adjustment() const -> int {
 
 auto Sorcery::Character::get_hp_adjustment_symbol() const -> char {
 
-	using enum Enums::Character::Ability;
-	const auto rate{(_abilities.at(HP_GAIN_PER_TURN) -
-					 _abilities.at(HP_LOSS_PER_TURN) -
-					 _abilities.at(POISON_STRENGTH)) <=> 0};
+	const auto rate = inventory.get_regeneration();
 	if (rate < 0)
 		return '-';
 	else if (rate > 0)
