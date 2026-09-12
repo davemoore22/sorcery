@@ -45,9 +45,7 @@ class Modal2 final : public Drawable {
 
 		auto build(Component &component) -> void override;
 		auto build(Component &component, std::string_view menu_name) -> void;
-
 		auto display() -> void override;
-
 		auto set_title(std::string_view key) -> void;
 
 	private:
@@ -57,15 +55,11 @@ class Modal2 final : public Drawable {
 
 		unsigned int _width{};
 		unsigned int _height{};
-
 		Enums::Layout::Font _font{};
-
 		std::vector<std::string> _items;
 		std::vector<int> _data;
-
 		std::string _menu_name;
 		std::string _title_key;
-
 		bool _has_title{};
 };
 

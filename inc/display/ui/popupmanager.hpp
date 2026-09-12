@@ -61,22 +61,17 @@ class PopupManager {
 		explicit PopupManager(Context &ctx);
 		~PopupManager();
 
-		auto open_message(std::string_view component,
-						  std::vector<std::string> strings,
-						  Enums::Map::Event event_id) -> void;
-		auto open_dialog(const std::string_view component,
-						 const Enums::Layout::DialogType type) -> void;
-		auto open_modal(std::string_view component) -> void;
-		auto open_modal(std::string_view component, std::string_view menu_name)
+		auto open_message(std::string_view component, std::vector<std::string> strings, Enums::Map::Event event_id)
 			-> void;
-		auto open_modal(std::string_view component, std::string_view menu_name,
-						std::string_view title_key) -> void;
+		auto open_dialog(const std::string_view component, const Enums::Layout::DialogType type) -> void;
+		auto open_modal(std::string_view component) -> void;
+		auto open_modal(std::string_view component, std::string_view menu_name) -> void;
+		auto open_modal(std::string_view component, std::string_view menu_name, std::string_view title_key) -> void;
 		auto close() -> void;
 		auto display() -> void;
 		auto reset() -> void;
 		[[nodiscard]] auto consume_completed(std::string_view name) -> bool;
-		[[nodiscard]] auto consume_result(const std::string_view name)
-			-> std::optional<DrawableResult>;
+		[[nodiscard]] auto consume_result(const std::string_view name) -> std::optional<DrawableResult>;
 		[[nodiscard]] auto consume_accepted(std::string_view name) -> bool;
 		[[nodiscard]] auto active() const -> bool;
 		[[nodiscard]] auto is_active(std::string_view name) const -> bool;
@@ -93,10 +88,8 @@ class PopupManager {
 		std::optional<PendingModal> _pending_modal;
 
 		auto _open_modal(const std::string_view component) -> void;
-		auto _open_modal(std::string_view component, std::string_view menu_name)
-			-> void;
-		auto _open_modal(std::string_view component, std::string_view menu_name,
-						 std::string_view title_key) -> void;
+		auto _open_modal(std::string_view component, std::string_view menu_name) -> void;
+		auto _open_modal(std::string_view component, std::string_view menu_name, std::string_view title_key) -> void;
 };
 
 }

@@ -35,13 +35,11 @@ class Error {
 
 	public:
 		// Constructors
-		Error(Enums::System::Error error_code, std::exception &exception,
-			  std::string notes = "");
+		Error(Enums::System::Error error_code, std::exception &exception, std::string notes = "");
 		Error() = delete;
 
 		// Overloaded Operators
-		auto friend operator<<(std::ostream &out_stream, const Error &error)
-			-> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Error &error) -> std::ostream &;
 
 		// Public Members
 

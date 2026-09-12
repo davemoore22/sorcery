@@ -42,9 +42,9 @@ class ScopedTimer {
 }
 
 #ifdef SORCERY_PROFILE
-#define PROFILE_SCOPE(name)                                                    \
-	Sorcery::ScopedTimer timer {                                               \
-		name                                                                   \
+#define PROFILE_SCOPE(name)                                                                                            \
+	Sorcery::ScopedTimer timer {                                                                                       \
+		name                                                                                                           \
 	}
 #else
 #define PROFILE_SCOPE(name)

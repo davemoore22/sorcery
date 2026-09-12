@@ -56,33 +56,24 @@ class Component {
 
 	public:
 		// Constructors
-		Component(const std::string &form_, const std::string &name_,
-				  const int _x, const int y_, const unsigned int w_,
-				  const unsigned int h_, const Enums::Layout::Font font_,
-				  const ImU32 colour_, const bool animated_,
-				  const std::string &string_key_, const float alpha_,
-				  const ImU32 background_,
-				  const Enums::Layout::Justification justification_,
-				  const Enums::Layout::ComponentType _type,
-				  const unsigned int priority_,
-				  const Enums::Layout::DrawMode drawmode_);
+		Component(const std::string &form_, const std::string &name_, const int _x, const int y_, const unsigned int w_,
+				  const unsigned int h_, const Enums::Layout::Font font_, const ImU32 colour_, const bool animated_,
+				  const std::string &string_key_, const float alpha_, const ImU32 background_,
+				  const Enums::Layout::Justification justification_, const Enums::Layout::ComponentType _type,
+				  const unsigned int priority_, const Enums::Layout::DrawMode drawmode_);
 		Component();
 
 		auto get(std::string_view key) -> std::optional<std::string>;
 		auto get(std::string_view key) const -> std::optional<std::string>;
-
 		auto set(std::string_view key, std::string_view value) -> void;
 		auto set_enabled(bool value) -> void;
 		auto get_enabled() const -> bool;
 		auto set_visible(bool value) -> void;
 		auto get_visible() const -> bool;
 		auto id() const -> long;
-
 		auto get_int(std::string_view key, int fallback = 0) const -> int;
-		auto get_float(std::string_view key, float fallback = 0.0f) const
-			-> float;
-		auto get_bool(std::string_view key, bool fallback = false) const
-			-> bool;
+		auto get_float(std::string_view key, float fallback = 0.0f) const -> float;
+		auto get_bool(std::string_view key, bool fallback = false) const -> bool;
 
 		std::string form;
 		std::string name;

@@ -55,19 +55,12 @@ class ControllerMenuHandler {
 		explicit ControllerMenuHandler(Controller &host, Context &ctx);
 		ControllerMenuHandler() = delete;
 
-		auto handle_standard(std::string_view component,
-							 const std::vector<std::string> &items, int data,
-							 int selection) -> void;
-
-		auto handle_dynamic(std::string_view component,
-							const std::vector<std::string> &items, int data,
-							int selection) -> bool;
-
-		auto handle_actions(std::string_view menu, int selection, int data)
+		auto handle_standard(std::string_view component, const std::vector<std::string> &items, int data, int selection)
+			-> void;
+		auto handle_dynamic(std::string_view component, const std::vector<std::string> &items, int data, int selection)
 			-> bool;
-
-		auto item_disabled(std::string_view component, int selection, int data)
-			-> bool;
+		auto handle_actions(std::string_view menu, int selection, int data) -> bool;
+		auto item_disabled(std::string_view component, int selection, int data) -> bool;
 
 	private:
 		Controller &_host;

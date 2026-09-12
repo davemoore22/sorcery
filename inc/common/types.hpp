@@ -178,8 +178,7 @@ struct Elevator {
 			  top_depth{0},
 			  bottom_depth{0} {};
 
-		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_,
-				 int top_depth_, int bottom_depth_)
+		Elevator(bool up_, Coordinate up_loc_, bool down_, Coordinate down_loc_, int top_depth_, int bottom_depth_)
 			: up{up_},
 			  up_loc{up_loc_},
 			  down{down_},
@@ -237,10 +236,8 @@ struct Spell {
 			  translated_name{""},
 			  details{""} {};
 
-		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_,
-			  Enums::Magic::SpellCategory category_, unsigned int level_,
-			  bool known_, std::string name_, std::string translated_name_,
-			  std::string details_)
+		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_, Enums::Magic::SpellCategory category_,
+			  unsigned int level_, bool known_, std::string name_, std::string translated_name_, std::string details_)
 			: id{id_},
 			  type{type_},
 			  category{category_},
@@ -277,8 +274,7 @@ struct GameEntry {
 			  data{} {};
 
 		GameEntry(unsigned int id_, std::string key_, std::string status_,
-				  std::chrono::system_clock::time_point start_time_,
-				  std::chrono::system_clock::time_point time_point_,
+				  std::chrono::system_clock::time_point start_time_, std::chrono::system_clock::time_point time_point_,
 				  std::string data_)
 			: id{id_},
 			  key{key_},
@@ -305,18 +301,15 @@ struct ConsoleMessage {
 
 		ConsoleMessage() {}
 
-		ConsoleMessage(Enums::Internal::MessageType message_type_,
-					   std::string text_)
+		ConsoleMessage(Enums::Internal::MessageType message_type_, std::string text_)
 			: type{message_type_},
 			  text{text_} {
 			datetime = std::chrono::system_clock::now();
 			id = s_id++;
 		}
 
-		ConsoleMessage(
-			Enums::Internal::MessageType message_type_,
-			std::chrono::time_point<std::chrono::system_clock> datetime_,
-			std::string text_)
+		ConsoleMessage(Enums::Internal::MessageType message_type_,
+					   std::chrono::time_point<std::chrono::system_clock> datetime_, std::string text_)
 			: type{message_type_},
 			  datetime{datetime_},
 			  text{text_} {
@@ -343,8 +336,7 @@ struct ShopStock {
 			  buyable{false},
 			  sellable{false} {};
 
-		ShopStock(int initial_stock_, int current_stock_, bool buyable_,
-				  bool sellable_)
+		ShopStock(int initial_stock_, int current_stock_, bool buyable_, bool sellable_)
 			: initial_stock{initial_stock_},
 			  current_stock{current_stock_},
 			  buyable{buyable_},
@@ -375,10 +367,8 @@ struct DungeonEvent {
 
 		DungeonEvent() = default;
 
-		DungeonEvent(Enums::Map::Event event_, std::string component_key_,
-					 bool search_after_, bool combat_after_,
-					 bool go_back_after_, bool go_town_after_,
-					 bool give_item_after_)
+		DungeonEvent(Enums::Map::Event event_, std::string component_key_, bool search_after_, bool combat_after_,
+					 bool go_back_after_, bool go_town_after_, bool give_item_after_)
 			: event{event_},
 			  component_key{component_key_},
 			  search_after{search_after_},
@@ -394,9 +384,8 @@ struct DungeonEvent {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(event, component_key, search_after, combat_after,
-					go_back_after, go_town_after, give_item_after, enabled, num,
-					count);
+			archive(event, component_key, search_after, combat_after, go_back_after, go_town_after, give_item_after,
+					enabled, num, count);
 		}
 };
 };

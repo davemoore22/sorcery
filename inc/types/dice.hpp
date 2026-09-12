@@ -40,8 +40,7 @@ class Dice {
 		auto roll() const -> int;
 		auto roll_min() const -> int;
 		auto roll_max() const -> int;
-		auto set(const unsigned int num_, const unsigned int dice_,
-				 const int mod_);
+		auto set(const unsigned int num_, const unsigned int dice_, const int mod_);
 		auto str() const -> std::string;
 
 		// Public Members

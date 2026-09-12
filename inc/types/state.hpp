@@ -53,8 +53,7 @@ class State {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_version, _party, level, explored, _player_depth,
-					_previous_depth, _player_pos, _previous_pos,
+			archive(_version, _party, level, explored, _player_depth, _previous_depth, _player_pos, _previous_pos,
 					_playing_facing, _lit, _turns, _log, _shop);
 		}
 
@@ -70,10 +69,8 @@ class State {
 		auto check_character_in_party(unsigned int char_id) -> bool;
 		auto clear_party() -> void;
 		auto get_char_slot(unsigned int char_id) -> std::optional<unsigned int>;
-		auto get_next_party_character(unsigned int character_id)
-			-> std::optional<unsigned int>;
-		auto get_previous_party_character(unsigned int character_id)
-			-> std::optional<unsigned int>;
+		auto get_next_party_character(unsigned int character_id) -> std::optional<unsigned int>;
+		auto get_previous_party_character(unsigned int character_id) -> std::optional<unsigned int>;
 		auto get_party_characters() const -> std::vector<unsigned int>;
 		auto get_party_size() const -> unsigned int;
 		auto get_player_facing() const -> Enums::Map::Direction;
@@ -99,30 +96,20 @@ class State {
 		auto get_lit() const -> bool;
 		auto get_turns() const -> unsigned int;
 		auto pass_turn(unsigned int turns = 1) -> void;
-		auto add_log_message(std::string text,
-							 Enums::Internal::MessageType type) -> void;
+		auto add_log_message(std::string text, Enums::Internal::MessageType type) -> void;
 		auto clear_log_messages() -> void;
-		auto add_log_dice_roll(const std::string &message, const int dice = -1,
-							   const int roll = -1, const int needed = -1)
-			-> void;
-		auto get_log_messages(unsigned int last = 0) const
-			-> std::vector<ConsoleMessage>;
+		auto add_log_dice_roll(const std::string &message, const int dice = -1, const int roll = -1,
+							   const int needed = -1) -> void;
+		auto get_log_messages(unsigned int last = 0) const -> std::vector<ConsoleMessage>;
 		auto print() -> void;
-		auto check_shop_stock(const Enums::Items::TypeID item_type) const
-			-> int;
-		auto check_shop_will_sell(const Enums::Items::TypeID item_type) const
-			-> bool;
-		auto check_shop_will_buy(const Enums::Items::TypeID item_type) const
-			-> bool;
+		auto check_shop_stock(const Enums::Items::TypeID item_type) const -> int;
+		auto check_shop_will_sell(const Enums::Items::TypeID item_type) const -> bool;
+		auto check_shop_will_buy(const Enums::Items::TypeID item_type) const -> bool;
 		auto sell_to_shop(ItemStore *itemstore,
-						  const Enums::Items::TypeID item_type)
-			-> int; // + Gold
+						  const Enums::Items::TypeID item_type) -> int; // + Gold
 		auto buy_from_shop(ItemStore *itemstore,
-						   const Enums::Items::TypeID item_type)
-			-> int; // - Gold
-		auto get_shop_display(ItemStore *itemstore,
-							  const Enums::Items::TypeID item_type)
-			-> std::string;
+						   const Enums::Items::TypeID item_type) -> int; // - Gold
+		auto get_shop_display(ItemStore *itemstore, const Enums::Items::TypeID item_type) -> std::string;
 
 	private:
 		// Private Methods

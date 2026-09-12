@@ -38,8 +38,7 @@ class Monster {
 		Monster(const MonsterType &monster_type);
 
 		// Overloaded Operators
-		auto friend operator<<(std::ostream &out_stream, const Monster &monster)
-			-> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Monster &monster) -> std::ostream &;
 
 		// Public Methods
 		auto get_type_id() const -> Enums::Monsters::TypeID;
@@ -52,10 +51,8 @@ class Monster {
 		auto get_current_ac() const -> int;
 		auto get_known() const -> bool;
 		auto get_name() const -> std::string;
-
 		auto mod_ac(const int value) -> void;
 		auto mod_hp(const int value) -> void;
-
 		auto set_known(const bool value) -> void;
 		auto set_silenced(const bool value) -> void;
 		auto set_awake(const bool value) -> void;

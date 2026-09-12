@@ -27,14 +27,14 @@
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp" // for BACK_FROM_INSPECT, ABORT_GAME, INSPE...
-#include "types/game.hpp"		// for Game
-#include "types/state.hpp"		// for State
-#include <SDL_events.h>			// for SDL_Event, SDL_PollEvent
-#include <any>					// for any
-#include <memory>				// for unique_ptr
-#include <optional>				// for optional
-#include <string>				// for basic_string
+#include "drawables/define.hpp"				// for BACK_FROM_INSPECT, ABORT_GAME, INSPE...
+#include "types/game.hpp"					// for Game
+#include "types/state.hpp"					// for State
+#include <SDL_events.h>						// for SDL_Event, SDL_PollEvent
+#include <any>								// for any
+#include <memory>							// for unique_ptr
+#include <optional>							// for optional
+#include <string>							// for basic_string
 
 Sorcery::Inspect::Inspect(Context &ctx)
 	: Module{ctx} {
@@ -56,9 +56,11 @@ auto Sorcery::Inspect::set(const int char_id) -> void {
 
 auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 
+	const auto selected{_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
+
 	_ctx.controller->go_to(Enums::Screen::INSPECT);
 	_ctx.controller->initialise();
-	_ctx.controller->set_character(Enums::CharacterSlot::INSPECT, start_char);
+	_ctx.controller->set_character(Enums::CharacterSlot::INSPECT, selected >= 0 ? selected : start_char);
 
 	show_immediately();
 
@@ -68,9 +70,7 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {
 
-			switch (process_event(
-				event,
-				{.menu_key = true, .quicksave = false, .quickload = false})) {
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
 
 			case ModuleEvent::ABORT:
 				return abort();
@@ -106,31 +106,27 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 
 			_ctx.ui->reset_character_spell_view();
 			const auto p_size{_ctx.game->state->get_party_size()};
-			const int char_id{
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
+			const int char_id{_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
 			int pos{_ctx.game->state->get_char_slot(char_id).value()};
 			if (pos > 1)
 				--pos;
 			else
 				pos = static_cast<int>(p_size);
-			_ctx.controller->set_character(
-				Enums::CharacterSlot::INSPECT,
-				_ctx.game->state->get_party_char(pos).value());
+			_ctx.controller->set_character(Enums::CharacterSlot::INSPECT,
+										   _ctx.game->state->get_party_char(pos).value());
 			_ctx.controller->unset_flag("select_previous_character");
 		} else if (_ctx.controller->has_flag("select_next_character")) {
 
 			_ctx.ui->reset_character_spell_view();
 			const auto p_size{_ctx.game->state->get_party_size()};
-			const int char_id{
-				_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
+			const int char_id{_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
 			int pos{_ctx.game->state->get_char_slot(char_id).value()};
 			if (pos == static_cast<int>(p_size))
 				pos = 1;
 			else
 				++pos;
-			_ctx.controller->set_character(
-				Enums::CharacterSlot::INSPECT,
-				_ctx.game->state->get_party_char(pos).value());
+			_ctx.controller->set_character(Enums::CharacterSlot::INSPECT,
+										   _ctx.game->state->get_party_char(pos).value());
 			_ctx.controller->unset_flag("select_next_character");
 		}
 	}

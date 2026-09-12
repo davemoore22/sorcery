@@ -44,24 +44,20 @@ class ScreenRenderer {
 
 		using DrawFunction = void (ScreenRenderer::*)();
 		using DrawIntFunction = void (ScreenRenderer::*)(int);
-		using DrawStringFunction =
-			void (ScreenRenderer::*)(const std::string &);
+		using DrawStringFunction = void (ScreenRenderer::*)(const std::string &);
 
 	public:
 		explicit ScreenRenderer(UI &ui, Context &ctx);
 
-		auto display(const Enums::Screen screen, const std::any &payload = {})
-			-> void;
+		auto display(const Enums::Screen screen, const std::any &payload = {}) -> void;
 
 	private:
 		UI &_ui;
 		Context &_ctx;
 
 		std::unordered_map<Enums::Screen, DrawFunction> _draw_modules;
-		std::unordered_map<Enums::Screen, DrawIntFunction>
-			_draw_modules_with_int;
-		std::unordered_map<Enums::Screen, DrawStringFunction>
-			_draw_modules_with_string;
+		std::unordered_map<Enums::Screen, DrawIntFunction> _draw_modules_with_int;
+		std::unordered_map<Enums::Screen, DrawStringFunction> _draw_modules_with_string;
 
 		// Private Methods
 		auto _display_atlas() -> void;
@@ -128,8 +124,7 @@ class ScreenRenderer {
 		auto _draw_heal(const int stage) -> void;
 		auto _draw_identify() -> void;
 		auto _draw_level_up(const int mode) -> void;
-		auto _draw_license(Component *component, const std::string &string)
-			-> void;
+		auto _draw_license(Component *component, const std::string &string) -> void;
 		auto _draw_no_level_up(const int mode) -> void;
 		auto _draw_recovery(const int mode) -> void;
 		auto _draw_reclass() -> void;

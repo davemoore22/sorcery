@@ -43,11 +43,8 @@ class System {
 		System(int argc, char **argv);
 		~System();
 
-		auto convert_tp_to_str(
-			const std::chrono::time_point<std::chrono::system_clock> tp) const
-			-> std::string;
-		auto dice_roll_to_str(const std::string &message, const int dice,
-							  const int roll, const int needed) const
+		auto convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) const -> std::string;
+		auto dice_roll_to_str(const std::string &message, const int dice, const int roll, const int needed) const
 			-> std::string;
 
 		Context *ctx = nullptr;

@@ -50,10 +50,8 @@ class ControllerActionHandler {
 
 		auto button(std::string_view component, int data) -> void;
 		auto input(std::string_view component, std::string &data) -> void;
-		auto stepper(std::string_view component, bool positive, int &data)
-			-> void;
-		auto toggle(std::string_view component, std::string_view tab,
-					int selection) -> void;
+		auto stepper(std::string_view component, bool positive, int &data) -> void;
+		auto toggle(std::string_view component, std::string_view tab, int selection) -> void;
 		auto icon(int icon_idx) -> void;
 		auto inspect(const int character_id) -> void;
 

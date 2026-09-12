@@ -38,15 +38,13 @@ class Random {
 
 		auto get_random_name() -> std::string;
 		auto get_type(const int num) const -> Enums::System::Random;
-		auto get(const unsigned int min, const unsigned int max)
-			-> unsigned int;
+		auto get(const unsigned int min, const unsigned int max) -> unsigned int;
 		auto get(const Enums::System::Random random_type) -> unsigned int;
 
 	private:
 		std::random_device _device;
 		std::mt19937_64 _random;
-		std::map<Enums::System::Random, std::tuple<unsigned int, unsigned int>>
-			_range;
+		std::map<Enums::System::Random, std::tuple<unsigned int, unsigned int>> _range;
 		std::vector<std::string> _sy1;
 		std::vector<std::string> _sy2;
 		std::vector<std::string> _sy3;

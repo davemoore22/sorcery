@@ -56,8 +56,7 @@ inline auto COL2VEC(std::string_view colour) -> ImVec4 {
 }
 inline auto COL2NUM(std::string_view colour) -> ImU32 {
 
-	const auto value{static_cast<std::uint32_t>(
-		std::stoul(std::string{colour}, nullptr, 16))};
+	const auto value{static_cast<std::uint32_t>(std::stoul(std::string{colour}, nullptr, 16))};
 
 	const auto r{static_cast<ImU8>((value >> 24) & 0xff)};
 
@@ -69,8 +68,7 @@ inline auto COL2NUM(std::string_view colour) -> ImU32 {
 
 	return IM_COL32(r, g, b, a);
 }
-// String trim Functions from
-// https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+// String trim Functions from https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 
 // Trim a string
 inline auto LTRIM(std::string &s) -> void {
@@ -96,15 +94,13 @@ inline auto TRIM(std::string &s) -> void {
 }
 
 // Trim from end (copying)
-inline auto RTRIM_COPY(std::string s)
-	-> std::string { // NOLINT(clang-diagnostic-unused-function)
+inline auto RTRIM_COPY(std::string s) -> std::string { // NOLINT(clang-diagnostic-unused-function)
 	RTRIM(s);
 	return s;
 }
 
 // Trim from both ends (copying)
-inline auto TRIM_COPY(std::string s)
-	-> std::string { // NOLINT(clang-diagnostic-unused-function)
+inline auto TRIM_COPY(std::string s) -> std::string { // NOLINT(clang-diagnostic-unused-function)
 	TRIM(s);
 	return s;
 }
@@ -115,8 +111,7 @@ inline auto WORDWRAP(std::string text, unsigned per_line) -> std::string {
 	unsigned line_begin{0};
 	while (line_begin < text.size()) {
 		const unsigned int ideal_end{line_begin + per_line};
-		unsigned int line_end =
-			ideal_end <= text.size() ? ideal_end : text.size() - 1;
+		unsigned int line_end = ideal_end <= text.size() ? ideal_end : text.size() - 1;
 
 		if (line_end == text.size() - 1)
 			++line_end;
@@ -126,8 +121,7 @@ inline auto WORDWRAP(std::string text, unsigned per_line) -> std::string {
 		} else {
 			// backtrack
 			unsigned end = line_end;
-			while ((end > line_begin) &&
-				   (!std::isspace(static_cast<unsigned char>(text[line_end]))))
+			while ((end > line_begin) && (!std::isspace(static_cast<unsigned char>(text[line_end]))))
 				--end;
 
 			if (end != line_begin) {
@@ -166,8 +160,7 @@ inline auto CAPITALISE(const std::string &str) -> std::string {
 }
 
 // Timepoint to String
-inline auto TP2STR(const std::chrono::time_point<std::chrono::system_clock> tp)
-	-> std::string {
+inline auto TP2STR(const std::chrono::time_point<std::chrono::system_clock> tp) -> std::string {
 
 	// Need to do it this way til std::chrono::locate_zone etc is supported
 	auto t{std::chrono::system_clock::to_time_t(tp)};

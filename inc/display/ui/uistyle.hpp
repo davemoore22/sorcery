@@ -69,18 +69,14 @@ namespace UIStyle {
 	[[nodiscard]]
 	inline auto icon_depth(const float scale) -> ImageOffsetEffect {
 
-		return {.offset = ImVec2{2.0f * scale, 2.0f * scale},
-				.brightness = 0.4f,
-				.alpha = 0.8f,
-				.colour = std::nullopt};
+		return {
+			.offset = ImVec2{2.0f * scale, 2.0f * scale}, .brightness = 0.4f, .alpha = 0.8f, .colour = std::nullopt};
 	}
 
 	[[nodiscard]]
 	inline auto cursor_depth(const float scale) -> ImageOffsetEffect {
 
-		return {.offset = ImVec2{1.5f * scale, 1.5f * scale},
-				.brightness = 0.30f,
-				.alpha = 0.75f};
+		return {.offset = ImVec2{1.5f * scale, 1.5f * scale}, .brightness = 0.30f, .alpha = 0.75f};
 	}
 
 	[[nodiscard]]

@@ -64,8 +64,7 @@ struct MenuAction {
 		std::string_view flag{};
 		std::size_t ui_index{};
 		Enums::CharacterSlot character_key{};
-		Enums::MenuAction::Function custom_function{
-			Enums::MenuAction::Function::NO_FUNCTION};
+		Enums::MenuAction::Function custom_function{Enums::MenuAction::Function::NO_FUNCTION};
 		std::string_view selected_key{};
 		int selected_value{};
 		std::string popup_component{};

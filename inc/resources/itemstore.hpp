@@ -63,27 +63,20 @@ class ItemStore {
 
 		auto get(Enums::Items::TypeID item_type_id) const -> ItemType;
 		auto get(unsigned int item_type_id) const -> ItemType;
-		auto get(Enums::Items::Category category) const
-			-> std::vector<ItemType>;
+		auto get(Enums::Items::Category category) const -> std::vector<ItemType>;
 		auto get(std::string_view name) const -> ItemType;
 
-		auto get_item_type(const Enums::Items::TypeID item_type_id) const
-			-> ItemType;
+		auto get_item_type(const Enums::Items::TypeID item_type_id) const -> ItemType;
 		auto get_an_item(const Enums::Items::TypeID item_type_id) const -> Item;
 		auto get_random_item(const Enums::Items::TypeID min_item_type_id,
-							 const Enums::Items::TypeID max_item_type_id) const
-			-> Item;
+							 const Enums::Items::TypeID max_item_type_id) const -> Item;
 		auto get_all_types() const -> std::vector<ItemType>;
-		auto is_usable(const Enums::Items::TypeID item_type_id,
-					   const Enums::Character::Class cclass,
+		auto is_usable(const Enums::Items::TypeID item_type_id, const Enums::Character::Class cclass,
 					   const Enums::Character::Align calign) const -> bool;
 		auto has_usable(const Enums::Items::TypeID item_type_id) const -> bool;
-		auto has_invokable(const Enums::Items::TypeID item_type_id) const
-			-> bool;
-		auto sellable_to_shop(const Enums::Items::TypeID item_type_id) const
-			-> bool;
-		auto sellable_price(const Enums::Items::TypeID item_type_id) const
-			-> unsigned int;
+		auto has_invokable(const Enums::Items::TypeID item_type_id) const -> bool;
+		auto sellable_to_shop(const Enums::Items::TypeID item_type_id) const -> bool;
+		auto sellable_price(const Enums::Items::TypeID item_type_id) const -> unsigned int;
 
 	private:
 		Context &_ctx;
@@ -91,10 +84,8 @@ class ItemStore {
 		bool _loaded;
 
 		auto _load(const std::filesystem::path filename) -> bool;
-		auto _get_defensive_effects(const std::string defensive_s) const
-			-> std::array<bool, 22>;
-		auto _get_offensive_effects(const std::string offsensive_s) const
-			-> std::array<bool, 15>;
+		auto _get_defensive_effects(const std::string defensive_s) const -> std::array<bool, 22>;
+		auto _get_offensive_effects(const std::string offsensive_s) const -> std::array<bool, 15>;
 };
 
 }

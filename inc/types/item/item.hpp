@@ -48,13 +48,11 @@ class Item {
 		~Item() = default;
 
 		// Overloaded Operators
-		auto friend operator<<(std::ostream &out_stream, const Item &item)
-			-> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Item &item) -> std::ostream &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_type, _category, _known, _equipped, _cursed, _marked,
-					_usable, _name, _id, s_id);
+			archive(_type, _category, _known, _equipped, _cursed, _marked, _usable, _name, _id, s_id);
 		}
 
 		// Public Methods
@@ -85,7 +83,7 @@ class Item {
 		bool _cursed;					  // Is currently cursed
 		bool _marked;					  // Marked as undroppable or unsellable
 		bool _usable;					  // Is usable
-		std::string _name; // Individual Name (or if not set, the ITT Name)
+		std::string _name;				  // Individual Name (or if not set, the ITT Name)
 		std::string _uname;
 		int _regeneration{0};
 

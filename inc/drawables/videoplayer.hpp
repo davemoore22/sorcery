@@ -42,8 +42,7 @@ class VideoPlayer {
 		// Public Methods
 		auto load(const std::string &filename) -> void;
 		auto update(double playback_time) -> void;
-		auto render(const char *window_name, ImVec2 position = {0, 0},
-					ImVec2 size = {0, 0}) -> void;
+		auto render(const char *window_name, ImVec2 position = {0, 0}, ImVec2 size = {0, 0}) -> void;
 
 	private:
 		// Private Methods

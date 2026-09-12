@@ -37,18 +37,15 @@ struct Tile {
 		// Constructors
 		Tile();
 		Tile(std::optional<Coordinate> location);
-		Tile(std::optional<Coordinate> location,
-			 std::optional<Enums::Tile::Edge> north,
-			 std::optional<Enums::Tile::Edge> south,
-			 std::optional<Enums::Tile::Edge> east,
+		Tile(std::optional<Coordinate> location, std::optional<Enums::Tile::Edge> north,
+			 std::optional<Enums::Tile::Edge> south, std::optional<Enums::Tile::Edge> east,
 			 std::optional<Enums::Tile::Edge> west);
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_location, _north, _south, _east, _west, _texture_id,
-					_properties, _features, _items, _event, _room_id,
-					_treasure_id, _effect_id, _description_id, _characters,
-					_lighting, _teleport, _stairs, _elevator, _id, s_id);
+			archive(_location, _north, _south, _east, _west, _texture_id, _properties, _features, _items, _event,
+					_room_id, _treasure_id, _effect_id, _description_id, _characters, _lighting, _teleport, _stairs,
+					_elevator, _id, s_id);
 		}
 
 		// No resources so no move/copy constructors needed
@@ -64,8 +61,7 @@ struct Tile {
 		auto gfx(const unsigned int texture) -> void;
 		auto gfx() -> std::optional<unsigned int>;
 		auto has(const Enums::Map::Direction direction) const -> bool;
-		auto has(const Enums::Map::Direction direction,
-				 const Enums::Tile::Edge wall_type) const -> bool;
+		auto has(const Enums::Map::Direction direction, const Enums::Tile::Edge wall_type) const -> bool;
 		auto has(const Enums::Tile::Features feature) const -> bool;
 		auto has_event() const -> std::optional<Enums::Map::Event>;
 		auto has_stairs() const -> std::optional<Teleport>;
@@ -84,15 +80,13 @@ struct Tile {
 		auto set(const std::optional<Enums::Map::Event> event) -> void;
 		auto set(const Enums::Tile::Features feature) -> void;
 		auto set(const Enums::Tile::Properties property) -> void;
-		auto set(const Enums::Map::Direction direction,
-				 Enums::Tile::Edge new_wall) -> void;
+		auto set(const Enums::Map::Direction direction, Enums::Tile::Edge new_wall) -> void;
 		auto set(const std::optional<Coordinate> location);
 		auto set_teleport(Teleport teleport) -> void;
 		auto set_stairs(Teleport stairs) -> void;
 		auto set_chute(Chute chute) -> void;
 		auto set_elevator(Elevator elevator) -> void;
-		auto wall(const Enums::Map::Direction direction) const
-			-> Enums::Tile::Edge;
+		auto wall(const Enums::Map::Direction direction) const -> Enums::Tile::Edge;
 		auto walkable(const Enums::Map::Direction direction) const -> bool;
 		auto x() const -> int;
 		auto y() const -> int;

@@ -47,8 +47,7 @@ class Rite final : public Module {
 
 	private:
 		// Private Methods
-		static auto _callback_rite_tick(std::uint32_t interval, void *param)
-			-> std::uint32_t;
+		static auto _callback_rite_tick(std::uint32_t interval, void *param) -> std::uint32_t;
 
 		auto _initialise() -> bool;
 

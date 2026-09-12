@@ -27,10 +27,10 @@
 #include <string>
 #include <vector>
 
-	namespace Sorcery {
-	namespace Enums {
-		namespace Map { enum class Event; }
-	}
+namespace Sorcery {
+namespace Enums {
+	namespace Map { enum class Event; }
+}
 }
 
 namespace Sorcery {
@@ -42,10 +42,7 @@ class Message final : public Drawable {
 
 		auto build(Component &component) -> void override;
 		auto display() -> void override;
-
-		auto set(std::vector<std::string> strings, Enums::Map::Event event_id)
-			-> void;
-
+		auto set(std::vector<std::string> strings, Enums::Map::Event event_id) -> void;
 		[[nodiscard]] auto event_id() const -> Enums::Map::Event;
 
 	private:

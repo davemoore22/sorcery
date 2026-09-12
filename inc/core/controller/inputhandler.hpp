@@ -66,8 +66,7 @@ class ControllerInputHandler {
 		auto ui_toggle(const SDL_Event &event) -> void;
 
 		auto menu_key(const SDL_Event &event) -> void;
-		auto consume_menu_key(std::size_t item_count)
-			-> std::optional<std::size_t>;
+		auto consume_menu_key(std::size_t item_count) -> std::optional<std::size_t>;
 
 	private:
 		Controller &_host;

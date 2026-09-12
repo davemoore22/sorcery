@@ -38,8 +38,7 @@ class Config {
 		Config() = delete;
 
 		auto get(const unsigned int i) -> bool &;
-		auto get(std::string_view section, std::string_view value) const
-			-> std::string;
+		auto get(std::string_view section, std::string_view value) const -> std::string;
 		auto has_changed() -> bool;
 		auto load() -> bool;
 		auto save() -> bool;

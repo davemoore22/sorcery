@@ -38,9 +38,7 @@ template <typename T, std::size_t Rows, std::size_t Columns> class Grid {
 		constexpr explicit Grid(const storage_type &values)
 			: _data{values} {}
 
-		[[nodiscard]] constexpr auto
-		operator[](const std::size_t row, const std::size_t column) noexcept
-			-> T & {
+		[[nodiscard]] constexpr auto operator[](const std::size_t row, const std::size_t column) noexcept -> T & {
 
 			assert(row < Rows);
 			assert(column < Columns);
@@ -48,9 +46,8 @@ template <typename T, std::size_t Rows, std::size_t Columns> class Grid {
 			return _data[row][column];
 		}
 
-		[[nodiscard]] constexpr auto
-		operator[](const std::size_t row,
-				   const std::size_t column) const noexcept -> const T & {
+		[[nodiscard]] constexpr auto operator[](const std::size_t row, const std::size_t column) const noexcept
+			-> const T & {
 
 			assert(row < Rows);
 			assert(column < Columns);

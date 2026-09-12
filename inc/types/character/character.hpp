@@ -54,16 +54,13 @@ class Character {
 
 		// Overloaded Operators
 		auto operator[](const Enums::Character::Ability &key) -> int &;
-		auto friend operator<<(std::ostream &out_stream,
-							   const Character &character) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Character &character) -> std::ostream &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_location, coordinate, depth, _version, _name, _race,
-					_class, _alignment, _start_attr, _cur_attr, _max_attr,
-					_st_points, _abilities, _priest_max_sp, _priest_cur_sp,
-					_mage_max_sp, _mage_cur_sp, _status, _hidden, _spells_known,
-					_legated, inventory, _current_stage, _wiz_1_award);
+			archive(_location, coordinate, depth, _version, _name, _race, _class, _alignment, _start_attr, _cur_attr,
+					_max_attr, _st_points, _abilities, _priest_max_sp, _priest_cur_sp, _mage_max_sp, _mage_cur_sp,
+					_status, _hidden, _spells_known, _legated, inventory, _current_stage, _wiz_1_award);
 		}
 
 		// Composition Classes
@@ -74,12 +71,9 @@ class Character {
 
 		// Public Methods
 		auto post_construct(Context *ctx) -> void;
-		auto alignment_to_str(const Enums::Character::Align alignment) const
-			-> std::string;
-		auto race_to_str(const Enums::Character::Race race) const
-			-> std::string;
-		auto class_to_str(const Enums::Character::Class cclass) const
-			-> std::string;
+		auto alignment_to_str(const Enums::Character::Align alignment) const -> std::string;
+		auto race_to_str(const Enums::Character::Race race) const -> std::string;
+		auto class_to_str(const Enums::Character::Class cclass) const -> std::string;
 		auto get_name() const -> std::string;
 		auto get_name_and_loc() const -> std::string;
 		auto get_name_and_status() const -> std::string;
@@ -94,8 +88,7 @@ class Character {
 		auto get_attr_ptr(Enums::Character::Attribute attribute) -> int *;
 		auto get_condition() const -> std::string;
 		auto get_short_cond() const -> std::string;
-		auto get_cur_attr(const Enums::Character::Attribute attribute) const
-			-> unsigned int;
+		auto get_cur_attr(const Enums::Character::Attribute attribute) const -> unsigned int;
 		auto get_gold() const -> unsigned int;
 		auto set_gold(const unsigned int value) -> void;
 		auto grant_gold(const int value) -> void;
@@ -121,8 +114,7 @@ class Character {
 		auto get_current_hp() const -> int;
 		auto get_max_hp() const -> int;
 		auto adjust_max_hp(const int value) -> void;
-		auto adjust_attribute(const Enums::Character::Attribute attribute,
-							  const int value) -> void;
+		auto adjust_attribute(const Enums::Character::Attribute attribute, const int value) -> void;
 		auto set_current_hp(const int hp) -> void;
 		auto get_hp_adjustment() const -> int;
 		auto set_hp_gain_per_turn(const int adjustment) -> void;
@@ -148,8 +140,7 @@ class Character {
 		auto heal(const unsigned int adjustment) -> void;
 		auto attributes() -> std::map<Enums::Character::Attribute, int> &;
 		auto abilities() -> std::map<Enums::Character::Ability, int> &;
-		auto abilities() const
-			-> const std::map<Enums::Character::Ability, int> &;
+		auto abilities() const -> const std::map<Enums::Character::Ability, int> &;
 		auto get_wiz_1_award() const -> bool;
 		auto set_wiz_1_awatd(const bool value) -> void;
 
@@ -163,9 +154,8 @@ class Character {
 	private:
 		// Private Methods
 		auto _get_condition() const -> std::string;
-		auto _damage(const unsigned int adjustment)
-			-> bool; // returns true is character is alive, or dead if damage
-					 // was fatal
+		auto _damage(const unsigned int adjustment) -> bool; // returns true is character is alive, or dead if damage
+															 // was fatal
 		auto _heal(const unsigned int adjustment) -> void;
 
 		// Private

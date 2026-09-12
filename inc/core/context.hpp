@@ -76,12 +76,10 @@ struct Context {
 		SaveStore *saves = nullptr;
 
 		// Helpers
-		auto get_random(const Enums::System::Random random_type)
-			-> unsigned int;
+		auto get_random(const Enums::System::Random random_type) -> unsigned int;
 		auto get_string(std::string_view key) -> std::string;
 		auto get_config(const unsigned int i) -> bool &;
-		auto get_config(std::string_view section, std::string_view value) const
-			-> std::string;
+		auto get_config(std::string_view section, std::string_view value) const -> std::string;
 		auto get_directory(std::string_view key) const -> std::filesystem::path;
 		auto get_file(std::string_view key) const -> std::filesystem::path;
 		auto get_component(std::string_view combined_key) -> Component &;

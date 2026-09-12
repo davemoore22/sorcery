@@ -53,14 +53,12 @@ class Game {
 		Game() = delete;
 
 		// Overloaded Operator
-		auto friend operator<<(std::ostream &out_stream, const Game &game)
-			-> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Game &game) -> std::ostream &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(characters, creation_candidate, state, _start_time,
-					_last_time, _key, _id, _status, _char_ids, _show_console,
-					_events);
+			archive(characters, creation_candidate, state, _start_time, _last_time, _key, _id, _status, _char_ids,
+					_show_console, _events);
 		}
 
 		// Public Members
@@ -70,7 +68,6 @@ class Game {
 
 		// Public Methods
 		auto post_construct(Context &ctx) -> void;
-
 		auto wipe_data() -> void;
 		auto get_id() const -> unsigned int;
 		auto create_game() -> void;
@@ -79,8 +76,7 @@ class Game {
 		auto save_game() -> void;
 		auto save_character(Character character) -> unsigned int;
 		auto delete_character(unsigned int char_id) -> void;
-		auto update_character(unsigned game_id, unsigned char_id,
-							  Character &character) -> bool;
+		auto update_character(unsigned game_id, unsigned char_id, Character &character) -> bool;
 		auto enter_maze() -> void;
 		auto restart_maze(unsigned int char_id) -> void;
 		auto show_console() -> void;
@@ -95,16 +91,14 @@ class Game {
 		auto divvy_party_gold() -> void;
 		auto move_party_to_tavern() -> void;
 		auto pool_party_gold(unsigned int char_id) -> void;
-		auto log(const std::string &message, const int dice = -1,
-				 const int roll = -1, const int needed = -1) -> void;
+		auto log(const std::string &message, const int dice = -1, const int roll = -1, const int needed = -1) -> void;
 		auto get_event(Enums::Map::Event event_type) const -> DungeonEvent;
 		auto enable_event(Enums::Map::Event event_type) -> void;
 		auto disable_event(Enums::Map::Event event_type) -> void;
 		auto print() -> void;
 		auto call_debug(const SDL_Keycode key_code) -> void;
 		auto party_has_item(const Enums::Items::TypeID item_type) const -> bool;
-		auto give_party_item(const Enums::Items::TypeID item_type,
-							 const bool known = true) -> bool;
+		auto give_party_item(const Enums::Items::TypeID item_type, const bool known = true) -> bool;
 		auto remove_party_item(const Enums::Items::TypeID item_type) -> bool;
 		auto grant_party_members_gold(const int value) -> void;
 		auto grant_party_members_xp(const int adjustment) -> void;

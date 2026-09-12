@@ -41,8 +41,7 @@ class MonsterType {
 		MonsterType() = default;
 
 		// Overloaded Operators
-		auto friend operator<<(std::ostream &out_stream,
-							   const MonsterType &ItemType) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const MonsterType &ItemType) -> std::ostream &;
 
 		// Public Methods
 		auto get_type_id() const -> Enums::Monsters::TypeID;
@@ -75,7 +74,6 @@ class MonsterType {
 		auto get_mage_level() const -> unsigned int;
 		auto get_priest_level() const -> unsigned int;
 		auto get_spell_resistance() const -> unsigned int;
-
 		auto set_type_id(const Enums::Monsters::TypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
 		auto set_unknown_name(const std::string value) -> void;
@@ -95,17 +93,14 @@ class MonsterType {
 		auto set_breath_weapon(const Enums::Monsters::Breath value) -> void;
 		auto set_level_drain(const unsigned int value) -> void;
 		auto set_regeneration(const unsigned int value) -> void;
-		auto set_rewards(const unsigned int value_1, const unsigned int value_2)
-			-> void;
+		auto set_rewards(const unsigned int value_1, const unsigned int value_2) -> void;
 		auto set_resistances(std::array<bool, 7> value) -> void;
 		auto set_properties(std::array<bool, 7> value) -> void;
 		auto set_xp(const unsigned int value) -> void;
-		auto set_partners(const unsigned int value_1,
-						  const unsigned int value_2) -> void;
+		auto set_partners(const unsigned int value_1, const unsigned int value_2) -> void;
 		auto set_priest_level(const unsigned int value) -> void;
 		auto set_mage_level(const unsigned int value) -> void;
 		auto set_spell_resistance(const unsigned int value) -> void;
-
 		auto has_resistance(Enums::Monsters::Resistance value) -> bool;
 		auto has_property(Enums::Monsters::Property value) -> bool;
 		auto clear_attacks() -> void;

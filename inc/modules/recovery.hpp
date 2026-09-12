@@ -43,10 +43,8 @@ class Recovery final : public Module {
 	private:
 		auto _initialise() -> bool;
 
-		static auto _callback_napping(std::uint32_t, void *param)
-			-> std::uint32_t;
-		static auto _callback_recuperating(std::uint32_t, void *param)
-			-> std::uint32_t;
+		static auto _callback_napping(std::uint32_t, void *param) -> std::uint32_t;
+		static auto _callback_recuperating(std::uint32_t, void *param) -> std::uint32_t;
 
 		SDL_TimerID _rest_tick{};
 		Character *_character{nullptr};

@@ -55,30 +55,20 @@ class Render {
 		bool _monochrome;
 
 		// Private Methods
-		auto _get_left_side(const Enums::Map::Direction facing) const
-			-> Enums::Map::Direction;
-		auto _get_right_side(const Enums::Map::Direction facing) const
-			-> Enums::Map::Direction;
-		auto _has_normal_door(const Tile &tile,
-							  const Enums::Map::Direction direction) const
-			-> bool;
-		auto _has_secret_door(const Tile &tile,
-							  const Enums::Map::Direction direction) const
-			-> bool;
-		auto _has_wall(const Tile &tile,
-					   const Enums::Map::Direction direction) const -> bool;
+		auto _get_left_side(const Enums::Map::Direction facing) const -> Enums::Map::Direction;
+		auto _get_right_side(const Enums::Map::Direction facing) const -> Enums::Map::Direction;
+		auto _has_normal_door(const Tile &tile, const Enums::Map::Direction direction) const -> bool;
+		auto _has_secret_door(const Tile &tile, const Enums::Map::Direction direction) const -> bool;
+		auto _has_wall(const Tile &tile, const Enums::Map::Direction direction) const -> bool;
 		auto _load_tile_views() -> void;
 		auto _render_wireframe(Component *component) -> void;
 		auto _set_texture_coordinates(TileView &tileview) -> void;
-		auto _set_vertex_array(VertexArray &array, ImVec2 p1, ImVec2 p2,
-							   ImVec2 p3, ImVec2 p4) -> void;
-		auto _set_vertex_array(VertexArray &array, ImVec2 p1, ImVec2, ImVec2 p3,
-							   ImVec2 p4, const ImVec4 colour) -> void;
-		auto _draw_vertex_array(const VertexArray &array, const float scale,
-								const ImVec2 pos) -> void;
+		auto _set_vertex_array(VertexArray &array, ImVec2 p1, ImVec2 p2, ImVec2 p3, ImVec2 p4) -> void;
+		auto _set_vertex_array(VertexArray &array, ImVec2 p1, ImVec2, ImVec2 p3, ImVec2 p4, const ImVec4 colour)
+			-> void;
+		auto _draw_vertex_array(const VertexArray &array, const float scale, const ImVec2 pos) -> void;
 
-		auto _blocks_view(const Tile &tile,
-						  const Enums::Map::Direction direction) const -> bool;
+		auto _blocks_view(const Tile &tile, const Enums::Map::Direction direction) const -> bool;
 };
 
 }

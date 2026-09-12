@@ -33,9 +33,7 @@ class Dialog final : public Drawable {
 		explicit Dialog(Context &ctx);
 
 		auto build(Component &component) -> void override;
-		auto build(Component &component, Enums::Layout::DialogType type)
-			-> void;
-
+		auto build(Component &component, Enums::Layout::DialogType type) -> void;
 		auto display() -> void override;
 
 	private:

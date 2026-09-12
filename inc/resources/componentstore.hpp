@@ -38,12 +38,10 @@ class ComponentStore {
 	public:
 		explicit ComponentStore(const std::filesystem::path filename);
 
-		auto operator()(std::string_view screen)
-			-> std::optional<std::vector<Component>>;
+		auto operator()(std::string_view screen) -> std::optional<std::vector<Component>>;
 
 		auto get(std::string_view combined_key) -> Component &;
-		auto get_custom(std::string_view screen)
-			-> std::optional<std::vector<Component>>;
+		auto get_custom(std::string_view screen) -> std::optional<std::vector<Component>>;
 
 	private:
 		auto load(const std::filesystem::path filename) -> bool;

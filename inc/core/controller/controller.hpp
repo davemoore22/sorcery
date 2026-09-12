@@ -68,14 +68,12 @@ class Controller {
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
-			archive(_selected, _busy, _last_screen, _last_event, _last_dir,
-					_can_undo, _fullscreen, _candidate_party, _screen,
-					_characters, _flags, _texts);
+			archive(_selected, _busy, _last_screen, _last_event, _last_dir, _can_undo, _fullscreen, _candidate_party,
+					_screen, _characters, _flags, _texts);
 		}
 
 		// Overloaded Operator
-		auto friend operator<<(std::ostream &out_stream,
-							   const Controller &controller) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Controller &controller) -> std::ostream &;
 
 		// Public Methods
 		auto has_saved_game() const -> bool;
@@ -83,22 +81,19 @@ class Controller {
 		auto clear_character(const Enums::CharacterSlot slot) -> void;
 		auto has_character(const Enums::CharacterSlot slot) const -> bool;
 		auto get_character(const Enums::CharacterSlot slot) const -> int;
-		auto set_character(const Enums::CharacterSlot slot, const int value)
-			-> void;
+		auto set_character(const Enums::CharacterSlot slot, const int value) -> void;
 		auto set_selected(const std::string_view flag, int value) -> void;
 		auto get_flag(const std::string_view flag) const -> bool;
 		auto get_flag_ref(const std::string_view flag) -> bool &;
 		auto set_flag(const std::string_view flag) -> void;
-		auto set_flag_value(const std::string_view flag, const bool value)
-			-> void;
+		auto set_flag_value(const std::string_view flag, const bool value) -> void;
 		auto unset_flag(const std::string_view flag) -> void;
 		auto has_flag(const std::string_view flag) const -> bool;
 		auto toggle_flag(const std::string_view flag) -> void;
 		auto get_flags() const -> std::string;
 		auto get_characters() const -> std::string;
 		auto has_text(const std::string_view flag) const -> bool;
-		auto set_text(const std::string_view flag, const std::string &text)
-			-> void;
+		auto set_text(const std::string_view flag, const std::string &text) -> void;
 		auto get_text(const std::string_view flag) const -> std::string;
 		auto unset_text(const std::string_view flag) -> void;
 		auto has_selected(const std::string_view flag) const -> bool;
@@ -156,15 +151,14 @@ class Controller {
 		bool _can_undo{};	// Can "undo" a movement action
 		bool _abort{};
 		bool _monochrome{};
-		std::vector<unsigned int> _candidate_party; // Used for Reordering
-		Enums::Map::Event _last_event;				// Last event in dungeon
-		Enums::Map::Direction _last_dir;			// Last movement in dungeon
-		std::map<Enums::CharacterSlot, int> _characters; // Character Selections
-		std::map<std::string, bool, std::less<>> _flags; // Logic Flags
-		std::map<std::string, std::string, std::less<>>
-			_texts;										   // "Global" Texts
-		std::map<std::string, int, std::less<>> _selected; // Menu Selections
-		std::string _input_buffer; // Input Buffer for Text Input
+		std::vector<unsigned int> _candidate_party;				// Used for Reordering
+		Enums::Map::Event _last_event;							// Last event in dungeon
+		Enums::Map::Direction _last_dir;						// Last movement in dungeon
+		std::map<Enums::CharacterSlot, int> _characters;		// Character Selections
+		std::map<std::string, bool, std::less<>> _flags;		// Logic Flags
+		std::map<std::string, std::string, std::less<>> _texts; // "Global" Texts
+		std::map<std::string, int, std::less<>> _selected;		// Menu Selections
+		std::string _input_buffer;								// Input Buffer for Text Input
 		bool _go_back{};
 };
 

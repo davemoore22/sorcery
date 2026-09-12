@@ -59,28 +59,19 @@ class Module {
 		virtual ~Module() = default;
 
 	protected:
-		auto fade_in(Enums::Screen screen, std::chrono::milliseconds duration)
-			-> void;
-		auto fade_out(Enums::Screen screen, std::chrono::milliseconds duration)
-			-> void;
-		auto fade_in_with_string(const Enums::Screen screen,
-								 const std::chrono::milliseconds duration,
+		auto fade_in(Enums::Screen screen, std::chrono::milliseconds duration) -> void;
+		auto fade_out(Enums::Screen screen, std::chrono::milliseconds duration) -> void;
+		auto fade_in_with_string(const Enums::Screen screen, const std::chrono::milliseconds duration,
 								 const std::string &string) -> void;
-		auto fade_out_with_string(const Enums::Screen screen,
-								  const std::chrono::milliseconds duration,
+		auto fade_out_with_string(const Enums::Screen screen, const std::chrono::milliseconds duration,
 								  const std::string &string) -> void;
-		auto fade_in_with_int(const Enums::Screen screen,
-							  const std::chrono::milliseconds duration,
-							  const int value) -> void;
-		auto fade_out_with_int(const Enums::Screen screen,
-							   const std::chrono::milliseconds duration,
-							   const int value) -> void;
-		auto fade_in(const std::function<void()> &draw,
-					 std::chrono::milliseconds duration) -> void;
-		auto fade_out(const std::function<void()> &draw,
-					  std::chrono::milliseconds duration) -> void;
-		auto process_event(const SDL_Event &event,
-						   const EventOptions &options = {}) -> ModuleEvent;
+		auto fade_in_with_int(const Enums::Screen screen, const std::chrono::milliseconds duration, const int value)
+			-> void;
+		auto fade_out_with_int(const Enums::Screen screen, const std::chrono::milliseconds duration, const int value)
+			-> void;
+		auto fade_in(const std::function<void()> &draw, std::chrono::milliseconds duration) -> void;
+		auto fade_out(const std::function<void()> &draw, std::chrono::milliseconds duration) -> void;
+		auto process_event(const SDL_Event &event, const EventOptions &options = {}) -> ModuleEvent;
 		auto show_immediately() -> void;
 
 		virtual auto abort() -> int;
@@ -88,8 +79,7 @@ class Module {
 		Context &_ctx;
 
 	private:
-		auto _fade(const std::function<void()> &draw, float from, float to,
-				   std::chrono::milliseconds duration) -> void;
+		auto _fade(const std::function<void()> &draw, float from, float to, std::chrono::milliseconds duration) -> void;
 };
 
 }

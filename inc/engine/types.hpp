@@ -52,8 +52,7 @@ struct Coordinate3 {
 			return std::tie(x, y, z) < std::tie(a.x, a.y, a.z);
 		}
 
-		friend std::ostream &operator<<(std::ostream &os,
-										Coordinate3 const &a) {
+		friend std::ostream &operator<<(std::ostream &os, Coordinate3 const &a) {
 			return os << std::format("[{}/{}/{}]", a.x, a.y, a.z) << std::endl;
 		}
 
@@ -83,19 +82,14 @@ struct VertexArray {
 			return data[index];
 		}
 
-		friend std::ostream &operator<<(std::ostream &os,
-										VertexArray const &a) {
+		friend std::ostream &operator<<(std::ostream &os, VertexArray const &a) {
 			return os << std::format(
 							 "[p1={}/{}, p2={}/{}, p3={}/{}, p4={}/{}], "
 							 "[uv0={}/{}, uv1={}/{}, uv2={}/{}, uv3={}/{}],",
-							 a.data[0].position.x, a.data[0].position.y,
-							 a.data[1].position.x, a.data[1].position.y,
-							 a.data[2].position.x, a.data[2].position.y,
-							 a.data[3].position.x, a.data[3].position.y,
-							 a.data[0].tex_coord.x, a.data[0].tex_coord.y,
-							 a.data[1].tex_coord.x, a.data[1].tex_coord.y,
-							 a.data[2].tex_coord.x, a.data[2].tex_coord.y,
-							 a.data[3].tex_coord.x, a.data[3].tex_coord.y)
+							 a.data[0].position.x, a.data[0].position.y, a.data[1].position.x, a.data[1].position.y,
+							 a.data[2].position.x, a.data[2].position.y, a.data[3].position.x, a.data[3].position.y,
+							 a.data[0].tex_coord.x, a.data[0].tex_coord.y, a.data[1].tex_coord.x, a.data[1].tex_coord.y,
+							 a.data[2].tex_coord.x, a.data[2].tex_coord.y, a.data[3].tex_coord.x, a.data[3].tex_coord.y)
 					  << std::endl;
 		}
 };

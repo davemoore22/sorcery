@@ -43,9 +43,7 @@ class Heal final : public Module {
 
 	private:
 		// Private Methods
-		static auto _callback_heal_tick(std::uint32_t, void *param)
-			-> std::uint32_t;
-
+		static auto _callback_heal_tick(std::uint32_t, void *param) -> std::uint32_t;
 		auto _try_heal(int heal_char_id, int pay_char_id) -> bool;
 
 		// Private Members

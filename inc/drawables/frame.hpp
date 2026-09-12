@@ -51,8 +51,8 @@ class Frame {
 	public:
 		Frame() = delete;
 		Frame(Context &ctx, Component *component);
-		Frame(Context &ctx, std::string_view name, const ImVec2 pos,
-			  const Size size, const ImU32 colour, const ImU32 bg_colour);
+		Frame(Context &ctx, std::string_view name, const ImVec2 pos, const Size size, const ImU32 colour,
+			  const ImU32 bg_colour);
 
 	private:
 		auto _draw(const bool foreground) -> void;

@@ -74,8 +74,7 @@ class Engine final : public Module {
 		auto _go_back_to_town() -> int;
 		auto _go_down_a_level() -> void;
 		auto _go_up_a_level() -> void;
-		auto _go_to_location(const int depth, const Coordinate loc,
-							 const Enums::Map::Direction dir) -> void;
+		auto _go_to_location(const int depth, const Coordinate loc, const Enums::Map::Direction dir) -> void;
 		auto _move_backward() -> bool;
 		auto _move_forward() -> bool;
 		auto _set_tile_explored(const Coordinate loc) -> void;
@@ -88,36 +87,20 @@ class Engine final : public Module {
 		auto _check_for_wipe() const -> bool;
 		auto _abort() -> int;
 
-		[[nodiscard]] auto
-		_movement_destination(Coordinate origin,
-							  Enums::Map::Direction direction) const
+		[[nodiscard]] auto _movement_destination(Coordinate origin, Enums::Map::Direction direction) const
 			-> Coordinate;
-		[[nodiscard]] auto
-		_opposite_direction(Enums::Map::Direction direction) const
-			-> Enums::Map::Direction;
+		[[nodiscard]] auto _opposite_direction(Enums::Map::Direction direction) const -> Enums::Map::Direction;
 		auto _move_player_to(Coordinate destination) -> void;
 
 		auto _take_elevator(int depth) -> void;
 
 		auto _handle_completed_tile_event() -> std::optional<int>;
-
 		[[nodiscard]] auto _search_event() -> bool;
-
 		[[nodiscard]] auto _check_for_tile_message(const Tile &tile) -> bool;
-
 		auto _show_tile_message(Enums::Map::Event event) -> void;
-
-		[[nodiscard]] auto _skip_tile_event(Enums::Map::Event event) const
-			-> bool;
-
-		[[nodiscard]] auto _triggers_guaranteed_encounter(int depth,
-														  Coordinate from,
-														  Coordinate to) const
-			-> bool;
-
-		[[nodiscard]] auto _process_tile_entry(Coordinate from, Coordinate to)
-			-> bool;
-
+		[[nodiscard]] auto _skip_tile_event(Enums::Map::Event event) const -> bool;
+		[[nodiscard]] auto _triggers_guaranteed_encounter(int depth, Coordinate from, Coordinate to) const -> bool;
+		[[nodiscard]] auto _process_tile_entry(Coordinate from, Coordinate to) -> bool;
 		[[nodiscard]] auto _process_current_tile() -> bool;
 
 		auto _start_chest() -> int;

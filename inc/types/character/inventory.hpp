@@ -43,8 +43,7 @@ class Inventory {
 
 		// Overloaded Operators
 		auto operator[](const unsigned int slot) -> std::optional<Item *>;
-		auto friend operator<<(std::ostream &out_stream,
-							   const Inventory &inventory) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const Inventory &inventory) -> std::ostream &;
 
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
@@ -60,48 +59,34 @@ class Inventory {
 		auto add(Item item) -> void;
 		auto add_type(const ItemType &item_type) -> bool;
 		auto add_type(const ItemType &item_type, const bool known) -> bool;
-		auto add_type(const ItemType &item_type, const bool usable,
-					  const bool known) -> bool;
+		auto add_type(const ItemType &item_type, const bool usable, const bool known) -> bool;
 		auto unequip_all() -> void;
 		auto items() const -> std::vector<Item>;
 		auto has_unidentified_items() const -> bool;
 		auto has_cursed_items() const -> bool;
-		auto has_cursed_equipped_item_category(
-			const Enums::Items::Category category) const -> bool;
+		auto has_cursed_equipped_item_category(const Enums::Items::Category category) const -> bool;
 		auto equip_item(const unsigned int slot) -> bool;
 		auto drop_item(const unsigned int slot) -> bool;
 		auto discard_item(const unsigned int slot) -> bool;
 		auto discard_item(const Enums::Items::TypeID item_type) -> bool;
 		auto is_equipped_cursed(const unsigned int slot) -> bool;
-		auto identify_item(const unsigned int slot, const unsigned int roll,
-						   const unsigned int id_chance,
-						   const unsigned int curse_chance)
-			-> Enums::Items::IdentifyOutcome;
+		auto identify_item(const unsigned int slot, const unsigned int roll, const unsigned int id_chance,
+						   const unsigned int curse_chance) -> Enums::Items::IdentifyOutcome;
 		auto get(const unsigned int slot) -> Item;
 		auto get(const unsigned int slot) const -> Item;
 		auto has(const unsigned int slot) const -> bool;
 		auto has_item(const Enums::Items::TypeID item_type) const -> bool;
-
 		auto unequip_item(const unsigned int slot) -> bool;
-
-		auto invoke_item(const unsigned int slot) -> bool;
-		auto use_item(const unsigned int slot) -> bool;
-		auto is_equippable_category(const Enums::Items::Category category)
-			-> bool;
-		auto is_equippable_category(const Enums::Items::Category category) const
-			-> bool;
+		auto is_equippable_category(const Enums::Items::Category category) -> bool;
+		auto is_equippable_category(const Enums::Items::Category category) const -> bool;
 		auto replace_item(unsigned int slot, Item item) -> bool;
 		auto get_regeneration() const -> int; // sum
 
 	private:
 		// Private Methods
-		auto
-		_has_equipped_item_category(const Enums::Items::Category category) const
-			-> bool;
-		auto _has_cursed_equipped_item_category(
-			const Enums::Items::Category category) const -> bool;
-		auto _unequip_item_category(const Enums::Items::Category category)
-			-> bool;
+		auto _has_equipped_item_category(const Enums::Items::Category category) const -> bool;
+		auto _has_cursed_equipped_item_category(const Enums::Items::Category category) const -> bool;
+		auto _unequip_item_category(const Enums::Items::Category category) -> bool;
 		auto _valid_slot(const unsigned int slot) const -> bool;
 		auto _force_equip_item(const unsigned int slot) -> bool;
 

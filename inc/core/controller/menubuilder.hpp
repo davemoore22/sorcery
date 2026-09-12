@@ -34,51 +34,34 @@ class MenuBuilder {
 	public:
 		MenuBuilder(Context &ctx);
 		~MenuBuilder();
-		auto build(const std::string &menu_name, unsigned int width,
-				   std::vector<std::string> &items, std::vector<int> &data,
-				   bool reorder) -> void;
+		auto build(const std::string &menu_name, unsigned int width, std::vector<std::string> &items,
+				   std::vector<int> &data, bool reorder) -> void;
 
 	private:
 		Context &_ctx;
 
 		auto _get_menu_flags(std::string_view menu_name) const -> int;
 
-		auto _load_party_characters(std::vector<std::string> &items,
-									std::vector<int> &data, int flags,
-									bool reorder) -> void;
-		auto _load_roster_characters(std::vector<std::string> &items,
-									 std::vector<int> &data) -> void;
-		auto _load_retrainable_characters(std::vector<std::string> &items,
-										  std::vector<int> &data) -> void;
-		auto _load_lost_characters(std::vector<std::string> &items,
-								   std::vector<int> &data) -> void;
-		auto _load_tavern_characters(std::vector<std::string> &items,
-									 std::vector<int> &data) -> void;
-		auto _load_maze_characters(std::vector<std::string> &items,
-								   std::vector<int> &data) -> void;
-		auto _load_sick_characters(std::vector<std::string> &items,
-								   std::vector<int> &data) -> void;
-		auto _load_character_items(std::string_view menu_name,
-								   std::vector<std::string> &items,
-								   std::vector<int> &data,
+		auto _load_party_characters(std::vector<std::string> &items, std::vector<int> &data, int flags, bool reorder)
+			-> void;
+		auto _load_roster_characters(std::vector<std::string> &items, std::vector<int> &data) -> void;
+		auto _load_retrainable_characters(std::vector<std::string> &items, std::vector<int> &data) -> void;
+		auto _load_lost_characters(std::vector<std::string> &items, std::vector<int> &data) -> void;
+		auto _load_tavern_characters(std::vector<std::string> &items, std::vector<int> &data) -> void;
+		auto _load_maze_characters(std::vector<std::string> &items, std::vector<int> &data) -> void;
+		auto _load_sick_characters(std::vector<std::string> &items, std::vector<int> &data) -> void;
+		auto _load_character_items(std::string_view menu_name, std::vector<std::string> &items, std::vector<int> &data,
 								   const Enums::CharacterSlot source) -> void;
-		auto _load_possible_classes(std::string_view menu_name,
-									std::vector<std::string> &items,
-									std::vector<int> &data,
+		auto _load_possible_classes(std::string_view menu_name, std::vector<std::string> &items, std::vector<int> &data,
 									const Enums::CharacterSlot source) -> void;
-		auto _load_character_spells(std::string_view menu_name,
-									std::vector<std::string> &items,
-									std::vector<int> &data) -> void;
-		auto _load_fixed_menu(const std::string &menu_name, unsigned int width,
-							  std::vector<std::string> &items) -> void;
-		auto _load_bestiary_menu(unsigned int width,
-								 std::vector<std::string> &items) -> void;
-		auto _load_spellbook_menu(unsigned int width,
-								  std::vector<std::string> &items) -> void;
-		auto _load_museum_menu(unsigned int width,
-							   std::vector<std::string> &items) -> void;
-		auto _load_buy_menu(unsigned int width, std::vector<std::string> &items,
-							std::vector<int> &data) -> void;
+		auto _load_character_spells(std::string_view menu_name, std::vector<std::string> &items, std::vector<int> &data)
+			-> void;
+		auto _load_fixed_menu(const std::string &menu_name, unsigned int width, std::vector<std::string> &items)
+			-> void;
+		auto _load_bestiary_menu(unsigned int width, std::vector<std::string> &items) -> void;
+		auto _load_spellbook_menu(unsigned int width, std::vector<std::string> &items) -> void;
+		auto _load_museum_menu(unsigned int width, std::vector<std::string> &items) -> void;
+		auto _load_buy_menu(unsigned int width, std::vector<std::string> &items, std::vector<int> &data) -> void;
 };
 
 }

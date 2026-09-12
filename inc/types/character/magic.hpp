@@ -40,18 +40,13 @@ class ConstCharacterMagic {
 	public:
 		explicit ConstCharacterMagic(const Character &character) noexcept;
 
-		auto can_cast(Enums::Magic::SpellType spell_type, int spell_level) const
-			-> bool;
+		auto can_cast(Enums::Magic::SpellType spell_type, int spell_level) const -> bool;
 		auto get_calfo_uses_left() const -> int;
 		auto get_spells() const -> const std::vector<Spell> &;
-		auto priest_current_spellpoints() const
-			-> const std::map<unsigned int, unsigned int> &;
-		auto mage_current_spellpoints() const
-			-> const std::map<unsigned int, unsigned int> &;
-		auto priest_max_spellpoints() const
-			-> const std::map<unsigned int, unsigned int> &;
-		auto mage_max_spellpoints() const
-			-> const std::map<unsigned int, unsigned int> &;
+		auto priest_current_spellpoints() const -> const std::map<unsigned int, unsigned int> &;
+		auto mage_current_spellpoints() const -> const std::map<unsigned int, unsigned int> &;
+		auto priest_max_spellpoints() const -> const std::map<unsigned int, unsigned int> &;
+		auto mage_max_spellpoints() const -> const std::map<unsigned int, unsigned int> &;
 
 	protected:
 		const Character *_character;

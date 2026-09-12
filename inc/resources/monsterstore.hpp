@@ -59,14 +59,11 @@ class MonsterStore {
 		// Private methods
 		auto _load(const std::filesystem::path filename) -> bool;
 		auto _parse_attacks(const std::string value) const -> std::vector<Dice>;
-		auto _parse_breath_weapons(const std::string value) const
-			-> Enums::Monsters::Breath;
+		auto _parse_breath_weapons(const std::string value) const -> Enums::Monsters::Breath;
 		auto _parse_regen(const std::string value) const -> unsigned int;
 		auto _parse_level_drain(const std::string value) const -> unsigned int;
-		auto _parse_resistances(const std::string value) const
-			-> std::array<bool, 7>;
-		auto _parse_properties(const std::string value) const
-			-> std::array<bool, 7>;
+		auto _parse_resistances(const std::string value) const -> std::array<bool, 7>;
+		auto _parse_properties(const std::string value) const -> std::array<bool, 7>;
 };
 
 }

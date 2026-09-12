@@ -39,8 +39,7 @@ class ItemType {
 		ItemType() = default;
 
 		// Overloaded Operators
-		auto friend operator<<(std::ostream &out_stream,
-							   const ItemType &ItemType) -> std::ostream &;
+		auto friend operator<<(std::ostream &out_stream, const ItemType &ItemType) -> std::ostream &;
 
 		// Public Methods
 		auto get_type_id() const -> Enums::Items::TypeID;
@@ -79,10 +78,8 @@ class ItemType {
 		auto get_sell() const -> bool;
 		auto get_desc() const -> std::string;
 		auto get_gfx() const -> unsigned int;
-		auto is_class_usable(const Enums::Character::Class cclass) const
-			-> bool;
-		auto is_align_usable(const Enums::Character::Align calign) const
-			-> bool;
+		auto is_class_usable(const Enums::Character::Class cclass) const -> bool;
+		auto is_align_usable(const Enums::Character::Align calign) const -> bool;
 		auto set_type_id(const Enums::Items::TypeID value) -> void;
 		auto set_known_name(const std::string value) -> void;
 		auto set_damage(const std::string value) -> void;
@@ -125,49 +122,41 @@ class ItemType {
 
 	private:
 		// Private Members
-		Enums::Items::TypeID _type; // e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
-		std::string _known_name;	// Friendly name once identified
-		std::string _display_name; // Short display name once identified (max 16
-								   // characters)
-		std::string _unknown_name; // Unknown name if not identified
+		Enums::Items::TypeID _type;		  // e.g. LONG_SWORD, LONG_SWORD_PLUS_1 etc
+		std::string _known_name;		  // Friendly name once identified
+		std::string _display_name;		  // Short display name once identified (max 16
+										  // characters)
+		std::string _unknown_name;		  // Unknown name if not identified
 		Enums::Items::Category _category; // e.g, WEAPON, ARMOUR etc
 		bool _cursed;					  // Is a cursed item
-		unsigned int
-			_value; // Price to buy in shop (Sell/Identify Price is half this)
-		bool _sellable;				 // Can be sold
-		std::array<bool, 9> _usable; // Usable by class list
-		std::array<bool, 4>
-			_alignment;			 // Usable by alignment (otherwise cursed)
-		int _swings;			 // If a weapon, number of attacks granted
-		int _to_hit_modifier;	 // Bonus to hit using this weapon
-		std::string _damage_str; // 3d8+2
+		unsigned int _value;			  // Price to buy in shop (Sell/Identify Price is half this)
+		bool _sellable;					  // Can be sold
+		std::array<bool, 9> _usable;	  // Usable by class list
+		std::array<bool, 4> _alignment;	  // Usable by alignment (otherwise cursed)
+		int _swings;					  // If a weapon, number of attacks granted
+		int _to_hit_modifier;			  // Bonus to hit using this weapon
+		std::string _damage_str;		  // 3d8+2
 		Dice _damage_dice;
-		int _ac_modifier;		// AC modifier if worn normally
-		int _curse_ac_modifier; // If a cursed item, AC modifier
-		int _regeneration; // Passive hp adjustment (25% chance per turn of this
-						   // happening)
-		std::array<bool, 15>
-			_offensive_effects; // Offensive effects wielding this item bestows
-		std::array<bool, 22>
-			_defensive_effects; // Defensive effects wearing this item bestows
+		int _ac_modifier;								  // AC modifier if worn normally
+		int _curse_ac_modifier;							  // If a cursed item, AC modifier
+		int _regeneration;								  // Passive hp adjustment (25% chance per turn of this
+														  // happening)
+		std::array<bool, 15> _offensive_effects;		  // Offensive effects wielding this item bestows
+		std::array<bool, 22> _defensive_effects;		  // Defensive effects wearing this item bestows
 		Enums::Items::Effects::Invoke _invocation_effect; // Effect when invoked
-		unsigned int _invocation_decay_chance; // % chance of turning into
-											   // _decay_type when invoked
-		Enums::Magic::SpellID
-			_use_effect; // Effect when used (same as associated spell effect)
-		unsigned int
-			_use_decay_chance; // % chance of turning into _decay_type when used
-		Enums::Items::TypeID
-			_decay_type;		 // Item type decays to when used/invoked
-		int _shop_initial_stock; // Number in stock in shop at beginning of game
-		bool _discovered_by_player; // Has been discovered in this game
-		std::string _description;	// Flowery Description
-		unsigned int _gfx;			// Index of Item Graphic
-		bool _buy;					// Can Player buy this item from Shop
-		bool _sell;					// Can Player sell this item to Shop
-		std::string _effects;		// Textual Representation of Effects
-		std::string _invokage;		// ...of Invoking
-		std::string _usage;			// ...of Use
+		unsigned int _invocation_decay_chance;			  // % chance of turning into_decay_type when invoked
+		Enums::Magic::SpellID _use_effect;				  // Effect when used (same as associated spell effect)
+		unsigned int _use_decay_chance;					  // % chance of turning into _decay_type when used
+		Enums::Items::TypeID _decay_type;				  // Item type decays to when used/invoked
+		int _shop_initial_stock;						  // Number in stock in shop at beginning of game
+		bool _discovered_by_player;						  // Has been discovered in this game
+		std::string _description;						  // Flowery Description
+		unsigned int _gfx;								  // Index of Item Graphic
+		bool _buy;										  // Can Player buy this item from Shop
+		bool _sell;										  // Can Player sell this item to Shop
+		std::string _effects;							  // Textual Representation of Effects
+		std::string _invokage;							  // ...of Invoking
+		std::string _usage;								  // ...of Use
 
 		static std::random_device _device; // Shared RNG
 		static std::mt19937_64 _random;

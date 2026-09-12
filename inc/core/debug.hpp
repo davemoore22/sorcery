@@ -38,9 +38,7 @@ inline auto debug_log(std::string_view message) -> void {
 }
 
 // Formatted logger
-template <typename... Args>
-inline auto debug_logf(std::format_string<Args...> fmt, Args &&...args)
-	-> void {
+template <typename... Args> inline auto debug_logf(std::format_string<Args...> fmt, Args &&...args) -> void {
 
 	auto message{std::format(fmt, std::forward<Args>(args)...)};
 	std::println("[DEBUG] {}", message);

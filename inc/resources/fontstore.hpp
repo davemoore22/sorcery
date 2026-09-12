@@ -49,13 +49,10 @@ class FontStore {
 		~FontStore();
 
 		auto scan_and_load(const std::string &directory) -> void;
-		auto get_font_by_name(const std::string &name) const
-			-> std::optional<ImFont *>;
+		auto get_font_by_name(const std::string &name) const -> std::optional<ImFont *>;
 		auto set_current_font(Enums::Layout::Font type, ImFont *font) -> void;
-		auto set_current_font(Enums::Layout::Font type, const std::string &name)
-			-> void;
-		auto get_current_font(Enums::Layout::Font type) const
-			-> std::optional<ImFont *>;
+		auto set_current_font(Enums::Layout::Font type, const std::string &name) -> void;
+		auto get_current_font(Enums::Layout::Font type) const -> std::optional<ImFont *>;
 		auto get_current_monospace_font() const -> std::optional<ImFont *>;
 		auto get_current_monospace_font_name() const -> std::string;
 		auto get_all_fonts() const -> const std::vector<FontInfo> &;
@@ -72,11 +69,9 @@ class FontStore {
 
 		auto _is_valid_ttf(const std::string &path) const -> bool;
 		auto _is_monospace_ttf(const std::string &path) const -> bool;
-		auto _get_font_full_name(const std::vector<unsigned char> &buffer)
-			-> std::string;
+		auto _get_font_full_name(const std::vector<unsigned char> &buffer) -> std::string;
 		auto _get_fonts() const -> const std::vector<FontInfo> &;
-		auto _load_font(const std::string &path, bool is_monospace,
-						Enums::Layout::Font font_type) -> void;
+		auto _load_font(const std::string &path, bool is_monospace, Enums::Layout::Font font_type) -> void;
 		auto _sort_fonts_by_name(bool case_insensitive = true) -> void;
 };
 } // namespace Sorcery

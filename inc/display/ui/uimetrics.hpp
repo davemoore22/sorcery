@@ -38,8 +38,7 @@ class UIMetrics {
 		auto update(const DisplayMetrics &display) noexcept -> void;
 
 		[[nodiscard]] auto grid_pos(float x, float y) const noexcept -> ImVec2;
-		[[nodiscard]] auto grid_delta(float x, float y) const noexcept
-			-> ImVec2;
+		[[nodiscard]] auto grid_delta(float x, float y) const noexcept -> ImVec2;
 
 		[[nodiscard]] auto grid_x(float x) const noexcept -> float;
 		[[nodiscard]] auto grid_y(float y) const noexcept -> float;

@@ -115,94 +115,65 @@ class UI {
 		auto stop() -> void;
 
 		// Main Dispatch Methods
-		auto display_screen(Enums::Screen screen,
-							const std::any &param = nullptr) -> void;
+		auto display_screen(Enums::Screen screen, const std::any &param = nullptr) -> void;
 		auto display_engine() -> void;
 		auto display_refresh(std::any payload = nullptr) -> void;
 
 		// Helpers
 		auto get_hl_colour(const double percent) const -> ImColor;
-		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo,
-						 const double percent) const -> ImVec4;
-		auto lerp_colour_engine(const ImVec4 col_from, const ImVec4 col_to,
-								const double percent) const -> ImVec4;
-		auto load_message(const Enums::Map::Event event)
-			-> std::vector<std::string>;
+		auto lerp_colour(const ImVec4 col_from, const ImVec4 col_yo, const double percent) const -> ImVec4;
+		auto lerp_colour_engine(const ImVec4 col_from, const ImVec4 col_to, const double percent) const -> ImVec4;
+		auto load_message(const Enums::Map::Event event) -> std::vector<std::string>;
 		auto set_fullscreen(const bool value) -> void;
 
 		[[nodiscard]] auto transient_blocks_input() const -> bool;
 		[[nodiscard]] auto has_transient() const -> bool;
 
 		// Primitive Drawables
-		auto draw_atlas_image(const std::string_view layer,
-							  const AtlasImage &image) -> void;
-		auto draw_atlas_image(ImDrawList *draw_list, const AtlasImage &image)
-			-> void;
+		auto draw_atlas_image(const std::string_view layer, const AtlasImage &image) -> void;
+		auto draw_atlas_image(ImDrawList *draw_list, const AtlasImage &image) -> void;
 		auto draw_tiled_bg_atlas([[maybe_unused]] Component *component) -> void;
 
-		auto draw_button(Component *component,
-						 std::optional<bool *> is_clicked = std::nullopt)
-			-> void;
-		auto draw_button_click(Component *component, bool &is_clicked,
-							   const bool reverse = false) -> void;
+		auto draw_button(Component *component, std::optional<bool *> is_clicked = std::nullopt) -> void;
+		auto draw_button_click(Component *component, bool &is_clicked, const bool reverse = false) -> void;
 		auto draw_fg_image(Component *component) -> void;
-		auto draw_fg_image_with_idx(
-			std::string_view source, const int idx, const ImVec2 p_min,
-			const ImVec2 p_sz,
-			const ImVec4 tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f},
-			std::optional<ImageOffsetEffect> effect = std::nullopt) -> void;
-		auto draw_fg_image_with_idx(
-			std::string_view layer, std::string_view source, const int idx,
-			const ImVec2 p_min, const ImVec2 p_sz,
-			const ImVec4 tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f},
-			std::optional<ImageOffsetEffect> effect = std::nullopt) -> void;
+		auto draw_fg_image_with_idx(std::string_view source, const int idx, const ImVec2 p_min, const ImVec2 p_sz,
+									const ImVec4 tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f},
+									std::optional<ImageOffsetEffect> effect = std::nullopt) -> void;
+		auto draw_fg_image_with_idx(std::string_view layer, std::string_view source, const int idx, const ImVec2 p_min,
+									const ImVec2 p_sz, const ImVec4 tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f},
+									std::optional<ImageOffsetEffect> effect = std::nullopt) -> void;
 		auto draw_frame(Component *component) -> void;
-		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
-						const ImVec4 colour, const int rounding) -> void;
-		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max,
-						const ImVec4 colour, const ImVec4 bg_colour,
+		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max, const ImVec4 colour, const int rounding) -> void;
+		auto draw_frame(const ImVec2 p_min, const ImVec2 p_max, const ImVec4 colour, const ImVec4 bg_colour,
 						const int rounding) -> void;
-		auto draw_frame_background(const ImVec2 p_min, const ImVec2 p_max,
-								   const ImVec4 colour, const int rounding)
+		auto draw_frame_background(const ImVec2 p_min, const ImVec2 p_max, const ImVec4 colour, const int rounding)
 			-> void;
-		auto draw_frame_border(const ImVec2 p_min, const ImVec2 p_max,
-							   const ImVec4 colour, const int rounding) -> void;
-		auto draw_image(std::string_view source, const int idx,
-						const ImVec2 p_min, const ImVec2 p_sz) -> void;
+		auto draw_frame_border(const ImVec2 p_min, const ImVec2 p_max, const ImVec4 colour, const int rounding) -> void;
+		auto draw_image(std::string_view source, const int idx, const ImVec2 p_min, const ImVec2 p_sz) -> void;
 
-		auto draw_input(Component &component, std::string &input,
-						const ImGuiInputTextFlags input_flags) -> bool;
+		auto draw_input(Component &component, std::string &input, const ImGuiInputTextFlags input_flags) -> bool;
 		auto draw_menu(Component *component) -> void;
-		auto draw_menu(const std::string name, const ImColor sel_colour,
-					   const ImVec2 pos, const ImVec2 sz,
-					   const Enums::Layout::Font font,
-					   std::vector<std::string> &items, std::vector<int> &data,
-					   const bool reorder, const bool across = false,
-					   const bool numeric_shortcuts = false) -> void;
+		auto draw_menu(const std::string name, const ImColor sel_colour, const ImVec2 pos, const ImVec2 sz,
+					   const Enums::Layout::Font font, std::vector<std::string> &items, std::vector<int> &data,
+					   const bool reorder, const bool across = false, const bool numeric_shortcuts = false) -> void;
 		auto draw_paragraph(Component *component) -> void;
-		auto draw_stepper(Component *component, const std::string &name,
-						  int &value) -> void;
+		auto draw_stepper(Component *component, const std::string &name, int &value) -> void;
 		auto draw_text(Component *component) -> void;
 		auto draw_text(Component *component, const std::string &string) -> void;
-		auto draw_text(const std::string string, const ImColor colour,
-					   const ImVec2 pos, const Enums::Layout::Font font)
+		auto draw_text(const std::string string, const ImColor colour, const ImVec2 pos, const Enums::Layout::Font font)
 			-> void;
-		auto draw_text_with_layer(const std::string string,
-								  const ImColor colour, const ImVec2 pos,
+		auto draw_text_with_layer(const std::string string, const ImColor colour, const ImVec2 pos,
 								  const Enums::Layout::Font font) -> void;
-		auto draw_view_image(std::string_view source, const VertexArray &array)
-			-> void;
+		auto draw_view_image(std::string_view source, const VertexArray &array) -> void;
 
 		// Draw Automatic Components
-		auto draw_components(std::string_view screen, const int mode = -1)
-			-> void;
+		auto draw_components(std::string_view screen, const int mode = -1) -> void;
 
 		// Handle Transient Messages
-		auto show_transient(
-			std::string text,
-			std::chrono::milliseconds duration = std::chrono::seconds{2},
-			TransientWidth width = TransientWidth::FIT_TEXT,
-			TransientMode mode = TransientMode::DISMISS_ON_ACTION) -> void;
+		auto show_transient(std::string text, std::chrono::milliseconds duration = std::chrono::seconds{2},
+							TransientWidth width = TransientWidth::FIT_TEXT,
+							TransientMode mode = TransientMode::DISMISS_ON_ACTION) -> void;
 		auto clear_transient() -> void;
 		auto clear_transient_on_action() -> void;
 
@@ -213,8 +184,7 @@ class UI {
 		auto draw_automap_legend(Component *component) -> void;
 		auto draw_bg_video() -> void;
 		auto draw_buffbar() -> void;
-		auto draw_character_summary(Component *component,
-									const Character *character) -> void;
+		auto draw_character_summary(Component *component, const Character *character) -> void;
 		auto draw_compass() -> void;
 		auto draw_current_character(const int mode) -> void;
 		auto draw_current_level_map() -> void;
@@ -227,56 +197,39 @@ class UI {
 
 		auto draw_level_no_player() -> void;
 		auto draw_loading_progress() -> void;
-		auto draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz)
-			-> void;
+		auto draw_map_tile(const Tile &tile, const ImVec2 pos, const ImVec2 sz) -> void;
 		auto draw_minimap() -> void;
 		auto draw_monster_info() -> void;
 		auto draw_pay_info() -> void;
 		auto draw_options() -> void;
 		auto draw_save() -> void;
-		auto draw_character_spells(Component *component,
-								   const Character *character,
-								   const Enums::Magic::SpellType spell_type)
-			-> void;
+		auto draw_character_spells(Component *component, const Character *character,
+								   const Enums::Magic::SpellType spell_type) -> void;
 		auto draw_spell_info() -> void;
-		auto draw_spell_info_contents(const Enums::Magic::SpellID spell_id,
-									  const Enums::Layout::Font font) -> void;
+		auto draw_spell_info_contents(const Enums::Magic::SpellID spell_id, const Enums::Layout::Font font) -> void;
 		auto draw_party_panel() -> void;
 		auto draw_party_wipe() -> void;
 		auto draw_transient() -> void;
 		auto draw_ui_status() -> void;
 
-		auto draw_level_map(const Level &level, const Component &component,
-							const MapView &view) -> MapGeometry;
+		auto draw_level_map(const Level &level, const Component &component, const MapView &view) -> MapGeometry;
 		auto draw_map_player(const MapGeometry &geometry) -> void;
 
 		auto reset_character_spell_view() -> void;
 
-		auto draw_character_stats(Component *component,
-								  const Character *character) -> void;
+		auto draw_character_stats(Component *component, const Character *character) -> void;
 
-		auto draw_stat_heading(const std::string_view name,
-							   const unsigned value) -> void;
-		auto draw_stat_value(const std::string_view name, const int value)
-			-> void;
-		auto draw_stat_percent(const std::string_view name, const int value)
-			-> void;
-		auto draw_stat_modifier(const std::string_view name, const int value)
-			-> void;
-		auto draw_character_strength([[maybe_unused]] Component *component,
-									 const Character *character) -> void;
-		auto draw_character_vitality([[maybe_unused]] Component *component,
-									 const Character *character) -> void;
-		auto draw_character_iq([[maybe_unused]] Component *component,
-							   const Character *character) -> void;
-		auto draw_character_agility([[maybe_unused]] Component *component,
-									const Character *character) -> void;
-		auto draw_character_piety([[maybe_unused]] Component *component,
-								  const Character *character) -> void;
-		auto draw_character_luck([[maybe_unused]] Component *component,
-								 const Character *character) -> void;
-		auto draw_character_res([[maybe_unused]] Component *component,
-								const Character *character) -> void;
+		auto draw_stat_heading(const std::string_view name, const unsigned value) -> void;
+		auto draw_stat_value(const std::string_view name, const int value) -> void;
+		auto draw_stat_percent(const std::string_view name, const int value) -> void;
+		auto draw_stat_modifier(const std::string_view name, const int value) -> void;
+		auto draw_character_strength([[maybe_unused]] Component *component, const Character *character) -> void;
+		auto draw_character_vitality([[maybe_unused]] Component *component, const Character *character) -> void;
+		auto draw_character_iq([[maybe_unused]] Component *component, const Character *character) -> void;
+		auto draw_character_agility([[maybe_unused]] Component *component, const Character *character) -> void;
+		auto draw_character_piety([[maybe_unused]] Component *component, const Character *character) -> void;
+		auto draw_character_luck([[maybe_unused]] Component *component, const Character *character) -> void;
+		auto draw_character_res([[maybe_unused]] Component *component, const Character *character) -> void;
 
 		// Public Members
 		std::unique_ptr<ImageStore> images;
@@ -322,19 +275,12 @@ class UI {
 		auto _mage_spell_index(Enums::Magic::SpellID id) -> std::size_t;
 		auto _priest_spell_index(Enums::Magic::SpellID id) -> std::size_t;
 
-		auto _activate_menu_item(const std::string_view name,
-								 const int selection, const int data_item,
+		auto _activate_menu_item(const std::string_view name, const int selection, const int data_item,
 								 const std::vector<std::string> &items) -> void;
-		auto _handle_menu_reordering(const std::string_view name,
-									 std::vector<std::string> &items,
-									 std::vector<int> &data,
-									 const std::size_t index,
-									 const int data_item) -> void;
-		[[nodiscard]] auto _get_cursor_colour(const bool busy,
-											  const double percent) const
-			-> ImVec4;
+		auto _handle_menu_reordering(const std::string_view name, std::vector<std::string> &items,
+									 std::vector<int> &data, const std::size_t index, const int data_item) -> void;
+		[[nodiscard]] auto _get_cursor_colour(const bool busy, const double percent) const -> ImVec4;
 
-		auto _map_position(const MapGeometry &geometry,
-						   const Coordinate location) const -> ImVec2;
+		auto _map_position(const MapGeometry &geometry, const Coordinate location) const -> ImVec2;
 };
 };
