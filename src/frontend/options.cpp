@@ -1,0 +1,115 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#include "frontend/options.hpp"
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "common/enum.hpp"					// for Options
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/enum.hpp"					// for Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
+#include "display/ui/ui.hpp"				// for UI
+#include "drawables/define.hpp"				// for GO_TO_FRONT_END, ABORT_GAME
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <memory>							// for unique_ptr
+
+Sorcery::Options::Options(Context &ctx)
+	: Module{ctx} {
+
+	_initialise();
+};
+
+auto Sorcery::Options::_initialise() -> bool {
+
+	_is_in_game = false;
+
+	return true;
+}
+
+auto Sorcery::Options::start(const bool is_in_game) -> int {
+
+	_is_in_game = is_in_game;
+	_ctx.controller->go_to(Enums::Screen::OPTIONS);
+	_ctx.controller->initialise();
+
+	fade_in(Enums::Screen::OPTIONS, QUICK_FADE);
+
+	// Main loop
+	_fullscreen_before = _ctx.get_config(Enums::Config::Options::FULLSCREEN);
+	_monochrome_before = _ctx.get_config(Enums::Config::Options::CGA_GRAPHICS);
+	while (true) {
+		SDL_Event event{};
+		while (SDL_PollEvent(&event)) {
+
+			switch (process_event(event, {.menu_key = true, .quicksave = false, .quickload = false})) {
+
+			case ModuleEvent::ABORT:
+				return abort();
+
+			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::NONE:
+				break;
+			}
+
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
+				return GO_TO_FRONT_END;
+			}
+		}
+
+		_ctx.ui->display_screen(Enums::Screen::OPTIONS);
+		_ctx.tick();
+
+		if (!_ctx.controller->wants(Enums::Screen::OPTIONS))
+			return GO_TO_FRONT_END;
+	}
+
+	// Exit if we get to here having broken out of the loop
+	return ABORT_GAME;
+}
+
+auto Sorcery::Options::stop() -> int {
+
+	auto fullscreen_after{_ctx.get_config(Enums::Config::Options::FULLSCREEN)};
+	if (_fullscreen_before != fullscreen_after)
+		_ctx.ui->set_fullscreen(fullscreen_after);
+
+	auto monochrome_after{_ctx.get_config(Enums::Config::Options::CGA_GRAPHICS)};
+	if (_monochrome_before != monochrome_after) {
+		_ctx.controller->set_monochrome(monochrome_after);
+	}
+
+	if (_is_in_game)
+		_ctx.controller->go_to(Enums::Screen::ENGINE);
+	else
+		_ctx.controller->go_to(Enums::Screen::MAINMENU);
+
+	fade_out(Enums::Screen::OPTIONS, QUICK_FADE);
+
+	return 0;
+}

@@ -1,0 +1,88 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#pragma once
+
+#include <cstddef>		 // for size_t
+#include <string>		 // for basic_string, string
+#include <string_view>	 // for string_view
+#include <unordered_map> // for unordered_map
+#include <vector>		 // for vector
+namespace Sorcery {
+namespace Enums { enum class CharacterSlot; }
+}
+namespace Sorcery {
+namespace Enums { enum class Screen; }
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Layout { enum class DialogType; }
+}
+}
+
+namespace Sorcery {
+
+namespace Enums::MenuAction {
+
+	enum class Type {
+		NO_ACTION,
+		GOTOSCREEN,
+		GO_BACK,
+		SETFLAG,
+		CLEARFLAG,
+		SET_CHARACTER,
+		CLEAR_CHARACTER,
+		SET_SELECTED,
+		OPEN_DIALOG,
+		CLOSE_POPUP,
+		CUSTOM
+	};
+
+	enum class Function {
+		NO_FUNCTION,
+		POOL_GOLD,
+		CHANGE_CLASS,
+	};
+};
+
+struct MenuAction {
+
+		Enums::MenuAction::Type type{Enums::MenuAction::Type::NO_ACTION};
+		Enums::Screen screen{};
+		std::string_view flag{};
+		std::size_t ui_index{};
+		Enums::CharacterSlot character_key{};
+		Enums::MenuAction::Function custom_function{Enums::MenuAction::Function::NO_FUNCTION};
+		std::string_view selected_key{};
+		int selected_value{};
+		std::string popup_component{};
+		Enums::Layout::DialogType dialog_type{};
+};
+
+using ActionList = std::vector<std::vector<MenuAction>>;
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+
+extern const std::unordered_map<std::string_view, ActionList> MENU_ACTIONS;
+
+}

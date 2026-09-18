@@ -1,0 +1,42 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#include "core/resources.hpp"
+#include "core/context.hpp"			  // for Context
+#include "resources/define.hpp"		  // for ITEMS_FILE, MAPS_FILE, MONSTER...
+#include "resources/itemstore.hpp"	  // for ItemStore
+#include "resources/levelstore.hpp"	  // for LevelStore
+#include "resources/monsterstore.hpp" // for MonsterStore
+#include "resources/savestore.hpp"	  // for SaveStore
+#include "resources/spellstore.hpp"	  // for SpellStore
+
+Sorcery::Resources::Resources(Context &ctx)
+	: _ctx{ctx} {
+
+	monsters = std::make_unique<MonsterStore>(_ctx.get_file(MONSTERS_FILE));
+	items = std::make_unique<ItemStore>(_ctx, _ctx.get_file(ITEMS_FILE));
+	levels = std::make_unique<LevelStore>(_ctx.get_file(MAPS_FILE));
+	spells = std::make_unique<SpellStore>(_ctx);
+	saves = std::make_unique<SaveStore>(_ctx.get_file(SAVE_GAME_FILE), _ctx.get_directory(SAVE_CHARACTERS_DIR));
+}
+
+Sorcery::Resources::~Resources() = default;

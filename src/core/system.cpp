@@ -1,0 +1,85 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#include "core/system.hpp"
+#include "SimpleIni.h"				  // for CSimpleIniTempl, CSimpleIniA
+#include "core/audio/audioplayer.hpp" // for AudioPlayer
+#include "core/macro.hpp"			  // for CSTR
+#include "core/random.hpp"			  // for Random
+#include "display/animation.hpp"	  // for Animation
+#include "resources/define.hpp"		  // for CONFIG_FILE, STRINGS_FILE
+#include "resources/filestore.hpp"	  // for FileStore
+#include "resources/stringstore.hpp"  // for StringStore
+#include "types/config.hpp"			  // for Config
+#include <SDL.h>					  // for SDL_INIT_AUDIO, SDL_Init
+#include <SDL_error.h>				  // for SDL_GetError
+#include <ctime>					  // for gmtime, strftime
+#include <filesystem>				  // for path
+#include <format>					  // for format
+#include <iterator>					  // for size, data
+#include <print>					  // for println
+
+Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
+
+	// Initialise SDL Audio first as it's a dependency of AudioPlayer, but we
+	// initialise the video subsystem in Display as it's not needed until then
+	if (SDL_Init(SDL_INIT_AUDIO) != 0) {
+		std::println("Error: {}", SDL_GetError());
+	} else {
+
+		// Initialise modules (note the order here is important)
+		files = std::make_unique<FileStore>();
+		strings = std::make_unique<StringStore>(files->get(STRINGS_FILE));
+
+		_settings = std::make_unique<CSimpleIniA>();
+		_settings->SetUnicode();
+		const auto config_file{files->get(CONFIG_FILE)};
+		_settings->LoadFile(config_file.c_str());
+
+		config = std::make_unique<Config>(_settings.get(), files->get(CONFIG_FILE));
+		random = std::make_unique<Random>();
+		animation = std::make_unique<Animation>(random.get());
+		audio = std::make_unique<AudioPlayer>(files.get());
+	}
+}
+
+Sorcery::System::~System() {}
+
+// Diceroll to String
+auto Sorcery::System::dice_roll_to_str(const std::string &message, const int dice, const int roll,
+									   const int needed) const -> std::string {
+
+	return std::format("d{:<3}: {:>3}/{:>3}: {}", dice, roll, needed, message);
+}
+
+// Timepoint to String
+auto Sorcery::System::convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) const
+	-> std::string {
+
+	// Need to do it this way til std::chrono::locate_zone etc is supported
+	auto t_t{std::chrono::system_clock::to_time_t(tp)};
+	char t_s[std::size("yyyy-mm-dd hh:mm:ss")];
+	std::strftime(std::data(t_s), std::size(t_s), "%F %T", std::gmtime(&t_t));
+	std::string ts(t_s);
+
+	return ts;
+}

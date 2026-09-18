@@ -1,0 +1,447 @@
+# Project Definition
+cmake_minimum_required(VERSION 3.22)
+set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_BUILD_TYPE Debug)
+project(sorcery VERSION 0.1.0)
+
+set(SORCERY_BUILD_LABEL "Alpha #1")
+
+string(TIMESTAMP SORCERY_BUILD_DATE "%Y-%m-%d")
+
+configure_file(
+	${CMAKE_SOURCE_DIR}/inc/generated/version.hpp.in
+	${CMAKE_BINARY_DIR}/generated/version.hpp
+	@ONLY
+)
+
+option(SORCERY_ENABLE_IWYU "Enable include-what-you-use analysis" OFF)
+
+if(SORCERY_ENABLE_IWYU)
+    find_program(IWYU_EXECUTABLE NAMES include-what-you-use iwyu)
+
+    if(NOT IWYU_EXECUTABLE)
+        message(FATAL_ERROR "include-what-you-use not found")
+    endif()
+endif()
+
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+	message(FATAL_ERROR
+		"In-source builds are not supported. Please use: \n"
+		"  - to clean:       cmake --build build --target clean\n"
+		"  - to reconfigure: cmake -S . -B build\n"
+		"  - to build:       cmake --build build -j<cores>\n"
+	)
+endif()
+
+include(FetchContent)
+include(Dependencies.cmake)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Paths
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+
+# Prerequisites
+set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+find_package(SDL2 REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(PkgConfig REQUIRED)
+find_package(Freetype REQUIRED)
+find_package(glm REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(jsoncpp CONFIG REQUIRED)
+
+# Zep
+add_definitions(-DZEP_USE_SDL)
+add_definitions(-DZEP_FEATURE_CPP_FILE_SYSTEM)
+add_definitions(-DZEP_SINGLE_HEADER=1)
+
+# ffmpeg
+pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
+	libavdevice
+	libavfilter
+	libavformat
+	libavcodec
+	libswresample
+	libswscale
+	libavutil
+)
+
+# Imgui Library
+add_library(dear_imgui EXCLUDE_FROM_ALL)
+
+target_sources(dear_imgui PRIVATE
+	${imgui_SOURCE_DIR}/imgui.cpp
+	${imgui_SOURCE_DIR}/imgui_demo.cpp
+	${imgui_SOURCE_DIR}/imgui_draw.cpp
+	${imgui_SOURCE_DIR}/imgui_tables.cpp
+	${imgui_SOURCE_DIR}/imgui_widgets.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+	${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
+	${imgui_SOURCE_DIR}/misc/freetype/imgui_freetype.cpp
+)
+
+target_include_directories(dear_imgui PUBLIC
+	${SDL2_INCLUDE_DIRS}
+	${SDL2_IMAGE_INCLUDE_DIRS}
+	${OPENGL_INCLUDE_DIR}
+	${GLUT_INCLUDE_DIRS}
+	${imgui_SOURCE_DIR}
+)
+
+target_link_libraries(dear_imgui PRIVATE
+	Freetype::Freetype
+	SDL2::SDL2
+    OpenGL::GL
+)
+
+target_link_libraries(dear_imgui PUBLIC
+	imgui_spinner::imgui_spinner
+    imgui_sugar::imgui_sugar
+)
+
+target_compile_options(dear_imgui PRIVATE
+	-Wno-switch-default
+	-Wno-suggest-attribute=format
+)
+
+target_compile_definitions(dear_imgui PRIVATE
+	IMGUI_ENABLE_FREETYPE
+)
+
+add_library(dear_imgui_toggle STATIC
+    "${imgui_toggle_SOURCE_DIR}/imgui_toggle.cpp"
+    "${imgui_toggle_SOURCE_DIR}/imgui_toggle_palette.cpp"
+    "${imgui_toggle_SOURCE_DIR}/imgui_toggle_presets.cpp"
+    "${imgui_toggle_SOURCE_DIR}/imgui_toggle_renderer.cpp"
+)
+
+add_library(imgui_toggle::imgui_toggle ALIAS dear_imgui_toggle)
+
+target_include_directories(dear_imgui_toggle
+    SYSTEM PUBLIC
+        "${imgui_toggle_SOURCE_DIR}"
+)
+
+target_link_libraries(dear_imgui_toggle
+    PUBLIC
+        dear_imgui
+)
+
+target_compile_options(dear_imgui_toggle PRIVATE
+    -Wno-switch-default
+    -Wno-suggest-attribute=format
+)
+
+# Global Ifdefs
+add_library(sorcery_options INTERFACE)
+#target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
+target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
+
+target_link_libraries(sorcery_options INTERFACE
+	cereal::cereal
+	stb::stb
+	SimpleIni::SimpleIni
+	imgui_toggle::imgui_toggle
+)
+
+# Global Compile Options
+add_library(sorcery_warnings INTERFACE)
+target_compile_options(sorcery_warnings INTERFACE
+	-Wall
+	-Wextra
+	-Wpedantic
+	-Wno-narrowing
+	-Wno-unused-parameter
+)
+
+# Platform libraries
+if(WIN32)
+	set(SORCERY_UUID_LIBRARY rpcrt4)
+else()
+	set(SORCERY_UUID_LIBRARY uuid)
+endif()
+
+# Main Source Files
+include(src/core/CMakeLists.txt)
+include(src/display/CMakeLists.txt)
+include(src/drawables/CMakeLists.txt)
+include(src/engine/CMakeLists.txt)
+include(src/frontend/CMakeLists.txt)
+include(src/modules/CMakeLists.txt)
+include(src/resources/CMakeLists.txt)
+include(src/training//CMakeLists.txt)
+include(src/types/CMakeLists.txt)
+
+# Optionally enable Include-What-You-Use
+if(SORCERY_ENABLE_IWYU)
+
+    message(STATUS "IWYU: ${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_core
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_display
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_drawables
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_engine
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_frontend
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_modules
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_resources
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_training
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_types
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+endif()
+
+add_executable(${PROJECT_NAME}
+	src/sorcery.cpp
+	${sorcery_SOURCES})
+
+
+if(SORCERY_ENABLE_IWYU)
+    set_property(TARGET ${PROJECT_NAME}
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+endif()
+
+# Include Directories
+target_include_directories(${PROJECT_NAME} PRIVATE
+	${SDL2_INCLUDE_DIRS}
+	${SDL2_IMAGE_INCLUDE_DIRS}
+	${OPENGL_INCLUDE_DIR}
+	${GLUT_INCLUDE_DIRS}
+	${CMAKE_SOURCE_DIR}/inc)
+
+
+if(NOT WIN32)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        -pthread
+        -pg
+    )
+
+    target_link_options(${PROJECT_NAME} PRIVATE
+        -pg
+    )
+endif()
+
+# Compiler Options
+target_compile_options(${PROJECT_NAME} PRIVATE
+	-Wall
+	-Wextra
+	-Wpedantic
+	-Wunreachable-code
+	-Wunused
+	-Wignored-qualifiers
+	-Wcast-align
+	-Wformat-nonliteral
+	-Wformat=2
+	-Wsuggest-attribute=format
+	-Winvalid-pch
+	-Wmissing-declarations
+	-Wmissing-format-attribute
+	-Wmissing-include-dirs
+	-Wredundant-decls
+	-Wodr
+	-Wfatal-errors
+	-fdiagnostics-color=always
+	-Wno-narrowing
+	-g)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+	BUILD_RPATH "$ORIGIN/lib;/opt/gcc-16.2/lib64"
+)
+
+
+target_link_libraries(sorcery_types
+	PUBLIC
+		JsonCpp::JsonCpp
+	PRIVATE
+		sorcery_warnings
+		sorcery_options
+)
+
+target_link_libraries(sorcery_core PRIVATE
+	sorcery_types
+	sorcery_warnings
+	sorcery_options
+	stdc++exp
+)
+
+target_link_libraries(sorcery_engine PRIVATE
+	sorcery_types
+	sorcery_warnings
+	sorcery_options
+)
+
+target_link_libraries(sorcery_display PRIVATE
+	sorcery_types
+	sorcery_warnings
+	sorcery_options
+	OpenGL::GL
+    GLEW::GLEW
+)
+
+target_include_directories(sorcery_display PRIVATE
+	${CMAKE_BINARY_DIR}/generated
+)
+
+target_link_libraries(sorcery_drawables PRIVATE
+	sorcery_types
+	sorcery_warnings
+	sorcery_options
+)
+
+target_link_libraries(sorcery_frontend PRIVATE
+	sorcery_types
+	sorcery_warnings
+	sorcery_options
+)
+
+target_link_libraries(sorcery_training PRIVATE
+	sorcery_types
+	sorcery_warnings
+	sorcery_options
+)
+
+target_link_libraries(sorcery_modules
+	PUBLIC
+		sorcery_types
+	PRIVATE
+		sorcery_warnings
+		sorcery_options
+)
+
+target_link_libraries(sorcery_resources
+	PUBLIC
+		sorcery_types
+		JsonCpp::JsonCpp
+	PRIVATE
+		sorcery_warnings
+		sorcery_options
+)
+
+# Link Libraries
+if(WIN32)
+	set(SORCERY_UUID_LIBRARY rpcrt4)
+else()
+	set(SORCERY_UUID_LIBRARY uuid)
+endif()
+
+# Link Libraries
+target_link_libraries(${PROJECT_NAME} PRIVATE
+	${SDL2_LIBRARIES}
+	${OPENGL_LIBRARIES}
+	Freetype::Freetype
+	PkgConfig::LIBAV
+	Threads::Threads
+	${CMAKE_DL_LIBS}
+	stdc++fs
+	JsonCpp::JsonCpp
+	dear_imgui
+	imgui_toggle::imgui_toggle
+	${SORCERY_UUID_LIBRARY}
+	sorcery_core
+	sorcery_engine
+	sorcery_display
+	sorcery_drawables
+	sorcery_frontend
+	sorcery_modules
+	sorcery_resources
+	sorcery_training
+	sorcery_types
+	sorcery_warnings
+	cereal::cereal
+	stb::stb
+	SimpleIni::SimpleIni
+)
+
+MESSAGE("Creating and Populating Post-Build Directories")
+
+# Post Build Copying
+set(SORCERY_DIST_DIR "${CMAKE_BINARY_DIR}/dist")
+
+
+if(WIN32)
+	get_filename_component(
+		SORCERY_RUNTIME_DIR
+		"${CMAKE_CXX_COMPILER}"
+		DIRECTORY
+	)
+
+	add_custom_command(
+		TARGET ${PROJECT_NAME}
+		POST_BUILD
+
+		COMMAND ${CMAKE_COMMAND}
+			"-DSORCERY_EXE=$<TARGET_FILE:${PROJECT_NAME}>"
+			"-DSORCERY_RUNTIME_DIR=${SORCERY_RUNTIME_DIR}"
+			"-DSORCERY_DEST_DIR=$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+			-P "${CMAKE_SOURCE_DIR}/Win32RuntimeDependencies.cmake"
+
+		VERBATIM
+	)
+endif()
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+
+  COMMAND ${CMAKE_COMMAND} -E make_directory
+        "${SORCERY_DIST_DIR}"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		"$<TARGET_FILE:${PROJECT_NAME}>"
+		"${SORCERY_DIST_DIR}/"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/cfg"
+		"${SORCERY_DIST_DIR}/cfg"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/dat"
+		"${SORCERY_DIST_DIR}/dat"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/doc"
+		"${SORCERY_DIST_DIR}/doc"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/gfx"
+		"${SORCERY_DIST_DIR}/gfx"
+
+# Copying sav already includes sav/characters and sav/states.
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/sav"
+	"${SORCERY_DIST_DIR}/sav"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/sfx"
+		"${SORCERY_DIST_DIR}/sfx"
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/vfx"
+		"${SORCERY_DIST_DIR}/vfx"
+)
+
+# Packaging
+set(CPACK_PROJECT_NAME sorcery)
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)

@@ -1,0 +1,11 @@
+#pragma once
+
+#include <string_view>
+
+namespace Sorcery::Build {
+
+inline constexpr std::string_view VERSION{"@PROJECT_VERSION@"};
+inline constexpr std::string_view LABEL{"@SORCERY_BUILD_LABEL@"};
+inline constexpr std::string_view DATE{"@SORCERY_BUILD_DATE@"};
+
+}

@@ -1,0 +1,232 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#include "drawables/frame.hpp"
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/define.hpp"				  // for WINDOW_LAYER_FRAMES, WINDO...
+#include "display/animation.hpp"		  // for Animation
+#include "display/ui/ui.hpp"			  // for UI
+#include "display/ui/uimetrics.hpp"		  // for UIMetrics
+#include "resources/fontstore.hpp"		  // for FontStore
+#include "types/component.hpp"			  // for Component
+#include "types/enum.hpp"				  // for Font
+#include <functional>					  // for invoke
+#include <imgui_sugar.hpp>				  // for BooleanGuard, with_Window
+#include <memory>						  // for unique_ptr
+
+Sorcery::Frame::Frame(Context &ctx, Component *component)
+	: _ctx{ctx},
+	  _component{component} {
+
+	_pos = ImVec2{_component->x, _component->y};
+	_size = Size{_component->w, _component->h};
+	_colour = _component->colour;
+	_bg_colour = _component->background;
+	_name = _component->name;
+
+	const auto test{ImGui::ColorConvertU32ToFloat4(_bg_colour)};
+
+	// DEBUG_LOGF("name = {}, bg={:08x} rgba={:.2f},{:.2f},{:.2f},{:.2f}",
+	// _name, 		   _bg_colour, test.x, test.y, test.z, test.w);
+
+	if (_component->get("bg_source")) {
+
+		const auto mode{_component->get("bg_mode").value_or("stretch")};
+
+		_bg_image = FrameBackground{
+			.source = _component->get("bg_source").value(),
+			.idx = _component->get_int("bg_idx"),
+			.source_tile_size = ImVec2{_component->get_float("bg_tile_width"), _component->get_float("bg_tile_height")},
+			.mode = mode == "tile" ? AtlasDrawMode::TILE : AtlasDrawMode::STRETCH,
+			.alpha = _component->get_float("bg_alpha")};
+
+	} else {
+
+		_bg_image = std::nullopt;
+	}
+
+	if (_component->get("shadow").value_or("no") == "yes") {
+
+		_shadow = FrameShadow{
+			.offset = ImVec2{_component->get_float("shadow_x", 2.0f), _component->get_float("shadow_y", 2.0f)},
+			.alpha = _component->get_float("shadow_alpha", 0.45f),
+			.brightness = _component->get_float("shadow_brightness", 0.0f)};
+	} else {
+
+		_shadow = std::nullopt;
+	}
+
+	if (_component->get("title"))
+		_title = _component->get("title");
+	else
+		_title = std::nullopt;
+
+	if (_component->get("foreground")) {
+		if (_component->get("foreground").value() == "yes")
+			_draw(true);
+		else
+			_draw(false);
+	} else
+		_draw(false);
+}
+
+Sorcery::Frame::Frame(Context &ctx, std::string_view name, const ImVec2 pos, const Size size, const ImU32 colour,
+					  const ImU32 bg_colour)
+	: _ctx{ctx},
+	  _name{name},
+	  _pos{pos},
+	  _size{size},
+	  _colour{colour},
+	  _bg_colour{bg_colour} {
+
+	_bg_image = std::nullopt;
+	_title = std::nullopt;
+	_shadow = std::nullopt;
+	_draw(false);
+}
+auto Sorcery::Frame::_draw(const bool foreground) -> void {
+
+	const auto rounding{_ctx.ui->frame_rd};
+
+	const auto size{_ctx.ui->metrics->grid_delta(static_cast<float>(_size.w), static_cast<float>(_size.h))};
+
+	const auto x{std::invoke([&] {
+		if (_pos.x == -1) {
+
+			const auto viewport{ImGui::GetMainViewport()};
+
+			return (viewport->Size.x - size.x) / 2.0f;
+		}
+
+		return _ctx.ui->metrics->grid_pos(_pos.x, 0.0f).x;
+	})};
+
+	const auto y{std::invoke([&] {
+		if (_pos.y == -1) {
+
+			const auto viewport{ImGui::GetMainViewport()};
+
+			return (viewport->Size.y - size.y) / 2.0f;
+		}
+
+		return _ctx.ui->metrics->grid_pos(0.0f, _pos.y).y;
+	})};
+
+	const auto border_layer{foreground ? WINDOW_LAYER_TEXTS : WINDOW_LAYER_FRAMES};
+
+	const auto background_layer{foreground ? WINDOW_LAYER_IMAGES : WINDOW_LAYER_FRAMES};
+
+	const ImVec2 p_min{x, y};
+	const ImVec2 p_max{x + size.x, y + size.y};
+
+	const ImVec2 shadow_min{p_min.x + (_shadow ? _shadow->offset.x : 0.0f),
+							p_min.y + (_shadow ? _shadow->offset.y : 0.0f)};
+
+	const ImVec2 shadow_max{p_max.x + (_shadow ? _shadow->offset.x : 0.0f),
+							p_max.y + (_shadow ? _shadow->offset.y : 0.0f)};
+
+	const ImVec4 frame_colour{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y, _ctx.ui->ui_colour.z, _ctx.animation->fade};
+
+	const ImVec4 bg_colour{
+		_component->background == 0xff000000 || _ctx.controller->get_monochrome()
+			? ImVec4{0.0f, 0.0f, 0.0f, 1.0f}
+			: ImVec4{_ctx.ui->ui_bg_colour.x, _ctx.ui->ui_bg_colour.y, _ctx.ui->ui_bg_colour.z, _ctx.animation->fade}};
+
+	const auto shadow_colour{std::invoke([&] {
+		if (!_shadow)
+			return ImVec4{0.0f, 0.0f, 0.0f, 0.0f};
+
+		return ImVec4{_shadow->brightness, _shadow->brightness, _shadow->brightness,
+					  _shadow->alpha * _ctx.animation->fade};
+	})};
+
+	with_Window(background_layer, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+
+		// Draw the normal black frame backing first.
+		_ctx.ui->draw_frame_background(p_min, p_max, bg_colour, rounding);
+
+		if (_shadow)
+			_ctx.ui->draw_frame_background(shadow_min, shadow_max, shadow_colour, rounding);
+
+		// Draw the normal black frame backing first.
+		_ctx.ui->draw_frame_background(p_min, p_max, bg_colour, rounding);
+
+		// Optionally draw an atlas image inside the frame.
+		if (_bg_image) {
+
+			const auto &bg{*_bg_image};
+
+			// Keep the image just inside the frame border.
+			const auto inset{static_cast<float>(rounding)};
+
+			const ImVec2 image_min{p_min.x + inset, p_min.y + inset};
+
+			const ImVec2 image_max{p_max.x - inset, p_max.y - inset};
+
+			_ctx.ui->draw_atlas_image(ImGui::GetWindowDrawList(),
+									  AtlasImage{.source = bg.source,
+												 .idx = bg.idx,
+												 .source_tile_size = bg.source_tile_size,
+												 .p_min = image_min,
+												 .p_max = image_max,
+												 .mode = bg.mode,
+												 .tint = ImVec4{1.0f, 1.0f, 1.0f, bg.alpha}});
+		}
+	}
+	with_Window(border_layer, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
+
+		if (_shadow)
+			_ctx.ui->draw_frame_border(shadow_min, shadow_max, shadow_colour, rounding);
+
+		// Draw the frame border over the background image.
+		_ctx.ui->draw_frame_border(p_min, p_max, frame_colour, rounding);
+
+		// Optional title.
+		if (_title) {
+
+			set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE).value(),
+					 _ctx.ui->metrics->font_sz());
+
+			const auto title_txt{_ctx.get_string(_title.value())};
+
+			const auto one_cell{_ctx.ui->metrics->grid_delta(1.0f, 1.0f)};
+
+			const auto title_height{_ctx.ui->metrics->grid_delta(0.0f, 3.0f).y};
+
+			const auto title_sz{
+				Size{ImGui::CalcTextSize(title_txt.c_str()).x + (_ctx.ui->metrics->font_sz() * 2), title_height}};
+
+			const auto title_pos{ImVec2{x + (size.x / 2.0f) - (static_cast<float>(title_sz.w) / 2.0f), y - one_cell.y}};
+
+			const auto text_pos{ImVec2{title_pos.x + one_cell.x, title_pos.y + one_cell.y}};
+
+			_ctx.ui->draw_frame(
+				title_pos,
+				ImVec2{title_pos.x + static_cast<float>(title_sz.w), title_pos.y + static_cast<float>(title_sz.h)},
+				frame_colour, rounding);
+
+			_ctx.ui->draw_text(title_txt, ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}, text_pos,
+							   Enums::Layout::Font::MONOSPACE);
+		}
+	}
+}

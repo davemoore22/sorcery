@@ -1,0 +1,108 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#pragma once
+
+#include "imgui.h" // for ImU32
+#include <cstdint>
+#include <optional>	   // for optional
+#include <string>	   // for basic_string, string
+#include <string_view> // for string_view
+#include <utility>	   // for pair
+#include <vector>	   // for vector
+
+namespace Sorcery {
+namespace Enums {
+	namespace Layout { enum class ComponentType; }
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Layout { enum class DrawMode; }
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Layout { enum class Font; }
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Layout { enum class Justification; }
+}
+}
+
+namespace Sorcery {
+
+class Component {
+
+	public:
+		// Constructors
+		Component(const std::string &form_, const std::string &name_, const int _x, const int y_, const unsigned int w_,
+				  const unsigned int h_, const Enums::Layout::Font font_, const ImU32 colour_, const bool animated_,
+				  const std::string &string_key_, const float alpha_, const ImU32 background_,
+				  const Enums::Layout::Justification justification_, const Enums::Layout::ComponentType _type,
+				  const unsigned int priority_, const Enums::Layout::DrawMode drawmode_);
+		Component();
+
+		auto get(std::string_view key) -> std::optional<std::string>;
+		auto get(std::string_view key) const -> std::optional<std::string>;
+		auto set(std::string_view key, std::string_view value) -> void;
+		auto set_enabled(bool value) -> void;
+		auto get_enabled() const -> bool;
+		auto set_visible(bool value) -> void;
+		auto get_visible() const -> bool;
+		auto id() const -> long;
+		auto get_int(std::string_view key, int fallback = 0) const -> int;
+		auto get_float(std::string_view key, float fallback = 0.0f) const -> float;
+		auto get_bool(std::string_view key, bool fallback = false) const -> bool;
+
+		std::string form;
+		std::string name;
+		int x;
+		int y;
+		unsigned int w;
+		unsigned int h;
+		Enums::Layout::Font font;
+		ImU32 colour;
+		bool animated;
+		std::string string_key;
+		float alpha;
+		ImU32 background;
+		Enums::Layout::Justification justification;
+		Enums::Layout::ComponentType type;
+		unsigned int priority;
+		Enums::Layout::DrawMode drawmode;
+		std::string unique_key;
+
+	private:
+		auto _get(std::string_view key) const -> std::optional<std::string>;
+
+		bool _enabled;
+		bool _visible;
+		std::vector<std::pair<std::string, std::string>> _data;
+
+		std::uint64_t _id{0};
+		static inline std::uint64_t _s_id{0};
+};
+
+}

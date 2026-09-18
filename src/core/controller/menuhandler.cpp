@@ -1,0 +1,1254 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#include "core/controller/menuhandler.hpp"
+#include "common/enum.hpp"				  // for Class, Ability, Random
+#include "common/types.hpp"				  // for Spell
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/controller/iteminvoke.hpp" // for apply_invoke
+#include "core/controller/menuaction.hpp" // for Type, MenuAction, MENU_ACT...
+#include "core/debug.hpp"				  // for DEBUG_LOGF, debug_logf
+#include "core/enum.hpp"				  // for CharacterSlot, Screen
+#include "core/resources.hpp"			  // for Resources
+#include "display/ui/popupmanager.hpp"	  // for PopupManager
+#include "display/ui/ui.hpp"			  // for UI
+#include "drawables/define.hpp"			  // for MAIN_MENU_CONTINUE_GAME
+#include "resources/itemstore.hpp"		  // for ItemStore
+#include "types/character/character.hpp"  // for Character
+#include "types/character/create.hpp"	  // for CharacterCreate
+#include "types/character/inventory.hpp"  // for Inventory
+#include "types/character/magic.hpp"	  // for ConstCharacterMagic
+#include "types/enum.hpp"				  // for TypeID, DialogType, Identi...
+#include "types/game.hpp"				  // for Game
+#include "types/item/item.hpp"			  // for Item
+#include "types/item/itemtype.hpp"		  // for ItemType
+#include "types/meta.hpp"				  // for enum_cast
+#include "types/state.hpp"				  // for State				 // for vector
+#include <algorithm>					  // for find
+#include <functional>					  // for less
+#include <map>							  // for map, operator==
+#include <memory>						  // for unique_ptr, shared_ptr
+#include <optional>						  // for optional
+#include <ranges>						  // for __find_fn
+#include <string>						  // for basic_string, char_traits
+#include <unordered_map>				  // for unordered_map, operator==
+#include <utility>						  // for pair, move
+#include <vector>						  // for vector
+
+/// @brief
+/// @param host
+/// @param ctx
+Sorcery::ControllerMenuHandler::ControllerMenuHandler(Controller &host, Context &ctx)
+	: _host{host},
+	  _ctx{ctx} {
+
+	  };
+
+/// @brief
+/// @param component
+/// @param items
+/// @param data
+/// @param selection
+/// @return
+auto Sorcery::ControllerMenuHandler::handle_standard(std::string_view component, const std::vector<std::string> &items,
+													 int data, int selection) -> void {
+
+	DEBUG_LOGF("Standard Menu: {} {} {}", component, data, selection);
+
+	if (component == "remove_character_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1)
+			_host.go_to(Enums::Screen::TAVERN);
+		else {
+			auto &character{_host._game->characters.at(static_cast<unsigned int>(data))};
+			character.set_location(Enums::Character::Location::TAVERN);
+			_host._game->state->remove_character_by_id(static_cast<unsigned int>(data));
+			_host._game->save_game();
+		}
+
+	} else if (component == "chest_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.clear_character(Enums::CharacterSlot::TRAP);
+			_host.set_flag("chest_character_cancelled");
+		} else
+			_host.set_selected("chest_menu_action", selection);
+
+	} else if (component == "inn_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::STAY);
+			_host.go_to(Enums::Screen::CASTLE);
+		} else
+			_host.set_character(Enums::CharacterSlot::STAY, data);
+
+	} else if (component == "shop_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::STORE);
+			_host.go_to(Enums::Screen::CASTLE);
+		} else
+			_host.set_character(Enums::CharacterSlot::STORE, data);
+
+	} else if (component == "restart_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::EDGEOFTOWN);
+		else {
+			_host.set_character(Enums::CharacterSlot::RESTART, data);
+			_host._flags["want_restart_expedition"] = true;
+		}
+
+	} else if (component == "add_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1)
+			_host.go_to(Enums::Screen::TAVERN);
+		else {
+			auto &character{_host._game->characters.at(static_cast<unsigned int>(data))};
+			character.set_location(Enums::Character::Location::PARTY);
+			_host._game->state->add_character_to_party(static_cast<unsigned int>(data));
+			_host._game->save_game();
+		}
+
+	} else if (component == "race_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::TRAINING);
+		else {
+			_host._game->creation_candidate->create().set_race(
+				enum_cast<Enums::Character::Race>(selection + 1).value());
+			_host._game->creation_candidate->create().set_stage(Enums::Character::Stage::CHOOSE_ALIGNMENT);
+			_host._game->creation_candidate->create().set_start_attr();
+		}
+
+	} else if (component == "alignment_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::TRAINING);
+		else {
+			_host._game->creation_candidate->create().set_alignment(
+				enum_cast<Enums::Character::Align>(selection + 1).value());
+			_host._game->creation_candidate->create().set_stage(Enums::Character::Stage::CHOOSE_CLASS);
+			_host._game->creation_candidate->create().set_start_attr();
+			_host._game->creation_candidate->create().set_possible_classes();
+		}
+
+	} else if (component == "class_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::TRAINING);
+		else {
+			auto candidate{_host._game->creation_candidate};
+			if (candidate->create().get_points_left() == 0) {
+				candidate->create().set_class(enum_cast<Enums::Character::Class>(selection + 1).value());
+				candidate->create().set_stage(Enums::Character::Stage::REVIEW_AND_CONFIRM);
+				candidate->create().finalise();
+
+				// Set starting equipment (based upon class)
+				candidate->inventory.clear();
+				switch (candidate->get_class()) { // NOLINT(clang-diagnostic-switch)
+					using enum Enums::Character::Class;
+					using enum Enums::Items::TypeID;
+				case FIGHTER:
+				case LORD:
+				case SAMURAI:
+					candidate->inventory.add_type(_ctx.resources->items->get(LEATHER_ARMOR), true);
+					candidate->inventory.add_type(_ctx.resources->items->get(LONG_SWORD), true);
+					break;
+				case MAGE:
+					candidate->inventory.add_type(_ctx.resources->items->get(ROBES), true);
+					candidate->inventory.add_type(_ctx.resources->items->get(DAGGER), true);
+					break;
+				case PRIEST:
+				case BISHOP:
+					candidate->inventory.add_type(_ctx.resources->items->get(ROBES), true);
+					candidate->inventory.add_type(_ctx.resources->items->get(STAFF), true);
+					break;
+				case THIEF:
+				case NINJA:
+					candidate->inventory.add_type(_ctx.resources->items->get(LEATHER_ARMOR), true);
+					candidate->inventory.add_type(_ctx.resources->items->get(SHORT_SWORD), true);
+				default:
+					break;
+				}
+				_host.set_flag("want_choose_confirm");
+				_host.unset_flag("want_choose_class");
+			}
+		};
+
+	} else if (component == "reorder_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::TAVERN);
+
+	} else if (component == "pay_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host._flags["show_pay"] = false;
+		else
+			_host._selected["pay_selected"] = selection;
+
+	} else if (component == "shop_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::CASTLE);
+
+	} else if (component == "bestiary_menu") {
+
+		_host._selected["bestiary_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::COMPENDIUM);
+
+	} else if (component == "museum_menu") {
+
+		_host._selected["museum_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::COMPENDIUM);
+
+	} else if (component == "atlas_menu") {
+
+		_host._selected["atlas_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::COMPENDIUM);
+
+	} else if (component == "spellbook_menu") {
+
+		_host._selected["spellbook_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::COMPENDIUM);
+
+	} else if (component == "choose_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host._flags["show_choose"] = false;
+			_host.clear_character(Enums::CharacterSlot::CHOOSE);
+		} else
+			_host.set_character(Enums::CharacterSlot::CHOOSE, data);
+
+	} else if (component == "shop_menu") {
+
+		_host._selected["store_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::SHOP);
+		else
+			_host.go_to(Enums::Screen::STORE);
+
+	} else if (component == "store_menu") {
+
+		_host._selected["store_selected"] = selection;
+		if (selection == (static_cast<int>(items.size()) - 1))
+			_host.go_to(Enums::Screen::SHOP);
+	}
+}
+
+/// @brief
+/// @param component
+/// @param items
+/// @param data
+/// @param selection
+/// @return
+auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, const std::vector<std::string> &items,
+													int data, int selection) -> bool {
+
+	DEBUG_LOGF("Dynamic Menu: {} {} {}", component, data, selection);
+
+	if (component == "inspect_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::INSPECT);
+			_host.request_back();
+		} else
+			_host.set_character(Enums::CharacterSlot::INSPECT, data);
+
+		return true;
+
+	} else if (component == "chest_open_menu" || component == "chest_calfo_menu" || component == "chest_inspect_menu" ||
+			   component == "chest_disarm_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.clear_character(Enums::CharacterSlot::TRAP);
+			_host.set_flag("chest_character_cancelled");
+		} else {
+			_host.set_character(Enums::CharacterSlot::TRAP, data);
+		}
+		_ctx.ui->popup_manager->close();
+
+		return true;
+
+	} else if (component == "chest_trap_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1)
+			_host.set_flag("chest_trap_cancelled");
+		else
+			_host.set_selected("chest_trap_selection", selection);
+		_ctx.ui->popup_manager->close();
+
+		return true;
+
+	} else if (component == "change_class_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::EDIT);
+		} else {
+			auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::EDIT))};
+			const auto class_to_change_to{enum_cast<Enums::Character::Class>(data).value()};
+			character.create().change_class(class_to_change_to);
+			_host._game->save_game();
+			_ctx.ui->popup_manager->open_dialog("global:notice_reclassed_ok", Enums::Layout::DialogType::OK);
+		}
+
+		return true;
+
+	} else if (component == "delete_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::TRAINING);
+		} else
+			_host.set_character(Enums::CharacterSlot::EDIT, data);
+
+		return true;
+
+	} else if (component == "roster_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::INSPECT);
+			_host.go_to(Enums::Screen::TRAINING);
+		} else
+			_host.set_character(Enums::CharacterSlot::INSPECT, data);
+
+		return true;
+
+	} else if (component == "select_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::EDIT);
+		} else
+			_host.set_character(Enums::CharacterSlot::EDIT, data);
+
+		return true;
+
+	} else if (component == "retrain_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::EDIT);
+		} else
+			_host.set_character(Enums::CharacterSlot::EDIT, data);
+
+		return true;
+
+	} else if (component == "legate_menu") {
+
+		if (selection == (static_cast<int>(items.size()) - 1)) {
+			_host.clear_character(Enums::CharacterSlot::EDIT);
+			_host.go_to(Enums::Screen::EDIT);
+		} else
+			_host.set_character(Enums::CharacterSlot::EDIT, data);
+
+		return true;
+
+	} else if (component == "temple_heal_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.clear_character(Enums::CharacterSlot::HELP);
+			_host.go_to(Enums::Screen::CASTLE);
+		} else
+			_host.set_character(Enums::CharacterSlot::HELP, data);
+
+		return true;
+
+	} else if (component == "temple_pay_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.clear_character(Enums::CharacterSlot::PAY);
+			_host.go_to(Enums::Screen::TEMPLE);
+		} else
+			_host.set_character(Enums::CharacterSlot::PAY, data);
+
+		return true;
+
+	} else if (component == "identify_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_ctx.ui->popup_manager->close();
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT))};
+
+		using enum Enums::Character::Ability;
+		using enum Enums::Items::IdentifyOutcome;
+		using enum Enums::System::Random;
+
+		// Attempt to Identify a Chest
+		const auto roll{_ctx.get_random(D100)};
+		const auto outcome{character.inventory.identify_item(static_cast<unsigned int>(data), roll,
+															 character.abilities().at(IDENTIFY_ITEMS),
+															 character.abilities().at(IDENTIFY_CURSE))};
+
+		if (outcome == NONE)
+			return true;
+
+		_host._game->save_game();
+		_ctx.ui->popup_manager->close();
+
+		switch (outcome) {
+		case SUCCESS:
+			_ctx.ui->popup_manager->open_dialog("global:notice_success", Enums::Layout::DialogType::OK);
+			break;
+		case FAIL:
+			_ctx.ui->popup_manager->open_dialog("global:notice_failed", Enums::Layout::DialogType::OK);
+			break;
+		case CURSED_SUCCESS:
+		case CURSED_FAIL:
+			_ctx.ui->popup_manager->open_dialog("global:notice_cursed", Enums::Layout::DialogType::OK);
+			break;
+		default:
+			break;
+		}
+
+		return true;
+
+	} else if (component == "remove_item_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.unset_flag("want_remove");
+			_ctx.ui->popup_manager->close();
+
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT))};
+		if (character.inventory.unequip_item(static_cast<unsigned int>(data)))
+			_host._game->save_game();
+
+		return true;
+
+	} else if (component == "equip_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.unset_flag("want_equip");
+			_ctx.ui->popup_manager->close();
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT))};
+		const auto slot{static_cast<unsigned int>(data)};
+		if (!character.inventory.equip_item(slot))
+			return true;
+
+		_host._game->save_game();
+
+		if (character.inventory.is_equipped_cursed(slot))
+			_ctx.ui->popup_manager->open_dialog("global:notice_cursed", Enums::Layout::DialogType::OK);
+
+		return true;
+	} else if (component == "spell_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.set_flag("want_spell");
+			_ctx.ui->popup_manager->close();
+		} else {
+
+			// TODO
+		}
+
+		return true;
+
+	} else if (component == "drop_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_ctx.ui->popup_manager->close();
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT))};
+		if (character.inventory.drop_item(static_cast<unsigned int>(data)))
+			_host._game->save_game();
+
+		return true;
+
+	} else if (component == "trade_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.unset_selected("trade_item_selected");
+			_ctx.ui->popup_manager->close();
+			return true;
+		}
+
+		_host.set_selected("trade_item_selected", data);
+		_ctx.ui->popup_manager->open_modal("global:modal_give");
+
+		return true;
+
+	} else if (component == "give_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.unset_selected("trade_item_selected");
+			_host.unset_selected("trade_target_selected");
+			_ctx.ui->popup_manager->close();
+
+			return true;
+		}
+
+		const auto source{_host.get_character(Enums::CharacterSlot::INSPECT)};
+		const auto item_slot{_host.get_selected("trade_item_selected")};
+		const auto target{data};
+		if (source == target)
+			return true;
+
+		auto &source_character{_host._game->characters.at(source)};
+		auto &target_character{_host._game->characters.at(target)};
+
+		if (item_slot < 1 || static_cast<unsigned int>(item_slot) > source_character.inventory.size())
+			return true;
+
+		if (target_character.inventory.is_full())
+			return true;
+
+		auto item{source_character.inventory.get(static_cast<unsigned int>(item_slot))};
+		if (item.get_equipped())
+			return true;
+
+		const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+
+		item.set_usable(item_type.is_class_usable(target_character.get_class()));
+		target_character.inventory.add(item);
+		source_character.inventory.discard_item(static_cast<unsigned int>(item_slot));
+
+		_host._game->save_game();
+		_host.unset_selected("trade_item_selected");
+		_host.unset_selected("trade_target_selected");
+
+		_ctx.ui->popup_manager->close();
+
+		return true;
+
+	} else if (component == "use_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.set_flag("want_use");
+			_ctx.ui->popup_manager->close();
+
+		} else {
+
+			// TODO
+		}
+
+		return true;
+
+	} else if (component == "invoke_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_ctx.ui->popup_manager->close();
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT))};
+
+		const auto slot{static_cast<unsigned int>(data)};
+		const auto item{character.inventory.get(slot)};
+		const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+
+		const auto effect{item_type.get_eff_inv()};
+		if (!apply_invoke(_ctx.game, character, effect))
+			return true;
+
+		using enum Enums::System::Random;
+
+		const auto roll{_ctx.get_random(D100)};
+		const auto decayed{roll < item_type.get_eff_inv_decay()};
+		if (decayed) {
+
+			const auto &decay_type{_ctx.resources->items->get(item_type.get_decay_type_id())};
+			Item replacement{decay_type};
+
+			// We have just seen it decay, so its identity isn't mysterious.
+			replacement.set_known(true);
+			replacement.set_usable(decay_type.is_class_usable(character.get_class()));
+			character.inventory.replace_item(slot, std::move(replacement));
+		}
+
+		_host._game->save_game();
+		_ctx.ui->popup_manager->close();
+
+		if (decayed)
+			_ctx.ui->popup_manager->open_dialog("global:notice_oops", Enums::Layout::DialogType::OK);
+
+		return true;
+
+	} else if (component == "shop_uncurse_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.go_to(Enums::Screen::STORE);
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::STORE))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::STORE))};
+		auto &inventory{character.inventory};
+
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return true;
+
+		const auto slot{static_cast<unsigned int>(data)};
+		const auto item{inventory.get(slot)};
+		if (!(item.get_cursed() && item.get_equipped()))
+			return true;
+
+		const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+		const auto cost{item_type.get_value()};
+
+		if (character.get_gold() < cost)
+			return true;
+
+		const auto current_gold{character.get_gold()};
+		character.set_gold(current_gold - cost);
+		inventory.discard_item(slot);
+
+		_host._game->save_game();
+
+		_ctx.ui->popup_manager->open_dialog("global:notice_success", Enums::Layout::DialogType::OK);
+		_host.go_to(Enums::Screen::STORE);
+
+		return true;
+
+	} else if (component == "shop_identify_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.go_to(Enums::Screen::STORE);
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::STORE))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::STORE))};
+		auto &inventory{character.inventory};
+
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return true;
+
+		const auto slot{static_cast<unsigned int>(data)};
+		auto &item{inventory.items().at(static_cast<std::size_t>(slot - 1))};
+		if (item.get_known())
+			return true;
+
+		const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+		const auto cost{item_type.get_value()};
+		if (character.get_gold() < cost)
+			return true;
+
+		const auto current_gold{character.get_gold()};
+		character.set_gold(current_gold - cost);
+		item.set_known(true);
+
+		_host._game->save_game();
+
+		return true;
+	} else if (component == "sell_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+			_host.go_to(Enums::Screen::STORE);
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::STORE))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::STORE))};
+		auto &inventory{character.inventory};
+
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return true;
+
+		const auto slot{static_cast<unsigned int>(data)};
+		const auto item{inventory.get(slot)};
+
+		// Defensive checks -- item_disabled() should already prevent these.
+		if (item.get_equipped() || item.get_cursed())
+			return true;
+
+		if (!_ctx.game->state->check_shop_will_buy(item.get_type_id()))
+			return true;
+
+		const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+		const auto value{item.get_known() ? item_type.get_value() / 2 : 1};
+
+		// Add the item to Boltac's stock.
+		_ctx.game->state->sell_to_shop(item.get_type_id());
+
+		// Pay the character.
+		character.grant_gold(value);
+
+		// Remove the actual inventory instance.
+		inventory.discard_item(slot);
+
+		_host._game->save_game();
+
+		return true;
+	} else if (component == "buy_menu") {
+
+		if (!_host.has_character(Enums::CharacterSlot::STORE))
+			return true;
+
+		auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::STORE))};
+
+		const auto item_type_id{enum_cast<Enums::Items::TypeID>(data)};
+
+		if (!item_type_id)
+			return true;
+
+		const auto &item_type{_ctx.resources->items->get_item_type(*item_type_id)};
+
+		// Defensive checks -- the menu builder/item_disabled() should already
+		// prevent all of these.
+		if (!_ctx.game->state->check_shop_will_sell(*item_type_id))
+			return true;
+
+		if (_ctx.game->state->check_shop_stock(*item_type_id) == 0)
+			return true;
+
+		if (character.get_gold() < item_type.get_value())
+			return true;
+
+		if (character.inventory.is_full())
+			return true;
+
+		const auto usable{item_type.is_class_usable(character.get_class())};
+
+		// Anything bought from Boltac is known.
+		if (!character.inventory.add_type(item_type, usable, true))
+			return true;
+
+		character.grant_gold(-static_cast<int>(item_type.get_value()));
+
+		_ctx.game->state->buy_from_shop(*item_type_id);
+
+		_host._game->save_game();
+
+		return true;
+	}
+
+	return false;
+}
+
+/// @brief
+/// @param menu
+/// @param selection
+/// @param data
+/// @return
+auto Sorcery::ControllerMenuHandler::handle_actions(std::string_view menu, int selection, int data) -> bool {
+
+	DEBUG_LOGF("Action Table Menu: {} {} {}", menu, selection, data);
+
+	const auto it{MENU_ACTIONS.find(menu)};
+	if (it == MENU_ACTIONS.end())
+		return false;
+
+	if (selection < 0 || selection >= static_cast<int>(it->second.size()))
+		return false;
+
+	const auto &actions = it->second[selection];
+	for (const auto &action : actions)
+		_execute(action, data);
+
+	return true;
+}
+
+/// @brief
+/// @param component
+/// @param selection
+/// @param data
+/// @return
+auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component, int selection, int data) -> bool {
+
+	// Remember this is returning true if the item is meant to be disabled!
+	if (component == "main_menu" && selection == MAIN_MENU_CONTINUE_GAME) {
+
+		// Check to see if we have a saved game
+		return !_host.has_saved_game();
+	} else if (component == "castle_menu") {
+		if (_host._game != nullptr) {
+
+			// Check for Party Members
+			switch (selection) {
+			case 1: // Inn
+				[[fallthrough]];
+			case 2: // Shop
+				[[fallthrough]];
+			case 3: // Temple
+				return !_host._game->state->party_has_members();
+				break;
+			default:
+				return false;
+				break;
+			};
+		}
+	} else if (component == "edge_menu") {
+		if (_host._game != nullptr) {
+
+			// Check for Party Members
+			switch (selection) {
+			case 1: // Enter Maze
+				return !_host._game->state->party_has_members();
+				break;
+			case 2: // Restart
+				return _host._game->state->party_has_members();
+				break;
+			default:
+				return false;
+			};
+		}
+	} else if (component == "tavern_menu") {
+		if (_host._game != nullptr) {
+
+			// Check for Party Members
+			switch (selection) {
+			case 0: // Add to Party
+				return _host._game->state->get_party_size() == 6;
+				break;
+			case 1: // Remove from Party
+				[[fallthrough]];
+			case 2: // Reorder Party
+				[[fallthrough]];
+			case 3: // Divvy Gold
+				return !_host._game->state->party_has_members();
+				break;
+			default:
+				return false;
+			};
+		}
+	} else if (component == "add_menu") {
+		if (_host._game != nullptr) {
+
+			if (data < 0)
+				return false;
+
+			if (_host._game->state->get_party_size() == 6)
+				return true;
+
+			// Check for Alignment
+			const auto party_align{_host._game->get_party_alignment()};
+			const auto &candidate{_host._game->characters.at(static_cast<unsigned int>(data))};
+			if (candidate.get_alignment() == Enums::Character::Align::NEUTRAL)
+				return false;
+			else if (party_align != Enums::Character::Align::NEUTRAL)
+				return candidate.get_alignment() != party_align;
+			else
+				return false;
+		}
+	} else if (component == "give_menu") {
+
+		if (_host._game == nullptr)
+			return false;
+
+		// Fixed "Return" entry has no associated character.
+		if (data < 0)
+			return false;
+
+		const auto current_char_id{_host.get_character(Enums::CharacterSlot::INSPECT)};
+		if (current_char_id == data)
+			return true;
+
+		const auto &target{_host._game->characters.at(static_cast<unsigned int>(data))};
+
+		return target.inventory.is_full();
+
+	} else if (component == "rest_menu") {
+
+		if (_host._game != nullptr) {
+
+			// Work out what menu items are disabled due to lack of money
+			const auto character{_host._game->characters.at(_host._characters[Enums::CharacterSlot::STAY])};
+			const auto gold{character.get_gold()};
+			switch (selection) {
+			case 0:
+				// The Stables
+				return false;
+			case 1:
+				// A Cot
+				return gold < 10;
+			case 2:
+				// Economy Rooms
+				return gold < 50;
+			case 3:
+				// Merchant Suites
+				return gold < 200;
+			case 4:
+				// The Royal Suite
+				return gold < 500;
+			default:
+				return false;
+			};
+
+			// And although we will never reach here really, onlu OK
+			// characters can be selected
+			return character.get_status() != Enums::Character::Status::OK;
+		}
+	} else if (component == "temple_pay_menu") {
+		if (_host._game != nullptr) {
+
+			if (data < 0)
+				return false;
+
+			const auto &help{_host._game->characters.at(_host._characters[Enums::CharacterSlot::HELP])};
+			const auto &who{_host._game->characters.at(static_cast<unsigned int>(data))};
+			return help.get_cure_cost() > who.get_gold();
+		}
+	} else if (component == "identify_menu") {
+
+		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
+
+			const auto &who{_host._game->characters.at(_host._characters[Enums::CharacterSlot::INSPECT])};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+				const auto item{who.inventory.items().at(selection)};
+				return item.get_known();
+			} else
+				return false;
+#pragma GCC diagnostic pop
+		} else
+			return false;
+	} else if (component == "shop_identify_menu") {
+
+		if (!_host.has_character(Enums::CharacterSlot::STORE))
+			return false;
+
+		const auto &character{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::STORE))};
+		const auto &inventory{character.inventory};
+
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return false;
+
+		const auto item{inventory.get(static_cast<unsigned int>(data))};
+		const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+		return item.get_known() || character.get_gold() < item_type.get_value();
+
+	} else if (component == "shop_uncurse_menu") {
+
+		if (_host.has_character(Enums::CharacterSlot::STORE)) {
+
+			const auto &who{_host._game->characters.at(_host._characters[Enums::CharacterSlot::STORE])};
+
+			if (selection < 0 || !std::cmp_less(selection, who.inventory.items().size()))
+				return false;
+
+			const auto &item{who.inventory.items().at(static_cast<std::size_t>(selection))};
+			const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+
+			if (who.get_gold() < item_type.get_value())
+				return true;
+			return (!(item.get_cursed() && item.get_equipped()));
+		}
+	} else if (component == "equip_menu") {
+
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return false;
+
+		const auto &inventory{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT)).inventory};
+
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return false;
+
+		const auto item{inventory.get(static_cast<unsigned int>(data))};
+		if (!inventory.is_equippable_category(item.get_category()))
+			return true;
+		if (!item.get_usable())
+			return true;
+		if (item.get_equipped())
+			return true;
+
+		return inventory.has_cursed_equipped_item_category(item.get_category());
+	} else if (component == "remove_item_menu") {
+
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return false;
+
+		auto &inventory{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT)).inventory};
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return false;
+
+		const auto item{inventory.get(static_cast<unsigned int>(data))};
+		return !item.get_equipped() || item.get_cursed();
+
+	} else if (component == "sell_menu") {
+
+		if (!_host.has_character(Enums::CharacterSlot::STORE))
+			return false;
+
+		const auto &who{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::STORE))};
+		const auto &inventory{who.inventory};
+
+		if (data < 1 || static_cast<unsigned int>(data) > inventory.size())
+			return false;
+
+		const auto item{inventory.get(static_cast<unsigned int>(data))};
+
+		return item.get_equipped() || item.get_cursed() || !_ctx.game->state->check_shop_will_buy(item.get_type_id());
+
+	} else if (component == "drop_menu") {
+
+		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
+
+			const auto &who{_host._game->characters.at(_host._characters[Enums::CharacterSlot::INSPECT])};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+				const auto item{who.inventory.items().at(selection)};
+				return item.get_equipped();
+			} else
+				return false;
+#pragma GCC diagnostic pop
+		} else
+			return false;
+
+	} else if (component == "trade_menu") {
+
+		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
+
+			const auto &who{_host._game->characters.at(_host._characters[Enums::CharacterSlot::INSPECT])};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+				const auto item{who.inventory.items().at(selection)};
+				return item.get_equipped();
+			} else
+				return false;
+#pragma GCC diagnostic pop
+		} else
+			return false;
+
+	} else if (component == "use_menu") {
+
+		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
+
+			const auto &who{_host._game->characters.at(_host._characters[Enums::CharacterSlot::INSPECT])};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+				const auto item{who.inventory.items().at(selection)};
+				const auto item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+				return !(item_type.has_usable() && item.get_known());
+			} else
+				return false;
+#pragma GCC diagnostic pop
+		} else
+			return false;
+
+	} else if (component == "invoke_menu") {
+
+		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
+
+			const auto &who{_host._game->characters.at(_host._characters[Enums::CharacterSlot::INSPECT])};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+			if (selection < who.inventory.items().size()) {
+				const auto item{who.inventory.items().at(selection)};
+				const auto item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
+				return !(item_type.has_invokable() && item.get_known() && item.get_usable());
+			} else
+				return false;
+#pragma GCC diagnostic pop
+		} else
+			return false;
+
+	} else if (component == "spell_menu") {
+
+		if (_host.has_character(Enums::CharacterSlot::INSPECT)) {
+
+			// Work out from the Spell ID if we have enough sp to cast it
+			const auto &who{_host._game->characters.at(_host._characters[Enums::CharacterSlot::INSPECT])};
+			const auto spell_id{enum_cast<Enums::Magic::SpellID>(data)};
+			if (!spell_id)
+				return false;
+
+			const auto spell_it{std::ranges::find(who.magic().get_spells(), *spell_id, &Spell::id)};
+			if (spell_it == who.magic().get_spells().end())
+				return false;
+
+			const auto &spell{*spell_it};
+			const std::map<unsigned int, unsigned int> *spell_points{};
+
+			switch (spell.type) {
+			case Enums::Magic::SpellType::ARCANE:
+				spell_points = &who.magic().mage_current_spellpoints();
+				break;
+			case Enums::Magic::SpellType::DIVINE:
+				spell_points = &who.magic().priest_current_spellpoints();
+				break;
+			default:
+				return false;
+			}
+
+			const auto points_it{spell_points->find(spell.level)};
+
+			return !(points_it != spell_points->end() && points_it->second > 0);
+
+		} else
+			return false;
+
+	} else if (component == "class_menu") {
+
+		const auto classes{_host._game->creation_candidate->create().get_possible_classes()};
+		if (selection >= 0 && selection < 8) {
+			return !classes.at(enum_cast<Enums::Character::Class>(selection + 1).value());
+		} else
+			return false;
+
+	} else if (component == "buy_menu") {
+
+		if (!_host.has_character(Enums::CharacterSlot::STORE))
+			return false;
+
+		const auto &who{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::STORE))};
+		const auto item_type_id{enum_cast<Enums::Items::TypeID>(data)};
+
+		if (!item_type_id)
+			return false;
+
+		const auto &item_type{_ctx.resources->items->get_item_type(*item_type_id)};
+
+		return who.get_gold() < item_type.get_value() || who.inventory.is_full();
+	} else if (component == "retrain_menu") {
+
+		if (_host._game == nullptr || data == -1)
+			return false;
+
+		auto &character{_host._game->characters.at(data)};
+		character.create().set_possible_classes();
+		return !character.create().can_change_class();
+
+	} else if (component == "legate_menu") {
+
+		if (_host._game == nullptr || data == -1)
+			return false;
+
+		auto &character{_host._game->characters.at(data)};
+
+		return !(character.get_status() == Enums::Character::Status::LOST);
+
+	} else if (component == "chest_calfo_menu") {
+
+		if (_host._game == nullptr || data == -1)
+			return false;
+
+		const auto &character{_host._game->characters.at(data)};
+
+		return character.magic().get_calfo_uses_left() == 0;
+
+	} else if (component == "store_menu") {
+
+		// No gold, can't buy anything; no items, can't sell anything; no cursed items, can't uncurse anything; no
+		// unidentified items, can't identify anything
+		if (_host.has_character(Enums::CharacterSlot::STORE)) {
+			const auto &who{_host._game->characters.at(_host._characters[Enums::CharacterSlot::STORE])};
+			switch (selection) {
+			case 0: // Buy
+				return who.get_gold() == 0 || who.inventory.is_full();
+				break;
+			case 1: // Sell
+				return who.inventory.items().empty();
+				break;
+			case 2: // Uncurse
+				return !who.inventory.has_cursed_and_equipped_items();
+				break;
+			case 3: // Identify
+				return !who.inventory.has_unidentified_items();
+				break;
+			default:
+				return false;
+			};
+		} else
+			return false;
+	};
+
+	return false;
+}
+
+/// @brief
+/// @param action
+/// @param data
+/// @return
+auto Sorcery::ControllerMenuHandler::_execute(const MenuAction &action, int data) -> void {
+
+	using enum Enums::MenuAction::Type;
+	using enum Enums::MenuAction::Function;
+
+	switch (action.type) {
+	case SETFLAG:
+		_host._flags[action.flag] = true;
+		break;
+	case CLEARFLAG:
+		_host._flags[action.flag] = false;
+		break;
+	case SET_CHARACTER:
+		_host.set_character(action.character_key, data);
+		break;
+	case CLEAR_CHARACTER:
+		_host.clear_character(action.character_key);
+		break;
+	case GO_BACK:
+		_host.request_back();
+		break;
+	case CUSTOM:
+		if (action.custom_function == POOL_GOLD)
+			_host._game->pool_party_gold(_host.get_character(Enums::CharacterSlot::STORE));
+		break;
+	case SET_SELECTED:
+		_host.set_selected(action.selected_key, action.selected_value);
+		break;
+	case GOTOSCREEN:
+		_host.go_to(action.screen);
+		break;
+	case OPEN_DIALOG:
+		_ctx.ui->popup_manager->open_dialog(action.popup_component, action.dialog_type);
+		break;
+	case CLOSE_POPUP:
+		_ctx.ui->popup_manager->close();
+		break;
+	default:
+		break;
+	}
+}

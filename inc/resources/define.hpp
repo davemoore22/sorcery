@@ -1,0 +1,97 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#pragma once
+
+#include <string>
+
+using namespace std::string_literals;
+using namespace std::string_view_literals;
+
+namespace Sorcery {
+
+// Directories
+inline constexpr auto CONFIG_DIR{"cfg"sv};
+inline constexpr auto DATA_DIR{"dat"sv};
+inline constexpr auto FONT_DIR{"fonts"sv};
+inline constexpr auto DOCUMENTS_DIR{"doc"sv};
+inline constexpr auto GFX_DIR{"gfx"sv};
+inline constexpr auto SAVE_DIR{"sav"sv};
+inline constexpr auto SAVE_CHARACTERS_DIR{"characters"sv};
+inline constexpr auto SAVE_STATES_DIR{"states"sv};
+inline constexpr auto SFX_DIR{"sfx"sv};
+inline constexpr auto VFX_DIR{"vfx"sv};
+
+// Files
+inline constexpr auto COMPILE_FILE{"COMPILE.md"sv};
+inline constexpr auto CONFIG_FILE{"config.ini"sv};
+inline constexpr auto IMGUI_INI_FILE{"imgui.ini"sv};
+inline constexpr auto ITEMS_FILE{"items.json"sv};
+inline constexpr auto LAYOUT_FILE{"layout.json"sv};
+inline constexpr auto LICENSE_FILE{"LICENSE.md"sv};
+inline constexpr auto MAPS_FILE{"maps.json"sv};
+inline constexpr auto MONSTERS_FILE{"monsters.json"sv};
+inline constexpr auto STRINGS_FILE{"strings.json"sv};
+
+inline constexpr auto MONOSPACE_1_APPLE2_FILE{"1-apple2.ttf"sv};
+inline constexpr auto MONOSPACE_1_C64_FILE{"1-c64.ttf"sv};
+inline constexpr auto MONOSPACE_1_DOS_FILE{"1-dos.ttf"sv};
+inline constexpr auto MONOSPACE_1_MSX2_FILE{"1-msx2.ttf"sv};
+inline constexpr auto MONOSPACE_5_DOS_FILE{"5-dos.ttf"sv};
+inline constexpr auto MONOSPACE_5_FMTOWNS_FILE{"5-fmtowns.ttf"sv};
+inline constexpr auto PROPORTIONAL_FONT_FILE{"proportional.ttf"sv};
+inline constexpr auto TEXT_FONT_FILE{"text.ttf"sv};
+
+inline constexpr auto BANNER_TEXTURE{"banner.tga"sv};
+inline constexpr auto CONTROLS_TEXTURE{"controls.tga"sv};
+inline constexpr auto EVENTS_TEXTURE{"events.tga"sv};
+inline constexpr auto KNOWN_CREATURES_TEXTURE{"known.tga"sv};
+inline constexpr auto ICONS_TEXTURE{"icons.tga"sv};
+inline constexpr auto ITEMS_TEXTURE{"items.tga"sv};
+inline constexpr auto LOGO_TEXTURE{"logo.tga"sv};
+inline constexpr auto MAPS_TEXTURE{"maps.tga"sv};
+inline constexpr auto MAINMENU_VIDEO{"mainmenu.mp4"sv};
+inline constexpr auto BACKGROUNDS_TEXTURE{"backgrounds.tga"sv};
+inline constexpr auto TOWN_TEXTURE{"town.tga"sv};
+inline constexpr auto TRAINING_TEXTURE{"training.tga"sv};
+
+inline constexpr auto COMPENDIUM_MUSIC{"compendium.mp3"sv};
+inline constexpr auto ENGINE_MUSIC{"engine.mp3"sv};
+inline constexpr auto MAINMENU_MUSIC{"mainmenu.mp3"sv};
+inline constexpr auto TOWN_MUSIC{"town.mp3"sv};
+inline constexpr auto VICTORY_MUSIC{"compendium.mp3"sv};
+inline constexpr auto GRAVEYARD_MUSIC{"compendium.mp3"sv};
+inline constexpr auto COMBAT_MUSIC{"compendium.mp3"sv};
+
+inline constexpr auto UNKNOWN_CREATURES_TEXTURE{"unknown.tga"sv};
+inline constexpr auto WIREFRAME_TEXTURE{"wireframe.tga"sv};
+
+inline constexpr auto SAVE_GAME_FILE{"game.json"sv};
+inline constexpr auto SAVE_CHARACTERS_FILE{"characters.json"sv};
+inline constexpr auto SAVE_STATE_FILENAME{"save_state.b64"sv};
+
+// Miscellaneous error strings
+static const std::string KEY_NOT_FOUND{"KEY NOT FOUND"};
+static const std::string STRINGS_NOT_LOADED{"GAME STRINGS NOT LOADED"};
+static const std::string FILE_NOT_FOUND{"FILE NOT FOUND"};
+
+}

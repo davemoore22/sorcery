@@ -1,0 +1,170 @@
+// Copyright (C) 2026 Dave Moore
+//
+// This file is part of Sorcery.
+//
+// Sorcery is free software: you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 2 of the License, or (at your option) any later
+// version.
+//
+// Sorcery is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// Sorcery.  If not, see <http://www.gnu.org/licenses/>.
+//
+// If you modify this program, or any covered work, by linking or combining
+// it with the libraries referred to in README (or a modified version of
+// said libraries), containing parts covered by the terms of said libraries,
+// the licensors of this program grant you additional permission to convey
+// the resulting work.
+
+#include "training/edit.hpp"
+#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "core/audio/audioplayer.hpp"		// for AudioPlayer
+#include "core/context.hpp"					// for Context
+#include "core/controller/controller.hpp"	// for Controller
+#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/enum.hpp"					// for Screen
+#include "display/ui/popupmanager.hpp"		// for PopupManager
+#include "display/ui/ui.hpp"				// for UI
+#include "drawables/define.hpp"				// for ABORT_GAME, CHARACTER_SELECTED
+#include "training/enum.hpp"				// for Edit
+#include "training/reclass.hpp"				// for Reclass
+#include "training/rename.hpp"				// for Rename
+#include "training/rite.hpp"				// for Rite
+#include "training/select.hpp"				// for Select
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <any>								// for any
+
+Sorcery::Edit::Edit(Context &ctx)
+	: Module{ctx} {
+
+	_initialise();
+
+	_select = std::make_unique<Select>(_ctx);
+	_rename = std::make_unique<Rename>(_ctx);
+	_reclass = std::make_unique<Reclass>(_ctx);
+	_rite = std::make_unique<Rite>(_ctx);
+};
+
+Sorcery::Edit::~Edit() {}
+
+auto Sorcery::Edit::_initialise() -> bool {
+
+	return true;
+}
+
+auto Sorcery::Edit::start() -> int {
+
+	_ctx.controller->go_to(Enums::Screen::EDIT);
+	_ctx.controller->initialise();
+
+	show_immediately();
+
+	_ctx.audio->set_volume(1.0f);
+
+	// Main loop
+	while (true) {
+
+		SDL_Event event{};
+
+		while (SDL_PollEvent(&event)) {
+
+			switch (process_event(event)) {
+
+			case ModuleEvent::ABORT:
+				return abort();
+
+			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::NONE:
+				break;
+			}
+
+			if (_ctx.controller->input->back(event)) {
+
+				if (_ctx.ui->popup_manager->active())
+					_ctx.ui->popup_manager->close();
+
+				return BACK_TO_TRAINING_GROUNDS;
+			}
+		}
+
+		_ctx.ui->display_screen(Enums::Screen::EDIT, _ctx.game);
+
+		_ctx.tick();
+
+		if (!_ctx.controller->wants(Enums::Screen::EDIT) && _ctx.controller->wants(Enums::Screen::TRAINING)) {
+
+			return BACK_TO_TRAINING_GROUNDS;
+		}
+
+		if (_ctx.controller->wants(Enums::Screen::SELECT)) {
+
+			const auto result{_select->start(Enums::Selection::Edit::RENAME)};
+
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+
+			if (result == CHARACTER_SELECTED) {
+				const auto rename_result{_rename->start()};
+
+				if (rename_result == ABORT_GAME)
+					return ABORT_GAME;
+
+				_rename->stop();
+			}
+
+			_select->stop();
+
+		} else if (_ctx.controller->wants(Enums::Screen::RETRAIN)) {
+
+			const auto result{_select->start(Enums::Selection::Edit::RECLASS)};
+
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+
+			if (result == CHARACTER_SELECTED) {
+				const auto reclass_result{_reclass->start()};
+
+				if (reclass_result == ABORT_GAME)
+					return ABORT_GAME;
+
+				_reclass->stop();
+			}
+
+			_select->stop();
+
+		} else if (_ctx.controller->wants(Enums::Screen::LEGATE)) {
+
+			const auto result{_select->start(Enums::Selection::Edit::LEGATE)};
+
+			if (result == ABORT_GAME)
+				return ABORT_GAME;
+
+			if (result == CHARACTER_SELECTED) {
+				const auto rite_result{_rite->start()};
+
+				if (rite_result == ABORT_GAME)
+					return ABORT_GAME;
+
+				_rite->stop();
+			}
+
+			_select->stop();
+		}
+	}
+
+	// Exit if we get to here having broken out of the loop
+	return ABORT_GAME;
+}
+
+auto Sorcery::Edit::stop() -> int {
+
+	_ctx.controller->go_to(Enums::Screen::TRAINING);
+
+	return 0;
+}
