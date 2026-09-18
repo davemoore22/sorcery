@@ -60,7 +60,6 @@ auto Sorcery::Roster::start() -> int {
 
 	show_immediately();
 
-	_ctx.audio->set_volume(1.0f);
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
 	// Main loop

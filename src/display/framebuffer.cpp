@@ -120,7 +120,7 @@ auto Sorcery::FrameBuffer::create(const int width, const int height) -> void {
 
 	GLint max_texture_size{};
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
-	DEBUG_LOGF("Creating framebuffer: {}x{} (GL_MAX_TEXTURE_SIZE={})", _width, _height, max_texture_size);
+	DEBUG_LOGF("DISPLAY Creating framebuffer: {}x{} (GL_MAX_TEXTURE_SIZE={})", _width, _height, max_texture_size);
 
 	if (_width > max_texture_size || _height > max_texture_size) {
 		DEBUG_LOGF("Framebuffer dimensions exceed GL_MAX_TEXTURE_SIZE: {}x{} > {}", _width, _height, max_texture_size);
@@ -148,7 +148,7 @@ auto Sorcery::FrameBuffer::create(const int width, const int height) -> void {
 
 	const auto status{glCheckFramebufferStatus(GL_FRAMEBUFFER)};
 
-	DEBUG_LOGF("Framebuffer status: {} (0x{:04x}), fbo={}, texture={}", framebuffer_status_name(status),
+	DEBUG_LOGF("DISPLAY Framebuffer status: {} (0x{:04x}), fbo={}, texture={}", framebuffer_status_name(status),
 			   static_cast<unsigned int>(status), _fbo, _texture);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -171,7 +171,7 @@ auto Sorcery::FrameBuffer::resize(const int width, const int height) -> void {
 	if (width == _width && height == _height)
 		return;
 
-	DEBUG_LOGF("Resizing framebuffer: {}x{} -> {}x{}", _width, _height, width, height);
+	DEBUG_LOGF("DISPLAY Resizing framebuffer: {}x{} -> {}x{}", _width, _height, width, height);
 
 	_width = width;
 	_height = height;
@@ -213,7 +213,7 @@ auto Sorcery::FrameBuffer::destroy() -> void {
 
 	if (_texture != 0) {
 
-		DEBUG_LOGF("Deleting framebuffer texture: {}", _texture);
+		DEBUG_LOGF("DISPLAY Deleting framebuffer texture: {}", _texture);
 
 		glDeleteTextures(1, &_texture);
 		_texture = 0;
@@ -221,7 +221,7 @@ auto Sorcery::FrameBuffer::destroy() -> void {
 
 	if (_fbo != 0) {
 
-		DEBUG_LOGF("Deleting framebuffer object: {}", _fbo);
+		DEBUG_LOGF("DISPLAY Deleting framebuffer object: {}", _fbo);
 
 		glDeleteFramebuffers(1, &_fbo);
 		_fbo = 0;

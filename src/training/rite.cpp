@@ -64,8 +64,6 @@ auto Sorcery::Rite::start() -> int {
 
 	_ctx.ui->popup_manager->open_dialog("rite:dialog_rite", Enums::Layout::DialogType::CONFIRM);
 
-	_ctx.audio->set_volume(1.0f);
-
 	_stage = 0;
 
 	//

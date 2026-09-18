@@ -122,7 +122,7 @@ auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
 
 	_resident_bytes += texture_bytes;
 
-	DEBUG_LOGF("Loaded Texture: {} ({}x{}, {:.2f} MiB, total {:.2f} MiB)", file, image.width, image.height,
+	DEBUG_LOGF("IMAGE Loaded Texture: {} ({}x{}, {:.2f} MiB, total {:.2f} MiB)", file, image.width, image.height,
 			   static_cast<double>(texture_bytes) / (1024.0 * 1024.0),
 			   static_cast<double>(_resident_bytes) / (1024.0 * 1024.0));
 
@@ -228,7 +228,7 @@ auto Sorcery::ImageStore::unload_image(const std::string &file) -> bool {
 	_images.erase(it);
 	_loaded[file] = false;
 
-	DEBUG_LOGF("Unloaded Texture: {} ({:.2f} MiB, total {:.2f} MiB)", file,
+	DEBUG_LOGF("IMAGE Unloaded Texture: {} ({:.2f} MiB, total {:.2f} MiB)", file,
 			   static_cast<double>(texture_bytes) / (1024.0 * 1024.0),
 			   static_cast<double>(_resident_bytes) / (1024.0 * 1024.0));
 
@@ -244,7 +244,7 @@ auto Sorcery::ImageStore::unload_all() -> void {
 		if (image.texture != 0)
 			glDeleteTextures(1, &image.texture);
 
-		DEBUG_LOGF("Unloaded Texture: {} ({}x{})", file, image.width, image.height);
+		DEBUG_LOGF("IMAGE Unloaded Texture: {} ({}x{})", file, image.width, image.height);
 
 		_loaded[file] = false;
 	}
@@ -252,5 +252,5 @@ auto Sorcery::ImageStore::unload_all() -> void {
 	_images.clear();
 	_resident_bytes = 0;
 
-	DEBUG_LOGF("All textures unloaded");
+	DEBUG_LOGF("IMAGE All textures unloaded");
 }

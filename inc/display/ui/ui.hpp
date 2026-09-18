@@ -267,6 +267,7 @@ class UI {
 		std::vector<unsigned int> _attract_data;
 		std::string _imgui_ini_path;
 		std::optional<TransientMessage> _transient_message;
+		int _ui_music_volume_setting{100};
 
 		std::optional<Enums::Magic::SpellID> _character_spell_selected;
 		bool _reset_arcane_spell_tab{false};

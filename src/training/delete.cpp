@@ -60,8 +60,6 @@ auto Sorcery::Delete::start() -> int {
 
 	show_immediately();
 
-	_ctx.audio->set_volume(1.0f);
-
 	auto confirming{false};
 
 	while (true) {

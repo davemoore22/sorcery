@@ -53,8 +53,6 @@ auto Sorcery::Reclass::start() -> int {
 
 	show_immediately();
 
-	_ctx.audio->set_volume(1.0f);
-
 	while (true) {
 		SDL_Event event{};
 		while (SDL_PollEvent(&event)) {

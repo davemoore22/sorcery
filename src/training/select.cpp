@@ -73,8 +73,6 @@ auto Sorcery::Select::start(const Enums::Selection::Edit mode) -> int {
 
 	show_immediately();
 
-	_ctx.audio->set_volume(1.0f);
-
 	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
 	while (true) {

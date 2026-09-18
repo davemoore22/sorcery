@@ -63,8 +63,6 @@ auto Sorcery::Training::start() -> int {
 
 	fade_in(Enums::Screen::TRAINING, QUICK_FADE);
 
-	_ctx.audio->set_volume(1.0f);
-
 	// Main loop
 	while (true) {
 

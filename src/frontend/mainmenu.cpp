@@ -73,7 +73,8 @@ auto Sorcery::MainMenu::start() -> int {
 	fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 
 	_ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
-	_ctx.audio->set_volume(1.0f);
+	const auto volume{std::stoi(_ctx.get_config("Media", "music_volume")) / 100.0f};
+	_ctx.audio->set_music_volume(volume);
 
 	// Main loop
 	while (true) {

@@ -63,8 +63,6 @@ auto Sorcery::Edit::start() -> int {
 
 	show_immediately();
 
-	_ctx.audio->set_volume(1.0f);
-
 	// Main loop
 	while (true) {
 

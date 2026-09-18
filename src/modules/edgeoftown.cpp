@@ -66,8 +66,6 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 
-	_ctx.audio->set_volume(1.0f);
-
 	// Main loop
 	while (true) {
 

@@ -21,11 +21,12 @@
 // the resulting work.
 
 #include "display/ui/ui.hpp"
-#include "backends/imgui_impl_opengl3.h"	 // for ImGui_ImplOpenGL3_NewFrame
-#include "backends/imgui_impl_sdl2.h"		 // for ImGui_ImplSDL2_NewFrame
-#include "common/enum.hpp"					 // for Options, Feature, Ability
-#include "common/macro.hpp"					 // for CAPITALISE
-#include "common/types.hpp"					 // for Coordinate, Spell, Size
+#include "backends/imgui_impl_opengl3.h" // for ImGui_ImplOpenGL3_NewFrame
+#include "backends/imgui_impl_sdl2.h"	 // for ImGui_ImplSDL2_NewFrame
+#include "common/enum.hpp"				 // for Options, Feature, Ability
+#include "common/macro.hpp"				 // for CAPITALISE
+#include "common/types.hpp"				 // for Coordinate, Spell, Size
+#include "core/audio/audioplayer.hpp"
 #include "core/context.hpp"					 // for Context
 #include "core/controller/actionhandler.hpp" // for ControllerActionHandler
 #include "core/controller/controller.hpp"	 // for Controller
@@ -202,6 +203,7 @@ auto Sorcery::UI::start() -> void {
 	ui_text_colour = ImVec4{std::stof(_ctx.get_config("Text", "text_colour_red")),
 							std::stof(_ctx.get_config("Text", "text_colour_green")),
 							std::stof(_ctx.get_config("Text", "text_colour_blue")), 1.0};
+	_ui_music_volume_setting = std::stoi(_ctx.get_config("Media", "music_volume"));
 
 	// Set the Default Fonts
 	using enum Enums::Layout::Font;
@@ -1976,9 +1978,15 @@ auto Sorcery::UI::draw_options() -> void {
 					draw_option_list(ui_opts, "UI");
 
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + metrics->grid_sz());
+					const auto scale{_ctx.display->get_display_metrics().scale};
+					ImGui::SetNextItemWidth(200.0f * scale);
+					if (ImGui::SliderInt("Music Volume", &_ui_music_volume_setting, 0, 100, "%d%%",
+										 ImGuiSliderFlags_AlwaysClamp)) {
+						_ctx.audio->set_music_volume(static_cast<float>(_ui_music_volume_setting) / 100.0f);
+					}
 
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + metrics->grid_sz());
 					const auto item_height{ImGui::GetTextLineHeightWithSpacing()};
-
 					constexpr auto max_visible_items{10};
 
 					ImGui::SetNextWindowSize(ImVec2{0.0f, item_height * max_visible_items});
@@ -1986,19 +1994,15 @@ auto Sorcery::UI::draw_options() -> void {
 					with_Combo("##font_combobox", "Choose Font...") {
 
 						const auto font_list{fonts->get_all_monospace_fonts()};
-
 						auto font_idx{0u};
 
 						for (const auto &font : font_list) {
 
 							const auto is_selected{font.name == fonts->get_current_monospace_font_name()};
-
 							set_Font(font.font, metrics->font_sz());
-
 							const auto selectable_name{std::format("{}##{}", font.name, font_idx)};
 
 							if (ImGui::Selectable(selectable_name.c_str(), is_selected)) {
-
 								fonts->set_current_font(Enums::Layout::Font::MONOSPACE, font.name);
 							}
 

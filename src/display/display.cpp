@@ -201,10 +201,10 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 	const auto gl_renderer{reinterpret_cast<const char *>(glGetString(GL_RENDERER))};
 	const auto gl_vendor{reinterpret_cast<const char *>(glGetString(GL_VENDOR))};
 	const auto glsl_version{reinterpret_cast<const char *>(glGetString(GL_SHADING_LANGUAGE_VERSION))};
-	DEBUG_LOGF("OpenGL Version: {}", gl_version ? gl_version : "unknown");
-	DEBUG_LOGF("OpenGL Renderer: {}", gl_renderer ? gl_renderer : "unknown");
-	DEBUG_LOGF("OpenGL Vendor: {}", gl_vendor ? gl_vendor : "unknown");
-	DEBUG_LOGF("GLSL Version: {}", glsl_version ? glsl_version : "unknown");
+	DEBUG_LOGF("DISPLAY OpenGL Version: {}", gl_version ? gl_version : "unknown");
+	DEBUG_LOGF("DISPLAY OpenGL Renderer: {}", gl_renderer ? gl_renderer : "unknown");
+	DEBUG_LOGF("DISPLAY OpenGL Vendor: {}", gl_vendor ? gl_vendor : "unknown");
+	DEBUG_LOGF("DISPLAY GLSL Version: {}", glsl_version ? glsl_version : "unknown");
 
 	GLint max_texture_size{};
 	GLint max_renderbuffer_size{};
@@ -217,7 +217,7 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &max_combined_texture_units);
 
 	DEBUG_LOGF(
-		"OpenGL Limits: texture={} renderbuffer={} texture_units={} "
+		"DISPLAY OpenGL Limits: texture={} renderbuffer={} texture_units={} "
 		"combined_texture_units={}",
 		max_texture_size, max_renderbuffer_size, max_texture_units, max_combined_texture_units);
 
@@ -302,7 +302,7 @@ auto Sorcery::Display::resize() -> void {
 		return;
 
 	DEBUG_LOGF(
-		"Display resized: window={}x{} drawable={}x{} "
+		"DISPLAY Display resized: window={}x{} drawable={}x{} "
 		"framebuffer_scale={:.2f}x{:.2f}",
 		_metrics.window_w, _metrics.window_h, _metrics.drawable_w, _metrics.drawable_h, _metrics.framebuffer_scale_x,
 		_metrics.framebuffer_scale_y);
@@ -447,7 +447,7 @@ auto Sorcery::Display::_create_post_processor() -> void {
 	_fade_location = glGetUniformLocation(_post_program, "fade");
 
 	DEBUG_LOGF(
-		"Post-processing resources: program={} vao={} "
+		"DISPLAY Post-processing resources: program={} vao={} "
 		"screen_texture_location={} fade_location={}",
 		_post_program, _post_vao, _screen_texture_location, _fade_location);
 

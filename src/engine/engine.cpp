@@ -101,8 +101,6 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 	_start_expedition(mode);
 
-	_ctx.audio->set_volume(1.0f);
-
 	fade_in(
 		[this] {
 			_ctx.ui->display_engine();
@@ -951,7 +949,7 @@ auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 
 	const auto facing{_ctx.game->state->get_player_facing()};
 
-	DEBUG_LOGF("Taking elevator from depth {} to depth {}", current_depth, depth);
+	// DEBUG_LOGF("Taking elevator from depth {} to depth {}", current_depth, depth);
 
 	_go_to_location(depth, loc, facing);
 

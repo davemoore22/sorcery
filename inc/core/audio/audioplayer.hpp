@@ -26,9 +26,9 @@
 #include <SDL2/SDL_audio.h>		// for SDL_AudioDeviceID, SDL_AudioSpec
 #include <chrono>				// for milliseconds, steady_clock
 #include <cstdint>				// for uint8_t
-#include <string_view>			// for string_view
-#include <vector>				// for vector
 #include <filesystem>
+#include <string_view> // for string_view
+#include <vector>	   // for vector
 
 struct AVCodecContext;	// Global Namespace Forward Declaration
 struct AVFormatContext; // Global Namespace Forward Declaration
@@ -49,14 +49,15 @@ class AudioPlayer {
 		~AudioPlayer();
 
 		auto update() -> void; // call every frame
-		auto set_volume(float volume) -> void;
+		auto set_music_volume(float volume) -> void;
+		[[nodiscard]] auto get_music_volume() const -> float;
 		auto set_track(Enums::Audio::Track track) -> void;
 
 		bool mute;
 
 	private:
 		static constexpr auto FADE_DURATION{std::chrono::milliseconds{750}};
-		static constexpr auto BUFFER_MS{100};
+		static constexpr auto BUFFER_MS{200};
 
 		// FFmpeg
 		AVFormatContext *_fmt = nullptr;
@@ -75,7 +76,7 @@ class AudioPlayer {
 
 		bool _playing = false;
 
-		float _volume{0.0f};
+		float _music_volume{0.0f};
 		float _fade{1.0f};
 
 		Clock::time_point _fade_updated{};
@@ -84,18 +85,22 @@ class AudioPlayer {
 		Enums::Audio::Track _requested_track{Enums::Audio::Track::NONE};
 		Enums::Audio::State _state{Enums::Audio::State::STOPPED};
 
+		bool _debug_first_buffer{false};
+
 		FileStore *_files;
 
 		auto _free_resources() -> void;
 		auto _begin_fade_in() -> void;
 		auto _begin_fade_out() -> void;
-		auto _update_transition() -> void;
+		auto _update_transition() -> bool;
 		auto _stop_immediately() -> void;
 		auto _finish_fade_out() -> void;
 		auto _load(const std::filesystem::path &filename) -> void;
 		auto _play() -> void;
 		auto _stop() -> void;
 		auto _start_requested_track() -> void;
+		auto _queued_ms() const -> float;
+		auto _device_status() const -> int;
 };
 
 }
