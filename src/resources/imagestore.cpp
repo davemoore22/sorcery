@@ -34,12 +34,17 @@
 #include <string_view> // for basic_string_view
 #include <vector>
 
+/// @brief Standard Constructor
+/// @param ctx
 Sorcery::ImageStore::ImageStore(Context &ctx)
 	: _ctx{ctx} {
 
 	_initialise();
 }
 
+/// @brief Get an image from the imagestore
+/// @param file
+/// @return
 auto Sorcery::ImageStore::get(const std::string &file) -> Image {
 
 	if (!_loaded.at(file)) {
@@ -49,12 +54,17 @@ auto Sorcery::ImageStore::get(const std::string &file) -> Image {
 		return _images.at(file);
 }
 
+/// @brief Initialise the imagestore
+/// @return
 auto Sorcery::ImageStore::_initialise() -> bool {
 
 	loaded = false;
 	_images.clear();
 	_sources.clear();
 	_loaded.clear();
+
+	_resident_bytes = 0;
+
 	show_images = true;
 
 	// Work out what we need to load and just store it in a list
@@ -76,40 +86,59 @@ auto Sorcery::ImageStore::_initialise() -> bool {
 	return true;
 }
 
-// Load a specific image
+/// @brief Load an image
+/// @param file
+/// @return
 auto Sorcery::ImageStore::load_image(const std::string &file) -> bool {
+
 	return _load_image(file);
 }
 
+/// @brief Check if an image has been uploaded
+/// @param file
+/// @return
 auto Sorcery::ImageStore::has_loaded(const std::string &file) -> bool {
-	return _loaded.at(file);
+
+	const auto it{_loaded.find(file)};
+	return it != _loaded.end() && it->second;
 }
 
-// Wrapper method to load an image
+/// @brief Wrapper method of loading an image into the graphics card for use
+/// @param file
+/// @return
 auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
-	// Check to make sure we don't reload an image (in future,
-	// store the file modified timestamp so we can dynamically
-	// reload images if we want to)
-	if (_loaded.at(file))
+
+	if (has_loaded(file))
 		return false;
-	else {
 
-		// PROFILE_SCOPE("ImageStore::_load_image");
-		//  DEBUG_LOGF("Loading Resource: {}", file);
+	const auto path{_ctx.get_file(file)};
 
-		const auto path{_ctx.get_file(file)};
+	Image image{};
 
-		// If not loaded, load the image
-		Image image{};
-		_load_texture_from_disc(path, &image.texture, &image.width, &image.height);
+	if (!_load_texture_from_disc(path, &image.texture, &image.width, &image.height))
+		return false;
 
-		_images.try_emplace(file, image);
-		_loaded[file] = true;
-		++progress;
-		return true;
-	}
+	const auto texture_bytes{static_cast<std::size_t>(image.width) * static_cast<std::size_t>(image.height) * 4};
+
+	_resident_bytes += texture_bytes;
+
+	DEBUG_LOGF("Loaded Texture: {} ({}x{}, {:.2f} MiB, total {:.2f} MiB)", file, image.width, image.height,
+			   static_cast<double>(texture_bytes) / (1024.0 * 1024.0),
+			   static_cast<double>(_resident_bytes) / (1024.0 * 1024.0));
+
+	_images.try_emplace(file, image);
+	_loaded[file] = true;
+	++progress;
+
+	return true;
 }
 
+/// @brief Load an image from disc as a texture into the graphics card
+/// @param filename
+/// @param out_texture
+/// @param out_width
+/// @param out_height
+/// @return
 auto Sorcery::ImageStore::_load_texture_from_disc(const std::filesystem::path &filename, GLuint *out_texture,
 												  int *out_width, int *out_height) -> bool {
 	busy = true;
@@ -173,4 +202,55 @@ auto Sorcery::ImageStore::_load_texture_from_disc(const std::filesystem::path &f
 
 	busy = false;
 	return true;
+}
+
+/// @brief Unload a particular image texture from the graphics card
+/// @param file
+/// @return
+auto Sorcery::ImageStore::unload_image(const std::string &file) -> bool {
+
+	const auto it{_images.find(file)};
+	if (it == _images.end())
+		return false;
+
+	const auto &image{it->second};
+
+	const auto texture_bytes{static_cast<std::size_t>(image.width) * static_cast<std::size_t>(image.height) * 4};
+
+	if (image.texture != 0)
+		glDeleteTextures(1, &image.texture);
+
+	if (_resident_bytes >= texture_bytes)
+		_resident_bytes -= texture_bytes;
+	else
+		_resident_bytes = 0;
+
+	_images.erase(it);
+	_loaded[file] = false;
+
+	DEBUG_LOGF("Unloaded Texture: {} ({:.2f} MiB, total {:.2f} MiB)", file,
+			   static_cast<double>(texture_bytes) / (1024.0 * 1024.0),
+			   static_cast<double>(_resident_bytes) / (1024.0 * 1024.0));
+
+	return true;
+}
+
+/// @brief Unload all image textures from the graphics card
+/// @return
+auto Sorcery::ImageStore::unload_all() -> void {
+
+	for (auto &[file, image] : _images) {
+
+		if (image.texture != 0)
+			glDeleteTextures(1, &image.texture);
+
+		DEBUG_LOGF("Unloaded Texture: {} ({}x{})", file, image.width, image.height);
+
+		_loaded[file] = false;
+	}
+
+	_images.clear();
+	_resident_bytes = 0;
+
+	DEBUG_LOGF("All textures unloaded");
 }

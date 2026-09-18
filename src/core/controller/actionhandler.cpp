@@ -46,7 +46,7 @@ Sorcery::ControllerActionHandler::ControllerActionHandler(Controller &host, Cont
 auto Sorcery::ControllerActionHandler::button(const std::string_view component, [[maybe_unused]] const int data)
 	-> void {
 
-	DEBUG_LOGF("Button Click: {} {}", component, data);
+	// DEBUG_LOGF("Button Click: {} {}", component, data);
 
 	if (component == "button_identify") {
 
@@ -148,7 +148,7 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component, 
 }
 auto Sorcery::ControllerActionHandler::input(const std::string_view component, std::string &data) -> void {
 
-	DEBUG_LOGF("Input Button Click: {} {}", component, data);
+	// DEBUG_LOGF("Input Button Click: {} {}", component, data);
 
 	if (component == "name_input_ok") {
 
@@ -182,7 +182,7 @@ auto Sorcery::ControllerActionHandler::input(const std::string_view component, s
 auto Sorcery::ControllerActionHandler::stepper(const std::string_view component, const bool positive, int &data)
 	-> void {
 
-	DEBUG_LOGF("Stepper Button Click: {} {}", component, positive);
+	// DEBUG_LOGF("Stepper Button Click: {} {}", component, positive);
 
 	auto candidate{_host._game->creation_candidate};
 
@@ -250,7 +250,7 @@ auto Sorcery::ControllerActionHandler::stepper(const std::string_view component,
 auto Sorcery::ControllerActionHandler::toggle(const std::string_view component, const std::string_view tab,
 											  const int selection) -> void {
 
-	DEBUG_LOGF("Toggle: {} {} {}", component, tab, selection);
+	// DEBUG_LOGF("Toggle: {} {} {}", component, tab, selection);
 
 	if (component == "options_info") {
 
@@ -286,7 +286,7 @@ auto Sorcery::ControllerActionHandler::toggle(const std::string_view component, 
 
 auto Sorcery::ControllerActionHandler::icon(const int icon_idx) -> void {
 
-	DEBUG_LOGF("Icon Click: {}", icon_idx);
+	// DEBUG_LOGF("Icon Click: {}", icon_idx);
 
 	switch (icon_idx) {
 	case ICON_CAMP:

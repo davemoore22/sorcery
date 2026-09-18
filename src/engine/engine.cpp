@@ -43,26 +43,27 @@
 #include "frontend/options.hpp"				// for Options
 #include "modules/tavern/inspect.hpp"		// for Inspect
 #include "modules/tavern/reorder.hpp"		// for Reorder
-#include "resources/itemstore.hpp"			// for ItemStore
-#include "resources/levelstore.hpp"			// for LevelStore
-#include "types/character/character.hpp"	// for Character
-#include "types/character/inventory.hpp"	// for Inventory
-#include "types/enum.hpp"					// for TypeID, TypeID::BLUE_RIBBON
-#include "types/game.hpp"					// for Game
-#include "types/state.hpp"					// for State
-#include "types/world/explore.hpp"			// for Explore
-#include "types/world/level.hpp"			// for Level
-#include "types/world/tile.hpp"				// for Tile
-#include <SDL_events.h>						// for SDL_PollEvent
-#include <algorithm>						// for find
-#include <compare>							// for operator>=, strong_ordering
-#include <cstdlib>							// for abs
-#include <format>							// for format
-#include <functional>						// for function
-#include <map>								// for map, operator==
-#include <string>							// for basic_string, stoi
-#include <utility>							// for get, pair
-#include <vector>							// for vector
+#include "resources/imagestore.hpp"
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/levelstore.hpp"		 // for LevelStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/enum.hpp"				 // for TypeID, TypeID::BLUE_RIBBON
+#include "types/game.hpp"				 // for Game
+#include "types/state.hpp"				 // for State
+#include "types/world/explore.hpp"		 // for Explore
+#include "types/world/level.hpp"		 // for Level
+#include "types/world/tile.hpp"			 // for Tile
+#include <SDL_events.h>					 // for SDL_PollEvent
+#include <algorithm>					 // for find
+#include <compare>						 // for operator>=, strong_ordering
+#include <cstdlib>						 // for abs
+#include <format>						 // for format
+#include <functional>					 // for function
+#include <map>							 // for map, operator==
+#include <string>						 // for basic_string, stoi
+#include <utility>						 // for get, pair
+#include <vector>						 // for vector
 
 Sorcery::Engine::Engine(Context &ctx)
 	: Module{ctx} {
@@ -88,6 +89,8 @@ auto Sorcery::Engine::_initialise() -> bool {
 auto Sorcery::Engine::start(const int mode) -> int {
 
 	using namespace std::chrono_literals;
+
+	_ctx.images->unload_all();
 
 	_ctx.controller->initialise();
 	_ctx.controller->set_flag("in_engine");
@@ -469,6 +472,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 auto Sorcery::Engine::stop() -> int {
 
 	_ctx.controller->unset_flag("in_engine");
+
+	_ctx.images->unload_all();
 
 	return 0;
 }

@@ -73,7 +73,7 @@ Sorcery::ControllerMenuHandler::ControllerMenuHandler(Controller &host, Context 
 auto Sorcery::ControllerMenuHandler::handle_standard(std::string_view component, const std::vector<std::string> &items,
 													 int data, int selection) -> void {
 
-	DEBUG_LOGF("Standard Menu: {} {} {}", component, data, selection);
+	// DEBUG_LOGF("Standard Menu: {} {} {}", component, data, selection);
 
 	if (component == "remove_character_menu") {
 
@@ -270,7 +270,7 @@ auto Sorcery::ControllerMenuHandler::handle_standard(std::string_view component,
 auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, const std::vector<std::string> &items,
 													int data, int selection) -> bool {
 
-	DEBUG_LOGF("Dynamic Menu: {} {} {}", component, data, selection);
+	// DEBUG_LOGF("Dynamic Menu: {} {} {}", component, data, selection);
 
 	if (component == "inspect_menu") {
 
@@ -780,7 +780,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 /// @return
 auto Sorcery::ControllerMenuHandler::handle_actions(std::string_view menu, int selection, int data) -> bool {
 
-	DEBUG_LOGF("Action Table Menu: {} {} {}", menu, selection, data);
+	// DEBUG_LOGF("Action Table Menu: {} {} {}", menu, selection, data);
 
 	const auto it{MENU_ACTIONS.find(menu)};
 	if (it == MENU_ACTIONS.end())

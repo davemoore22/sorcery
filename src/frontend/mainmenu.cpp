@@ -35,9 +35,10 @@
 #include "frontend/compendium.hpp"			// for Compendium
 #include "frontend/license.hpp"				// for License
 #include "frontend/options.hpp"				// for Options
-#include "types/enum.hpp"					// for DialogType
-#include <SDL_events.h>						// for SDL_PollEvent
-#include <chrono>							// for chrono_literals
+#include "resources/imagestore.hpp"
+#include "types/enum.hpp" // for DialogType
+#include <SDL_events.h>	  // for SDL_PollEvent
+#include <chrono>		  // for chrono_literals
 
 Sorcery::MainMenu::MainMenu(Context &ctx)
 	: Module{ctx} {
@@ -59,6 +60,8 @@ auto Sorcery::MainMenu::_initialise() -> bool {
 auto Sorcery::MainMenu::start() -> int {
 
 	using namespace std::chrono_literals;
+
+	_ctx.images->unload_all();
 
 	// Clear all controller and flow flags
 	_ctx.controller->initialise();

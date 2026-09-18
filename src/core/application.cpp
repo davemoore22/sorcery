@@ -211,12 +211,15 @@ auto Sorcery::Application::start() -> int {
 
 		case AppFlow::NEW_GAME:
 			_start_new_game(true);
+			ctx.images->unload_all();
 			flow = AppFlow::TOWN;
 			break;
 
 		case AppFlow::CONTINUE_GAME:
 			if (ctx.controller->has_saved_game())
 				_load_existing_game();
+
+			ctx.images->unload_all();
 			flow = AppFlow::TOWN;
 			break;
 

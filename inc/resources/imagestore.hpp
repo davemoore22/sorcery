@@ -41,6 +41,8 @@ class ImageStore {
 		auto get(const std::string &file) -> Image;
 		auto has_loaded(const std::string &file) -> bool;
 		auto load_image(const std::string &file) -> bool;
+		auto unload_image(const std::string &file) -> bool;
+		auto unload_all() -> void;
 
 		bool loaded;
 		unsigned int progress;
@@ -58,5 +60,6 @@ class ImageStore {
 		std::map<std::string, Image> _images;
 		std::map<std::string, bool> _loaded;
 		std::vector<std::string> _sources;
+		std::size_t _resident_bytes{0};
 };
 }
