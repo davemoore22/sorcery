@@ -100,7 +100,7 @@ auto Sorcery::ControllerInputHandler::movement(const SDL_Event &event) const -> 
 	else if (event.type == SDL_KEYDOWN &&
 			 (event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_f || event.key.keysym.sym == SDLK_UP))
 		return MOVE_FORWARD;
-	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN)
+	else if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_z || event.key.keysym.sym == SDLK_DOWN))
 		return MOVE_BACKWARD;
 	else
 		return MOVE_NONE;

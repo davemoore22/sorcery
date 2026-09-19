@@ -27,7 +27,8 @@
 #include "drawables/message.hpp"		// for Message
 #include "drawables/modal2.hpp"			// for Modal2
 #include "resources/componentstore.hpp" // for ComponentStore
-#include <utility>						// for move
+#include "types/enum.hpp"
+#include <utility> // for move
 
 /// @brief
 /// @param ctx
@@ -59,6 +60,9 @@ auto Sorcery::PopupManager::open_message(const std::string_view component, std::
 	_message->open();
 
 	_active = _message.get();
+
+	_ctx.controller->push_input_mode(Enums::Input::Mode::NOTIFICATION);
+	_input_mode_pushed = true;
 }
 
 /// @brief
@@ -187,7 +191,15 @@ auto Sorcery::PopupManager::open_dialog(const std::string_view component, const 
 
 	_active = _dialog.get();
 
-	_ctx.controller->push_input_mode(Enums::Input::Mode::CONFIRMATION);
+	using enum Enums::Input::Mode;
+	switch (type) {
+	case Enums::Layout::DialogType::CONFIRM:
+		_ctx.controller->push_input_mode(CONFIRMATION);
+		break;
+	case Enums::Layout::DialogType::OK:
+		_ctx.controller->push_input_mode(NOTIFICATION);
+		break;
+	}
 	_input_mode_pushed = true;
 }
 

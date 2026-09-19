@@ -3740,21 +3740,23 @@ auto Sorcery::UI::draw_help_window() -> void {
 
 	ImGui::End();
 }
-
 auto Sorcery::UI::draw_help_row(const std::span<const Enums::Controls::HelpGlyph> glyphs, const std::string_view text,
 								const ImVec2 &glyph_size) -> void {
 
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const auto row_x{ImGui::GetCursorPosX()};
 	const auto row_y{ImGui::GetCursorPosY()};
+
 	const auto glyph_spacing{6.0f * scale};
 	const auto text_spacing{12.0f * scale};
-	const auto row_spacing{6.0f * scale};
+
+	// Keep rows fairly tight vertically; the glyph itself provides
+	// most of the visual separation we need.
+	const auto row_spacing{1.5f * scale};
 
 	const auto glyph_column_width{(static_cast<float>(Help::MAX_GLYPHS) * glyph_size.x) +
 								  (static_cast<float>(Help::MAX_GLYPHS - 1) * glyph_spacing)};
 
-	// Draw the glyphs.
 	auto glyph_x{row_x};
 
 	for (const auto glyph : glyphs.first(std::min(glyphs.size(), Help::MAX_GLYPHS))) {
@@ -3766,21 +3768,17 @@ auto Sorcery::UI::draw_help_row(const std::span<const Enums::Controls::HelpGlyph
 		glyph_x += glyph_size.x + glyph_spacing;
 	}
 
-	// Draw the description, vertically centred.
 	const auto text_y{row_y + ((glyph_size.y - ImGui::GetTextLineHeight()) / 2.0f)};
 
 	ImGui::SetCursorPos(ImVec2{row_x + glyph_column_width + text_spacing, text_y});
 
 	ImGui::TextUnformatted(text.data(), text.data() + text.size());
 
-	// Submit one item describing the complete row. This both advances
-	// the layout and tells ImGui how large the row actually is.
 	const auto text_width{ImGui::CalcTextSize(text.data(), text.data() + text.size()).x};
 
 	const ImVec2 row_size{glyph_column_width + text_spacing + text_width, glyph_size.y + row_spacing};
 
 	ImGui::SetCursorPos(ImVec2{row_x, row_y});
-
 	ImGui::Dummy(row_size);
 }
 

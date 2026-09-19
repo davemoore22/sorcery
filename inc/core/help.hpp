@@ -38,11 +38,14 @@ enum class Input {
 	LEFT,
 	RIGHT,
 	CONFIRM,
+	NOTICE,
 	YES_NO,
 	BACK,
 	ESCAPE,
 	HELP,
 	CHEAT,
+	FRONT_ROW,
+	BACK_ROW,
 
 	PAGE_UP,
 	PAGE_DOWN,
@@ -52,13 +55,19 @@ enum class Input {
 	ALPHANUMERIC,
 	SPACE,
 
+	MOVE_FORWARDS,
+	MOVE_BACKWARDS,
+	TURN_LEFT,
+	TURN_RIGHT,
 	TURN_AROUND,
 	CAMP,
 	ACTION,
 	SEARCH,
 	INSPECT,
 	GUI_TOGGLE,
-	STATUS_TOGGLE,
+	COLOUR_TOGGLE,
+	QUICK_LOAD_SAVE,
+	AUTOMAP,
 	QUIT
 };
 
@@ -194,7 +203,7 @@ struct HelpEntry {
 
 namespace Help {
 
-	inline constexpr std::size_t MAX_GLYPHS{3};
+	inline constexpr std::size_t MAX_GLYPHS{4};
 
 	[[nodiscard]]
 	auto entries(Enums::Input::Mode mode) -> std::span<const HelpEntry>;

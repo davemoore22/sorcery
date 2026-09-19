@@ -42,6 +42,8 @@ namespace {
 
 	constexpr std::array confirm_glyphs{KEY_ENTER, XBOX_A, MOUSE_LEFT};
 
+	constexpr std::array notice_glyphs{KEY_ENTER, XBOX_A, MOUSE_LEFT};
+
 	constexpr std::array back_glyphs{KEY_ESCAPE, XBOX_B, MOUSE_RIGHT};
 
 	constexpr std::array escape_glyphs{KEY_ESCAPE};
@@ -62,6 +64,24 @@ namespace {
 
 	constexpr std::array yes_no_glyphs{KEY_Y, KEY_N};
 
+	constexpr std::array quit_glyphs{KEY_Q};
+
+	constexpr std::array move_forward_glyphs{KEY_W, KEY_F, KEY_ARROW_UP, XBOX_DPAD_UP};
+	constexpr std::array move_backwards_glyphs{KEY_Z, KEY_ARROW_DOWN, XBOX_DPAD_DOWN};
+	constexpr std::array turn_left_glyphs{KEY_A, KEY_L, KEY_ARROW_LEFT, XBOX_DPAD_LEFT};
+	constexpr std::array turn_right_glyphs{KEY_D, KEY_R, KEY_ARROW_RIGHT, XBOX_DPAD_RIGHT};
+	constexpr std::array turn_around_glyphs{KEY_X};
+	constexpr std::array camp_glyphs{KEY_ENTER, XBOX_A, MOUSE_LEFT};
+	constexpr std::array gui_toggle_glyphs{KEY_O, KEY_S};
+	constexpr std::array colour_toggle_glypths{KEY_N};
+	constexpr std::array automap_glyphs{KEY_M};
+	constexpr std::array quick_load_save_glyphs{KEY_F9, KEY_F10};
+	constexpr std::array front_row_glypths{KEY_1, KEY_2, KEY_3};
+	constexpr std::array back_row_glypths{KEY_4, KEY_5, KEY_6};
+
+	// spell - MIDDLE MOUSE, XBOX_X?
+	// use - XBOX_Y?
+
 	constexpr std::array menu{
 		HelpEntry{CONFIRM, "HELP_SELECT_ITEM"},
 		HelpEntry{UP, "HELP_PREVIOUS_ITEM"},
@@ -71,6 +91,25 @@ namespace {
 	constexpr std::array confirm{
 		HelpEntry{CONFIRM, "HELP_CONFIRM_CONFIRMATION"},
 		HelpEntry{YES_NO, "HELP_Y_N_CONFIRMATION"},
+	};
+
+	constexpr std::array notice{
+		HelpEntry{NOTICE, "HELP_NOTICE_OK"},
+	};
+
+	constexpr std::array engine{
+		HelpEntry{FRONT_ROW, "HELP_FRONT_ROW"},
+		HelpEntry{BACK_ROW, "HELP_BACK_ROW"},
+		HelpEntry{MOVE_FORWARDS, "HELP_MOVE_FORWARDS"},
+		HelpEntry{TURN_LEFT, "HELP_TURN_LEFT"},
+		HelpEntry{TURN_RIGHT, "HELP_TURN_RIGHT"},
+		HelpEntry{MOVE_BACKWARDS, "HELP_MOVE_BACKWARDS"},
+		HelpEntry{TURN_AROUND, "HELP_TURN_AROUND"},
+		HelpEntry{CAMP, "HELP_CAMP"},
+		HelpEntry{GUI_TOGGLE, "HELP_TOGGLE_GUI"},
+		HelpEntry{AUTOMAP, "HELP_AUTOMAP"},
+		HelpEntry{QUICK_LOAD_SAVE, "HELP_QUICK_LOAD_SAVE"},
+		HelpEntry{QUIT, "HELP_SAVE_AND_QUIT"},
 	};
 
 	constexpr std::array option{
@@ -103,6 +142,12 @@ auto entries(const Enums::Input::Mode mode) -> std::span<const HelpEntry> {
 	case CONFIRMATION:
 		return confirm;
 
+	case NOTIFICATION:
+		return notice;
+
+	case ENGINE:
+		return engine;
+
 	case OPTION:
 		return option;
 
@@ -125,52 +170,64 @@ auto glyphs(const Enums::Controls::Input input) -> std::span<const Enums::Contro
 
 	case CHEAT:
 		return cheat_glyphs;
-
 	case MOUSE:
 		return mouse_glyphs;
-
 	case UP:
 		return up_glyphs;
-
 	case DOWN:
 		return down_glyphs;
-
 	case LEFT:
 		return left_glyphs;
-
 	case RIGHT:
 		return right_glyphs;
-
 	case CONFIRM:
 		return confirm_glyphs;
-
+	case NOTICE:
+		return notice_glyphs;
 	case BACK:
 		return back_glyphs;
-
 	case ESCAPE:
 		return escape_glyphs;
-
 	case HELP:
 		return help_glyphs;
-
 	case PAGE_UP:
 		return page_up_glyphs;
-
 	case PAGE_DOWN:
 		return page_down_glyphs;
-
 	case HOME:
 		return home_glyphs;
-
 	case END:
 		return end_glyphs;
-
 	case SPACE:
 		return space_glyphs;
-
 	case YES_NO:
 		return yes_no_glyphs;
-
+	case FRONT_ROW:
+		return front_row_glypths;
+	case BACK_ROW:
+		return back_row_glypths;
+	case MOVE_FORWARDS:
+		return move_forward_glyphs;
+	case MOVE_BACKWARDS:
+		return move_backwards_glyphs;
+	case TURN_LEFT:
+		return turn_left_glyphs;
+	case TURN_RIGHT:
+		return turn_right_glyphs;
+	case TURN_AROUND:
+		return turn_around_glyphs;
+	case CAMP:
+		return camp_glyphs;
+	case GUI_TOGGLE:
+		return gui_toggle_glyphs;
+	case COLOUR_TOGGLE:
+		return colour_toggle_glypths;
+	case AUTOMAP:
+		return automap_glyphs;
+	case QUICK_LOAD_SAVE:
+		return quick_load_save_glyphs;
+	case QUIT:
+		return quit_glyphs;
 	default:
 		return {};
 	}

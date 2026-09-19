@@ -96,6 +96,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 	_ctx.controller->set_flag("in_engine");
 	_ctx.controller->go_to(Enums::Screen::ENGINE);
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::ENGINE);
+
 	if (_ctx.game->state->get_party_size() > 0)
 		_ctx.controller->set_character(Enums::CharacterSlot::INSPECT, _ctx.game->state->get_party_char(1).value());
 
