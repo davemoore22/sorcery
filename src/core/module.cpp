@@ -147,13 +147,33 @@ auto Sorcery::Module::fade_out(const std::function<void()> &draw, const std::chr
 
 auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &options) -> ModuleEvent {
 
+	// Always give ImGui the event first
 	ImGui_ImplSDL2_ProcessEvent(&event);
 
+	// Application/window-level events must still work while help is open
 	if (_ctx.controller->input->abort(event))
 		return ModuleEvent::ABORT;
 
 	_ctx.controller->input->resize(event);
 
+	// F1 toggles context-sensitive help
+	if (_ctx.controller->input->help(event)) {
+
+		_ctx.controller->toggle_flag("want_help");
+
+		return ModuleEvent::CONSUMED;
+	}
+
+	// Help behaves modally. While visible, consume all input
+	if (_ctx.controller->has_flag("want_help")) {
+
+		if (_ctx.controller->input->back(event))
+			_ctx.controller->unset_flag("want_help");
+
+		return ModuleEvent::CONSUMED;
+	}
+
+	// Normal module input starts here
 	if (options.menu_key)
 		_ctx.controller->input->menu_key(event);
 
@@ -161,11 +181,9 @@ auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &
 		_ctx.controller->input->debug(event);
 
 	if (options.quicksave && _ctx.controller->input->quicksave(event)) {
-
 		_ctx.application->save_state_to_binary(_ctx.get_file(SAVE_STATE_FILENAME));
 
 	} else if (options.quickload && _ctx.controller->input->quickload(event)) {
-
 		_ctx.application->load_state_from_binary(_ctx.get_file(SAVE_STATE_FILENAME));
 
 		return ModuleEvent::QUICKLOAD;

@@ -10,3 +10,8 @@ Map / tile handling optimisation
 Dungeon View rendering optimisation
 
 - Reduce the number of drawing calls
+
+Automap
+
+- Add a "Make all floor visible" button to the Cheat Menu
+- Add click and move as well as mouse highlight to the Automap

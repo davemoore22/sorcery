@@ -35,38 +35,39 @@
 #include "core/controller/menuhandler.hpp"	 // for ControllerMenuHandler
 #include "core/define.hpp"					 // for WINDOW_LAYER_TEXTS, WIN...
 #include "core/enum.hpp"					 // for Screen, CharacterSlot
-#include "core/macro.hpp"					 // for CSTR
-#include "core/resources.hpp"				 // for Resources
-#include "core/system.hpp"					 // for System
-#include "display/animation.hpp"			 // for Animation
-#include "display/display.hpp"				 // for Display, DisplayMetrics
-#include "display/render.hpp"				 // for Render
-#include "display/ui/atlasimage.hpp"		 // for AtlasImage, AtlasDrawMode
-#include "display/ui/mapview.hpp"			 // for MapGeometry, MapView
-#include "display/ui/popupmanager.hpp"		 // for PopupManager
-#include "display/ui/screenrenderer.hpp"	 // for ScreenRenderer
-#include "display/ui/uimetrics.hpp"			 // for UIMetrics
-#include "display/ui/uistyle.hpp"			 // for set_text_bright, icon_c...
-#include "drawables/frame.hpp"				 // for Frame
-#include "drawables/menu.hpp"				 // for Menu
-#include "drawables/videoplayer.hpp"		 // for VideoPlayer
-#include "engine/define.hpp"				 // for GRAVESTONE_GFX_ID
-#include "engine/types.hpp"					 // for Vertex, VertexArray
-#include "imgui.h"							 // for ImVec2, ImVec4, GetMain...
-#include "imgui_internal.h"					 // for ImGuiSelectableFlagsPri...
-#include "misc/cpp/imgui_stdlib.h"			 // for InputText
-#include "resources/componentstore.hpp"		 // for ComponentStore
-#include "resources/define.hpp"				 // for MAPS_TEXTURE, ICONS_TEX...
-#include "resources/fontstore.hpp"			 // for FontInfo, FontStore
-#include "resources/imagestore.hpp"			 // for ImageStore
-#include "resources/itemstore.hpp"			 // for ItemStore
-#include "resources/levelstore.hpp"			 // for LevelStore
-#include "resources/monsterstore.hpp"		 // for MonsterStore
-#include "resources/spellstore.hpp"			 // for SpellStore
-#include "types/character/character.hpp"	 // for Character
-#include "types/character/create.hpp"		 // for CharacterCreate
-#include "types/character/inventory.hpp"	 // for Inventory
-#include "types/character/magic.hpp"		 // for ConstCharacterMagic
+#include "core/help.hpp"
+#include "core/macro.hpp"				 // for CSTR
+#include "core/resources.hpp"			 // for Resources
+#include "core/system.hpp"				 // for System
+#include "display/animation.hpp"		 // for Animation
+#include "display/display.hpp"			 // for Display, DisplayMetrics
+#include "display/render.hpp"			 // for Render
+#include "display/ui/atlasimage.hpp"	 // for AtlasImage, AtlasDrawMode
+#include "display/ui/mapview.hpp"		 // for MapGeometry, MapView
+#include "display/ui/popupmanager.hpp"	 // for PopupManager
+#include "display/ui/screenrenderer.hpp" // for ScreenRenderer
+#include "display/ui/uimetrics.hpp"		 // for UIMetrics
+#include "display/ui/uistyle.hpp"		 // for set_text_bright, icon_c...
+#include "drawables/frame.hpp"			 // for Frame
+#include "drawables/menu.hpp"			 // for Menu
+#include "drawables/videoplayer.hpp"	 // for VideoPlayer
+#include "engine/define.hpp"			 // for GRAVESTONE_GFX_ID
+#include "engine/types.hpp"				 // for Vertex, VertexArray
+#include "imgui.h"						 // for ImVec2, ImVec4, GetMain...
+#include "imgui_internal.h"				 // for ImGuiSelectableFlagsPri...
+#include "misc/cpp/imgui_stdlib.h"		 // for InputText
+#include "resources/componentstore.hpp"	 // for ComponentStore
+#include "resources/define.hpp"			 // for MAPS_TEXTURE, ICONS_TEX...
+#include "resources/fontstore.hpp"		 // for FontInfo, FontStore
+#include "resources/imagestore.hpp"		 // for ImageStore
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/levelstore.hpp"		 // for LevelStore
+#include "resources/monsterstore.hpp"	 // for MonsterStore
+#include "resources/spellstore.hpp"		 // for SpellStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/character/magic.hpp"	 // for ConstCharacterMagic
 #include "types/cheat.hpp"
 #include "types/component.hpp"	   // for Component
 #include "types/config.hpp"		   // for Config
@@ -310,9 +311,10 @@ auto Sorcery::UI::display_engine() -> void {
 	// Transient overlay
 	draw_transient();
 
-	// And Cursor on Top
+	// And Cursor etc on Top
 	draw_debug();
 	draw_cheat_tools();
+	draw_help_window();
 	draw_cursor();
 
 	// bool show{true};
@@ -339,6 +341,7 @@ auto Sorcery::UI::display_screen(const Enums::Screen screen, const std::any &pay
 
 	if (screen != Enums::Screen::SPLASH) {
 		draw_help_icon();
+		draw_help_window();
 		draw_cursor();
 	}
 
@@ -3231,6 +3234,7 @@ auto Sorcery::UI::draw_level_map(const Level &level, const Component &component,
 
 	return geometry;
 }
+
 auto Sorcery::UI::_map_position(const MapGeometry &geometry, const Coordinate location) const -> ImVec2 {
 
 	const auto local_x{location.x - geometry.origin.x};
@@ -3463,13 +3467,9 @@ auto Sorcery::UI::draw_character_strength([[maybe_unused]] Component *component,
 	ImGui::NewLine();
 
 	draw_stat_modifier("Atk Mod", character->abilities().at(ATTACK_MODIFIER));
-
 	draw_stat_modifier("Hit Prob", character->abilities().at(HIT_PROBABILITY));
-
 	draw_stat_modifier("Bonus Damg", character->abilities().at(BONUS_DAMAGE));
-
 	draw_stat_value("Num Attacks", character->abilities().at(BASE_NUMBER_OF_ATTACKS));
-
 	draw_stat_value("Unarmed Damg", character->abilities().at(UNARMED_DAMAGE));
 }
 
@@ -3485,13 +3485,9 @@ auto Sorcery::UI::draw_character_vitality([[maybe_unused]] Component *component,
 	ImGui::NewLine();
 
 	draw_stat_modifier("Vit Bonus", character->abilities().at(VITALITY_BONUS));
-
 	draw_stat_modifier("Bonus HP", character->abilities().at(BONUS_HIT_POINTS));
-
 	draw_stat_percent("Ress / Dead", character->abilities().at(DEAD_RESURRECT));
-
 	draw_stat_percent("Ress / Ashes", character->abilities().at(ASHES_RESURRECT));
-
 	draw_stat_percent("Ress / Spell", character->abilities().at(DI_KADORTO_RESURRECT));
 }
 
@@ -3507,11 +3503,8 @@ auto Sorcery::UI::draw_character_iq([[maybe_unused]] Component *component, const
 	ImGui::NewLine();
 
 	draw_stat_percent("Spell Learn", character->abilities().at(MAGE_SPELL_LEARN));
-
 	draw_stat_percent("ID Items", character->abilities().at(IDENTIFY_ITEMS));
-
 	draw_stat_percent("ID Curse", character->abilities().at(IDENTIFY_CURSE));
-
 	draw_stat_percent("ID Foes", character->abilities().at(IDENTIFY_FOES));
 }
 
@@ -3527,15 +3520,10 @@ auto Sorcery::UI::draw_character_agility([[maybe_unused]] Component *component, 
 	ImGui::NewLine();
 
 	draw_stat_modifier("Int Mod", character->abilities().at(INITIATIVE_MODIFIER));
-
 	draw_stat_percent("Crit Hit", character->abilities().at(BASE_CRITICAL_HIT));
-
 	draw_stat_percent("ID Trap", character->abilities().at(IDENTIFY_TRAP));
-
 	draw_stat_percent("Disarm Trap", character->abilities().at(BASE_DISARM_TRAP));
-
 	draw_stat_percent("Avoid Trap", 100 - character->abilities().at(ACTIVATE_TRAP));
-
 	draw_stat_percent("Avoid Pit", character->abilities().at(BASE_AVOID_PIT));
 }
 
@@ -3551,9 +3539,7 @@ auto Sorcery::UI::draw_character_piety([[maybe_unused]] Component *component, co
 	ImGui::NewLine();
 
 	draw_stat_percent("Spell Learn", character->abilities().at(PRIEST_SPELL_LEARN));
-
 	draw_stat_percent("Rec Chance", character->abilities().at(LOKTOFELT_SUCCESS));
-
 	draw_stat_percent("Base Dispell", character->abilities().at(BASE_DISPELL));
 }
 
@@ -3569,7 +3555,6 @@ auto Sorcery::UI::draw_character_luck([[maybe_unused]] Component *component, con
 	ImGui::NewLine();
 
 	draw_stat_percent("Res Bonus", character->abilities().at(BASE_RESIST_BONUS));
-
 	draw_stat_percent("Wipe Rec", character->abilities().at(EQUIPMENT_INTACT_ON_WIPE));
 }
 auto Sorcery::UI::draw_character_res([[maybe_unused]] Component *component, const Character *character) -> void {
@@ -3577,7 +3562,9 @@ auto Sorcery::UI::draw_character_res([[maybe_unused]] Component *component, cons
 	using enum Enums::Character::Ability;
 
 	ImGui::NewLine();
+
 	ImGui::TextUnformatted("Resistances");
+
 	ImGui::NewLine();
 
 	with_Table("character_resistances", 2, ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_SizingStretchSame) {
@@ -3633,7 +3620,6 @@ auto Sorcery::UI::draw_cheat_tools() -> void {
 	const auto centre{ImGui::GetMainViewport()->GetCenter()};
 
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
-
 	ImGui::SetNextWindowSize(ImVec2{360.0f, 0.0f}, ImGuiCond_Appearing);
 
 	if (ImGui::BeginPopupModal(popup_name, nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -3660,4 +3646,178 @@ auto Sorcery::UI::draw_cheat_tools() -> void {
 
 		ImGui::EndPopup();
 	}
+}
+
+/// @brief Draw the context-sensitive help window.
+/// @return
+auto Sorcery::UI::draw_help_window() -> void {
+
+	static constexpr auto popup_name{"Help"};
+	static constexpr auto HELP_GFX_ID{110};
+
+	const auto want_help{_ctx.controller->has_flag("want_help")};
+
+	if (want_help && !ImGui::IsPopupOpen(popup_name))
+		ImGui::OpenPopup(popup_name);
+
+	const auto viewport{ImGui::GetMainViewport()};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const ImVec2 glyph_size{32.0f * scale, 32.0f * scale};
+	const auto font_size{_ctx.ui->metrics->font_sz()};
+
+	const ImVec2 window_pos{viewport->Pos.x + (viewport->Size.x / 2.0f), viewport->Pos.y + (viewport->Size.y / 2.0f)};
+
+	// TODO: use imgui_sugar
+	ImGui::SetNextWindowPos(window_pos, ImGuiCond_Appearing, ImVec2{0.5f, 0.5f});
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{0.0f, 0.0f, 0.0f, 1.0f});
+	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ui_colour.x, ui_colour.y, ui_colour.z, 1.0f});
+	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4{ui_text_colour.x, ui_text_colour.y, ui_text_colour.z, 1.0f});
+	ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4{0.0f, 0.0f, 0.0f, 0.60f});
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f * scale);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, static_cast<float>(ui_rd));
+
+	const auto flags{ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+					 ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings |
+					 ImGuiWindowFlags_AlwaysAutoResize};
+
+	if (ImGui::BeginPopupModal(popup_name, nullptr, flags)) {
+
+		// F1/Escape/right-click may have cleared this during event processing.
+		if (!want_help) {
+
+			ImGui::CloseCurrentPopup();
+
+		} else {
+
+			set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE).value(), font_size);
+			const auto mode{_ctx.controller->get_input_mode()};
+			const auto entries{Help::entries(mode)};
+
+			// Heading
+			const auto heading_x{ImGui::GetCursorPosX()};
+			const auto heading_y{ImGui::GetCursorPosY()};
+			draw_atlas_tile(ICONS_TEXTURE, HELP_GFX_ID, glyph_size);
+			ImGui::SetCursorPos(ImVec2{heading_x + glyph_size.x + (12.0f * scale),
+									   heading_y + ((glyph_size.y - ImGui::GetTextLineHeight()) / 2.0f)});
+			ImGui::TextUnformatted("HELP");
+			const auto heading_width{glyph_size.x + (12.0f * scale) + ImGui::CalcTextSize("HELP").x};
+			ImGui::SetCursorPos(ImVec2{heading_x, heading_y});
+			ImGui::Dummy(ImVec2{heading_width, glyph_size.y + (6.0f * scale)});
+			ImGui::Separator();
+			ImGui::Spacing();
+
+			// Context-specific controls
+			for (const auto &entry : entries) {
+				draw_help_row(Help::glyphs(entry.control), _ctx.get_string(entry.string_key), glyph_size);
+			}
+
+			// Global controls
+			if (!entries.empty()) {
+
+				ImGui::Spacing();
+				ImGui::Separator();
+				ImGui::Spacing();
+			}
+
+			for (const auto &entry : Help::always) {
+				draw_help_row(Help::glyphs(entry.control), _ctx.get_string(entry.string_key), glyph_size);
+			}
+		}
+
+		ImGui::EndPopup();
+	}
+
+	ImGui::PopStyleVar(2);
+	ImGui::PopStyleColor(4);
+}
+auto Sorcery::UI::draw_help_row(const std::span<const Enums::Controls::HelpGlyph> glyphs, const std::string_view text,
+								const ImVec2 &glyph_size) -> void {
+
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto row_x{ImGui::GetCursorPosX()};
+	const auto row_y{ImGui::GetCursorPosY()};
+	const auto glyph_spacing{6.0f * scale};
+	const auto text_spacing{12.0f * scale};
+	const auto row_spacing{6.0f * scale};
+
+	const auto glyph_column_width{(static_cast<float>(Help::MAX_GLYPHS) * glyph_size.x) +
+								  (static_cast<float>(Help::MAX_GLYPHS - 1) * glyph_spacing)};
+
+	// Draw the glyphs.
+	auto glyph_x{row_x};
+
+	for (const auto glyph : glyphs.first(std::min(glyphs.size(), Help::MAX_GLYPHS))) {
+
+		ImGui::SetCursorPos(ImVec2{glyph_x, row_y});
+
+		draw_help_glyph(glyph, glyph_size);
+
+		glyph_x += glyph_size.x + glyph_spacing;
+	}
+
+	// Draw the description, vertically centred.
+	const auto text_y{row_y + ((glyph_size.y - ImGui::GetTextLineHeight()) / 2.0f)};
+
+	ImGui::SetCursorPos(ImVec2{row_x + glyph_column_width + text_spacing, text_y});
+
+	ImGui::TextUnformatted(text.data(), text.data() + text.size());
+
+	// Submit one item describing the complete row. This both advances
+	// the layout and tells ImGui how large the row actually is.
+	const auto text_width{ImGui::CalcTextSize(text.data(), text.data() + text.size()).x};
+
+	const ImVec2 row_size{glyph_column_width + text_spacing + text_width, glyph_size.y + row_spacing};
+
+	ImGui::SetCursorPos(ImVec2{row_x, row_y});
+
+	ImGui::Dummy(row_size);
+}
+
+auto Sorcery::UI::draw_help_glyph(const Enums::Controls::HelpGlyph glyph, const ImVec2 &size) -> void {
+
+	draw_atlas_tile(CONTROLS_TEXTURE, static_cast<int>(glyph), size);
+}
+
+auto Sorcery::UI::draw_atlas_tile(const std::string_view source, const int idx, const ImVec2 &size, const ImVec4 &tint)
+	-> void {
+
+	if (!images->show_images) {
+		ImGui::Dummy(size);
+		return;
+	}
+
+	const auto src_image{images->get(std::string{source})};
+
+	int tile_row_count{0};
+
+	if (source == CONTROLS_TEXTURE)
+		tile_row_count = CONTROLS_TILE_ROW_COUNT;
+	else if (source == ICONS_TEXTURE)
+		tile_row_count = ICONS_TILE_ROW_COUNT;
+	else if (source == EVENTS_TEXTURE)
+		tile_row_count = EVENTS_TILE_ROW_COUNT;
+	else if (source == ITEMS_TEXTURE)
+		tile_row_count = ITEM_TILE_ROW_COUNT;
+	else if (source == MAPS_TEXTURE)
+		tile_row_count = MAP_TILE_ROW_COUNT;
+	else
+		return;
+
+	if (tile_row_count <= 0)
+		return;
+
+	const auto tile_size{src_image.width / tile_row_count};
+
+	const auto from{ImVec4{static_cast<float>(tile_size * (idx % tile_row_count)),
+						   static_cast<float>(tile_size * (idx / tile_row_count)), static_cast<float>(tile_size),
+						   static_cast<float>(tile_size)}};
+
+	const ImVec2 uv_0{from.x / static_cast<float>(src_image.width), from.y / static_cast<float>(src_image.height)};
+
+	const ImVec2 uv_1{(from.x + from.z) / static_cast<float>(src_image.width),
+					  (from.y + from.w) / static_cast<float>(src_image.height)};
+
+	const auto texture{ImTextureRef{_to_imgui(src_image.texture)}};
+
+	ImGui::ImageWithBg(texture, size, uv_0, uv_1, ImVec4{0.0f, 0.0f, 0.0f, 0.0f}, tint);
 }

@@ -23,6 +23,7 @@
 #include "types/meta.hpp"
 #include "common/enum.hpp"
 #include "core/enum.hpp"
+#include "core/help.hpp"
 #include "engine/enum.hpp"
 #include "types/enum.hpp"
 #include <array>
@@ -103,6 +104,7 @@ INSTANTIATE_ENUM(Enums::Character::Location);
 INSTANTIATE_ENUM(Enums::Character::Race);
 INSTANTIATE_ENUM(Enums::Character::Status);
 INSTANTIATE_ENUM(Enums::Chests::State);
+INSTANTIATE_ENUM(Enums::Input::Mode);
 INSTANTIATE_ENUM(Enums::Items::Category);
 INSTANTIATE_ENUM(Enums::Items::TypeID);
 INSTANTIATE_ENUM(Enums::Items::Effects::Defensive);

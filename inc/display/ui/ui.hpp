@@ -66,6 +66,7 @@ namespace Enums {
 		enum class SpellID;
 		enum class SpellType;
 	}
+	namespace Controls { enum class HelpGlyph : unsigned int; }
 }
 }
 namespace Sorcery {
@@ -180,6 +181,8 @@ class UI {
 
 		// Composite Drawing Drawables
 		auto draw_attract_mode() -> void;
+		auto draw_atlas_tile(std::string_view source, int idx, const ImVec2 &size,
+							 const ImVec4 &tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f}) -> void;
 		auto draw_automap_legend(Component *component) -> void;
 		auto draw_bg_video() -> void;
 		auto draw_buffbar() -> void;
@@ -190,10 +193,14 @@ class UI {
 		auto draw_cursor() -> void;
 		auto draw_cursor(const bool value) -> void;
 		auto draw_debug() -> void;
+		auto draw_help_glyph(Enums::Controls::HelpGlyph glyph, const ImVec2 &size) -> void;
+		auto draw_help_window() -> void;
 		auto draw_icons() -> void;
 		auto draw_item_info() -> void;
 		auto draw_level_name() -> void;
 		auto draw_help_icon() -> void;
+		auto draw_help_row(std::span<const Enums::Controls::HelpGlyph> glyphs, std::string_view text,
+						   const ImVec2 &glyph_size) -> void;
 		auto draw_build_info() -> void;
 		auto draw_shadowed_text(ImVec2 pos, std::string_view text, ImVec4 colour, float scale) -> void;
 

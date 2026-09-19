@@ -66,6 +66,9 @@ auto Sorcery::MainMenu::start() -> int {
 	// Clear all controller and flow flags
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	// Start relevant animation worker threads
 	_ctx.animation->refresh_attract();
 	_ctx.animation->start_attract_th();
@@ -89,6 +92,9 @@ auto Sorcery::MainMenu::start() -> int {
 				return abort();
 
 			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::CONSUMED:
 				continue;
 
 			case ModuleEvent::NONE:

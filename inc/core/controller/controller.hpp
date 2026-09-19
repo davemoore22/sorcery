@@ -24,13 +24,14 @@
 
 #include "common/enum.hpp" // for Direction, Event
 #include "core/enum.hpp"   // for CharacterSlot (ptr only), Screen
-#include <functional>	   // for less
-#include <map>			   // for map
-#include <memory>		   // for unique_ptr
-#include <ostream>		   // for ostream
-#include <string>		   // for string, basic_string
-#include <string_view>	   // for string_view
-#include <vector>		   // for vector
+#include "core/help.hpp"
+#include <functional>  // for less
+#include <map>		   // for map
+#include <memory>	   // for unique_ptr
+#include <ostream>	   // for ostream
+#include <string>	   // for string, basic_string
+#include <string_view> // for string_view
+#include <vector>	   // for vector
 
 namespace Sorcery { class Character; }
 namespace Sorcery { class Game; }
@@ -128,6 +129,14 @@ class Controller {
 		auto consume_back() -> bool;
 		auto get_back() const -> bool;
 
+		auto set_input_mode(Enums::Input::Mode mode) -> void;
+		auto push_input_mode(Enums::Input::Mode mode) -> void;
+		auto pop_input_mode() -> void;
+		auto clear_input_modes() -> void;
+
+		[[nodiscard]]
+		auto get_input_mode() const -> Enums::Input::Mode;
+
 		// Public Members
 		std::unique_ptr<ControllerActionHandler> actions;
 		std::unique_ptr<ControllerMenuHandler> menus;
@@ -138,6 +147,9 @@ class Controller {
 		Context &_ctx;
 		Enums::Screen _screen{};
 		Enums::Screen _last_screen{};
+
+		Enums::Input::Mode _input_mode{Enums::Input::Mode::NONE};
+		std::vector<Enums::Input::Mode> _input_mode_stack;
 
 		Game *_game{nullptr};
 		bool _busy{};		// Currently busy (e.g. loading an asset etc)

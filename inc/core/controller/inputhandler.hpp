@@ -45,6 +45,9 @@ class ControllerInputHandler {
 		auto automap(const SDL_Event &event) const -> bool;
 		auto movement(const SDL_Event &event) const -> int;
 
+		[[nodiscard]]
+		auto help(const SDL_Event &event) const -> bool;
+
 		auto quickload(const SDL_Event &event) const -> bool;
 		auto quicksave(const SDL_Event &event) const -> bool;
 		auto quick_inspect(const SDL_Event &event) const -> int;

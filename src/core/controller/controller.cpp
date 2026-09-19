@@ -70,6 +70,8 @@ auto Sorcery::Controller::initialise() -> void {
 	_selected.clear();
 	_characters.clear();
 
+	clear_input_modes();
+
 	// Set default state (these must all be present and set to false/-1)
 
 	clear_character(Enums::CharacterSlot::INSPECT);
@@ -446,6 +448,48 @@ auto Sorcery::Controller::get_back() const -> bool {
 auto Sorcery::Controller::consume_back() -> bool {
 
 	return std::exchange(_go_back, false);
+}
+
+/// @brief Set the underlying input mode.
+/// @param mode
+auto Sorcery::Controller::set_input_mode(const Enums::Input::Mode mode) -> void {
+
+	_input_mode = mode;
+}
+
+/// @brief Temporarily override the current input mode.
+/// @param mode
+auto Sorcery::Controller::push_input_mode(const Enums::Input::Mode mode) -> void {
+
+	_input_mode_stack.push_back(mode);
+}
+
+/// @brief Remove the most recent temporary input mode.
+auto Sorcery::Controller::pop_input_mode() -> void {
+
+	if (_input_mode_stack.empty()) {
+		DEBUG_LOGF("Attempted to pop empty input mode stack");
+		return;
+	}
+
+	_input_mode_stack.pop_back();
+}
+
+/// @brief Reset all input mode state.
+auto Sorcery::Controller::clear_input_modes() -> void {
+
+	_input_mode = Enums::Input::Mode::NONE;
+	_input_mode_stack.clear();
+}
+
+/// @brief Return the currently applicable input mode.
+/// @return
+auto Sorcery::Controller::get_input_mode() const -> Enums::Input::Mode {
+
+	if (!_input_mode_stack.empty())
+		return _input_mode_stack.back();
+
+	return _input_mode;
 }
 
 namespace Sorcery {

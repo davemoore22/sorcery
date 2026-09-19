@@ -36,7 +36,9 @@ namespace Sorcery {
 
 enum class ModuleEvent {
 	NONE,
+	CONSUMED,
 	ABORT,
+	QUICKSAVE,
 	QUICKLOAD
 };
 

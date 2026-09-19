@@ -106,6 +106,11 @@ auto Sorcery::ControllerInputHandler::movement(const SDL_Event &event) const -> 
 		return MOVE_NONE;
 }
 
+auto Sorcery::ControllerInputHandler::help(const SDL_Event &event) const -> bool {
+
+	return event.type == SDL_KEYDOWN && event.key.repeat == 0 && event.key.keysym.sym == SDLK_F1;
+}
+
 // Check if the SDL event is go-back-to-previous event
 auto Sorcery::ControllerInputHandler::back(const SDL_Event &event) const -> bool {
 
