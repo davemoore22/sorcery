@@ -61,6 +61,9 @@ auto Sorcery::Training::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::TRAINING);
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	fade_in(Enums::Screen::TRAINING, QUICK_FADE);
 
 	// Main loop

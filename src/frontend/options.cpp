@@ -52,6 +52,9 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 	_ctx.controller->go_to(Enums::Screen::OPTIONS);
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	fade_in(Enums::Screen::OPTIONS, QUICK_FADE);
 
 	// Main loop

@@ -23,15 +23,15 @@
 #pragma once
 
 #include "common/enum.hpp" // for Direction, Event
-#include "core/enum.hpp"   // for CharacterSlot (ptr only), Screen
-#include "core/help.hpp"
-#include <functional>  // for less
-#include <map>		   // for map
-#include <memory>	   // for unique_ptr
-#include <ostream>	   // for ostream
-#include <string>	   // for string, basic_string
-#include <string_view> // for string_view
-#include <vector>	   // for vector
+#include "core/controller/inputmode.hpp"
+#include "core/enum.hpp" // for CharacterSlot (ptr only), Screen
+#include <functional>	 // for less
+#include <map>			 // for map
+#include <memory>		 // for unique_ptr
+#include <ostream>		 // for ostream
+#include <string>		 // for string, basic_string
+#include <string_view>	 // for string_view
+#include <vector>		 // for vector
 
 namespace Sorcery { class Character; }
 namespace Sorcery { class Game; }

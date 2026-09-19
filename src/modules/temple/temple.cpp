@@ -55,6 +55,9 @@ auto Sorcery::Temple::start() -> int {
 	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::TEMPLE);
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	show_immediately();
 
 	while (true) {

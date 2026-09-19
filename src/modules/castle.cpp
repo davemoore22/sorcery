@@ -76,6 +76,9 @@ auto Sorcery::Castle::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	fade_in(Enums::Screen::CASTLE, QUICK_FADE);
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);

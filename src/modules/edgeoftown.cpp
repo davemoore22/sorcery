@@ -62,6 +62,9 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 	_ctx.controller->go_to(Enums::Screen::EDGEOFTOWN);
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	fade_in(Enums::Screen::EDGEOFTOWN, QUICK_FADE);
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);

@@ -59,6 +59,9 @@ auto Sorcery::Inn::start() -> int {
 	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::INN);
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 	_ctx.controller->clear_character(Enums::CharacterSlot::STAY);
 

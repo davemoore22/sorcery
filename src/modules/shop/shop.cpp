@@ -60,6 +60,9 @@ auto Sorcery::Shop::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::SHOP);
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	show_immediately();
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);

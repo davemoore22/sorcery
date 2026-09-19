@@ -22,183 +22,170 @@
 
 #pragma once
 
-#include <array>
+#include "core/controller/inputmode.hpp"
+
+#include <cstddef>
 #include <span>
 #include <string_view>
 
-namespace Sorcery {
+namespace Sorcery::Enums::Controls {
 
-namespace Enums::Input {
+enum class Input {
+	NO_INPUT,
+	MOUSE,
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	CONFIRM,
+	YES_NO,
+	BACK,
+	ESCAPE,
+	HELP,
+	CHEAT,
 
-	enum class Mode {
-		NONE,
-		MENU,
-		OPTION,
-		CONFIRMATION,
-		TEXT_INPUT,
-		NUMBER_INPUT,
-		ALLOCATE_STATS,
-		FILE_VIEWER,
-		REVIEW_AND_CONFIRM,
-		CHARACTER_BROWSER,
-		ENGINE
-	};
+	PAGE_UP,
+	PAGE_DOWN,
+	HOME,
+	END,
+
+	ALPHANUMERIC,
+	SPACE,
+
+	TURN_AROUND,
+	CAMP,
+	ACTION,
+	SEARCH,
+	INSPECT,
+	GUI_TOGGLE,
+	STATUS_TOGGLE,
+	QUIT
 };
 
-namespace Enums::Controls {
+enum class HelpGlyph : unsigned int {
 
-	enum class Input {
-		NO_INPUT,
-		MOUSE,
-		UP,
-		DOWN,
-		LEFT,
-		RIGHT,
-		CONFIRM,
-		BACK,
-		ESCAPE,
-		HELP,
-		CHEAT,
+	KEY_0 = 0,
+	KEY_1,
+	KEY_2,
+	KEY_3,
+	KEY_4,
+	KEY_5,
+	KEY_6,
+	KEY_7,
+	KEY_8,
+	KEY_9,
 
-		PAGE_UP,
-		PAGE_DOWN,
-		HOME,
-		END,
+	KEY_A = 10,
+	KEY_B,
+	KEY_C,
+	KEY_D,
+	KEY_E,
+	KEY_F,
+	KEY_G,
+	KEY_H,
+	KEY_I,
+	KEY_J,
+	KEY_K,
+	KEY_L,
+	KEY_M,
+	KEY_N,
+	KEY_O,
+	KEY_P,
+	KEY_Q,
+	KEY_R,
+	KEY_S,
+	KEY_T,
+	KEY_U,
+	KEY_V,
+	KEY_W,
+	KEY_X,
+	KEY_Y,
+	KEY_Z,
 
-		ALPHANUMERIC,
-		SPACE,
+	KEY_F1 = 36,
+	KEY_F2,
+	KEY_F3,
+	KEY_F4,
+	KEY_F5,
+	KEY_F6,
+	KEY_F7,
+	KEY_F8,
+	KEY_F9,
+	KEY_F10,
+	KEY_F11,
+	KEY_F12,
 
-		TURN_AROUND,
-		CAMP,
-		ACTION,
-		SEARCH,
-		INSPECT,
-		GUI_TOGGLE,
-		STATUS_TOGGLE,
-		QUIT
-	};
+	XBOX_A = 48,
+	XBOX_B,
+	XBOX_DPAD,
+	XBOX_DPAD_DOWN,
+	XBOX_DPAD_LEFT,
+	XBOX_DPAD_RIGHT,
+	XBOX_DPAD_UP,
+	XBOX_LB,
+	XBOX_LT,
+	XBOX_LEFT_STICK,
+	XBOX_LEFT_STICK_CLICK,
+	XBOX_MENU,
+	XBOX_RB,
+	XBOX_RT,
+	XBOX_RIGHT_STICK,
+	XBOX_RIGHT_STICK_CLICK,
+	XBOX_SHARE,
+	XBOX_VIEW,
+	XBOX_X,
+	XBOX_Y,
 
-	enum class HelpGlyph : unsigned int {
+	KEY_ALT = 68,
+	KEY_ARROW_DOWN,
+	KEY_ARROW_LEFT,
+	KEY_ARROW_RIGHT,
+	KEY_ARROW_UP,
+	KEY_ASTERISK,
+	KEY_BACKSPACE_ALT,
+	KEY_BACKSPACE,
+	KEY_BRACKET_LEFT,
+	KEY_BRACKET_RIGHT,
+	KEY_CAPS_LOCK,
+	KEY_COMMAND,
+	KEY_CTRL,
+	KEY_DELETE,
+	KEY_END,
+	KEY_ENTER_ALT,
+	KEY_ENTER,
+	KEY_ENTER_TALL,
+	KEY_ESCAPE,
+	KEY_HOME,
+	KEY_INSERT,
+	KEY_MARK_LEFT,
+	KEY_MARK_RIGHT,
+	KEY_MINUS,
+	KEY_NUM_LOCK,
+	KEY_PAGE_DOWN,
+	KEY_PAGE_UP,
+	KEY_PLUS,
+	KEY_PLUS_TALL,
+	KEY_PRINT_SCREEN,
+	KEY_QUESTION,
+	KEY_QUOTE,
+	KEY_SEMICOLON,
+	KEY_SHIFT_ALT,
+	KEY_SHIFT,
+	KEY_SLASH,
+	KEY_SPACE,
+	KEY_TAB,
+	KEY_TILDE,
+	KEY_WIN,
 
-		KEY_0 = 0,
-		KEY_1,
-		KEY_2,
-		KEY_3,
-		KEY_4,
-		KEY_5,
-		KEY_6,
-		KEY_7,
-		KEY_8,
-		KEY_9,
+	MOUSE_LEFT = 108,
+	MOUSE_MIDDLE,
+	MOUSE_RIGHT,
+	MOUSE_SIMPLE
+};
 
-		KEY_A = 10,
-		KEY_B,
-		KEY_C,
-		KEY_D,
-		KEY_E,
-		KEY_F,
-		KEY_G,
-		KEY_H,
-		KEY_I,
-		KEY_J,
-		KEY_K,
-		KEY_L,
-		KEY_M,
-		KEY_N,
-		KEY_O,
-		KEY_P,
-		KEY_Q,
-		KEY_R,
-		KEY_S,
-		KEY_T,
-		KEY_U,
-		KEY_V,
-		KEY_W,
-		KEY_X,
-		KEY_Y,
-		KEY_Z,
+} // namespace Sorcery::Enums::Controls
 
-		KEY_F1 = 36,
-		KEY_F2,
-		KEY_F3,
-		KEY_F4,
-		KEY_F5,
-		KEY_F6,
-		KEY_F7,
-		KEY_F8,
-		KEY_F9,
-		KEY_F10,
-		KEY_F11,
-		KEY_F12,
-
-		XBOX_A = 48,
-		XBOX_B,
-		XBOX_DPAD,
-		XBOX_DPAD_DOWN,
-		XBOX_DPAD_LEFT,
-		XBOX_DPAD_RIGHT,
-		XBOX_DPAD_UP,
-		XBOX_LB,
-		XBOX_LT,
-		XBOX_LEFT_STICK,
-		XBOX_LEFT_STICK_CLICK,
-		XBOX_MENU,
-		XBOX_RB,
-		XBOX_RT,
-		XBOX_RIGHT_STICK,
-		XBOX_RIGHT_STICK_CLICK,
-		XBOX_SHARE,
-		XBOX_VIEW,
-		XBOX_X,
-		XBOX_Y,
-
-		KEY_ALT = 68,
-		KEY_ARROW_DOWN,
-		KEY_ARROW_LEFT,
-		KEY_ARROW_RIGHT,
-		KEY_ARROW_UP,
-		KEY_ASTERISK,
-		KEY_BACKSPACE_ALT,
-		KEY_BACKSPACE,
-		KEY_BRACKET_LEFT,
-		KEY_BRACKET_RIGHT,
-		KEY_CAPS_LOCK,
-		KEY_COMMAND,
-		KEY_CTRL,
-		KEY_DELETE,
-		KEY_END,
-		KEY_ENTER_ALT,
-		KEY_ENTER,
-		KEY_ENTER_TALL,
-		KEY_ESCAPE,
-		KEY_HOME,
-		KEY_INSERT,
-		KEY_MARK_LEFT,
-		KEY_MARK_RIGHT,
-		KEY_MINUS,
-		KEY_NUM_LOCK,
-		KEY_PAGE_DOWN,
-		KEY_PAGE_UP,
-		KEY_PLUS,
-		KEY_PLUS_TALL,
-		KEY_PRINT_SCREEN,
-		KEY_QUESTION,
-		KEY_QUOTE,
-		KEY_SEMICOLON,
-		KEY_SHIFT_ALT,
-		KEY_SHIFT,
-		KEY_SLASH,
-		KEY_SPACE,
-		KEY_TAB,
-		KEY_TILDE,
-		KEY_WIN,
-
-		MOUSE_LEFT = 108,
-		MOUSE_MIDDLE,
-		MOUSE_RIGHT,
-		MOUSE_SIMPLE
-	};
-}
+namespace Sorcery {
 
 struct HelpEntry {
 		Enums::Controls::Input control;
@@ -207,126 +194,17 @@ struct HelpEntry {
 
 namespace Help {
 
-	using enum Enums::Controls::Input;
-	using enum Enums::Controls::HelpGlyph;
-
 	inline constexpr std::size_t MAX_GLYPHS{3};
 
-	inline constexpr std::array mouse_glyphs{MOUSE_LEFT};
-	inline constexpr std::array up_glyphs{KEY_ARROW_UP, XBOX_DPAD_UP};
-	inline constexpr std::array down_glyphs{KEY_ARROW_DOWN, XBOX_DPAD_DOWN};
-	inline constexpr std::array left_glyphs{KEY_ARROW_LEFT};
-	inline constexpr std::array right_glyphs{KEY_ARROW_RIGHT};
-	inline constexpr std::array confirm_glyphs{KEY_ENTER, XBOX_A, MOUSE_LEFT};
-	inline constexpr std::array back_glyphs{KEY_ESCAPE, XBOX_B, MOUSE_RIGHT};
-	inline constexpr std::array escape_glyphs{KEY_ESCAPE};
-	inline constexpr std::array help_glyphs{KEY_F1, XBOX_Y};
-	inline constexpr std::array cheat_glyphs{KEY_F2};
-	inline constexpr std::array page_up_glyphs{KEY_PAGE_UP};
-	inline constexpr std::array page_down_glyphs{KEY_PAGE_DOWN};
-	inline constexpr std::array home_glyphs{KEY_HOME};
-	inline constexpr std::array end_glyphs{KEY_END};
-	inline constexpr std::array space_glyphs{KEY_SPACE};
-
-	inline constexpr std::array menu{
-		HelpEntry{CONFIRM, "HELP_SELECT_ITEM"},
-		HelpEntry{UP, "HELP_PREVIOUS_ITEM"},
-		HelpEntry{DOWN, "HELP_NEXT_ITEM"},
-	};
-
-	inline constexpr std::array option{
-		HelpEntry{MOUSE, "HELP_SELECT_OPTION"}, HelpEntry{UP, "HELP_PREVIOUS_OPTION"},
-		HelpEntry{DOWN, "HELP_NEXT_OPTION"},	HelpEntry{LEFT, "HELP_TOGGLE_OPTION"},
-		HelpEntry{RIGHT, "HELP_TOGGLE_OPTION"}, HelpEntry{CONFIRM, "HELP_TOGGLE_OPTION"},
-	};
-
-	inline constexpr std::array allocate_stats{
-		HelpEntry{MOUSE, "HELP_SELECT_STAT"},	HelpEntry{UP, "HELP_PREVIOUS_STAT"},
-		HelpEntry{DOWN, "HELP_NEXT_STAT"},		HelpEntry{LEFT, "HELP_DECREASE_STAT"},
-		HelpEntry{RIGHT, "HELP_INCREASE_STAT"},
-	};
-
-	inline constexpr std::array always{
-		HelpEntry{BACK, "HELP_GO_BACK"},
-		HelpEntry{HELP, "HELP_SHOW_CONTROLS"},
-		HelpEntry{CHEAT, "HELP_SHOW_CHEAT"},
-	};
+	[[nodiscard]]
+	auto entries(Enums::Input::Mode mode) -> std::span<const HelpEntry>;
 
 	[[nodiscard]]
-	constexpr auto entries(const Enums::Input::Mode mode) -> std::span<const HelpEntry> {
-
-		using enum Enums::Input::Mode;
-
-		switch (mode) {
-
-		case MENU:
-			return menu;
-
-		case OPTION:
-			return option;
-
-		case ALLOCATE_STATS:
-			return allocate_stats;
-
-		default:
-			return {};
-		}
-	}
+	auto glyphs(Enums::Controls::Input input) -> std::span<const Enums::Controls::HelpGlyph>;
 
 	[[nodiscard]]
-	constexpr auto glyphs(const Enums::Controls::Input input) -> std::span<const Enums::Controls::HelpGlyph> {
+	auto always() -> std::span<const HelpEntry>;
 
-		switch (input) {
+} // namespace Help
 
-		case CHEAT:
-			return cheat_glyphs;
-
-		case MOUSE:
-			return mouse_glyphs;
-
-		case UP:
-			return up_glyphs;
-
-		case DOWN:
-			return down_glyphs;
-
-		case LEFT:
-			return left_glyphs;
-
-		case RIGHT:
-			return right_glyphs;
-
-		case CONFIRM:
-			return confirm_glyphs;
-
-		case BACK:
-			return back_glyphs;
-
-		case ESCAPE:
-			return escape_glyphs;
-
-		case HELP:
-			return help_glyphs;
-
-		case PAGE_UP:
-			return page_up_glyphs;
-
-		case PAGE_DOWN:
-			return page_down_glyphs;
-
-		case HOME:
-			return home_glyphs;
-
-		case END:
-			return end_glyphs;
-
-		case SPACE:
-			return space_glyphs;
-
-		default:
-			return {};
-		}
-	}
-
-}
-};
+} // namespace Sorcery

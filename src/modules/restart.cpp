@@ -52,6 +52,9 @@ auto Sorcery::Restart::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::RESTART);
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	show_immediately();
 
 	// Main loop

@@ -3647,89 +3647,100 @@ auto Sorcery::UI::draw_cheat_tools() -> void {
 		ImGui::EndPopup();
 	}
 }
-
 /// @brief Draw the context-sensitive help window.
 /// @return
 auto Sorcery::UI::draw_help_window() -> void {
 
-	static constexpr auto popup_name{"Help"};
 	static constexpr auto HELP_GFX_ID{110};
 
-	const auto want_help{_ctx.controller->has_flag("want_help")};
-
-	if (want_help && !ImGui::IsPopupOpen(popup_name))
-		ImGui::OpenPopup(popup_name);
+	if (!_ctx.controller->has_flag("want_help"))
+		return;
 
 	const auto viewport{ImGui::GetMainViewport()};
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const ImVec2 glyph_size{32.0f * scale, 32.0f * scale};
 	const auto font_size{_ctx.ui->metrics->font_sz()};
 
+	// -------------------------------------------------------------------------
+	// Full-screen dimmer - on the same layer as Help, but drawn first
+	// -------------------------------------------------------------------------
+
+	ImGui::SetNextWindowPos(viewport->Pos, ImGuiCond_Always);
+	ImGui::SetNextWindowSize(viewport->Size, ImGuiCond_Always);
+
+	const auto dimmer_flags{ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+							ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs |
+							ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_Tooltip};
+
+	ImGui::Begin("##help_dimmer", nullptr, dimmer_flags);
+
+	const auto p_min{ImGui::GetWindowPos()};
+
+	const auto p_max{ImVec2{p_min.x + ImGui::GetWindowSize().x, p_min.y + ImGui::GetWindowSize().y}};
+
+	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, IM_COL32(0, 0, 0, 153));
+
+	ImGui::End();
+
+	// Help window
 	const ImVec2 window_pos{viewport->Pos.x + (viewport->Size.x / 2.0f), viewport->Pos.y + (viewport->Size.y / 2.0f)};
 
-	// TODO: use imgui_sugar
-	ImGui::SetNextWindowPos(window_pos, ImGuiCond_Appearing, ImVec2{0.5f, 0.5f});
-	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{0.0f, 0.0f, 0.0f, 1.0f});
-	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ui_colour.x, ui_colour.y, ui_colour.z, 1.0f});
-	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4{ui_text_colour.x, ui_text_colour.y, ui_text_colour.z, 1.0f});
-	ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4{0.0f, 0.0f, 0.0f, 0.60f});
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f * scale);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, static_cast<float>(ui_rd));
+	ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
+	set_StyleColor(ImGuiCol_WindowBg, ImVec4{0.0f, 0.0f, 0.0f, 1.0f});
+	set_StyleColor(ImGuiCol_Border, ImVec4{ui_colour.x, ui_colour.y, ui_colour.z, 1.0f});
+	set_StyleColor(ImGuiCol_Text, ImVec4{ui_text_colour.x, ui_text_colour.y, ui_text_colour.z, 1.0f});
+	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f * scale);
+	set_StyleVar(ImGuiStyleVar_WindowRounding, static_cast<float>(ui_rd));
 
 	const auto flags{ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
 					 ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings |
-					 ImGuiWindowFlags_AlwaysAutoResize};
+					 ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_Tooltip};
 
-	if (ImGui::BeginPopupModal(popup_name, nullptr, flags)) {
+	set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE).value(), font_size);
 
-		// F1/Escape/right-click may have cleared this during event processing.
-		if (!want_help) {
+	ImGui::Begin("##help_window", nullptr, flags);
 
-			ImGui::CloseCurrentPopup();
+	const auto mode{_ctx.controller->get_input_mode()};
+	const auto entries{Help::entries(mode)};
 
-		} else {
+	// Heading
+	const auto heading_x{ImGui::GetCursorPosX()};
+	const auto heading_y{ImGui::GetCursorPosY()};
 
-			set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE).value(), font_size);
-			const auto mode{_ctx.controller->get_input_mode()};
-			const auto entries{Help::entries(mode)};
+	draw_atlas_tile(ICONS_TEXTURE, HELP_GFX_ID, glyph_size);
 
-			// Heading
-			const auto heading_x{ImGui::GetCursorPosX()};
-			const auto heading_y{ImGui::GetCursorPosY()};
-			draw_atlas_tile(ICONS_TEXTURE, HELP_GFX_ID, glyph_size);
-			ImGui::SetCursorPos(ImVec2{heading_x + glyph_size.x + (12.0f * scale),
-									   heading_y + ((glyph_size.y - ImGui::GetTextLineHeight()) / 2.0f)});
-			ImGui::TextUnformatted("HELP");
-			const auto heading_width{glyph_size.x + (12.0f * scale) + ImGui::CalcTextSize("HELP").x};
-			ImGui::SetCursorPos(ImVec2{heading_x, heading_y});
-			ImGui::Dummy(ImVec2{heading_width, glyph_size.y + (6.0f * scale)});
-			ImGui::Separator();
-			ImGui::Spacing();
+	ImGui::SetCursorPos(ImVec2{heading_x + glyph_size.x + (12.0f * scale),
+							   heading_y + ((glyph_size.y - ImGui::GetTextLineHeight()) / 2.0f)});
+	ImGui::TextUnformatted("HELP");
 
-			// Context-specific controls
-			for (const auto &entry : entries) {
-				draw_help_row(Help::glyphs(entry.control), _ctx.get_string(entry.string_key), glyph_size);
-			}
+	const auto heading_width{glyph_size.x + (12.0f * scale) + ImGui::CalcTextSize("HELP").x};
 
-			// Global controls
-			if (!entries.empty()) {
+	ImGui::SetCursorPos(ImVec2{heading_x, heading_y});
 
-				ImGui::Spacing();
-				ImGui::Separator();
-				ImGui::Spacing();
-			}
+	ImGui::Dummy(ImVec2{heading_width, glyph_size.y + (6.0f * scale)});
 
-			for (const auto &entry : Help::always) {
-				draw_help_row(Help::glyphs(entry.control), _ctx.get_string(entry.string_key), glyph_size);
-			}
-		}
+	ImGui::Separator();
+	ImGui::Spacing();
 
-		ImGui::EndPopup();
+	// Context-specific controls
+	for (const auto &entry : entries) {
+		draw_help_row(Help::glyphs(entry.control), _ctx.get_string(entry.string_key), glyph_size);
 	}
 
-	ImGui::PopStyleVar(2);
-	ImGui::PopStyleColor(4);
+	// Global controls
+	if (!entries.empty()) {
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+	}
+
+	for (const auto &entry : Help::always()) {
+		draw_help_row(Help::glyphs(entry.control), _ctx.get_string(entry.string_key), glyph_size);
+	}
+
+	ImGui::End();
 }
+
 auto Sorcery::UI::draw_help_row(const std::span<const Enums::Controls::HelpGlyph> glyphs, const std::string_view text,
 								const ImVec2 &glyph_size) -> void {
 
