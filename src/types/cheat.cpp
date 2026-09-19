@@ -44,6 +44,7 @@ const Cheat::Action Cheat::_actions[]{
 	{"Give party XP", &Cheat::give_party_xp},
 	{"Heal party to full", &Cheat::heal_party_to_full},
 	{"Harm party to minimum", &Cheat::harm_party_to_min},
+	{"Level up all party members", &Cheat::level_up_party},
 	{"Kill party", &Cheat::kill_party},
 	{"Toggle light", &Cheat::toggle_light},
 	{"Give party quest items", &Cheat::give_party_quest_items},
@@ -82,6 +83,18 @@ auto Sorcery::Cheat::harm_party_to_min() -> void {
 		auto &cur_char{_game.characters.at(idx)};
 		const auto hp{_ctx.get_random(Enums::System::Random::D4)};
 		cur_char.set_current_hp(hp);
+	}
+}
+
+auto Sorcery::Cheat::level_up_party() -> void {
+
+	DEBUG_LOG("debug_level_up_party");
+
+	for (const auto party{_game.state->get_party_characters()}; auto idx : party) {
+		auto &cur_char{_game.characters.at(idx)};
+		const auto xp_needed{cur_char.get_next_xp()};
+		cur_char.grant_xp(xp_needed + 1);
+		cur_char.create().level_up();
 	}
 }
 

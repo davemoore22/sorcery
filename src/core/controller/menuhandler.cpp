@@ -34,26 +34,27 @@
 #include "display/ui/ui.hpp"			  // for UI
 #include "drawables/define.hpp"			  // for MAIN_MENU_CONTINUE_GAME
 #include "resources/itemstore.hpp"		  // for ItemStore
-#include "types/character/character.hpp"  // for Character
-#include "types/character/create.hpp"	  // for CharacterCreate
-#include "types/character/inventory.hpp"  // for Inventory
-#include "types/character/magic.hpp"	  // for ConstCharacterMagic
-#include "types/enum.hpp"				  // for TypeID, DialogType, Identi...
-#include "types/game.hpp"				  // for Game
-#include "types/item/item.hpp"			  // for Item
-#include "types/item/itemtype.hpp"		  // for ItemType
-#include "types/meta.hpp"				  // for enum_cast
-#include "types/state.hpp"				  // for State				 // for vector
-#include <algorithm>					  // for find
-#include <functional>					  // for less
-#include <map>							  // for map, operator==
-#include <memory>						  // for unique_ptr, shared_ptr
-#include <optional>						  // for optional
-#include <ranges>						  // for __find_fn
-#include <string>						  // for basic_string, char_traits
-#include <unordered_map>				  // for unordered_map, operator==
-#include <utility>						  // for pair, move
-#include <vector>						  // for vector
+#include "resources/spellstore.hpp"
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/character/magic.hpp"	 // for ConstCharacterMagic
+#include "types/enum.hpp"				 // for TypeID, DialogType, Identi...
+#include "types/game.hpp"				 // for Game
+#include "types/item/item.hpp"			 // for Item
+#include "types/item/itemtype.hpp"		 // for ItemType
+#include "types/meta.hpp"				 // for enum_cast
+#include "types/state.hpp"				 // for State				 // for vector
+#include <algorithm>					 // for find
+#include <functional>					 // for less
+#include <map>							 // for map, operator==
+#include <memory>						 // for unique_ptr, shared_ptr
+#include <optional>						 // for optional
+#include <ranges>						 // for __find_fn
+#include <string>						 // for basic_string, char_traits
+#include <unordered_map>				 // for unordered_map, operator==
+#include <utility>						 // for pair, move
+#include <vector>						 // for vector
 
 /// @brief
 /// @param host
@@ -478,15 +479,29 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 	} else if (component == "spell_menu") {
 
 		if (selection == static_cast<int>(items.size()) - 1) {
-			_host.set_flag("want_spell");
-			_ctx.ui->popup_manager->close();
-		} else {
 
-			// TODO
+			_host.unset_flag("want_spell");
+			_ctx.ui->popup_manager->close();
+
+			return true;
 		}
 
-		return true;
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
 
+		const auto spell_id{enum_cast<Enums::Magic::SpellID>(data)};
+
+		if (!spell_id)
+			return true;
+
+		auto &caster{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT))};
+
+		const auto spell{_ctx.resources->spells->get(*spell_id)};
+
+		DEBUG_LOGF("Cast Spell: {} type={} category={} level={} caster={}", spell.name, enum_name(spell.type),
+				   enum_name(spell.category), spell.level, caster.get_name());
+
+		return true;
 	} else if (component == "drop_menu") {
 
 		if (selection == static_cast<int>(items.size()) - 1) {

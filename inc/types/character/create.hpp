@@ -44,6 +44,7 @@ class ConstCharacterCreate {
 		auto get_possible_classes() const -> std::map<Enums::Character::Class, bool>;
 		auto get_possible_classes_display() -> std::string;
 		auto can_change_class() const -> bool;
+		auto get_xp_needed() const -> int;
 
 	protected:
 		const Character *_character;

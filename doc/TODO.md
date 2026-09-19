@@ -15,3 +15,8 @@ Automap
 
 - Add a "Make all floor visible" button to the Cheat Menu
 - Add click and move as well as mouse highlight to the Automap
+
+Help
+
+- Finish Context Sensitive Help for all Modules
+- Split Engine Help across two columns

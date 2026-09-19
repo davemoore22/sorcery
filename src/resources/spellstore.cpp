@@ -24,6 +24,7 @@
 #include "common/enum.hpp"			// for SpellCategory, SpellID, SpellType
 #include "common/types.hpp"			// for Spell
 #include "core/context.hpp"			// for Context
+#include "magic/enum.hpp"
 #include "types/meta.hpp"
 #include <algorithm> // for find
 #include <array>
@@ -39,6 +40,7 @@ namespace {
 using SpellID = Sorcery::Enums::Magic::SpellID;
 using SpellType = Sorcery::Enums::Magic::SpellType;
 using SpellCategory = Sorcery::Enums::Magic::SpellCategory;
+using CastUsage = Sorcery::Enums::Magic::CastUsage;
 
 using enum SpellID;
 using enum SpellType;
@@ -49,86 +51,88 @@ struct SpellDefinition {
 		SpellType type;
 		SpellCategory category;
 		unsigned int level;
+		CastUsage usage;
 };
 
 constexpr std::array SPELL_DEFINITIONS{
+
 	// Arcane - Level 1
-	SpellDefinition{DUMAPIC, ARCANE, FIELD, 1},
-	SpellDefinition{HALITO, ARCANE, ATTACK, 1},
-	SpellDefinition{KATINO, ARCANE, DISABLE, 1},
-	SpellDefinition{MOGREF, ARCANE, SUPPORT, 1},
+	SpellDefinition{DUMAPIC, ARCANE, FIELD, 1, CastUsage::USE_IN_FIELD},
+	SpellDefinition{HALITO, ARCANE, ATTACK, 1, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{KATINO, ARCANE, DISABLE, 1, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MOGREF, ARCANE, SUPPORT, 1, CastUsage::USE_IN_COMBAT},
 
 	// Arcane - Level 2
-	SpellDefinition{DILTO, ARCANE, DISABLE, 2},
-	SpellDefinition{SOPIC, ARCANE, SUPPORT, 2},
+	SpellDefinition{DILTO, ARCANE, DISABLE, 2, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{SOPIC, ARCANE, SUPPORT, 2, CastUsage::USE_IN_COMBAT},
 
 	// Arcane - Level 3
-	SpellDefinition{MAHALITO, ARCANE, ATTACK, 3},
-	SpellDefinition{MOLITO, ARCANE, ATTACK, 3},
+	SpellDefinition{MAHALITO, ARCANE, ATTACK, 3, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MOLITO, ARCANE, ATTACK, 3, CastUsage::USE_IN_COMBAT},
 
 	// Arcane - Level 4
-	SpellDefinition{DALTO, ARCANE, ATTACK, 4},
-	SpellDefinition{LAHALITO, ARCANE, ATTACK, 4},
-	SpellDefinition{MORLIS, ARCANE, DISABLE, 4},
+	SpellDefinition{DALTO, ARCANE, ATTACK, 4, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{LAHALITO, ARCANE, ATTACK, 4, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MORLIS, ARCANE, DISABLE, 4, CastUsage::USE_IN_COMBAT},
 
 	// Arcane - Level 5
-	SpellDefinition{MADALTO, ARCANE, ATTACK, 5},
-	SpellDefinition{MAKANITO, ARCANE, ATTACK, 5},
-	SpellDefinition{MAMORLIS, ARCANE, DISABLE, 5},
+	SpellDefinition{MADALTO, ARCANE, ATTACK, 5, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MAKANITO, ARCANE, ATTACK, 5, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MAMORLIS, ARCANE, DISABLE, 5, CastUsage::USE_IN_COMBAT},
 
 	// Arcane - Level 6
-	SpellDefinition{HAMAN, ARCANE, SUPPORT, 6},
-	SpellDefinition{LAKANITO, ARCANE, ATTACK, 6},
-	SpellDefinition{MASOPIC, ARCANE, ATTACK, 6},
-	SpellDefinition{ZILWAN, ARCANE, ATTACK, 6},
+	SpellDefinition{HAMAN, ARCANE, SUPPORT, 6, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{LAKANITO, ARCANE, ATTACK, 6, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MASOPIC, ARCANE, ATTACK, 6, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{ZILWAN, ARCANE, ATTACK, 6, CastUsage::USE_IN_COMBAT},
 
 	// Arcane - Level 7
-	SpellDefinition{MAHAMAN, ARCANE, SUPPORT, 7},
-	SpellDefinition{MALOR, ARCANE, FIELD, 7},
-	SpellDefinition{TILTOWAIT, ARCANE, ATTACK, 7},
+	SpellDefinition{MAHAMAN, ARCANE, SUPPORT, 7, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MALOR, ARCANE, FIELD, 7, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{TILTOWAIT, ARCANE, ATTACK, 7, CastUsage::USE_IN_COMBAT},
 
 	// Divine - Level 1
-	SpellDefinition{BADIOS, DIVINE, ATTACK, 1},
-	SpellDefinition{DIOS, DIVINE, HEALING, 1},
-	SpellDefinition{KALKI, DIVINE, SUPPORT, 1},
-	SpellDefinition{MILWA, DIVINE, FIELD, 1},
-	SpellDefinition{PORFIC, DIVINE, SUPPORT, 1},
+	SpellDefinition{BADIOS, DIVINE, ATTACK, 1, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{DIOS, DIVINE, HEALING, 1, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{KALKI, DIVINE, SUPPORT, 1, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MILWA, DIVINE, FIELD, 1, CastUsage::USE_IN_FIELD},
+	SpellDefinition{PORFIC, DIVINE, SUPPORT, 1, CastUsage::USE_IN_COMBAT},
 
 	// Divine - Level 2
-	SpellDefinition{CALFO, DIVINE, FIELD, 2},
-	SpellDefinition{MANIFO, DIVINE, DISABLE, 2},
-	SpellDefinition{MATU, DIVINE, SUPPORT, 2},
-	SpellDefinition{MONTINO, DIVINE, DISABLE, 2},
+	SpellDefinition{CALFO, DIVINE, FIELD, 2, CastUsage::USE_IN_TRAPS},
+	SpellDefinition{MANIFO, DIVINE, DISABLE, 2, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MATU, DIVINE, SUPPORT, 2, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MONTINO, DIVINE, DISABLE, 2, CastUsage::USE_IN_COMBAT},
 
 	// Divine - Level 3
-	SpellDefinition{BAMATU, DIVINE, SUPPORT, 3},
-	SpellDefinition{DIALKO, DIVINE, HEALING, 3},
-	SpellDefinition{LATUMAPIC, DIVINE, FIELD, 3},
-	SpellDefinition{LOMILWA, DIVINE, FIELD, 3},
+	SpellDefinition{BAMATU, DIVINE, SUPPORT, 3, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{DIALKO, DIVINE, HEALING, 3, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{LATUMAPIC, DIVINE, FIELD, 3, CastUsage::USE_IN_FIELD},
+	SpellDefinition{LOMILWA, DIVINE, FIELD, 3, CastUsage::USE_IN_FIELD},
 
 	// Divine - Level 4
-	SpellDefinition{BADIAL, DIVINE, ATTACK, 4},
-	SpellDefinition{DIAL, DIVINE, HEALING, 4},
-	SpellDefinition{LATUMOFIS, DIVINE, HEALING, 4},
-	SpellDefinition{MAPORFIC, DIVINE, FIELD, 4},
+	SpellDefinition{BADIAL, DIVINE, ATTACK, 4, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{DIAL, DIVINE, HEALING, 4, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{LATUMOFIS, DIVINE, HEALING, 4, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MAPORFIC, DIVINE, FIELD, 4, CastUsage::USE_IN_FIELD},
 
 	// Divine - Level 5
-	SpellDefinition{BADI, DIVINE, ATTACK, 5},
-	SpellDefinition{BADIALMA, DIVINE, ATTACK, 5},
-	SpellDefinition{DI, DIVINE, HEALING, 5},
-	SpellDefinition{DIALMA, DIVINE, HEALING, 5},
-	SpellDefinition{KANDI, DIVINE, FIELD, 5},
-	SpellDefinition{LITOKAN, DIVINE, ATTACK, 5},
+	SpellDefinition{BADI, DIVINE, ATTACK, 5, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{BADIALMA, DIVINE, ATTACK, 5, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{DI, DIVINE, HEALING, 5, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{DIALMA, DIVINE, HEALING, 5, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{KANDI, DIVINE, FIELD, 5, CastUsage::USE_IN_FIELD},
+	SpellDefinition{LITOKAN, DIVINE, ATTACK, 5, CastUsage::USE_IN_COMBAT},
 
 	// Divine - Level 6
-	SpellDefinition{LOKTOFEIT, DIVINE, FIELD, 6},
-	SpellDefinition{LORTO, DIVINE, ATTACK, 6},
-	SpellDefinition{MABADI, DIVINE, ATTACK, 6},
-	SpellDefinition{MADI, DIVINE, HEALING, 6},
+	SpellDefinition{LOKTOFEIT, DIVINE, FIELD, 6, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{LORTO, DIVINE, ATTACK, 6, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MABADI, DIVINE, ATTACK, 6, CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MADI, DIVINE, HEALING, 6, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
 
 	// Divine - Level 7
-	SpellDefinition{KADORTO, DIVINE, HEALING, 7},
-	SpellDefinition{MALIKTO, DIVINE, ATTACK, 7},
+	SpellDefinition{KADORTO, DIVINE, HEALING, 7, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MALIKTO, DIVINE, ATTACK, 7, CastUsage::USE_IN_COMBAT},
 };
 
 } // namespace
@@ -176,12 +180,12 @@ auto Sorcery::SpellStore::_load() -> void {
 	_spells.clear();
 	_spells.reserve(SPELL_DEFINITIONS.size());
 
-	for (const auto &[id, type, category, level] : SPELL_DEFINITIONS) {
+	for (const auto &[id, type, category, level, usage] : SPELL_DEFINITIONS) {
 
 		const auto spell_name{enum_name(id)};
 		const auto key{std::format("SPELL_{}", spell_name)};
 
-		_spells.emplace_back(id, type, category, level, _ctx.get_string(std::format("{}_NAME", key)),
+		_spells.emplace_back(id, type, category, usage, level, _ctx.get_string(std::format("{}_NAME", key)),
 							 _ctx.get_string(std::format("{}_TITLE", key)),
 							 _ctx.get_string(std::format("{}_DESC", key)));
 	}

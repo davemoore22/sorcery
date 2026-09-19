@@ -28,6 +28,7 @@
 #include "core/define.hpp"
 #include "core/resources.hpp"
 #include "drawables/define.hpp"
+#include "magic/casting.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/monsterstore.hpp"
 #include "resources/spellstore.hpp"
@@ -524,14 +525,9 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const -> 
 
 	return NO_FLAGS;
 }
-
 auto Sorcery::MenuBuilder::_load_character_spells(std::string_view menu_name, std::vector<std::string> &items,
 												  std::vector<int> &data) -> void {
 
-	// Get the character that is currently being inspected, and then filter
-	// their known spells to only those that are castable (i.e. known, of
-	// the correct category, and with sufficient spell points for the
-	// relevant level).
 	if (!_ctx.game || _ctx.game->characters.empty())
 		return;
 
@@ -541,27 +537,15 @@ auto Sorcery::MenuBuilder::_load_character_spells(std::string_view menu_name, st
 	const auto char_id{_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
 	const auto &character{_ctx.game->characters.at(char_id)};
 
-	// Work out castable spells for the character, filtering out as above.
-	auto castable_spells{character.magic().get_spells() | std::views::filter([&character](const Spell &spell) {
-							 return (spell.known && (spell.category != Enums::Magic::SpellCategory::HEALING ||
-													 spell.category != Enums::Magic::SpellCategory::FIELD));
+	using enum Enums::Magic::SpellCategory;
+	auto castable_spells{character.magic().get_spells() | std::views::filter([](const Spell &spell) {
+							 return spell.known && Magic::can_cast_in(spell, Enums::Magic::CastContext::FIELD);
 						 })};
 
-	// Build up the spell list (note that spells that are unable to be
-	// currently cast due to lack of spell points are also included here,
-	// but are disabled)
 	for (const auto &spell : castable_spells) {
-
 		const auto spell_type{enum_name(spell.type)};
-		const auto spell_level{spell.level};
-		const auto spell_english{spell.translated_name};
-		const auto spell_name{spell.name};
-
-		const auto spell_desc{std::format("{} ({})", spell_name, spell_english)};
-
-		std::string line{std::format("{:<22} {} {}", spell_desc, spell_type, spell_level)};
-
-		items.emplace_back(std::move(line));
+		const auto spell_desc{std::format("{} ({})", spell.name, spell.translated_name)};
+		items.emplace_back(std::format("{:<22} {} {}", spell_desc, spell_type, spell.level));
 		data.emplace_back(std::to_underlying(spell.id));
 	}
 }

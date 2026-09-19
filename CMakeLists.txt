@@ -177,6 +177,7 @@ include(src/display/CMakeLists.txt)
 include(src/drawables/CMakeLists.txt)
 include(src/engine/CMakeLists.txt)
 include(src/frontend/CMakeLists.txt)
+include(src/magic/CMakeLists.txt)
 include(src/modules/CMakeLists.txt)
 include(src/resources/CMakeLists.txt)
 include(src/training//CMakeLists.txt)
@@ -200,6 +201,9 @@ if(SORCERY_ENABLE_IWYU)
         PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
 
     set_property(TARGET sorcery_frontend
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_magic
         PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
 
     set_property(TARGET sorcery_modules
@@ -282,6 +286,7 @@ target_link_libraries(sorcery_types
 )
 
 target_link_libraries(sorcery_core PRIVATE
+	sorcery_magic
 	sorcery_types
 	sorcery_warnings
 	sorcery_options
@@ -313,6 +318,12 @@ target_link_libraries(sorcery_drawables PRIVATE
 )
 
 target_link_libraries(sorcery_frontend PRIVATE
+	sorcery_types
+	sorcery_warnings
+	sorcery_options
+)
+
+target_link_libraries(sorcery_magic PRIVATE
 	sorcery_types
 	sorcery_warnings
 	sorcery_options
@@ -366,6 +377,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_display
 	sorcery_drawables
 	sorcery_frontend
+	sorcery_magic
 	sorcery_modules
 	sorcery_resources
 	sorcery_training

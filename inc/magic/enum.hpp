@@ -22,52 +22,37 @@
 
 #pragma once
 
-#include <span>
-#include <string_view>
+#include <cstdint>
 
-namespace Sorcery {
+namespace Sorcery::Enums::Magic {
 
-class Game;
-struct Context;
-
-class Cheat {
-
-	public:
-		using Handler = void (Cheat::*)();
-
-		struct Action {
-
-				std::string_view label;
-				Handler handler;
-		};
-
-		explicit Cheat(Context &ctx, Game &game);
-
-		[[nodiscard]]
-		auto actions() const -> std::span<const Action>;
-
-		auto execute(const Action &action) -> void;
-
-	private:
-		Context &_ctx;
-		Game &_game;
-
-		auto create_random_party() -> void;
-		auto fill_party_unid_items() -> void;
-		auto give_party_gold() -> void;
-		auto give_party_random_items() -> void;
-		auto give_party_random_status() -> void;
-		auto give_party_xp() -> void;
-		auto heal_party_to_full() -> void;
-		auto harm_party_to_min() -> void;
-		auto kill_party() -> void;
-		auto toggle_light() -> void;
-		auto give_party_quest_items() -> void;
-		auto start_chest_event() -> void;
-		auto show_debug() -> void;
-		auto level_up_party() -> void;
-
-		static const Action _actions[];
+enum class CastContext {
+	FIELD,
+	COMBAT,
+	TRAPS,
 };
 
-} // namespace Sorcery
+enum class CastUsage : std::uint8_t {
+	NONE = 0,
+	USE_IN_FIELD = 1 << 0,
+	USE_IN_COMBAT = 1 << 1,
+	USE_IN_TRAPS = 1 << 2
+};
+
+constexpr auto operator|(const CastUsage lhs, const CastUsage rhs) -> CastUsage {
+
+	return static_cast<CastUsage>(static_cast<std::uint8_t>(lhs) | static_cast<std::uint8_t>(rhs));
+}
+
+constexpr auto operator&(const CastUsage lhs, const CastUsage rhs) -> CastUsage {
+
+	return static_cast<CastUsage>(static_cast<std::uint8_t>(lhs) & static_cast<std::uint8_t>(rhs));
+}
+
+[[nodiscard]]
+constexpr auto has_usage(const CastUsage usage, const CastUsage flag) -> bool {
+
+	return (usage & flag) != CastUsage::NONE;
+}
+
+}

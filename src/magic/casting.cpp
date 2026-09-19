@@ -20,54 +20,28 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#pragma once
+#include "magic/casting.hpp"
+#include "common/types.hpp"
 
-#include <span>
-#include <string_view>
+auto Sorcery::Magic::can_cast_in(const Spell &spell, const Enums::Magic::CastContext context) -> bool {
 
-namespace Sorcery {
+	using enum Enums::Magic::CastContext;
+	using enum Enums::Magic::CastUsage;
 
-class Game;
-struct Context;
+	switch (context) {
 
-class Cheat {
+	case FIELD:
+		return has_usage(spell.usage, USE_IN_FIELD);
 
-	public:
-		using Handler = void (Cheat::*)();
+	case COMBAT:
+		return has_usage(spell.usage, USE_IN_COMBAT);
 
-		struct Action {
+	case TRAPS:
+		return has_usage(spell.usage, USE_IN_TRAPS);
+	default:
+		return false;
+	}
 
-				std::string_view label;
-				Handler handler;
-		};
 
-		explicit Cheat(Context &ctx, Game &game);
-
-		[[nodiscard]]
-		auto actions() const -> std::span<const Action>;
-
-		auto execute(const Action &action) -> void;
-
-	private:
-		Context &_ctx;
-		Game &_game;
-
-		auto create_random_party() -> void;
-		auto fill_party_unid_items() -> void;
-		auto give_party_gold() -> void;
-		auto give_party_random_items() -> void;
-		auto give_party_random_status() -> void;
-		auto give_party_xp() -> void;
-		auto heal_party_to_full() -> void;
-		auto harm_party_to_min() -> void;
-		auto kill_party() -> void;
-		auto toggle_light() -> void;
-		auto give_party_quest_items() -> void;
-		auto start_chest_event() -> void;
-		auto show_debug() -> void;
-		auto level_up_party() -> void;
-
-		static const Action _actions[];
-};
-
-} // namespace Sorcery
+return false;
+}

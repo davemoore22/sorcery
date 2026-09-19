@@ -25,6 +25,7 @@
 #include "common/cereal.hpp"
 #include "common/enum.hpp"
 #include "common/macro.hpp"
+#include "magic/enum.hpp"
 #include <chrono>
 #include <format>
 #include <ostream>
@@ -230,10 +231,12 @@ struct Spell {
 		Spell() = default;
 
 		Spell(Enums::Magic::SpellID id_, Enums::Magic::SpellType type_, Enums::Magic::SpellCategory category_,
-			  unsigned int level_, std::string name_, std::string translated_name_, std::string details_)
+			  Enums::Magic::CastUsage usage_, unsigned int level_, std::string name_, std::string translated_name_,
+			  std::string details_)
 			: id{id_},
 			  type{type_},
 			  category{category_},
+			  usage{usage_},
 			  level{level_},
 			  name{std::move(name_)},
 			  translated_name{std::move(translated_name_)},
@@ -242,6 +245,7 @@ struct Spell {
 		Enums::Magic::SpellID id{Enums::Magic::SpellID::NO_SPELL};
 		Enums::Magic::SpellType type{Enums::Magic::SpellType::NO_SPELL_TYPE};
 		Enums::Magic::SpellCategory category{Enums::Magic::SpellCategory::NO_CATEGORY};
+		Enums::Magic::CastUsage usage{Enums::Magic::CastUsage::NONE};
 
 		unsigned int level{0};
 		bool known{false};
