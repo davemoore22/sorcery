@@ -1,6 +1,6 @@
 # Sorcery
 
-An open source remake/remaster of the classic CRPG **Wizardry, Proving Grounds of the Mad Overlord**. Currently under heavy development with an initial release around the end of 2026. Developed using ImGui/SDL2/OpenGL/C++. Will be available on both Linux and Windows. OpenGL 3.3 and 2 Gb of System Memory, and 1 Gb of Video Memory will be required to run.
+An open source remake/remaster of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord. Currently under heavy development with an initial release around the end of 2026 (**Alpha#1 is now available for download, see the Releases sidebar!**) Developed using ImGui/SDL2/OpenGL/C++. Is available on both Linux (Debian/Ubuntu) and Windows (64-bit). OpenGL 3.3 and 2 Gb of System Memory, and 512 MB (currently) of Video Memory will be required to run.
 
 <table>
   <tr>
@@ -42,7 +42,11 @@ An open source remake/remaster of the classic CRPG **Wizardry, Proving Grounds o
 
 See also some brief [gameplay videos](https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag) on Youtube.
 
-## Progress Update 16th September 2026)
+## Progress Update 19th September 2026)
+
+**Alpha #1 is out** (see the releases sidebar) for Windows and Linux (currently works on the latter via wine but a .deb/appimage will be provided soon).
+
+It contains the following functionality:
 
 * ~~Load/Save/New Game~~ (DONE)
 * ~~Town/Castle Menus~~ (DONE)
@@ -67,14 +71,20 @@ See also some brief [gameplay videos](https://www.youtube.com/channel/UCEkmGGFyx
 * ~~Quicksave/Quickload~~ (DONE)
 * ~~Boltac's Equipment Shop~~ (DONE)
 * ~~Windows Port~~ (DONE)
-* **Special Item Powers and Handling** (DOING)
+* ~~Special Item Powers and Handling~~ (DONE)
+
+Alpha #2 is planned to also contain the following:
+
 * **Magic and Combat** (DOING)
+* **Context-Sensitive-Help*** (DOING)
 * **Creatures, Combat, and NPCs** (DOING)
+
+Alpha #3 is planned to also contain the following:
+
 * Encounter Tables (TO DO)
 * Fixed Combats (TO DO)
 * Treasure Tables (TO DO)
 * SFX (TO DO)
-* Context-Sensitive-Help (TO DO)
 * Strict (Legacy) Mode (TO DO)
 
 ## Wishlist
@@ -91,15 +101,19 @@ See also some brief [gameplay videos](https://www.youtube.com/channel/UCEkmGGFyx
 
 ## What next? (as of September 2026)
 
-**Spellcrafting and Combat are the only major things left to implement!** Initially I am only planning to remake Wizardry 1, then adding the content from the second and third games as soon as I can. In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru> or Sshoecraft's recreation in the terminal of the original trilogy, again for Apple II at <https://github.com/sshoecraft/wizardry>>.
+**Alpha #1 is now out!**
+
+Spellcrafting and Combat are the only major things left to implement from the first Wizardry game! In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru> or Sshoecraft's recreation in the terminal of the original trilogy, again for Apple II at <https://github.com/sshoecraft/wizardry>>.
 
 ## Compilation
 
-Sorcery uses a **single source tree** which builds on both Linux and Windows. The primary development platform is Ubuntu/Debian Linux. Windows builds are supported using **MSYS2 UCRT64**, GCC, CMake and Ninja. Other Windows toolchains are not currently tested or supported by the project, although contributions documenting them are welcome. The project targets **C++26** and uses C++ reflection, so **GCC 16.1 or later is required**. The current development toolchain uses GCC 16.2. No separate Linux or Windows source tree is required. Platform-specific differences are handled by CMake and the source code. Please read the doc/COMPILE.md for full compilation instructions on both platforms, and doc/AI.md for a statement on LLM/AI usage. All code is released under the GPLv2 - see the doc/LICENSE.md file for full details.
+Sorcery uses a **single source tree** which builds on both Linux and Windows. The primary development platform is Ubuntu/Debian Linux. Windows builds are supported using **MSYS2 UCRT64**, GCC, CMake and Ninja. Other Windows toolchains are not currently tested or supported by the project, although contributions documenting them are welcome. The project targets **C++26** and uses C++ reflection, so **GCC 16.1 or later is required**. The current development toolchain uses GCC 16.2. No separate Linux or Windows source tree is required. Platform-specific differences are handled by CMake and the source code. Please read the doc/COMPILE.md for full compilation instructions on both platforms. All code is released under the GPLv2 - see the doc/LICENSE.md file for full details.
+
+**Graphics and music are used under appropriate licenses (see below), and are drawn/composed by humans.**
 
 ## Contact and Help
 
-All comments and criticism and help welcome. You can mainly find me as *Typhon* on the C++ Help and DungeonCrawlers.org Discord Servers or email me at davemoore22 AT protonmail.com
+All comments and criticism and help most welcome. You can mainly find me as *Typhon* on the C++ Help and DungeonCrawlers.org Discord Servers or email me at davemoore22 AT protonmail.com
 
 ## Credits
 
