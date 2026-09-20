@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <chrono>
 #include <cstdint>
 
 namespace Sorcery::Enums::Magic {

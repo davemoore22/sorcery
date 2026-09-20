@@ -22,11 +22,10 @@
 
 #pragma once
 
-#include "drawables/drawable.hpp"
-
-#include <string>
-#include <string_view>
-#include <vector>
+#include "drawables/drawable.hpp" // for Drawable
+#include <string>				  // for basic_string, string
+#include <string_view>			  // for string_view
+#include <vector>				  // for vector
 
 namespace Sorcery { class Component; }
 namespace Sorcery {

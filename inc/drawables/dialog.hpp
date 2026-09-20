@@ -23,6 +23,7 @@
 #pragma once
 
 #include "drawables/drawable.hpp" // for Drawable
+
 namespace Sorcery { class Component; }
 namespace Sorcery {
 namespace Enums {

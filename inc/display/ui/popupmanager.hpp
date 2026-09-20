@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include "drawables/drawable.hpp"
-#include <memory>
-#include <optional>
-#include <string>
-#include <string_view>
-#include <vector>
+#include "drawables/drawable.hpp" // for DrawableResult, Drawable (ptr only)
+#include <memory>				  // for unique_ptr
+#include <optional>				  // for optional, nullopt, nullopt_t
+#include <string>				  // for basic_string, string
+#include <string_view>			  // for string_view
+#include <vector>				  // for vector
 
 namespace Sorcery { class Message; }
 namespace Sorcery { class Dialog; }

@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/imgui.hpp"
+#include <chrono>
 
 namespace Sorcery {
 

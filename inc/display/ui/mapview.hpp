@@ -24,7 +24,7 @@
 
 #include "common/imgui.hpp"
 #include "common/types.hpp"
-
+#include <chrono>
 #include <optional>
 
 namespace Sorcery {

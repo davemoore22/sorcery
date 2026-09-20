@@ -25,6 +25,7 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/debug.hpp"					// for DEBUG_LOG, DEBUG_LOGF
 #include "core/define.hpp"					// for EXPEDITION_GOTO
 #include "core/enum.hpp"					// for Screen, CharacterSlot

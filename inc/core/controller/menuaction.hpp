@@ -29,11 +29,7 @@
 #include <vector>		 // for vector
 namespace Sorcery {
 namespace Enums { enum class CharacterSlot; }
-}
-namespace Sorcery {
 namespace Enums { enum class Screen; }
-}
-namespace Sorcery {
 namespace Enums {
 	namespace Layout { enum class DialogType; }
 }

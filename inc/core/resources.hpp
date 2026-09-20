@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <memory>
+#include <memory> // for unique_ptr
 
 namespace Sorcery {
 struct Context;

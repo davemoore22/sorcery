@@ -24,6 +24,7 @@
 
 #include <cstddef>	// for size_t
 #include <optional> // for optional
+
 namespace Sorcery { class Controller; }
 namespace Sorcery { struct Context; }
 union SDL_Event;

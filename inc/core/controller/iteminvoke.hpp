@@ -22,10 +22,10 @@
 
 #pragma once
 
-namespace Sorcery {
+namespace Sorcery { class Character; }
+namespace Sorcery { class Game; }
 
-class Character;
-class Game;
+namespace Sorcery {
 
 namespace Enums::Items::Effects { enum class Invoke; }
 

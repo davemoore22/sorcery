@@ -35,9 +35,9 @@ struct AVFrame;			// Global Namespace Forward Declaration
 struct AVPacket;		// Global Namespace Forward Declaration
 struct SwrContext;		// Global Namespace Forward Declaration
 
-namespace Sorcery {
+namespace Sorcery { class FileStore; }
 
-class FileStore;
+namespace Sorcery {
 
 class AudioPlayer {
 

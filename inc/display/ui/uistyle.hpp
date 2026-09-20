@@ -27,6 +27,7 @@
 #include "core/define.hpp"
 #include "display/animation.hpp"
 #include "display/ui/imageeffect.hpp"
+#include <chrono>
 
 namespace Sorcery {
 
