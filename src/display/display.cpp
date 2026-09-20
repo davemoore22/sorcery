@@ -24,16 +24,15 @@
 #include "backends/imgui_impl_opengl3.h" // for ImGui_ImplOpenGL3_RenderDra...
 #include "common/types.hpp"				 // for Size
 #include "core/context.hpp"				 // for Context
-#include "core/debug.hpp"
-#include "display/framebuffer.hpp" // for FrameBuffer
-#include <SDL2/SDL.h>			   // for SDL_INIT_GAMECONTROLLER
-#include <SDL2/SDL_video.h>		   // for SDL_GLattr, SDL_GL_SetAttri...
-#include <SDL_error.h>			   // for SDL_GetError
-#include <algorithm>			   // for clamp, min
-#include <array>
-#include <print>	 // for println
-#include <stdexcept> // for runtime_error
-#include <string>	 // for basic_string, stoi, operator+
+#include "core/debug.hpp"				 // for DEBUG_LOGF, debug_logf
+#include "display/framebuffer.hpp"		 // for FrameBuffer
+#include <SDL2/SDL.h>					 // for SDL_INIT_GAMECONTROLLER
+#include <SDL2/SDL_video.h>				 // for SDL_GLattr, SDL_GL_SetAttri...
+#include <SDL_error.h>					 // for SDL_GetError
+#include <algorithm>					 // for clamp, min
+#include <print>						 // for println
+#include <stdexcept>					 // for runtime_error
+#include <string>						 // for basic_string, stoi, operator+
 
 /// @brief Global Namespace Forward Declaration
 struct ImDrawData;

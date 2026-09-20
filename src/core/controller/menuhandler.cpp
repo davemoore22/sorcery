@@ -26,35 +26,37 @@
 #include "core/context.hpp"				  // for Context
 #include "core/controller/controller.hpp" // for Controller
 #include "core/controller/iteminvoke.hpp" // for apply_invoke
-#include "core/controller/menuaction.hpp" // for Type, MenuAction, MENU_ACT...
+#include "core/controller/menuaction.hpp" // for MenuAction, Type, MENU_ACT...
 #include "core/debug.hpp"				  // for DEBUG_LOGF, debug_logf
 #include "core/enum.hpp"				  // for CharacterSlot, Screen
 #include "core/resources.hpp"			  // for Resources
 #include "display/ui/popupmanager.hpp"	  // for PopupManager
 #include "display/ui/ui.hpp"			  // for UI
 #include "drawables/define.hpp"			  // for MAIN_MENU_CONTINUE_GAME
+#include "magic/enum.hpp"				  // for SpellID (ptr only), SpellType
 #include "resources/itemstore.hpp"		  // for ItemStore
-#include "resources/spellstore.hpp"
-#include "types/character/character.hpp" // for Character
-#include "types/character/create.hpp"	 // for CharacterCreate
-#include "types/character/inventory.hpp" // for Inventory
-#include "types/character/magic.hpp"	 // for ConstCharacterMagic
-#include "types/enum.hpp"				 // for TypeID, DialogType, Identi...
-#include "types/game.hpp"				 // for Game
-#include "types/item/item.hpp"			 // for Item
-#include "types/item/itemtype.hpp"		 // for ItemType
-#include "types/meta.hpp"				 // for enum_cast
-#include "types/state.hpp"				 // for State				 // for vector
-#include <algorithm>					 // for find
-#include <functional>					 // for less
-#include <map>							 // for map, operator==
-#include <memory>						 // for unique_ptr, shared_ptr
-#include <optional>						 // for optional
-#include <ranges>						 // for __find_fn
-#include <string>						 // for basic_string, char_traits
-#include <unordered_map>				 // for unordered_map, operator==
-#include <utility>						 // for pair, move
-#include <vector>						 // for vector
+#include "resources/spellstore.hpp"		  // for SpellStore
+#include "types/character/character.hpp"  // for Character
+#include "types/character/create.hpp"	  // for CharacterCreate
+#include "types/character/inventory.hpp"  // for Inventory
+#include "types/character/magic.hpp"	  // for ConstCharacterMagic
+#include "types/enum.hpp"				  // for TypeID, DialogType, Identi...
+#include "types/game.hpp"				  // for Game
+#include "types/item/item.hpp"			  // for Item
+#include "types/item/itemtype.hpp"		  // for ItemType
+#include "types/meta.hpp"				  // for enum_cast, enum_name
+#include "types/state.hpp"				  // for State
+#include <algorithm>					  // for find
+#include <cstddef>						  // for size_t
+#include <functional>					  // for less
+#include <map>							  // for map, operator==
+#include <memory>						  // for unique_ptr, shared_ptr
+#include <optional>						  // for optional
+#include <ranges>						  // for __find_fn
+#include <string>						  // for basic_string, char_traits
+#include <unordered_map>				  // for unordered_map, operator==
+#include <utility>						  // for pair, cmp_less, move
+#include <vector>						  // for vector
 
 /// @brief
 /// @param host

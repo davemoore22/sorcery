@@ -26,6 +26,7 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI

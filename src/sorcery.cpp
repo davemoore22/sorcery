@@ -20,10 +20,10 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include <SDL.h>
+#include <SDL.h> // Required by SDL defines
 
-#include "core/application.hpp"
-#include <memory>
+#include "core/application.hpp" // for Application
+#include <memory>				// for make_unique
 
 /// @brief Executablele Entry Point
 /// @param argc Command Line Argument Count

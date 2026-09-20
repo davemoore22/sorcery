@@ -23,11 +23,11 @@
 #include "core/controller/inputhandler.hpp"
 #include "core/context.hpp"				  // for Context
 #include "core/controller/controller.hpp" // for Controller
-#include "core/debug.hpp"				  // for DEBUG_LOGF, debug_logf
 #include "display/display.hpp"			  // for Display
 #include "display/ui/ui.hpp"			  // for UI
 #include "display/ui/uimetrics.hpp"		  // for UIMetrics
 #include "engine/define.hpp"			  // for MOVE_BACKWARD, MOVE_FORWARD
+#include "imgui.h"						  // for CloseCurrentPopup, ImGuiKey
 #include "types/game.hpp"				  // for Game
 #include "types/state.hpp"				  // for State
 #include <SDL_events.h>					  // for SDL_EventType, SDL_Event
@@ -35,13 +35,9 @@
 #include <SDL_mouse.h>					  // for SDL_BUTTON_RIGHT
 #include <SDL_scancode.h>				  // for SDL_Scancode
 #include <SDL_video.h>					  // for SDL_WindowEventID, SDL_Get...
-#include <format>						  // for format
-#include <functional>					  // for less
-#include <map>							  // for map
 #include <memory>						  // for unique_ptr
 #include <optional>						  // for optional, nullopt_t, nullopt
-#include <string>						  // for basic_string
-#include <utility>						  // for exchange, get
+#include <utility>						  // for exchange
 
 Sorcery::ControllerInputHandler::ControllerInputHandler(Controller &host, Context &ctx)
 	: _host{host},

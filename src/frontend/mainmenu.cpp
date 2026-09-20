@@ -27,6 +27,7 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen
 #include "display/animation.hpp"			// for Animation
 #include "display/ui/popupmanager.hpp"		// for PopupManager
@@ -35,10 +36,11 @@
 #include "frontend/compendium.hpp"			// for Compendium
 #include "frontend/license.hpp"				// for License
 #include "frontend/options.hpp"				// for Options
-#include "resources/imagestore.hpp"
-#include "types/enum.hpp" // for DialogType
-#include <SDL_events.h>	  // for SDL_PollEvent
-#include <chrono>		  // for chrono_literals
+#include "resources/imagestore.hpp"			// for ImageStore
+#include "types/enum.hpp"					// for DialogType
+#include <SDL_events.h>						// for SDL_PollEvent
+#include <chrono>							// for chrono_literals
+#include <string>							// for basic_string, stoi
 
 Sorcery::MainMenu::MainMenu(Context &ctx)
 	: Module{ctx} {

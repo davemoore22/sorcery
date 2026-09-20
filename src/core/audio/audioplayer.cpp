@@ -21,17 +21,17 @@
 // the resulting work.
 
 #include "core/audio/audioplayer.hpp"
-#include "common/ffmpeg.hpp" // IWYU pragma: keep
-#include "common/macro.hpp"
-#include "core/debug.hpp" // for DEBUG_LOGF, debug_logf
-#include "resources/filestore.hpp"
-#include "types/scopedtimer.hpp" // for PROFILE_SCOPE
-#include <SDL_audio.h>			 // for SDL_PauseAudioDevice, SDL_Clea...
-#include <SDL_error.h>			 // for SDL_GetError
-#include <SDL_stdinc.h>			 // for Uint32
-#include <algorithm>
-#include <iostream>	 // for basic_ostream, operator<<, cerr
-#include <stdexcept> // for runtime_error
+#include "common/ffmpeg.hpp"	   // IWYU pragma: keep
+#include "common/macro.hpp"		   // for PATH2UTF8
+#include "core/debug.hpp"		   // for DEBUG_LOGF, debug_logf
+#include "resources/filestore.hpp" // for FileStore
+#include "types/scopedtimer.hpp"   // for PROFILE_SCOPE
+#include <SDL_audio.h>			   // for SDL_PauseAudioDevice, SDL_Clea...
+#include <SDL_error.h>			   // for SDL_GetError
+#include <SDL_stdinc.h>			   // for Uint32
+#include <algorithm>			   // for clamp, max, min
+#include <iostream>				   // for basic_ostream, operator<<, cerr
+#include <stdexcept>			   // for runtime_error
 
 /// @brief
 /// @param files

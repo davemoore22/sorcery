@@ -28,11 +28,10 @@
 #include "types/scopedtimer.hpp" // for PROFILE_SCOPE
 #include <filesystem>			 // for path
 #define STB_IMAGE_IMPLEMENTATION
-#include <fstream>
-#include <print>
+#include <fstream>	   // for basic_ifstream, basic_ios, basic_ist...
 #include <stb_image.h> // for stbi_load, stbi_image_free
 #include <string_view> // for basic_string_view
-#include <vector>
+#include <vector>	   // for vector
 
 /// @brief Standard Constructor
 /// @param ctx

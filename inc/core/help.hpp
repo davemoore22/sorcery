@@ -23,10 +23,15 @@
 #pragma once
 
 #include "core/controller/inputmode.hpp"
+#include <cstddef>	   // for size_t
+#include <span>		   // for span
+#include <string_view> // for string_view
 
-#include <cstddef>
-#include <span>
-#include <string_view>
+namespace Sorcery {
+namespace Enums {
+	namespace Input { enum class Mode; }
+}
+}
 
 namespace Sorcery::Enums::Controls {
 

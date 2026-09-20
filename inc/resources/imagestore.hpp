@@ -24,10 +24,11 @@
 
 #include "types/image.hpp" // for Image
 #include <GL/glew.h>	   // for GLuint
-#include <filesystem>
-#include <map>	  // for map
-#include <string> // for basic_string, string
-#include <vector> // for vector
+#include <cstddef>		   // for size_t
+#include <filesystem>	   // for path
+#include <map>			   // for map
+#include <string>		   // for basic_string, string
+#include <vector>		   // for vector
 
 namespace Sorcery { struct Context; }
 

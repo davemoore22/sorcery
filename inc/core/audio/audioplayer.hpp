@@ -26,9 +26,8 @@
 #include <SDL2/SDL_audio.h>		// for SDL_AudioDeviceID, SDL_AudioSpec
 #include <chrono>				// for milliseconds, steady_clock
 #include <cstdint>				// for uint8_t
-#include <filesystem>
-#include <string_view> // for string_view
-#include <vector>	   // for vector
+#include <filesystem>			// for path
+#include <vector>				// for vector
 
 struct AVCodecContext;	// Global Namespace Forward Declaration
 struct AVFormatContext; // Global Namespace Forward Declaration

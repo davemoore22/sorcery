@@ -33,7 +33,6 @@
 #include <any>								// for any
 #include <chrono>							// for duration, milliseconds
 #include <cmath>							// for lerp
-#include <filesystem>						// for path
 #include <memory>							// for unique_ptr
 
 namespace Sorcery {

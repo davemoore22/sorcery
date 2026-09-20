@@ -23,7 +23,6 @@
 #include "core/system.hpp"
 #include "SimpleIni.h"				  // for CSimpleIniTempl, CSimpleIniA
 #include "core/audio/audioplayer.hpp" // for AudioPlayer
-#include "core/macro.hpp"			  // for CSTR
 #include "core/random.hpp"			  // for Random
 #include "display/animation.hpp"	  // for Animation
 #include "resources/define.hpp"		  // for CONFIG_FILE, STRINGS_FILE

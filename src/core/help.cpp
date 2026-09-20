@@ -19,9 +19,10 @@
 // said libraries), containing parts covered by the terms of said libraries,
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
-#include "core/help.hpp"
 
-#include <array>
+#include "core/help.hpp"
+#include "core/controller/inputmode.hpp" // for Mode, Mode::ALLOCATE_STATS
+#include <array>						 // for array
 
 namespace Sorcery::Help {
 
