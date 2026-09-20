@@ -21,13 +21,14 @@
 // the resulting work.
 
 #include "resources/stringstore.hpp"
-#include "resources/define.hpp"
-
-#include <fstream>
-#include <json/reader.h>
-#include <json/value.h>
-#include <string>
-#include <string_view>
+#include "resources/define.hpp" // for STRINGS_NOT_LOADED, KEY_NOT_FOUND
+#include <fstream>				// for basic_ifstream, ifstream
+#include <json/reader.h>		// for CharReaderBuilder, parseFromStream
+#include <json/value.h>			// for Value
+#include <string>				// for basic_string, operator<=>, string
+#include <string_view>			// for string_view
+#include <utility>				// for pair
+#include <vector>				// for vector
 
 Sorcery::StringStore::StringStore(const std::filesystem::path &filename)
 	: _filename{filename} {

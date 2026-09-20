@@ -21,10 +21,10 @@
 // the resulting work.
 
 #include "types/character/magic.hpp"
-#include "common/enum.hpp"				 // for SpellType, SpellType::ARCANE
 #include "common/types.hpp"				 // for Spell
 #include "core/context.hpp"				 // for Context
 #include "core/resources.hpp"			 // for Resources
+#include "magic/enum.hpp"				 // for SpellType, SpellType::ARCANE
 #include "resources/spellstore.hpp"		 // for SpellStore
 #include "types/character/character.hpp" // for Character
 #include <algorithm>					 // for find_if

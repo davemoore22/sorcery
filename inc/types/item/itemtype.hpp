@@ -22,13 +22,25 @@
 
 #pragma once
 
-#include "common/enum.hpp" // for Align (ptr only), Class (ptr only), SpellID
-#include "types/dice.hpp"  // for Dice
-#include "types/enum.hpp"  // for TypeID, Category, Invoke
-#include <array>		   // for array
-#include <iosfwd>		   // for ostream
-#include <random>		   // for mt19937_64, random_device
-#include <string>		   // for string, basic_string
+#include "magic/enum.hpp" // for SpellID
+#include "types/dice.hpp" // for Dice
+#include "types/enum.hpp" // for TypeID, Category, Invoke
+#include <array>		  // for array
+#include <cstdint>		  // for uint64_t
+#include <iosfwd>		  // for ostream
+#include <random>		  // for mt19937_64, random_device
+#include <string>		  // for string, basic_string
+
+namespace Sorcery {
+namespace Enums {
+	namespace Character { enum class Align; }
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Character { enum class Class; }
+}
+}
 
 namespace Sorcery {
 

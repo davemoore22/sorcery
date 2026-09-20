@@ -33,6 +33,12 @@
 #include <string>						 // for string, basic_string
 #include <vector>						 // for vector
 
+namespace Sorcery {
+namespace Enums {
+	namespace Magic { enum class SpellID; }
+}
+}
+
 namespace Sorcery { struct Context; }
 
 namespace Sorcery {

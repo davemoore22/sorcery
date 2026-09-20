@@ -23,13 +23,13 @@
 #include "types/error.hpp"
 #include "common/macro.hpp" // for WORDWRAP
 #include "types/meta.hpp"	// for enum_name
-#include <algorithm>		// for remove_if
 #include <ctime>			// for localtime
 #include <format>			// for format
 #include <iomanip>			// for operator<<, put_time
 #include <regex>			// for regex, regex_token_iterator, sregex_toke...
-#include <sstream>			// for basic_ostream, basic_stringstream, endl
-#include <utility>			// for to_underlying
+#include <sstream>			// for basic_ostream, basic_stringstream, opera...
+#include <utility>			// for move, to_underlying
+
 Sorcery::Error::Error(Enums::System::Error error_code, const std::exception &exception, std::string notes)
 	: _error_code{error_code},
 	  _what{exception.what()},

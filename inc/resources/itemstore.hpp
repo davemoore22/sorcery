@@ -25,11 +25,11 @@
 #include "types/item/item.hpp"	   // for Item
 #include "types/item/itemtype.hpp" // for ItemType
 #include <array>				   // for array
+#include <cstdint>				   // for uint64_t
 #include <filesystem>			   // for path
 #include <map>					   // for map
 #include <string>				   // for string
 #include <string_view>			   // for string_view
-#include <utility>				   // for std::to_underlying
 #include <vector>				   // for vector
 
 namespace Sorcery {

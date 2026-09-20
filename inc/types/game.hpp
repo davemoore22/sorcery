@@ -21,20 +21,18 @@
 // the resulting work.
 
 #pragma once
-
 #include "common/enum.hpp"				 // for Event (ptr only), Align
 #include "common/types.hpp"				 // for DungeonEvent
 #include "types/character/character.hpp" // for Character
-#include "types/state.hpp"				 // for State
-#include <SDL_keycode.h>				 // for SDL_Keycode
 #include <chrono>						 // for time_point, system_clock
-#include <functional>					 // for function
 #include <iosfwd>						 // for ostream
 #include <map>							 // for map
 #include <memory>						 // for shared_ptr, unique_ptr
 #include <string>						 // for string, basic_string
 #include <vector>						 // for vector
 
+namespace Sorcery { class Cheat; }
+namespace Sorcery { class State; }
 namespace Sorcery {
 namespace Enums {
 	namespace Items { enum class TypeID; }
@@ -43,8 +41,6 @@ namespace Enums {
 namespace Sorcery { struct Context; }
 
 namespace Sorcery {
-
-class Cheat;
 
 // Game holds the current active game in progress
 class Game {

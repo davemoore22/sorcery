@@ -22,7 +22,11 @@
 
 #pragma once
 
-#include "magic/enum.hpp"
+namespace Sorcery {
+namespace Enums {
+	namespace Magic { enum class CastContext; }
+}
+}
 
 namespace Sorcery {
 

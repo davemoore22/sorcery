@@ -21,16 +21,25 @@
 // the resulting work.
 
 #include "types/cheat.hpp"
-#include "core/context.hpp"
-#include "core/controller/controller.hpp"
-#include "core/debug.hpp"
-#include "core/resources.hpp"
-#include "resources/itemstore.hpp"
-#include "types/game.hpp"
-#include "types/meta.hpp"
-
-#include <functional>
-#include <iterator>
+#include "common/enum.hpp"				  // for Class, Align, Random, Status
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/debug.hpp"				  // for DEBUG_LOG
+#include "core/resources.hpp"			  // for Resources
+#include "resources/itemstore.hpp"		  // for ItemStore
+#include "types/character/character.hpp"  // for Character
+#include "types/character/create.hpp"	  // for CharacterCreate
+#include "types/character/inventory.hpp"  // for Inventory
+#include "types/enum.hpp"				  // for TypeID, TypeID::LONG_SWORD
+#include "types/game.hpp"				  // for Game
+#include "types/item/item.hpp"			  // for Item
+#include "types/meta.hpp"				  // for enum_cast
+#include "types/state.hpp"				  // for State
+#include <functional>					  // for invoke
+#include <map>							  // for map
+#include <memory>						  // for unique_ptr
+#include <optional>						  // for optional
+#include <vector>						  // for vector
 
 namespace Sorcery {
 

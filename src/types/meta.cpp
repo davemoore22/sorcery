@@ -25,6 +25,7 @@
 #include "core/enum.hpp"
 #include "core/help.hpp"
 #include "engine/enum.hpp"
+#include "magic/enum.hpp"
 #include "types/enum.hpp"
 #include <array>
 #include <meta>

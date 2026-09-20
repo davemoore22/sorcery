@@ -21,14 +21,15 @@
 // the resulting work.
 
 #include "display/ui/popupmanager.hpp"
-#include "core/context.hpp" // for Con
-#include "core/controller/controller.hpp"
-#include "drawables/dialog.hpp"			// for Dialog
-#include "drawables/message.hpp"		// for Message
-#include "drawables/modal2.hpp"			// for Modal2
-#include "resources/componentstore.hpp" // for ComponentStore
-#include "types/enum.hpp"
-#include <utility> // for move
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/controller/inputmode.hpp"  // for Mode, Mode::CONFIRMATION
+#include "drawables/dialog.hpp"			  // for Dialog
+#include "drawables/message.hpp"		  // for Message
+#include "drawables/modal2.hpp"			  // for Modal2
+#include "resources/componentstore.hpp"	  // for ComponentStore
+#include "types/enum.hpp"				  // for DialogType
+#include <utility>						  // for move
 
 /// @brief
 /// @param ctx

@@ -21,10 +21,9 @@
 // the resulting work.
 
 #include "resources/spellstore.hpp" // for SpellStore
-#include "common/enum.hpp"			// for SpellCategory, SpellID, SpellType
 #include "common/types.hpp"			// for Spell
 #include "core/context.hpp"			// for Context
-#include "magic/enum.hpp"
+#include "magic/enum.hpp"			// for SpellCategory, SpellID, SpellType
 #include "types/meta.hpp"
 #include <algorithm> // for find
 #include <array>

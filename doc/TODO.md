@@ -1,5 +1,5 @@
 
-# TECHNICAL TODOs (10/11/2026)
+# TECHNICAL TODOs (20/11/2026)
 
 Map / tile handling optimisation
 
@@ -7,9 +7,14 @@ Map / tile handling optimisation
 - clean up the Grid Cartographer JSON peculiarities
 - then optimise tile/event/lookups and rendering-side usage
 
-Dungeon View rendering optimisation
+UI
 
-- Reduce the number of drawing calls
+- Resize all modal frames dynamically and properly (e.g. cast spell)
+
+Dungeon View
+
+- Reduce the number of drawing calls in rendering optimisation
+- Make Secret Doors flash occasionally when not using LOMILWA
 
 Automap
 

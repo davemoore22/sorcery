@@ -21,7 +21,8 @@
 // the resulting work.
 
 #include "magic/casting.hpp"
-#include "common/types.hpp"
+#include "common/types.hpp" // for Spell
+#include "magic/enum.hpp"	// for CastContext, CastUsage, has_usage, CastC...
 
 auto Sorcery::Magic::can_cast_in(const Spell &spell, const Enums::Magic::CastContext context) -> bool {
 
@@ -42,6 +43,5 @@ auto Sorcery::Magic::can_cast_in(const Spell &spell, const Enums::Magic::CastCon
 		return false;
 	}
 
-
-return false;
+	return false;
 }

@@ -21,10 +21,9 @@
 // the resulting work.
 
 #include "display/framebuffer.hpp"
-#include <core/debug.hpp>
-#include <print>
-#include <stdexcept>
-#include <string_view>
+#include <core/debug.hpp> // for DEBUG_LOGF, debug_logf
+#include <stdexcept>	  // for runtime_error
+#include <string_view>	  // for basic_string_view, string_view
 
 namespace {
 

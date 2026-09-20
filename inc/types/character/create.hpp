@@ -22,12 +22,22 @@
 
 #pragma once
 
-#include "common/enum.hpp" // for Align (ptr only), SpellType (ptr only)
+#include "common/enum.hpp" // for Align (ptr only), Attribute, Class, Race ...
 #include <map>			   // for map
 #include <string>		   // for string
 #include <string_view>	   // for string_view
 
 namespace Sorcery { class Character; }
+namespace Sorcery {
+namespace Enums {
+	namespace Magic { enum class SpellID; }
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Magic { enum class SpellType; }
+}
+}
 
 namespace Sorcery {
 
