@@ -20,6 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+// TODO: IWYU this
 #include "modules/shop/shop.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"

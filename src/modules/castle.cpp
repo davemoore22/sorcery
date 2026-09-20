@@ -20,6 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+// TODO: IWYU this
 #include "modules/castle.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
@@ -49,6 +50,7 @@
 #include "modules/temple/temple.hpp"
 #include "resources/define.hpp"
 #include "types/game.hpp"
+#include <chrono>
 
 Sorcery::Castle::Castle(Context &ctx)
 	: Module{ctx} {

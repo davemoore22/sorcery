@@ -21,10 +21,10 @@
 // the resulting work.
 
 #include "types/character/create.hpp"
-#include "common/types.hpp" // for Spell
-#include "core/context.hpp" // for Context
-#include "core/random.hpp"	// for Random
-#include "magic/enum.hpp"
+#include "common/types.hpp"				 // for Spell
+#include "core/context.hpp"				 // for Context
+#include "core/random.hpp"				 // for Random
+#include "magic/enum.hpp"				 // for SpellType
 #include "types/character/character.hpp" // for Character
 #include "types/character/inventory.hpp" // for Inventory
 #include "types/character/magic.hpp"	 // for CharacterMagic

@@ -24,6 +24,7 @@
 
 #include "core/module.hpp"
 #include "types/enum.hpp"
+#include <chrono>
 #include <memory>
 
 namespace Sorcery {

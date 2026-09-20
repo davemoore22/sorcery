@@ -27,7 +27,7 @@
 
 namespace Sorcery { class Controller; }
 namespace Sorcery { struct Context; }
-union SDL_Event;
+union SDL_Event; // Global Namespace Forward Declaration
 
 namespace Sorcery {
 

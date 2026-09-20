@@ -21,7 +21,7 @@
 // the resulting work.
 
 #include "drawables/drawable.hpp"
-#include "types/component.hpp"
+#include "types/component.hpp" // for Component
 
 Sorcery::Drawable::Drawable(Context &ctx)
 	: _ctx{ctx} {}

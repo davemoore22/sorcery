@@ -41,6 +41,7 @@ namespace Sorcery { class Resources; }
 namespace Sorcery { class Splash; }
 namespace Sorcery { class System; }
 namespace Sorcery { class UI; }
+
 namespace Sorcery {
 
 // Application Class

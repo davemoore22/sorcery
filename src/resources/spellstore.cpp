@@ -20,19 +20,19 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/spellstore.hpp" // for SpellStore
-#include "common/types.hpp"			// for Spell
-#include "core/context.hpp"			// for Context
-#include "magic/enum.hpp"			// for SpellCategory, SpellID, SpellType
-#include "types/meta.hpp"
-#include <algorithm> // for find
-#include <array>
-#include <cassert> // for assert
-#include <format>
-#include <ranges>	   // for filter_view, _Filter, _Partial
-#include <string>	   // for basic_string
-#include <string_view> // for string_view
-#include <vector>	   // for vector
+#include "resources/spellstore.hpp"
+#include "common/types.hpp" // for Spell
+#include "core/context.hpp" // for Context
+#include "magic/enum.hpp"	// for CastUsage, SpellCategory, SpellID, Spell...
+#include "types/meta.hpp"	// for enum_name
+#include <algorithm>		// for find
+#include <array>			// for array
+#include <cassert>			// for assert
+#include <format>			// for format
+#include <ranges>			// for filter_view, _Filter, _Partial, _To2
+#include <string>			// for basic_string
+#include <string_view>		// for string_view
+#include <vector>			// for vector
 
 namespace {
 

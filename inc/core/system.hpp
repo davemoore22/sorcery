@@ -22,20 +22,20 @@
 
 #pragma once
 
-#include <SimpleIni.h>
-#include <chrono>
-#include <memory>
-#include <string>
+#include <SimpleIni.h> // for CSimpleIniA
+#include <chrono>	   // for system_clock, time_point
+#include <memory>	   // for unique_ptr
+#include <string>	   // for string
+
+namespace Sorcery { class Animation; }
+namespace Sorcery { class AudioPlayer; }
+namespace Sorcery { class Config; }
+namespace Sorcery { class FileStore; }
+namespace Sorcery { class Random; }
+namespace Sorcery { class StringStore; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
-
-struct Context;
-class Animation;
-class AudioPlayer;
-class Config;
-class FileStore;
-class StringStore;
-class Random;
 
 class System {
 

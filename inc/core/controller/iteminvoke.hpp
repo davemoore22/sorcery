@@ -24,11 +24,8 @@
 
 namespace Sorcery { class Character; }
 namespace Sorcery { class Game; }
-
 namespace Sorcery {
-
 namespace Enums::Items::Effects { enum class Invoke; }
-
-auto apply_invoke(Game *game, Character &character, Enums::Items::Effects::Invoke effect) -> bool;
-
 }
+
+namespace Sorcery { auto apply_invoke(Game *game, Character &character, Enums::Items::Effects::Invoke effect) -> bool; }

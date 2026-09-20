@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <chrono>
 #include <iterator>
 #include <sstream>

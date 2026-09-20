@@ -20,11 +20,12 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+// TODO: iwyu this header
 #include "core/controller/menubuilder.hpp"
 #include "common/enum.hpp"
 #include "core/context.hpp"
 #include "core/controller/controller.hpp"
-#include "core/debug.hpp"
+#include "core/debug.hpp" // for DEBUG_LOGF, debug_logf
 #include "core/define.hpp"
 #include "core/resources.hpp"
 #include "drawables/define.hpp"

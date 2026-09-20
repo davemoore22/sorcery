@@ -21,15 +21,15 @@
 // the resulting work.
 
 #include "types/meta.hpp"
-#include "common/enum.hpp"
-#include "core/enum.hpp"
-#include "core/help.hpp"
-#include "engine/enum.hpp"
-#include "magic/enum.hpp"
-#include "types/enum.hpp"
-#include <array>
-#include <meta>
-#include <utility>
+#include "common/enum.hpp" // for CharacterSlot, Screen
+#include "core/enum.hpp"   // for System::Error, System::Random
+#include "core/help.hpp"   // for help-related enum declarations
+#include "engine/enum.hpp" // for Monsters::Category, Class, TypeID
+#include "magic/enum.hpp"  // for SpellCategory, SpellID, SpellType
+#include "types/enum.hpp"  // for Character, Chests, Input, Items enums
+#include <array>		   // for array
+#include <meta>			   // for enumerators_of, identifier_of, reflection operators
+#include <utility>		   // for pair, cmp_equal, to_underlying
 
 namespace Sorcery {
 
