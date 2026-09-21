@@ -22,15 +22,15 @@
 
 #pragma once
 
-#include "types/dice.hpp"		 // for Dice
-#include "types/enum.hpp"		 // for TypeID (ptr only), Breath
-#include "types/monstertype.hpp" // for MonsterType
-#include <array>				 // for array
-#include <filesystem>			 // for path
-#include <map>					 // for map
-#include <string>				 // for string
-#include <string_view>			 // for string_view
-#include <vector>				 // for vector
+#include "types/dice.hpp"				 // for Dice
+#include "types/enum.hpp"				 // for TypeID (ptr only), Breath
+#include "types/monster/monstertype.hpp" // for MonsterType
+#include <array>						 // for array
+#include <filesystem>					 // for path
+#include <map>							 // for map
+#include <string>						 // for string
+#include <string_view>					 // for string_view
+#include <vector>						 // for vector
 
 namespace Sorcery {
 

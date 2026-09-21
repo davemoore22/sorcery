@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "game/spellcasting.hpp"
+#include "common/types.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
 #include "core/resources.hpp"
@@ -35,10 +36,48 @@ Sorcery::SpellCasting::SpellCasting(Context &ctx, Game &game)
 
 Sorcery::SpellCasting::~SpellCasting() = default;
 
-auto Sorcery::SpellCasting::begin(const Magic::CastRequest &request) -> void {
+auto Sorcery::SpellCasting::begin(const Magic::CastRequest &request) -> Magic::CastPlan {
 
 	const auto spell{_ctx.resources->spells->get(request.spell)};
 
 	DEBUG_LOGF("Cast request: spell={} caster={} context={}", spell.name, request.caster_id,
 			   enum_name(request.context));
+
+	const auto requirement{_get_requirement(spell, request.context)};
+
+	return {.request = request, .requirement = requirement};
+}
+
+auto Sorcery::SpellCasting::_get_requirement(const Spell &spell, const Enums::Magic::CastContext context) const
+	-> Magic::CastRequirement {
+
+	using enum Enums::Magic::CastContext;
+	using enum Enums::Magic::SpellID;
+	using enum Magic::CastRequirement;
+
+	if (context != FIELD)
+		return NONE;
+
+	switch (spell.id) {
+
+	case DIOS:
+	case DIALKO:
+	case DIAL:
+	case LATUMOFIS:
+	case DI:
+	case DIALMA:
+	case MADI:
+	case KADORTO:
+		return PARTY_MEMBER;
+
+	case MALOR:
+		return DESTINATION;
+
+	case HAMAN:
+	case MAHAMAN:
+		return EFFECT;
+
+	default:
+		return NONE;
+	}
 }

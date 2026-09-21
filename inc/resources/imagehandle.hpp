@@ -27,13 +27,13 @@
 
 namespace Sorcery {
 
-class Image {
+class ImageHandle {
 
 	public:
-		Image();
-		Image(std::string key_, GLuint texture_, int width_, int height_);
+		ImageHandle();
+		ImageHandle(std::string key_, GLuint texture_, int width_, int height_);
 
-		auto operator<=>(const Image &a) const;
+		auto operator<=>(const ImageHandle &a) const;
 
 		std::string key;
 		GLuint texture;

@@ -29,7 +29,7 @@ namespace Sorcery::Magic {
 
 enum class CastRequirement {
 	NONE,
-	CHARACTER,
+	PARTY_MEMBER,
 	MONSTER,
 	MONSTER_GROUP,
 	DESTINATION,

@@ -21,12 +21,12 @@
 // the resulting work.
 
 #include "resources/imagestore.hpp"
-#include "core/context.hpp"		 // for Context
-#include "core/debug.hpp"		 // for DEBUG_LOGF, debug_logf
-#include "resources/define.hpp"	 // for BACKGROUNDS_TEXTURE, BANNER_TEXTURE
-#include "types/image.hpp"		 // for Image
-#include "types/scopedtimer.hpp" // for PROFILE_SCOPE
-#include <filesystem>			 // for path
+#include "core/context.hpp"			 // for Context
+#include "core/debug.hpp"			 // for DEBUG_LOGF, debug_logf
+#include "resources/define.hpp"		 // for BACKGROUNDS_TEXTURE, BANNER_TEXTURE
+#include "resources/imagehandle.hpp" // for Image
+#include "types/scopedtimer.hpp"	 // for PROFILE_SCOPE
+#include <filesystem>				 // for path
 #define STB_IMAGE_IMPLEMENTATION
 #include <fstream>	   // for basic_ifstream, basic_ios, basic_ist...
 #include <stb_image.h> // for stbi_load, stbi_image_free
@@ -45,7 +45,7 @@ Sorcery::ImageStore::ImageStore(Context &ctx)
 /// @brief Get an image from the imagestore
 /// @param file
 /// @return
-auto Sorcery::ImageStore::get(const std::string &file) -> Image {
+auto Sorcery::ImageStore::get(const std::string &file) -> ImageHandle {
 
 	if (!_loaded.at(file)) {
 		_load_image(file);
@@ -113,7 +113,7 @@ auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
 
 	const auto path{_ctx.get_file(file)};
 
-	Image image{};
+	ImageHandle image{};
 
 	if (!_load_texture_from_disc(path, &image.texture, &image.width, &image.height))
 		return false;

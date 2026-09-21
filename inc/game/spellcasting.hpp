@@ -26,6 +26,7 @@
 
 namespace Sorcery { class Game; };
 namespace Sorcery { struct Context; };
+namespace Sorcery { struct Spell; };
 
 namespace Sorcery {
 
@@ -35,11 +36,13 @@ class SpellCasting {
 		SpellCasting(Context &ctx, Game &game);
 		~SpellCasting();
 
-		auto begin(const Magic::CastRequest &request) -> void;
+		auto begin(const Magic::CastRequest &request) -> Magic::CastPlan;
 
 	private:
 		Context &_ctx;
 		Game &_game;
+
+		auto _get_requirement(const Spell &spell, Enums::Magic::CastContext context) const -> Magic::CastRequirement;
 };
 
 }

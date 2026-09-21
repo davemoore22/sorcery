@@ -20,21 +20,21 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/image.hpp"
+#include "resources/imagehandle.hpp"
 
-Sorcery::Image::Image()
+Sorcery::ImageHandle::ImageHandle()
 	: key{""},
 	  texture{0},
 	  width{0},
 	  height{0} {};
 
-Sorcery::Image::Image(std::string key_, GLuint texture_, int width_, int height_)
+Sorcery::ImageHandle::ImageHandle(std::string key_, GLuint texture_, int width_, int height_)
 	: key{key_},
 	  texture{texture_},
 	  width{width_},
 	  height{height_} {};
 
-auto Sorcery::Image::operator<=>(const Image &a) const {
+auto Sorcery::ImageHandle::operator<=>(const ImageHandle &a) const {
 
 	return key <=> a.key;
 }

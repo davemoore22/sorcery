@@ -20,7 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/monstertype.hpp"
+#include "types/monster/monstertype.hpp"
 #include "common/macro.hpp" // for TRIM
 #include "types/dice.hpp"	// for Dice
 #include <algorithm>		// for replace

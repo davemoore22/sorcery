@@ -15,6 +15,7 @@ target_sources(sorcery_resources PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/componentstore.cpp
 	${CMAKE_CURRENT_LIST_DIR}/filestore.cpp
 	${CMAKE_CURRENT_LIST_DIR}/fontstore.cpp
+	${CMAKE_CURRENT_LIST_DIR}/imagehandle.cpp
 	${CMAKE_CURRENT_LIST_DIR}/imagestore.cpp
 	${CMAKE_CURRENT_LIST_DIR}/itemstore.cpp
 	${CMAKE_CURRENT_LIST_DIR}/levelstore.cpp

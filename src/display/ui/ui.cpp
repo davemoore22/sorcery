@@ -62,6 +62,7 @@
 #include "resources/componentstore.hpp"		 // for ComponentStore
 #include "resources/define.hpp"				 // for MAPS_TEXTURE, ICONS_TEX...
 #include "resources/fontstore.hpp"			 // for FontInfo, FontStore
+#include "resources/imagehandle.hpp"		 // for Image
 #include "resources/imagestore.hpp"			 // for ImageStore
 #include "resources/itemstore.hpp"			 // for ItemStore
 #include "resources/levelstore.hpp"			 // for LevelStore
@@ -76,11 +77,10 @@
 #include "types/dice.hpp"					 // for Dice
 #include "types/enum.hpp"					 // for ComponentType, Font, Class
 #include "types/error.hpp"					 // for Error, operator<<
-#include "types/image.hpp"					 // for Image
 #include "types/item/item.hpp"				 // for Item
 #include "types/item/itemtype.hpp"			 // for ItemType
 #include "types/meta.hpp"					 // for enum_name, enum_cast
-#include "types/monstertype.hpp"			 // for MonsterType
+#include "types/monster/monstertype.hpp"	 // for MonsterType
 #include "types/state.hpp"					 // for State
 #include "types/world/explore.hpp"			 // for Explore
 #include "types/world/level.hpp"			 // for Level
