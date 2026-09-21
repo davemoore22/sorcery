@@ -29,11 +29,11 @@
 #include "core/enum.hpp"				  // for Screen, CharacterSlot
 #include "display/ui/popupmanager.hpp"	  // for PopupManager
 #include "display/ui/ui.hpp"			  // for UI
+#include "game/game.hpp"				  // for Game
 #include "types/character/character.hpp"  // for Character
 #include "types/character/create.hpp"	  // for CharacterCreate
 #include "types/config.hpp"				  // for Config
 #include "types/enum.hpp"				  // for DialogType
-#include "types/game.hpp"				  // for Game
 #include <map>							  // for map
 #include <memory>						  // for shared_ptr, unique_ptr
 #include <string>						  // for char_traits, basic_string

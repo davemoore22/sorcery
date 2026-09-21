@@ -29,9 +29,9 @@
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI, TransientMode, Trans...
+#include "game/game.hpp"					// for Game
 #include "types/character/character.hpp"	// for Character
 #include "types/character/magic.hpp"		// for ConstCharacterMagic
-#include "types/game.hpp"					// for Game
 #include "types/state.hpp"					// for State
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <algorithm>						// for find

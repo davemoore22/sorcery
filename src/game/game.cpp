@@ -20,19 +20,21 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/game.hpp"
-#include "cereal/archives/xml.hpp"		 // for epilogue, prologue, XMLOutp...
-#include "common/enum.hpp"				 // for Event, Location, Align, Ali...
-#include "common/macro.hpp"				 // for GUID
-#include "core/context.hpp"				 // for Context
-#include "core/debug.hpp"				 // for DEBUG_LOG
-#include "core/resources.hpp"			 // for Resources
+#include "game/game.hpp"
+#include "cereal/archives/xml.hpp" // for epilogue, prologue, XMLOutp...
+#include "common/enum.hpp"		   // for Event, Location, Align, Ali...
+#include "common/macro.hpp"		   // for GUID
+#include "core/context.hpp"		   // for Context
+#include "core/debug.hpp"		   // for DEBUG_LOG
+#include "core/resources.hpp"	   // for Resources
+#include "game/cheat.hpp"		   // for Cheat
+#include "game/spellcasting.hpp"   // for SpellCasting
+#include "magic/castcontext.hpp"
 #include "resources/itemstore.hpp"		 // for ItemStore
 #include "resources/levelstore.hpp"		 // for LevelStore
 #include "resources/savestore.hpp"		 // for SaveStore
 #include "types/character/inventory.hpp" // for Inventory
 #include "types/character/magic.hpp"	 // for CharacterMagic
-#include "types/cheat.hpp"				 // for Cheat
 #include "types/meta.hpp"				 // for enum_name
 #include "types/scopedtimer.hpp"		 // for PROFILE_SCOPE
 #include "types/state.hpp"				 // for State
@@ -60,6 +62,7 @@ Sorcery::Game::Game(Context &ctx)
 	_set_up_dungeon_events();
 
 	_cheat = std::make_unique<Cheat>(_ctx, *this);
+	_spellcasting = std::make_unique<SpellCasting>(_ctx, *this);
 }
 
 Sorcery::Game::~Game() = default;
@@ -589,6 +592,11 @@ auto Sorcery::Game::grant_party_members_xp(const int adjustment) -> void {
 auto Sorcery::Game::cheat() -> Cheat & {
 
 	return *_cheat;
+}
+
+auto Sorcery::Game::spellcasting() -> SpellCasting & {
+
+	return *_spellcasting;
 }
 
 namespace Sorcery {

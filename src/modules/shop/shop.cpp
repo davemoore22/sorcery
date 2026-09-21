@@ -35,10 +35,10 @@
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
+#include "game/game.hpp"
 #include "modules/shop/store.hpp"
 #include "modules/tavern/inspect.hpp"
 #include "resources/define.hpp"
-#include "types/game.hpp"
 
 Sorcery::Shop::Shop(Context &ctx)
 	: Module{ctx} {

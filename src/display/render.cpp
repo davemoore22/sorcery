@@ -27,9 +27,9 @@
 #include "display/display.hpp"	 // for Display, DisplayMetrics
 #include "display/ui/ui.hpp"	 // for UI
 #include "engine/types.hpp"		 // for TileView, Coordinate3, Vertex, Vert...
+#include "game/game.hpp"		 // for Game
 #include "resources/define.hpp"	 // for WIREFRAME_TEXTURE
 #include "types/component.hpp"	 // for Component
-#include "types/game.hpp"		 // for Game
 #include "types/state.hpp"		 // for State
 #include "types/world/level.hpp" // for Level
 #include "types/world/tile.hpp"	 // for Tile

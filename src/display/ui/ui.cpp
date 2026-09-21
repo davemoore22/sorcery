@@ -53,6 +53,8 @@
 #include "drawables/videoplayer.hpp"		 // for VideoPlayer
 #include "engine/define.hpp"				 // for GRAVESTONE_GFX_ID
 #include "engine/types.hpp"					 // for Vertex, VertexArray
+#include "game/cheat.hpp"					 // for Cheat
+#include "game/game.hpp"					 // for Game
 #include "imgui.h"							 // for ImVec2, ImVec4, GetMain...
 #include "imgui_internal.h"					 // for ImGuiSelectableFlagsPri...
 #include "magic/enum.hpp"					 // for SpellType, SpellID
@@ -69,13 +71,11 @@
 #include "types/character/create.hpp"		 // for CharacterCreate
 #include "types/character/inventory.hpp"	 // for Inventory
 #include "types/character/magic.hpp"		 // for ConstCharacterMagic
-#include "types/cheat.hpp"					 // for Cheat
 #include "types/component.hpp"				 // for Component
 #include "types/config.hpp"					 // for Config
 #include "types/dice.hpp"					 // for Dice
 #include "types/enum.hpp"					 // for ComponentType, Font, Class
 #include "types/error.hpp"					 // for Error, operator<<
-#include "types/game.hpp"					 // for Game
 #include "types/image.hpp"					 // for Image
 #include "types/item/item.hpp"				 // for Item
 #include "types/item/itemtype.hpp"			 // for ItemType

@@ -41,6 +41,7 @@
 #include "engine/graveyard.hpp"				// for Graveyard
 #include "engine/victory.hpp"				// for Victory
 #include "frontend/options.hpp"				// for Options
+#include "game/game.hpp"					// for Game
 #include "modules/tavern/inspect.hpp"		// for Inspect
 #include "modules/tavern/reorder.hpp"		// for Reorder
 #include "resources/imagestore.hpp"			// for ImageStore
@@ -49,7 +50,6 @@
 #include "types/character/character.hpp"	// for Character
 #include "types/character/inventory.hpp"	// for Inventory
 #include "types/enum.hpp"					// for TypeID, TypeID::BLUE_RIBBON
-#include "types/game.hpp"					// for Game
 #include "types/state.hpp"					// for State
 #include "types/world/explore.hpp"			// for Explore
 #include "types/world/level.hpp"			// for Level

@@ -30,7 +30,7 @@
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_EDGE_OF_TOWN
-#include "types/game.hpp"					// for Game
+#include "game/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 #include <memory>							// for unique_ptr

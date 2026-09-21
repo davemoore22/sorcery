@@ -23,10 +23,10 @@
 #include "core/controller/iteminvoke.hpp"
 #include "common/enum.hpp"				 // for Attribute, Class
 #include "core/debug.hpp"				 // for DEBUG_LOG
+#include "game/game.hpp"				 // for Game
 #include "types/character/character.hpp" // for Character
 #include "types/character/create.hpp"	 // for CharacterCreate
 #include "types/enum.hpp"				 // for Invoke, Invoke::AGE_BY_A_YEAR
-#include "types/game.hpp"				 // for Game
 #include "types/state.hpp"				 // for State
 #include <map>							 // for map
 #include <memory>						 // for unique_ptr

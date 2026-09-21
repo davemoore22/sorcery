@@ -29,12 +29,12 @@
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_INN
+#include "game/game.hpp"					// for Game
 #include "modules/inn/recovery.hpp"			// for Recovery
 #include "modules/inn/result.hpp"			// for Result, ResultType
 #include "types/character/character.hpp"	// for Character
 #include "types/character/create.hpp"		// for CharacterCreate
 #include "types/character/magic.hpp"		// for CharacterMagic
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 #include <array>							// for array

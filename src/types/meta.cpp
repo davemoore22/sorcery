@@ -114,6 +114,7 @@ INSTANTIATE_ENUM(Enums::Items::Effects::Offensive);
 INSTANTIATE_ENUM(Enums::Magic::SpellCategory);
 INSTANTIATE_ENUM(Enums::Magic::SpellID);
 INSTANTIATE_ENUM(Enums::Magic::SpellType);
+INSTANTIATE_ENUM(Enums::Magic::CastContext);
 INSTANTIATE_ENUM(Enums::Monsters::Category);
 INSTANTIATE_ENUM(Enums::Monsters::Class);
 INSTANTIATE_ENUM(Enums::Monsters::TypeID);

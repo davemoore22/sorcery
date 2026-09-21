@@ -35,6 +35,7 @@
 #include "display/ui/uistyle.hpp"			 // for set_text_dim
 #include "drawables/define.hpp"				 // for RECOVERY_BIRTHDAY, CHOO...
 #include "engine/define.hpp"				 // for CHEST_GFX_ID
+#include "game/game.hpp"					 // for Game
 #include "imgui.h"							 // for ImVec2, ImGuiWindowFlags_
 #include "resources/componentstore.hpp"		 // for ComponentStore
 #include "resources/define.hpp"				 // for EVENTS_TEXTURE
@@ -42,7 +43,6 @@
 #include "types/character/character.hpp"	 // for Character
 #include "types/character/create.hpp"		 // for CharacterCreate
 #include "types/component.hpp"				 // for Component
-#include "types/game.hpp"					 // for Game
 #include "types/meta.hpp"					 // for enum_cast
 #include <any>								 // for any_cast, any
 #include <format>							 // for format

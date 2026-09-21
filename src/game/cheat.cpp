@@ -20,18 +20,18 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/cheat.hpp"
+#include "game/cheat.hpp"
 #include "common/enum.hpp"				  // for Class, Align, Random, Status
 #include "core/context.hpp"				  // for Context
 #include "core/controller/controller.hpp" // for Controller
 #include "core/debug.hpp"				  // for DEBUG_LOG
 #include "core/resources.hpp"			  // for Resources
+#include "game/game.hpp"				  // for Game
 #include "resources/itemstore.hpp"		  // for ItemStore
 #include "types/character/character.hpp"  // for Character
 #include "types/character/create.hpp"	  // for CharacterCreate
 #include "types/character/inventory.hpp"  // for Inventory
 #include "types/enum.hpp"				  // for TypeID, TypeID::LONG_SWORD
-#include "types/game.hpp"				  // for Game
 #include "types/item/item.hpp"			  // for Item
 #include "types/meta.hpp"				  // for enum_cast
 #include "types/state.hpp"				  // for State

@@ -36,6 +36,7 @@
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
+#include "game/game.hpp"
 #include "modules/inn/inn.hpp"
 #include "modules/inn/recovery.hpp"
 #include "modules/inn/stay.hpp"
@@ -49,7 +50,6 @@
 #include "modules/temple/pay.hpp"
 #include "modules/temple/temple.hpp"
 #include "resources/define.hpp"
-#include "types/game.hpp"
 #include <chrono>
 
 Sorcery::Castle::Castle(Context &ctx)

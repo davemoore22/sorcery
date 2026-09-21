@@ -33,6 +33,7 @@
 
 namespace Sorcery { class Cheat; }
 namespace Sorcery { class State; }
+namespace Sorcery { class SpellCasting; }
 namespace Sorcery {
 namespace Enums {
 	namespace Items { enum class TypeID; }
@@ -105,6 +106,7 @@ class Game {
 
 		[[nodiscard]]
 		auto cheat() -> Cheat &;
+		auto spellcasting() -> SpellCasting &;
 
 	private:
 		// Private Methods
@@ -131,6 +133,7 @@ class Game {
 		std::vector<DungeonEvent> _events;
 
 		std::unique_ptr<Cheat> _cheat;
+		std::unique_ptr<SpellCasting> _spellcasting;
 };
 
 }

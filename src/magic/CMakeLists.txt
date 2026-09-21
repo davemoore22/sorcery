@@ -9,7 +9,7 @@ target_link_libraries(sorcery_magic PUBLIC
 )
 
 target_sources(sorcery_magic PRIVATE
-	${CMAKE_CURRENT_LIST_DIR}/casting.cpp
+	${CMAKE_CURRENT_LIST_DIR}/castcontext.cpp
 )
 
 set_source_files_properties(

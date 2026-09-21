@@ -25,3 +25,8 @@ Help
 
 - Finish Context Sensitive Help for all Modules
 - Split Engine Help across two columns
+
+Debug
+
+- Morrowind style console window
+- --debug and --profile command line options (not using CMake Defines?)

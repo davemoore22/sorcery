@@ -30,8 +30,8 @@
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_TRAINING_GROUNDS
 #include "drawables/drawable.hpp"			// for DrawableResult, Drawable...
+#include "game/game.hpp"					// for Game
 #include "types/enum.hpp"					// for DialogType
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 #include <memory>							// for unique_ptr

@@ -30,9 +30,9 @@
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_TRAINING_GROUNDS
+#include "game/game.hpp"					// for Game
 #include "types/character/character.hpp"	// for Character
 #include "types/character/create.hpp"		// for CharacterCreate
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 #include <map>								// for map

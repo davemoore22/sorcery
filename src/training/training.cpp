@@ -30,11 +30,11 @@
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_EDGE...
+#include "game/game.hpp"					// for Game
 #include "training/create.hpp"				// for Create
 #include "training/delete.hpp"				// for Delete
 #include "training/edit.hpp"				// for Edit
 #include "training/roster.hpp"				// for Roster
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 

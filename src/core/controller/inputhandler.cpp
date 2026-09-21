@@ -27,8 +27,8 @@
 #include "display/ui/ui.hpp"			  // for UI
 #include "display/ui/uimetrics.hpp"		  // for UIMetrics
 #include "engine/define.hpp"			  // for MOVE_BACKWARD, MOVE_FORWARD
+#include "game/game.hpp"				  // for Game
 #include "imgui.h"						  // for CloseCurrentPopup, ImGuiKey
-#include "types/game.hpp"				  // for Game
 #include "types/state.hpp"				  // for State
 #include <SDL_events.h>					  // for SDL_EventType, SDL_Event
 #include <SDL_keycode.h>				  // for SDL_KeyCode

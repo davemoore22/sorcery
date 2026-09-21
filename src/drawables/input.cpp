@@ -29,12 +29,12 @@
 #include "display/ui/popupmanager.hpp"	  // for PopupManager
 #include "display/ui/ui.hpp"			  // for UI
 #include "display/ui/uimetrics.hpp"		  // for UIMetrics
+#include "game/game.hpp"				  // for Game
 #include "misc/cpp/imgui_stdlib.h"		  // for InputText
 #include "resources/fontstore.hpp"		  // for FontStore
 #include "types/character/character.hpp"  // for Character
 #include "types/component.hpp"			  // for Component
 #include "types/enum.hpp"				  // for DialogType, Font
-#include "types/game.hpp"				  // for Game
 #include <imgui_sugar.hpp>				  // for BooleanGuard, set_StyleVar
 #include <map>							  // for map
 #include <memory>						  // for unique_ptr

@@ -29,7 +29,7 @@
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_FROM_INSPECT, ABORT...
-#include "types/game.hpp"					// for Game
+#include "game/game.hpp"					// for Game
 #include "types/state.hpp"					// for State
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any

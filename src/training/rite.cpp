@@ -30,11 +30,11 @@
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_EDIT, ABORT_GAME
 #include "drawables/drawable.hpp"			// for DrawableResult, Drawable...
+#include "game/game.hpp"					// for Game
 #include "modules/tavern/inspect.hpp"		// for Inspect
 #include "types/character/character.hpp"	// for Character
 #include "types/character/create.hpp"		// for CharacterCreate
 #include "types/enum.hpp"					// for DialogType
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 #include <map>								// for map

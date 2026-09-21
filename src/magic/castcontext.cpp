@@ -20,9 +20,9 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "magic/casting.hpp"
-#include "common/types.hpp" // for Spell
-#include "magic/enum.hpp"	// for CastContext, CastUsage, has_usage, CastC...
+#include "common/types.hpp"		 // for Spell
+#include "magic/castcontext.hpp" // for CastContext
+#include "magic/enum.hpp"		 // for CastUsage, has_usage, CastC...
 
 auto Sorcery::Magic::can_cast_in(const Spell &spell, const Enums::Magic::CastContext context) -> bool {
 

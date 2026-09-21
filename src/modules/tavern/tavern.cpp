@@ -35,12 +35,12 @@
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
+#include "game/game.hpp"
 #include "modules/tavern/add.hpp"
 #include "modules/tavern/inspect.hpp"
 #include "modules/tavern/remove.hpp"
 #include "modules/tavern/reorder.hpp"
 #include "resources/define.hpp"
-#include "types/game.hpp"
 #include "types/state.hpp"
 
 Sorcery::Tavern::Tavern(Context &ctx)

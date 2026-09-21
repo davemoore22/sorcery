@@ -29,8 +29,8 @@
 #include "core/enum.hpp"					 // for CharacterSlot, Screen (...
 #include "display/render.hpp"				 // for Render
 #include "display/ui/ui.hpp"				 // for UI
+#include "game/game.hpp"					 // for Game
 #include "resources/savestore.hpp"			 // for SaveStore
-#include "types/game.hpp"					 // for Game
 #include "types/meta.hpp"					 // for enum_name
 #include <format>							 // for format
 #include <initializer_list>					 // for initializer_list

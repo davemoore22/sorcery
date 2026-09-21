@@ -38,6 +38,7 @@
 #include "engine/engine.hpp"			  // for Engine
 #include "frontend/mainmenu.hpp"		  // for MainMenu
 #include "frontend/splash.hpp"			  // for Splash
+#include "game/game.hpp"				  // for Game
 #include "modules/castle.hpp"			  // for Castle
 #include "modules/edgeoftown.hpp"		  // for EdgeOfTown
 #include "resources/imagestore.hpp"		  // for ImageStore
@@ -46,7 +47,6 @@
 #include "types/character/create.hpp"	  // for CharacterCreate
 #include "types/character/inventory.hpp"  // for Inventory
 #include "types/enum.hpp"				  // for TypeID, TypeID::LEATHER_ARMOR
-#include "types/game.hpp"				  // for Game
 #include "types/item/itemtype.hpp"		  // for ItemType
 #include "types/state.hpp"				  // for State
 #include <algorithm>					  // for __contains_fn, __transform_fn

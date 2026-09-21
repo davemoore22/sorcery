@@ -33,6 +33,9 @@
 #include "display/ui/popupmanager.hpp"	  // for PopupManager
 #include "display/ui/ui.hpp"			  // for UI
 #include "drawables/define.hpp"			  // for MAIN_MENU_CONTINUE_GAME
+#include "game/game.hpp"				  // for Game
+#include "game/spellcasting.hpp"		  // for SpellCasting
+#include "magic/castrequest.hpp"		  // for CastRequest
 #include "magic/enum.hpp"				  // for SpellID (ptr only), SpellType
 #include "resources/itemstore.hpp"		  // for ItemStore
 #include "resources/spellstore.hpp"		  // for SpellStore
@@ -41,7 +44,6 @@
 #include "types/character/inventory.hpp"  // for Inventory
 #include "types/character/magic.hpp"	  // for ConstCharacterMagic
 #include "types/enum.hpp"				  // for TypeID, DialogType, Identi...
-#include "types/game.hpp"				  // for Game
 #include "types/item/item.hpp"			  // for Item
 #include "types/item/itemtype.hpp"		  // for ItemType
 #include "types/meta.hpp"				  // for enum_cast, enum_name
@@ -496,12 +498,17 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 		if (!spell_id)
 			return true;
 
-		auto &caster{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT))};
+		const Magic::CastRequest request{.spell = *spell_id,
+										 .context = Enums::Magic::CastContext::FIELD,
+										 .caster_id = _host.get_character(Enums::CharacterSlot::INSPECT)};
+		_host._game->spellcasting().begin(request);
 
-		const auto spell{_ctx.resources->spells->get(*spell_id)};
+		// auto &caster{_host._game->characters.at(_host.get_character(Enums::CharacterSlot::INSPECT))};
 
-		DEBUG_LOGF("Cast Spell: {} type={} category={} level={} caster={}", spell.name, enum_name(spell.type),
-				   enum_name(spell.category), spell.level, caster.get_name());
+		// const auto spell{_ctx.resources->spells->get(*spell_id)};
+
+		// DEBUG_LOGF("Cast Spell: {} type={} category={} level={} caster={}", spell.name, enum_name(spell.type),
+		//		   enum_name(spell.category), spell.level, caster.get_name());
 
 		return true;
 	} else if (component == "drop_menu") {
