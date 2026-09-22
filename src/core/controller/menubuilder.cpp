@@ -234,8 +234,8 @@ auto Sorcery::MenuBuilder::_load_party_characters(std::vector<std::string> &item
 		} else if (flags & MENU_SHOW_AVOID_TRAP) {
 			items.emplace_back(std::format("{:<21} {:>3}%", name_str, 100 - character.get_activate_trap()));
 		} else if (flags & MENU_SHOW_HEALTH) {
-			items.emplace_back(
-				std::format("{:<16} {:>3}/{:>3}", name_str, character.get_current_hp(), character.get_max_hp()));
+			items.emplace_back(std::format("{:<16} {:>3}/{:<3} {:<8}", name_str, character.get_current_hp(),
+										   character.get_max_hp(), character.get_status_string()));
 		} else if (flags & MENU_SHOW_DISARM_TRAP) {
 			items.emplace_back(std::format("{:<21} {:>3}%", name_str, character.get_disarm_trap()));
 		} else if (flags & MENU_SHOW_CALFO_USES_LEFT) {

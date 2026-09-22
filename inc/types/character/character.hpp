@@ -149,6 +149,7 @@ class Character {
 		auto abilities() const -> const std::map<Enums::Character::Ability, int> &;
 		auto get_wiz_1_award() const -> bool;
 		auto set_wiz_1_awatd(const bool value) -> void;
+		auto get_spell_resurrection_chance() const -> unsigned int;
 
 		// Public Members
 		std::optional<Coordinate> coordinate;

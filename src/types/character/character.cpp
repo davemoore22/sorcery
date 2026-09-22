@@ -414,6 +414,11 @@ auto Sorcery::Character::apply_regeneration_and_poison() -> bool {
 	return true;
 }
 
+auto Sorcery::Character::get_spell_resurrection_chance() const -> unsigned int {
+
+	return _abilities.at(Enums::Character::Ability::DI_KADORTO_RESURRECT);
+}
+
 auto Sorcery::Character::get_status_string() const -> std::string {
 
 	if (!_hidden) {

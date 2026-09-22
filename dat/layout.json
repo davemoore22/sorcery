@@ -294,7 +294,7 @@
 					"name": "modal_party_spell_target",
 					"x": "centre",
 					"y": "8",
-					"w": "24",
+					"w": "34",
 					"h": "15",
 					"font": "monospace",
 					"type": "choice",
