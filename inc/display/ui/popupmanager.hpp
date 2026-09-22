@@ -75,6 +75,7 @@ class PopupManager {
 		[[nodiscard]] auto consume_accepted(std::string_view name) -> bool;
 		[[nodiscard]] auto active() const -> bool;
 		[[nodiscard]] auto is_active(std::string_view name) const -> bool;
+		auto refresh_modal() -> void;
 
 	private:
 		Context &_ctx;
@@ -87,6 +88,7 @@ class PopupManager {
 		bool _displaying{};
 		std::optional<PendingModal> _pending_modal;
 		bool _input_mode_pushed{false};
+		bool _refresh_modal{false};
 
 		auto _open_modal(const std::string_view component) -> void;
 		auto _open_modal(std::string_view component, std::string_view menu_name) -> void;

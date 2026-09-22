@@ -24,6 +24,7 @@
 #include "common/types.hpp"
 #include "core/context.hpp"
 #include "core/debug.hpp"
+#include "core/random.hpp"
 #include "core/resources.hpp"
 #include "game/game.hpp"
 #include "magic/castcontext.hpp"
@@ -35,7 +36,6 @@ Sorcery::SpellCasting::SpellCasting(Context &ctx, Game &game)
 	  _game{game} {}
 
 Sorcery::SpellCasting::~SpellCasting() = default;
-
 auto Sorcery::SpellCasting::begin(const Magic::CastRequest &request) -> Magic::CastPlan {
 
 	const auto spell{_ctx.resources->spells->get(request.spell)};
@@ -44,6 +44,9 @@ auto Sorcery::SpellCasting::begin(const Magic::CastRequest &request) -> Magic::C
 			   enum_name(request.context));
 
 	const auto requirement{_get_requirement(spell, request.context)};
+
+	if (requirement != Magic::CastRequirement::NONE)
+		_pending = request;
 
 	return {.request = request, .requirement = requirement};
 }
@@ -80,4 +83,68 @@ auto Sorcery::SpellCasting::_get_requirement(const Spell &spell, const Enums::Ma
 	default:
 		return NONE;
 	}
+}
+
+auto Sorcery::SpellCasting::select_party_target(const unsigned int target_id) -> bool {
+
+	if (!_pending)
+		return false;
+
+	auto request{*_pending};
+	request.target_id = target_id;
+
+	return _resolve(std::move(request));
+}
+
+auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
+
+	using enum Enums::Magic::SpellID;
+
+	const auto spell{_ctx.resources->spells->get(request.spell)};
+
+	if (!request.target_id)
+		return false;
+
+	auto caster_it{_game.characters.find(request.caster_id)};
+
+	auto target_it{_game.characters.find(*request.target_id)};
+
+	if (caster_it == _game.characters.end() || target_it == _game.characters.end())
+		return false;
+
+	auto &caster{caster_it->second};
+	auto &target{target_it->second};
+
+	if (!caster.magic().can_cast(spell.type, static_cast<int>(spell.level)))
+		return false;
+
+	switch (spell.id) {
+
+	case DIOS: {
+
+		if (!caster.magic().spend_spell_point(spell.type, spell.level))
+			return false;
+
+		const auto before{target.get_current_hp()};
+
+		// DIOS healing roll here.
+		const auto healing{_ctx.random->get(Enums::System::Random::D165)};
+		target.heal(healing);
+
+		const auto healed{target.get_current_hp() - before};
+		DEBUG_LOGF("DIOS: caster={} target={} healed={} remaining={}", request.caster_id, *request.target_id, healed,
+				   caster.magic().priest_current_spellpoints().at(spell.level));
+
+		return caster.magic().can_cast(spell.type, static_cast<int>(spell.level));
+	}
+
+	default:
+		DEBUG_LOGF("Spell resolution not implemented: {}", spell.name);
+		return false;
+	}
+}
+
+auto Sorcery::SpellCasting::cancel() -> void {
+
+	_pending.reset();
 }

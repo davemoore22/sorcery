@@ -85,6 +85,8 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"give_menu", {"GIVE_RETURN"}},
 	{"remove_item_menu", {"REMOVE_ITEM_RETURN"}},
 
+	{"party_spell_target_menu", {"PARTY_SPELL_TARGET_RETURN"}},
+
 	{"inn_menu", {"INN_RETURN"}},
 
 	{"temple_heal_menu", {"TEMPLE_RETURN"}},
@@ -229,16 +231,15 @@ auto Sorcery::MenuBuilder::_load_party_characters(std::vector<std::string> &item
 			items.emplace_back(std::format("{:<16} {:>8} G.P.", name_str, character.get_gold()));
 		else if (flags & MENU_SHOW_IDENTIFY_TRAP) {
 			items.emplace_back(std::format("{:<21} {:>3}%", name_str, character.get_identify_trap()));
-
 		} else if (flags & MENU_SHOW_AVOID_TRAP) {
 			items.emplace_back(std::format("{:<21} {:>3}%", name_str, 100 - character.get_activate_trap()));
-
+		} else if (flags & MENU_SHOW_HEALTH) {
+			items.emplace_back(
+				std::format("{:<16} {:>3}/{:>3}", name_str, character.get_current_hp(), character.get_max_hp()));
 		} else if (flags & MENU_SHOW_DISARM_TRAP) {
 			items.emplace_back(std::format("{:<21} {:>3}%", name_str, character.get_disarm_trap()));
-
 		} else if (flags & MENU_SHOW_CALFO_USES_LEFT) {
 			items.emplace_back(std::format("{:<21} ({:>1})", name_str, character.magic().get_calfo_uses_left()));
-
 		} else if (flags & MENU_SHOW_SPACE) {
 			const auto slots_free{character.inventory.get_empty_slots()};
 			items.emplace_back(std::format("{:<21} ({:>1})", name_str, slots_free));
@@ -375,7 +376,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name, unsigned int widt
 
 	// Dynamic menus
 	if (menu_name == "choose_menu" || menu_name == "inspect_menu" || menu_name == "remove_character_menu" ||
-		menu_name == "tithe_menu" || menu_name == "pay_menu" || menu_name == "give_menu") {
+		menu_name == "tithe_menu" || menu_name == "pay_menu" || menu_name == "give_menu" ||
+		menu_name == "party_spell_target_menu") {
 
 		_load_party_characters(items, data, flags, reorder);
 		_load_fixed_menu(menu_name, width, items);
@@ -518,6 +520,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const -> 
 		std::pair{"chest_open_menu", MENU_SHOW_AVOID_TRAP},
 		std::pair{"chest_calfo_menu", MENU_SHOW_CALFO_USES_LEFT},
 		std::pair{"chest_disarm_menu", MENU_SHOW_DISARM_TRAP},
+		std::pair{"party_spell_target_menu", MENU_SHOW_HEALTH},
 	};
 
 	if (const auto it = std::ranges::find(MENU_FLAG_MAP, menu_name, &std::pair<const char *, int>::first);

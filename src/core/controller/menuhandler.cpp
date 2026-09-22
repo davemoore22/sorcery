@@ -512,7 +512,9 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 			break;
 
 		case PARTY_MEMBER:
-			DEBUG_LOG("Spell requires party member");
+			_ctx.ui->popup_manager->open_modal("global:modal_party_spell_target", "party_spell_target_menu",
+											   "PARTY_SPELL_TARGET_TITLE");
+
 			break;
 
 		case DESTINATION:
@@ -804,6 +806,32 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 		_ctx.game->state->buy_from_shop(*item_type_id);
 
 		_host._game->save_game();
+
+		return true;
+
+	} else if (component == "party_spell_target_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host._game->spellcasting().cancel();
+
+			_ctx.ui->popup_manager->close();
+
+			return true;
+		}
+
+		const auto can_continue{_host._game->spellcasting().select_party_target(static_cast<unsigned int>(data))};
+
+		if (can_continue) {
+
+			_ctx.ui->popup_manager->refresh_modal();
+
+		} else {
+
+			_host._game->spellcasting().cancel();
+
+			_ctx.ui->popup_manager->open_modal("global:modal_spell", "spell_menu");
+		}
 
 		return true;
 	}

@@ -46,6 +46,7 @@ class Modal2 final : public Drawable {
 		auto build(Component &component, std::string_view menu_name) -> void;
 		auto display() -> void override;
 		auto set_title(std::string_view key) -> void;
+		auto regenerate() -> void;
 
 	private:
 		auto _build(Component &component, std::string_view menu_name) -> void;

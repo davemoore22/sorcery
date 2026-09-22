@@ -121,3 +121,24 @@ auto Sorcery::CharacterMagic::set_spells() -> void {
 			(*it).known = spell_known.second;
 	}
 }
+
+auto Sorcery::CharacterMagic::spend_spell_point(const Enums::Magic::SpellType spell_type,
+												const unsigned int spell_level) -> bool {
+
+	using enum Enums::Magic::SpellType;
+
+	if (!can_cast(spell_type, spell_level))
+		return false;
+
+	if (spell_type == ARCANE) {
+		--_m_character->_mage_cur_sp.at(spell_level);
+		return true;
+	}
+
+	if (spell_type == DIVINE) {
+		--_m_character->_priest_cur_sp.at(spell_level);
+		return true;
+	}
+
+	return false;
+}

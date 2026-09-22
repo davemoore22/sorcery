@@ -92,6 +92,14 @@ auto Sorcery::PopupManager::display() -> void {
 	active->display();
 	_displaying = false;
 
+	if (_refresh_modal) {
+
+		_refresh_modal = false;
+
+		if (_active == _modal2.get())
+			_modal2->regenerate();
+	}
+
 	if (_pending_modal) {
 
 		auto pending{std::move(*_pending_modal)};
@@ -258,7 +266,7 @@ auto Sorcery::PopupManager::open_modal(const std::string_view component, const s
 		if (_active)
 			_active->close();
 
-		_pending_modal = PendingModal{.component = std::string{component}};
+		_pending_modal = PendingModal{.component = std::string{component}, .menu_name = std::string{menu_name}};
 
 		return;
 	}
@@ -296,7 +304,9 @@ auto Sorcery::PopupManager::open_modal(const std::string_view component, const s
 		if (_active)
 			_active->close();
 
-		_pending_modal = PendingModal{.component = std::string{component}};
+		_pending_modal = PendingModal{.component = std::string{component},
+									  .menu_name = std::string{menu_name},
+									  .title_key = std::string{title_key}};
 
 		return;
 	}
@@ -334,4 +344,17 @@ auto Sorcery::PopupManager::_pop_input_mode() -> void {
 
 	_ctx.controller->pop_input_mode();
 	_input_mode_pushed = false;
+}
+
+/// @brief
+/// @return
+auto Sorcery::PopupManager::refresh_modal() -> void {
+
+	if (_displaying) {
+		_refresh_modal = true;
+		return;
+	}
+
+	if (_active == _modal2.get())
+		_modal2->regenerate();
 }

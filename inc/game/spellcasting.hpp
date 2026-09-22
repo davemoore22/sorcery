@@ -37,12 +37,17 @@ class SpellCasting {
 		~SpellCasting();
 
 		auto begin(const Magic::CastRequest &request) -> Magic::CastPlan;
+		auto select_party_target(unsigned int target_id) -> bool;
+		auto cancel() -> void;
 
 	private:
 		Context &_ctx;
 		Game &_game;
 
+		std::optional<Magic::CastRequest> _pending;
+
 		auto _get_requirement(const Spell &spell, Enums::Magic::CastContext context) const -> Magic::CastRequirement;
+		auto _resolve(Magic::CastRequest request) -> bool;
 };
 
 }

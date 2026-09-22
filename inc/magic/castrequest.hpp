@@ -40,6 +40,7 @@ struct CastRequest {
 		Enums::Magic::SpellID spell{Enums::Magic::SpellID::NO_SPELL};
 		Enums::Magic::CastContext context{Enums::Magic::CastContext::FIELD};
 		unsigned int caster_id{0};
+		std::optional<unsigned int> target_id;
 };
 
 struct CastPlan {

@@ -135,6 +135,7 @@ inline constexpr auto MENU_SHOW_IDENTIFY_TRAP{8};
 inline constexpr auto MENU_SHOW_DISARM_TRAP{16};
 inline constexpr auto MENU_SHOW_CALFO_USES_LEFT{32};
 inline constexpr auto MENU_SHOW_AVOID_TRAP{64};
+inline constexpr auto MENU_SHOW_HEALTH{128};
 
 // Item Menu Mode
 inline constexpr auto MENU_IDENTIFY_ITEM{1};

@@ -61,6 +61,7 @@ class CharacterMagic : public ConstCharacterMagic {
 		auto reset_spells() -> void;
 		auto replenish_spells() -> void;
 		auto set_spells() -> void;
+		auto spend_spell_point(Enums::Magic::SpellType spell_type, unsigned int spell_level) -> bool;
 
 	private:
 		Character *_m_character;

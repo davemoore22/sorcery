@@ -69,6 +69,12 @@ auto Sorcery::Modal2::_build(Component &component, const std::string_view menu_n
 	_update_height();
 }
 
+auto Sorcery::Modal2::regenerate() -> void {
+
+	_build_menu();
+	_update_height();
+}
+
 auto Sorcery::Modal2::_build_menu() -> void {
 
 	_items.clear();
