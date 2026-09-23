@@ -55,7 +55,9 @@ const Cheat::Action Cheat::_actions[]{
 	{"Harm party to minimum", &Cheat::harm_party_to_min},
 	{"Level up all party members", &Cheat::level_up_party},
 	{"Kill party", &Cheat::kill_party},
-	{"Toggle light", &Cheat::toggle_light},
+	{"Toggle LOMILWA", &Cheat::toggle_light},
+	{"Toggle LATUMAPIC", &Cheat::toggle_identify},
+	{"Toggle MAPORFIC", &Cheat::toggle_shield},
 	{"Give party quest items", &Cheat::give_party_quest_items},
 	{"Start chest event", &Cheat::start_chest_event},
 	{"Toggle debug display", &Cheat::show_debug},
@@ -160,8 +162,25 @@ auto Sorcery::Cheat::toggle_light() -> void {
 
 	DEBUG_LOG("_debug_toggle_light");
 
-	_game.state->set_lit(!_game.state->get_lit());
+	if (_game.state->get_lit())
+		_game.state->set_lit(0);
+	else
+		_game.state->set_lit(32000);
 };
+
+auto Sorcery::Cheat::toggle_shield() -> void {
+
+	DEBUG_LOG("_debug_toggle_shield");
+
+	_game.state->set_maporfic(!_game.state->get_maporifc());
+}
+
+auto Sorcery::Cheat::toggle_identify() -> void {
+
+	DEBUG_LOG("_debug_toggle_identify");
+
+	_game.state->set_latumapic(!_game.state->get_latumapic());
+}
 
 auto Sorcery::Cheat::heal_party_to_full() -> void {
 

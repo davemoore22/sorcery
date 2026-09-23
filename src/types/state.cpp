@@ -71,7 +71,7 @@ auto Sorcery::State::print() -> void {
 	text.append(std::format("{}\n", _player_depth));
 	text.append(std::format("{}\\{}\n", _player_pos.x, _player_pos.y));
 	text.append(std::format("{}\n", (int)_playing_facing));
-	text.append(std::format("{}\n", _lit));
+	text.append(std::format("{}\n", _light_turns));
 	text.append(std::format("{}\n\n[", _turns));
 
 	for (const auto id : _party) {
@@ -103,6 +103,8 @@ auto Sorcery::State::get_turns() const -> unsigned int {
 auto Sorcery::State::pass_turn(unsigned int turns) -> void {
 
 	_turns += turns;
+	if (_light_turns > 0)
+		--_light_turns;
 }
 
 auto Sorcery::State::_clear_explored() -> void {
@@ -130,14 +132,39 @@ auto Sorcery::State::restart_expedition() -> void {
 	_restart_expedition();
 }
 
-auto Sorcery::State::set_lit(bool lit) -> void {
+auto Sorcery::State::set_lit(const int turns) -> void {
 
-	_lit = lit;
+	_light_turns = turns;
 }
 
 auto Sorcery::State::get_lit() const -> bool {
 
-	return _lit;
+	return _light_turns > 0;
+}
+
+auto Sorcery::State::get_lit_turns() const -> int {
+
+	return _light_turns;
+}
+
+auto Sorcery::State::set_maporfic(const bool value) -> void {
+
+	_maporfic = value;
+}
+
+auto Sorcery::State::get_maporifc() const -> bool {
+
+	return _maporfic;
+}
+
+auto Sorcery::State::set_latumapic(const bool value) -> void {
+
+	_latumapic = value;
+}
+
+auto Sorcery::State::get_latumapic() const -> bool {
+
+	return _latumapic;
 }
 
 auto Sorcery::State::set_player_prev_depth(int depth) -> void {
@@ -165,7 +192,7 @@ auto Sorcery::State::_restart_expedition() -> void {
 	_playing_facing = Enums::Map::Direction::NORTH;
 	_player_pos = Coordinate{0, 0};
 	_player_depth = -1;
-	_lit = false;
+	_light_turns = 0;
 }
 
 auto Sorcery::State::post_construct(Context *ctx) -> void {

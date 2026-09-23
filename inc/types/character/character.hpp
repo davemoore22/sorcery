@@ -116,7 +116,7 @@ class Character {
 		auto get_short_hp_summary() const -> std::string;
 		auto is_legated() const -> bool;
 		auto get_version() const -> int;
-		auto get_party_panel_text(const int position) -> std::string;
+		auto get_party_panel_text(const int position, const bool maporfic = false) -> std::string;
 		auto get_current_hp() const -> int;
 		auto get_max_hp() const -> int;
 		auto adjust_max_hp(const int value) -> void;
@@ -127,8 +127,8 @@ class Character {
 		auto set_hp_loss_per_turn(const int adjustment) -> void;
 		auto reset_adjustment_per_turn() -> void;
 		auto get_hp_adjustment_symbol() const -> char;
-		auto get_cur_ac() const -> int;
-		auto get_cur_ac_str() const -> std::string;
+		auto get_cur_ac(const bool maporfic = false) const -> int;
+		auto get_cur_ac_str(const bool maporfic = false) const -> std::string;
 		auto get_cur_to_hit() const -> int;
 		auto get_cur_num_attacks() const -> int;
 		auto get_cur_xp() const -> int;

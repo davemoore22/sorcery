@@ -589,6 +589,8 @@ auto Sorcery::Application::_start_new_game(const bool quickstart) -> void {
 /// @return
 auto Sorcery::Application::_add_quickstart_party() -> void {
 
+	constexpr auto LEVEL_BOOST{7};
+
 	ctx.game->state->clear_party();
 
 	// Create a new random party of a random alignment
@@ -675,6 +677,9 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 		default:
 			break;
 		}
+
+		for (auto i = 1; i <= LEVEL_BOOST; i++)
+			pc.create().level_up();
 
 		if (i < 6)
 			pc.set_location(Enums::Character::Location::PARTY);

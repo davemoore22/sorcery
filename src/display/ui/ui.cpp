@@ -1089,7 +1089,8 @@ auto Sorcery::UI::draw_character_summary(Component *component, const Character *
 
 	pos = metrics->grid_pos(right_col, component->y + 4);
 	ImGui::SetCursorPos(pos);
-	ImGui::TextUnformatted(std::format("A.C. {:>2}", character->get_cur_ac_str()).c_str());
+	ImGui::TextUnformatted(
+		std::format("A.C. {:>2}", character->get_cur_ac_str(_ctx.game->state->get_maporifc())).c_str());
 
 	auto slot{1u};
 	pos = metrics->grid_pos(left_col, component->y + 9);
@@ -2087,22 +2088,34 @@ auto Sorcery::UI::draw_buffbar() -> void {
 
 	// Get Icon Effects
 	const auto icon_depth{UIStyle::icon_depth(scale)};
-	const auto light_idx{_ctx.game->state->get_lit() ? ICON_BUFF_EXTRA_LIGHT : ICON_BUFF_LIGHT};
-	const auto tint{_ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
-													  : UIStyle::icon_colour(light_idx)};
 
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		draw_frame(&frame_cmp);
 
 		ImGui::SetCursorPos(ImVec2{x, y});
+		auto light_idx{_ctx.game->state->get_lit() ? ICON_BUFF_EXTRA_LIGHT : ICON_BUFF_LIGHT};
+		auto tint{_ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f} : UIStyle::icon_colour(light_idx)};
 
 		draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, light_idx, ImVec2{x, y}, ImVec2{width, height}, tint,
 							   icon_depth);
 
 		y += height;
 
-		// TODO
+		if (_ctx.game->state->get_latumapic()) {
+			tint = _ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
+													 : UIStyle::icon_colour(ICON_BUFF_KNOWLEDGE);
+			draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, ICON_BUFF_KNOWLEDGE, ImVec2{x, y},
+								   ImVec2{width, height}, tint, icon_depth);
+		}
+
+		y += height;
+		if (_ctx.game->state->get_maporifc()) {
+			tint = _ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
+													 : UIStyle::icon_colour(ICON_BUFF_SHIELD);
+			draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, ICON_BUFF_SHIELD, ImVec2{x, y},
+								   ImVec2{width, height}, tint, icon_depth);
+		}
 	}
 }
 
@@ -2326,7 +2339,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 
 				auto &character{_ctx.game->characters.at(character_id)};
 
-				const auto summary{character.get_party_panel_text(position)};
+				const auto summary{character.get_party_panel_text(position, _ctx.game->state->get_maporifc())};
 
 				const auto text_colour{_get_status_color(&character)};
 

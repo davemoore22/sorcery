@@ -106,6 +106,12 @@ namespace UIStyle {
 		case ICON_BUFF_EXTRA_LIGHT:
 			return {1.00f, 0.90f, 0.45f, 1.0f};
 
+		case ICON_BUFF_KNOWLEDGE:
+			return {0.45f, 0.90f, 1.00f, 1.0f};
+
+		case ICON_BUFF_SHIELD:
+			return {0.90f, 0.45f, 1.00f, 1.0f};
+
 		case ICON_BUFF_LIGHT:
 			return {1.00f, 0.55f, 0.15f, 1.0f};
 

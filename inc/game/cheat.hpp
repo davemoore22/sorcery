@@ -62,6 +62,8 @@ class Cheat {
 		auto harm_party_to_min() -> void;
 		auto kill_party() -> void;
 		auto toggle_light() -> void;
+		auto toggle_shield() -> void;
+		auto toggle_identify() -> void;
 		auto give_party_quest_items() -> void;
 		auto start_chest_event() -> void;
 		auto show_debug() -> void;

@@ -1138,6 +1138,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 	const auto loc{_ctx.game->state->get_player_pos()};
 	const auto &tile{_ctx.game->state->level->at(loc)};
+	_apply_tile_environment(tile);
 
 	// Once-per-delve / special combat events
 	if (const auto event{tile.has_event()}; event) {
@@ -1189,14 +1190,8 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 		}
 	}
 
-	// Darkness
-	using enum Enums::Tile::Properties;
-
 	if (!_tile_explored(loc))
 		_set_tile_explored(loc);
-
-	if (tile.is(DARKNESS) && _ctx.game->state->get_lit())
-		_ctx.game->state->set_lit(false);
 
 	// Stairs
 	using enum Enums::Tile::Features;
@@ -1283,6 +1278,18 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 	}
 
 	return true;
+}
+
+auto Sorcery::Engine::_apply_tile_environment(const Tile &tile) -> void {
+
+	using enum Enums::Tile::Properties;
+
+	if (tile.is(DARKNESS) && _ctx.game->state->get_lit() > 0) {
+
+		_ctx.game->state->set_lit(0);
+
+		DEBUG_LOG("Darkness extinguished magical light");
+	}
 }
 
 auto Sorcery::Engine::_process_tile_entry(const Coordinate from, const Coordinate to) -> bool {

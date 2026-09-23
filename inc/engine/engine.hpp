@@ -102,6 +102,7 @@ class Engine final : public Module {
 		[[nodiscard]] auto _triggers_guaranteed_encounter(int depth, Coordinate from, Coordinate to) const -> bool;
 		[[nodiscard]] auto _process_tile_entry(Coordinate from, Coordinate to) -> bool;
 		[[nodiscard]] auto _process_current_tile() -> bool;
+		auto _apply_tile_environment(const Tile &tile) -> void;
 
 		auto _start_chest() -> int;
 		auto _show_elevator_modal(const Elevator &elevator) -> void;
