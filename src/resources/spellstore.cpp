@@ -80,13 +80,13 @@ constexpr std::array SPELL_DEFINITIONS{
 	SpellDefinition{MAMORLIS, ARCANE, DISABLE, 5, CastUsage::USE_IN_COMBAT},
 
 	// Arcane - Level 6
-	SpellDefinition{HAMAN, ARCANE, SUPPORT, 6, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{HAMAN, ARCANE, SUPPORT, 6, CastUsage::USE_IN_COMBAT},
 	SpellDefinition{LAKANITO, ARCANE, ATTACK, 6, CastUsage::USE_IN_COMBAT},
 	SpellDefinition{MASOPIC, ARCANE, ATTACK, 6, CastUsage::USE_IN_COMBAT},
 	SpellDefinition{ZILWAN, ARCANE, ATTACK, 6, CastUsage::USE_IN_COMBAT},
 
 	// Arcane - Level 7
-	SpellDefinition{MAHAMAN, ARCANE, SUPPORT, 7, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
+	SpellDefinition{MAHAMAN, ARCANE, SUPPORT, 7, CastUsage::USE_IN_COMBAT},
 	SpellDefinition{MALOR, ARCANE, FIELD, 7, CastUsage::USE_IN_FIELD | CastUsage::USE_IN_COMBAT},
 	SpellDefinition{TILTOWAIT, ARCANE, ATTACK, 7, CastUsage::USE_IN_COMBAT},
 

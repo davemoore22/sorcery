@@ -33,6 +33,7 @@
 #include "core/controller/inputhandler.hpp"	 // for ControllerInputHandler
 #include "core/controller/menubuilder.hpp"	 // for MenuBuilder
 #include "core/controller/menuhandler.hpp"	 // for ControllerMenuHandler
+#include "core/debug.hpp"					 // for DEBUG_LOGF
 #include "core/define.hpp"					 // for WINDOW_LAYER_TEXTS, WIN...
 #include "core/enum.hpp"					 // for Screen, CharacterSlot
 #include "core/help.hpp"					 // for MAX_GLYPHS, HelpEntry
@@ -150,7 +151,7 @@ Sorcery::UI::UI(Context &ctx)
 	ui_rd = std::stoi(_ctx.get_config("UI", "rounding"));
 
 	// Updates _font_sz, _adj_grid_w, _adj_grid_h, and _grid_sz
-	_ctx.display->update_display_metrics();
+	_ctx.display->resize();
 	metrics->update(_ctx.display->get_display_metrics());
 
 	// Render window
@@ -164,11 +165,17 @@ Sorcery::UI::~UI() {}
 
 auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 
-	if (value)
-		SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), SDL_WINDOW_FULLSCREEN_DESKTOP);
-	else
-		SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), 0);
+	const Uint32 flags{value ? static_cast<Uint32>(SDL_WINDOW_FULLSCREEN_DESKTOP) : 0u};
 
+	if (SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), flags) != 0) {
+
+		DEBUG_LOGF("Unable to change fullscreen mode: {}", SDL_GetError());
+
+		return;
+	}
+
+	_ctx.display->resize();
+	metrics->update(_ctx.display->get_display_metrics());
 	_ctx.controller->set_fullscreen(value);
 }
 

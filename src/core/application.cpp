@@ -589,7 +589,7 @@ auto Sorcery::Application::_start_new_game(const bool quickstart) -> void {
 /// @return
 auto Sorcery::Application::_add_quickstart_party() -> void {
 
-	constexpr auto LEVEL_BOOST{7};
+	constexpr auto LEVEL_BOOST{20};
 
 	ctx.game->state->clear_party();
 
