@@ -23,6 +23,7 @@
 #pragma once
 
 #include "drawables/drawable.hpp" // for Drawable
+#include <optional>
 
 namespace Sorcery { class Component; }
 namespace Sorcery {
@@ -42,9 +43,11 @@ class Dialog final : public Drawable {
 		auto build(Component &component) -> void override;
 		auto build(Component &component, Enums::Layout::DialogType type) -> void;
 		auto display() -> void override;
+		auto set_text(std::string text) -> void;
 
 	private:
 		Enums::Layout::DialogType _type;
+		std::optional<std::string> _text;
 };
 
 }

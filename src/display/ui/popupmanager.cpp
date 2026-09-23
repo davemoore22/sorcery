@@ -29,7 +29,8 @@
 #include "drawables/modal2.hpp"			  // for Modal2
 #include "resources/componentstore.hpp"	  // for ComponentStore
 #include "types/enum.hpp"				  // for DialogType
-#include <utility>						  // for move
+#include <optional>
+#include <utility> // for move
 
 /// @brief
 /// @param ctx
@@ -91,6 +92,16 @@ auto Sorcery::PopupManager::display() -> void {
 	_displaying = true;
 	active->display();
 	_displaying = false;
+
+	if (_pending_dialog) {
+
+		auto pending{std::move(*_pending_dialog)};
+		_pending_dialog.reset();
+
+		_open_dialog(pending.component, pending.type, std::move(pending.text));
+
+		return;
+	}
 
 	if (_refresh_modal) {
 
@@ -357,4 +368,53 @@ auto Sorcery::PopupManager::refresh_modal() -> void {
 
 	if (_active == _modal2.get())
 		_modal2->regenerate();
+}
+
+auto Sorcery::PopupManager::open_dialog(const std::string_view component, const Enums::Layout::DialogType type,
+										std::string text) -> void {
+
+	if (_displaying) {
+
+		if (_active)
+			_active->close();
+
+		_pending_dialog = PendingDialog{.component = std::string{component}, .type = type, .text = std::move(text)};
+
+		return;
+	}
+
+	_open_dialog(component, type, std::move(text));
+}
+
+auto Sorcery::PopupManager::_open_dialog(const std::string_view component, const Enums::Layout::DialogType type,
+										 std::optional<std::string> text) -> void {
+
+	close();
+
+	_completed.reset();
+
+	auto &cmp{_ctx.components->get(component)};
+
+	_dialog->build(cmp, type);
+
+	if (text)
+		_dialog->set_text(std::move(*text));
+
+	_dialog->open();
+
+	_active = _dialog.get();
+
+	using enum Enums::Input::Mode;
+
+	switch (type) {
+	case Enums::Layout::DialogType::CONFIRM:
+		_ctx.controller->push_input_mode(CONFIRMATION);
+		break;
+
+	case Enums::Layout::DialogType::OK:
+		_ctx.controller->push_input_mode(NOTIFICATION);
+		break;
+	}
+
+	_input_mode_pushed = true;
 }

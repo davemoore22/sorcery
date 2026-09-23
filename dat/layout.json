@@ -291,6 +291,16 @@
 					]
 				},
 				{
+					"name": "dialog_dumapic",
+					"x": "centre",
+					"y": "centre",
+					"w": "30",
+					"h": "10",
+					"font": "monospace",
+					"type": "dialog",
+					"drawmode": "manual"
+				},
+				{
 					"name": "modal_party_spell_target",
 					"x": "centre",
 					"y": "8",

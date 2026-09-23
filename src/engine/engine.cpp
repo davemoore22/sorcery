@@ -329,12 +329,17 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					QUICK_FADE);
 
 				const auto party{_ctx.game->state->get_party_characters()};
+				const auto loc{_ctx.game->state->get_player_pos()};
+				const auto depth{_ctx.game->state->get_depth()};
 
 				for (auto &[id, character] : _ctx.game->characters) {
 
 					if (std::find(party.begin(), party.end(), id) != party.end()) {
 
 						character.set_location(Enums::Character::Location::MAZE);
+
+						character.coordinate = loc;
+						character.depth = depth;
 
 						character.set_current_hp(0);
 					}
@@ -432,12 +437,16 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (_ctx.controller->has_flag("want_quit_expedition")) {
 
 				auto party{_ctx.game->state->get_party_characters()};
+				const auto loc{_ctx.game->state->get_player_pos()};
+				const auto depth{_ctx.game->state->get_depth()};
 
 				for (auto &[id, character] : _ctx.game->characters) {
 
 					if (std::find(party.begin(), party.end(), id) != party.end()) {
 
 						character.set_location(Enums::Character::Location::MAZE);
+						character.coordinate = loc;
+						character.depth = depth;
 					}
 				}
 

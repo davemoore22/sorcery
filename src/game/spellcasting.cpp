@@ -26,11 +26,15 @@
 #include "core/debug.hpp"
 #include "core/random.hpp"
 #include "core/resources.hpp"
+#include "display/ui/popupmanager.hpp"
+#include "display/ui/ui.hpp"
 #include "game/game.hpp"
 #include "magic/castcontext.hpp"
 #include "resources/spellstore.hpp"
 #include "types/meta.hpp"
 #include "types/state.hpp"
+#include <string>
+#include <string_view>
 
 Sorcery::SpellCasting::SpellCasting(Context &ctx, Game &game)
 	: _ctx{ctx},
@@ -409,6 +413,26 @@ auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
 		DEBUG_LOG("MAPORFIC: armour protection enabled");
 
 		_game.save_game();
+
+		return false;
+	}
+
+	case DUMAPIC: {
+		const auto loc{_game.state->get_player_pos()};
+
+		const auto facing{enum_name(_game.state->get_player_facing())};
+
+		const auto depth{std::abs(_game.state->get_depth())};
+
+		const auto text{
+			std::format("PARTY LOCATION:\n\n"
+						"THE PARTY IS FACING {}.\n\n"
+						"YOU ARE {} SQUARES EAST AND\n"
+						"{} SQUARES NORTH OF THE STAIRS,\n"
+						"AND {} LEVELS BELOW IT.",
+						facing, loc.x, loc.y, depth)};
+
+		_ctx.ui->popup_manager->open_dialog("global:dialog_dumapic", Enums::Layout::DialogType::OK, text);
 
 		return false;
 	}

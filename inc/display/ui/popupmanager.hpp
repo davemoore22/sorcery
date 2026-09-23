@@ -55,6 +55,12 @@ struct PendingModal {
 		std::optional<std::string> title_key{std::nullopt};
 };
 
+struct PendingDialog {
+		std::string component;
+		Enums::Layout::DialogType type;
+		std::optional<std::string> text;
+};
+
 class PopupManager {
 
 	public:
@@ -64,6 +70,7 @@ class PopupManager {
 		auto open_message(std::string_view component, std::vector<std::string> strings, Enums::Map::Event event_id)
 			-> void;
 		auto open_dialog(const std::string_view component, const Enums::Layout::DialogType type) -> void;
+		auto open_dialog(std::string_view component, Enums::Layout::DialogType type, std::string text) -> void;
 		auto open_modal(std::string_view component) -> void;
 		auto open_modal(std::string_view component, std::string_view menu_name) -> void;
 		auto open_modal(std::string_view component, std::string_view menu_name, std::string_view title_key) -> void;
@@ -87,12 +94,15 @@ class PopupManager {
 		std::optional<PopupCompletion> _completed;
 		bool _displaying{};
 		std::optional<PendingModal> _pending_modal;
+		std::optional<PendingDialog> _pending_dialog;
 		bool _input_mode_pushed{false};
 		bool _refresh_modal{false};
 
 		auto _open_modal(const std::string_view component) -> void;
 		auto _open_modal(std::string_view component, std::string_view menu_name) -> void;
 		auto _open_modal(std::string_view component, std::string_view menu_name, std::string_view title_key) -> void;
+		auto _open_dialog(const std::string_view component, const Enums::Layout::DialogType type,
+						  std::optional<std::string> text) -> void;
 		auto _pop_input_mode() -> void;
 };
 
