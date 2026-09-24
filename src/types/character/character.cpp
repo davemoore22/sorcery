@@ -146,6 +146,16 @@ auto Sorcery::Character::get_name_status_and_loc() const -> std::string {
 	return std::format("{:<24} {:<9} {:^5}", desc, status, out);
 }
 
+auto Sorcery::Character::get_name_status_and_loc_in_maze() const -> std::string {
+
+	const auto name{_name};
+	const auto status{_status != Enums::Character::Status::OK ? get_status_string() : ""};
+	const auto loc{
+		std::format("B{}F {:>2}N/{:>2}E", std::abs(depth.value()), coordinate.value().y, coordinate.value().x)};
+
+	return std::format("{:<16} {:<9} {:^11}", name, status, loc);
+};
+
 auto Sorcery::Character::get_race() const -> Enums::Character::Race {
 
 	return _race;

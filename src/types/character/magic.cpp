@@ -142,3 +142,13 @@ auto Sorcery::CharacterMagic::spend_spell_point(const Enums::Magic::SpellType sp
 
 	return false;
 }
+
+auto Sorcery::CharacterMagic::forget_spell(const Enums::Magic::SpellID spell_id) -> void {
+
+	_m_character->_spells_known[spell_id] = false;
+
+	const auto it{std::ranges::find(_m_character->_spells, spell_id, &Spell::id)};
+
+	if (it != _m_character->_spells.end())
+		it->known = false;
+}

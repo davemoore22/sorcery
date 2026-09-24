@@ -84,6 +84,7 @@ class Character {
 		auto get_name_and_loc() const -> std::string;
 		auto get_name_and_status() const -> std::string;
 		auto get_name_status_and_loc() const -> std::string;
+		auto get_name_status_and_loc_in_maze() const -> std::string;
 		auto get_race() const -> Enums::Character::Race;
 		auto get_location() const -> Enums::Character::Location;
 		auto set_location(const Enums::Character::Location value) -> void;

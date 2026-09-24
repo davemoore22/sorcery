@@ -23,6 +23,7 @@
 #include "game/spellcasting.hpp"
 #include "common/types.hpp"
 #include "core/context.hpp"
+#include "core/controller/controller.hpp"
 #include "core/debug.hpp"
 #include "core/random.hpp"
 #include "core/resources.hpp"
@@ -33,8 +34,10 @@
 #include "resources/spellstore.hpp"
 #include "types/meta.hpp"
 #include "types/state.hpp"
+#include <limits>
 #include <string>
 #include <string_view>
+#include <tuple>
 
 Sorcery::SpellCasting::SpellCasting(Context &ctx, Game &game)
 	: _ctx{ctx},
@@ -437,6 +440,56 @@ auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
 		return false;
 	}
 
+	case LOKTOFEIT: {
+
+		using enum Enums::Character::Ability;
+		using enum Enums::System::Random;
+
+		if (!spend())
+			return false;
+
+		const auto chance{caster.abilities().at(LOKTOFELT_SUCCESS)};
+		const int roll{_ctx.get_random(D100)};
+
+		// Forget LOKTOFEIT here regardless of success.
+		caster.magic().forget_spell(LOKTOFEIT);
+
+		if (roll >= chance) {
+
+			DEBUG_LOGF("LOKTOFEIT failed: caster={} roll={} chance={}", request.caster_id, roll, chance);
+
+			_ctx.ui->popup_manager->open_dialog("global:notice_oops", Enums::Layout::DialogType::OK,
+												"LOKTOFEIT FAILS!");
+
+			_game.save_game();
+
+			return false;
+		}
+
+		DEBUG_LOGF("LOKTOFEIT succeeded: caster={} roll={} chance={}", request.caster_id, roll, chance);
+
+		_ctx.ui->popup_manager->close();
+		_ctx.controller->clear_modal_flags();
+		_ctx.controller->request_back();
+		_ctx.controller->set_flag("want_return_to_town");
+
+		_game.save_game();
+
+		return false;
+	}
+
+	case KANDI: {
+
+		if (!spend())
+			return false;
+
+		_ctx.ui->popup_manager->open_dialog("global:dialog_kandi", Enums::Layout::DialogType::OK, _kandi_report());
+
+		_game.save_game();
+
+		return false;
+	}
+
 	default:
 
 		DEBUG_LOGF("Spell resolution not implemented: {}", spell.name);
@@ -448,4 +501,58 @@ auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
 auto Sorcery::SpellCasting::cancel() -> void {
 
 	_pending.reset();
+}
+
+auto Sorcery::SpellCasting::_kandi_report() const -> std::string {
+
+	struct LocatedCharacter {
+			const Character *character;
+			int level_distance;
+			int tile_distance;
+	};
+
+	const auto current_depth{_game.state->get_depth()};
+
+	const auto current_loc{_game.state->get_player_pos()};
+
+	std::vector<LocatedCharacter> characters;
+
+	for (const auto &[id, character] : _game.characters) {
+
+		if (character.get_location() != Enums::Character::Location::MAZE)
+			continue;
+
+		if (!character.depth || !character.coordinate)
+			continue;
+
+		const auto level_distance{std::abs(*character.depth - current_depth)};
+
+		auto tile_distance{std::numeric_limits<int>::max()};
+
+		if (*character.depth == current_depth) {
+
+			tile_distance =
+				std::abs(character.coordinate->x - current_loc.x) + std::abs(character.coordinate->y - current_loc.y);
+		}
+
+		characters.emplace_back(&character, level_distance, tile_distance);
+	}
+
+	std::ranges::sort(characters, {}, [](const LocatedCharacter &entry) {
+		return std::tuple{entry.level_distance, entry.tile_distance, entry.character->get_name()};
+	});
+
+	if (characters.empty())
+		return "NO OTHER CHARACTERS ARE IN THE MAZE";
+
+	std::string result{"CHARACTERS IN THE MAZE\n\n"};
+
+	for (const auto &entry : characters) {
+
+		result += entry.character->get_name_status_and_loc_in_maze();
+
+		result += '\n';
+	}
+
+	return result;
 }

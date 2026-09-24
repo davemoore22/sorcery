@@ -48,6 +48,8 @@ class SpellCasting {
 
 		auto _get_requirement(const Spell &spell, Enums::Magic::CastContext context) const -> Magic::CastRequirement;
 		auto _resolve(Magic::CastRequest request) -> bool;
+
+		auto _kandi_report() const -> std::string;
 };
 
 }

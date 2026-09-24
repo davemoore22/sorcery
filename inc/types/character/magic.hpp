@@ -28,7 +28,11 @@
 namespace Sorcery { class Character; }
 namespace Sorcery {
 namespace Enums {
-	namespace Magic { enum class SpellType; }
+	namespace Magic {
+		enum class SpellType;
+		enum class SpellID;
+	}
+
 }
 }
 namespace Sorcery { struct Spell; }
@@ -62,6 +66,7 @@ class CharacterMagic : public ConstCharacterMagic {
 		auto replenish_spells() -> void;
 		auto set_spells() -> void;
 		auto spend_spell_point(Enums::Magic::SpellType spell_type, unsigned int spell_level) -> bool;
+		auto forget_spell(Enums::Magic::SpellID spell_id) -> void;
 
 	private:
 		Character *_m_character;
