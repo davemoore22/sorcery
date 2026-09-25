@@ -66,9 +66,7 @@ auto Sorcery::Message::display() -> void {
 
 	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(), _ctx.ui->metrics->font_sz());
 
-	//
 	// Work out the size of the text frame
-	//
 	auto text_width{0.0f};
 
 	for (const auto &key : _strings) {
@@ -85,9 +83,7 @@ auto Sorcery::Message::display() -> void {
 	// One spare line at the bottom before the continue frame overlaps it.
 	const auto message_height{(static_cast<float>(_strings.size() + 1) * grid) + (text_padding * 2.0f)};
 
-	//
 	// Continue button/frame
-	//
 	const auto label_size{ImGui::CalcTextSize(continue_lbl.c_str())};
 
 	const auto actual_button_size{ImVec2{label_size.x + (ImGui::GetStyle().FramePadding.x * 2.0f),
@@ -103,17 +99,13 @@ auto Sorcery::Message::display() -> void {
 
 	const auto total_height{message_height + button_height - overlap};
 
-	//
 	// Centre the complete message + continue frame
-	//
 	const auto viewport{ImGui::GetMainViewport()};
 
 	const auto pos{ImVec2{std::round(viewport->Pos.x + ((viewport->Size.x - total_width) * 0.5f)),
 						  std::round(viewport->Pos.y + ((viewport->Size.y - total_height) * 0.5f))}};
 
-	//
 	// Draw modal-style background dimming
-	//
 	{
 		const auto dim_colour{ImGui::GetStyleColorVec4(ImGuiCol_ModalWindowDimBg)};
 
@@ -135,9 +127,7 @@ auto Sorcery::Message::display() -> void {
 						ImGuiWindowFlags_NoBringToFrontOnFocus) {}
 	}
 
-	//
 	// Draw message
-	//
 	ImGui::SetNextWindowPos(pos, ImGuiCond_Always);
 
 	ImGui::SetNextWindowSize(ImVec2{total_width, total_height});

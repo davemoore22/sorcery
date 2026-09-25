@@ -65,9 +65,7 @@ auto Sorcery::Rite::start() -> int {
 
 	_stage = 0;
 
-	//
 	// Confirm the rite.
-	//
 	while (true) {
 
 		SDL_Event event{};
@@ -113,9 +111,7 @@ auto Sorcery::Rite::start() -> int {
 		}
 	}
 
-	//
 	// Rite proper starts here.
-	//
 	_stage = 1;
 
 	_stage_visible = true;

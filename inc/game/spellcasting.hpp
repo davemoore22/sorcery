@@ -43,6 +43,7 @@ class SpellCasting {
 		auto cancel() -> void;
 
 		auto resolve_malor(const Magic::MalorDestination &destination) -> Magic::MalorOutcome;
+		auto take_malor_outcome() -> std::optional<Magic::MalorOutcome>;
 		auto take_malor_teleport() -> std::optional<Magic::MalorTeleport>;
 
 	private:
@@ -50,6 +51,7 @@ class SpellCasting {
 		Game &_game;
 
 		std::optional<Magic::CastRequest> _pending;
+		std::optional<Magic::MalorOutcome> _malor_outcome;
 		std::optional<Magic::MalorTeleport> _malor_teleport;
 
 		auto _get_requirement(const Spell &spell, Enums::Magic::CastContext context) const -> Magic::CastRequirement;

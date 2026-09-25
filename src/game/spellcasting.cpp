@@ -564,6 +564,9 @@ auto Sorcery::SpellCasting::resolve_malor(const Magic::MalorDestination &destina
 	using enum Magic::MalorOutcome;
 	using enum Enums::Tile::Properties;
 
+	_malor_outcome.reset();
+	_malor_teleport.reset();
+
 	if (!_pending || _pending->spell != Enums::Magic::SpellID::MALOR)
 		return NONE;
 
@@ -571,9 +574,12 @@ auto Sorcery::SpellCasting::resolve_malor(const Magic::MalorDestination &destina
 
 	const auto current_depth{_game.state->get_depth()};
 
-	//
-	// MALOR uses displacement, not destination coordinates.
-	//
+	const auto finish = [&](const Magic::MalorOutcome outcome) {
+		_pending.reset();
+		_malor_outcome = outcome;
+
+		return outcome;
+	};
 
 	const auto wrap = [](const int value) {
 		return ((value % 20) + 20) % 20;
@@ -583,88 +589,63 @@ auto Sorcery::SpellCasting::resolve_malor(const Magic::MalorDestination &destina
 
 	const auto target_depth{current_depth - destination.down};
 
-	//
 	// Source anti-magic prevents escape.
-	//
-
 	const auto &current_tile{_game.state->level->at(current)};
 
-	if (current_tile.is(ANTIMAGIC)) {
+	if (current_tile.is(ANTIMAGIC))
+		return finish(BLOCKED);
 
-		_pending.reset();
+	// Above castle.
+	if (target_depth > 0)
+		return finish(MID_AIR);
 
-		return BLOCKED;
-	}
+	// TODO: will be Volcano in Wiz 3
 
-	//
-	// Above the castle.
-	//
-
-	if (target_depth > 0) {
-
-		_pending.reset();
-
-		return VOLCANO;
-	}
-
-	//
 	// Castle level.
-	//
-
 	if (target_depth == 0) {
 
-		_pending.reset();
+		if (target == Coordinate{0, 0})
+			return finish(CASTLE);
 
-		if (target.x == 0 && target.y == 0)
-			return CASTLE;
-
-		return MOAT;
+		return finish(MOAT);
 	}
 
-	//
-	// Beyond the dungeon entirely = solid rock.
-	//
-
+	// Beyond the dungeon entirely.
 	const auto target_level{_ctx.resources->levels->get(target_depth)};
 
-	if (!target_level) {
+	if (!target_level)
+		return finish(INTO_ROCK);
 
-		_pending.reset();
-
-		return INTO_ROCK;
-	}
-
-	//
 	// Wizardry I B10 cannot be entered using MALOR.
-	//
+	if (target_depth == -10)
+		return finish(BOUNCED);
 
-	if (target_depth == -10) {
-
-		_pending.reset();
-
-		return BOUNCED;
-	}
-
-	//
-	// Anti-magic destination also bounces MALOR.
-	//
-
+	// Anti-magic destination.
 	const auto &target_tile{target_level->at(target)};
 
-	if (target_tile.is(ANTIMAGIC)) {
+	if (target_tile.is(ANTIMAGIC))
+		return finish(BOUNCED);
 
-		_pending.reset();
-
-		return BOUNCED;
-	}
-
-	//
 	// Valid dungeon teleport.
-	//
-
 	_malor_teleport = Magic::MalorTeleport{.depth = target_depth, .coordinate = target};
 
-	_pending.reset();
+	return finish(DUNGEON);
+}
 
-	return DUNGEON;
+auto Sorcery::SpellCasting::take_malor_outcome() -> std::optional<Magic::MalorOutcome> {
+
+	auto result{std::move(_malor_outcome)};
+
+	_malor_outcome.reset();
+
+	return result;
+}
+
+auto Sorcery::SpellCasting::take_malor_teleport() -> std::optional<Magic::MalorTeleport> {
+
+	auto result{std::move(_malor_teleport)};
+
+	_malor_teleport.reset();
+
+	return result;
 }

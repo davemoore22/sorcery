@@ -97,6 +97,8 @@ auto Sorcery::Game::_set_up_dungeon_events() -> void {
 
 	_events.clear();
 
+	// TODO: hate this!
+
 	// bool params are:
 	//
 	// search after

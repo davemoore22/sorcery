@@ -21,7 +21,9 @@
 // the resulting work.
 
 #include "engine/engine.hpp"
-#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/audio/audioplayer.hpp"
+#include "core/audio/music.hpp"
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
@@ -42,28 +44,29 @@
 #include "engine/victory.hpp"				// for Victory
 #include "frontend/options.hpp"				// for Options
 #include "game/game.hpp"					// for Game
-#include "modules/tavern/inspect.hpp"		// for Inspect
-#include "modules/tavern/reorder.hpp"		// for Reorder
-#include "resources/imagestore.hpp"			// for ImageStore
-#include "resources/itemstore.hpp"			// for ItemStore
-#include "resources/levelstore.hpp"			// for LevelStore
-#include "types/character/character.hpp"	// for Character
-#include "types/character/inventory.hpp"	// for Inventory
-#include "types/enum.hpp"					// for TypeID, TypeID::BLUE_RIBBON
-#include "types/state.hpp"					// for State
-#include "types/world/explore.hpp"			// for Explore
-#include "types/world/level.hpp"			// for Level
-#include "types/world/tile.hpp"				// for Tile
-#include <SDL_events.h>						// for SDL_PollEvent
-#include <algorithm>						// for find
-#include <compare>							// for operator>=, strong_ordering
-#include <cstdlib>							// for abs
-#include <format>							// for format
-#include <functional>						// for function
-#include <map>								// for map, operator==
-#include <string>							// for basic_string, stoi
-#include <utility>							// for get, pair
-#include <vector>							// for vector
+#include "game/spellcasting.hpp"
+#include "modules/tavern/inspect.hpp"	 // for Inspect
+#include "modules/tavern/reorder.hpp"	 // for Reorder
+#include "resources/imagestore.hpp"		 // for ImageStore
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/levelstore.hpp"		 // for LevelStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/enum.hpp"				 // for TypeID, TypeID::BLUE_RIBBON
+#include "types/state.hpp"				 // for State
+#include "types/world/explore.hpp"		 // for Explore
+#include "types/world/level.hpp"		 // for Level
+#include "types/world/tile.hpp"			 // for Tile
+#include <SDL_events.h>					 // for SDL_PollEvent
+#include <algorithm>					 // for find
+#include <compare>						 // for operator>=, strong_ordering
+#include <cstdlib>						 // for abs
+#include <format>						 // for format
+#include <functional>					 // for function
+#include <map>							 // for map, operator==
+#include <string>						 // for basic_string, stoi
+#include <utility>						 // for get, pair
+#include <vector>						 // for vector
 
 Sorcery::Engine::Engine(Context &ctx)
 	: Module{ctx} {
@@ -315,8 +318,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			// Check for party wipe
 			if (_check_for_wipe()) {
 
+				_ctx.audio->set_track(Enums::Audio::Track::GRAVEYARD);
 				const auto result{_graveyard->start()};
-
 				_graveyard->stop();
 
 				if (result == ABORT_GAME)
@@ -336,7 +339,10 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 					if (std::find(party.begin(), party.end(), id) != party.end()) {
 
-						character.set_location(Enums::Character::Location::MAZE);
+						// We can't set status simply to MAZE because MALOR into Rock already sets status to LOST
+						if (character.get_status() != Enums::Character::Status::LOST) {
+							character.set_location(Enums::Character::Location::MAZE);
+						}
 
 						character.coordinate = loc;
 						character.depth = depth;
@@ -384,6 +390,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					return _abort();
 
 				_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
+
+				if (const auto outcome{_ctx.game->spellcasting().take_malor_outcome()}) {
+
+					handle_malor_outcome(*outcome);
+
+					continue;
+				}
 			}
 
 			// Check for stairs
@@ -1354,5 +1367,104 @@ auto Sorcery::Engine::_show_elevator_modal(const Elevator &elevator) -> void {
 		_ctx.ui->popup_manager->open_modal("global:modal_elevator_bottom");
 
 		DEBUG_LOG("Player triggered bottom elevator");
+	}
+}
+
+auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) -> void {
+
+	using enum Magic::MalorOutcome;
+	using enum Enums::Character::Status;
+
+	const auto show_result = [&](const std::string_view line_1, const std::string_view line_2) {
+		const auto text{std::format("{}\n{}", _ctx.get_string(line_1), _ctx.get_string(line_2))};
+
+		// Use the runtime-text dialog path we added for DUMAPIC/KANDI here.
+		_ctx.ui->popup_manager->open_dialog("global:dialog_spell_result", Enums::Layout::DialogType::OK, text);
+	};
+
+	const auto set_party_status = [&](const Enums::Character::Status status) {
+		const auto party{_ctx.game->state->get_party_characters()};
+
+		for (const auto id : party) {
+
+			auto &character{_ctx.game->characters.at(id)};
+
+			character.set_status(status);
+			character.set_current_hp(0);
+		}
+	};
+
+	switch (outcome) {
+
+	case NONE:
+		break;
+
+	case BLOCKED:
+
+		show_result("MALOR_BLOCK_1", "MALOR_BLOCK_2");
+
+		break;
+
+	case BOUNCED:
+
+		show_result("MALOR_BOUNCED_1", "MALOR_BOUNCED_2");
+
+		break;
+
+	case CASTLE:
+
+		_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+
+		_ctx.controller->set_flag("want_return_to_town");
+
+		break;
+
+	case DUNGEON: {
+
+		const auto teleport{_ctx.game->spellcasting().take_malor_teleport()};
+
+		if (!teleport)
+			break;
+
+		_go_to_location(teleport->depth, teleport->coordinate, _ctx.game->state->get_player_facing());
+
+		_ctx.controller->set_can_undo(false);
+
+		(void)_process_current_tile();
+
+		break;
+	}
+
+	case MOAT:
+
+		set_party_status(DEAD);
+
+		show_result("MALOR_MOAT_1", "MALOR_MOAT_2");
+
+		break;
+
+	case MID_AIR:
+
+		set_party_status(DEAD);
+
+		show_result("MALOR_MID_AIR_1", "MALOR_MID_AIR_2");
+
+		break;
+
+	case INTO_ROCK:
+
+		set_party_status(LOST);
+
+		show_result("MALOR_ROCK_1", "MALOR_ROCK_2");
+
+		break;
+
+	case VOLCANO:
+
+		set_party_status(LOST);
+
+		show_result("MALOR_VOLCANO_1", "MALOR_VOLCANO_2");
+
+		break;
 	}
 }

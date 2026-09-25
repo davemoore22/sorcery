@@ -23,6 +23,7 @@
 #pragma once
 
 #include "common/types.hpp"
+#include <optional>
 
 namespace Sorcery::Magic {
 
@@ -30,6 +31,7 @@ enum class MalorOutcome {
 	NONE,
 	MOAT,
 	VOLCANO,
+	MID_AIR,
 	CASTLE,
 	INTO_ROCK,
 	BLOCKED,
@@ -46,6 +48,11 @@ struct MalorDestination {
 struct MalorTeleport {
 		int depth{0};
 		Coordinate coordinate{};
+};
+
+struct MalorResult {
+		MalorOutcome outcome{MalorOutcome::NONE};
+		std::optional<MalorTeleport> teleport;
 };
 
 };

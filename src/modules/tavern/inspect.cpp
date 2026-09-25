@@ -30,11 +30,12 @@
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_FROM_INSPECT, ABORT...
 #include "game/game.hpp"					// for Game
-#include "types/state.hpp"					// for State
-#include <SDL_events.h>						// for SDL_PollEvent
-#include <any>								// for any
-#include <memory>							// for unique_ptr
-#include <optional>							// for optional
+#include "game/spellcasting.hpp"
+#include "types/state.hpp" // for State
+#include <SDL_events.h>	   // for SDL_PollEvent
+#include <any>			   // for any
+#include <memory>		   // for unique_ptr
+#include <optional>		   // for optional
 
 Sorcery::Inspect::Inspect(Context &ctx)
 	: Module{ctx} {
@@ -84,6 +85,14 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 
 			if (_ctx.controller->input->back(event)) {
 
+				if (_ctx.ui->popup_manager->is_active("dialog_malor")) {
+
+					_ctx.game->spellcasting().cancel();
+					_ctx.ui->popup_manager->close();
+
+					continue;
+				}
+
 				if (_ctx.ui->popup_manager->active())
 					_ctx.ui->popup_manager->close();
 
@@ -101,6 +110,25 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 
 		_ctx.ui->display_screen(Enums::Screen::INSPECT, mode);
 		_ctx.tick();
+
+		if (const auto result{_ctx.ui->popup_manager->consume_result("dialog_malor")}) {
+
+			using enum DrawableResult;
+
+			if (*result == CANCELLED) {
+
+				_ctx.game->spellcasting().cancel();
+
+			} else if (*result == ACCEPTED) {
+
+				const auto destination{_ctx.ui->popup_manager->malor_destination()};
+
+				(void)_ctx.game->spellcasting().resolve_malor(destination);
+
+				_ctx.controller->clear_modal_flags();
+				_ctx.controller->request_back();
+			}
+		}
 
 		if (_ctx.controller->has_flag("select_previous_character")) {
 

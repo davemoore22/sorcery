@@ -38,6 +38,9 @@ namespace Sorcery { class Reorder; }
 namespace Sorcery { struct Tile; }
 namespace Sorcery { class Victory; }
 namespace Sorcery { struct Context; }
+namespace Sorcery {
+namespace Magic { enum class MalorOutcome; }
+}
 
 namespace Sorcery {
 
@@ -67,6 +70,8 @@ class Engine final : public Module {
 		// Public Methods
 		auto start(const int mode) -> int;
 		auto stop() -> int;
+
+		auto handle_malor_outcome(Magic::MalorOutcome outcome) -> void;
 
 	private:
 		// Private Methods

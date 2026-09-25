@@ -301,6 +301,16 @@
 					"drawmode": "manual"
 				},
 				{
+					"name": "dialog_spell_result",
+					"x": "centre",
+					"y": "centre",
+					"w": "30",
+					"h": "10",
+					"font": "monospace",
+					"type": "dialog",
+					"drawmode": "manual"
+				},
+				{
 					"name": "dialog_dumapic",
 					"x": "centre",
 					"y": "centre",

@@ -226,9 +226,7 @@ auto Sorcery::Chest::_open(const int character_id) -> void {
 
 	const auto &character{_ctx.game->characters.at(character_id)};
 
-	//
 	// Trapless chest: opens safely.
-	//
 	if (_state.actual_trap == Enums::Traps::Type::NONE) {
 
 		_ctx.ui->show_transient(_ctx.get_string("CHEST_NO_TRAP"), 1s, TransientWidth::FIT_TEXT,
@@ -238,11 +236,7 @@ auto Sorcery::Chest::_open(const int character_id) -> void {
 		return;
 	}
 
-	//
-	// Original OPENCHST:
-	//
-	//   (RANDOM MOD 1000) < CHARLEV
-	//
+	// Original OPENCHST:  (RANDOM MOD 1000) < CHARLEV
 	const int roll{_ctx.get_random(Enums::System::Random::D1000) - 1};
 
 	if (roll < character.get_level()) {
@@ -251,9 +245,7 @@ auto Sorcery::Chest::_open(const int character_id) -> void {
 		return;
 	}
 
-	//
 	// Failed to open safely: trigger the actual trap.
-	//
 	_trigger_trap(character_id);
 
 	_state.state = Enums::Chests::State::DONE;
