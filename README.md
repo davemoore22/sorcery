@@ -40,8 +40,8 @@ An open source remake/remaster of the classic CRPG Wizardry, Proving Grounds of 
   </tr>
     <tr>
     <td><img src="promo/screen26.png" width="150"></td>
-    <td></td>
-    <td></td>
+    <td><img src="promo/screen27.png" width="150"></td>
+    <td><img src="promo/screen28.png" width="150"></td>
     <td></td>
     <td></td>
   </tr>

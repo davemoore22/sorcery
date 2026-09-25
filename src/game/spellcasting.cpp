@@ -31,10 +31,12 @@
 #include "display/ui/ui.hpp"
 #include "game/game.hpp"
 #include "magic/castcontext.hpp"
+#include "resources/levelstore.hpp"
 #include "resources/spellstore.hpp"
 #include "types/meta.hpp"
 #include "types/state.hpp"
 #include <limits>
+#include <magic/malor.hpp>
 #include <string>
 #include <string_view>
 #include <tuple>
@@ -555,4 +557,114 @@ auto Sorcery::SpellCasting::_kandi_report() const -> std::string {
 	}
 
 	return result;
+}
+
+auto Sorcery::SpellCasting::resolve_malor(const Magic::MalorDestination &destination) -> Magic::MalorOutcome {
+
+	using enum Magic::MalorOutcome;
+	using enum Enums::Tile::Properties;
+
+	if (!_pending || _pending->spell != Enums::Magic::SpellID::MALOR)
+		return NONE;
+
+	const auto current{_game.state->get_player_pos()};
+
+	const auto current_depth{_game.state->get_depth()};
+
+	//
+	// MALOR uses displacement, not destination coordinates.
+	//
+
+	const auto wrap = [](const int value) {
+		return ((value % 20) + 20) % 20;
+	};
+
+	const Coordinate target{wrap(current.x + destination.east), wrap(current.y + destination.north)};
+
+	const auto target_depth{current_depth - destination.down};
+
+	//
+	// Source anti-magic prevents escape.
+	//
+
+	const auto &current_tile{_game.state->level->at(current)};
+
+	if (current_tile.is(ANTIMAGIC)) {
+
+		_pending.reset();
+
+		return BLOCKED;
+	}
+
+	//
+	// Above the castle.
+	//
+
+	if (target_depth > 0) {
+
+		_pending.reset();
+
+		return VOLCANO;
+	}
+
+	//
+	// Castle level.
+	//
+
+	if (target_depth == 0) {
+
+		_pending.reset();
+
+		if (target.x == 0 && target.y == 0)
+			return CASTLE;
+
+		return MOAT;
+	}
+
+	//
+	// Beyond the dungeon entirely = solid rock.
+	//
+
+	const auto target_level{_ctx.resources->levels->get(target_depth)};
+
+	if (!target_level) {
+
+		_pending.reset();
+
+		return INTO_ROCK;
+	}
+
+	//
+	// Wizardry I B10 cannot be entered using MALOR.
+	//
+
+	if (target_depth == -10) {
+
+		_pending.reset();
+
+		return BOUNCED;
+	}
+
+	//
+	// Anti-magic destination also bounces MALOR.
+	//
+
+	const auto &target_tile{target_level->at(target)};
+
+	if (target_tile.is(ANTIMAGIC)) {
+
+		_pending.reset();
+
+		return BOUNCED;
+	}
+
+	//
+	// Valid dungeon teleport.
+	//
+
+	_malor_teleport = Magic::MalorTeleport{.depth = target_depth, .coordinate = target};
+
+	_pending.reset();
+
+	return DUNGEON;
 }

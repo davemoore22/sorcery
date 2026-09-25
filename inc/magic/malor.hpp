@@ -22,40 +22,30 @@
 
 #pragma once
 
-#include "magic/castrequest.hpp"
-#include "magic/malor.hpp"
-#include <optional>
+#include "common/types.hpp"
 
-namespace Sorcery { class Game; };
-namespace Sorcery { struct Context; };
-namespace Sorcery { struct Spell; };
+namespace Sorcery::Magic {
 
-namespace Sorcery {
-
-class SpellCasting {
-
-	public:
-		SpellCasting(Context &ctx, Game &game);
-		~SpellCasting();
-
-		auto begin(const Magic::CastRequest &request) -> Magic::CastPlan;
-		auto select_party_target(unsigned int target_id) -> bool;
-		auto cancel() -> void;
-
-		auto resolve_malor(const Magic::MalorDestination &destination) -> Magic::MalorOutcome;
-		auto take_malor_teleport() -> std::optional<Magic::MalorTeleport>;
-
-	private:
-		Context &_ctx;
-		Game &_game;
-
-		std::optional<Magic::CastRequest> _pending;
-		std::optional<Magic::MalorTeleport> _malor_teleport;
-
-		auto _get_requirement(const Spell &spell, Enums::Magic::CastContext context) const -> Magic::CastRequirement;
-		auto _resolve(Magic::CastRequest request) -> bool;
-
-		auto _kandi_report() const -> std::string;
+enum class MalorOutcome {
+	NONE,
+	MOAT,
+	VOLCANO,
+	CASTLE,
+	INTO_ROCK,
+	BLOCKED,
+	DUNGEON,
+	BOUNCED,
 };
 
-}
+struct MalorDestination {
+		int north{0}; // +North, -South
+		int east{0};  // +East,  -West
+		int down{0};  // +Down,  -Up
+};
+
+struct MalorTeleport {
+		int depth{0};
+		Coordinate coordinate{};
+};
+
+};

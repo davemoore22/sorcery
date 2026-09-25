@@ -23,16 +23,21 @@
 #pragma once
 
 #include "drawables/drawable.hpp" // for DrawableResult, Drawable (ptr only)
-#include <memory>				  // for unique_ptr
-#include <optional>				  // for optional, nullopt, nullopt_t
-#include <string>				  // for basic_string, string
-#include <string_view>			  // for string_view
-#include <vector>				  // for vector
+#include "magic/malor.hpp"
+#include <memory>	   // for unique_ptr
+#include <optional>	   // for optional, nullopt, nullopt_t
+#include <string>	   // for basic_string, string
+#include <string_view> // for string_view
+#include <vector>	   // for vector
 
 namespace Sorcery { class Message; }
 namespace Sorcery { class Dialog; }
 namespace Sorcery { struct Context; }
 namespace Sorcery { class Modal2; }
+namespace Sorcery { class MalorDialog; }
+namespace Sorcery {
+namespace Magic { struct MalorDestination; }
+}
 
 namespace Sorcery {
 namespace Enums {
@@ -83,6 +88,8 @@ class PopupManager {
 		[[nodiscard]] auto active() const -> bool;
 		[[nodiscard]] auto is_active(std::string_view name) const -> bool;
 		auto refresh_modal() -> void;
+		auto open_malor(const std::string_view component) -> void;
+		auto malor_destination() const -> Magic::MalorDestination;
 
 	private:
 		Context &_ctx;
@@ -95,6 +102,8 @@ class PopupManager {
 		bool _displaying{};
 		std::optional<PendingModal> _pending_modal;
 		std::optional<PendingDialog> _pending_dialog;
+		std::unique_ptr<MalorDialog> _malor_dialog;
+		std::optional<std::string> _pending_malor;
 		bool _input_mode_pushed{false};
 		bool _refresh_modal{false};
 
@@ -104,6 +113,7 @@ class PopupManager {
 		auto _open_dialog(const std::string_view component, const Enums::Layout::DialogType type,
 						  std::optional<std::string> text) -> void;
 		auto _pop_input_mode() -> void;
+		auto _open_malor(const std::string_view component) -> void;
 };
 
 }

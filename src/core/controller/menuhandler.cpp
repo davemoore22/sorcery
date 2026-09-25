@@ -518,7 +518,8 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 			break;
 
 		case DESTINATION:
-			DEBUG_LOG("Spell requires destination");
+			_ctx.ui->popup_manager->open_malor("global:dialog_malor");
+
 			break;
 
 		case EFFECT:

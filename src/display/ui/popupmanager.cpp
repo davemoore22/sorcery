@@ -25,6 +25,7 @@
 #include "core/controller/controller.hpp" // for Controller
 #include "core/controller/inputmode.hpp"  // for Mode, Mode::CONFIRMATION
 #include "drawables/dialog.hpp"			  // for Dialog
+#include "drawables/malordialog.hpp"	  // for MalorDialog
 #include "drawables/message.hpp"		  // for Message
 #include "drawables/modal2.hpp"			  // for Modal2
 #include "resources/componentstore.hpp"	  // for ComponentStore
@@ -38,7 +39,8 @@ Sorcery::PopupManager::PopupManager(Context &ctx)
 	: _ctx{ctx},
 	  _message{std::make_unique<Message>(ctx)},
 	  _dialog{std::make_unique<Dialog>(ctx)},
-	  _modal2{std::make_unique<Modal2>(ctx)} {}
+	  _modal2{std::make_unique<Modal2>(ctx)},
+	  _malor_dialog{std::make_unique<MalorDialog>(ctx)} {}
 
 /// @brief
 Sorcery::PopupManager::~PopupManager() = default;
@@ -99,6 +101,17 @@ auto Sorcery::PopupManager::display() -> void {
 		_pending_dialog.reset();
 
 		_open_dialog(pending.component, pending.type, std::move(pending.text));
+
+		return;
+	}
+
+	if (_pending_malor) {
+
+		auto component{std::move(*_pending_malor)};
+
+		_pending_malor.reset();
+
+		_open_malor(component);
 
 		return;
 	}
@@ -417,4 +430,42 @@ auto Sorcery::PopupManager::_open_dialog(const std::string_view component, const
 	}
 
 	_input_mode_pushed = true;
+}
+
+auto Sorcery::PopupManager::open_malor(const std::string_view component) -> void {
+
+	if (_displaying) {
+
+		if (_active)
+			_active->close();
+
+		_pending_malor = std::string{component};
+
+		return;
+	}
+
+	_open_malor(component);
+}
+
+auto Sorcery::PopupManager::_open_malor(const std::string_view component) -> void {
+
+	close();
+
+	_completed.reset();
+
+	auto &cmp{_ctx.components->get(component)};
+
+	_malor_dialog->build(cmp);
+	_malor_dialog->open();
+
+	_active = _malor_dialog.get();
+
+	_ctx.controller->push_input_mode(Enums::Input::Mode::CONFIRMATION);
+
+	_input_mode_pushed = true;
+}
+
+auto Sorcery::PopupManager::malor_destination() const -> Magic::MalorDestination {
+
+	return _malor_dialog->destination();
 }

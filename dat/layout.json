@@ -291,6 +291,16 @@
 					]
 				},
 				{
+					"name": "dialog_malor",
+					"x": "centre",
+					"y": "centre",
+					"w": "26",
+					"h": "14",
+					"font": "monospace",
+					"type": "dialog",
+					"drawmode": "manual"
+				},
+				{
 					"name": "dialog_dumapic",
 					"x": "centre",
 					"y": "centre",

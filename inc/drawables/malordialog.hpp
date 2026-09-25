@@ -22,40 +22,24 @@
 
 #pragma once
 
-#include "magic/castrequest.hpp"
+#include "drawables/drawable.hpp"
 #include "magic/malor.hpp"
-#include <optional>
-
-namespace Sorcery { class Game; };
-namespace Sorcery { struct Context; };
-namespace Sorcery { struct Spell; };
 
 namespace Sorcery {
 
-class SpellCasting {
+class MalorDialog final : public Drawable {
 
 	public:
-		SpellCasting(Context &ctx, Game &game);
-		~SpellCasting();
+		explicit MalorDialog(Context &ctx);
 
-		auto begin(const Magic::CastRequest &request) -> Magic::CastPlan;
-		auto select_party_target(unsigned int target_id) -> bool;
-		auto cancel() -> void;
+		auto build(Component &component) -> void;
+		auto display() -> void;
 
-		auto resolve_malor(const Magic::MalorDestination &destination) -> Magic::MalorOutcome;
-		auto take_malor_teleport() -> std::optional<Magic::MalorTeleport>;
+		[[nodiscard]]
+		auto destination() const -> Magic::MalorDestination;
 
 	private:
-		Context &_ctx;
-		Game &_game;
-
-		std::optional<Magic::CastRequest> _pending;
-		std::optional<Magic::MalorTeleport> _malor_teleport;
-
-		auto _get_requirement(const Spell &spell, Enums::Magic::CastContext context) const -> Magic::CastRequirement;
-		auto _resolve(Magic::CastRequest request) -> bool;
-
-		auto _kandi_report() const -> std::string;
+		Magic::MalorDestination _destination{};
 };
 
 }
