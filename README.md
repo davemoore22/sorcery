@@ -1,6 +1,12 @@
 # Sorcery
 
-An open source remake/remaster of the classic CRPG Wizardry, Proving Grounds of the Mad Overlord. Currently under heavy development with an initial release around the end of 2026 (**Alpha#1 is now available for download, see the Releases sidebar!**) Developed using ImGui/SDL2/OpenGL/C++. Is available on both Linux (Debian/Ubuntu) and Windows (64-bit). OpenGL 3.3 and 2 Gb of System Memory, and 512 MB (currently) of Video Memory will be required to run.
+Sorcery is an open-source remake/remaster of the classic CRPG **Wizardry: Proving Grounds of the Mad Overlord**.
+
+The project is under active development and is built using **C++26, Dear ImGui, SDL2 and OpenGL**. Sorcery targets **Debian/Ubuntu Linux** and **64-bit Windows**.
+
+**Alpha #1 is available now from the Releases section. Alpha #2 is coming soon.**
+
+## Screenshots
 
 <table>
   <tr>
@@ -17,7 +23,7 @@ An open source remake/remaster of the classic CRPG Wizardry, Proving Grounds of 
     <td><img src="promo/screen9.png" width="150"></td>
     <td><img src="promo/screen10.png" width="150"></td>
   </tr>
-    <tr>
+  <tr>
     <td><img src="promo/screen11.png" width="150"></td>
     <td><img src="promo/screen12.png" width="150"></td>
     <td><img src="promo/screen13.png" width="150"></td>
@@ -40,89 +46,150 @@ An open source remake/remaster of the classic CRPG Wizardry, Proving Grounds of 
   </tr>
 </table>
 
-See also some brief [gameplay videos](https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag) on Youtube.
+Brief gameplay videos are also available on [YouTube](https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag).
 
-## Progress Update 19th September 2026)
+## Current Status
 
-**Alpha #1 is out** (see the releases sidebar) for Windows and Linux (currently works on the latter via wine but a .deb/appimage will be provided soon).
+### Alpha #1 — Released 19 September 2026
 
-It contains the following functionality:
+Alpha #1 is the first public release of Sorcery and contains the majority of the core game framework and non-combat systems.
 
-* ~~Load/Save/New Game~~ (DONE)
-* ~~Town/Castle Menus~~ (DONE)
-* ~~Character Creation~~ (DONE)
-* ~~Party/Expedition Management~~ (DONE)
-* ~~Maze Generation and Navigation~~ (DONE)
-* ~~Dungeon Features~~ (DONE)
-* ~~Automapping~~ (DONE)
-* ~~Keyboard/Mouse/Gamepad Control~~ (DONE)
-* ~~Gilgamesh's Tavern~~ (DONE)
-* ~~Adventurer's Inn~~ (DONE)
-* ~~Levelling up/Changing Class~~ (DONE)
-* ~~Temple/Healing/Resurrection~~ (DONE)
-* ~~Wipe Handling~~ (DONE)
-* ~~Dungeon Events~~ (DONE)
-* ~~Compendium~~ (DONE)
-* ~~Music~~ (DONE)
-* ~~Character Editing/Deleting/Legating~~ (DONE)
-* ~~Inventory and Item Manipulation~~ (DONE)
-* ~~Victory/End Game Handling~~ (DONE)
-* ~~Traps and Chests~~ (DONE)
-* ~~Quicksave/Quickload~~ (DONE)
-* ~~Boltac's Equipment Shop~~ (DONE)
-* ~~Windows Port~~ (DONE)
-* ~~Special Item Powers and Handling~~ (DONE)
+Implemented functionality includes:
 
-Alpha #2 is planned to also contain the following:
+- **Core game systems**
+  - New Game, Save and Load
+  - Quicksave and Quickload
+  - Keyboard, mouse and gamepad controls
+  - Linux/Windows support
+- **Characters and party management**
+  - Character creation
+  - Character editing, deleting and legating
+  - Party and expedition management
+  - Levelling up and changing class
+  - Healing and resurrection
+- **Town and services**
+  - Town and Castle menus
+  - Gilgamesh's Tavern
+  - Adventurer's Inn
+  - Temple
+  - Boltac's Equipment Shop
+- **Dungeon exploration**
+  - Maze generation and navigation
+  - Dungeon features and events
+  - Automapping
+  - Traps and chests
+  - Party wipe handling
+  - Victory and end-game handling
+- **Items and presentation**
+  - Inventory and item manipulation
+  - Special item powers and handling
+  - Compendium
+  - Music
 
-* **Magic and Combat** (DOING)
-* **Context-Sensitive-Help*** (DOING)
-* **Creatures, Combat, and NPCs** (DOING)
+### Alpha #2 — Coming Soon
 
-Alpha #3 is planned to also contain the following:
+Current Alpha #2 changes (as of 25th September) include:
 
-* Encounter Tables (TO DO)
-* Fixed Combats (TO DO)
-* Treasure Tables (TO DO)
-* SFX (TO DO)
-* Strict (Legacy) Mode (TO DO)
+- Reduced required graphics memory to approximately **400 MB**.
+- Corrected fullscreen rendering.
+- Added a **music volume control**.
+- Added **context-sensitive help** using **F1**.
+- Expanded the **Cheat Menu** available through **F2**.
+- Implemented out-of-combat spellcasting for:
+  - **Divine spells**
+    - DIOS, DIAL, DIALMA, LATUMOFIS, MADI
+    - MILWA, LOMILWA, LATUMAPIC
+    - MAPORFIC, KANDI
+    - DI, KADORTO
+  - **Arcane spells**
+    - DUMAPIC, MALOR
+- The buff bar now displays the status of **MILWA/LOMILWA, LATUMAPIC and MAPORFIC**.
+- Darkness squares now extinguish any active light spell.
+
+The broader Alpha #2 development cycle is focused on implementing **Magic and Combat**, together with **Creatures, Combat and NPCs**. I will release this as soon as feasible
+
+### Alpha #3 — Planned
+
+Current Alpha #3 targets include:
+
+- Encounter tables
+- Fixed combats
+- Treasure tables
+- Sound effects
+- Strict (Legacy) Mode
+
+## Development Roadmap
+
+With most of the original Wizardry I game framework now implemented, the main remaining areas of work are **spellcasting, combat, creatures and NPCs**. Obviously the roadmap will continue to evolve as the Alpha releases progress.
 
 ## Wishlist
 
-* Achievements and Quests
-* Radial Menu Control mode
-* Enhanced Quality-of-Life features
-* Sequels Content (II, III, V, maybe even IV?)
-* Procedurally-Generated Infinite Content
-* Monster Pits (practise against Encounters without risk of death or reward)
-* Migration to SDL3 from SDL2
-* Optional OpenGL Textured/Rendered 3D View
-* Wizardry VI implemented in the classic Wireframe Engine.
+Longer-term ideas include:
 
-## What next? (as of September 2026)
+- Achievements and quests
+- Radial-menu control mode
+- Additional quality-of-life features
+- Content from later Wizardry games — II, III, V, and possibly IV
+- Procedurally generated infinite content
+- Monster Pits for practising against encounters without risk or reward
+- Migration from SDL2 to SDL3
+- Optional textured/rendered OpenGL 3D dungeon view
+- Wizardry VI implemented using the classic wireframe engine
 
-**Alpha #1 is now out!**
+## Related Projects
 
-Spellcrafting and Combat are the only major things left to implement from the first Wizardry game! In the meantime, check out Snarfu's bugfix and recompilation of the original Wizardry for Apple II at <https://github.com/snafaru> or Sshoecraft's recreation in the terminal of the original trilogy, again for Apple II at <https://github.com/sshoecraft/wizardry>>.
+If you are interested in the original Wizardry games and related preservation/reimplementation work, see:
+
+- [Snarfu's Wizardry work](https://github.com/snafaru), including bug fixes and recompilation work for the original Apple II Wizardry.
+- [Sshoecraft's Wizardry recreation](https://github.com/sshoecraft/wizardry), a terminal-based recreation of the original Apple II trilogy.
+
+## System Requirements
+
+Sorcery requires:
+
+- **OpenGL 3.3**
+- **2 GB system memory**
+- Approximately **400 MB graphics memory** for Alpha #2
+- A 64-bit Windows or Debian/Ubuntu Linux environment
 
 ## Compilation
 
-Sorcery uses a **single source tree** which builds on both Linux and Windows. The primary development platform is Ubuntu/Debian Linux. Windows builds are supported using **MSYS2 UCRT64**, GCC, CMake and Ninja. Other Windows toolchains are not currently tested or supported by the project, although contributions documenting them are welcome. The project targets **C++26** and uses C++ reflection, so **GCC 16.1 or later is required**. The current development toolchain uses GCC 16.2. No separate Linux or Windows source tree is required. Platform-specific differences are handled by CMake and the source code. Please read the doc/COMPILE.md for full compilation instructions on both platforms. All code is released under the GPLv2 - see the doc/LICENSE.md file for full details.
+Sorcery uses a **single source tree** for both Linux and Windows.
 
-**Graphics and music are used under appropriate licenses (see below), and are drawn/composed by humans.**
+The primary development platform is Ubuntu/Debian Linux. Windows builds are supported using **MSYS2 UCRT64**, GCC, CMake and Ninja. Other Windows toolchains are not currently tested or officially supported, although contributions documenting additional working configurations are welcome.
+
+The project targets **C++26** and uses C++ reflection, so **GCC 16.1 or later is required**. The current development toolchain uses **GCC 16.2**.
+
+Platform-specific differences are handled by CMake and the source code; no separate Windows or Linux source trees are required.
+
+See [`doc/COMPILE.md`](doc/COMPILE.md) for full build instructions.
+
+## License
+
+Sorcery source code is released under the **GNU GPLv2**. See [`doc/LICENSE.md`](doc/LICENSE.md) for full details.
+
+Graphics and music are used under their respective licenses, as listed below. Note that all artwork/music is authored by humans.
 
 ## Contact and Help
 
-All comments and criticism and help most welcome. You can mainly find me as *Typhon* on the C++ Help and DungeonCrawlers.org Discord Servers or email me at davemoore22 AT protonmail.com
+Comments, criticism and contributions are welcome.
+
+You can usually find me as **Typhon** on the **C++ Help** and **DungeonCrawlers.org** Discord servers, or contact me by email at:
+
+`davemoore22 AT protonmail.com`
 
 ## Credits
 
-Graphics used (Creative Commons) are by:
+### Graphics
 
-* Toriotto - <https://www.pixiv.net/en/users/5887541>
-* Various - <https://game-icons.net/>
-* Xelu - <https://thoseawesomeguys.com/prompts/>
+Creative Commons graphics are used from:
 
-Music used (Soundimage International Public License) is by:
+- [Toriotto](https://www.pixiv.net/en/users/5887541)
+- [game-icons.net](https://game-icons.net/)
+- [Xelu](https://thoseawesomeguys.com/prompts/)
 
-* Eric Matyas - <https://www.soundimage.org>
+### Music
+
+Music is used under the Soundimage International Public License and is by:
+
+- [Eric Matyas](https://www.soundimage.org)
