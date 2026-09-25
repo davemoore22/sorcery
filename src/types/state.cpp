@@ -54,6 +54,9 @@ Sorcery::State::State(Context *ctx)
 	_restart_expedition();
 }
 
+/// @brief
+/// @param itemstore
+/// @return
 auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
 
 	for (int id = 0; id < 101; id++) {
@@ -63,6 +66,8 @@ auto Sorcery::State::reset_shop(ItemStore *itemstore) -> void {
 	}
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::print() -> void {
 
 	auto text{"State:\n\n"s};
@@ -82,6 +87,8 @@ auto Sorcery::State::print() -> void {
 	std::println("{}", text);
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::_clear() -> void {
 
 	_party.clear();
@@ -95,11 +102,16 @@ auto Sorcery::State::_clear() -> void {
 	_log.clear();
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_turns() const -> unsigned int {
 
 	return _turns;
 }
 
+/// @brief
+/// @param turns
+/// @return
 auto Sorcery::State::pass_turn(unsigned int turns) -> void {
 
 	_turns += turns;
@@ -107,6 +119,8 @@ auto Sorcery::State::pass_turn(unsigned int turns) -> void {
 		--_light_turns;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::_clear_explored() -> void {
 
 	explored.clear();
@@ -115,11 +129,18 @@ auto Sorcery::State::_clear_explored() -> void {
 		explored.emplace(depth, Explore{});
 }
 
+/// @brief /
+
+/// @param char_id
+/// @return
 auto Sorcery::State::add_character_by_id(unsigned int char_id) -> bool {
 
 	return add_character_to_party(char_id);
 }
 
+/// @brief
+/// @param new_order
+/// @return
 auto Sorcery::State::reorder_party(std::vector<unsigned int> &new_order) -> void {
 
 	_party.clear();
@@ -127,66 +148,97 @@ auto Sorcery::State::reorder_party(std::vector<unsigned int> &new_order) -> void
 		_party.push_back(char_id);
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::restart_expedition() -> void {
 
 	_restart_expedition();
 }
 
+/// @brief
+/// @param turns
+/// @return
 auto Sorcery::State::set_lit(const int turns) -> void {
 
 	_light_turns = turns;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_lit() const -> bool {
 
 	return _light_turns > 0;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_lit_turns() const -> int {
 
 	return _light_turns;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::State::set_maporfic(const bool value) -> void {
 
 	_maporfic = value;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_maporifc() const -> bool {
 
 	return _maporfic;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::State::set_latumapic(const bool value) -> void {
 
 	_latumapic = value;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_latumapic() const -> bool {
 
 	return _latumapic;
 }
 
+/// @brief
+/// @param depth
+/// @return
 auto Sorcery::State::set_player_prev_depth(int depth) -> void {
 
 	_previous_depth = depth;
 }
 
+/// @brief
+/// @param depth
+/// @return
 auto Sorcery::State::set_depth(int depth) -> void {
 
 	_player_depth = depth;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_depth() const -> int {
 
 	return _player_depth;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_player_prev_depth() const -> int {
 
 	return _previous_depth;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::_restart_expedition() -> void {
 
 	_playing_facing = Enums::Map::Direction::NORTH;
@@ -195,42 +247,62 @@ auto Sorcery::State::_restart_expedition() -> void {
 	_light_turns = 0;
 }
 
+/// @brief
+/// @param ctx
+/// @return
 auto Sorcery::State::post_construct(Context *ctx) -> void {
 
 	_ctx = ctx;
 }
 
-// Method called to simulate Normal Constructor with Cereal Constructor
+/// @brief  Method called to simulate Normal Constructor with Cereal Constructor
+/// @param ctx
+/// @return
 auto Sorcery::State::set(Context *ctx) -> void {
 
 	_ctx = ctx;
 }
+
+/// @brief
+/// @param candidate_party
+/// @return
 
 auto Sorcery::State::set_party(std::vector<unsigned int> candidate_party) -> void {
 
 	_party = candidate_party;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::party_has_members() const -> bool {
 
 	return _party.size() > 0;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_party_size() const -> unsigned int {
 
 	return _party.size();
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_party_characters() const -> std::vector<unsigned int> {
 
 	return _party;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::clear_party() -> void {
 
 	_party.clear();
 }
 
+/// @brief
+/// @param char_id
+/// @return
 auto Sorcery::State::add_character_to_party(unsigned int char_id) -> bool {
 
 	if (_party.size() < 6) {
@@ -240,6 +312,9 @@ auto Sorcery::State::add_character_to_party(unsigned int char_id) -> bool {
 		return false;
 }
 
+/// @brief
+/// @param char_id
+/// @return
 auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
 
 	if (_party.size() > 0) {
@@ -251,12 +326,17 @@ auto Sorcery::State::check_character_in_party(unsigned int char_id) -> bool {
 		return false;
 }
 
+/// @brief
+/// @param other
+/// @return
 auto Sorcery::State::set_current_level(Level *other) -> void {
 
 	level->set(other);
 }
 
-// Return the *slot* of a character in the party (note this is 1-indexed!)
+/// @brief Return the *slot* of a character in the party (note this is 1-indexed!)
+/// @param char_id
+/// @return
 auto Sorcery::State::get_char_slot(unsigned int char_id) -> std::optional<unsigned int> {
 
 	if (_party.size() > 0) {
@@ -272,32 +352,47 @@ auto Sorcery::State::get_char_slot(unsigned int char_id) -> std::optional<unsign
 		return std::nullopt;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_player_facing() const -> Enums::Map::Direction {
 
 	return _playing_facing;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_player_pos() const -> Coordinate {
 
 	return _player_pos;
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::get_player_prev_pos() const -> Coordinate {
 
 	return _previous_pos;
 }
 
+/// @brief
+/// @param direction
+/// @return
 auto Sorcery::State::set_player_facing(const Enums::Map::Direction direction) -> void {
 
 	_playing_facing = direction;
 }
 
+/// @brief
+/// @param position
+/// @return
 auto Sorcery::State::set_player_pos(const Coordinate position) -> void {
 
 	_previous_pos = _player_pos;
 	_player_pos = position;
 }
 
+/// @brief
+/// @param char_id
+/// @return
 auto Sorcery::State::remove_character_by_id(unsigned int char_id) -> bool {
 
 	if (_party.size() > 0) {
@@ -311,15 +406,21 @@ auto Sorcery::State::remove_character_by_id(unsigned int char_id) -> bool {
 		return false;
 }
 
-// 1-indexed!
+/// @brief
+/// @param index
+/// @return
 auto Sorcery::State::get_party_char(unsigned int index) -> std::optional<unsigned int> {
 
+	// 1-indexed
 	if (_party.size() < index)
 		return std::nullopt;
 	else
 		return _party.at(index - 1);
 }
 
+/// @brief
+/// @param character_id
+/// @return
 auto Sorcery::State::get_next_party_character(unsigned int character_id) -> std::optional<unsigned int> {
 
 	auto index{get_char_slot(character_id)};
@@ -332,6 +433,9 @@ auto Sorcery::State::get_next_party_character(unsigned int character_id) -> std:
 	return _party.at(next_slot - 1); // return character ID
 }
 
+/// @brief
+/// @param character_id
+/// @return
 auto Sorcery::State::get_previous_party_character(unsigned int character_id) -> std::optional<unsigned int> {
 
 	auto index{get_char_slot(character_id)};
@@ -344,6 +448,9 @@ auto Sorcery::State::get_previous_party_character(unsigned int character_id) -> 
 	return _party.at(prev_slot - 1); // return character ID
 }
 
+/// @brief
+/// @param index
+/// @return
 auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
 
 	if (_party.size() > index) {
@@ -353,6 +460,10 @@ auto Sorcery::State::remove_character_by_position(unsigned int index) -> bool {
 		return false;
 }
 
+/// @brief
+/// @param text
+/// @param type
+/// @return
 auto Sorcery::State::add_log_message(std::string text,
 									 Enums::Internal::MessageType type = Enums::Internal::MessageType::STANDARD)
 	-> void {
@@ -360,11 +471,19 @@ auto Sorcery::State::add_log_message(std::string text,
 	_log.emplace_back(ConsoleMessage{type, text});
 }
 
+/// @brief
+/// @return
 auto Sorcery::State::clear_log_messages() -> void {
 
 	_log.clear();
 }
 
+/// @brief
+/// @param message
+/// @param dice
+/// @param roll
+/// @param needed
+/// @return
 auto Sorcery::State::add_log_dice_roll(const std::string &message, const int dice, const int roll, const int needed)
 	-> void {
 
@@ -376,6 +495,9 @@ auto Sorcery::State::add_log_dice_roll(const std::string &message, const int dic
 		add_log_message(message, Enums::Internal::MessageType::GAME);
 }
 
+/// @brief
+/// @param last
+/// @return
 auto Sorcery::State::get_log_messages(unsigned int last) const -> std::vector<ConsoleMessage> {
 
 	if (last == 0)
@@ -389,21 +511,33 @@ auto Sorcery::State::get_log_messages(unsigned int last) const -> std::vector<Co
 	}
 }
 
+/// @brief
+/// @param item_type
+/// @return
 auto Sorcery::State::check_shop_stock(const Enums::Items::TypeID item_type) const -> int {
 
 	return _shop[std::to_underlying(item_type)].current_stock;
 }
 
+/// @brief
+/// @param item_type
+/// @return
 auto Sorcery::State::check_shop_will_sell(const Enums::Items::TypeID item_type) const -> bool {
 
 	return _shop[std::to_underlying(item_type)].shop_will_sell;
 }
 
+/// @brief
+/// @param item_type
+/// @return
 auto Sorcery::State::check_shop_will_buy(const Enums::Items::TypeID item_type) const -> bool {
 
 	return _shop[std::to_underlying(item_type)].shop_will_buy;
 }
 
+/// @brief
+/// @param item_type
+/// @return
 auto Sorcery::State::sell_to_shop(const Enums::Items::TypeID item_type) -> void {
 
 	auto &stock{_shop[std::to_underlying(item_type)]};
@@ -411,7 +545,9 @@ auto Sorcery::State::sell_to_shop(const Enums::Items::TypeID item_type) -> void 
 	if (stock.current_stock != -1)
 		++stock.current_stock;
 }
-
+/// @brief
+/// @param item_type
+/// @return
 auto Sorcery::State::buy_from_shop(const Enums::Items::TypeID item_type) -> void {
 
 	auto &stock{_shop[std::to_underlying(item_type)]};
@@ -421,6 +557,10 @@ auto Sorcery::State::buy_from_shop(const Enums::Items::TypeID item_type) -> void
 		--stock.current_stock;
 }
 
+/// @brief
+/// @param itemstore
+/// @param item_type
+/// @return
 auto Sorcery::State::get_shop_display(ItemStore *itemstore, const Enums::Items::TypeID item_type) -> std::string {
 
 	const auto item{itemstore->get(item_type)};

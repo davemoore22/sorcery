@@ -35,6 +35,9 @@ namespace Sorcery {
 
 namespace {
 
+	/// @brief
+	/// @tparam E
+	/// @return
 	template <Enum E> consteval auto make_enum_entries() {
 
 		static constexpr auto enumerators{std::define_static_array(std::meta::enumerators_of(^^E))};
@@ -54,6 +57,10 @@ namespace {
 
 } // namespace
 
+/// @brief
+/// @tparam E
+/// @param value
+/// @return
 template <Enum E> auto enum_name(E value) -> std::string_view {
 
 	for (const auto &[enum_value, name] : enum_entries<E>)
@@ -63,6 +70,10 @@ template <Enum E> auto enum_name(E value) -> std::string_view {
 	return {};
 }
 
+/// @brief
+/// @tparam E
+/// @param name
+/// @return
 template <Enum E> auto enum_cast(std::string_view name) -> std::optional<E> {
 
 	for (const auto &[enum_value, enum_name] : enum_entries<E>)
@@ -72,6 +83,10 @@ template <Enum E> auto enum_cast(std::string_view name) -> std::optional<E> {
 	return std::nullopt;
 }
 
+/// @brief
+/// @tparam E
+/// @param value
+/// @return
 template <Enum E> auto enum_cast_signed(std::intmax_t value) -> std::optional<E> {
 
 	for (const auto &entry : enum_entries<E>)
@@ -81,6 +96,10 @@ template <Enum E> auto enum_cast_signed(std::intmax_t value) -> std::optional<E>
 	return std::nullopt;
 }
 
+/// @brief
+/// @tparam E
+/// @param value
+/// @return
 template <Enum E> auto enum_cast_unsigned(std::uintmax_t value) -> std::optional<E> {
 
 	for (const auto &entry : enum_entries<E>)

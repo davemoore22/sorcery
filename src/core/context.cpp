@@ -35,61 +35,97 @@ namespace Enums {
 }
 }
 
+/// @brief
+/// @return
 auto Sorcery::Context::tick() -> void {
 
 	application->update();
 };
 
+/// @brief
+/// @param random_type
+/// @return
 auto Sorcery::Context::get_random(const Enums::System::Random random_type) -> unsigned int {
 
 	return random->get(random_type);
 }
 
+/// @brief
+/// @param key
+/// @return
 auto Sorcery::Context::get_string(std::string_view key) -> std::string {
 
 	return strings->get(key);
 }
 
+/// @brief
+/// @param option
+/// @return
 auto Sorcery::Context::get_config(Enums::Config::Options option) -> bool & {
 
 	return config->get(option);
 }
 
+/// @brief
+/// @param option
+/// @return
 auto Sorcery::Context::get_config(Enums::Config::Options option) const -> bool {
 
 	return config->get(option);
 }
 
+/// @brief
+/// @param section
+/// @param value
+/// @return
 auto Sorcery::Context::get_config(std::string_view section, std::string_view value) const -> std::string {
 
 	return config->get(section, value);
 }
 
+/// @brief
+/// @param key
+/// @return
 auto Sorcery::Context::get_file(std::string_view key) const -> std::filesystem::path {
 
 	return files->get(key);
 }
 
+/// @brief
+/// @param key
+/// @return
 auto Sorcery::Context::get_directory(std::string_view key) const -> std::filesystem::path {
 
 	return files->get_directory(key);
 }
 
+/// @brief
+/// @param combined_key
+/// @return
 auto Sorcery::Context::get_component(std::string_view combined_key) -> Component & {
 
 	return components->get(combined_key);
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Context::get_flag_ref(const std::string &flag) -> bool & {
 
 	return controller->get_flag_ref(flag);
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Context::get_flag(const std::string &flag) -> bool {
 
 	return controller->get_flag(flag);
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Context::get_selected(const std::string &flag) const -> int {
 
 	return controller->get_selected(flag);

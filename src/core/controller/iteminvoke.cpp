@@ -32,6 +32,11 @@
 #include <memory>						 // for unique_ptr
 #include <vector>						 // for vector
 
+/// @brief
+/// @param game
+/// @param character
+/// @param effect
+/// @return
 auto Sorcery::apply_invoke(Game *game, Character &character, const Enums::Items::Effects::Invoke effect) -> bool {
 
 	using enum Enums::Items::Effects::Invoke;

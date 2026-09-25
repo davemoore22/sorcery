@@ -39,12 +39,18 @@
 #include <optional>						  // for optional, nullopt_t, nullopt
 #include <utility>						  // for exchange
 
+/// @brief
+/// @param host
+/// @param ctx
 Sorcery::ControllerInputHandler::ControllerInputHandler(Controller &host, Context &ctx)
 	: _host{host},
 	  _ctx{ctx} {
 
 	  };
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::debug(const SDL_Event &event) -> void {
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F2)
@@ -56,21 +62,33 @@ auto Sorcery::ControllerInputHandler::debug(const SDL_Event &event) -> void {
 	}
 }
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::quicksave(const SDL_Event &event) const -> bool {
 
 	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F9);
 }
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::quickload(const SDL_Event &event) const -> bool {
 
 	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F10);
 }
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::automap(const SDL_Event &event) const -> bool {
 
 	return (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m);
 }
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::ui_toggle(const SDL_Event &event) -> void {
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)
@@ -83,6 +101,9 @@ auto Sorcery::ControllerInputHandler::ui_toggle(const SDL_Event &event) -> void 
 		_host.toggle_flag("debug_ui");
 }
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::movement(const SDL_Event &event) const -> int {
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x)
@@ -102,12 +123,17 @@ auto Sorcery::ControllerInputHandler::movement(const SDL_Event &event) const -> 
 		return MOVE_NONE;
 }
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::help(const SDL_Event &event) const -> bool {
 
 	return event.type == SDL_KEYDOWN && event.key.repeat == 0 && event.key.keysym.sym == SDLK_F1;
 }
 
-// Check if the SDL event is go-back-to-previous event
+/// @brief Check if the SDL event is go-back-to-previous event
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::back(const SDL_Event &event) const -> bool {
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
@@ -118,7 +144,9 @@ auto Sorcery::ControllerInputHandler::back(const SDL_Event &event) const -> bool
 	return false;
 }
 
-// Check for a resize event
+/// @brief Check for a resize event
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::resize(const SDL_Event &event) -> void {
 
 	if (event.type != SDL_WINDOWEVENT)
@@ -131,8 +159,10 @@ auto Sorcery::ControllerInputHandler::resize(const SDL_Event &event) -> void {
 	_ctx.ui->metrics->update(_ctx.display->get_display_metrics());
 }
 
-// Check if the SDL event is go-back-to-previous event (override to
-// set a flag, for example to display a dialog box!)
+/// @brief Check if the SDL event is go-back-to-previous event (overide to include a flag)
+/// @param event
+/// @param flag
+/// @return
 auto Sorcery::ControllerInputHandler::back(const SDL_Event &event, bool &flag) const -> void {
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
@@ -141,6 +171,9 @@ auto Sorcery::ControllerInputHandler::back(const SDL_Event &event, bool &flag) c
 		flag = true;
 }
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::quick_inspect(const SDL_Event &event) const -> int {
 
 	if (event.type != SDL_KEYDOWN)
@@ -169,7 +202,9 @@ auto Sorcery::ControllerInputHandler::quick_inspect(const SDL_Event &event) cons
 	return position;
 }
 
-// Check if the SDL event is a Window-Shut-Down event
+/// @brief Check if the SDL event is a Window-Shut-Down event
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::abort(const SDL_Event &event) -> bool {
 
 	// SDL_QUIT event
@@ -188,6 +223,9 @@ auto Sorcery::ControllerInputHandler::abort(const SDL_Event &event) -> bool {
 	return false;
 }
 
+/// @brief
+/// @param item_count
+/// @return
 auto Sorcery::ControllerInputHandler::consume_menu_key(const std::size_t item_count) -> std::optional<std::size_t> {
 
 	if (!_menu_key || item_count == 0)
@@ -206,6 +244,9 @@ auto Sorcery::ControllerInputHandler::consume_menu_key(const std::size_t item_co
 	return index;
 }
 
+/// @brief
+/// @param event
+/// @return
 auto Sorcery::ControllerInputHandler::menu_key(const SDL_Event &event) -> void {
 
 	if (event.type != SDL_KEYDOWN)

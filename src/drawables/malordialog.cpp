@@ -79,7 +79,7 @@ auto Sorcery::MalorDialog::display() -> void {
 
 		const auto gap{grid * 1.5f};
 
-		// Fixed width for the number field + its +/- buttons.
+		// Fixed width for the number field + its +/- buttons
 		const auto input_width{grid * 7.0f};
 		const auto controls_width{label_width + gap + input_width};
 		const auto label_x{(width - controls_width) / 2.0f};
@@ -97,7 +97,7 @@ auto Sorcery::MalorDialog::display() -> void {
 		draw_input("EAST / WEST", "##malor_ew", _destination.east, grid * 5.0f);
 		draw_input("DOWN / UP", "##malor_ud", _destination.down, grid * 6.5f);
 
-		// Help text.
+		// Help text
 		constexpr auto help_1{"+ = NORTH / EAST / DOWN"};
 		constexpr auto help_2{"- = SOUTH / WEST / UP  "};
 
@@ -107,7 +107,7 @@ auto Sorcery::MalorDialog::display() -> void {
 		ImGui::SetCursorPos(ImVec2{(width - help_width) / 2.0f, grid * 9.0f});
 		ImGui::TextUnformatted(help_2);
 
-		// Buttons.
+		// Buttons
 		const ImVec2 btn_size{ImGui::GetFontSize() * 8.0f, 0.0f};
 		const auto button_y{height - (grid * 2.0f) - ImGui::GetFrameHeight()};
 		const auto button_centre{width / 2.0f};

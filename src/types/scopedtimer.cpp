@@ -23,10 +23,13 @@
 #include "types/scopedtimer.hpp"
 #include "core/debug.hpp" // for DEBUG_LOGF, debug_logf
 
+/// @brief
+/// @param name
 Sorcery::ScopedTimer::ScopedTimer(std::string_view name)
 	: _name{name},
 	  _start{clock::now()} {}
 
+/// @brief
 Sorcery::ScopedTimer::~ScopedTimer() {
 
 	const auto end{clock::now()};

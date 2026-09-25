@@ -38,11 +38,19 @@
 #include <memory>						  // for shared_ptr, unique_ptr
 #include <string>						  // for char_traits, basic_string
 
+/// @brief
+/// @param host
+/// @param ctx
 Sorcery::ControllerActionHandler::ControllerActionHandler(Controller &host, Context &ctx)
 	: _host{host},
 	  _ctx{ctx} {
 
 	  };
+
+/// @brief
+/// @param component
+/// @param data
+/// @return
 auto Sorcery::ControllerActionHandler::button(const std::string_view component, [[maybe_unused]] const int data)
 	-> void {
 
@@ -146,6 +154,11 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component, 
 		_host.go_to(Enums::Screen::CASTLE);
 	}
 }
+
+/// @brief
+/// @param component
+/// @param data
+/// @return
 auto Sorcery::ControllerActionHandler::input(const std::string_view component, std::string &data) -> void {
 
 	// DEBUG_LOGF("Input Button Click: {} {}", component, data);
@@ -179,6 +192,11 @@ auto Sorcery::ControllerActionHandler::input(const std::string_view component, s
 	}
 }
 
+/// @brief
+/// @param component
+/// @param positive
+/// @param data
+/// @return
 auto Sorcery::ControllerActionHandler::stepper(const std::string_view component, const bool positive, int &data)
 	-> void {
 
@@ -246,7 +264,11 @@ auto Sorcery::ControllerActionHandler::stepper(const std::string_view component,
 	};
 };
 
-// Toggle Handling
+/// @brief Toggle Handling
+/// @param component
+/// @param tab
+/// @param selection
+/// @return
 auto Sorcery::ControllerActionHandler::toggle(const std::string_view component, const std::string_view tab,
 											  const int selection) -> void {
 
@@ -284,6 +306,9 @@ auto Sorcery::ControllerActionHandler::toggle(const std::string_view component, 
 	}
 }
 
+/// @brief
+/// @param icon_idx
+/// @return
 auto Sorcery::ControllerActionHandler::icon(const int icon_idx) -> void {
 
 	// DEBUG_LOGF("Icon Click: {}", icon_idx);
@@ -318,6 +343,9 @@ auto Sorcery::ControllerActionHandler::icon(const int icon_idx) -> void {
 	}
 }
 
+/// @brief
+/// @param character_id
+/// @return
 auto Sorcery::ControllerActionHandler::inspect(const int character_id) -> void {
 
 	_host.set_character(Enums::CharacterSlot::INSPECT, character_id);

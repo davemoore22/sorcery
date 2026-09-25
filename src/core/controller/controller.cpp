@@ -37,6 +37,8 @@
 #include <memory>							 // for unique_ptr, make_unique
 #include <utility>							 // for pair, get, exchange
 
+/// @brief
+/// @param ctx
 Sorcery::Controller::Controller(Context &ctx)
 	: _ctx{ctx} {
 
@@ -48,8 +50,11 @@ Sorcery::Controller::Controller(Context &ctx)
 	actions = std::make_unique<ControllerActionHandler>(*this, ctx);
 }
 
+/// @brief
 Sorcery::Controller::~Controller() = default;
 
+/// @brief
+/// @return
 auto Sorcery::Controller::initialise() -> void {
 
 	_busy = false;
@@ -137,44 +142,67 @@ auto Sorcery::Controller::initialise() -> void {
 	_flags["interface_ui"] = show_ui;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::add_to_candidate_party(unsigned int value) -> void {
 
 	_candidate_party.emplace_back(value);
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::clear_candidate_party() -> void {
 
 	_candidate_party.clear();
 }
+
+/// @brief
+/// @return
 auto Sorcery::Controller::get_candidate_party() -> std::vector<unsigned int> & {
 
 	return _candidate_party;
 }
+
+/// @brief
+/// @return
 auto Sorcery::Controller::get_candidate_party() const -> const std::vector<unsigned int> & {
 
 	return _candidate_party;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_last_event() const -> Enums::Map::Event {
 
 	return _last_event;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::set_last_event(const Enums::Map::Event value) -> void {
 
 	_last_event = value;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_last_dir() const -> Enums::Map::Direction {
 
 	return _last_dir;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::set_last_dir(const Enums::Map::Direction value) -> void {
 
 	_last_dir = value;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_flags() const -> std::string {
 
 	std::string output{};
@@ -184,6 +212,8 @@ auto Sorcery::Controller::get_flags() const -> std::string {
 	return output;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_characters() const -> std::string {
 
 	std::string output{};
@@ -193,68 +223,109 @@ auto Sorcery::Controller::get_characters() const -> std::string {
 	return output;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::set_monochrome(const bool value) -> void {
 
 	_monochrome = value;
 	_ctx.ui->render->reset_monochrome(value);
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_monochrome() const -> bool {
 
 	return _monochrome;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::set_busy(const bool value) -> void {
 
 	_busy = value;
 }
+
+/// @brief
+/// @return
 auto Sorcery::Controller::get_busy() const -> bool {
 
 	return _busy;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::set_fullscreen(const bool value) -> void {
 
 	_fullscreen = value;
 }
+
+/// @brief
+/// @return
 auto Sorcery::Controller::get_fullscreen() const -> bool {
 
 	return _fullscreen;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::has_saved_game() const -> bool {
 
 	return _has_save;
 }
 
+/// @brief
+/// @param flag
+/// @param value
+/// @return
 auto Sorcery::Controller::set_flag_value(const std::string_view flag, const bool value) -> void {
 
 	_flags[std::string{flag}] = value;
 }
 
+/// @brief
+/// @param game
+/// @return
 auto Sorcery::Controller::set_game(Game *game) -> void {
 
 	_game = game;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::set_can_undo(const bool value) -> void {
 
 	_can_undo = value;
 }
+
+/// @brief
+/// @return
 auto Sorcery::Controller::get_can_undo() const -> bool {
 
 	return _can_undo;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_last_screen() const -> Enums::Screen {
 
 	return _last_screen;
 }
+
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::set_last_screen(const Enums::Screen value) -> void {
 
 	_last_screen = value;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::get_flag_ref(const std::string_view flag) -> bool & {
 
 	if (!_flags.contains(flag))
@@ -263,6 +334,9 @@ auto Sorcery::Controller::get_flag_ref(const std::string_view flag) -> bool & {
 	return _flags.at(std::string{flag});
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::get_flag(const std::string_view flag) const -> bool {
 
 	if (_flags.contains(flag))
@@ -271,11 +345,17 @@ auto Sorcery::Controller::get_flag(const std::string_view flag) const -> bool {
 		return false;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::set_flag(const std::string_view flag) -> void {
 
 	_flags[std::string{flag}] = true;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::toggle_flag(const std::string_view flag) -> void {
 
 	if (_flags.contains(flag))
@@ -284,11 +364,17 @@ auto Sorcery::Controller::toggle_flag(const std::string_view flag) -> void {
 		_flags[std::string{flag}] = true;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::unset_flag(const std::string_view flag) -> void {
 
 	_flags[std::string{flag}] = false;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::has_flag(const std::string_view flag) const -> bool {
 
 	if (_flags.contains(flag))
@@ -297,6 +383,9 @@ auto Sorcery::Controller::has_flag(const std::string_view flag) const -> bool {
 	return false;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::has_selected(const std::string_view flag) const -> bool {
 
 	if (_selected.contains(flag))
@@ -305,11 +394,18 @@ auto Sorcery::Controller::has_selected(const std::string_view flag) const -> boo
 	return false;
 }
 
+/// @brief
+/// @param flag
+/// @param value
+/// @return
 auto Sorcery::Controller::set_selected(const std::string_view flag, const int value) -> void {
 
 	_selected[std::string{flag}] = value;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::get_selected(const std::string_view flag) const -> int {
 
 	if (_selected.contains(flag))
@@ -318,11 +414,17 @@ auto Sorcery::Controller::get_selected(const std::string_view flag) const -> int
 		return -1;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::unset_selected(const std::string_view flag) -> void {
 
 	_selected[std::string{flag}] = -1;
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::has_text(const std::string_view flag) const -> bool {
 
 	if (_texts.contains(flag))
@@ -330,15 +432,27 @@ auto Sorcery::Controller::has_text(const std::string_view flag) const -> bool {
 
 	return false;
 }
+
+/// @brief
+/// @param flag
+/// @param text
+/// @return
 auto Sorcery::Controller::set_text(const std::string_view flag, const std::string &text) -> void {
 
 	_texts[std::string{flag}] = text;
 }
+
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::unset_text(const std::string_view flag) -> void {
 
 	_texts[std::string{flag}] = "";
 }
 
+/// @brief
+/// @param flag
+/// @return
 auto Sorcery::Controller::get_text(const std::string_view flag) const -> std::string {
 	if (_texts.contains(std::string{flag}))
 		return _texts.at(std::string{flag});
@@ -346,6 +460,9 @@ auto Sorcery::Controller::get_text(const std::string_view flag) const -> std::st
 	return "";
 }
 
+/// @brief
+/// @param slot
+/// @return
 auto Sorcery::Controller::get_character(const Enums::CharacterSlot slot) const -> int {
 
 	if (_characters.contains(slot))
@@ -354,6 +471,9 @@ auto Sorcery::Controller::get_character(const Enums::CharacterSlot slot) const -
 		return -1;
 }
 
+/// @brief
+/// @param slot
+/// @return
 auto Sorcery::Controller::has_character(const Enums::CharacterSlot slot) const -> bool {
 
 	if (_characters.contains(slot))
@@ -363,16 +483,25 @@ auto Sorcery::Controller::has_character(const Enums::CharacterSlot slot) const -
 	return false;
 }
 
+/// @brief
+/// @param slot
+/// @param value
+/// @return
 auto Sorcery::Controller::set_character(const Enums::CharacterSlot slot, const int value) -> void {
 
 	_characters[slot] = value;
 }
 
+/// @brief
+/// @param slot
+/// @return
 auto Sorcery::Controller::clear_character(const Enums::CharacterSlot slot) -> void {
 
 	_characters[slot] = -1;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::clear_modal_flags() -> void {
 
 	for (const auto flag : {
@@ -393,30 +522,46 @@ auto Sorcery::Controller::clear_modal_flags() -> void {
 		unset_flag(flag);
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::abort(const bool value) -> void {
 
 	_abort = value;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_input_buffer() -> std::string & {
 
 	return _input_buffer;
 }
+
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::set_input_buffer(const std::string &value) -> void {
 
 	_input_buffer = value;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::clear_input_buffer() -> void {
 
 	_input_buffer.clear();
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_candidate_character() const -> Character * {
 
 	return _game->creation_candidate.get();
 }
 
+/// @brief
+/// @param screen
+/// @return
 auto Sorcery::Controller::go_to(const Enums::Screen screen) -> void {
 
 	DEBUG_LOGF("Go To Screen: {}", enum_name(screen));
@@ -425,46 +570,60 @@ auto Sorcery::Controller::go_to(const Enums::Screen screen) -> void {
 	_screen = screen;
 }
 
+/// @brief
+/// @param value
+/// @return
 auto Sorcery::Controller::wants(const Enums::Screen value) const -> bool {
 
 	return _screen == value;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::is_at() const -> Enums::Screen {
 
 	return _screen;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::request_back() -> void {
 
 	_go_back = true;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::get_back() const -> bool {
 
 	return _go_back;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Controller::consume_back() -> bool {
 
 	return std::exchange(_go_back, false);
 }
 
-/// @brief Set the underlying input mode.
+/// @brief Set the underlying input mode
 /// @param mode
+/// @return
 auto Sorcery::Controller::set_input_mode(const Enums::Input::Mode mode) -> void {
 
 	_input_mode = mode;
 }
 
-/// @brief Temporarily override the current input mode.
+/// @brief Temporarily override the current input mode
 /// @param mode
+/// @return
 auto Sorcery::Controller::push_input_mode(const Enums::Input::Mode mode) -> void {
 
 	_input_mode_stack.push_back(mode);
 }
 
-/// @brief Remove the most recent temporary input mode.
+/// @brief Remove the most recent temporary input mode
+/// @return
 auto Sorcery::Controller::pop_input_mode() -> void {
 
 	if (_input_mode_stack.empty()) {
@@ -475,14 +634,15 @@ auto Sorcery::Controller::pop_input_mode() -> void {
 	_input_mode_stack.pop_back();
 }
 
-/// @brief Reset all input mode state.
+/// @brief Reset all input mode state
+/// @return
 auto Sorcery::Controller::clear_input_modes() -> void {
 
 	_input_mode = Enums::Input::Mode::NONE;
 	_input_mode_stack.clear();
 }
 
-/// @brief Return the currently applicable input mode.
+/// @brief Return the currently applicable input mode
 /// @return
 auto Sorcery::Controller::get_input_mode() const -> Enums::Input::Mode {
 
@@ -494,6 +654,10 @@ auto Sorcery::Controller::get_input_mode() const -> Enums::Input::Mode {
 
 namespace Sorcery {
 
+/// @brief
+/// @param out_stream
+/// @param controller
+/// @return
 auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller) -> std::ostream & {
 
 	for (const auto &f : controller._flags)

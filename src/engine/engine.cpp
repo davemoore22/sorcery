@@ -1378,7 +1378,7 @@ auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) ->
 	const auto show_result = [&](const std::string_view line_1, const std::string_view line_2) {
 		const auto text{std::format("{}\n{}", _ctx.get_string(line_1), _ctx.get_string(line_2))};
 
-		// Use the runtime-text dialog path we added for DUMAPIC/KANDI here.
+		// Reuse the runtime-text dialog path added for DUMAPIC/KANDI here
 		_ctx.ui->popup_manager->open_dialog("global:dialog_spell_result", Enums::Layout::DialogType::OK, text);
 	};
 
@@ -1414,7 +1414,6 @@ auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) ->
 	case CASTLE:
 
 		_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
-
 		_ctx.controller->set_flag("want_return_to_town");
 
 		break;
@@ -1427,9 +1426,7 @@ auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) ->
 			break;
 
 		_go_to_location(teleport->depth, teleport->coordinate, _ctx.game->state->get_player_facing());
-
 		_ctx.controller->set_can_undo(false);
-
 		(void)_process_current_tile();
 
 		break;
@@ -1438,7 +1435,6 @@ auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) ->
 	case MOAT:
 
 		set_party_status(DEAD);
-
 		show_result("MALOR_MOAT_1", "MALOR_MOAT_2");
 
 		break;
@@ -1446,7 +1442,6 @@ auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) ->
 	case MID_AIR:
 
 		set_party_status(DEAD);
-
 		show_result("MALOR_MID_AIR_1", "MALOR_MID_AIR_2");
 
 		break;
@@ -1454,7 +1449,6 @@ auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) ->
 	case INTO_ROCK:
 
 		set_party_status(LOST);
-
 		show_result("MALOR_ROCK_1", "MALOR_ROCK_2");
 
 		break;
@@ -1462,7 +1456,6 @@ auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) ->
 	case VOLCANO:
 
 		set_party_status(LOST);
-
 		show_result("MALOR_VOLCANO_1", "MALOR_VOLCANO_2");
 
 		break;

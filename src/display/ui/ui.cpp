@@ -3837,13 +3837,11 @@ auto Sorcery::UI::draw_atlas_tile(const std::string_view source, const int idx, 
 		return;
 
 	const auto tile_size{src_image.width / tile_row_count};
-
 	const auto from{ImVec4{static_cast<float>(tile_size * (idx % tile_row_count)),
 						   static_cast<float>(tile_size * (idx / tile_row_count)), static_cast<float>(tile_size),
 						   static_cast<float>(tile_size)}};
 
 	const ImVec2 uv_0{from.x / static_cast<float>(src_image.width), from.y / static_cast<float>(src_image.height)};
-
 	const ImVec2 uv_1{(from.x + from.z) / static_cast<float>(src_image.width),
 					  (from.y + from.w) / static_cast<float>(src_image.height)};
 

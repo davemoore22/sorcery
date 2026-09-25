@@ -131,6 +131,10 @@ namespace {
 	};
 
 } // namespace
+
+/// @brief
+/// @param mode
+/// @return
 auto entries(const Enums::Input::Mode mode) -> std::span<const HelpEntry> {
 
 	using enum Enums::Input::Mode;
@@ -160,11 +164,16 @@ auto entries(const Enums::Input::Mode mode) -> std::span<const HelpEntry> {
 	}
 }
 
+/// @brief
+/// @return
 auto always() -> std::span<const HelpEntry> {
 
 	return always_entries;
 }
 
+/// @brief
+/// @param input
+/// @return
 auto glyphs(const Enums::Controls::Input input) -> std::span<const Enums::Controls::HelpGlyph> {
 
 	switch (input) {

@@ -29,6 +29,8 @@
 #include "resources/savestore.hpp"	  // for SaveStore
 #include "resources/spellstore.hpp"	  // for SpellStore
 
+/// @brief
+/// @param ctx
 Sorcery::Resources::Resources(Context &ctx)
 	: _ctx{ctx} {
 
@@ -39,4 +41,5 @@ Sorcery::Resources::Resources(Context &ctx)
 	saves = std::make_unique<SaveStore>(_ctx.get_file(SAVE_GAME_FILE), _ctx.get_directory(SAVE_CHARACTERS_DIR));
 }
 
+/// @brief
 Sorcery::Resources::~Resources() = default;

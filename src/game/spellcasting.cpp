@@ -64,6 +64,26 @@ auto Sorcery::SpellCasting::begin(const Magic::CastRequest &request) -> Magic::C
 
 	} else {
 
+		// MALOR commits the spell point when the  destination selector is opened
+		using enum Enums::Magic::SpellID;
+		using enum Magic::CastRequirement;
+		if (request.spell == MALOR) {
+
+			auto caster_it{_game.characters.find(request.caster_id)};
+
+			if (caster_it == _game.characters.end())
+				return {.request = request, .requirement = NONE};
+
+			auto &caster{caster_it->second};
+
+			if (!caster.magic().spend_spell_point(spell.type, spell.level))
+				return {.request = request, .requirement = NONE};
+
+			DEBUG_LOGF(
+				"MALOR: spell point spent "
+				"before destination selection");
+		}
+
 		_pending = request;
 	}
 
@@ -100,6 +120,7 @@ auto Sorcery::SpellCasting::_get_requirement(const Spell &spell, const Enums::Ma
 		return EFFECT;
 
 	default:
+		// Includess stuff like KANDI and DUMAPIC
 		return NONE;
 	}
 }
@@ -121,7 +142,7 @@ auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
 
 	const auto spell{_ctx.resources->spells->get(request.spell)};
 
-	// Every spell needs a valid caster.
+	// Every spell needs a valid caster
 	auto caster_it{_game.characters.find(request.caster_id)};
 	if (caster_it == _game.characters.end())
 		return false;
@@ -229,7 +250,7 @@ auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
 
 		const auto status{target->get_status()};
 
-		// Invalid target, but keep the selection modal open.
+		// Invalid target, but keep the selection modal open
 		if (status == DEAD || status == ASHES || status == LOST)
 			return true;
 
@@ -362,7 +383,7 @@ auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
 		return can_continue();
 	}
 
-		// No target required from here onwards.
+		// No target required from here onwards
 
 	case MILWA: {
 
@@ -429,6 +450,7 @@ auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
 
 		const auto depth{std::abs(_game.state->get_depth())};
 
+		// TODO: put these into strings
 		const auto text{
 			std::format("PARTY LOCATION:\n\n"
 						"THE PARTY IS FACING {}.\n\n"
@@ -453,7 +475,7 @@ auto Sorcery::SpellCasting::_resolve(Magic::CastRequest request) -> bool {
 		const auto chance{caster.abilities().at(LOKTOFELT_SUCCESS)};
 		const int roll{_ctx.get_random(D100)};
 
-		// Forget LOKTOFEIT here regardless of success.
+		// Forget LOKTOFEIT here regardless of success
 		caster.magic().forget_spell(LOKTOFEIT);
 
 		if (roll >= chance) {
@@ -544,6 +566,7 @@ auto Sorcery::SpellCasting::_kandi_report() const -> std::string {
 		return std::tuple{entry.level_distance, entry.tile_distance, entry.character->get_name()};
 	});
 
+	// TODO: put these into strings
 	if (characters.empty())
 		return "NO OTHER CHARACTERS ARE IN THE MAZE";
 
@@ -589,19 +612,19 @@ auto Sorcery::SpellCasting::resolve_malor(const Magic::MalorDestination &destina
 
 	const auto target_depth{current_depth - destination.down};
 
-	// Source anti-magic prevents escape.
+	// Source anti-magic prevents escape
 	const auto &current_tile{_game.state->level->at(current)};
 
 	if (current_tile.is(ANTIMAGIC))
 		return finish(BLOCKED);
 
-	// Above castle.
+	// Above castle
 	if (target_depth > 0)
 		return finish(MID_AIR);
 
 	// TODO: will be Volcano in Wiz 3
 
-	// Castle level.
+	// Castle level
 	if (target_depth == 0) {
 
 		if (target == Coordinate{0, 0})
@@ -610,23 +633,23 @@ auto Sorcery::SpellCasting::resolve_malor(const Magic::MalorDestination &destina
 		return finish(MOAT);
 	}
 
-	// Beyond the dungeon entirely.
+	// Beyond the dungeon entirely
 	const auto target_level{_ctx.resources->levels->get(target_depth)};
 
 	if (!target_level)
 		return finish(INTO_ROCK);
 
-	// Wizardry I B10 cannot be entered using MALOR.
+	// Wizardry I B10 cannot be entered using MALOR
 	if (target_depth == -10)
 		return finish(BOUNCED);
 
-	// Anti-magic destination.
+	// Anti-magic destination
 	const auto &target_tile{target_level->at(target)};
 
 	if (target_tile.is(ANTIMAGIC))
 		return finish(BOUNCED);
 
-	// Valid dungeon teleport.
+	// Valid dungeon teleport
 	_malor_teleport = Magic::MalorTeleport{.depth = target_depth, .coordinate = target};
 
 	return finish(DUNGEON);

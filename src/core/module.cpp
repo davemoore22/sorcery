@@ -39,6 +39,12 @@ namespace Sorcery {
 namespace Enums { enum class Screen; }
 }
 
+/// @brief
+/// @param draw
+/// @param from
+/// @param to
+/// @param duration
+/// @return
 auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from, const float to,
 							const std::chrono::milliseconds duration) -> void {
 
@@ -76,6 +82,10 @@ auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from,
 	draw();
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @return
 auto Sorcery::Module::fade_in(const Enums::Screen screen, const std::chrono::milliseconds duration) -> void {
 
 	_fade(
@@ -85,6 +95,10 @@ auto Sorcery::Module::fade_in(const Enums::Screen screen, const std::chrono::mil
 		1.0f, 0.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @return
 auto Sorcery::Module::fade_out(const Enums::Screen screen, const std::chrono::milliseconds duration) -> void {
 
 	_fade(
@@ -94,6 +108,11 @@ auto Sorcery::Module::fade_out(const Enums::Screen screen, const std::chrono::mi
 		0.0f, 1.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @param string
+/// @return
 auto Sorcery::Module::fade_in_with_string(const Enums::Screen screen, const std::chrono::milliseconds duration,
 										  const std::string &string) -> void {
 
@@ -104,6 +123,11 @@ auto Sorcery::Module::fade_in_with_string(const Enums::Screen screen, const std:
 		1.0f, 0.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @param value
+/// @return
 auto Sorcery::Module::fade_in_with_int(const Enums::Screen screen, const std::chrono::milliseconds duration,
 									   const int value) -> void {
 
@@ -114,6 +138,11 @@ auto Sorcery::Module::fade_in_with_int(const Enums::Screen screen, const std::ch
 		1.0f, 0.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @param value
+/// @return
 auto Sorcery::Module::fade_out_with_int(const Enums::Screen screen, const std::chrono::milliseconds duration,
 										const int value) -> void {
 
@@ -124,6 +153,11 @@ auto Sorcery::Module::fade_out_with_int(const Enums::Screen screen, const std::c
 		0.0f, 1.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @param string
+/// @return
 auto Sorcery::Module::fade_out_with_string(const Enums::Screen screen, const std::chrono::milliseconds duration,
 										   const std::string &string) -> void {
 
@@ -134,16 +168,28 @@ auto Sorcery::Module::fade_out_with_string(const Enums::Screen screen, const std
 		0.0f, 1.0f, duration);
 }
 
+/// @brief
+/// @param draw
+/// @param duration
+/// @return
 auto Sorcery::Module::fade_in(const std::function<void()> &draw, const std::chrono::milliseconds duration) -> void {
 
 	_fade(draw, 1.0f, 0.0f, duration);
 }
 
+/// @brief
+/// @param draw
+/// @param duration
+/// @return
 auto Sorcery::Module::fade_out(const std::function<void()> &draw, const std::chrono::milliseconds duration) -> void {
 
 	_fade(draw, 0.0f, 1.0f, duration);
 }
 
+/// @brief
+/// @param event
+/// @param options
+/// @return
 auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &options) -> ModuleEvent {
 
 	// Always give ImGui the event first
@@ -191,11 +237,15 @@ auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &
 	return ModuleEvent::NONE;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Module::show_immediately() -> void {
 
 	_ctx.display->set_fade(0.0f);
 }
 
+/// @brief
+/// @return
 auto Sorcery::Module::abort() -> int {
 
 	_ctx.ui->close_all_popups();
