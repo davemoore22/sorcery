@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "resources/fontstore.hpp"
+#include "core/context.hpp"
 #include "resources/define.hpp" // for DATA_DIR
 #include <algorithm>			// for __lexicographical_compare_fn, __sort_fn
 #include <cctype>				// for tolower
@@ -40,8 +41,8 @@ Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO *io)
 
 	FT_Init_FreeType(&_ft);
 
-	// San the data directory for TTF fonts
-	const std::filesystem::path file_path = std::filesystem::path{DATA_DIR} / FONT_DIR;
+	// Resolve fonts relative to the executable, independent of the working directory.
+	const auto file_path{_ctx.get_directory(FONT_DIR)};
 	scan_and_load(file_path.string());
 	_sort_fonts_by_name();
 }
