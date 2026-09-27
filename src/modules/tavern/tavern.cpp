@@ -53,6 +53,8 @@ Sorcery::Tavern::Tavern(Context &ctx)
 	_initialise();
 };
 
+Sorcery::Tavern::~Tavern() = default;
+
 auto Sorcery::Tavern::_initialise() -> bool {
 
 	_ctx.controller->set_selected("party_panel_selected", 0);
