@@ -151,14 +151,6 @@ auto Sorcery::ScreenRenderer::_display_main_menu() -> void {
 	_ui.draw_bg_video();
 
 	_ui.popup_manager->display();
-
-	// bool show = true;
-	// ImGui::PushFont(fontstore->get_default_font());
-	// ImGui::ShowDemoWindow(&show);
-	// ImGui::PopFont();
-
-	// ImGui::SetNextWindowPos(ImVec2{1, 1});
-	// ImGui::SetNextWindowSize(ImVec2{1000, 1000});
 }
 
 auto Sorcery::ScreenRenderer::_display_bestiary() -> void {
@@ -682,6 +674,8 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state) -> v
 	const auto p_max{ImVec2{x + chest_w, y + chest_h}};
 
 	// Opaque backing behind the chest graphic.
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, IM_COL32(0, 0, 0, 255));
@@ -707,6 +701,8 @@ auto Sorcery::ScreenRenderer::_draw_create_confirm([[maybe_unused]] const int mo
 	_ui.draw_text(&cmp_summary, summary_text);
 
 	auto cmp_char{_ui.components->get("create_confirm:character_data")};
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		set_Font(_ui.fonts->get_current_font(cmp_char.font).value(), _ui.metrics->font_sz());
 		_ui.draw_character_summary(&cmp_char, _ctx.controller->get_candidate_character());
@@ -802,6 +798,8 @@ auto Sorcery::ScreenRenderer::_draw_level_up(const int mode) -> void {
 		}
 	}
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto leave{_ui.components->get("levelup:levelup_leave")};
 		_ui.draw_button_click(&leave, _ctx.get_flag_ref("show_levelup"), true);
@@ -842,6 +840,8 @@ auto Sorcery::ScreenRenderer::_draw_heal(int stage) -> void {
 		auto summary{_ui.components->get("heal:heal_results")};
 		const auto results{_ctx.controller->get_text("heal_results")};
 		_ui.draw_text(&summary, results);
+		const auto *viewport{ImGui::GetMainViewport()};
+		ImGui::SetNextWindowViewport(viewport->ID);
 		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 			auto leave{_ui.components->get("heal:button_heal_return")};
@@ -924,6 +924,8 @@ auto Sorcery::ScreenRenderer::_draw_no_level_up(const int mode) -> void {
 		_ui.draw_text(&cmp, make_text);
 	}
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto leave{_ui.components->get("nolevelup:nolevelup_leave")};
 		_ui.draw_button_click(&leave, _ctx.get_flag_ref("show_nolevelup"), true);
@@ -954,27 +956,28 @@ auto Sorcery::ScreenRenderer::_draw_recovery(const int mode) -> void {
 		text = std::format("{} {:>7}", _ctx.get_string("REST_GOLD"), character.get_gold());
 		_ui.draw_text(&cmp, text);
 
+		const auto *viewport{ImGui::GetMainViewport()};
+		ImGui::SetNextWindowViewport(viewport->ID);
 		with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 			auto stop{_ui.components->get("recovery:recovery_stop")};
 			_ui.draw_button_click(&stop, _ctx.get_flag_ref("show_recovery"), true);
 		}
 	}
 }
-
 auto Sorcery::ScreenRenderer::_draw_license(Component *component, const std::string &string) -> void {
+
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
-		// To adjust for Window Resizing etc
-		const auto x{std::invoke([&] {
-			const auto width{_ui.metrics->grid_sz() * component->get_float("grid_width")};
-			const auto viewport{ImGui::GetMainViewport()};
-			return (viewport->Size.x - width) / 2;
-		})};
+		// Position within the main Sorcery layer
+		const auto width{_ui.metrics->grid_sz() * component->get_float("grid_width")};
+		const auto x{(viewport->Size.x - width) / 2.0f};
+		const ImVec2 pos{x, _ui.metrics->grid_y(component->y)};
+		ImGui::SetCursorPos(pos);
 
-		const auto pos{ImVec2{x, _ui.metrics->grid_y(component->y)}};
-		ImGui::SetNextWindowPos(pos);
 		with_Child("license_child",
-				   ImVec2(_ui.metrics->grid_sz() * component->w, _ui.metrics->grid_sz() * component->h),
+				   ImVec2{_ui.metrics->grid_sz() * component->w, _ui.metrics->grid_sz() * component->h},
 				   ImGuiChildFlags_NavFlattened, ImGuiWindowFlags_AlwaysVerticalScrollbar) {
 
 			UIStyle::set_text_dim(_ctx);

@@ -184,8 +184,11 @@ auto Sorcery::UI::start() -> void {
 	// DEBUG_LOG("Starting UI...");
 
 	// Initialise ImGUI to use SDL2/OpenGL
+	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	_io = &ImGui::GetIO();
+	_io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	_io->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	_imgui_ini_path = _ctx.get_file(IMGUI_INI_FILE).string();
 	_io->IniFilename = CSTR(_imgui_ini_path);
@@ -229,6 +232,11 @@ auto Sorcery::UI::start() -> void {
 	style.PopupRounding = ui_rd;
 	style.TabRounding = ui_rd;
 	style.ChildBorderSize = ui_rd;
+	if (_io->ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
 
 	selected.clear();
 	highlighted.clear();
@@ -325,10 +333,9 @@ auto Sorcery::UI::display_engine() -> void {
 	draw_help_window();
 	draw_cursor();
 
-	// bool show{true};
-	// ImGui::PushFont(fontstore->get_default_font());
-	// ImGui::ShowDemoWindow(&show);
-	// ImGui::PopFont();
+	static bool show_metrics{true};
+	if (show_metrics)
+		ImGui::ShowMetricsWindow(&show_metrics);
 
 	ImGui::Render();
 
@@ -358,8 +365,8 @@ auto Sorcery::UI::display_screen(const Enums::Screen screen, const std::any &pay
 	_ctx.display->present(ImGui::GetDrawData());
 }
 
-// Preset all the (transparent) windows we will need (this should be called
-// before anything else is drawn to the screen during each render)
+// Preset all the (transparent) windows we will need (this should be called before anything else is drawn to the screen
+// during each render)
 auto Sorcery::UI::_setup_windows() -> void {
 
 	const std::vector<std::string> windows{WINDOW_LAYER_BG,		WINDOW_LAYER_FRAMES, WINDOW_LAYER_VIEW,
@@ -368,7 +375,8 @@ auto Sorcery::UI::_setup_windows() -> void {
 	const auto viewport{ImGui::GetMainViewport()};
 	for (const auto &window : windows) {
 
-		ImGui::SetNextWindowPos(ImVec2{0, 0});
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::SetNextWindowPos(viewport->Pos);
 		ImGui::SetNextWindowSize(viewport->Size);
 		auto alpha{window != WINDOW_LAYER_BG ? 0.0 : 1.0f};
 		ImGui::SetNextWindowBgAlpha(alpha);
@@ -377,6 +385,7 @@ auto Sorcery::UI::_setup_windows() -> void {
 		set_StyleVar(ImGuiStyleVar_WindowRounding, 0);
 		auto flags{window == WINDOW_LAYER_MENUS ? ImGuiWindowFlags_NoDecoration
 												: ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs};
+
 		with_Window(window.c_str(), nullptr, flags){};
 	}
 }
@@ -434,25 +443,30 @@ auto Sorcery::UI::draw_image(std::string_view source, const int idx, const ImVec
 
 auto Sorcery::UI::draw_view_image(std::string_view source, const VertexArray &array) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_VIEW, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		// Load the image if necessary
 		if (!images->has_loaded(std::string{source}))
 			images->load_image(std::string{source});
 
-		ImDrawList *draw_list{ImGui::GetWindowDrawList()};
-		auto old_flags{draw_list->Flags};
+		auto *draw_list{ImGui::GetWindowDrawList()};
+		const auto old_flags{draw_list->Flags};
 		draw_list->Flags = ImDrawListFlags_None;
-		auto src_image{images->get(std::string{source})};
-		draw_list->AddImageQuad(src_image.texture, ImVec2{array.data[0].position.x, array.data[0].position.y},
-								ImVec2{array.data[1].position.x, array.data[1].position.y},
-								ImVec2{array.data[2].position.x, array.data[2].position.y},
-								ImVec2{array.data[3].position.x, array.data[3].position.y},
-								ImVec2{array.data[0].tex_coord.x, array.data[0].tex_coord.y},
-								ImVec2{array.data[1].tex_coord.x, array.data[1].tex_coord.y},
-								ImVec2{array.data[2].tex_coord.x, array.data[2].tex_coord.y},
-								ImVec2{array.data[3].tex_coord.x, array.data[3].tex_coord.y},
+		const auto src_image{images->get(std::string{source})};
+
+		// Vertex positions are Sorcery-local coordinates, but ImDrawList expects screen coordinates
+		const auto origin{ImGui::GetWindowPos()};
+		const auto screen_pos = [&](const ImVec2 pos) -> ImVec2 {
+			return {origin.x + pos.x, origin.y + pos.y};
+		};
+
+		draw_list->AddImageQuad(src_image.texture, screen_pos(array.data[0].position),
+								screen_pos(array.data[1].position), screen_pos(array.data[2].position),
+								screen_pos(array.data[3].position), array.data[0].tex_coord, array.data[1].tex_coord,
+								array.data[2].tex_coord, array.data[3].tex_coord,
 								ImGui::ColorConvertFloat4ToU32(array.data[0].colour));
+
 		draw_list->Flags = old_flags;
 	}
 }
@@ -465,6 +479,8 @@ auto Sorcery::UI::draw_fg_image_with_idx(std::string_view layer, std::string_vie
 	if (!images->show_images) {
 
 		// If we aren't drawing images, draw a suitable placeholder
+		const auto *viewport{ImGui::GetMainViewport()};
+		ImGui::SetNextWindowViewport(viewport->ID);
 		with_Window(std::string(layer).c_str(), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 			ImGui::SetCursorPos(p_min);
 			ImGui::GetWindowDrawList()->AddRectFilled(p_min, ImVec2(p_min.x + p_sz.x, p_min.y + p_sz.y),
@@ -521,6 +537,8 @@ auto Sorcery::UI::draw_fg_image_with_idx(std::string_view layer, std::string_vie
 	const auto uv_0{ImVec2{from.x / image_size.x, from.y / image_size.y}};
 	const auto uv_1{ImVec2{(from.x + tile_size) / image_size.x, (from.y + tile_size) / image_size.y}};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(std::string(layer).c_str(), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		ImGui::SetCursorPos(ImVec2{p_min});
 		auto src_image{images->get(std::string{source})};
@@ -564,6 +582,8 @@ auto Sorcery::UI::draw_fg_image(Component *component) -> void {
 
 	if (!images->show_images) {
 
+		const auto *viewport{ImGui::GetMainViewport()};
+		ImGui::SetNextWindowViewport(viewport->ID);
 		with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 			const auto x{std::invoke([&] {
@@ -622,6 +642,8 @@ auto Sorcery::UI::draw_fg_image(Component *component) -> void {
 		})};
 
 		// Draw the Image (with Alpha as well as Fade!)
+		const auto *viewport{ImGui::GetMainViewport()};
+		ImGui::SetNextWindowViewport(viewport->ID);
 		with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 			ImGui::SetCursorPos(ImVec2{x, y});
 			ImVec4 tint_col{ImVec4(1.0f, 1.0f, 1.0f, component->alpha * _ctx.animation->fade)};
@@ -651,6 +673,7 @@ auto Sorcery::UI::draw_help_icon() -> void {
 
 	auto pos{ImVec2{margin * scale, viewport->Size.y - size.y - (margin * scale)}};
 
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::TEXT).value(), font_size);
@@ -676,6 +699,7 @@ auto Sorcery::UI::draw_build_info() -> void {
 
 	const auto text{std::format("{}  {}", Build::LABEL, Build::DATE)};
 
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::TEXT).value(), font_size);
@@ -740,10 +764,9 @@ auto Sorcery::UI::draw_ui_status() -> void {
 	const auto total_width{(size.x * static_cast<float>(icons.size())) +
 						   ((static_cast<float>(icons.size()) - 1.0f) * spacing * scale)};
 
-	auto pos{ImVec2{viewport->Size.x - total_width - (margin * scale),
+	auto pos{ImVec2{viewport->Size.x - total_width - (margin * scale), margin * scale}};
 
-					margin * scale}};
-
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		for (const auto &[icon, enabled] : icons) {
@@ -836,6 +859,8 @@ auto Sorcery::UI::draw_debug() -> void {
 	if (!_ctx.controller->get_flag("debug_ui"))
 		return;
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(_io->FontDefault, metrics->font_sz());
@@ -858,6 +883,8 @@ auto Sorcery::UI::draw_debug() -> void {
 // Draw a Paragraph (Wrapped Multiline Text)
 auto Sorcery::UI::draw_paragraph(Component *component) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(fonts->get_current_font(component->font).value(), metrics->font_sz());
@@ -875,6 +902,8 @@ auto Sorcery::UI::draw_paragraph(Component *component) -> void {
 auto Sorcery::UI::draw_text_with_layer(const std::string string, const ImColor colour, const ImVec2 pos,
 									   const Enums::Layout::Font font) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground) {
 
@@ -973,6 +1002,8 @@ auto Sorcery::UI::draw_button_click(Component *component, bool &flag, const bool
 // Draw a Button
 auto Sorcery::UI::draw_button(Component *component, std::optional<bool *> is_clicked) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		// Need to push font first before calculating size else it will
@@ -1144,6 +1175,8 @@ auto Sorcery::UI::draw_current_character([[maybe_unused]] const int mode) -> voi
 	auto title{components->get("inspect:character_title")};
 	draw_text(&title, character.summary_text_with_awards());
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto prev{components->get("inspect:character_previous")};
 		draw_button_click(&prev, _ctx.get_flag_ref("select_previous_character"));
@@ -1181,6 +1214,8 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name, in
 
 	bool disabled{false};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 		auto pos{metrics->grid_pos(component->x, component->y)};
@@ -1255,6 +1290,8 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name, in
 
 auto Sorcery::UI::draw_input(Component &component, std::string &input, const ImGuiInputTextFlags input_flags) -> bool {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 		const auto pos{metrics->grid_pos(component.x, component.y)};
@@ -1295,10 +1332,11 @@ auto Sorcery::UI::draw_input(Component &component, std::string &input, const ImG
 
 auto Sorcery::UI::draw_text(Component *component, const std::string &string) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		// Need to push font first before calculating size else it will
-		// assume monospace font size!
+		// Need to push font first before calculating size else it will assume monospace font size!
 		set_Font(fonts->get_current_font(component->font).value(), metrics->font_sz());
 
 		const auto x{std::invoke([&] {
@@ -1439,6 +1477,8 @@ auto Sorcery::UI::draw_automap_legend(Component *component) -> void {
 
 	auto pos{metrics->grid_pos(component->x, component->y)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		set_Font(fonts->get_current_font(component->font).value(), metrics->font_sz());
@@ -1459,6 +1499,7 @@ auto Sorcery::UI::draw_automap_legend(Component *component) -> void {
 		}
 	}
 
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto leave{components->get("automap:automap_return")};
 		draw_button_click(&leave, _ctx.get_flag_ref("show_automap"), true);
@@ -1467,10 +1508,12 @@ auto Sorcery::UI::draw_automap_legend(Component *component) -> void {
 
 // Draw a Text (String)
 auto Sorcery::UI::draw_text(Component *component) -> void {
+
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		// Need to push font first before calculating size else it will
-		// assume monospace font size!
+		// Need to push font first before calculating size else it will assume monospace font size!
 		set_Font(fonts->get_current_font(component->font).value(), metrics->font_sz());
 
 		const auto x{std::invoke([&] {
@@ -1526,6 +1569,7 @@ auto Sorcery::UI::draw_components(std::string_view screen, [[maybe_unused]] cons
 }
 
 auto Sorcery::UI::draw_item_info() -> void {
+
 	// Custom Rendering
 	const auto idx{_ctx.get_selected("museum_selected")};
 	if (idx >= 100)
@@ -1541,6 +1585,8 @@ auto Sorcery::UI::draw_item_info() -> void {
 	auto cmp{components->get("museum:item_data")};
 	auto pos{metrics->grid_pos(cmp.x, cmp.y)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		const auto name{std::format("  {:>03}:{}/{}", idx + 1, item.get_known_name(), item.get_unknown_name())};
@@ -1936,6 +1982,8 @@ auto Sorcery::UI::draw_options() -> void {
 
 	const auto col{get_hl_colour(_ctx.animation->lerp)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		const auto width{metrics->grid_sz() * component.get_float("grid_width")};
@@ -2075,6 +2123,8 @@ auto Sorcery::UI::draw_level_name() -> void {
 	auto text_cmp{components->get("engine_base_ui:level_name")};
 	auto frame_cmp{components->get("engine_base_ui:level_name_frame")};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		draw_frame(&frame_cmp);
@@ -2096,6 +2146,8 @@ auto Sorcery::UI::draw_buffbar() -> void {
 	// Get Icon Effects
 	const auto icon_depth{UIStyle::icon_depth(scale)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		draw_frame(&frame_cmp);
@@ -2146,7 +2198,9 @@ auto Sorcery::UI::draw_icons() -> void {
 
 	const auto hovered_tint{ImVec4{get_hl_colour(_ctx.animation->lerp)}};
 
-	// Passive frame.
+	// Passive frame
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		draw_frame(&frame_cmp);
@@ -2155,7 +2209,8 @@ auto Sorcery::UI::draw_icons() -> void {
 	// Get Icon Effects
 	const auto icon_depth{UIStyle::icon_depth(scale)};
 
-	// Interactive icons.
+	// Interactive icons
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
 		auto y{start_y};
@@ -2206,19 +2261,20 @@ auto Sorcery::UI::draw_save() -> void {
 	// Get Icon Effects
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const auto icon_depth{UIStyle::icon_depth(scale)};
-
 	const auto normal_tint{_ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
 															 : UIStyle::icon_colour(ICON_SAVE_AND_QUIT)};
-
 	const auto hovered_tint{ImVec4{get_hl_colour(_ctx.animation->lerp)}};
 
-	// Passive frame.
+	// Passive frame
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		draw_frame(&frame_cmp);
 	}
 
-	// Interactive save icon.
+	// Interactive save icon
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
 		ImGui::SetCursorPos(save_pos);
@@ -2250,6 +2306,8 @@ auto Sorcery::UI::draw_compass() -> void {
 	// Get Icon Effects
 	const auto icon_depth{UIStyle::icon_depth(scale)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		draw_frame(&frame_cmp);
@@ -2309,12 +2367,15 @@ auto Sorcery::UI::draw_party_panel() -> void {
 	const ImVec2 panel_size{width, height};
 
 	// The frame itself is passive.
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		draw_frame(&frame_cmp);
 	}
 
 	// Interactive panel content must be on the menu/input layer.
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
 		ImGui::SetCursorPos(panel_pos);
@@ -2436,23 +2497,22 @@ auto Sorcery::UI::draw_spell_info() -> void {
 		return;
 
 	const auto spell_id{enum_cast<Enums::Magic::SpellID>(idx).value()};
-
 	auto cmp{components->get("spellbook:spell_data")};
 	const auto pos{metrics->grid_pos(cmp.x, cmp.y)};
+	const auto *viewport{ImGui::GetMainViewport()};
 
-	ImGui::SetNextWindowPos(pos);
-
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
+		ImGui::SetCursorPos(pos);
 		with_Child("spell_child", ImVec2{metrics->grid_sz() * cmp.w, metrics->grid_sz() * cmp.h}) {
-
 			draw_spell_info_contents(spell_id, cmp.font);
 		}
 	}
 }
-
 auto Sorcery::UI::draw_monster_info() -> void {
 	// Custom Rendering
+
 	const auto idx{_ctx.get_selected("bestiary_selected")};
 	const auto mon{_ctx.resources->monsters->get(idx)};
 	const auto k_gfx{mon.get_known_gfx()};
@@ -2470,6 +2530,8 @@ auto Sorcery::UI::draw_monster_info() -> void {
 	auto cmp{components->get("bestiary:monster_data")};
 	auto pos{metrics->grid_pos(cmp.x, cmp.y)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 		const auto name{std::format("  {:>03}:{}/{}", idx, mon.get_known_name(), mon.get_unknown_name())};
 		ImGui::SetCursorPos(pos);
@@ -2602,15 +2664,17 @@ auto Sorcery::UI::draw_loading_progress() -> void {
 
 	const auto width{pb_c.w * metrics->grid_sz()};
 	const float progress{static_cast<float>(images->progress - 1) / static_cast<float>(images->capacity)};
+	const auto viewport{ImGui::GetMainViewport()};
 	const auto x{std::invoke([&] {
 		if (pb_c.x == -1) {
-			const auto viewport{ImGui::GetMainViewport()};
+
 			return (viewport->Size.x - width) / 2;
 		} else
 			return metrics->grid_x(pb_c.x);
 	})};
 	const auto y{metrics->grid_y(pb_c.y)};
 
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 		set_Font(fonts->get_default_font(), metrics->font_sz());
 		set_StyleColor(ImGuiCol_PlotHistogram, ImGui::GetColorU32(ImGuiCol_ButtonHovered));
@@ -2693,11 +2757,8 @@ auto Sorcery::UI::draw_frame_border(const ImVec2 p_min, const ImVec2 p_max, cons
 	-> void {
 
 	const auto adj{rounding / 2.0f};
-
 	const ImVec2 fr_min{p_min.x + adj, p_min.y + adj};
-
 	const ImVec2 fr_max{p_max.x - adj, p_max.y - adj};
-
 	const ImU32 col{ImColor{colour}};
 
 	ImGui::GetWindowDrawList()->AddRect(fr_min, fr_max, col, static_cast<float>(rounding), ImDrawFlags_None,
@@ -2710,6 +2771,9 @@ auto Sorcery::UI::draw_frame_background(const ImVec2 p_min, const ImVec2 p_max, 
 	const ImU32 bg{_ctx.controller->get_monochrome()
 					   ? ImColor{0.0f, 0.0f, 0.0f, 1.0f}
 					   : ImColor{colour.x, colour.y, colour.z, colour.w * _ctx.animation->fade}};
+
+	// std::println("window=({}, {}) p_min=({}, {}) p_max=({}, {})", ImGui::GetWindowPos().x, ImGui::GetWindowPos().y,
+	//			 p_min.x, p_min.y, p_max.x, p_max.y);
 
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg, static_cast<float>(rounding * 2));
 }
@@ -3021,39 +3085,30 @@ auto Sorcery::UI::draw_transient() -> void {
 	}
 
 	const auto &message{*_transient_message};
-
 	const auto component{components->get("engine_base_ui:transient_message")};
 
 	set_Font(fonts->get_current_font(component.font).value(), metrics->font_sz());
 
 	const auto text_size{ImGui::CalcTextSize(message.text.c_str())};
-
 	const auto padding{metrics->grid_sz() * 2.0f};
-
-	const auto width{message.width == TransientWidth::FULL ? ImGui::GetMainViewport()->Size.x
-														   : text_size.x + (padding * 2.0f)};
-
+	const auto *viewport{ImGui::GetMainViewport()};
+	const auto width{message.width == TransientWidth::FULL ? viewport->Size.x : text_size.x + (padding * 2.0f)};
 	const auto height{component.h * metrics->grid_sz() + (padding * 2.0f)};
 
-	const auto centre{ImGui::GetMainViewport()->GetCenter()};
-
-	ImGui::SetNextWindowPos(centre, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
-
+	// This is a real top-level window, so screen-space positioning is appropriate. Pin it to Sorcery's main viewport
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowPos(viewport->GetCenter(), ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 	ImGui::SetNextWindowSize(ImVec2{width, height});
-
 	ImGui::SetNextWindowBgAlpha(1.0f);
 
 	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
-
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
-
 	set_StyleVar(ImGuiStyleVar_WindowRounding, frame_rd);
-
 	set_StyleColor(ImGuiCol_WindowBg, component.background);
 
 	with_Window("##transient_message", nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs |
-					ImGuiWindowFlags_NoSavedSettings) {
+					ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoDocking) {
 
 		const auto p_min{ImGui::GetWindowPos()};
 		const auto p_max{ImVec2{p_min.x + width, p_min.y + height}};
@@ -3062,13 +3117,14 @@ auto Sorcery::UI::draw_transient() -> void {
 				   ImVec4{ui_bg_colour.x, ui_bg_colour.y, ui_bg_colour.z, _ctx.animation->fade}, frame_rd);
 
 		ImGui::SetCursorPos(ImVec2{padding, padding});
-
 		ImGui::TextUnformatted(message.text.c_str());
 	}
 }
 
 auto Sorcery::UI::draw_atlas_image(const std::string_view layer, const AtlasImage &image) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(std::string{layer}.c_str(), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		draw_atlas_image(ImGui::GetWindowDrawList(), image);
@@ -3668,6 +3724,7 @@ auto Sorcery::UI::draw_cheat_tools() -> void {
 		ImGui::EndPopup();
 	}
 }
+
 /// @brief Draw the context-sensitive help window.
 /// @return
 auto Sorcery::UI::draw_help_window() -> void {
@@ -3677,36 +3734,30 @@ auto Sorcery::UI::draw_help_window() -> void {
 	if (!_ctx.controller->has_flag("want_help"))
 		return;
 
-	const auto viewport{ImGui::GetMainViewport()};
+	const auto *viewport{ImGui::GetMainViewport()};
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const ImVec2 glyph_size{32.0f * scale, 32.0f * scale};
 	const auto font_size{_ctx.ui->metrics->font_sz()};
 
-	// -------------------------------------------------------------------------
-	// Full-screen dimmer - on the same layer as Help, but drawn first
-	// -------------------------------------------------------------------------
-
+	// Full-screen dimmer
+	ImGui::SetNextWindowViewport(viewport->ID);
 	ImGui::SetNextWindowPos(viewport->Pos, ImGuiCond_Always);
 	ImGui::SetNextWindowSize(viewport->Size, ImGuiCond_Always);
 
 	const auto dimmer_flags{ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
 							ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs |
-							ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_Tooltip};
+							ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_Tooltip};
 
 	ImGui::Begin("##help_dimmer", nullptr, dimmer_flags);
-
 	const auto p_min{ImGui::GetWindowPos()};
-
 	const auto p_max{ImVec2{p_min.x + ImGui::GetWindowSize().x, p_min.y + ImGui::GetWindowSize().y}};
-
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, IM_COL32(0, 0, 0, 153));
-
 	ImGui::End();
 
 	// Help window
-	const ImVec2 window_pos{viewport->Pos.x + (viewport->Size.x / 2.0f), viewport->Pos.y + (viewport->Size.y / 2.0f)};
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowPos(viewport->GetCenter(), ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 
-	ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 	set_StyleColor(ImGuiCol_WindowBg, ImVec4{0.0f, 0.0f, 0.0f, 1.0f});
 	set_StyleColor(ImGuiCol_Border, ImVec4{ui_colour.x, ui_colour.y, ui_colour.z, 1.0f});
 	set_StyleColor(ImGuiCol_Text, ImVec4{ui_text_colour.x, ui_text_colour.y, ui_text_colour.z, 1.0f});
@@ -3761,6 +3812,7 @@ auto Sorcery::UI::draw_help_window() -> void {
 
 	ImGui::End();
 }
+
 auto Sorcery::UI::draw_help_row(const std::span<const Enums::Controls::HelpGlyph> glyphs, const std::string_view text,
 								const ImVec2 &glyph_size) -> void {
 

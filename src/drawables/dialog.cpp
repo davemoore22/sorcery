@@ -110,7 +110,9 @@ auto Sorcery::Dialog::display() -> void {
 	const auto height{std::max(static_cast<float>(_component->h) * grid, required_height)};
 	const auto centre{ImGui::GetMainViewport()->GetCenter()};
 
-	ImGui::SetNextWindowPos(centre, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowPos(viewport->GetCenter(), ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 	ImGui::SetNextWindowSize(ImVec2{width, height});
 	ImGui::SetNextWindowBgAlpha(1.0f);
 
@@ -125,8 +127,7 @@ auto Sorcery::Dialog::display() -> void {
 	UIStyle::set_faded(_ctx);
 
 	ImGui::OpenPopup(_id.c_str());
-
-	with_PopupModal(_id.c_str(), nullptr, ImGuiWindowFlags_NoDecoration) {
+	with_PopupModal(_id.c_str(), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking) {
 
 		const auto p_min{ImGui::GetWindowPos()};
 		const auto p_max{ImVec2{p_min.x + width, p_min.y + height}};

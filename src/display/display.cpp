@@ -317,52 +317,94 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 	const auto width{_metrics.drawable_w};
 	const auto height{_metrics.drawable_h};
 
-	if (width <= 0 || height <= 0)
-		return;
+	const auto render_main{width > 0 && height > 0};
 
-	if (_framebuffer.width() != width || _framebuffer.height() != height) {
-		_framebuffer.resize(width, height);
+	//
+	// Main Sorcery viewport.
+	//
+	// This continues to use our framebuffer and post-processing
+	// pipeline exactly as before.
+	//
+
+	if (render_main) {
+
+		if (_framebuffer.width() != width || _framebuffer.height() != height) {
+
+			_framebuffer.resize(width, height);
+		}
+
+		//
+		// Pass 1: Render ImGui into the offscreen framebuffer.
+		//
+
+		_framebuffer.bind();
+
+		glViewport(0, 0, width, height);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		ImGui_ImplOpenGL3_RenderDrawData(draw_data);
+
+		//
+		// Pass 2: Render framebuffer texture to the main window
+		// through the post-processing shader.
+		//
+
+		FrameBuffer::unbind();
+
+		glViewport(0, 0, width, height);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		glDisable(GL_BLEND);
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_SCISSOR_TEST);
+
+		glUseProgram(_post_program);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, _framebuffer.texture());
+
+		glUniform1i(_screen_texture_location, 0);
+
+		glUniform1f(_fade_location, _fade);
+
+		glBindVertexArray(_post_vao);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glBindVertexArray(0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glUseProgram(0);
 	}
 
-	// Pass 1: Render ImGui into the offscreen framebuffer.
-	_framebuffer.bind();
+	//
+	// Render detached ImGui platform windows.
+	//
+	// These deliberately do NOT go through Sorcery's framebuffer
+	// or post-processing shader.
+	//
 
-	glViewport(0, 0, width, height);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	const auto &io{ImGui::GetIO()};
 
-	ImGui_ImplOpenGL3_RenderDrawData(draw_data);
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 
-	// Pass 2: Render framebuffer texture to the window throughthe
-	// post-processing shader.
+		auto *backup_window{SDL_GL_GetCurrentWindow()};
 
-	FrameBuffer::unbind();
+		const auto backup_context{SDL_GL_GetCurrentContext()};
 
-	glViewport(0, 0, width, height);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
 
-	glDisable(GL_BLEND);
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_SCISSOR_TEST);
+		SDL_GL_MakeCurrent(backup_window, backup_context);
+	}
 
-	glUseProgram(_post_program);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _framebuffer.texture());
-	glUniform1i(_screen_texture_location, 0);
-	glUniform1f(_fade_location, _fade);
+	//
+	// Present the main Sorcery window.
+	//
 
-	glBindVertexArray(_post_vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glBindVertexArray(0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glUseProgram(0);
-
-	SDL_GL_SwapWindow(_SDL_window);
-
-	// std::println("present: drawable={}x{} framebuffer={}x{}",
-	//			 _metrics.drawable_w, _metrics.drawable_h, _framebuffer.width(),
-	//			 _framebuffer.height());
+	if (render_main)
+		SDL_GL_SwapWindow(_SDL_window);
 }
 
 /// @brief

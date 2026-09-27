@@ -35,11 +35,13 @@ auto Sorcery::MalorDialog::display() -> void {
 	const auto rounding{_ctx.ui->frame_rd};
 	const auto width{static_cast<float>(_component->w) * grid};
 	const auto height{static_cast<float>(_component->h) * grid};
-	const auto centre{ImGui::GetMainViewport()->GetCenter()};
+
+	const auto *viewport{ImGui::GetMainViewport()};
 
 	set_Font(_ctx.ui->fonts->get_current_font(_component->font).value(), _ctx.ui->metrics->font_sz());
 
-	ImGui::SetNextWindowPos(centre, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowPos(viewport->GetCenter(), ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 	ImGui::SetNextWindowSize(ImVec2{width, height});
 	ImGui::SetNextWindowBgAlpha(1.0f);
 
@@ -55,10 +57,10 @@ auto Sorcery::MalorDialog::display() -> void {
 
 	ImGui::OpenPopup(_id.c_str());
 
-	with_PopupModal(_id.c_str(), nullptr, ImGuiWindowFlags_NoDecoration) {
+	with_PopupModal(_id.c_str(), nullptr,
+					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking) {
 
 		const auto p_min{ImGui::GetWindowPos()};
-
 		const auto p_max{ImVec2{p_min.x + width, p_min.y + height}};
 
 		_ctx.ui->draw_frame(
@@ -73,7 +75,7 @@ auto Sorcery::MalorDialog::display() -> void {
 		ImGui::SetCursorPos(ImVec2{(width - title_width) / 2.0f, grid * 1.5f});
 		ImGui::TextUnformatted(title);
 
-		// Displacement controls.
+		// Displacement controls
 		const auto label_width{std::max({ImGui::CalcTextSize("NORTH / SOUTH").x, ImGui::CalcTextSize("EAST / WEST").x,
 										 ImGui::CalcTextSize("DOWN / UP").x})};
 
@@ -88,6 +90,7 @@ auto Sorcery::MalorDialog::display() -> void {
 		const auto draw_input = [&](const char *label, const char *id, int &value, const float y) {
 			ImGui::SetCursorPos(ImVec2{label_x, y});
 			ImGui::TextUnformatted(label);
+
 			ImGui::SetCursorPos(ImVec2{input_x, y});
 			ImGui::SetNextItemWidth(input_width);
 			ImGui::InputInt(id, &value, 1, 10);

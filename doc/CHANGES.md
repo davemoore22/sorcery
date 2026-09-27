@@ -11,11 +11,12 @@
 - Added additional functionality to the Cheat Menu (F2).
 - Impeemented out-of-combat spellcasting for the following spells:
   - Divine spells:
-    - DIOS, DIAL, DIALMA, LATUMOFIS, MADI
-    - MILWA, LOMILWA, LATUMAPIC
-    - MAPORFIC, KANDI
+    - DIOS, DIAL, DIALMA, LATUMOFIS, MADI,
+    - MILWA, LOMILWA, LATUMAPIC,
+    - MAPORFIC, KANDI,
     - DI, KADORTO
   - Arcane spells:
     - DUMAPIC, MALOR
 - Buffbar now displays MILWA/LOMILWA, LATUMAPIC, and MAPORFIC status.
-- Darkness squares now extinguish any current light spell.
+- Darkness squares now correctly extinguish any current light spell.
+- Migrated DearImgui backend over from non-docking to docking version.

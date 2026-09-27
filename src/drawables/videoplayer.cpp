@@ -191,6 +191,9 @@ auto Sorcery::VideoPlayer::render(const char *window_name, ImVec2 position, ImVe
 	if (!_has_frame_ready)
 		return;
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
+
 	if (!ImGui::Begin(window_name)) {
 		ImGui::End();
 		return;

@@ -2,11 +2,11 @@
 
 ## Introduction
 
-Compilation notes for Sorcery (**Updated September 2026**).
+Compilation notes for Sorcery (**Updated 27th September 2026**).
 
 Sorcery uses a **single source tree** which builds on both Linux and Windows.
 
-The primary development platform is Ubuntu/Debian Linux. Windows builds are supported using **MSYS2 UCRT64**, GCC, CMake and Ninja. Other Windows toolchains are not currently tested or supported by the project, although contributions documenting them are welcome.
+The primary development platform is Ubuntu/Debian Linux. Windows builds are supported using **MSYS2 UCRT64**, GCC, CMake, and Ninja. Other Windows toolchains are not currently tested or supported by the project, although contributions documenting them are welcome.
 
 The project targets **C++26** and uses C++ reflection, so **GCC 16.1 or later is required**. The current development toolchain uses GCC 16.2.
 
@@ -63,13 +63,11 @@ Sorcery is currently developed and tested primarily with:
 - CMake 4.x
 - C++26 with GCC reflection support
 - Ubuntu 26.04
-- Windows 10 using MSYS2 UCRT64
+- Windows 10 using MSYS2 UCRT64 (inside a VM)
 
 Linux remains the primary development platform.
 
-The Windows build is intended to provide a supported native Windows executable using the same source tree. The supported Windows toolchain is MSYS2 UCRT64 with GCC, CMake and Ninja.
-
-Other Windows build environments, including MSVC, clang-cl and other MinGW distributions, are currently untested.
+The Windows build is intended to provide a supported native Windows executable using the same source tree. As previously mentioned,the supported Windows toolchain is MSYS2 UCRT64 with GCC, CMake, and Ninja. Other Windows build environments, including MSVC, clang-cl and other MinGW distributions, are currently untested. Support for these in the form of PRs would be most welcome.
 
 ---
 
@@ -107,9 +105,7 @@ git lfs pull
 
 ## Linux
 
-The native Linux build is developed on Ubuntu 26.04 and should also be suitable for current Debian/Ubuntu-derived systems with a sufficiently recent GCC toolchain.
-
-Linux uses the system-provided development libraries for SDL2, OpenGL, GLEW, FreeType, FFmpeg, JsonCpp, GLM, libuuid and related system dependencies.
+The native Linux build is developed on Ubuntu 26.04 and should also be suitable for current Debian/Ubuntu-derived systems with a sufficiently recent GCC toolchain. Linux uses the system-provided development libraries for SDL2, OpenGL, GLEW, FreeType, FFmpeg, JsonCpp, GLM, libuuid and related system dependencies.
 
 ## Windows
 
@@ -154,7 +150,7 @@ Development/documentation tools include:
 - Doxygen
 - pkg-config / pkgconf
 
-Other third-party source dependencies are downloaded automatically by CMake using `FetchContent`.
+Other third-party source dependencies are downloaded automatically by CMake using `FetchContent`. The main one of these is Dear Imgui.
 
 ---
 
@@ -264,7 +260,13 @@ The project currently fetches the following external libraries and headers.
 
 <https://github.com/ocornut/imgui.git>
 
-Sorcery builds the required Dear ImGui core, SDL2, OpenGL 3 and FreeType source files as the `dear_imgui` static library.
+Pinned Tag:
+
+```text
+ 1.92.8-docking
+```
+
+Sorcery builds the required Dear ImGui core, SDL2, OpenGL 3 and FreeType source files as the `dear_imgui` static library. Note that Sorcery uses the Docking branch of Dear Imgui.
 
 ## imgui_toggle
 
@@ -310,13 +312,9 @@ Dependencies downloaded through `FetchContent` are normally placed beneath:
 build/_deps/
 ```
 
-These downloaded source trees are build artefacts and are not stored in the Sorcery repository.
+These downloaded source trees are build artefacts and are not stored in the Sorcery repository. The first CMake configuration therefore requires an internet connection. Subsequent configurations and builds normally use the already populated copies.
 
-The first CMake configuration therefore requires an internet connection. Subsequent configurations and builds normally use the already populated copies.
-
-Deleting the build directory also removes all downloaded `FetchContent` dependencies. They will be downloaded again during the next CMake configuration.
-
-Dependency revisions are pinned to specific tags or commit hashes where appropriate to improve reproducibility.
+Note that deleting the build directory also removes all downloaded `FetchContent` dependencies. They will be downloaded again during the next CMake configuration. Dependency revisions are pinned to specific tags or commit hashes where appropriate to improve reproducibility.
 
 ---
 
@@ -467,9 +465,7 @@ Linux normally resolves shared libraries from the system installation.
 
 A binary copied to another Debian/Ubuntu machine therefore requires compatible runtime versions of its dynamically linked libraries.
 
-For development and source builds, the required packages are documented above.
-
-The runtime dependencies of a Linux executable may be inspected with:
+For development and source builds, the required packages are documented above. Note that the runtime dependencies of a Linux executable may be inspected with:
 
 ```sh
 ldd build/dist/sorcery
@@ -495,7 +491,7 @@ For example, the current creature atlas is approximately 8000 × 8800 pixels and
 
 For this reason, virtual machines configured with only 256 MiB of graphics memory may not be able to run the current build successfully.
 
-This is a runtime graphics limitation rather than a compilation requirement.
+This is a runtime graphics limitation rather than a compilation requirement. And will be fixed in later versions.
 
 ---
 
@@ -508,6 +504,7 @@ Sorcery is organised into a number of static libraries, including:
 - `sorcery_display`
 - `sorcery_drawables`
 - `sorcery_frontend`
+- `sorcery_game`
 - `sorcery_modules`
 - `sorcery_resources`
 - `sorcery_training`
