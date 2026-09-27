@@ -435,10 +435,14 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 		"${CMAKE_SOURCE_DIR}/gfx"
 		"${SORCERY_DIST_DIR}/gfx"
 
-# Copying sav already includes sav/characters and sav/states.
+# Git does not track empty directories; create save destinations explicitly.
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		"${CMAKE_SOURCE_DIR}/sav"
 	"${SORCERY_DIST_DIR}/sav"
+
+    COMMAND ${CMAKE_COMMAND} -E make_directory
+        "${SORCERY_DIST_DIR}/sav/characters"
+        "${SORCERY_DIST_DIR}/sav/states"
 
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		"${CMAKE_SOURCE_DIR}/sfx"
