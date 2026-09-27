@@ -164,3 +164,14 @@ if(TARGET SimpleIni::SimpleIni)
 else()
 	message(FATAL_ERROR "SimpleIni::SimpleIni target was not created")
 endif()
+
+# Enum reflection fallback for compilers without <meta> (notably Apple Clang).
+if(SORCERY_PORTABLE_ENUMS)
+    FetchContent_Declare(
+        magic_enum
+        GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
+        GIT_TAG e046b69a3736d314fad813e159b1c192eaef92cd # v0.9.7
+        GIT_SHALLOW FALSE
+    )
+    FetchContent_MakeAvailable(magic_enum)
+endif()

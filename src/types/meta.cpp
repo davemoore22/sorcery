@@ -26,13 +26,22 @@
 #include "engine/enum.hpp"
 #include "types/enum.hpp"
 #include <array>
+#ifdef SORCERY_PORTABLE_ENUMS
+#include <magic_enum/magic_enum.hpp>
+#else
 #include <meta>
+#endif
 #include <utility>
 
 namespace Sorcery {
 
 namespace {
 
+#ifdef SORCERY_PORTABLE_ENUMS
+    // All currently reflected enums fit magic_enum's default [-128, 127]
+    // range. Extend its enum_range specializations if larger values are added.
+    template <Enum E> inline constexpr auto enum_entries{magic_enum::enum_entries<E>()};
+#else
 	template <Enum E> consteval auto make_enum_entries() {
 
 		static constexpr auto enumerators{std::define_static_array(std::meta::enumerators_of(^^E))};
@@ -49,6 +58,7 @@ namespace {
 	}
 
 	template <Enum E> inline constexpr auto enum_entries{make_enum_entries<E>()};
+#endif
 
 } // namespace
 

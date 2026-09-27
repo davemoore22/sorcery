@@ -1,10 +1,10 @@
 # Project Definition
 cmake_minimum_required(VERSION 3.22)
-set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_BUILD_TYPE Debug)
 project(sorcery VERSION 0.1.0)
+
+include(cmake/SorceryPlatform.cmake)
 
 set(SORCERY_BUILD_LABEL "Alpha #1")
 
@@ -110,7 +110,7 @@ target_link_libraries(dear_imgui PUBLIC
 
 target_compile_options(dear_imgui PRIVATE
 	-Wno-switch-default
-	-Wno-suggest-attribute=format
+	$<$<CXX_COMPILER_ID:GNU>:-Wno-suggest-attribute=format>
 )
 
 target_compile_definitions(dear_imgui PRIVATE
@@ -138,7 +138,7 @@ target_link_libraries(dear_imgui_toggle
 
 target_compile_options(dear_imgui_toggle PRIVATE
     -Wno-switch-default
-    -Wno-suggest-attribute=format
+    $<$<CXX_COMPILER_ID:GNU>:-Wno-suggest-attribute=format>
 )
 
 # Global Ifdefs
@@ -166,6 +166,9 @@ target_compile_options(sorcery_warnings INTERFACE
 # Platform libraries
 if(WIN32)
 	set(SORCERY_UUID_LIBRARY rpcrt4)
+elseif(APPLE)
+	# Darwin provides uuid functions in libSystem.
+	set(SORCERY_UUID_LIBRARY "")
 else()
 	set(SORCERY_UUID_LIBRARY uuid)
 endif()
@@ -233,7 +236,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	${CMAKE_SOURCE_DIR}/inc)
 
 
-if(NOT WIN32)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_compile_options(${PROJECT_NAME} PRIVATE
         -pthread
         -pg
@@ -255,10 +258,10 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-Wcast-align
 	-Wformat-nonliteral
 	-Wformat=2
-	-Wsuggest-attribute=format
+	$<$<CXX_COMPILER_ID:GNU>:-Wsuggest-attribute=format>
 	-Winvalid-pch
 	-Wmissing-declarations
-	-Wmissing-format-attribute
+	$<$<CXX_COMPILER_ID:GNU>:-Wmissing-format-attribute>
 	-Wmissing-include-dirs
 	-Wredundant-decls
 	-Wodr
@@ -267,9 +270,11 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 	-Wno-narrowing
 	-g)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
-	BUILD_RPATH "$ORIGIN/lib;/opt/gcc-16.2/lib64"
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        BUILD_RPATH "$ORIGIN/lib;/opt/gcc-16.2/lib64"
+    )
+endif()
 
 
 target_link_libraries(sorcery_types
@@ -284,7 +289,7 @@ target_link_libraries(sorcery_core PRIVATE
 	sorcery_types
 	sorcery_warnings
 	sorcery_options
-	stdc++exp
+	$<$<CXX_COMPILER_ID:GNU>:stdc++exp>
 )
 
 target_link_libraries(sorcery_engine PRIVATE
@@ -343,6 +348,9 @@ target_link_libraries(sorcery_resources
 # Link Libraries
 if(WIN32)
 	set(SORCERY_UUID_LIBRARY rpcrt4)
+elseif(APPLE)
+	# Darwin provides uuid functions in libSystem.
+	set(SORCERY_UUID_LIBRARY "")
 else()
 	set(SORCERY_UUID_LIBRARY uuid)
 endif()
@@ -355,7 +363,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	PkgConfig::LIBAV
 	Threads::Threads
 	${CMAKE_DL_LIBS}
-	stdc++fs
+	$<$<CXX_COMPILER_ID:GNU>:stdc++fs>
 	JsonCpp::JsonCpp
 	dear_imgui
 	imgui_toggle::imgui_toggle
