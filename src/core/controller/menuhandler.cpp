@@ -1218,10 +1218,10 @@ auto Sorcery::ControllerMenuHandler::_execute(const MenuAction &action, int data
 
 	switch (action.type) {
 	case SETFLAG:
-		_host._flags[action.flag] = true;
+		_host._flags[std::string{action.flag}] = true;
 		break;
 	case CLEARFLAG:
-		_host._flags[action.flag] = false;
+		_host._flags[std::string{action.flag}] = false;
 		break;
 	case SET_CHARACTER:
 		_host.set_character(action.character_key, data);
