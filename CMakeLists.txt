@@ -453,3 +453,9 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 set(CPACK_PROJECT_NAME sorcery)
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
+# Keep project checks separate from dependencies' BUILD_TESTING settings.
+option(SORCERY_BUILD_TESTS "Build Sorcery compatibility checks" OFF)
+if(SORCERY_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
