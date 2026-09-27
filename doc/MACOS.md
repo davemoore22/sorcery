@@ -66,8 +66,10 @@ redistributable application bundle or an automatically refreshed build target.
 
 Not yet validated: Intel Macs, older macOS/Xcode versions, Release builds,
 controller input, fullscreen/resizing, long gameplay sessions, audible music
-quality, or cross-platform save interchange. Linux/Windows were not rebuilt in
-this session. Existing warnings include duplicate static libraries and a stale
+quality, or cross-platform save interchange. Linux/Windows were not rebuilt
+during the initial Mac session. Subsequent Windows results and pending Linux
+checks are recorded in [CROSS_PLATFORM_VALIDATION.md](CROSS_PLATFORM_VALIDATION.md).
+Existing warnings include duplicate static libraries and a stale
 SDK search path inherited from an installed dependency; neither prevented
 linking or startup.
 
