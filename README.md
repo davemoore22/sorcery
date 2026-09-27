@@ -2,7 +2,7 @@
 
 Sorcery is an open-source remake/remaster of the classic CRPG **Wizardry: Proving Grounds of the Mad Overlord**.
 
-The project is under active development and is built using **C++26, Dear ImGui, SDL2 and OpenGL**. Sorcery targets **Debian/Ubuntu Linux** and **64-bit Windows**.
+The project is under active development and is built using **C++26, Dear ImGui, SDL2 and OpenGL**. Sorcery targets **Debian/Ubuntu Linux** and **64-bit Windows**. This branch also includes an experimental [native macOS development build](doc/MACOS.md) using Apple Clang and a C++23 enum fallback.
 
 **Alpha #1 is available now from the Releases section. Alpha #2 is coming soon.**
 

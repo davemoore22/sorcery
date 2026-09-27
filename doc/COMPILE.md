@@ -1,5 +1,7 @@
 # Compiling Sorcery
 
+For the experimental native Apple Silicon build on this branch, see [MACOS.md](MACOS.md).
+
 ## Introduction
 
 Compilation notes for Sorcery (**Updated September 2026**).
