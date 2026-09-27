@@ -38,9 +38,9 @@ namespace Sorcery {
 namespace {
 
 #ifdef SORCERY_PORTABLE_ENUMS
-    // All currently reflected enums fit magic_enum's default [-128, 127]
-    // range. Extend its enum_range specializations if larger values are added.
-    template <Enum E> inline constexpr auto enum_entries{magic_enum::enum_entries<E>()};
+	// All currently reflected enums fit magic_enum's default [-128, 127]
+	// range. Extend its enum_range specializations if larger values are added.
+	template <Enum E> inline constexpr auto enum_entries{magic_enum::enum_entries<E>()};
 #else
 	template <Enum E> consteval auto make_enum_entries() {
 
