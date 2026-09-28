@@ -187,6 +187,7 @@ auto Sorcery::UI::start() -> void {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	_io = &ImGui::GetIO();
+	_io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	_io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	_io->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
