@@ -81,7 +81,7 @@ auto Sorcery::ConstCharacterMagic::mage_max_spellpoints() const -> const std::ma
 	return _character->_mage_max_sp;
 }
 
-//
+////////////////////////////////////////////////////////////////////////////////
 
 Sorcery::CharacterMagic::CharacterMagic(Character &character) noexcept
 	: ConstCharacterMagic{character},

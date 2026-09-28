@@ -642,7 +642,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 			const auto &decay_type{_ctx.resources->items->get(item_type.get_decay_type_id())};
 			Item replacement{decay_type};
 
-			// We have just seen it decay, so its identity isn't mysterious.
+			// We have just seen it decay, so its identity isn't mysterious
 			replacement.set_known(true);
 			replacement.set_usable(decay_type.is_class_usable(character.get_class()));
 			character.inventory.replace_item(slot, std::move(replacement));
@@ -746,7 +746,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 		const auto slot{static_cast<unsigned int>(data)};
 		const auto item{inventory.get(slot)};
 
-		// Defensive checks -- item_disabled() should already prevent these.
+		// Defensive checks -- item_disabled() should already prevent these
 		if (item.get_equipped() || item.get_cursed())
 			return true;
 
@@ -756,13 +756,13 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 		const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
 		const auto value{item.get_known() ? item_type.get_value() / 2 : 1};
 
-		// Add the item to Boltac's stock.
+		// Add the item to Boltac's stock
 		_ctx.game->state->sell_to_shop(item.get_type_id());
 
-		// Pay the character.
+		// Pay the character
 		character.grant_gold(value);
 
-		// Remove the actual inventory instance.
+		// Remove the actual inventory instance
 		inventory.discard_item(slot);
 
 		_host._game->save_game();
@@ -782,8 +782,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 
 		const auto &item_type{_ctx.resources->items->get_item_type(*item_type_id)};
 
-		// Defensive checks -- the menu builder/item_disabled() should already
-		// prevent all of these.
+		// Defensive checks (woo!) -- the menu builder/item_disabled() should already prevent all of these
 		if (!_ctx.game->state->check_shop_will_sell(*item_type_id))
 			return true;
 
@@ -798,7 +797,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 
 		const auto usable{item_type.is_class_usable(character.get_class())};
 
-		// Anything bought from Boltac is known.
+		// Anything bought from Boltac is known
 		if (!character.inventory.add_type(item_type, usable, true))
 			return true;
 
@@ -950,7 +949,7 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component, i
 		if (_host._game == nullptr)
 			return false;
 
-		// Fixed "Return" entry has no associated character.
+		// Fixed "Return" entry has no associated character
 		if (data < 0)
 			return false;
 

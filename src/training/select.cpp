@@ -104,11 +104,11 @@ auto Sorcery::Select::start(const Enums::Selection::Edit mode) -> int {
 
 		_ctx.tick();
 
-		// Character selected.
+		// Character selected
 		if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT))
 			return CHARACTER_SELECTED;
 
-		// Return menu item selected.
+		// Return menu item selected
 		if (!_ctx.controller->wants(screen) && _ctx.controller->wants(Enums::Screen::EDIT))
 			return BACK_TO_EDIT;
 	}

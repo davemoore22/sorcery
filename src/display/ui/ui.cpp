@@ -333,9 +333,10 @@ auto Sorcery::UI::display_engine() -> void {
 	draw_help_window();
 	draw_cursor();
 
-	static bool show_metrics{true};
-	if (show_metrics)
-		ImGui::ShowMetricsWindow(&show_metrics);
+	// TODO: for Multiviewport Stuff
+	// static bool show_metrics{true};
+	// if (show_metrics)
+	//	ImGui::ShowMetricsWindow(&show_metrics);
 
 	ImGui::Render();
 
@@ -1405,8 +1406,7 @@ auto Sorcery::UI::draw_party_wipe() -> void {
 
 	const auto origin_x{metrics->grid_x(grave_cmp.x)};
 
-	// The component's Y coordinate represents the vertical centre of the
-	// complete gravestone arrangement.
+	// The component's Y coordinate represents the vertical centre of the complete gravestone arrangement
 	const auto centre_y{metrics->grid_y(grave_cmp.y)};
 	const auto layout_w{(layout_cols * grave_w) + ((layout_cols - 1) * gap.x)};
 	const auto layout_h{(rows * grave_h) + ((rows - 1) * gap.y)};
@@ -1418,7 +1418,7 @@ auto Sorcery::UI::draw_party_wipe() -> void {
 		const auto first_index{row * max_cols};
 		const auto row_count{std::min(max_cols, count - first_index)};
 
-		// Centre each row independently.
+		// Centre each row independently
 		const auto row_w{(row_count * grave_w) + ((row_count - 1) * gap.x)};
 		const auto row_x{origin_x + ((layout_w - row_w) * 0.5f)};
 
@@ -2366,7 +2366,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 	const ImVec2 panel_pos{x, y};
 	const ImVec2 panel_size{width, height};
 
-	// The frame itself is passive.
+	// The frame itself is passive
 	const auto *viewport{ImGui::GetMainViewport()};
 	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
@@ -2374,7 +2374,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 		draw_frame(&frame_cmp);
 	}
 
-	// Interactive panel content must be on the menu/input layer.
+	// Interactive panel content must be on the menu/input layer
 	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
@@ -2411,7 +2411,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 
 				const auto text_colour{_get_status_color(&character)};
 
-				// Preserve the original fixed row positions.
+				// Preserve the original fixed row positions
 				ImGui::SetCursorPosY(static_cast<float>(position) * row_height);
 
 				const auto row_screen_pos{ImGui::GetCursorScreenPos()};
@@ -2423,8 +2423,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 
 				ImGui::PopID();
 
-				// Draw after the Selectable so the text appears above its
-				// hover background.
+				// Draw after the Selectable so the text appears above its hover background
 				const auto text_size{ImGui::CalcTextSize(summary.c_str())};
 
 				const ImVec2 text_pos{row_screen_pos.x, row_screen_pos.y + ((row_height - text_size.y) / 2.0f)};
@@ -2645,7 +2644,7 @@ auto Sorcery::UI::draw_current_level_map() -> void {
 
 auto Sorcery::UI::draw_level_no_player() -> void {
 
-	// Menu selection B1F..B10F is 0..9.
+	// Menu selection B1F..B10F is 0..9
 	if (_ctx.get_selected("atlas_selected") == 10)
 		return;
 
@@ -2833,11 +2832,10 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color, con
 							const bool reorder, const bool across, [[maybe_unused]] const bool numeric_shortcuts)
 	-> void {
 
-	// Work out size and positon of the menu, and the display name (which is
-	// used for the ImGui ID)
+	// Work out size and positon of the menu, and the display name (which is used for the ImGui ID)
 	const std::string display_name{"##" + name};
 
-	// Note that pos is in grid units, whereas sz is in pixels.
+	// Note that pos is in grid units, whereas sz is in pixels
 	const auto x{pos.x == -1.0f ? (ImGui::GetMainViewport()->Size.x - sz.x) / 2.0f : metrics->grid_x(pos.x)};
 
 	const auto y{pos.y == -1.0f ? (ImGui::GetMainViewport()->Size.y - sz.y) / 2.0f : metrics->grid_y(pos.y)};
@@ -2852,8 +2850,8 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color, con
 	const ImVec2 menu_pos{x, y};
 	ImGui::SetCursorPos(menu_pos);
 
-	// Look for a Key Selection (if numeric_shortcuts is true, then we will
-	// consume a key from the controller)
+	// Look for a Key Selection (if numeric_shortcuts is true, then we will consume a key from the controller) (TODO:
+	// remove this?)
 	const auto key_selection{numeric_shortcuts ? _ctx.controller->input->consume_menu_key(items.size()) : std::nullopt};
 
 	// Draw the Menu (as a ListBox)
@@ -3133,7 +3131,7 @@ auto Sorcery::UI::draw_atlas_image(const std::string_view layer, const AtlasImag
 
 auto Sorcery::UI::draw_atlas_image(ImDrawList *draw_list, const AtlasImage &image) -> void {
 
-	// Draw a placeholder when images are disabled.
+	// Draw a placeholder when images are disabled
 	if (!images->show_images) {
 
 		draw_list->AddRectFilled(image.p_min, image.p_max, ImColor{ImVec4{0.2f, 0.2f, 0.2f, _ctx.animation->fade}});
@@ -3141,7 +3139,7 @@ auto Sorcery::UI::draw_atlas_image(ImDrawList *draw_list, const AtlasImage &imag
 		return;
 	}
 
-	// Load the atlas if necessary.
+	// Load the atlas if necessary
 	const std::string source{image.source};
 
 	if (!images->has_loaded(source))
@@ -3165,7 +3163,7 @@ auto Sorcery::UI::draw_atlas_image(ImDrawList *draw_list, const AtlasImage &imag
 
 	const auto tile_y{image.idx / tiles_per_row};
 
-	// UV coordinates of the requested atlas cell.
+	// UV coordinates of the requested atlas cell
 	const ImVec2 uv_0{static_cast<float>(tile_x * tile_width) / static_cast<float>(src_image.width),
 
 					  static_cast<float>(tile_y * tile_height) / static_cast<float>(src_image.height)};
@@ -3241,13 +3239,13 @@ auto Sorcery::UI::draw_level_map(const Level &level, const Component &component,
 
 	const ImVec2 top_left{metrics->grid_pos(component.x, component.y)};
 
-	// Default: complete 20×20 level.
+	// Default: complete 20×20 level
 	auto min_x{0};
 	auto min_y{0};
 	auto max_x{level_size - 1};
 	auto max_y{level_size - 1};
 
-	// Local view around a supplied centre.
+	// Local view around a supplied centre
 	if (view.centre && view.radius) {
 
 		min_x = view.centre->x - *view.radius;
@@ -3268,7 +3266,7 @@ auto Sorcery::UI::draw_level_map(const Level &level, const Component &component,
 							   .tile_size = tile_size,
 							   .spacing = spacing};
 
-	// Resolve explored-state once.
+	// Resolve explored-state once
 	const auto depth{_ctx.game->state->get_depth()};
 
 	const auto explored_it{_ctx.game->state->explored.find(depth)};
@@ -3277,7 +3275,7 @@ auto Sorcery::UI::draw_level_map(const Level &level, const Component &component,
 
 		for (auto world_x{min_x}; world_x <= max_x; ++world_x) {
 
-			// Outside the actual level: leave this minimap cell blank.
+			// Outside the actual level: leave this minimap cell blank
 			if (world_x < 0 || world_x >= level_size || world_y < 0 || world_y >= level_size)
 				continue;
 
@@ -3292,15 +3290,14 @@ auto Sorcery::UI::draw_level_map(const Level &level, const Component &component,
 					continue;
 			}
 
-			// Coordinates relative to the displayed region.
+			// Coordinates relative to the displayed region
 			const auto local_x{world_x - min_x};
 
 			const auto local_y{world_y - min_y};
 
 			const auto tile_x{local_x * (tile_size.x + spacing)};
 
-			// Y is reversed because dungeon coordinates start
-			// at the bottom-left.
+			// Y is reversed because dungeon coordinates start at the bottom-left
 			const auto tile_y{(rows - 1 - local_y) * (tile_size.y + spacing)};
 
 			const ImVec2 tile_pos{top_left.x + tile_x, top_left.y + tile_y};
@@ -3725,7 +3722,7 @@ auto Sorcery::UI::draw_cheat_tools() -> void {
 	}
 }
 
-/// @brief Draw the context-sensitive help window.
+/// @brief Draw the context-sensitive help window
 /// @return
 auto Sorcery::UI::draw_help_window() -> void {
 
@@ -3823,8 +3820,7 @@ auto Sorcery::UI::draw_help_row(const std::span<const Enums::Controls::HelpGlyph
 	const auto glyph_spacing{6.0f * scale};
 	const auto text_spacing{12.0f * scale};
 
-	// Keep rows fairly tight vertically; the glyph itself provides
-	// most of the visual separation we need.
+	// Keep rows fairly tight vertically; the glyph itself provides most of the visual separation we need
 	const auto row_spacing{1.5f * scale};
 
 	const auto glyph_column_width{(static_cast<float>(Help::MAX_GLYPHS) * glyph_size.x) +

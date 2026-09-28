@@ -132,12 +132,10 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 		_ctx.tick();
 
-		//
-		// Chest has been resolved. Allow any result transient
-		// to finish before returning to the engine.
-		//
+		// Chest has been resolved. Allow any result transient to finish before returning to the engine
 		if (_state.state == Enums::Chests::State::DONE && !_ctx.ui->has_transient()) {
 
+			// TODO: add chest effects
 			return Enums::Chests::Result::OPENED;
 		}
 

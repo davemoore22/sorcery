@@ -159,10 +159,10 @@ auto Sorcery::AudioPlayer::_play() -> void {
 	if (!_fmt)
 		return;
 
-	// Already playing: don't restart the track.
+	// Already playing: don't restart the track
 	if (_playing) {
 
-		// If it was fading out, simply reverse direction.
+		// If it was fading out, simply reverse direction
 		if (_state == Enums::Audio::State::FADING_OUT)
 			_begin_fade_in();
 
@@ -410,14 +410,13 @@ auto Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) -> void {
 		static_cast<int>(track), static_cast<int>(_current_track), static_cast<int>(_requested_track),
 		static_cast<int>(_state), _fade, _queued_ms(), static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
 
-	// We already want this track.
+	// We already want this track
 	if (track == _requested_track)
 		return;
 
 	_requested_track = track;
 
-	// Requesting the track already playing.
-	// If it happens to be fading out, reverse the fade.
+	// Requesting the track already playing - if it happens to be fading out, reverse the fade
 	if (track == _current_track) {
 
 		if (_state == Enums::Audio::State::FADING_OUT)
@@ -426,7 +425,7 @@ auto Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) -> void {
 		return;
 	}
 
-	// Nothing currently playing.
+	// Nothing currently playing
 	if (_current_track == Enums::Audio::Track::NONE) {
 
 		if (_requested_track == Enums::Audio::Track::NONE)
@@ -436,7 +435,7 @@ auto Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) -> void {
 		return;
 	}
 
-	// Different track requested: fade the current one out first.
+	// Different track requested: fade the current one out first
 	_begin_fade_out();
 }
 

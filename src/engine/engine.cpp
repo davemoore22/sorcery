@@ -265,13 +265,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			}
 		}
 
-		//
-		// Frame/game-state processing
-		//
+		// Frame/game-state processing from here
 
-		//
 		// Complete pending timed transitions
-		//
 		if (_pending_elevator && std::chrono::steady_clock::now() >= _pending_elevator->execute_at) {
 
 			const auto depth{_pending_elevator->depth};
@@ -292,20 +288,18 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 			_ctx.ui->clear_transient();
 
-			// Now actually fall through the chute.
+			// Now actually fall through the chute
 			_go_to_location(depth, loc, Enums::Map::Direction::NORTH);
 
 			_ctx.controller->set_can_undo(false);
 
-			// And only now process the destination tile message.
+			// And only now process the destination tile message
 			const auto &destination_tile{_ctx.game->state->level->at(loc)};
 
 			(void)_check_for_tile_message(destination_tile);
 		}
 
-		// Popups block gameplay and module transitions, but they MUST NOT
-		// block rendering/ticking.
-		//
+		// Popups block gameplay and module transitions, but they do not block rendering/ticking
 		if (!_ctx.ui->popup_manager->active()) {
 
 			// Check for return-to-town teleport
@@ -434,14 +428,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 					if (_search_event()) {
 
-						// Start Murphy's Ghost encounter here (only encounter
-						// to happen after a search).
+						// Start Murphy's Ghost encounter here (only encounter to happen after a search)
 						DEBUG_LOG("MURPHY'S GHOSTS!");
 					}
 
 				} else if (*result == CANCELLED) {
 
-					// Player selected No: no search, no encounter.
+					// Player selected No: no search, no encounter
 					_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 				}
 			}
@@ -474,17 +467,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		}
 
 		// Clear completed tile message state
-		// Complete a dismissed tile message
 		if (_ctx.ui->popup_manager->consume_completed("message_tile")) {
 
 			if (const auto result{_handle_completed_tile_event()})
 				return *result;
 		}
 
-		//
-		// ALWAYS render/tick, including while a popup/modal/dialog
-		// is active.
-		//
+		// Always render/tick, including while a popup/modal/dialog is active
 		_ctx.ui->display_engine();
 		_ctx.tick();
 	}
@@ -1179,7 +1168,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 			_ctx.game->state->level->clear_event(loc);
 
-			// Start specific Deadly Ring combat here.
+			// Start specific Deadly Ring combat here
 
 			return true;
 
@@ -1189,7 +1178,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 			_ctx.game->state->level->clear_event(loc);
 
-			// Start specific Fire Dragons combat here.
+			// Start specific Fire Dragons combat here
 
 			return true;
 
@@ -1200,10 +1189,9 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 			DEBUG_LOG("Player triggered Werdna combat");
 
-			// Do NOT clear this event: possession of the amulet
-			// suppresses repeat combat.
+			// Do not clear this event: possession of the amulet suppresses repeat combat.
 
-			// Start specific Werdna combat here.
+			// Start specific Werdna combat here
 
 			return true;
 
@@ -1322,7 +1310,7 @@ auto Sorcery::Engine::_process_tile_entry(const Coordinate from, const Coordinat
 
 		DEBUG_LOG("Player triggered guaranteed encounter");
 
-		// Start/schedule encounter here.
+		// Start/schedule encounter here
 
 		return true;
 	}

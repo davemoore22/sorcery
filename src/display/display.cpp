@@ -166,8 +166,8 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 		return -1;
 	}
 
-	// GLEW can leave a GL error behind when initialising a core-profile context.
-	// Clear it here so subsequent diagnostics refer to Sorcery's own GL calls.
+	// GLEW can leave a GL error behind when initialising a core-profile context. Clear it here so subsequent
+	// diagnostics refer to Sorcery's own GL calls
 	while (glGetError() != GL_NO_ERROR) {
 	}
 
@@ -319,13 +319,7 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 
 	const auto render_main{width > 0 && height > 0};
 
-	//
-	// Main Sorcery viewport.
-	//
-	// This continues to use our framebuffer and post-processing
-	// pipeline exactly as before.
-	//
-
+	// Do the main viewport
 	if (render_main) {
 
 		if (_framebuffer.width() != width || _framebuffer.height() != height) {
@@ -333,10 +327,7 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 			_framebuffer.resize(width, height);
 		}
 
-		//
-		// Pass 1: Render ImGui into the offscreen framebuffer.
-		//
-
+		// Pass 1: Render ImGui into the offscreen framebuffer
 		_framebuffer.bind();
 
 		glViewport(0, 0, width, height);
@@ -345,11 +336,7 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 
 		ImGui_ImplOpenGL3_RenderDrawData(draw_data);
 
-		//
-		// Pass 2: Render framebuffer texture to the main window
-		// through the post-processing shader.
-		//
-
+		// Pass 2: Render framebuffer texture to the main window through the post-processing shader
 		FrameBuffer::unbind();
 
 		glViewport(0, 0, width, height);
@@ -378,13 +365,9 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 		glUseProgram(0);
 	}
 
-	//
-	// Render detached ImGui platform windows.
-	//
-	// These deliberately do NOT go through Sorcery's framebuffer
-	// or post-processing shader.
-	//
+	// Render any detached ImGui platform windows (TODO: add these for notify etc)
 
+	// These deliberately do not go through Sorcery's framebuffer or post-processing shaders
 	const auto &io{ImGui::GetIO()};
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
@@ -399,10 +382,7 @@ auto Sorcery::Display::present(ImDrawData *draw_data) -> void {
 		SDL_GL_MakeCurrent(backup_window, backup_context);
 	}
 
-	//
-	// Present the main Sorcery window.
-	//
-
+	// Present the main Sorcery window
 	if (render_main)
 		SDL_GL_SwapWindow(_SDL_window);
 }

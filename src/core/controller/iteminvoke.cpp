@@ -70,7 +70,7 @@ auto Sorcery::apply_invoke(Game *game, Character &character, const Enums::Items:
 	case GRANT_50000_EXP:
 	case GRANT_50000_GOLD:
 	case STATUS_TO_LOST:
-		// Implementable, but unused in Wiz 1.
+		// Implementable, but unused in Wiz 1
 		DEBUG_LOG("NOT IMPLEMENTED IN WIZ 1 INVOKE");
 		return true;
 

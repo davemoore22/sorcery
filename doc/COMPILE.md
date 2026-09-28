@@ -124,6 +124,20 @@ The project uses the MinGW-w64 UCRT runtime and produces a native Windows execut
 
 ---
 
+# Command Line Shortcuts
+
+- --mute: disables sound
+- --no-images: disables image loading (will draw blank placeholders)
+
+- --new: skips the main menu and starts a new game
+- --load: skips the main menu and loads a preexisting game
+
+- --quickstart: skips the main menu and start a new game with 12 pregenerated characters
+  - --start-engine: use with --quickstart to go directly with a party to the dungeon
+  - --go-to: use with --start-engine to go to the coordinates/floor listed in the config.ini file
+
+---
+
 # System Dependencies
 
 Sorcery uses the following installed libraries and software:

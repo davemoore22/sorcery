@@ -237,8 +237,8 @@ auto Sorcery::ComponentStore::_load(const std::filesystem::path filename) -> boo
 	if (!forms.isArray())
 		return false;
 
-	// Build a replacement map rather than modifying the live map.
-	// A failed hot reload therefore leaves the last valid UI intact.
+	// Build a replacement map rather than modifying the live map; A failed hot reload therefore leaves the last valid
+	// UI intact
 	decltype(_components) new_components{};
 
 	for (const auto &form : forms) {

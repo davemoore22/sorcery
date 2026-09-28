@@ -168,8 +168,8 @@ auto Sorcery::Level::at(const Coordinate loc) const -> const Tile & {
 auto Sorcery::Level::at(const Coordinate loc, const Enums::Map::Direction direction, const int x, const int z) const
 	-> const Tile & {
 
-	// Needs to be done separately since levels have an extra row/column, and we
-	// must also remember that N/E is actually y/x.
+	// Needs to be done separately since levels have an extra row/column, and we must also remember that N/E is actually
+	// y/x
 	Coordinate dest{loc};
 
 	switch (direction) {

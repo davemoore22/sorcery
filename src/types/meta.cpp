@@ -141,7 +141,7 @@ INSTANTIATE_ENUM(Enums::Monsters::TypeID);
 INSTANTIATE_ENUM(Enums::System::Error);
 INSTANTIATE_ENUM(Enums::System::Random);
 
-// Add the other enum types used with enum_name()/enum_cast() here.
+// TODO: Add all other enum types used with enum_name()/enum_cast() here
 
 #undef INSTANTIATE_ENUM
 
