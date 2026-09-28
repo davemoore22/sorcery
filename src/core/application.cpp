@@ -169,9 +169,10 @@ auto Sorcery::Application::load_state_from_binary(const std::filesystem::path &f
 		return false;
 	}
 
-	// Note we serialize INTO existing objects thus no need to reinject
+	// The archive replaces owned state and characters; restore their runtime context.
 	cereal::BinaryInputArchive archive(is);
 	archive(*_game, *_controller);
+	_game->post_construct(ctx);
 
 	// DEBUG_LOGF("Quicksave successfully loaded from {}!", filename);
 
