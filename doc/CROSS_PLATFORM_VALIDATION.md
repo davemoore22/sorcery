@@ -1,7 +1,8 @@
 # Cross-platform validation — 27 September 2026
 
-Tested source: `ee25df25b076b4c772ba10c2577db49bbae772d6` on
-`codex/macos-support`. No source changes were needed for the Windows build.
+Tested source: `ee25df25b076b4c772ba10c2577db49bbae772d6`, originally on
+`codex/macos-support` and now named `m-series_mac_support` on the Mac.
+No source changes were needed for the Windows or Linux builds.
 The earlier native macOS results are recorded in [MACOS.md](MACOS.md).
 
 ## Windows
@@ -48,11 +49,39 @@ Remote keyboard forwarding was unreliable during the smoke test.
 
 ## Linux
 
-Source and artwork were transferred and checksum-verified on Ubuntu 26.04.1
-x86_64. The machine lacks the compiler and development dependencies, and
-installing them requires interactive sudo authentication. Linux compilation
-and runtime validation remain pending; Windows success does not establish
-Linux compatibility.
+Verified on Ubuntu 26.04.1 x86_64, kernel 7.0.0-30, Intel Core i5-3210M:
+
+- Ubuntu GCC 16.0.1 experimental snapshot dated 20260322
+  (`r16-8246-g569ace1fa50`); CMake 4.2.3; Ninja 1.13.2.
+- SDL2 2.32.10, FreeType 2.14.2, GLM 1.0.1, GLEW 2.2.0,
+  JsonCpp 1.9.6 and FFmpeg 8.0.1 development packages.
+- Full Debug compilation, linkage and runtime-data assembly succeeded.
+- Both CTest checks passed: `enum_resource_compatibility` and
+  `preserve_saves_on_rebuild`.
+
+The build retained the original C++26 reflection implementation:
+
+```sh
+cmake -S . -B build/linux -G Ninja \
+  -DCMAKE_C_COMPILER=gcc-16 -DCMAKE_CXX_COMPILER=g++-16 \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DSORCERY_PORTABLE_ENUMS=OFF \
+  -DSORCERY_BUILD_TESTS=ON
+cmake --build build/linux --parallel 2
+ctest --test-dir build/linux --output-on-failure
+```
+
+This records the actual Ubuntu compiler snapshot tested, not a released
+GCC 16.1/16.2 toolchain. The full build and checks passed with that snapshot.
+
+The executable launched in the existing Ubuntu desktop session. Its rendered
+title screen and menu were observed through RustDesk, and the game was left
+open for the user's hands-on testing. Dungeon gameplay, input, save/load,
+audio audibility, controllers, fullscreen/resizing and extended play remain
+unverified on Linux.
+
+Executable SHA-256:
+`f44a99a5313111297e2ee6e479af84337acde093f027f29dbdac5bbcbe5c62ec`.
 
 ## Transfer provenance
 
