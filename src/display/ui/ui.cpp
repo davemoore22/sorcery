@@ -3223,8 +3223,9 @@ auto Sorcery::UI::draw_tiled_bg_atlas([[maybe_unused]] Component *component) -> 
 												 .idx = _ctx.animation->wp_idx,
 												 .source_tile_size = ImVec2{400.0f, 400.0f},
 												 .draw_tile_size = ImVec2{400.0f, 400.0f},
-												 .p_min = ImVec2{0.0f, 0.0f},
-												 .p_max = viewport->Size,
+												 .p_min = viewport->Pos,
+												 .p_max = ImVec2{viewport->Pos.x + viewport->Size.x,
+																 viewport->Pos.y + viewport->Size.y},
 												 .mode = AtlasDrawMode::TILE,
 												 .tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f}});
 }
