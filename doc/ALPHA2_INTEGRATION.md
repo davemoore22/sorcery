@@ -1,6 +1,8 @@
 # Alpha 2 integration validation — 28 September 2026
 
-Latest tested source commit: `f5aa2a0` on `m-series_mac_support`.
+Latest source tested on all three platforms: `f5aa2a0` on
+`m-series_mac_support`. Mac and Windows additionally tested the keyboard
+changes through `43c221a`, as detailed below.
 The initial integration commit `45ff45c1201bf4818756079eb0dc3a521d420686`
 merges the previously tested Mac support with
 `Alpha_2_Spellcasting` at `ffd88d4f6592769b11af02b1e4411becf590e30d`.
@@ -19,7 +21,7 @@ field/combat/trap cast contexts, and the engine input mode.
 
 Fresh, separate build directories were used, preserving the earlier builds
 and their saves. All three machines built the initial integration and then
-rebuilt successfully at `f5aa2a0`; the results below apply to the latest source:
+rebuilt successfully at `f5aa2a0`; the results below apply to that source:
 
 | Platform | Compiler | Enum implementation | Debug build | CTest |
 | --- | --- | --- | --- | --- |
@@ -108,6 +110,58 @@ The imported Alpha 2 code exposed these faults during integration testing:
   Quickload followed by normal LOMILWA casting passed on all three platforms.
 
 ## Observations to discuss separately
+
+### Keyboard navigation follow-up
+
+The user reported Enter/menu navigation failing on Mac and Windows in both
+windowed and fullscreen modes. The shared UI initialization, including the
+upstream Alpha 2 version, did not enable ImGui keyboard navigation. The
+following commits address the common path without platform-specific input
+handling:
+
+- `1a7e36a`: enable `ImGuiConfigFlags_NavEnableKeyboard`.
+- `b2a90ff`: keep the selected/highlighted menu row synchronized with keyboard
+  focus and request focus for the selected row when a menu appears.
+- `43c221a`: show ImGui metrics only with the existing debug-UI flag. The
+  automatically opened metrics window had taken focus from the Mac game.
+
+Mac and Windows rebuilt successfully through `43c221a`, and both passed the
+two existing CTest checks. These tests do not exercise keyboard UI behavior.
+Ubuntu was not rebuilt for this follow-up because of the reported failing
+drive; its results above remain at `f5aa2a0`.
+
+Manual observations on the updated builds:
+
+- Mac fullscreen: Down/Enter continued the game, navigated Castle and Edge of
+  Town, and entered the maze. Right selected No in the stairs dialog and Enter
+  dismissed it without turning the party; a subsequent Right turned the party.
+  Escape opened camp, and Down/Enter opened Options. No metrics window opened.
+- Mac returned to windowed mode through Options. Camp arrow navigation and
+  Enter activation worked, but reopening camp exposed an intermittent focus
+  issue: Enter alone on the remembered highlighted row did not activate it
+  until the selection was moved away and back with arrows. This remains open.
+  Earlier windowed checks at `b2a90ff` also passed main-menu, Castle, Edge of
+  Town and stairs-dialog navigation.
+- Windows windowed: Down/Enter navigated Continue, Castle and Edge of Town.
+  Right/Enter selected No in the stairs dialog; Right then turned the party.
+  Camp navigation reached Options, although the initial camp focus needed an
+  extra Enter before arrow navigation responded. This needs further focus
+  testing alongside the Mac reopening case.
+- Windows fullscreen: the remote image again stayed on Options after applying
+  fullscreen, including after Escape. This remains unresolved, not a passed
+  keyboard test. The test configuration was restored to windowed mode.
+
+The latest executable SHA-256 values are:
+
+- Mac: `36659100bc59546248b833e10203f0c0907b214449f2fc1e93541016d5e743a2`
+- Windows: `61bada43c7b825cf3b25a42dfb34ecd3b70b4e5b892c5f9c97eb104fc840840e`
+
+The Mac runtime directory retains `f5aa2a0` in its historical name; its
+executable was replaced with the `43c221a` build. Logs are retained as
+`macos-keyboard-final-build.log` and `windows-keyboard-final-build.log` under
+`build/alpha2-evidence/`, together with the fullscreen dialog/capture images.
+
+### Other observations
 
 The Mac music-volume slider changed from 33% to 54% in the running UI, but
 `music_volume` remained 33 in the runtime configuration after Save. The slider
