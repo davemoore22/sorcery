@@ -1,5 +1,9 @@
 # Native macOS development build
 
+For the combined Alpha 2/docking build results and remaining checks, see
+[ALPHA2_INTEGRATION.md](ALPHA2_INTEGRATION.md). The initial validation below
+predates that integration.
+
 This branch adds an experimental Apple Silicon build using Apple Clang and
 C++23. Linux/Windows continue to use the existing GCC/C++26 reflection path.
 
@@ -67,8 +71,8 @@ redistributable application bundle or an automatically refreshed build target.
 Not yet validated: Intel Macs, older macOS/Xcode versions, Release builds,
 controller input, fullscreen/resizing, long gameplay sessions, audible music
 quality, or cross-platform save interchange. Linux/Windows were not rebuilt
-during the initial Mac session. Subsequent Windows results and pending Linux
-checks are recorded in [CROSS_PLATFORM_VALIDATION.md](CROSS_PLATFORM_VALIDATION.md).
+during the initial Mac session. Subsequent Windows and Linux results for that
+revision are recorded in [CROSS_PLATFORM_VALIDATION.md](CROSS_PLATFORM_VALIDATION.md).
 Existing warnings include duplicate static libraries and a stale
 SDK search path inherited from an installed dependency; neither prevented
 linking or startup.

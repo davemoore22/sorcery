@@ -1,5 +1,8 @@
 # Cross-platform validation — 27 September 2026
 
+These results predate Alpha 2 integration. See
+[ALPHA2_INTEGRATION.md](ALPHA2_INTEGRATION.md) for the combined build.
+
 Tested source: `ee25df25b076b4c772ba10c2577db49bbae772d6`, originally on
 `codex/macos-support` and now named `m-series_mac_support` on the Mac.
 No source changes were needed for the Windows or Linux builds.
