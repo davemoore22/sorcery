@@ -10,7 +10,7 @@ MESSAGE("Grabbing Dear ImGui from https://github.com/ocornut/imgui.git")
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
-    GIT_TAG        8936b58
+    GIT_TAG        v1.92.8-docking
     GIT_SHALLOW    FALSE
 )
 

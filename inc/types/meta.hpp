@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <chrono>
 #include <concepts>
 #include <cstdint>
 #include <optional>

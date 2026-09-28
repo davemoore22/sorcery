@@ -32,6 +32,8 @@ namespace Enums {
 }
 }
 
+namespace Sorcery { struct Context; }
+
 namespace Sorcery {
 
 class Message final : public Drawable {

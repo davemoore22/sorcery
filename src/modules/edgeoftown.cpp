@@ -22,19 +22,19 @@
 
 #include "modules/edgeoftown.hpp"
 #include "backends/imgui_impl_sdl2.h"		// for SDL_Event
-#include "core/audio/audioplayer.hpp"		// for AudioPlayer
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen, CharacterSlot
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for ABORT_GAME, INSPECT_MODE...
+#include "game/game.hpp"					// for Game
 #include "modules/restart.hpp"				// for Restart
 #include "modules/tavern/inspect.hpp"		// for Inspect
 #include "training/training.hpp"			// for Training
 #include "types/enum.hpp"					// for DialogType
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 
@@ -62,11 +62,12 @@ auto Sorcery::EdgeOfTown::start(const int mode) -> int {
 	_ctx.controller->go_to(Enums::Screen::EDGEOFTOWN);
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	fade_in(Enums::Screen::EDGEOFTOWN, QUICK_FADE);
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
-
-	_ctx.audio->set_volume(1.0f);
 
 	// Main loop
 	while (true) {

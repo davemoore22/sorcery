@@ -29,9 +29,9 @@
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI, TransientMode, Trans...
+#include "game/game.hpp"					// for Game
 #include "types/character/character.hpp"	// for Character
 #include "types/character/magic.hpp"		// for ConstCharacterMagic
-#include "types/game.hpp"					// for Game
 #include "types/state.hpp"					// for State
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <algorithm>						// for find
@@ -132,12 +132,10 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 
 		_ctx.tick();
 
-		//
-		// Chest has been resolved. Allow any result transient
-		// to finish before returning to the engine.
-		//
+		// Chest has been resolved. Allow any result transient to finish before returning to the engine
 		if (_state.state == Enums::Chests::State::DONE && !_ctx.ui->has_transient()) {
 
+			// TODO: add chest effects
 			return Enums::Chests::Result::OPENED;
 		}
 
@@ -226,9 +224,7 @@ auto Sorcery::Chest::_open(const int character_id) -> void {
 
 	const auto &character{_ctx.game->characters.at(character_id)};
 
-	//
 	// Trapless chest: opens safely.
-	//
 	if (_state.actual_trap == Enums::Traps::Type::NONE) {
 
 		_ctx.ui->show_transient(_ctx.get_string("CHEST_NO_TRAP"), 1s, TransientWidth::FIT_TEXT,
@@ -238,11 +234,7 @@ auto Sorcery::Chest::_open(const int character_id) -> void {
 		return;
 	}
 
-	//
-	// Original OPENCHST:
-	//
-	//   (RANDOM MOD 1000) < CHARLEV
-	//
+	// Original OPENCHST:  (RANDOM MOD 1000) < CHARLEV
 	const int roll{_ctx.get_random(Enums::System::Random::D1000) - 1};
 
 	if (roll < character.get_level()) {
@@ -251,9 +243,7 @@ auto Sorcery::Chest::_open(const int character_id) -> void {
 		return;
 	}
 
-	//
 	// Failed to open safely: trigger the actual trap.
-	//
 	_trigger_trap(character_id);
 
 	_state.state = Enums::Chests::State::DONE;

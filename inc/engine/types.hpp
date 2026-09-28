@@ -24,6 +24,7 @@
 
 #include "imgui.h"
 #include <array>
+#include <chrono>
 #include <format>
 #include <ostream>
 #include <tuple>

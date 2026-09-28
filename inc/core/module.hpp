@@ -27,16 +27,18 @@
 #include <functional>	// for function
 #include <string>		// for string
 
+namespace Sorcery { struct Context; }
 namespace Sorcery {
 namespace Enums { enum class Screen; }
 }
-namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 
 enum class ModuleEvent {
 	NONE,
+	CONSUMED,
 	ABORT,
+	QUICKSAVE,
 	QUICKLOAD
 };
 

@@ -28,10 +28,10 @@
 #include "display/animation.hpp"		   // for Animation
 #include "display/ui/ui.hpp"			   // for UI
 #include "display/ui/uimetrics.hpp"		   // for UIMetrics
+#include "game/game.hpp"				   // for Game
 #include "resources/fontstore.hpp"		   // for FontStore
 #include "types/component.hpp"			   // for Component
 #include "types/enum.hpp"				   // for Font
-#include "types/game.hpp"				   // for Game
 #include "types/state.hpp"				   // for State
 #include <imgui_sugar.hpp>				   // for BooleanGuard, set_Font, with_Wi...
 #include <memory>						   // for unique_ptr

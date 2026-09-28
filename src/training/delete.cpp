@@ -22,7 +22,6 @@
 
 #include "training/delete.hpp"
 #include "backends/imgui_impl_sdl2.h"		// for SDL_Event
-#include "core/audio/audioplayer.hpp"		// for AudioPlayer
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
@@ -31,8 +30,8 @@
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_TRAINING_GROUNDS
 #include "drawables/drawable.hpp"			// for DrawableResult, Drawable...
+#include "game/game.hpp"					// for Game
 #include "types/enum.hpp"					// for DialogType
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 #include <memory>							// for unique_ptr
@@ -59,8 +58,6 @@ auto Sorcery::Delete::start() -> int {
 	_ctx.controller->clear_character(Enums::CharacterSlot::EDIT);
 
 	show_immediately();
-
-	_ctx.audio->set_volume(1.0f);
 
 	auto confirming{false};
 
@@ -100,13 +97,11 @@ auto Sorcery::Delete::start() -> int {
 
 		_ctx.tick();
 
-		// Return selected from the menu.
+		// Return selected from the menu
 		if (!_ctx.controller->wants(Enums::Screen::DELETE) && _ctx.controller->wants(Enums::Screen::TRAINING))
 			return BACK_TO_TRAINING_GROUNDS;
 
-		//
-		// Deal with the result of an existing confirmation first.
-		//
+		// Deal with the result of an existing confirmation first
 		if (confirming) {
 
 			if (const auto result{_ctx.ui->popup_manager->consume_result("dialog_delete")}) {
@@ -135,9 +130,7 @@ auto Sorcery::Delete::start() -> int {
 			continue;
 		}
 
-		//
-		// A character has just been selected: ask for confirmation.
-		//
+		// A character has just been selected: ask for confirmation
 		if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
 
 			_ctx.ui->popup_manager->open_dialog("delete:dialog_delete", Enums::Layout::DialogType::CONFIRM);

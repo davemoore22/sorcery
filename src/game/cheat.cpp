@@ -20,17 +20,26 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/cheat.hpp"
-#include "core/context.hpp"
-#include "core/controller/controller.hpp"
-#include "core/debug.hpp"
-#include "core/resources.hpp"
-#include "resources/itemstore.hpp"
-#include "types/game.hpp"
-#include "types/meta.hpp"
-
-#include <functional>
-#include <iterator>
+#include "game/cheat.hpp"
+#include "common/enum.hpp"				  // for Class, Align, Random, Status
+#include "core/context.hpp"				  // for Context
+#include "core/controller/controller.hpp" // for Controller
+#include "core/debug.hpp"				  // for DEBUG_LOG
+#include "core/resources.hpp"			  // for Resources
+#include "game/game.hpp"				  // for Game
+#include "resources/itemstore.hpp"		  // for ItemStore
+#include "types/character/character.hpp"  // for Character
+#include "types/character/create.hpp"	  // for CharacterCreate
+#include "types/character/inventory.hpp"  // for Inventory
+#include "types/enum.hpp"				  // for TypeID, TypeID::LONG_SWORD
+#include "types/item/item.hpp"			  // for Item
+#include "types/meta.hpp"				  // for enum_cast
+#include "types/state.hpp"				  // for State
+#include <functional>					  // for invoke
+#include <map>							  // for map
+#include <memory>						  // for unique_ptr
+#include <optional>						  // for optional
+#include <vector>						  // for vector
 
 namespace Sorcery {
 
@@ -44,8 +53,11 @@ const Cheat::Action Cheat::_actions[]{
 	{"Give party XP", &Cheat::give_party_xp},
 	{"Heal party to full", &Cheat::heal_party_to_full},
 	{"Harm party to minimum", &Cheat::harm_party_to_min},
+	{"Level up all party members", &Cheat::level_up_party},
 	{"Kill party", &Cheat::kill_party},
-	{"Toggle light", &Cheat::toggle_light},
+	{"Toggle LOMILWA", &Cheat::toggle_light},
+	{"Toggle LATUMAPIC", &Cheat::toggle_identify},
+	{"Toggle MAPORFIC", &Cheat::toggle_shield},
 	{"Give party quest items", &Cheat::give_party_quest_items},
 	{"Start chest event", &Cheat::start_chest_event},
 	{"Toggle debug display", &Cheat::show_debug},
@@ -82,6 +94,18 @@ auto Sorcery::Cheat::harm_party_to_min() -> void {
 		auto &cur_char{_game.characters.at(idx)};
 		const auto hp{_ctx.get_random(Enums::System::Random::D4)};
 		cur_char.set_current_hp(hp);
+	}
+}
+
+auto Sorcery::Cheat::level_up_party() -> void {
+
+	DEBUG_LOG("debug_level_up_party");
+
+	for (const auto party{_game.state->get_party_characters()}; auto idx : party) {
+		auto &cur_char{_game.characters.at(idx)};
+		const auto xp_needed{cur_char.get_next_xp()};
+		cur_char.grant_xp(xp_needed + 1);
+		cur_char.create().level_up();
 	}
 }
 
@@ -138,8 +162,25 @@ auto Sorcery::Cheat::toggle_light() -> void {
 
 	DEBUG_LOG("_debug_toggle_light");
 
-	_game.state->set_lit(!_game.state->get_lit());
+	if (_game.state->get_lit())
+		_game.state->set_lit(0);
+	else
+		_game.state->set_lit(32000);
 };
+
+auto Sorcery::Cheat::toggle_shield() -> void {
+
+	DEBUG_LOG("_debug_toggle_shield");
+
+	_game.state->set_maporfic(!_game.state->get_maporifc());
+}
+
+auto Sorcery::Cheat::toggle_identify() -> void {
+
+	DEBUG_LOG("_debug_toggle_identify");
+
+	_game.state->set_latumapic(!_game.state->get_latumapic());
+}
 
 auto Sorcery::Cheat::heal_party_to_full() -> void {
 

@@ -22,10 +22,9 @@
 
 #include "training/reclass.hpp"
 #include "backends/imgui_impl_sdl2.h"		// for SDL_Event
-#include "core/audio/audioplayer.hpp"		// for AudioPlayer
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
-#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/controller/inputhandler.hpp" // for ControllerInputHandler
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
@@ -52,8 +51,6 @@ auto Sorcery::Reclass::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::RECLASS);
 
 	show_immediately();
-
-	_ctx.audio->set_volume(1.0f);
 
 	while (true) {
 		SDL_Event event{};

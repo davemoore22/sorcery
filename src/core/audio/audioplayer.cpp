@@ -21,17 +21,17 @@
 // the resulting work.
 
 #include "core/audio/audioplayer.hpp"
-#include "common/ffmpeg.hpp" // IWYU pragma: keep
-#include "common/macro.hpp"
-#include "core/debug.hpp" // for DEBUG_LOGF, debug_logf
-#include "resources/filestore.hpp"
-#include "types/scopedtimer.hpp" // for PROFILE_SCOPE
-#include <SDL_audio.h>			 // for SDL_PauseAudioDevice, SDL_Clea...
-#include <SDL_error.h>			 // for SDL_GetError
-#include <SDL_stdinc.h>			 // for Uint32
-#include <algorithm>
-#include <iostream>	 // for basic_ostream, operator<<, cerr
-#include <stdexcept> // for runtime_error
+#include "common/ffmpeg.hpp"	   // IWYU pragma: keep
+#include "common/macro.hpp"		   // for PATH2UTF8
+#include "core/debug.hpp"		   // for DEBUG_LOGF, debug_logf
+#include "resources/filestore.hpp" // for FileStore
+#include "types/scopedtimer.hpp"   // for PROFILE_SCOPE
+#include <SDL_audio.h>			   // for SDL_PauseAudioDevice, SDL_Clea...
+#include <SDL_error.h>			   // for SDL_GetError
+#include <SDL_stdinc.h>			   // for Uint32
+#include <algorithm>			   // for clamp, max, min
+#include <iostream>				   // for basic_ostream, operator<<, cerr
+#include <stdexcept>			   // for runtime_error
 
 /// @brief
 /// @param files
@@ -154,13 +154,15 @@ auto Sorcery::AudioPlayer::_load(const std::filesystem::path &filename) -> void 
 /// @return
 auto Sorcery::AudioPlayer::_play() -> void {
 
+	_debug_first_buffer = true;
+
 	if (!_fmt)
 		return;
 
-	// Already playing: don't restart the track.
+	// Already playing: don't restart the track
 	if (_playing) {
 
-		// If it was fading out, simply reverse direction.
+		// If it was fading out, simply reverse direction
 		if (_state == Enums::Audio::State::FADING_OUT)
 			_begin_fade_in();
 
@@ -172,12 +174,15 @@ auto Sorcery::AudioPlayer::_play() -> void {
 	_playing = true;
 	_fade = 0.0f;
 
+	DEBUG_LOGF("AUDIO play: current={} fade={:.3f} queued={:.1f}ms device={}", static_cast<int>(_current_track), _fade,
+			   _queued_ms(), static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
+
 	_begin_fade_in();
 
-	// Fill buffer while device is still paused.
-	update();
-
 	SDL_PauseAudioDevice(_device, 0);
+
+	DEBUG_LOGF("AUDIO device unpaused: queued={:.1f}ms device={}", _queued_ms(),
+			   static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
 }
 
 /// @brief
@@ -195,16 +200,24 @@ auto Sorcery::AudioPlayer::_stop() -> void {
 
 /// @brief
 /// @param volume
-auto Sorcery::AudioPlayer::set_volume(float volume) -> void {
+auto Sorcery::AudioPlayer::set_music_volume(float volume) -> void {
 
-	_volume = std::clamp(volume, 0.0f, 1.0f);
+	_music_volume = std::clamp(volume, 0.0f, 1.0f);
+}
+
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::get_music_volume() const -> float {
+
+	return _music_volume;
 }
 
 /// @brief
 /// @return
 auto Sorcery::AudioPlayer::update() -> void {
 
-	_update_transition();
+	if (_update_transition())
+		return;
 
 	if (!_playing || !_fmt)
 		return;
@@ -244,11 +257,22 @@ auto Sorcery::AudioPlayer::update() -> void {
 					float *samples{reinterpret_cast<float *>(out_data)};
 					int sample_count{converted * _spec.channels};
 
-					const auto gain{_volume * _fade};
+					const auto gain{_music_volume * _fade};
 					for (int i = 0; i < sample_count; ++i)
 						samples[i] *= gain;
 
 					SDL_QueueAudio(_device, out_data, size);
+
+					if (_debug_first_buffer) {
+
+						DEBUG_LOGF(
+							"AUDIO first buffer: current={} fade={:.3f} "
+							"gain={:.3f} queued={:.1f}ms device={}",
+							static_cast<int>(_current_track), _fade, _music_volume * _fade, _queued_ms(),
+							static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
+
+						_debug_first_buffer = false;
+					}
 
 					av_freep(&out_data);
 				}
@@ -263,6 +287,15 @@ auto Sorcery::AudioPlayer::update() -> void {
 /// @return
 auto Sorcery::AudioPlayer::_begin_fade_in() -> void {
 
+	DEBUG_LOGF(
+		"AUDIO fade-in begin: current={} requested={} "
+		"fade={:.3f} queued={:.1f}ms device={}",
+		static_cast<int>(_current_track), static_cast<int>(_requested_track), _fade, _queued_ms(),
+		static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
+
+	_fade_updated = Clock::now();
+	_state = Enums::Audio::State::FADING_IN;
+
 	_fade_updated = Clock::now();
 	_state = Enums::Audio::State::FADING_IN;
 }
@@ -270,6 +303,12 @@ auto Sorcery::AudioPlayer::_begin_fade_in() -> void {
 /// @brief
 /// @return
 auto Sorcery::AudioPlayer::_begin_fade_out() -> void {
+
+	DEBUG_LOGF(
+		"AUDIO fade-out begin: current={} requested={} "
+		"fade={:.3f} queued={:.1f}ms device={}",
+		static_cast<int>(_current_track), static_cast<int>(_requested_track), _fade, _queued_ms(),
+		static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
 
 	_fade_updated = Clock::now();
 	_state = Enums::Audio::State::FADING_OUT;
@@ -279,20 +318,28 @@ auto Sorcery::AudioPlayer::_begin_fade_out() -> void {
 /// @return
 auto Sorcery::AudioPlayer::_stop_immediately() -> void {
 
+	DEBUG_LOGF(
+		"AUDIO stop immediately BEFORE: current={} "
+		"fade={:.3f} queued={:.1f}ms device={}",
+		static_cast<int>(_current_track), _fade, _queued_ms(), static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
+
 	_playing = false;
 	_state = Enums::Audio::State::STOPPED;
 	_fade = 0.0f;
 
 	SDL_PauseAudioDevice(_device, 1);
 	SDL_ClearQueuedAudio(_device);
+
+	DEBUG_LOGF("AUDIO stop immediately AFTER: queued={:.1f}ms device={}", _queued_ms(),
+			   static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
 }
 
 /// @brief
 /// @return
-auto Sorcery::AudioPlayer::_update_transition() -> void {
+auto Sorcery::AudioPlayer::_update_transition() -> bool {
 
 	if (_state != Enums::Audio::State::FADING_IN && _state != Enums::Audio::State::FADING_OUT)
-		return;
+		return false;
 
 	const auto now{Clock::now()};
 	const auto elapsed{std::chrono::duration<float>{now - _fade_updated}.count()};
@@ -307,20 +354,37 @@ auto Sorcery::AudioPlayer::_update_transition() -> void {
 		_fade = std::min(1.0f, _fade + delta);
 
 		if (_fade >= 1.0f) {
+
 			_fade = 1.0f;
 			_state = Enums::Audio::State::PLAYING;
+
+			DEBUG_LOGF(
+				"AUDIO fade-in complete: current={} "
+				"queued={:.1f}ms device={}",
+				static_cast<int>(_current_track), _queued_ms(), static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
 		}
 
-	} else {
-
-		_fade = std::max(0.0f, _fade - delta);
-
-		if (_fade <= 0.0f) {
-
-			_fade = 0.0f;
-			_finish_fade_out();
-		}
+		return false;
 	}
+
+	_fade = std::max(0.0f, _fade - delta);
+
+	if (_fade <= 0.0f) {
+
+		_fade = 0.0f;
+
+		DEBUG_LOGF(
+			"AUDIO fade-out complete: current={} requested={} "
+			"queued={:.1f}ms device={}",
+			static_cast<int>(_current_track), static_cast<int>(_requested_track), _queued_ms(),
+			static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
+
+		_finish_fade_out();
+
+		return true;
+	}
+
+	return false;
 }
 
 /// @brief
@@ -340,14 +404,19 @@ auto Sorcery::AudioPlayer::_finish_fade_out() -> void {
 /// @return
 auto Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) -> void {
 
-	// We already want this track.
+	DEBUG_LOGF(
+		"AUDIO set_track: requested={} current={} previous_requested={} "
+		"state={} fade={:.3f} queued={:.1f}ms device={}",
+		static_cast<int>(track), static_cast<int>(_current_track), static_cast<int>(_requested_track),
+		static_cast<int>(_state), _fade, _queued_ms(), static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
+
+	// We already want this track
 	if (track == _requested_track)
 		return;
 
 	_requested_track = track;
 
-	// Requesting the track already playing.
-	// If it happens to be fading out, reverse the fade.
+	// Requesting the track already playing - if it happens to be fading out, reverse the fade
 	if (track == _current_track) {
 
 		if (_state == Enums::Audio::State::FADING_OUT)
@@ -356,7 +425,7 @@ auto Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) -> void {
 		return;
 	}
 
-	// Nothing currently playing.
+	// Nothing currently playing
 	if (_current_track == Enums::Audio::Track::NONE) {
 
 		if (_requested_track == Enums::Audio::Track::NONE)
@@ -366,7 +435,7 @@ auto Sorcery::AudioPlayer::set_track(const Enums::Audio::Track track) -> void {
 		return;
 	}
 
-	// Different track requested: fade the current one out first.
+	// Different track requested: fade the current one out first
 	_begin_fade_out();
 }
 
@@ -377,6 +446,12 @@ auto Sorcery::AudioPlayer::_start_requested_track() -> void {
 	if (_requested_track == Enums::Audio::Track::NONE)
 		return;
 
+	DEBUG_LOGF(
+		"AUDIO starting requested track: requested={} "
+		"old_current={} queued={:.1f}ms device={}",
+		static_cast<int>(_requested_track), static_cast<int>(_current_track), _queued_ms(),
+		static_cast<int>(SDL_GetAudioDeviceStatus(_device)));
+
 	const auto track{_requested_track};
 	const auto resource{Music::resource(track)};
 
@@ -384,5 +459,25 @@ auto Sorcery::AudioPlayer::_start_requested_track() -> void {
 
 	_current_track = track;
 
+	DEBUG_LOGF("AUDIO track loaded: current={} fade={:.3f} queued={:.1f}ms", static_cast<int>(_current_track), _fade,
+			   _queued_ms());
+
 	_play();
+}
+
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_queued_ms() const -> float {
+
+	const auto bytes{SDL_GetQueuedAudioSize(_device)};
+	const auto bytes_per_second{static_cast<float>(_spec.freq * _spec.channels * sizeof(float))};
+
+	return (static_cast<float>(bytes) / bytes_per_second) * 1000.0f;
+}
+
+/// @brief
+/// @return
+auto Sorcery::AudioPlayer::_device_status() const -> int {
+
+	return static_cast<int>(SDL_GetAudioDeviceStatus(_device));
 }

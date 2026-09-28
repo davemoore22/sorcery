@@ -25,6 +25,7 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
@@ -60,6 +61,9 @@ auto Sorcery::Compendium::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::COMPENDIUM);
 	_ctx.controller->initialise();
+
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
 
 	fade_in(Enums::Screen::COMPENDIUM, QUICK_FADE);
 

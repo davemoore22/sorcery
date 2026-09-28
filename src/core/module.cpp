@@ -33,13 +33,18 @@
 #include <any>								// for any
 #include <chrono>							// for duration, milliseconds
 #include <cmath>							// for lerp
-#include <filesystem>						// for path
 #include <memory>							// for unique_ptr
 
 namespace Sorcery {
 namespace Enums { enum class Screen; }
 }
 
+/// @brief
+/// @param draw
+/// @param from
+/// @param to
+/// @param duration
+/// @return
 auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from, const float to,
 							const std::chrono::milliseconds duration) -> void {
 
@@ -77,6 +82,10 @@ auto Sorcery::Module::_fade(const std::function<void()> &draw, const float from,
 	draw();
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @return
 auto Sorcery::Module::fade_in(const Enums::Screen screen, const std::chrono::milliseconds duration) -> void {
 
 	_fade(
@@ -86,6 +95,10 @@ auto Sorcery::Module::fade_in(const Enums::Screen screen, const std::chrono::mil
 		1.0f, 0.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @return
 auto Sorcery::Module::fade_out(const Enums::Screen screen, const std::chrono::milliseconds duration) -> void {
 
 	_fade(
@@ -95,6 +108,11 @@ auto Sorcery::Module::fade_out(const Enums::Screen screen, const std::chrono::mi
 		0.0f, 1.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @param string
+/// @return
 auto Sorcery::Module::fade_in_with_string(const Enums::Screen screen, const std::chrono::milliseconds duration,
 										  const std::string &string) -> void {
 
@@ -105,6 +123,11 @@ auto Sorcery::Module::fade_in_with_string(const Enums::Screen screen, const std:
 		1.0f, 0.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @param value
+/// @return
 auto Sorcery::Module::fade_in_with_int(const Enums::Screen screen, const std::chrono::milliseconds duration,
 									   const int value) -> void {
 
@@ -115,6 +138,11 @@ auto Sorcery::Module::fade_in_with_int(const Enums::Screen screen, const std::ch
 		1.0f, 0.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @param value
+/// @return
 auto Sorcery::Module::fade_out_with_int(const Enums::Screen screen, const std::chrono::milliseconds duration,
 										const int value) -> void {
 
@@ -125,6 +153,11 @@ auto Sorcery::Module::fade_out_with_int(const Enums::Screen screen, const std::c
 		0.0f, 1.0f, duration);
 }
 
+/// @brief
+/// @param screen
+/// @param duration
+/// @param string
+/// @return
 auto Sorcery::Module::fade_out_with_string(const Enums::Screen screen, const std::chrono::milliseconds duration,
 										   const std::string &string) -> void {
 
@@ -135,25 +168,57 @@ auto Sorcery::Module::fade_out_with_string(const Enums::Screen screen, const std
 		0.0f, 1.0f, duration);
 }
 
+/// @brief
+/// @param draw
+/// @param duration
+/// @return
 auto Sorcery::Module::fade_in(const std::function<void()> &draw, const std::chrono::milliseconds duration) -> void {
 
 	_fade(draw, 1.0f, 0.0f, duration);
 }
 
+/// @brief
+/// @param draw
+/// @param duration
+/// @return
 auto Sorcery::Module::fade_out(const std::function<void()> &draw, const std::chrono::milliseconds duration) -> void {
 
 	_fade(draw, 0.0f, 1.0f, duration);
 }
 
+/// @brief
+/// @param event
+/// @param options
+/// @return
 auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &options) -> ModuleEvent {
 
+	// Always give ImGui the event first
 	ImGui_ImplSDL2_ProcessEvent(&event);
 
+	// Application/window-level events must still work while help is open
 	if (_ctx.controller->input->abort(event))
 		return ModuleEvent::ABORT;
 
 	_ctx.controller->input->resize(event);
 
+	// F1 toggles context-sensitive help
+	if (_ctx.controller->input->help(event)) {
+
+		_ctx.controller->toggle_flag("want_help");
+
+		return ModuleEvent::CONSUMED;
+	}
+
+	// Help behaves modally. While visible, consume all input
+	if (_ctx.controller->has_flag("want_help")) {
+
+		if (_ctx.controller->input->back(event))
+			_ctx.controller->unset_flag("want_help");
+
+		return ModuleEvent::CONSUMED;
+	}
+
+	// Normal module input starts here
 	if (options.menu_key)
 		_ctx.controller->input->menu_key(event);
 
@@ -161,11 +226,9 @@ auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &
 		_ctx.controller->input->debug(event);
 
 	if (options.quicksave && _ctx.controller->input->quicksave(event)) {
-
 		_ctx.application->save_state_to_binary(_ctx.get_file(SAVE_STATE_FILENAME));
 
 	} else if (options.quickload && _ctx.controller->input->quickload(event)) {
-
 		_ctx.application->load_state_from_binary(_ctx.get_file(SAVE_STATE_FILENAME));
 
 		return ModuleEvent::QUICKLOAD;
@@ -174,11 +237,15 @@ auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &
 	return ModuleEvent::NONE;
 }
 
+/// @brief
+/// @return
 auto Sorcery::Module::show_immediately() -> void {
 
 	_ctx.display->set_fade(0.0f);
 }
 
+/// @brief
+/// @return
 auto Sorcery::Module::abort() -> int {
 
 	_ctx.ui->close_all_popups();

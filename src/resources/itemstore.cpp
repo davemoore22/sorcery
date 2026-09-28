@@ -20,20 +20,21 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/itemstore.hpp" // for ItemStore
-#include "common/enum.hpp"		   // for Class, SpellID, SpellID::NO_SPELL
+#include "resources/itemstore.hpp"
+#include "common/enum.hpp"		   // for Class, Align
 #include "core/context.hpp"		   // for Context
 #include "core/random.hpp"		   // for Random
-#include "resources/json.hpp"
-#include "types/enum.hpp"		   // for TypeID (ptr only), Category, Cate...
+#include "magic/enum.hpp"		   // for SpellID, SpellID::NO_SPELL
+#include "resources/json.hpp"	   // for get_string, get_int, get_enum
+#include "types/enum.hpp"		   // for TypeID (ptr only), Defensive, Cat...
 #include "types/item/item.hpp"	   // for Item
 #include "types/item/itemtype.hpp" // for ItemType
 #include "types/meta.hpp"		   // for enum_cast
 #include <algorithm>			   // for find_if, remove_if
 #include <array>				   // for array
+#include <cstddef>				   // for size_t
 #include <filesystem>			   // for path
-#include <fstream>				   // for basic_ifstream, char_traits, ifst...
-#include <functional>			   // for invoke
+#include <fstream>				   // for basic_ifstream, ifstream
 #include <json/reader.h>		   // for Reader
 #include <json/value.h>			   // for Value
 #include <json/writer.h>		   // for StreamWriterBuilder
@@ -42,9 +43,9 @@
 #include <ranges>				   // for __find_if_fn
 #include <regex>				   // for regex, regex_token_iterator, sreg...
 #include <stdexcept>			   // for out_of_range
-#include <string>				   // for basic_string, string, operator==
+#include <string>				   // for basic_string, string, char_traits
 #include <string_view>			   // for string_view, operator==
-#include <utility>				   // for to_underlying, get, pair
+#include <utility>				   // for pair, to_underlying, get
 #include <vector>				   // for vector
 
 template <typename E, std::size_t N, std::size_t M>

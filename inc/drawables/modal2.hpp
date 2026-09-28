@@ -22,11 +22,10 @@
 
 #pragma once
 
-#include "drawables/drawable.hpp"
-
-#include <string>
-#include <string_view>
-#include <vector>
+#include "drawables/drawable.hpp" // for Drawable
+#include <string>				  // for basic_string, string
+#include <string_view>			  // for string_view
+#include <vector>				  // for vector
 
 namespace Sorcery { class Component; }
 namespace Sorcery {
@@ -47,6 +46,7 @@ class Modal2 final : public Drawable {
 		auto build(Component &component, std::string_view menu_name) -> void;
 		auto display() -> void override;
 		auto set_title(std::string_view key) -> void;
+		auto regenerate() -> void;
 
 	private:
 		auto _build(Component &component, std::string_view menu_name) -> void;

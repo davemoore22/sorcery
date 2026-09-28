@@ -27,6 +27,7 @@
 #include <optional>		   // for optional
 #include <random>		   // for uniform_int_distribution, mt19937_64, ran...
 
+/// @brief
 Sorcery::Random::Random() {
 
 	// Random Seeding Device
@@ -89,16 +90,24 @@ Sorcery::Random::Random() {
 			"tram",	 "v",	"vudd", "w",	"wan",	 "win",	 "wyn",	  "wyr",   "wyr",  "wyth"};
 }
 
+/// @brief
+/// @param random_type
+/// @return
 auto Sorcery::Random::get(const Enums::System::Random random_type) -> unsigned int {
 
 	return _get(random_type);
 }
 
+/// @brief
+/// @param num
+/// @return
 auto Sorcery::Random::get_type(const int num) const -> Enums::System::Random {
 
 	return enum_cast<Enums::System::Random>(num).value_or(Enums::System::Random::NO_DICE);
 }
 
+/// @brief
+/// @return
 auto Sorcery::Random::get_random_name() -> std::string {
 
 	auto sy1_dist{std::uniform_int_distribution<unsigned int>(0, _sy1.size() - 1)};
@@ -111,17 +120,22 @@ auto Sorcery::Random::get_random_name() -> std::string {
 	return name;
 }
 
+/// @brief  Generate a random number of a specified type
+/// @param random_type
+/// @return
 auto Sorcery::Random::_get(const Enums::System::Random random_type) -> unsigned int {
 
-	// Generate a random number of a specified type
 	const auto [min, max]{_range[random_type]};
 	auto dist{std::uniform_int_distribution<unsigned int>(min, max)};
 	return dist(_random);
 }
 
+/// @brief  Generate a random number of a specified range
+/// @param min
+/// @param max
+/// @return
 auto Sorcery::Random::get(const unsigned int min, const unsigned int max) -> unsigned int {
 
-	// Generate a random number of a specified range
 	auto dist{std::uniform_int_distribution<unsigned int>(min, max)};
 	return dist(_random);
 }

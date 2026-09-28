@@ -27,16 +27,11 @@
 #include <string_view>	 // for string_view
 #include <unordered_map> // for unordered_map
 #include <vector>		 // for vector
+
 namespace Sorcery {
 namespace Enums { enum class CharacterSlot; }
-}
-namespace Sorcery {
 namespace Enums { enum class Screen; }
-}
-namespace Sorcery {
-namespace Enums {
-	namespace Layout { enum class DialogType; }
-}
+namespace Enums::Layout { enum class DialogType; }
 }
 
 namespace Sorcery {

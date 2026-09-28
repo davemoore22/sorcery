@@ -54,7 +54,7 @@ class State {
 		// Serialisation
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(_version, _party, level, explored, _player_depth, _previous_depth, _player_pos, _previous_pos,
-					_playing_facing, _lit, _turns, _log, _shop);
+					_playing_facing, _light_turns, _latumapic, _maporfic, _turns, _log, _shop);
 		}
 
 		// Public Members
@@ -92,8 +92,13 @@ class State {
 		auto set_depth(int depth) -> void;
 		auto set_player_prev_depth(int depth) -> void;
 		auto get_depth() const -> int;
-		auto set_lit(bool lit) -> void;
+		auto set_lit(const int turns) -> void;
 		auto get_lit() const -> bool;
+		auto set_maporfic(const bool value) -> void;
+		auto get_maporifc() const -> bool;
+		auto set_latumapic(const bool value) -> void;
+		auto get_latumapic() const -> bool;
+		auto get_lit_turns() const -> int;
 		auto get_turns() const -> unsigned int;
 		auto pass_turn(unsigned int turns = 1) -> void;
 		auto add_log_message(std::string text, Enums::Internal::MessageType type) -> void;
@@ -123,7 +128,9 @@ class State {
 		int _previous_depth;
 		Enums::Map::Direction _playing_facing;
 		int _player_depth;
-		bool _lit;
+		int _light_turns{0};
+		bool _latumapic{false};
+		bool _maporfic{false};
 		int _version;
 		unsigned int _turns;
 		std::vector<ConsoleMessage> _log;

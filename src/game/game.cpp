@@ -20,33 +20,33 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/game.hpp"
-#include "cereal/archives/xml.hpp"		  // for epilogue, prologue, XMLOut...
-#include "common/enum.hpp"				  // for Event, Class, Align, Location
-#include "common/macro.hpp"				  // for PRINT, GUID
-#include "core/context.hpp"				  // for Context
-#include "core/controller/controller.hpp" // for Controller
-#include "core/resources.hpp"			  // for Resources
-#include "resources/itemstore.hpp"		  // for ItemStore
-#include "resources/levelstore.hpp"		  // for LevelStore
-#include "resources/savestore.hpp"		  // for SaveStore
-#include "types/character/create.hpp"	  // for CharacterCreate
-#include "types/character/inventory.hpp"  // for Inventory
-#include "types/character/magic.hpp"	  // for CharacterMagic
-#include "types/cheat.hpp"
-#include "types/enum.hpp"		 // for TypeID, TypeID::LONG_SWORD
-#include "types/item/item.hpp"	 // for Item
-#include "types/meta.hpp"		 // for enum_name, enum_cast
-#include "types/state.hpp"		 // for State
-#include "types/world/level.hpp" // for Level
-#include <algorithm>			 // for find_if, find
-#include <format>				 // for format
-#include <optional>				 // for optional, operator==
-#include <print>				 // for println
-#include <ranges>				 // for __find_if_fn
-#include <sstream>				 // for basic_stringstream, basic_...
-#include <string_view>			 // for basic_string_view
-#include <utility>				 // for get
+#include "game/game.hpp"
+#include "cereal/archives/xml.hpp" // for epilogue, prologue, XMLOutp...
+#include "common/enum.hpp"		   // for Event, Location, Align, Ali...
+#include "common/macro.hpp"		   // for GUID
+#include "core/context.hpp"		   // for Context
+#include "core/debug.hpp"		   // for DEBUG_LOG
+#include "core/resources.hpp"	   // for Resources
+#include "game/cheat.hpp"		   // for Cheat
+#include "game/spellcasting.hpp"   // for SpellCasting
+#include "magic/castcontext.hpp"
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/levelstore.hpp"		 // for LevelStore
+#include "resources/savestore.hpp"		 // for SaveStore
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/character/magic.hpp"	 // for CharacterMagic
+#include "types/meta.hpp"				 // for enum_name
+#include "types/scopedtimer.hpp"		 // for PROFILE_SCOPE
+#include "types/state.hpp"				 // for State
+#include "types/world/level.hpp"		 // for Level
+#include <algorithm>					 // for find_if, find
+#include <format>						 // for format
+#include <optional>						 // for optional, operator==
+#include <print>						 // for println
+#include <ranges>						 // for __find_if_fn
+#include <sstream>						 // for basic_stringstream, basic_o...
+#include <string_view>					 // for basic_string_view
+#include <utility>						 // for get
 
 Sorcery::Game::Game(Context &ctx)
 	: _ctx{ctx} {
@@ -62,6 +62,7 @@ Sorcery::Game::Game(Context &ctx)
 	_set_up_dungeon_events();
 
 	_cheat = std::make_unique<Cheat>(_ctx, *this);
+	_spellcasting = std::make_unique<SpellCasting>(_ctx, *this);
 }
 
 Sorcery::Game::~Game() = default;
@@ -95,6 +96,8 @@ auto Sorcery::Game::move_party_to_tavern() -> void {
 auto Sorcery::Game::_set_up_dungeon_events() -> void {
 
 	_events.clear();
+
+	// TODO: hate this!
 
 	// bool params are:
 	//
@@ -203,16 +206,16 @@ auto Sorcery::Game::create_game() -> void {
 
 auto Sorcery::Game::load_game() -> void {
 
-	// PROFILE_SCOPE("Game::load_game");
-	//  DEBUG_LOG("Loading Game from DB");
+	PROFILE_SCOPE("Game::load_game");
+	DEBUG_LOG("GAME Loading Game from DB");
 
 	_load_game();
 }
 
 auto Sorcery::Game::save_game() -> void {
 
-	// PROFILE_SCOPE("Game::save_game");
-	//  DEBUG_LOG("Saving Game to DB");
+	PROFILE_SCOPE("Game::save_game");
+	DEBUG_LOG("GAME Saving Game to DB");
 
 	_save_game();
 }
@@ -591,6 +594,11 @@ auto Sorcery::Game::grant_party_members_xp(const int adjustment) -> void {
 auto Sorcery::Game::cheat() -> Cheat & {
 
 	return *_cheat;
+}
+
+auto Sorcery::Game::spellcasting() -> SpellCasting & {
+
+	return *_spellcasting;
 }
 
 namespace Sorcery {

@@ -291,6 +291,67 @@
 					]
 				},
 				{
+					"name": "dialog_malor",
+					"x": "centre",
+					"y": "centre",
+					"w": "26",
+					"h": "14",
+					"font": "monospace",
+					"type": "dialog",
+					"drawmode": "manual"
+				},
+				{
+					"name": "dialog_spell_result",
+					"x": "centre",
+					"y": "centre",
+					"w": "30",
+					"h": "10",
+					"font": "monospace",
+					"type": "dialog",
+					"drawmode": "manual"
+				},
+				{
+					"name": "dialog_dumapic",
+					"x": "centre",
+					"y": "centre",
+					"w": "30",
+					"h": "10",
+					"font": "monospace",
+					"type": "dialog",
+					"drawmode": "manual"
+				},
+				{
+					"name": "dialog_kandi",
+					"x": "centre",
+					"y": "centre",
+					"w": "30",
+					"h": "10",
+					"font": "monospace",
+					"type": "dialog",
+					"drawmode": "manual"
+				},
+				{
+					"name": "modal_party_spell_target",
+					"x": "centre",
+					"y": "8",
+					"w": "34",
+					"h": "15",
+					"font": "monospace",
+					"type": "choice",
+					"string": "MODAL_PARTY_SPELL_TARGET",
+					"drawmode": "manual",
+					"alpha": "1.0",
+					"colour": "0xffffff",
+					"bg_colour": "0x102030ff",
+					"data": [
+						{
+							"menu_name": "party_spell_target_menu",
+							"highlight": "0x6060c8",
+							"dynamic": "true"
+						}
+					]
+				},
+				{
 					"name": "modal_trade",
 					"x": "centre",
 					"y": "8",

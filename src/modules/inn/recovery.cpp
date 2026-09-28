@@ -29,8 +29,8 @@
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_STAY, CHECK_FOR_...
+#include "game/game.hpp"					// for Game
 #include "types/character/character.hpp"	// for Character
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <algorithm>						// for min
 #include <any>								// for any
@@ -82,7 +82,7 @@ auto Sorcery::Recovery::_initialise() -> bool {
 	return true;
 }
 
-// Napping timer only ever runs once.
+// Napping timer only ever runs once
 auto Sorcery::Recovery::_callback_napping(std::uint32_t, void *param) -> std::uint32_t {
 
 	auto *recovery{static_cast<Recovery *>(param)};
@@ -92,8 +92,7 @@ auto Sorcery::Recovery::_callback_napping(std::uint32_t, void *param) -> std::ui
 	return 0;
 }
 
-// Recuperation continues while the character needs healing and can afford
-// another week.
+// Recuperation continues while the character needs healing and can afford another week
 auto Sorcery::Recovery::_callback_recuperating(std::uint32_t, void *param) -> std::uint32_t {
 
 	auto *recovery{static_cast<Recovery *>(param)};
@@ -112,14 +111,14 @@ auto Sorcery::Recovery::_callback_recuperating(std::uint32_t, void *param) -> st
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
-	// Cannot buy another week's recuperation.
+	// Cannot buy another week's recuperation
 	if (current_hp >= max_hp || current_gold < cost) {
 		recovery->_finished = true;
 		return 0;
 	}
 #pragma GCC diagnostic pop
 
-	// One week passes.
+	// One week passes
 	character->set_current_hp(std::min(current_hp + hp, max_hp));
 
 	character->set_gold(current_gold - cost);
@@ -127,7 +126,7 @@ auto Sorcery::Recovery::_callback_recuperating(std::uint32_t, void *param) -> st
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
-	// Stop immediately if no further week is required/affordable.
+	// Stop immediately if no further week is required/affordable
 	if (character->get_current_hp() >= max_hp || character->get_gold() < cost) {
 
 		recovery->_finished = true;

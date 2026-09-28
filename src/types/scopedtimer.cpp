@@ -21,17 +21,19 @@
 // the resulting work.
 
 #include "types/scopedtimer.hpp"
+#include "core/debug.hpp" // for DEBUG_LOGF, debug_logf
 
-#include <print>
-
+/// @brief
+/// @param name
 Sorcery::ScopedTimer::ScopedTimer(std::string_view name)
 	: _name{name},
 	  _start{clock::now()} {}
 
+/// @brief
 Sorcery::ScopedTimer::~ScopedTimer() {
 
 	const auto end{clock::now()};
 	const auto elapsed{std::chrono::duration_cast<std::chrono::microseconds>(end - _start)};
 
-	std::println("[TIMER] {}: {} us", _name, elapsed.count());
+	DEBUG_LOGF("[TIMER] {}: {} us", _name, elapsed.count());
 }

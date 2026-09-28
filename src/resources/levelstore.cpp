@@ -20,23 +20,23 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "resources/levelstore.hpp" // for LevelStore
-#include "common/enum.hpp"			// for Error, Type
-#include "common/types.hpp"			// for Coordinate, Size
-#include "resources/json.hpp"
+#include "resources/levelstore.hpp"
+#include "common/enum.hpp"		 // for Error, Type
+#include "common/types.hpp"		 // for Coordinate, Size
+#include "resources/json.hpp"	 // for get_int, get_string
 #include "types/error.hpp"		 // for Error, operator<<
 #include "types/world/level.hpp" // for Level
 #include <cstdlib>				 // for exit, EXIT_FAILURE
 #include <exception>			 // for exception
 #include <filesystem>			 // for path
-#include <fstream>				 // for basic_ifstream, basic_ostream
+#include <fstream>				 // for basic_ifstream, basic_ostream, ifst...
 #include <iostream>				 // for cerr
-#include <json/reader.h>		 // for Reader
+#include <json/reader.h>		 // for CharReaderBuilder, parseFromStream
 #include <json/value.h>			 // for Value
 #include <map>					 // for map, operator==
 #include <optional>				 // for optional, nullopt, nullopt_t
 #include <string>				 // for basic_string, string
-#include <utility>				 // for pair
+#include <utility>				 // for move, pair
 
 Sorcery::LevelStore::LevelStore() {
 
@@ -108,11 +108,11 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 			const auto width{JsonHelper::get_int(bounds, "width")};
 			const auto height{JsonHelper::get_int(bounds, "height")};
 
-			// Keep these as values for now because Level::load()
-			// currently owns the Grid Cartographer parsing step.
+			// Keep these as values for now because Level::load() currently owns the Grid Cartographer parsing step
 			auto rows{tiles["rows"]};
 			auto notes{layer["notes"]};
 
+			// TODO: get rid of GC format maps eventually and rely upon our own
 			Level level{Enums::Map::Type::MAZE, dungeon, depth, Coordinate{x_origin, y_origin}, Size{width, height}};
 
 			level.load(rows, notes);

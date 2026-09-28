@@ -26,25 +26,30 @@
 #include "core/context.hpp"				  // for Context
 #include "core/controller/controller.hpp" // for Controller
 #include "core/controller/iteminvoke.hpp" // for apply_invoke
-#include "core/controller/menuaction.hpp" // for Type, MenuAction, MENU_ACT...
+#include "core/controller/menuaction.hpp" // for MenuAction, Type, MENU_ACT...
 #include "core/debug.hpp"				  // for DEBUG_LOGF, debug_logf
 #include "core/enum.hpp"				  // for CharacterSlot, Screen
 #include "core/resources.hpp"			  // for Resources
 #include "display/ui/popupmanager.hpp"	  // for PopupManager
 #include "display/ui/ui.hpp"			  // for UI
 #include "drawables/define.hpp"			  // for MAIN_MENU_CONTINUE_GAME
+#include "game/game.hpp"				  // for Game
+#include "game/spellcasting.hpp"		  // for SpellCasting
+#include "magic/castrequest.hpp"		  // for CastRequest
+#include "magic/enum.hpp"				  // for SpellID (ptr only), SpellType
 #include "resources/itemstore.hpp"		  // for ItemStore
+#include "resources/spellstore.hpp"		  // for SpellStore
 #include "types/character/character.hpp"  // for Character
 #include "types/character/create.hpp"	  // for CharacterCreate
 #include "types/character/inventory.hpp"  // for Inventory
 #include "types/character/magic.hpp"	  // for ConstCharacterMagic
 #include "types/enum.hpp"				  // for TypeID, DialogType, Identi...
-#include "types/game.hpp"				  // for Game
 #include "types/item/item.hpp"			  // for Item
 #include "types/item/itemtype.hpp"		  // for ItemType
-#include "types/meta.hpp"				  // for enum_cast
-#include "types/state.hpp"				  // for State				 // for vector
+#include "types/meta.hpp"				  // for enum_cast, enum_name
+#include "types/state.hpp"				  // for State
 #include <algorithm>					  // for find
+#include <cstddef>						  // for size_t
 #include <functional>					  // for less
 #include <map>							  // for map, operator==
 #include <memory>						  // for unique_ptr, shared_ptr
@@ -52,7 +57,7 @@
 #include <ranges>						  // for __find_fn
 #include <string>						  // for basic_string, char_traits
 #include <unordered_map>				  // for unordered_map, operator==
-#include <utility>						  // for pair, move
+#include <utility>						  // for pair, cmp_less, move
 #include <vector>						  // for vector
 
 /// @brief
@@ -73,7 +78,7 @@ Sorcery::ControllerMenuHandler::ControllerMenuHandler(Controller &host, Context 
 auto Sorcery::ControllerMenuHandler::handle_standard(std::string_view component, const std::vector<std::string> &items,
 													 int data, int selection) -> void {
 
-	DEBUG_LOGF("Standard Menu: {} {} {}", component, data, selection);
+	// DEBUG_LOGF("Standard Menu: {} {} {}", component, data, selection);
 
 	if (component == "remove_character_menu") {
 
@@ -270,7 +275,7 @@ auto Sorcery::ControllerMenuHandler::handle_standard(std::string_view component,
 auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, const std::vector<std::string> &items,
 													int data, int selection) -> bool {
 
-	DEBUG_LOGF("Dynamic Menu: {} {} {}", component, data, selection);
+	// DEBUG_LOGF("Dynamic Menu: {} {} {}", component, data, selection);
 
 	if (component == "inspect_menu") {
 
@@ -478,15 +483,51 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 	} else if (component == "spell_menu") {
 
 		if (selection == static_cast<int>(items.size()) - 1) {
-			_host.set_flag("want_spell");
-			_ctx.ui->popup_manager->close();
-		} else {
 
-			// TODO
+			_host.unset_flag("want_spell");
+			_ctx.ui->popup_manager->close();
+
+			return true;
+		}
+
+		if (!_host.has_character(Enums::CharacterSlot::INSPECT))
+			return true;
+
+		const auto spell_id{enum_cast<Enums::Magic::SpellID>(data)};
+
+		if (!spell_id)
+			return true;
+
+		const Magic::CastRequest request{.spell = *spell_id,
+										 .context = Enums::Magic::CastContext::FIELD,
+										 .caster_id = _host.get_character(Enums::CharacterSlot::INSPECT)};
+		const auto plan{_host._game->spellcasting().begin(request)};
+
+		switch (plan.requirement) {
+
+			using enum Magic::CastRequirement;
+
+		case NONE:
+			DEBUG_LOG("Spell can resolve immediately");
+			break;
+
+		case PARTY_MEMBER:
+			_ctx.ui->popup_manager->open_modal("global:modal_party_spell_target", "party_spell_target_menu",
+											   "PARTY_SPELL_TARGET_TITLE");
+
+			break;
+
+		case DESTINATION:
+			_ctx.ui->popup_manager->open_malor("global:dialog_malor");
+
+			break;
+
+		case EFFECT:
+			DEBUG_LOG("Spell requires effect selection");
+			break;
 		}
 
 		return true;
-
 	} else if (component == "drop_menu") {
 
 		if (selection == static_cast<int>(items.size()) - 1) {
@@ -601,7 +642,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 			const auto &decay_type{_ctx.resources->items->get(item_type.get_decay_type_id())};
 			Item replacement{decay_type};
 
-			// We have just seen it decay, so its identity isn't mysterious.
+			// We have just seen it decay, so its identity isn't mysterious
 			replacement.set_known(true);
 			replacement.set_usable(decay_type.is_class_usable(character.get_class()));
 			character.inventory.replace_item(slot, std::move(replacement));
@@ -705,7 +746,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 		const auto slot{static_cast<unsigned int>(data)};
 		const auto item{inventory.get(slot)};
 
-		// Defensive checks -- item_disabled() should already prevent these.
+		// Defensive checks -- item_disabled() should already prevent these
 		if (item.get_equipped() || item.get_cursed())
 			return true;
 
@@ -715,13 +756,13 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 		const auto &item_type{_ctx.resources->items->get_item_type(item.get_type_id())};
 		const auto value{item.get_known() ? item_type.get_value() / 2 : 1};
 
-		// Add the item to Boltac's stock.
+		// Add the item to Boltac's stock
 		_ctx.game->state->sell_to_shop(item.get_type_id());
 
-		// Pay the character.
+		// Pay the character
 		character.grant_gold(value);
 
-		// Remove the actual inventory instance.
+		// Remove the actual inventory instance
 		inventory.discard_item(slot);
 
 		_host._game->save_game();
@@ -741,8 +782,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 
 		const auto &item_type{_ctx.resources->items->get_item_type(*item_type_id)};
 
-		// Defensive checks -- the menu builder/item_disabled() should already
-		// prevent all of these.
+		// Defensive checks (woo!) -- the menu builder/item_disabled() should already prevent all of these
 		if (!_ctx.game->state->check_shop_will_sell(*item_type_id))
 			return true;
 
@@ -757,7 +797,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 
 		const auto usable{item_type.is_class_usable(character.get_class())};
 
-		// Anything bought from Boltac is known.
+		// Anything bought from Boltac is known
 		if (!character.inventory.add_type(item_type, usable, true))
 			return true;
 
@@ -766,6 +806,32 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 		_ctx.game->state->buy_from_shop(*item_type_id);
 
 		_host._game->save_game();
+
+		return true;
+
+	} else if (component == "party_spell_target_menu") {
+
+		if (selection == static_cast<int>(items.size()) - 1) {
+
+			_host._game->spellcasting().cancel();
+
+			_ctx.ui->popup_manager->close();
+
+			return true;
+		}
+
+		const auto can_continue{_host._game->spellcasting().select_party_target(static_cast<unsigned int>(data))};
+
+		if (can_continue) {
+
+			_ctx.ui->popup_manager->refresh_modal();
+
+		} else {
+
+			_host._game->spellcasting().cancel();
+
+			_ctx.ui->popup_manager->open_modal("global:modal_spell", "spell_menu");
+		}
 
 		return true;
 	}
@@ -780,7 +846,7 @@ auto Sorcery::ControllerMenuHandler::handle_dynamic(std::string_view component, 
 /// @return
 auto Sorcery::ControllerMenuHandler::handle_actions(std::string_view menu, int selection, int data) -> bool {
 
-	DEBUG_LOGF("Action Table Menu: {} {} {}", menu, selection, data);
+	// DEBUG_LOGF("Action Table Menu: {} {} {}", menu, selection, data);
 
 	const auto it{MENU_ACTIONS.find(menu)};
 	if (it == MENU_ACTIONS.end())
@@ -883,7 +949,7 @@ auto Sorcery::ControllerMenuHandler::item_disabled(std::string_view component, i
 		if (_host._game == nullptr)
 			return false;
 
-		// Fixed "Return" entry has no associated character.
+		// Fixed "Return" entry has no associated character
 		if (data < 0)
 			return false;
 

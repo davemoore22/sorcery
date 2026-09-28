@@ -22,19 +22,19 @@
 
 #include "training/training.hpp"
 #include "backends/imgui_impl_sdl2.h"		// for SDL_Event
-#include "core/audio/audioplayer.hpp"		// for AudioPlayer
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
-#include "core/controller/inputhandler.hpp" // For ControllerInputHandler
+#include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
-#include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_EDGE_OF_TOWN
+#include "drawables/define.hpp"				// for ABORT_GAME, BACK_TO_EDGE...
+#include "game/game.hpp"					// for Game
 #include "training/create.hpp"				// for Create
 #include "training/delete.hpp"				// for Delete
 #include "training/edit.hpp"				// for Edit
 #include "training/roster.hpp"				// for Roster
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 
@@ -61,9 +61,10 @@ auto Sorcery::Training::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::TRAINING);
 	_ctx.controller->initialise();
 
-	fade_in(Enums::Screen::TRAINING, QUICK_FADE);
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
 
-	_ctx.audio->set_volume(1.0f);
+	fade_in(Enums::Screen::TRAINING, QUICK_FADE);
 
 	// Main loop
 	while (true) {

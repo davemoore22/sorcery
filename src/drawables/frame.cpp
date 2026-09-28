@@ -104,17 +104,15 @@ Sorcery::Frame::Frame(Context &ctx, std::string_view name, const ImVec2 pos, con
 	_shadow = std::nullopt;
 	_draw(false);
 }
+
 auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 	const auto rounding{_ctx.ui->frame_rd};
-
 	const auto size{_ctx.ui->metrics->grid_delta(static_cast<float>(_size.w), static_cast<float>(_size.h))};
 
 	const auto x{std::invoke([&] {
 		if (_pos.x == -1) {
-
 			const auto viewport{ImGui::GetMainViewport()};
-
 			return (viewport->Size.x - size.x) / 2.0f;
 		}
 
@@ -123,9 +121,7 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 	const auto y{std::invoke([&] {
 		if (_pos.y == -1) {
-
 			const auto viewport{ImGui::GetMainViewport()};
-
 			return (viewport->Size.y - size.y) / 2.0f;
 		}
 
@@ -133,20 +129,17 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 	})};
 
 	const auto border_layer{foreground ? WINDOW_LAYER_TEXTS : WINDOW_LAYER_FRAMES};
-
 	const auto background_layer{foreground ? WINDOW_LAYER_IMAGES : WINDOW_LAYER_FRAMES};
 
-	const ImVec2 p_min{x, y};
-	const ImVec2 p_max{x + size.x, y + size.y};
+	// Local coordinates within the Sorcery layer
+	const ImVec2 local_min{x, y};
+	const ImVec2 local_max{x + size.x, y + size.y};
+	const ImVec2 local_shadow_min{local_min.x + (_shadow ? _shadow->offset.x : 0.0f),
+								  local_min.y + (_shadow ? _shadow->offset.y : 0.0f)};
 
-	const ImVec2 shadow_min{p_min.x + (_shadow ? _shadow->offset.x : 0.0f),
-							p_min.y + (_shadow ? _shadow->offset.y : 0.0f)};
-
-	const ImVec2 shadow_max{p_max.x + (_shadow ? _shadow->offset.x : 0.0f),
-							p_max.y + (_shadow ? _shadow->offset.y : 0.0f)};
-
+	const ImVec2 local_shadow_max{local_max.x + (_shadow ? _shadow->offset.x : 0.0f),
+								  local_max.y + (_shadow ? _shadow->offset.y : 0.0f)};
 	const ImVec4 frame_colour{_ctx.ui->ui_colour.x, _ctx.ui->ui_colour.y, _ctx.ui->ui_colour.z, _ctx.animation->fade};
-
 	const ImVec4 bg_colour{
 		_component->background == 0xff000000 || _ctx.controller->get_monochrome()
 			? ImVec4{0.0f, 0.0f, 0.0f, 1.0f}
@@ -162,25 +155,24 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 
 	with_Window(background_layer, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		// Draw the normal black frame backing first.
-		_ctx.ui->draw_frame_background(p_min, p_max, bg_colour, rounding);
+		// ImDrawList coordinates are screen-space (sigh)
+		const auto origin{ImGui::GetWindowPos()};
+		const ImVec2 p_min{origin.x + local_min.x, origin.y + local_min.y};
+		const ImVec2 p_max{origin.x + local_max.x, origin.y + local_max.y};
+		const ImVec2 shadow_min{origin.x + local_shadow_min.x, origin.y + local_shadow_min.y};
+		const ImVec2 shadow_max{origin.x + local_shadow_max.x, origin.y + local_shadow_max.y};
 
-		if (_shadow)
+		if (_shadow) {
 			_ctx.ui->draw_frame_background(shadow_min, shadow_max, shadow_colour, rounding);
+		}
 
-		// Draw the normal black frame backing first.
 		_ctx.ui->draw_frame_background(p_min, p_max, bg_colour, rounding);
 
-		// Optionally draw an atlas image inside the frame.
 		if (_bg_image) {
 
 			const auto &bg{*_bg_image};
-
-			// Keep the image just inside the frame border.
 			const auto inset{static_cast<float>(rounding)};
-
 			const ImVec2 image_min{p_min.x + inset, p_min.y + inset};
-
 			const ImVec2 image_max{p_max.x - inset, p_max.y - inset};
 
 			_ctx.ui->draw_atlas_image(ImGui::GetWindowDrawList(),
@@ -193,38 +185,43 @@ auto Sorcery::Frame::_draw(const bool foreground) -> void {
 												 .tint = ImVec4{1.0f, 1.0f, 1.0f, bg.alpha}});
 		}
 	}
+
 	with_Window(border_layer, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		if (_shadow)
-			_ctx.ui->draw_frame_border(shadow_min, shadow_max, shadow_colour, rounding);
+		const auto origin{ImGui::GetWindowPos()};
+		const ImVec2 p_min{origin.x + local_min.x, origin.y + local_min.y};
+		const ImVec2 p_max{origin.x + local_max.x, origin.y + local_max.y};
+		const ImVec2 shadow_min{origin.x + local_shadow_min.x, origin.y + local_shadow_min.y};
+		const ImVec2 shadow_max{origin.x + local_shadow_max.x, origin.y + local_shadow_max.y};
 
-		// Draw the frame border over the background image.
+		if (_shadow) {
+			_ctx.ui->draw_frame_border(shadow_min, shadow_max, shadow_colour, rounding);
+		}
+
 		_ctx.ui->draw_frame_border(p_min, p_max, frame_colour, rounding);
 
-		// Optional title.
+		// Optional title
 		if (_title) {
 
 			set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE).value(),
 					 _ctx.ui->metrics->font_sz());
 
 			const auto title_txt{_ctx.get_string(_title.value())};
-
 			const auto one_cell{_ctx.ui->metrics->grid_delta(1.0f, 1.0f)};
-
 			const auto title_height{_ctx.ui->metrics->grid_delta(0.0f, 3.0f).y};
-
 			const auto title_sz{
 				Size{ImGui::CalcTextSize(title_txt.c_str()).x + (_ctx.ui->metrics->font_sz() * 2), title_height}};
 
-			const auto title_pos{ImVec2{x + (size.x / 2.0f) - (static_cast<float>(title_sz.w) / 2.0f), y - one_cell.y}};
+			// Title position remains local because draw_text() uses ImGui cursor positioning.
+			const ImVec2 title_pos{x + (size.x / 2.0f) - (static_cast<float>(title_sz.w) / 2.0f), y - one_cell.y};
+			const ImVec2 text_pos{title_pos.x + one_cell.x, title_pos.y + one_cell.y};
 
-			const auto text_pos{ImVec2{title_pos.x + one_cell.x, title_pos.y + one_cell.y}};
+			// But the title frame itself is drawn with ImDrawList, so translate that to screen-space!
+			const ImVec2 title_screen_min{origin.x + title_pos.x, origin.y + title_pos.y};
+			const ImVec2 title_screen_max{title_screen_min.x + static_cast<float>(title_sz.w),
+										  title_screen_min.y + static_cast<float>(title_sz.h)};
 
-			_ctx.ui->draw_frame(
-				title_pos,
-				ImVec2{title_pos.x + static_cast<float>(title_sz.w), title_pos.y + static_cast<float>(title_sz.h)},
-				frame_colour, rounding);
-
+			_ctx.ui->draw_frame(title_screen_min, title_screen_max, frame_colour, rounding);
 			_ctx.ui->draw_text(title_txt, ImVec4{1.0f, 1.0f, 1.0f, _ctx.animation->fade}, text_pos,
 							   Enums::Layout::Font::MONOSPACE);
 		}

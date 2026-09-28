@@ -143,7 +143,7 @@ target_compile_options(dear_imgui_toggle PRIVATE
 
 # Global Ifdefs
 add_library(sorcery_options INTERFACE)
-#target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
+target_compile_definitions(sorcery_options INTERFACE SORCERY_PROFILE)
 target_compile_definitions(sorcery_options INTERFACE SORCERY_DEBUG)
 
 target_link_libraries(sorcery_options INTERFACE
@@ -161,6 +161,7 @@ target_compile_options(sorcery_warnings INTERFACE
 	-Wpedantic
 	-Wno-narrowing
 	-Wno-unused-parameter
+	-Wno-switch
 )
 
 # Platform libraries
@@ -176,6 +177,8 @@ include(src/display/CMakeLists.txt)
 include(src/drawables/CMakeLists.txt)
 include(src/engine/CMakeLists.txt)
 include(src/frontend/CMakeLists.txt)
+include(src/game/CMakeLists.txt)
+include(src/magic/CMakeLists.txt)
 include(src/modules/CMakeLists.txt)
 include(src/resources/CMakeLists.txt)
 include(src/training//CMakeLists.txt)
@@ -199,6 +202,12 @@ if(SORCERY_ENABLE_IWYU)
         PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
 
     set_property(TARGET sorcery_frontend
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+	set_property(TARGET sorcery_game
+        PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
+
+    set_property(TARGET sorcery_magic
         PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${IWYU_EXECUTABLE}")
 
     set_property(TARGET sorcery_modules
@@ -281,6 +290,7 @@ target_link_libraries(sorcery_types
 )
 
 target_link_libraries(sorcery_core PRIVATE
+	sorcery_magic
 	sorcery_types
 	sorcery_warnings
 	sorcery_options
@@ -312,6 +322,19 @@ target_link_libraries(sorcery_drawables PRIVATE
 )
 
 target_link_libraries(sorcery_frontend PRIVATE
+	sorcery_types
+	sorcery_warnings
+	sorcery_options
+)
+
+target_link_libraries(sorcery_game PRIVATE
+	sorcery_types
+	sorcery_magic
+	sorcery_warnings
+	sorcery_options
+)
+
+target_link_libraries(sorcery_magic PRIVATE
 	sorcery_types
 	sorcery_warnings
 	sorcery_options
@@ -365,6 +388,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 	sorcery_display
 	sorcery_drawables
 	sorcery_frontend
+	sorcery_game
+	sorcery_magic
 	sorcery_modules
 	sorcery_resources
 	sorcery_training

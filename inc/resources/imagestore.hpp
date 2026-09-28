@@ -22,12 +22,13 @@
 
 #pragma once
 
-#include "types/image.hpp" // for Image
-#include <GL/glew.h>	   // for GLuint
-#include <filesystem>
-#include <map>	  // for map
-#include <string> // for basic_string, string
-#include <vector> // for vector
+#include "resources/imagehandle.hpp" // for Image
+#include <GL/glew.h>				 // for GLuint
+#include <cstddef>					 // for size_t
+#include <filesystem>				 // for path
+#include <map>						 // for map
+#include <string>					 // for basic_string, string
+#include <vector>					 // for vector
 
 namespace Sorcery { struct Context; }
 
@@ -38,9 +39,11 @@ class ImageStore {
 	public:
 		ImageStore(Context &ctx);
 
-		auto get(const std::string &file) -> Image;
+		auto get(const std::string &file) -> ImageHandle;
 		auto has_loaded(const std::string &file) -> bool;
 		auto load_image(const std::string &file) -> bool;
+		auto unload_image(const std::string &file) -> bool;
+		auto unload_all() -> void;
 
 		bool loaded;
 		unsigned int progress;
@@ -55,8 +58,9 @@ class ImageStore {
 		auto _load_image(const std::string &key) -> bool;
 
 		Context &_ctx;
-		std::map<std::string, Image> _images;
+		std::map<std::string, ImageHandle> _images;
 		std::map<std::string, bool> _loaded;
 		std::vector<std::string> _sources;
+		std::size_t _resident_bytes{0};
 };
 }

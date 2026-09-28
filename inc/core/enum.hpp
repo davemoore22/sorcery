@@ -23,6 +23,8 @@
 #pragma once
 
 #include "common/windows.hpp"
+#include <algorithm>
+#include <chrono>
 
 namespace Sorcery::Enums {
 

@@ -21,11 +21,13 @@
 // the resulting work.
 
 #include "engine/engine.hpp"
-#include "backends/imgui_impl_sdl2.h"		// for SDL_Event
-#include "core/audio/audioplayer.hpp"		// for AudioPlayer
+#include "backends/imgui_impl_sdl2.h" // for SDL_Event
+#include "core/audio/audioplayer.hpp"
+#include "core/audio/music.hpp"
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/debug.hpp"					// for DEBUG_LOG, DEBUG_LOGF
 #include "core/define.hpp"					// for EXPEDITION_GOTO
 #include "core/enum.hpp"					// for Screen, CharacterSlot
@@ -41,28 +43,30 @@
 #include "engine/graveyard.hpp"				// for Graveyard
 #include "engine/victory.hpp"				// for Victory
 #include "frontend/options.hpp"				// for Options
-#include "modules/tavern/inspect.hpp"		// for Inspect
-#include "modules/tavern/reorder.hpp"		// for Reorder
-#include "resources/itemstore.hpp"			// for ItemStore
-#include "resources/levelstore.hpp"			// for LevelStore
-#include "types/character/character.hpp"	// for Character
-#include "types/character/inventory.hpp"	// for Inventory
-#include "types/enum.hpp"					// for TypeID, TypeID::BLUE_RIBBON
-#include "types/game.hpp"					// for Game
-#include "types/state.hpp"					// for State
-#include "types/world/explore.hpp"			// for Explore
-#include "types/world/level.hpp"			// for Level
-#include "types/world/tile.hpp"				// for Tile
-#include <SDL_events.h>						// for SDL_PollEvent
-#include <algorithm>						// for find
-#include <compare>							// for operator>=, strong_ordering
-#include <cstdlib>							// for abs
-#include <format>							// for format
-#include <functional>						// for function
-#include <map>								// for map, operator==
-#include <string>							// for basic_string, stoi
-#include <utility>							// for get, pair
-#include <vector>							// for vector
+#include "game/game.hpp"					// for Game
+#include "game/spellcasting.hpp"
+#include "modules/tavern/inspect.hpp"	 // for Inspect
+#include "modules/tavern/reorder.hpp"	 // for Reorder
+#include "resources/imagestore.hpp"		 // for ImageStore
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "resources/levelstore.hpp"		 // for LevelStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/enum.hpp"				 // for TypeID, TypeID::BLUE_RIBBON
+#include "types/state.hpp"				 // for State
+#include "types/world/explore.hpp"		 // for Explore
+#include "types/world/level.hpp"		 // for Level
+#include "types/world/tile.hpp"			 // for Tile
+#include <SDL_events.h>					 // for SDL_PollEvent
+#include <algorithm>					 // for find
+#include <compare>						 // for operator>=, strong_ordering
+#include <cstdlib>						 // for abs
+#include <format>						 // for format
+#include <functional>					 // for function
+#include <map>							 // for map, operator==
+#include <string>						 // for basic_string, stoi
+#include <utility>						 // for get, pair
+#include <vector>						 // for vector
 
 Sorcery::Engine::Engine(Context &ctx)
 	: Module{ctx} {
@@ -89,16 +93,19 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 	using namespace std::chrono_literals;
 
+	_ctx.images->unload_all();
+
 	_ctx.controller->initialise();
 	_ctx.controller->set_flag("in_engine");
 	_ctx.controller->go_to(Enums::Screen::ENGINE);
+
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::ENGINE);
 
 	if (_ctx.game->state->get_party_size() > 0)
 		_ctx.controller->set_character(Enums::CharacterSlot::INSPECT, _ctx.game->state->get_party_char(1).value());
 
 	_start_expedition(mode);
-
-	_ctx.audio->set_volume(1.0f);
 
 	fade_in(
 		[this] {
@@ -258,13 +265,9 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			}
 		}
 
-		//
-		// Frame/game-state processing
-		//
+		// Frame/game-state processing from here
 
-		//
 		// Complete pending timed transitions
-		//
 		if (_pending_elevator && std::chrono::steady_clock::now() >= _pending_elevator->execute_at) {
 
 			const auto depth{_pending_elevator->depth};
@@ -285,20 +288,18 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 			_ctx.ui->clear_transient();
 
-			// Now actually fall through the chute.
+			// Now actually fall through the chute
 			_go_to_location(depth, loc, Enums::Map::Direction::NORTH);
 
 			_ctx.controller->set_can_undo(false);
 
-			// And only now process the destination tile message.
+			// And only now process the destination tile message
 			const auto &destination_tile{_ctx.game->state->level->at(loc)};
 
 			(void)_check_for_tile_message(destination_tile);
 		}
 
-		// Popups block gameplay and module transitions, but they MUST NOT
-		// block rendering/ticking.
-		//
+		// Popups block gameplay and module transitions, but they do not block rendering/ticking
 		if (!_ctx.ui->popup_manager->active()) {
 
 			// Check for return-to-town teleport
@@ -311,8 +312,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			// Check for party wipe
 			if (_check_for_wipe()) {
 
+				_ctx.audio->set_track(Enums::Audio::Track::GRAVEYARD);
 				const auto result{_graveyard->start()};
-
 				_graveyard->stop();
 
 				if (result == ABORT_GAME)
@@ -325,12 +326,20 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					QUICK_FADE);
 
 				const auto party{_ctx.game->state->get_party_characters()};
+				const auto loc{_ctx.game->state->get_player_pos()};
+				const auto depth{_ctx.game->state->get_depth()};
 
 				for (auto &[id, character] : _ctx.game->characters) {
 
 					if (std::find(party.begin(), party.end(), id) != party.end()) {
 
-						character.set_location(Enums::Character::Location::MAZE);
+						// We can't set status simply to MAZE because MALOR into Rock already sets status to LOST
+						if (character.get_status() != Enums::Character::Status::LOST) {
+							character.set_location(Enums::Character::Location::MAZE);
+						}
+
+						character.coordinate = loc;
+						character.depth = depth;
 
 						character.set_current_hp(0);
 					}
@@ -375,6 +384,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 					return _abort();
 
 				_inspect->stop(INSPECT_MODE_BASE | INSPECT_MODE_ACTIONS);
+
+				if (const auto outcome{_ctx.game->spellcasting().take_malor_outcome()}) {
+
+					handle_malor_outcome(*outcome);
+
+					continue;
+				}
 			}
 
 			// Check for stairs
@@ -412,14 +428,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 
 					if (_search_event()) {
 
-						// Start Murphy's Ghost encounter here (only encounter
-						// to happen after a search).
+						// Start Murphy's Ghost encounter here (only encounter to happen after a search)
 						DEBUG_LOG("MURPHY'S GHOSTS!");
 					}
 
 				} else if (*result == CANCELLED) {
 
-					// Player selected No: no search, no encounter.
+					// Player selected No: no search, no encounter
 					_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
 				}
 			}
@@ -428,12 +443,16 @@ auto Sorcery::Engine::start(const int mode) -> int {
 			if (_ctx.controller->has_flag("want_quit_expedition")) {
 
 				auto party{_ctx.game->state->get_party_characters()};
+				const auto loc{_ctx.game->state->get_player_pos()};
+				const auto depth{_ctx.game->state->get_depth()};
 
 				for (auto &[id, character] : _ctx.game->characters) {
 
 					if (std::find(party.begin(), party.end(), id) != party.end()) {
 
 						character.set_location(Enums::Character::Location::MAZE);
+						character.coordinate = loc;
+						character.depth = depth;
 					}
 				}
 
@@ -448,17 +467,13 @@ auto Sorcery::Engine::start(const int mode) -> int {
 		}
 
 		// Clear completed tile message state
-		// Complete a dismissed tile message
 		if (_ctx.ui->popup_manager->consume_completed("message_tile")) {
 
 			if (const auto result{_handle_completed_tile_event()})
 				return *result;
 		}
 
-		//
-		// ALWAYS render/tick, including while a popup/modal/dialog
-		// is active.
-		//
+		// Always render/tick, including while a popup/modal/dialog is active
 		_ctx.ui->display_engine();
 		_ctx.tick();
 	}
@@ -469,6 +484,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 auto Sorcery::Engine::stop() -> int {
 
 	_ctx.controller->unset_flag("in_engine");
+
+	_ctx.images->unload_all();
 
 	return 0;
 }
@@ -946,7 +963,7 @@ auto Sorcery::Engine::_take_elevator(const int depth) -> void {
 
 	const auto facing{_ctx.game->state->get_player_facing()};
 
-	DEBUG_LOGF("Taking elevator from depth {} to depth {}", current_depth, depth);
+	// DEBUG_LOGF("Taking elevator from depth {} to depth {}", current_depth, depth);
 
 	_go_to_location(depth, loc, facing);
 
@@ -1132,6 +1149,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 	const auto loc{_ctx.game->state->get_player_pos()};
 	const auto &tile{_ctx.game->state->level->at(loc)};
+	_apply_tile_environment(tile);
 
 	// Once-per-delve / special combat events
 	if (const auto event{tile.has_event()}; event) {
@@ -1150,7 +1168,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 			_ctx.game->state->level->clear_event(loc);
 
-			// Start specific Deadly Ring combat here.
+			// Start specific Deadly Ring combat here
 
 			return true;
 
@@ -1160,7 +1178,7 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 			_ctx.game->state->level->clear_event(loc);
 
-			// Start specific Fire Dragons combat here.
+			// Start specific Fire Dragons combat here
 
 			return true;
 
@@ -1171,10 +1189,9 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 
 			DEBUG_LOG("Player triggered Werdna combat");
 
-			// Do NOT clear this event: possession of the amulet
-			// suppresses repeat combat.
+			// Do not clear this event: possession of the amulet suppresses repeat combat.
 
-			// Start specific Werdna combat here.
+			// Start specific Werdna combat here
 
 			return true;
 
@@ -1183,14 +1200,8 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 		}
 	}
 
-	// Darkness
-	using enum Enums::Tile::Properties;
-
 	if (!_tile_explored(loc))
 		_set_tile_explored(loc);
-
-	if (tile.is(DARKNESS) && _ctx.game->state->get_lit())
-		_ctx.game->state->set_lit(false);
 
 	// Stairs
 	using enum Enums::Tile::Features;
@@ -1279,6 +1290,18 @@ auto Sorcery::Engine::_process_current_tile() -> bool {
 	return true;
 }
 
+auto Sorcery::Engine::_apply_tile_environment(const Tile &tile) -> void {
+
+	using enum Enums::Tile::Properties;
+
+	if (tile.is(DARKNESS) && _ctx.game->state->get_lit() > 0) {
+
+		_ctx.game->state->set_lit(0);
+
+		DEBUG_LOG("Darkness extinguished magical light");
+	}
+}
+
 auto Sorcery::Engine::_process_tile_entry(const Coordinate from, const Coordinate to) -> bool {
 
 	const auto depth{_ctx.game->state->get_depth()};
@@ -1287,7 +1310,7 @@ auto Sorcery::Engine::_process_tile_entry(const Coordinate from, const Coordinat
 
 		DEBUG_LOG("Player triggered guaranteed encounter");
 
-		// Start/schedule encounter here.
+		// Start/schedule encounter here
 
 		return true;
 	}
@@ -1332,5 +1355,97 @@ auto Sorcery::Engine::_show_elevator_modal(const Elevator &elevator) -> void {
 		_ctx.ui->popup_manager->open_modal("global:modal_elevator_bottom");
 
 		DEBUG_LOG("Player triggered bottom elevator");
+	}
+}
+
+auto Sorcery::Engine::handle_malor_outcome(const Magic::MalorOutcome outcome) -> void {
+
+	using enum Magic::MalorOutcome;
+	using enum Enums::Character::Status;
+
+	const auto show_result = [&](const std::string_view line_1, const std::string_view line_2) {
+		const auto text{std::format("{}\n{}", _ctx.get_string(line_1), _ctx.get_string(line_2))};
+
+		// Reuse the runtime-text dialog path added for DUMAPIC/KANDI here
+		_ctx.ui->popup_manager->open_dialog("global:dialog_spell_result", Enums::Layout::DialogType::OK, text);
+	};
+
+	const auto set_party_status = [&](const Enums::Character::Status status) {
+		const auto party{_ctx.game->state->get_party_characters()};
+
+		for (const auto id : party) {
+
+			auto &character{_ctx.game->characters.at(id)};
+
+			character.set_status(status);
+			character.set_current_hp(0);
+		}
+	};
+
+	switch (outcome) {
+
+	case NONE:
+		break;
+
+	case BLOCKED:
+
+		show_result("MALOR_BLOCK_1", "MALOR_BLOCK_2");
+
+		break;
+
+	case BOUNCED:
+
+		show_result("MALOR_BOUNCED_1", "MALOR_BOUNCED_2");
+
+		break;
+
+	case CASTLE:
+
+		_ctx.controller->set_last_event(Enums::Map::Event::NO_EVENT);
+		_ctx.controller->set_flag("want_return_to_town");
+
+		break;
+
+	case DUNGEON: {
+
+		const auto teleport{_ctx.game->spellcasting().take_malor_teleport()};
+
+		if (!teleport)
+			break;
+
+		_go_to_location(teleport->depth, teleport->coordinate, _ctx.game->state->get_player_facing());
+		_ctx.controller->set_can_undo(false);
+		(void)_process_current_tile();
+
+		break;
+	}
+
+	case MOAT:
+
+		set_party_status(DEAD);
+		show_result("MALOR_MOAT_1", "MALOR_MOAT_2");
+
+		break;
+
+	case MID_AIR:
+
+		set_party_status(DEAD);
+		show_result("MALOR_MID_AIR_1", "MALOR_MID_AIR_2");
+
+		break;
+
+	case INTO_ROCK:
+
+		set_party_status(LOST);
+		show_result("MALOR_ROCK_1", "MALOR_ROCK_2");
+
+		break;
+
+	case VOLCANO:
+
+		set_party_status(LOST);
+		show_result("MALOR_VOLCANO_1", "MALOR_VOLCANO_2");
+
+		break;
 	}
 }

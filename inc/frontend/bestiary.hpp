@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "core/module.hpp"
+#include "core/module.hpp" // for Module
 
 namespace Sorcery {
 

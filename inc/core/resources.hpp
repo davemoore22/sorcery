@@ -22,16 +22,14 @@
 
 #pragma once
 
-#include <memory>
+#include <memory> // for unique_ptr
 
-namespace Sorcery {
-struct Context;
-class ItemStore;
-class LevelStore;
-class MonsterStore;
-class SpellStore;
-class SaveStore;
-}
+namespace Sorcery { class ItemStore; }
+namespace Sorcery { class LevelStore; }
+namespace Sorcery { class MonsterStore; }
+namespace Sorcery { class SaveStore; }
+namespace Sorcery { class SpellStore; }
+namespace Sorcery { struct Context; }
 
 namespace Sorcery {
 

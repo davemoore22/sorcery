@@ -33,6 +33,12 @@
 #include <string>						 // for string, basic_string
 #include <vector>						 // for vector
 
+namespace Sorcery {
+namespace Enums {
+	namespace Magic { enum class SpellID; }
+}
+}
+
 namespace Sorcery { struct Context; }
 
 namespace Sorcery {
@@ -78,6 +84,7 @@ class Character {
 		auto get_name_and_loc() const -> std::string;
 		auto get_name_and_status() const -> std::string;
 		auto get_name_status_and_loc() const -> std::string;
+		auto get_name_status_and_loc_in_maze() const -> std::string;
 		auto get_race() const -> Enums::Character::Race;
 		auto get_location() const -> Enums::Character::Location;
 		auto set_location(const Enums::Character::Location value) -> void;
@@ -110,7 +117,7 @@ class Character {
 		auto get_short_hp_summary() const -> std::string;
 		auto is_legated() const -> bool;
 		auto get_version() const -> int;
-		auto get_party_panel_text(const int position) -> std::string;
+		auto get_party_panel_text(const int position, const bool maporfic = false) -> std::string;
 		auto get_current_hp() const -> int;
 		auto get_max_hp() const -> int;
 		auto adjust_max_hp(const int value) -> void;
@@ -121,8 +128,8 @@ class Character {
 		auto set_hp_loss_per_turn(const int adjustment) -> void;
 		auto reset_adjustment_per_turn() -> void;
 		auto get_hp_adjustment_symbol() const -> char;
-		auto get_cur_ac() const -> int;
-		auto get_cur_ac_str() const -> std::string;
+		auto get_cur_ac(const bool maporfic = false) const -> int;
+		auto get_cur_ac_str(const bool maporfic = false) const -> std::string;
 		auto get_cur_to_hit() const -> int;
 		auto get_cur_num_attacks() const -> int;
 		auto get_cur_xp() const -> int;
@@ -143,6 +150,7 @@ class Character {
 		auto abilities() const -> const std::map<Enums::Character::Ability, int> &;
 		auto get_wiz_1_award() const -> bool;
 		auto set_wiz_1_awatd(const bool value) -> void;
+		auto get_spell_resurrection_chance() const -> unsigned int;
 
 		// Public Members
 		std::optional<Coordinate> coordinate;

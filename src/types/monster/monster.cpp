@@ -20,11 +20,11 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/monster.hpp"
-#include "types/dice.hpp"		 // for Dice
-#include "types/monstertype.hpp" // for MonsterType
-#include <format>				 // for format
-#include <utility>				 // for to_underlying
+#include "types/monster/monster.hpp"
+#include "types/dice.hpp"				 // for Dice
+#include "types/monster/monstertype.hpp" // for MonsterType
+#include <format>						 // for format
+#include <utility>						 // for to_underlying
 
 // Default Constructor
 Sorcery::Monster::Monster()

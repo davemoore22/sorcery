@@ -1,0 +1,143 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"linux": {
+		"options": {
+			"env": {
+				"PATH": "${config:terminal.integrated.env.linux.PATH}"
+			}
+		}
+	},
+	"presentation": {
+		"echo": false,
+		"reveal": "always",
+		"focus": true,
+		"panel": "shared",
+		"clear": false,
+		"showReuseMessage": true
+	},
+	"tasks": [
+		{
+			"label": "Build & Run: Release",
+			"command": "bash ./build.sh buildrun Release vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Build: Release",
+			"command": "bash ./build.sh build Release vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Run: Release",
+			"command": "bash ./build.sh run Release vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Rebuild: Release",
+			"command": "bash ./build.sh rebuild Release vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Build & Run: Debug",
+			"command": "bash ./build.sh buildrun Debug vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Build: Debug",
+			"command": "bash ./build.sh build Debug vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Run: Debug",
+			"command": "bash ./build.sh run Debug vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Rebuild: Debug",
+			"command": "bash ./build.sh rebuild Debug vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "Profile: Debug",
+			"command": "bash ./build.sh profile Debug vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+
+		{
+			"label": "Build: Production",
+			"command": "bash ./build.sh buildprod Release vscode",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			]
+		}
+	]
+}

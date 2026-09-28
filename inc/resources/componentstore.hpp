@@ -23,7 +23,6 @@
 #pragma once
 
 #include "types/component.hpp" // for Component
-#include <chrono>			   // for time_point, file_clock
 #include <filesystem>		   // for path, file_time_type
 #include <map>				   // for map
 #include <optional>			   // for optional
