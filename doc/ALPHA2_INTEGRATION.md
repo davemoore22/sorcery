@@ -1,7 +1,8 @@
 # Alpha 2 integration validation — 28 September 2026
 
-Tested commit: `45ff45c1201bf4818756079eb0dc3a521d420686` on
-`m-series_mac_support`. This merges the previously tested Mac support with
+Latest tested source commit: `f359467` on `m-series_mac_support`.
+The initial integration commit `45ff45c1201bf4818756079eb0dc3a521d420686`
+merges the previously tested Mac support with
 `Alpha_2_Spellcasting` at `ffd88d4f6592769b11af02b1e4411becf590e30d`.
 
 ## Integration
@@ -17,7 +18,8 @@ field/combat/trap cast contexts, and the engine input mode.
 ## Native build results
 
 Fresh, separate build directories were used, preserving the earlier builds
-and their saves. All three machines built the same source commit:
+and their saves. All three machines built the initial integration and then
+rebuilt successfully at `f359467`; the results below apply to the latest source:
 
 | Platform | Compiler | Enum implementation | Debug build | CTest |
 | --- | --- | --- | --- | --- |
@@ -36,32 +38,53 @@ used `SORCERY_PORTABLE_ENUMS=OFF`; all enabled `SORCERY_BUILD_TESTS`.
 
 ## Runtime observations and remaining checks
 
-On the Mac, observed the title screen, mouse menu selection, options, fullscreen
-entry and return to windowed mode, F1 menu/dungeon help, F2 cheat tools, a new
-game, castle, edge of town, and dungeon movement. A Dear ImGui metrics window
-was dragged outside the main window and rendered as a separate native window.
-The game also rendered on the external display after the initial Retina test.
-A quicksave file was written in the separate Alpha 2 save directory.
+At the initial integration commit on Mac, observed the title screen, mouse
+menus, options, fullscreen entry and return to windowed mode, F1 help, F2
+cheat tools, a new game, castle, edge of town, and dungeon movement. A Dear
+ImGui metrics window was dragged outside the main window and rendered as a
+separate native window. Rendering was also observed on an external display.
+A quicksave was written. Concurrent desktop interaction interrupted controlled
+quickload checks. The latest two fixes have build/CTest coverage on Mac but
+have not been manually retested there; the existing development app wrapper
+still contains the initial integration executable.
 
-Concurrent desktop interaction interrupted the controlled save/load and
-gameplay checks. Do not treat quickload restoration, spell effects, buff
-icons, darkness extinguishing light, sustained texture unloading, or the
-claimed GPU-memory reduction as verified by this session. Repeated resizing,
-detached-window lifecycle across displays, and audible music quality also
-need further checks.
+On Windows, observed the title screen, menus, castle, dungeon movement, F1
+help, F2 cheat tools, and the corrected full-window tiled background. Cheat
+controls enabled the LOMILWA, LATUMAPIC and MAPORFIC buff icons, with improved
+lighting and the displayed armour class changing from 10 to 8. This does not
+validate casting those spells through the normal spell interface. F9 followed
+by rotation and F10 restored the saved orientation. With `f359467`, quickload
+and character inspection also completed without crashing. Fullscreen rendered,
+but subsequent input/return to windowed mode was inconclusive through the
+remote session and needs a controlled repeat.
 
-The Ubuntu executable launched in the existing desktop session and remained
-running. Its Alpha 2 UI/gameplay was not visually verified. The Windows
-executable and a separate desktop launcher were prepared; its Alpha 2
-runtime checks remain pending. Earlier runtime results in
-[CROSS_PLATFORM_VALIDATION.md](CROSS_PLATFORM_VALIDATION.md) apply to the older
-source revision, not this combined build.
+On Ubuntu, observed the title/menu flow, dungeon movement, corrected tiled
+background, and character inspection. Quickload followed by character
+inspection initially crashed; GDB identified a null Context pointer in
+`Character::race_to_str`. After `f359467`, the same quicksave restored party
+orientation and opened the priest's details without crashing. The spell
+prompt opened, but a successful normal spell cast was not established.
 
 Before requesting merge, complete the remaining runtime checks on the same
-commit, particularly fullscreen/input alignment on Windows and Ubuntu, the
-implemented field spells and their targeting/cancellation paths, save/load,
-and repeated screen transitions. Retest affected paths if further Alpha 2
-work is incorporated.
+commit: Mac regression checks for the latest fixes, fullscreen/input alignment
+on Windows and Ubuntu, the implemented field spells and targeting/cancellation
+paths, darkness extinguishing light, repeated screen transitions, and detached
+window lifecycle across displays. Audible music quality, sustained texture
+unloading and the claimed GPU-memory reduction are not verified. Retest
+changed paths if further Alpha 2 work is incorporated.
+
+## Runtime fixes found during integration testing
+
+Both faults were present in the imported Alpha 2 code:
+
+- `1cfc308`: use the viewport's screen position when drawing and clipping the
+  tiled background. Previously, a window away from the screen origin could
+  have a partially missing background. Verified visually on Ubuntu and Windows.
+- `f359467`: restore runtime Context links for the deserialized state,
+  characters and creation candidate after quickload. This reuses the existing
+  `post_construct` lifecycle and does not change the save format. The crashing
+  quickload/inspection path now passes manually on Ubuntu and Windows. The
+  automated tests do not cover this runtime regression.
 
 ## Observations to discuss separately
 
@@ -79,16 +102,18 @@ not prevent the builds. A clean-machine redistribution package is unverified.
 
 The transferred archive contained all 357 tracked files, with the 14 Git LFS
 artwork files materialized and checked against their pointer hashes. Both
-remote machines verified the archive before extraction.
+remote machines verified the archive before extraction. Subsequent fixes were
+transferred as the three changed source files; their SHA-256 values matched
+the local checkout on both remote machines before the final build.
 
-SHA-256 values:
+SHA-256 values (archive at `45ff45c`; executables at `f359467`):
 
 - Source archive: `a59f788904c351d3ed59cf38b45494fe8e9010630d5bb05d0c0972bb5f39a121`
-- Mac executable: `f4def630c84739c25fcb9541ee8090189b5f1ccc07cbd82469babfb73ddb4977`
-- Windows executable: `9d62cb0055f92b369920d162f48f59478d4ad01f2f26804a13a30c5f3b40e62d`
-- Ubuntu executable: `b3d6b26c90609eb4d2f95d68def4d5d171786ff7c27e8ce7f29724f089c192e2`
+- Mac executable: `d39e0cf252be735a61893b10d33f954118a35f185a6773d40787f6993193dc7f`
+- Windows executable: `4ad2af6dfa16e2eb0215d5daa418fa6e09cb34b8860eaa69556c193e74528ef1`
+- Ubuntu executable: `7b08820720c993c7dceae9628062b9271c585c653e5eb1d415a584f8a3d80eb1`
 
 Local logs, the transfer manifest, and runtime evidence are retained under
 `build/alpha2-evidence/` (ignored by Git). The Mac app wrapper is a development
-test artifact with an identical executable and links to this build's runtime
-resources, not a distribution bundle.
+test artifact with links to the build's runtime resources, not a distribution
+bundle. Its older executable is explicitly distinguished above.
