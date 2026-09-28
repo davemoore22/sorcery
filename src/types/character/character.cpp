@@ -284,6 +284,10 @@ auto Sorcery::Character::grant_xp(const int adjustment) -> int {
 auto Sorcery::Character::post_construct(Context *ctx) -> void {
 
 	_ctx = ctx;
+
+	// Spell definitions are runtime data; only learned flags are serialized.
+	magic().create_spells();
+	magic().set_spells();
 }
 
 auto Sorcery::Character::get_current_hp() const -> int {

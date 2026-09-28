@@ -462,8 +462,7 @@ auto Sorcery::Game::_load_characters() -> void {
 			cereal::XMLInputArchive in_archive(ss);
 			in_archive(character);
 		}
-		character.magic().create_spells();
-		character.magic().set_spells();
+		character.post_construct(&_ctx);
 		characters[char_id] = character;
 	}
 }
