@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include <string>
+#include "core/module.hpp" // for Module
+#include <string>		   // for basic_string, string
 
 namespace Sorcery {
 

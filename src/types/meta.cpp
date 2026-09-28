@@ -23,7 +23,9 @@
 #include "types/meta.hpp"
 #include "common/enum.hpp"
 #include "core/enum.hpp"
+#include "core/controller/inputmode.hpp"
 #include "engine/enum.hpp"
+#include "magic/enum.hpp"
 #include "types/enum.hpp"
 #include <array>
 #ifdef SORCERY_PORTABLE_ENUMS
@@ -42,6 +44,9 @@ namespace {
 	// range. Extend its enum_range specializations if larger values are added.
 	template <Enum E> inline constexpr auto enum_entries{magic_enum::enum_entries<E>()};
 #else
+	/// @brief
+	/// @tparam E
+	/// @return
 	template <Enum E> consteval auto make_enum_entries() {
 
 		static constexpr auto enumerators{std::define_static_array(std::meta::enumerators_of(^^E))};
@@ -62,6 +67,10 @@ namespace {
 
 } // namespace
 
+/// @brief
+/// @tparam E
+/// @param value
+/// @return
 template <Enum E> auto enum_name(E value) -> std::string_view {
 
 	for (const auto &[enum_value, name] : enum_entries<E>)
@@ -71,6 +80,10 @@ template <Enum E> auto enum_name(E value) -> std::string_view {
 	return {};
 }
 
+/// @brief
+/// @tparam E
+/// @param name
+/// @return
 template <Enum E> auto enum_cast(std::string_view name) -> std::optional<E> {
 
 	for (const auto &[enum_value, enum_name] : enum_entries<E>)
@@ -80,6 +93,10 @@ template <Enum E> auto enum_cast(std::string_view name) -> std::optional<E> {
 	return std::nullopt;
 }
 
+/// @brief
+/// @tparam E
+/// @param value
+/// @return
 template <Enum E> auto enum_cast_signed(std::intmax_t value) -> std::optional<E> {
 
 	for (const auto &entry : enum_entries<E>)
@@ -89,6 +106,10 @@ template <Enum E> auto enum_cast_signed(std::intmax_t value) -> std::optional<E>
 	return std::nullopt;
 }
 
+/// @brief
+/// @tparam E
+/// @param value
+/// @return
 template <Enum E> auto enum_cast_unsigned(std::uintmax_t value) -> std::optional<E> {
 
 	for (const auto &entry : enum_entries<E>)
@@ -113,6 +134,7 @@ INSTANTIATE_ENUM(Enums::Character::Location);
 INSTANTIATE_ENUM(Enums::Character::Race);
 INSTANTIATE_ENUM(Enums::Character::Status);
 INSTANTIATE_ENUM(Enums::Chests::State);
+INSTANTIATE_ENUM(Enums::Input::Mode);
 INSTANTIATE_ENUM(Enums::Items::Category);
 INSTANTIATE_ENUM(Enums::Items::TypeID);
 INSTANTIATE_ENUM(Enums::Items::Effects::Defensive);
@@ -121,6 +143,8 @@ INSTANTIATE_ENUM(Enums::Items::Effects::Offensive);
 INSTANTIATE_ENUM(Enums::Magic::SpellCategory);
 INSTANTIATE_ENUM(Enums::Magic::SpellID);
 INSTANTIATE_ENUM(Enums::Magic::SpellType);
+INSTANTIATE_ENUM(Enums::Magic::CastContext);
+INSTANTIATE_ENUM(Enums::Map::Direction);
 INSTANTIATE_ENUM(Enums::Monsters::Category);
 INSTANTIATE_ENUM(Enums::Monsters::Class);
 INSTANTIATE_ENUM(Enums::Monsters::TypeID);

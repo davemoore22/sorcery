@@ -22,7 +22,6 @@
 
 #include "training/rite.hpp"
 #include "backends/imgui_impl_sdl2.h"		// for SDL_Event
-#include "core/audio/audioplayer.hpp"		// for AudioPlayer
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
@@ -31,11 +30,11 @@
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_EDIT, ABORT_GAME
 #include "drawables/drawable.hpp"			// for DrawableResult, Drawable...
+#include "game/game.hpp"					// for Game
 #include "modules/tavern/inspect.hpp"		// for Inspect
 #include "types/character/character.hpp"	// for Character
 #include "types/character/create.hpp"		// for CharacterCreate
 #include "types/enum.hpp"					// for DialogType
-#include "types/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 #include <map>								// for map
@@ -64,13 +63,9 @@ auto Sorcery::Rite::start() -> int {
 
 	_ctx.ui->popup_manager->open_dialog("rite:dialog_rite", Enums::Layout::DialogType::CONFIRM);
 
-	_ctx.audio->set_volume(1.0f);
-
 	_stage = 0;
 
-	//
 	// Confirm the rite.
-	//
 	while (true) {
 
 		SDL_Event event{};
@@ -116,9 +111,7 @@ auto Sorcery::Rite::start() -> int {
 		}
 	}
 
-	//
 	// Rite proper starts here.
-	//
 	_stage = 1;
 
 	_stage_visible = true;

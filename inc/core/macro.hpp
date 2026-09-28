@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <algorithm>
+#include <chrono>
 #include <iterator>
 #include <sstream>
 #include <string>
@@ -40,8 +42,7 @@ inline auto CSTR(const std::string &string) -> const char * {
 inline auto SPLIT(const std::string &text) -> std::vector<std::string> {
 
 	std::istringstream iss(text);
-	std::vector<std::string> results((std::istream_iterator<std::string>(iss)),
-									 std::istream_iterator<std::string>());
+	std::vector<std::string> results((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
 
 	return results;
 }

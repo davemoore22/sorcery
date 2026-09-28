@@ -21,10 +21,10 @@
 // the resulting work.
 
 #include "types/character/magic.hpp"
-#include "common/enum.hpp"				 // for SpellType, SpellType::ARCANE
 #include "common/types.hpp"				 // for Spell
 #include "core/context.hpp"				 // for Context
 #include "core/resources.hpp"			 // for Resources
+#include "magic/enum.hpp"				 // for SpellType, SpellType::ARCANE
 #include "resources/spellstore.hpp"		 // for SpellStore
 #include "types/character/character.hpp" // for Character
 #include <algorithm>					 // for find_if
@@ -120,4 +120,35 @@ auto Sorcery::CharacterMagic::set_spells() -> void {
 		if (it != _m_character->_spells.end())
 			(*it).known = spell_known.second;
 	}
+}
+
+auto Sorcery::CharacterMagic::spend_spell_point(const Enums::Magic::SpellType spell_type,
+												const unsigned int spell_level) -> bool {
+
+	using enum Enums::Magic::SpellType;
+
+	if (!can_cast(spell_type, spell_level))
+		return false;
+
+	if (spell_type == ARCANE) {
+		--_m_character->_mage_cur_sp.at(spell_level);
+		return true;
+	}
+
+	if (spell_type == DIVINE) {
+		--_m_character->_priest_cur_sp.at(spell_level);
+		return true;
+	}
+
+	return false;
+}
+
+auto Sorcery::CharacterMagic::forget_spell(const Enums::Magic::SpellID spell_id) -> void {
+
+	_m_character->_spells_known[spell_id] = false;
+
+	const auto it{std::ranges::find(_m_character->_spells, spell_id, &Spell::id)};
+
+	if (it != _m_character->_spells.end())
+		it->known = false;
 }

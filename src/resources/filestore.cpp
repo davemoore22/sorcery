@@ -29,7 +29,7 @@
 #include <mach-o/dyld.h>
 #include <vector>
 #elif defined(_WIN32)
-#include <windows.h>
+#include <windows.h> // for DWORD, MAX_PATH, GetModuleFileNameW
 #endif
 #include "core/debug.hpp"		// for DEBUG_LOGF, debug_logf
 #include "resources/define.hpp" // for DATA_DIR, GFX_DIR, SFX_DIR, SAVE_DIR

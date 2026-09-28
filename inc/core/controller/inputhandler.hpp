@@ -24,9 +24,10 @@
 
 #include <cstddef>	// for size_t
 #include <optional> // for optional
+
 namespace Sorcery { class Controller; }
 namespace Sorcery { struct Context; }
-union SDL_Event;
+union SDL_Event; // Global Namespace Forward Declaration
 
 namespace Sorcery {
 
@@ -44,6 +45,9 @@ class ControllerInputHandler {
 		auto debug(const SDL_Event &event) -> void;
 		auto automap(const SDL_Event &event) const -> bool;
 		auto movement(const SDL_Event &event) const -> int;
+
+		[[nodiscard]]
+		auto help(const SDL_Event &event) const -> bool;
 
 		auto quickload(const SDL_Event &event) const -> bool;
 		auto quicksave(const SDL_Event &event) const -> bool;

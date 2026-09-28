@@ -26,6 +26,7 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
@@ -51,6 +52,9 @@ auto Sorcery::Options::start(const bool is_in_game) -> int {
 	_is_in_game = is_in_game;
 	_ctx.controller->go_to(Enums::Screen::OPTIONS);
 	_ctx.controller->initialise();
+
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
 
 	fade_in(Enums::Screen::OPTIONS, QUICK_FADE);
 

@@ -20,53 +20,21 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#pragma once
+#include "resources/imagehandle.hpp"
 
-#include <span>
-#include <string_view>
+Sorcery::ImageHandle::ImageHandle()
+	: key{""},
+	  texture{0},
+	  width{0},
+	  height{0} {};
 
-namespace Sorcery {
+Sorcery::ImageHandle::ImageHandle(std::string key_, GLuint texture_, int width_, int height_)
+	: key{key_},
+	  texture{texture_},
+	  width{width_},
+	  height{height_} {};
 
-class Game;
-struct Context;
+auto Sorcery::ImageHandle::operator<=>(const ImageHandle &a) const {
 
-class Cheat {
-
-	public:
-		using Handler = void (Cheat::*)();
-
-		struct Action {
-
-				std::string_view label;
-				Handler handler;
-		};
-
-		explicit Cheat(Context &ctx, Game &game);
-
-		[[nodiscard]]
-		auto actions() const -> std::span<const Action>;
-
-		auto execute(const Action &action) -> void;
-
-	private:
-		Context &_ctx;
-		Game &_game;
-
-		auto create_random_party() -> void;
-		auto fill_party_unid_items() -> void;
-		auto give_party_gold() -> void;
-		auto give_party_random_items() -> void;
-		auto give_party_random_status() -> void;
-		auto give_party_xp() -> void;
-		auto heal_party_to_full() -> void;
-		auto harm_party_to_min() -> void;
-		auto kill_party() -> void;
-		auto toggle_light() -> void;
-		auto give_party_quest_items() -> void;
-		auto start_chest_event() -> void;
-		auto show_debug() -> void;
-
-		static const Action _actions[];
-};
-
-} // namespace Sorcery
+	return key <=> a.key;
+}

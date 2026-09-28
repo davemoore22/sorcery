@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "core/module.hpp"
-#include <memory>
+#include "core/module.hpp" // for Module
+#include <memory>		   // for unique_ptr
 
 namespace Sorcery {
 

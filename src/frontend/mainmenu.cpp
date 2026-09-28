@@ -27,6 +27,7 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen
 #include "display/animation.hpp"			// for Animation
 #include "display/ui/popupmanager.hpp"		// for PopupManager
@@ -35,9 +36,11 @@
 #include "frontend/compendium.hpp"			// for Compendium
 #include "frontend/license.hpp"				// for License
 #include "frontend/options.hpp"				// for Options
+#include "resources/imagestore.hpp"			// for ImageStore
 #include "types/enum.hpp"					// for DialogType
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <chrono>							// for chrono_literals
+#include <string>							// for basic_string, stoi
 
 Sorcery::MainMenu::MainMenu(Context &ctx)
 	: Module{ctx} {
@@ -60,8 +63,13 @@ auto Sorcery::MainMenu::start() -> int {
 
 	using namespace std::chrono_literals;
 
+	_ctx.images->unload_all();
+
 	// Clear all controller and flow flags
 	_ctx.controller->initialise();
+
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
 
 	// Start relevant animation worker threads
 	_ctx.animation->refresh_attract();
@@ -70,7 +78,8 @@ auto Sorcery::MainMenu::start() -> int {
 	fade_in(Enums::Screen::MAINMENU, QUICK_FADE);
 
 	_ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
-	_ctx.audio->set_volume(1.0f);
+	const auto volume{std::stoi(_ctx.get_config("Media", "music_volume")) / 100.0f};
+	_ctx.audio->set_music_volume(volume);
 
 	// Main loop
 	while (true) {
@@ -85,6 +94,9 @@ auto Sorcery::MainMenu::start() -> int {
 				return abort();
 
 			case ModuleEvent::QUICKLOAD:
+				continue;
+
+			case ModuleEvent::CONSUMED:
 				continue;
 
 			case ModuleEvent::NONE:

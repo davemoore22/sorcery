@@ -25,7 +25,7 @@
 #include "common/enum.hpp"		// for Edge, Direction (ptr only), Event, Type
 #include "common/types.hpp"		// for Coordinate, Size
 #include "types/world/tile.hpp" // for Tile
-#include <json/value.h> // for Value
+#include <json/value.h>			// for Value
 #include <map>					// for map
 #include <optional>				// for optional
 #include <string>				// for basic_string, string
@@ -56,9 +56,12 @@ class Level {
 
 		// Public Methods
 		auto at(const Coordinate loc) -> Tile &;
+		auto at(const Coordinate loc) const -> const Tile &;
 		auto at(const int x, const int y) -> Tile &;
 		auto at(const int x, const int y) const -> const Tile &;
 		auto at(const Coordinate loc, const Enums::Map::Direction direction, const int x, const int z) -> Tile &;
+		auto at(const Coordinate loc, const Enums::Map::Direction direction, const int x, const int z) const
+			-> const Tile &;
 		auto stairs_at(const Coordinate loc) -> bool;
 		auto elevator_at(const Coordinate loc) -> bool;
 		auto bottom_left() const -> Coordinate;

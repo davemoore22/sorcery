@@ -24,8 +24,10 @@
 
 #ifdef SORCERY_DEBUG
 
+#include <chrono>
 #include <format>
 #include <print>
+#include <string>
 #include <string_view>
 #include <utility>
 

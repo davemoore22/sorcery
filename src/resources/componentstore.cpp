@@ -21,33 +21,34 @@
 // the resulting work.
 
 #include "resources/componentstore.hpp"
-
-#include "common/enum.hpp"
-#include "common/macro.hpp"
-#include "resources/json.hpp"
-#include "types/component.hpp"
-#include "types/enum.hpp"
-#include "types/error.hpp"
-
-#include <algorithm>
-#include <array>
-#include <charconv>
-#include <cstdlib>
-#include <exception>
-#include <filesystem>
-#include <format>
-#include <fstream>
-#include <iostream>
-#include <json/reader.h>
-#include <json/value.h>
-#include <map>
-#include <optional>
-#include <stdexcept>
-#include <string>
-#include <string_view>
-#include <system_error>
-#include <utility>
-#include <vector>
+#include "common/enum.hpp"	   // for Error
+#include "common/macro.hpp"	   // for COL2NUM
+#include "imgui.h"			   // for ImU32
+#include "resources/json.hpp"  // for get_string
+#include "types/component.hpp" // for Component
+#include "types/enum.hpp"	   // for ComponentType, Font, DrawMode, Justif...
+#include "types/error.hpp"	   // for Error, operator<<
+#include <algorithm>		   // for __sort_fn, sort
+#include <array>			   // for array
+#include <charconv>			   // for from_chars
+#include <chrono>			   // for operator==
+#include <cstdlib>			   // for exit, EXIT_FAILURE, size_t
+#include <exception>		   // for exception
+#include <filesystem>		   // for path, last_write_time
+#include <format>			   // for format
+#include <fstream>			   // for basic_ifstream, basic_ostream, ifstream
+#include <functional>		   // for less
+#include <iostream>			   // for cerr
+#include <json/reader.h>	   // for CharReaderBuilder, parseFromStream
+#include <json/value.h>		   // for Value
+#include <map>				   // for map, operator==
+#include <optional>			   // for optional, nullopt, nullopt_t
+#include <stdexcept>		   // for out_of_range, runtime_error
+#include <string>			   // for basic_string, operator<=>, string
+#include <string_view>		   // for basic_string_view, string_view, opera...
+#include <system_error>		   // for error_code, errc
+#include <utility>			   // for pair, get, move
+#include <vector>			   // for vector
 
 namespace {
 

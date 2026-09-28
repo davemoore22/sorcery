@@ -25,7 +25,8 @@
 #include <cstdlib>		  // for abs
 #include <format>		  // for format
 #include <functional>	  // for invoke
-#include <vector>		  // for vector
+#include <utility>
+#include <vector> // for vector
 
 // Default Constructor
 Sorcery::Level::Level() {
@@ -150,58 +151,80 @@ auto Sorcery::Level::set(const Level *other) -> void {
 	_depth = other->_depth;
 	_bottom_left = other->_bottom_left;
 	_size = other->_size;
+
 	_tiles = other->_tiles;
 }
 
 auto Sorcery::Level::at(const Coordinate loc) -> Tile & {
 
+	return const_cast<Tile &>(std::as_const(*this).at(loc));
+}
+
+auto Sorcery::Level::at(const Coordinate loc) const -> const Tile & {
+
 	return _tiles.at(loc);
 }
 
+auto Sorcery::Level::at(const Coordinate loc, const Enums::Map::Direction direction, const int x, const int z) const
+	-> const Tile & {
+
+	// Needs to be done separately since levels have an extra row/column, and we
+	// must also remember that N/E is actually y/x.
+	Coordinate dest{loc};
+
+	switch (direction) {
+		using enum Enums::Map::Direction;
+
+	case NORTH:
+		dest.x = loc.x + x;
+		dest.y = loc.y + z;
+		break;
+
+	case SOUTH:
+		dest.x = loc.x - x;
+		dest.y = loc.y - z;
+		break;
+
+	case EAST:
+		dest.x = loc.x + z;
+		dest.y = loc.y - x;
+		break;
+
+	case WEST:
+		dest.x = loc.x - z;
+		dest.y = loc.y + x;
+		break;
+
+	default:
+		return _tiles.at(loc);
+	}
+
+	const auto wrapped_x{std::invoke([&] {
+		if (dest.x < wrap_bottom_left().x)
+			return dest.x + static_cast<int>(wrap_size().w);
+
+		if (dest.x > wrap_top_right().x)
+			return dest.x - static_cast<int>(wrap_size().w);
+
+		return dest.x;
+	})};
+
+	const auto wrapped_y{std::invoke([&] {
+		if (dest.y < wrap_bottom_left().y)
+			return dest.y + static_cast<int>(wrap_size().h);
+
+		if (dest.y > wrap_top_right().y)
+			return dest.y - static_cast<int>(wrap_size().h);
+
+		return dest.y;
+	})};
+
+	return _tiles.at(Coordinate{wrapped_x, wrapped_y});
+}
 auto Sorcery::Level::at(const Coordinate loc, const Enums::Map::Direction direction, const int x, const int z)
 	-> Tile & {
 
-	// Needs to be done seperately since levels have an extra row/column, and we
-	// must also remember that N/E is actually y/x
-	Coordinate dest{loc};
-	switch (direction) {
-		using enum Enums::Map::Direction;
-	case NORTH: {
-		dest.x = loc.x + x;
-		dest.y = loc.y + z;
-	} break;
-	case SOUTH: {
-		dest.x = loc.x - x;
-		dest.y = loc.y - z;
-	} break;
-	case EAST: {
-		dest.x = loc.x + z;
-		dest.y = loc.y - x;
-	} break;
-	case WEST: {
-		dest.x = loc.x - z;
-		dest.y = loc.y + x;
-	} break;
-	default:
-		return _tiles.at(loc);
-		break;
-	}
-
-	auto wrapped_x{std::invoke([&] {
-		if (dest.x < wrap_bottom_left().x)
-			return dest.x + static_cast<int>(wrap_size().w);
-		else if (dest.x > wrap_top_right().x)
-			return dest.x - static_cast<int>(wrap_size().w);
-		return dest.x;
-	})};
-	auto wrapped_y{std::invoke([&] {
-		if (dest.y < wrap_bottom_left().y)
-			return dest.y + static_cast<int>(wrap_size().h);
-		else if (dest.y > wrap_top_right().y)
-			return dest.y - static_cast<int>(wrap_size().h);
-		return dest.y;
-	})};
-	return _tiles.at(Coordinate{wrapped_x, wrapped_y});
+	return const_cast<Tile &>(std::as_const(*this).at(loc, direction, x, z));
 }
 
 auto Sorcery::Level::at(const int x, const int y) -> Tile & {

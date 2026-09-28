@@ -44,6 +44,13 @@ The project is under active development and is built using **C++26, Dear ImGui, 
     <td><img src="promo/screen24.png" width="150"></td>
     <td><img src="promo/screen25.png" width="150"></td>
   </tr>
+  <tr>
+    <td><img src="promo/screen26.png" width="150"></td>
+    <td><img src="promo/screen27.png" width="150"></td>
+    <td><img src="promo/screen28.png" width="150"></td>
+    <td></td>
+    <td></td>
+  </tr>
 </table>
 
 Brief gameplay videos are also available on [YouTube](https://www.youtube.com/channel/UCEkmGGFyxu5vH6xAHej3Dag).

@@ -25,11 +25,12 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for BACK_TO_EDGE_OF_TOWN
-#include "types/game.hpp"					// for Game
+#include "game/game.hpp"					// for Game
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <any>								// for any
 #include <memory>							// for unique_ptr
@@ -51,6 +52,9 @@ auto Sorcery::Restart::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::RESTART);
 	_ctx.controller->initialise();
+
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
 
 	show_immediately();
 

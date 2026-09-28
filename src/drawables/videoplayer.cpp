@@ -21,9 +21,9 @@
 // the resulting work.
 
 #include "drawables/videoplayer.hpp"
-#include "core/debug.hpp"
-#include <cstddef>	 // for size_t
-#include <stdexcept> // for runtime_error
+#include "core/debug.hpp" // for DEBUG_LOGF, debug_logf
+#include <cstddef>		  // for size_t
+#include <stdexcept>	  // for runtime_error
 
 Sorcery::VideoPlayer::VideoPlayer()
 	: _format_ctx{nullptr},
@@ -190,6 +190,9 @@ auto Sorcery::VideoPlayer::render(const char *window_name, ImVec2 position, ImVe
 
 	if (!_has_frame_ready)
 		return;
+
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 
 	if (!ImGui::Begin(window_name)) {
 		ImGui::End();

@@ -20,6 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+// TODO: IWYU this
 #include "modules/castle.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
@@ -35,6 +36,7 @@
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
+#include "game/game.hpp"
 #include "modules/inn/inn.hpp"
 #include "modules/inn/recovery.hpp"
 #include "modules/inn/stay.hpp"
@@ -48,7 +50,7 @@
 #include "modules/temple/pay.hpp"
 #include "modules/temple/temple.hpp"
 #include "resources/define.hpp"
-#include "types/game.hpp"
+#include <chrono>
 
 Sorcery::Castle::Castle(Context &ctx)
 	: Module{ctx} {
@@ -76,11 +78,12 @@ auto Sorcery::Castle::start() -> int {
 	_ctx.controller->go_to(Enums::Screen::CASTLE);
 	_ctx.controller->initialise();
 
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
+
 	fade_in(Enums::Screen::CASTLE, QUICK_FADE);
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
-
-	_ctx.audio->set_volume(1.0f);
 
 	// Main loop
 	while (true) {

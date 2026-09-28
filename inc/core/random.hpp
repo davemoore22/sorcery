@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include "common/enum.hpp"
-#include <map>
-#include <random>
-#include <string>
-#include <tuple>
-#include <vector>
+#include "common/enum.hpp" // for Random
+#include <map>			   // for map
+#include <random>		   // for mt19937_64, random_device
+#include <string>		   // for basic_string, string
+#include <tuple>		   // for tuple
+#include <vector>		   // for vector
 
 namespace Sorcery {
 

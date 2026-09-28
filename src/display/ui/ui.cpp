@@ -26,14 +26,17 @@
 #include "common/enum.hpp"					 // for Options, Feature, Ability
 #include "common/macro.hpp"					 // for CAPITALISE
 #include "common/types.hpp"					 // for Coordinate, Spell, Size
+#include "core/audio/audioplayer.hpp"		 // for AudioPlayer
 #include "core/context.hpp"					 // for Context
 #include "core/controller/actionhandler.hpp" // for ControllerActionHandler
 #include "core/controller/controller.hpp"	 // for Controller
 #include "core/controller/inputhandler.hpp"	 // for ControllerInputHandler
 #include "core/controller/menubuilder.hpp"	 // for MenuBuilder
 #include "core/controller/menuhandler.hpp"	 // for ControllerMenuHandler
+#include "core/debug.hpp"					 // for DEBUG_LOGF
 #include "core/define.hpp"					 // for WINDOW_LAYER_TEXTS, WIN...
 #include "core/enum.hpp"					 // for Screen, CharacterSlot
+#include "core/help.hpp"					 // for MAX_GLYPHS, HelpEntry
 #include "core/macro.hpp"					 // for CSTR
 #include "core/resources.hpp"				 // for Resources
 #include "core/system.hpp"					 // for System
@@ -51,12 +54,16 @@
 #include "drawables/videoplayer.hpp"		 // for VideoPlayer
 #include "engine/define.hpp"				 // for GRAVESTONE_GFX_ID
 #include "engine/types.hpp"					 // for Vertex, VertexArray
+#include "game/cheat.hpp"					 // for Cheat
+#include "game/game.hpp"					 // for Game
 #include "imgui.h"							 // for ImVec2, ImVec4, GetMain...
 #include "imgui_internal.h"					 // for ImGuiSelectableFlagsPri...
+#include "magic/enum.hpp"					 // for SpellType, SpellID
 #include "misc/cpp/imgui_stdlib.h"			 // for InputText
 #include "resources/componentstore.hpp"		 // for ComponentStore
 #include "resources/define.hpp"				 // for MAPS_TEXTURE, ICONS_TEX...
 #include "resources/fontstore.hpp"			 // for FontInfo, FontStore
+#include "resources/imagehandle.hpp"		 // for Image
 #include "resources/imagestore.hpp"			 // for ImageStore
 #include "resources/itemstore.hpp"			 // for ItemStore
 #include "resources/levelstore.hpp"			 // for LevelStore
@@ -66,50 +73,47 @@
 #include "types/character/create.hpp"		 // for CharacterCreate
 #include "types/character/inventory.hpp"	 // for Inventory
 #include "types/character/magic.hpp"		 // for ConstCharacterMagic
-#include "types/cheat.hpp"
-#include "types/component.hpp"	   // for Component
-#include "types/config.hpp"		   // for Config
-#include "types/dice.hpp"		   // for Dice
-#include "types/enum.hpp"		   // for ComponentType, Font, Class
-#include "types/error.hpp"		   // for Error, operator<<
-#include "types/game.hpp"		   // for Game
-#include "types/image.hpp"		   // for Image
-#include "types/item/item.hpp"	   // for Item
-#include "types/item/itemtype.hpp" // for ItemType
-#include "types/meta.hpp"		   // for enum_name, enum_cast
-#include "types/monstertype.hpp"   // for MonsterType
-#include "types/state.hpp"		   // for State
-#include "types/world/explore.hpp" // for Explore
-#include "types/world/level.hpp"   // for Level
-#include "types/world/tile.hpp"	   // for Tile
-#include "version.hpp"
-#include <SDL.h>		   // for SDL_Quit
-#include <SDL_timer.h>	   // for SDL_GetTicks
-#include <SDL_video.h>	   // for SDL_SetWindowFullscreen
-#include <algorithm>	   // for min, remove_if, __trans...
-#include <any>			   // for any
-#include <array>		   // for array
-#include <cctype>		   // for tolower
-#include <chrono>		   // for steady_clock, operator+
-#include <cmath>		   // for lerp
-#include <compare>		   // for operator>=, strong_orde...
-#include <cstdint>		   // for intptr_t, uintptr_t
-#include <cstdlib>		   // for exit, EXIT_FAILURE
-#include <exception>	   // for exception
-#include <filesystem>	   // for path
-#include <format>		   // for format
-#include <functional>	   // for invoke
-#include <imgui_sugar.hpp> // for BooleanGuard, with_Window
-#include <imgui_toggle.h>  // for Toggle
-#include <iostream>		   // for basic_ostream, cerr
-#include <map>			   // for map, operator==
-#include <memory>		   // for unique_ptr, shared_ptr
-#include <optional>		   // for optional, nullopt, null...
-#include <regex>		   // for regex, regex_token_iter...
-#include <string>		   // for basic_string, string
-#include <string_view>	   // for basic_string_view, stri...
-#include <utility>		   // for to_underlying, move, pair
-#include <vector>		   // for vector
+#include "types/component.hpp"				 // for Component
+#include "types/config.hpp"					 // for Config
+#include "types/dice.hpp"					 // for Dice
+#include "types/enum.hpp"					 // for ComponentType, Font, Class
+#include "types/error.hpp"					 // for Error, operator<<
+#include "types/item/item.hpp"				 // for Item
+#include "types/item/itemtype.hpp"			 // for ItemType
+#include "types/meta.hpp"					 // for enum_name, enum_cast
+#include "types/monster/monstertype.hpp"	 // for MonsterType
+#include "types/state.hpp"					 // for State
+#include "types/world/explore.hpp"			 // for Explore
+#include "types/world/level.hpp"			 // for Level
+#include "types/world/tile.hpp"				 // for Tile
+#include "version.hpp"						 // for DATE, LABEL
+#include <SDL.h>							 // for SDL_Quit
+#include <SDL_timer.h>						 // for SDL_GetTicks
+#include <SDL_video.h>						 // for SDL_SetWindowFullscreen
+#include <algorithm>						 // for min, remove_if, __trans...
+#include <any>								 // for any
+#include <array>							 // for array
+#include <cctype>							 // for tolower
+#include <chrono>							 // for steady_clock, operator+
+#include <cmath>							 // for lerp
+#include <compare>							 // for operator>=, strong_orde...
+#include <cstdint>							 // for intptr_t, uintptr_t
+#include <cstdlib>							 // for exit, EXIT_FAILURE
+#include <exception>						 // for exception
+#include <filesystem>						 // for path
+#include <format>							 // for format
+#include <functional>						 // for invoke
+#include <imgui_sugar.hpp>					 // for BooleanGuard, with_Window
+#include <imgui_toggle.h>					 // for Toggle
+#include <iostream>							 // for basic_ostream, cerr
+#include <map>								 // for map, operator==
+#include <memory>							 // for unique_ptr, shared_ptr
+#include <optional>							 // for optional, nullopt, null...
+#include <regex>							 // for regex, regex_token_iter...
+#include <string>							 // for basic_string, string
+#include <string_view>						 // for basic_string_view, stri...
+#include <utility>							 // for to_underlying, move, pair
+#include <vector>							 // for vector
 
 Sorcery::UI::UI(Context &ctx)
 	: _ctx{ctx} {
@@ -147,7 +151,7 @@ Sorcery::UI::UI(Context &ctx)
 	ui_rd = std::stoi(_ctx.get_config("UI", "rounding"));
 
 	// Updates _font_sz, _adj_grid_w, _adj_grid_h, and _grid_sz
-	_ctx.display->update_display_metrics();
+	_ctx.display->resize();
 	metrics->update(_ctx.display->get_display_metrics());
 
 	// Render window
@@ -161,11 +165,17 @@ Sorcery::UI::~UI() {}
 
 auto Sorcery::UI::set_fullscreen(const bool value) -> void {
 
-	if (value)
-		SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), SDL_WINDOW_FULLSCREEN_DESKTOP);
-	else
-		SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), 0);
+	const Uint32 flags{value ? static_cast<Uint32>(SDL_WINDOW_FULLSCREEN_DESKTOP) : 0u};
 
+	if (SDL_SetWindowFullscreen(_ctx.display->get_SDL_window(), flags) != 0) {
+
+		DEBUG_LOGF("Unable to change fullscreen mode: {}", SDL_GetError());
+
+		return;
+	}
+
+	_ctx.display->resize();
+	metrics->update(_ctx.display->get_display_metrics());
 	_ctx.controller->set_fullscreen(value);
 }
 
@@ -174,8 +184,11 @@ auto Sorcery::UI::start() -> void {
 	// DEBUG_LOG("Starting UI...");
 
 	// Initialise ImGUI to use SDL2/OpenGL
+	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	_io = &ImGui::GetIO();
+	_io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	_io->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	_imgui_ini_path = _ctx.get_file(IMGUI_INI_FILE).string();
 	_io->IniFilename = CSTR(_imgui_ini_path);
@@ -202,6 +215,7 @@ auto Sorcery::UI::start() -> void {
 	ui_text_colour = ImVec4{std::stof(_ctx.get_config("Text", "text_colour_red")),
 							std::stof(_ctx.get_config("Text", "text_colour_green")),
 							std::stof(_ctx.get_config("Text", "text_colour_blue")), 1.0};
+	_ui_music_volume_setting = std::stoi(_ctx.get_config("Media", "music_volume"));
 
 	// Set the Default Fonts
 	using enum Enums::Layout::Font;
@@ -218,6 +232,11 @@ auto Sorcery::UI::start() -> void {
 	style.PopupRounding = ui_rd;
 	style.TabRounding = ui_rd;
 	style.ChildBorderSize = ui_rd;
+	if (_io->ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
 
 	selected.clear();
 	highlighted.clear();
@@ -308,15 +327,15 @@ auto Sorcery::UI::display_engine() -> void {
 	// Transient overlay
 	draw_transient();
 
-	// And Cursor on Top
+	// And Cursor etc on Top
 	draw_debug();
 	draw_cheat_tools();
+	draw_help_window();
 	draw_cursor();
 
-	// bool show{true};
-	// ImGui::PushFont(fontstore->get_default_font());
-	// ImGui::ShowDemoWindow(&show);
-	// ImGui::PopFont();
+	static bool show_metrics{true};
+	if (show_metrics)
+		ImGui::ShowMetricsWindow(&show_metrics);
 
 	ImGui::Render();
 
@@ -337,6 +356,7 @@ auto Sorcery::UI::display_screen(const Enums::Screen screen, const std::any &pay
 
 	if (screen != Enums::Screen::SPLASH) {
 		draw_help_icon();
+		draw_help_window();
 		draw_cursor();
 	}
 
@@ -345,8 +365,8 @@ auto Sorcery::UI::display_screen(const Enums::Screen screen, const std::any &pay
 	_ctx.display->present(ImGui::GetDrawData());
 }
 
-// Preset all the (transparent) windows we will need (this should be called
-// before anything else is drawn to the screen during each render)
+// Preset all the (transparent) windows we will need (this should be called before anything else is drawn to the screen
+// during each render)
 auto Sorcery::UI::_setup_windows() -> void {
 
 	const std::vector<std::string> windows{WINDOW_LAYER_BG,		WINDOW_LAYER_FRAMES, WINDOW_LAYER_VIEW,
@@ -355,7 +375,8 @@ auto Sorcery::UI::_setup_windows() -> void {
 	const auto viewport{ImGui::GetMainViewport()};
 	for (const auto &window : windows) {
 
-		ImGui::SetNextWindowPos(ImVec2{0, 0});
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::SetNextWindowPos(viewport->Pos);
 		ImGui::SetNextWindowSize(viewport->Size);
 		auto alpha{window != WINDOW_LAYER_BG ? 0.0 : 1.0f};
 		ImGui::SetNextWindowBgAlpha(alpha);
@@ -364,6 +385,7 @@ auto Sorcery::UI::_setup_windows() -> void {
 		set_StyleVar(ImGuiStyleVar_WindowRounding, 0);
 		auto flags{window == WINDOW_LAYER_MENUS ? ImGuiWindowFlags_NoDecoration
 												: ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs};
+
 		with_Window(window.c_str(), nullptr, flags){};
 	}
 }
@@ -421,25 +443,30 @@ auto Sorcery::UI::draw_image(std::string_view source, const int idx, const ImVec
 
 auto Sorcery::UI::draw_view_image(std::string_view source, const VertexArray &array) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_VIEW, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		// Load the image if necessary
 		if (!images->has_loaded(std::string{source}))
 			images->load_image(std::string{source});
 
-		ImDrawList *draw_list{ImGui::GetWindowDrawList()};
-		auto old_flags{draw_list->Flags};
+		auto *draw_list{ImGui::GetWindowDrawList()};
+		const auto old_flags{draw_list->Flags};
 		draw_list->Flags = ImDrawListFlags_None;
-		auto src_image{images->get(std::string{source})};
-		draw_list->AddImageQuad(src_image.texture, ImVec2{array.data[0].position.x, array.data[0].position.y},
-								ImVec2{array.data[1].position.x, array.data[1].position.y},
-								ImVec2{array.data[2].position.x, array.data[2].position.y},
-								ImVec2{array.data[3].position.x, array.data[3].position.y},
-								ImVec2{array.data[0].tex_coord.x, array.data[0].tex_coord.y},
-								ImVec2{array.data[1].tex_coord.x, array.data[1].tex_coord.y},
-								ImVec2{array.data[2].tex_coord.x, array.data[2].tex_coord.y},
-								ImVec2{array.data[3].tex_coord.x, array.data[3].tex_coord.y},
+		const auto src_image{images->get(std::string{source})};
+
+		// Vertex positions are Sorcery-local coordinates, but ImDrawList expects screen coordinates
+		const auto origin{ImGui::GetWindowPos()};
+		const auto screen_pos = [&](const ImVec2 pos) -> ImVec2 {
+			return {origin.x + pos.x, origin.y + pos.y};
+		};
+
+		draw_list->AddImageQuad(src_image.texture, screen_pos(array.data[0].position),
+								screen_pos(array.data[1].position), screen_pos(array.data[2].position),
+								screen_pos(array.data[3].position), array.data[0].tex_coord, array.data[1].tex_coord,
+								array.data[2].tex_coord, array.data[3].tex_coord,
 								ImGui::ColorConvertFloat4ToU32(array.data[0].colour));
+
 		draw_list->Flags = old_flags;
 	}
 }
@@ -452,6 +479,8 @@ auto Sorcery::UI::draw_fg_image_with_idx(std::string_view layer, std::string_vie
 	if (!images->show_images) {
 
 		// If we aren't drawing images, draw a suitable placeholder
+		const auto *viewport{ImGui::GetMainViewport()};
+		ImGui::SetNextWindowViewport(viewport->ID);
 		with_Window(std::string(layer).c_str(), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 			ImGui::SetCursorPos(p_min);
 			ImGui::GetWindowDrawList()->AddRectFilled(p_min, ImVec2(p_min.x + p_sz.x, p_min.y + p_sz.y),
@@ -508,6 +537,8 @@ auto Sorcery::UI::draw_fg_image_with_idx(std::string_view layer, std::string_vie
 	const auto uv_0{ImVec2{from.x / image_size.x, from.y / image_size.y}};
 	const auto uv_1{ImVec2{(from.x + tile_size) / image_size.x, (from.y + tile_size) / image_size.y}};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(std::string(layer).c_str(), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 		ImGui::SetCursorPos(ImVec2{p_min});
 		auto src_image{images->get(std::string{source})};
@@ -551,6 +582,8 @@ auto Sorcery::UI::draw_fg_image(Component *component) -> void {
 
 	if (!images->show_images) {
 
+		const auto *viewport{ImGui::GetMainViewport()};
+		ImGui::SetNextWindowViewport(viewport->ID);
 		with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 			const auto x{std::invoke([&] {
@@ -609,6 +642,8 @@ auto Sorcery::UI::draw_fg_image(Component *component) -> void {
 		})};
 
 		// Draw the Image (with Alpha as well as Fade!)
+		const auto *viewport{ImGui::GetMainViewport()};
+		ImGui::SetNextWindowViewport(viewport->ID);
 		with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 			ImGui::SetCursorPos(ImVec2{x, y});
 			ImVec4 tint_col{ImVec4(1.0f, 1.0f, 1.0f, component->alpha * _ctx.animation->fade)};
@@ -638,6 +673,7 @@ auto Sorcery::UI::draw_help_icon() -> void {
 
 	auto pos{ImVec2{margin * scale, viewport->Size.y - size.y - (margin * scale)}};
 
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::TEXT).value(), font_size);
@@ -663,6 +699,7 @@ auto Sorcery::UI::draw_build_info() -> void {
 
 	const auto text{std::format("{}  {}", Build::LABEL, Build::DATE)};
 
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::TEXT).value(), font_size);
@@ -727,10 +764,9 @@ auto Sorcery::UI::draw_ui_status() -> void {
 	const auto total_width{(size.x * static_cast<float>(icons.size())) +
 						   ((static_cast<float>(icons.size()) - 1.0f) * spacing * scale)};
 
-	auto pos{ImVec2{viewport->Size.x - total_width - (margin * scale),
+	auto pos{ImVec2{viewport->Size.x - total_width - (margin * scale), margin * scale}};
 
-					margin * scale}};
-
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		for (const auto &[icon, enabled] : icons) {
@@ -823,6 +859,8 @@ auto Sorcery::UI::draw_debug() -> void {
 	if (!_ctx.controller->get_flag("debug_ui"))
 		return;
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(_io->FontDefault, metrics->font_sz());
@@ -845,6 +883,8 @@ auto Sorcery::UI::draw_debug() -> void {
 // Draw a Paragraph (Wrapped Multiline Text)
 auto Sorcery::UI::draw_paragraph(Component *component) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		set_Font(fonts->get_current_font(component->font).value(), metrics->font_sz());
@@ -862,6 +902,8 @@ auto Sorcery::UI::draw_paragraph(Component *component) -> void {
 auto Sorcery::UI::draw_text_with_layer(const std::string string, const ImColor colour, const ImVec2 pos,
 									   const Enums::Layout::Font font) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground) {
 
@@ -960,6 +1002,8 @@ auto Sorcery::UI::draw_button_click(Component *component, bool &flag, const bool
 // Draw a Button
 auto Sorcery::UI::draw_button(Component *component, std::optional<bool *> is_clicked) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		// Need to push font first before calculating size else it will
@@ -1083,7 +1127,8 @@ auto Sorcery::UI::draw_character_summary(Component *component, const Character *
 
 	pos = metrics->grid_pos(right_col, component->y + 4);
 	ImGui::SetCursorPos(pos);
-	ImGui::TextUnformatted(std::format("A.C. {:>2}", character->get_cur_ac_str()).c_str());
+	ImGui::TextUnformatted(
+		std::format("A.C. {:>2}", character->get_cur_ac_str(_ctx.game->state->get_maporifc())).c_str());
 
 	auto slot{1u};
 	pos = metrics->grid_pos(left_col, component->y + 9);
@@ -1130,6 +1175,8 @@ auto Sorcery::UI::draw_current_character([[maybe_unused]] const int mode) -> voi
 	auto title{components->get("inspect:character_title")};
 	draw_text(&title, character.summary_text_with_awards());
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto prev{components->get("inspect:character_previous")};
 		draw_button_click(&prev, _ctx.get_flag_ref("select_previous_character"));
@@ -1167,6 +1214,8 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name, in
 
 	bool disabled{false};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 		auto pos{metrics->grid_pos(component->x, component->y)};
@@ -1241,6 +1290,8 @@ auto Sorcery::UI::draw_stepper(Component *component, const std::string &name, in
 
 auto Sorcery::UI::draw_input(Component &component, std::string &input, const ImGuiInputTextFlags input_flags) -> bool {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 
 		const auto pos{metrics->grid_pos(component.x, component.y)};
@@ -1281,10 +1332,11 @@ auto Sorcery::UI::draw_input(Component &component, std::string &input, const ImG
 
 auto Sorcery::UI::draw_text(Component *component, const std::string &string) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		// Need to push font first before calculating size else it will
-		// assume monospace font size!
+		// Need to push font first before calculating size else it will assume monospace font size!
 		set_Font(fonts->get_current_font(component->font).value(), metrics->font_sz());
 
 		const auto x{std::invoke([&] {
@@ -1425,6 +1477,8 @@ auto Sorcery::UI::draw_automap_legend(Component *component) -> void {
 
 	auto pos{metrics->grid_pos(component->x, component->y)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		set_Font(fonts->get_current_font(component->font).value(), metrics->font_sz());
@@ -1445,6 +1499,7 @@ auto Sorcery::UI::draw_automap_legend(Component *component) -> void {
 		}
 	}
 
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoTitleBar) {
 		auto leave{components->get("automap:automap_return")};
 		draw_button_click(&leave, _ctx.get_flag_ref("show_automap"), true);
@@ -1453,10 +1508,12 @@ auto Sorcery::UI::draw_automap_legend(Component *component) -> void {
 
 // Draw a Text (String)
 auto Sorcery::UI::draw_text(Component *component) -> void {
+
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
-		// Need to push font first before calculating size else it will
-		// assume monospace font size!
+		// Need to push font first before calculating size else it will assume monospace font size!
 		set_Font(fonts->get_current_font(component->font).value(), metrics->font_sz());
 
 		const auto x{std::invoke([&] {
@@ -1512,6 +1569,7 @@ auto Sorcery::UI::draw_components(std::string_view screen, [[maybe_unused]] cons
 }
 
 auto Sorcery::UI::draw_item_info() -> void {
+
 	// Custom Rendering
 	const auto idx{_ctx.get_selected("museum_selected")};
 	if (idx >= 100)
@@ -1527,6 +1585,8 @@ auto Sorcery::UI::draw_item_info() -> void {
 	auto cmp{components->get("museum:item_data")};
 	auto pos{metrics->grid_pos(cmp.x, cmp.y)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		const auto name{std::format("  {:>03}:{}/{}", idx + 1, item.get_known_name(), item.get_unknown_name())};
@@ -1922,6 +1982,8 @@ auto Sorcery::UI::draw_options() -> void {
 
 	const auto col{get_hl_colour(_ctx.animation->lerp)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		const auto width{metrics->grid_sz() * component.get_float("grid_width")};
@@ -1976,9 +2038,15 @@ auto Sorcery::UI::draw_options() -> void {
 					draw_option_list(ui_opts, "UI");
 
 					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + metrics->grid_sz());
+					const auto scale{_ctx.display->get_display_metrics().scale};
+					ImGui::SetNextItemWidth(200.0f * scale);
+					if (ImGui::SliderInt("Music Volume", &_ui_music_volume_setting, 0, 100, "%d%%",
+										 ImGuiSliderFlags_AlwaysClamp)) {
+						_ctx.audio->set_music_volume(static_cast<float>(_ui_music_volume_setting) / 100.0f);
+					}
 
+					ImGui::SetCursorPosY(ImGui::GetCursorPosY() + metrics->grid_sz());
 					const auto item_height{ImGui::GetTextLineHeightWithSpacing()};
-
 					constexpr auto max_visible_items{10};
 
 					ImGui::SetNextWindowSize(ImVec2{0.0f, item_height * max_visible_items});
@@ -1986,19 +2054,15 @@ auto Sorcery::UI::draw_options() -> void {
 					with_Combo("##font_combobox", "Choose Font...") {
 
 						const auto font_list{fonts->get_all_monospace_fonts()};
-
 						auto font_idx{0u};
 
 						for (const auto &font : font_list) {
 
 							const auto is_selected{font.name == fonts->get_current_monospace_font_name()};
-
 							set_Font(font.font, metrics->font_sz());
-
 							const auto selectable_name{std::format("{}##{}", font.name, font_idx)};
 
 							if (ImGui::Selectable(selectable_name.c_str(), is_selected)) {
-
 								fonts->set_current_font(Enums::Layout::Font::MONOSPACE, font.name);
 							}
 
@@ -2059,6 +2123,8 @@ auto Sorcery::UI::draw_level_name() -> void {
 	auto text_cmp{components->get("engine_base_ui:level_name")};
 	auto frame_cmp{components->get("engine_base_ui:level_name_frame")};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		draw_frame(&frame_cmp);
@@ -2079,22 +2145,36 @@ auto Sorcery::UI::draw_buffbar() -> void {
 
 	// Get Icon Effects
 	const auto icon_depth{UIStyle::icon_depth(scale)};
-	const auto light_idx{_ctx.game->state->get_lit() ? ICON_BUFF_EXTRA_LIGHT : ICON_BUFF_LIGHT};
-	const auto tint{_ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
-													  : UIStyle::icon_colour(light_idx)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		draw_frame(&frame_cmp);
 
 		ImGui::SetCursorPos(ImVec2{x, y});
+		auto light_idx{_ctx.game->state->get_lit() ? ICON_BUFF_EXTRA_LIGHT : ICON_BUFF_LIGHT};
+		auto tint{_ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f} : UIStyle::icon_colour(light_idx)};
 
 		draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, light_idx, ImVec2{x, y}, ImVec2{width, height}, tint,
 							   icon_depth);
 
 		y += height;
 
-		// TODO
+		if (_ctx.game->state->get_latumapic()) {
+			tint = _ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
+													 : UIStyle::icon_colour(ICON_BUFF_KNOWLEDGE);
+			draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, ICON_BUFF_KNOWLEDGE, ImVec2{x, y},
+								   ImVec2{width, height}, tint, icon_depth);
+		}
+
+		y += height;
+		if (_ctx.game->state->get_maporifc()) {
+			tint = _ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
+													 : UIStyle::icon_colour(ICON_BUFF_SHIELD);
+			draw_fg_image_with_idx(WINDOW_LAYER_TEXTS, ICONS_TEXTURE, ICON_BUFF_SHIELD, ImVec2{x, y},
+								   ImVec2{width, height}, tint, icon_depth);
+		}
 	}
 }
 
@@ -2118,7 +2198,9 @@ auto Sorcery::UI::draw_icons() -> void {
 
 	const auto hovered_tint{ImVec4{get_hl_colour(_ctx.animation->lerp)}};
 
-	// Passive frame.
+	// Passive frame
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		draw_frame(&frame_cmp);
@@ -2127,7 +2209,8 @@ auto Sorcery::UI::draw_icons() -> void {
 	// Get Icon Effects
 	const auto icon_depth{UIStyle::icon_depth(scale)};
 
-	// Interactive icons.
+	// Interactive icons
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
 		auto y{start_y};
@@ -2178,19 +2261,20 @@ auto Sorcery::UI::draw_save() -> void {
 	// Get Icon Effects
 	const auto scale{_ctx.display->get_display_metrics().scale};
 	const auto icon_depth{UIStyle::icon_depth(scale)};
-
 	const auto normal_tint{_ctx.controller->get_monochrome() ? ImVec4{1.0f, 1.0f, 1.0f, 1.0f}
 															 : UIStyle::icon_colour(ICON_SAVE_AND_QUIT)};
-
 	const auto hovered_tint{ImVec4{get_hl_colour(_ctx.animation->lerp)}};
 
-	// Passive frame.
+	// Passive frame
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		draw_frame(&frame_cmp);
 	}
 
-	// Interactive save icon.
+	// Interactive save icon
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
 		ImGui::SetCursorPos(save_pos);
@@ -2222,6 +2306,8 @@ auto Sorcery::UI::draw_compass() -> void {
 	// Get Icon Effects
 	const auto icon_depth{UIStyle::icon_depth(scale)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
 		draw_frame(&frame_cmp);
@@ -2281,12 +2367,15 @@ auto Sorcery::UI::draw_party_panel() -> void {
 	const ImVec2 panel_size{width, height};
 
 	// The frame itself is passive.
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		draw_frame(&frame_cmp);
 	}
 
 	// Interactive panel content must be on the menu/input layer.
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 
 		ImGui::SetCursorPos(panel_pos);
@@ -2318,7 +2407,7 @@ auto Sorcery::UI::draw_party_panel() -> void {
 
 				auto &character{_ctx.game->characters.at(character_id)};
 
-				const auto summary{character.get_party_panel_text(position)};
+				const auto summary{character.get_party_panel_text(position, _ctx.game->state->get_maporifc())};
 
 				const auto text_colour{_get_status_color(&character)};
 
@@ -2408,23 +2497,22 @@ auto Sorcery::UI::draw_spell_info() -> void {
 		return;
 
 	const auto spell_id{enum_cast<Enums::Magic::SpellID>(idx).value()};
-
 	auto cmp{components->get("spellbook:spell_data")};
 	const auto pos{metrics->grid_pos(cmp.x, cmp.y)};
+	const auto *viewport{ImGui::GetMainViewport()};
 
-	ImGui::SetNextWindowPos(pos);
-
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_TEXTS, nullptr, ImGuiWindowFlags_NoDecoration) {
 
+		ImGui::SetCursorPos(pos);
 		with_Child("spell_child", ImVec2{metrics->grid_sz() * cmp.w, metrics->grid_sz() * cmp.h}) {
-
 			draw_spell_info_contents(spell_id, cmp.font);
 		}
 	}
 }
-
 auto Sorcery::UI::draw_monster_info() -> void {
 	// Custom Rendering
+
 	const auto idx{_ctx.get_selected("bestiary_selected")};
 	const auto mon{_ctx.resources->monsters->get(idx)};
 	const auto k_gfx{mon.get_known_gfx()};
@@ -2442,6 +2530,8 @@ auto Sorcery::UI::draw_monster_info() -> void {
 	auto cmp{components->get("bestiary:monster_data")};
 	auto pos{metrics->grid_pos(cmp.x, cmp.y)};
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_MENUS, nullptr, ImGuiWindowFlags_NoDecoration) {
 		const auto name{std::format("  {:>03}:{}/{}", idx, mon.get_known_name(), mon.get_unknown_name())};
 		ImGui::SetCursorPos(pos);
@@ -2574,15 +2664,17 @@ auto Sorcery::UI::draw_loading_progress() -> void {
 
 	const auto width{pb_c.w * metrics->grid_sz()};
 	const float progress{static_cast<float>(images->progress - 1) / static_cast<float>(images->capacity)};
+	const auto viewport{ImGui::GetMainViewport()};
 	const auto x{std::invoke([&] {
 		if (pb_c.x == -1) {
-			const auto viewport{ImGui::GetMainViewport()};
+
 			return (viewport->Size.x - width) / 2;
 		} else
 			return metrics->grid_x(pb_c.x);
 	})};
 	const auto y{metrics->grid_y(pb_c.y)};
 
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoTitleBar) {
 		set_Font(fonts->get_default_font(), metrics->font_sz());
 		set_StyleColor(ImGuiCol_PlotHistogram, ImGui::GetColorU32(ImGuiCol_ButtonHovered));
@@ -2665,11 +2757,8 @@ auto Sorcery::UI::draw_frame_border(const ImVec2 p_min, const ImVec2 p_max, cons
 	-> void {
 
 	const auto adj{rounding / 2.0f};
-
 	const ImVec2 fr_min{p_min.x + adj, p_min.y + adj};
-
 	const ImVec2 fr_max{p_max.x - adj, p_max.y - adj};
-
 	const ImU32 col{ImColor{colour}};
 
 	ImGui::GetWindowDrawList()->AddRect(fr_min, fr_max, col, static_cast<float>(rounding), ImDrawFlags_None,
@@ -2682,6 +2771,9 @@ auto Sorcery::UI::draw_frame_background(const ImVec2 p_min, const ImVec2 p_max, 
 	const ImU32 bg{_ctx.controller->get_monochrome()
 					   ? ImColor{0.0f, 0.0f, 0.0f, 1.0f}
 					   : ImColor{colour.x, colour.y, colour.z, colour.w * _ctx.animation->fade}};
+
+	// std::println("window=({}, {}) p_min=({}, {}) p_max=({}, {})", ImGui::GetWindowPos().x, ImGui::GetWindowPos().y,
+	//			 p_min.x, p_min.y, p_max.x, p_max.y);
 
 	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, bg, static_cast<float>(rounding * 2));
 }
@@ -2993,39 +3085,30 @@ auto Sorcery::UI::draw_transient() -> void {
 	}
 
 	const auto &message{*_transient_message};
-
 	const auto component{components->get("engine_base_ui:transient_message")};
 
 	set_Font(fonts->get_current_font(component.font).value(), metrics->font_sz());
 
 	const auto text_size{ImGui::CalcTextSize(message.text.c_str())};
-
 	const auto padding{metrics->grid_sz() * 2.0f};
-
-	const auto width{message.width == TransientWidth::FULL ? ImGui::GetMainViewport()->Size.x
-														   : text_size.x + (padding * 2.0f)};
-
+	const auto *viewport{ImGui::GetMainViewport()};
+	const auto width{message.width == TransientWidth::FULL ? viewport->Size.x : text_size.x + (padding * 2.0f)};
 	const auto height{component.h * metrics->grid_sz() + (padding * 2.0f)};
 
-	const auto centre{ImGui::GetMainViewport()->GetCenter()};
-
-	ImGui::SetNextWindowPos(centre, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
-
+	// This is a real top-level window, so screen-space positioning is appropriate. Pin it to Sorcery's main viewport
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowPos(viewport->GetCenter(), ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 	ImGui::SetNextWindowSize(ImVec2{width, height});
-
 	ImGui::SetNextWindowBgAlpha(1.0f);
 
 	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
-
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
-
 	set_StyleVar(ImGuiStyleVar_WindowRounding, frame_rd);
-
 	set_StyleColor(ImGuiCol_WindowBg, component.background);
 
 	with_Window("##transient_message", nullptr,
 				ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs |
-					ImGuiWindowFlags_NoSavedSettings) {
+					ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoDocking) {
 
 		const auto p_min{ImGui::GetWindowPos()};
 		const auto p_max{ImVec2{p_min.x + width, p_min.y + height}};
@@ -3034,13 +3117,14 @@ auto Sorcery::UI::draw_transient() -> void {
 				   ImVec4{ui_bg_colour.x, ui_bg_colour.y, ui_bg_colour.z, _ctx.animation->fade}, frame_rd);
 
 		ImGui::SetCursorPos(ImVec2{padding, padding});
-
 		ImGui::TextUnformatted(message.text.c_str());
 	}
 }
 
 auto Sorcery::UI::draw_atlas_image(const std::string_view layer, const AtlasImage &image) -> void {
 
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(std::string{layer}.c_str(), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {
 
 		draw_atlas_image(ImGui::GetWindowDrawList(), image);
@@ -3227,6 +3311,7 @@ auto Sorcery::UI::draw_level_map(const Level &level, const Component &component,
 
 	return geometry;
 }
+
 auto Sorcery::UI::_map_position(const MapGeometry &geometry, const Coordinate location) const -> ImVec2 {
 
 	const auto local_x{location.x - geometry.origin.x};
@@ -3459,13 +3544,9 @@ auto Sorcery::UI::draw_character_strength([[maybe_unused]] Component *component,
 	ImGui::NewLine();
 
 	draw_stat_modifier("Atk Mod", character->abilities().at(ATTACK_MODIFIER));
-
 	draw_stat_modifier("Hit Prob", character->abilities().at(HIT_PROBABILITY));
-
 	draw_stat_modifier("Bonus Damg", character->abilities().at(BONUS_DAMAGE));
-
 	draw_stat_value("Num Attacks", character->abilities().at(BASE_NUMBER_OF_ATTACKS));
-
 	draw_stat_value("Unarmed Damg", character->abilities().at(UNARMED_DAMAGE));
 }
 
@@ -3481,13 +3562,9 @@ auto Sorcery::UI::draw_character_vitality([[maybe_unused]] Component *component,
 	ImGui::NewLine();
 
 	draw_stat_modifier("Vit Bonus", character->abilities().at(VITALITY_BONUS));
-
 	draw_stat_modifier("Bonus HP", character->abilities().at(BONUS_HIT_POINTS));
-
 	draw_stat_percent("Ress / Dead", character->abilities().at(DEAD_RESURRECT));
-
 	draw_stat_percent("Ress / Ashes", character->abilities().at(ASHES_RESURRECT));
-
 	draw_stat_percent("Ress / Spell", character->abilities().at(DI_KADORTO_RESURRECT));
 }
 
@@ -3503,11 +3580,8 @@ auto Sorcery::UI::draw_character_iq([[maybe_unused]] Component *component, const
 	ImGui::NewLine();
 
 	draw_stat_percent("Spell Learn", character->abilities().at(MAGE_SPELL_LEARN));
-
 	draw_stat_percent("ID Items", character->abilities().at(IDENTIFY_ITEMS));
-
 	draw_stat_percent("ID Curse", character->abilities().at(IDENTIFY_CURSE));
-
 	draw_stat_percent("ID Foes", character->abilities().at(IDENTIFY_FOES));
 }
 
@@ -3523,15 +3597,10 @@ auto Sorcery::UI::draw_character_agility([[maybe_unused]] Component *component, 
 	ImGui::NewLine();
 
 	draw_stat_modifier("Int Mod", character->abilities().at(INITIATIVE_MODIFIER));
-
 	draw_stat_percent("Crit Hit", character->abilities().at(BASE_CRITICAL_HIT));
-
 	draw_stat_percent("ID Trap", character->abilities().at(IDENTIFY_TRAP));
-
 	draw_stat_percent("Disarm Trap", character->abilities().at(BASE_DISARM_TRAP));
-
 	draw_stat_percent("Avoid Trap", 100 - character->abilities().at(ACTIVATE_TRAP));
-
 	draw_stat_percent("Avoid Pit", character->abilities().at(BASE_AVOID_PIT));
 }
 
@@ -3547,9 +3616,7 @@ auto Sorcery::UI::draw_character_piety([[maybe_unused]] Component *component, co
 	ImGui::NewLine();
 
 	draw_stat_percent("Spell Learn", character->abilities().at(PRIEST_SPELL_LEARN));
-
 	draw_stat_percent("Rec Chance", character->abilities().at(LOKTOFELT_SUCCESS));
-
 	draw_stat_percent("Base Dispell", character->abilities().at(BASE_DISPELL));
 }
 
@@ -3565,7 +3632,6 @@ auto Sorcery::UI::draw_character_luck([[maybe_unused]] Component *component, con
 	ImGui::NewLine();
 
 	draw_stat_percent("Res Bonus", character->abilities().at(BASE_RESIST_BONUS));
-
 	draw_stat_percent("Wipe Rec", character->abilities().at(EQUIPMENT_INTACT_ON_WIPE));
 }
 auto Sorcery::UI::draw_character_res([[maybe_unused]] Component *component, const Character *character) -> void {
@@ -3573,7 +3639,9 @@ auto Sorcery::UI::draw_character_res([[maybe_unused]] Component *component, cons
 	using enum Enums::Character::Ability;
 
 	ImGui::NewLine();
+
 	ImGui::TextUnformatted("Resistances");
+
 	ImGui::NewLine();
 
 	with_Table("character_resistances", 2, ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_SizingStretchSame) {
@@ -3629,7 +3697,6 @@ auto Sorcery::UI::draw_cheat_tools() -> void {
 	const auto centre{ImGui::GetMainViewport()->GetCenter()};
 
 	ImGui::SetNextWindowPos(centre, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
-
 	ImGui::SetNextWindowSize(ImVec2{360.0f, 0.0f}, ImGuiCond_Appearing);
 
 	if (ImGui::BeginPopupModal(popup_name, nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -3656,4 +3723,181 @@ auto Sorcery::UI::draw_cheat_tools() -> void {
 
 		ImGui::EndPopup();
 	}
+}
+
+/// @brief Draw the context-sensitive help window.
+/// @return
+auto Sorcery::UI::draw_help_window() -> void {
+
+	static constexpr auto HELP_GFX_ID{110};
+
+	if (!_ctx.controller->has_flag("want_help"))
+		return;
+
+	const auto *viewport{ImGui::GetMainViewport()};
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const ImVec2 glyph_size{32.0f * scale, 32.0f * scale};
+	const auto font_size{_ctx.ui->metrics->font_sz()};
+
+	// Full-screen dimmer
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowPos(viewport->Pos, ImGuiCond_Always);
+	ImGui::SetNextWindowSize(viewport->Size, ImGuiCond_Always);
+
+	const auto dimmer_flags{ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+							ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs |
+							ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_Tooltip};
+
+	ImGui::Begin("##help_dimmer", nullptr, dimmer_flags);
+	const auto p_min{ImGui::GetWindowPos()};
+	const auto p_max{ImVec2{p_min.x + ImGui::GetWindowSize().x, p_min.y + ImGui::GetWindowSize().y}};
+	ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, IM_COL32(0, 0, 0, 153));
+	ImGui::End();
+
+	// Help window
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowPos(viewport->GetCenter(), ImGuiCond_Always, ImVec2{0.5f, 0.5f});
+
+	set_StyleColor(ImGuiCol_WindowBg, ImVec4{0.0f, 0.0f, 0.0f, 1.0f});
+	set_StyleColor(ImGuiCol_Border, ImVec4{ui_colour.x, ui_colour.y, ui_colour.z, 1.0f});
+	set_StyleColor(ImGuiCol_Text, ImVec4{ui_text_colour.x, ui_text_colour.y, ui_text_colour.z, 1.0f});
+	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f * scale);
+	set_StyleVar(ImGuiStyleVar_WindowRounding, static_cast<float>(ui_rd));
+
+	const auto flags{ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+					 ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings |
+					 ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_Tooltip};
+
+	set_Font(_ctx.ui->fonts->get_current_font(Enums::Layout::Font::MONOSPACE).value(), font_size);
+
+	ImGui::Begin("##help_window", nullptr, flags);
+
+	const auto mode{_ctx.controller->get_input_mode()};
+	const auto entries{Help::entries(mode)};
+
+	// Heading
+	const auto heading_x{ImGui::GetCursorPosX()};
+	const auto heading_y{ImGui::GetCursorPosY()};
+
+	draw_atlas_tile(ICONS_TEXTURE, HELP_GFX_ID, glyph_size);
+
+	ImGui::SetCursorPos(ImVec2{heading_x + glyph_size.x + (12.0f * scale),
+							   heading_y + ((glyph_size.y - ImGui::GetTextLineHeight()) / 2.0f)});
+	ImGui::TextUnformatted("HELP");
+
+	const auto heading_width{glyph_size.x + (12.0f * scale) + ImGui::CalcTextSize("HELP").x};
+
+	ImGui::SetCursorPos(ImVec2{heading_x, heading_y});
+
+	ImGui::Dummy(ImVec2{heading_width, glyph_size.y + (6.0f * scale)});
+
+	ImGui::Separator();
+	ImGui::Spacing();
+
+	// Context-specific controls
+	for (const auto &entry : entries) {
+		draw_help_row(Help::glyphs(entry.control), _ctx.get_string(entry.string_key), glyph_size);
+	}
+
+	// Global controls
+	if (!entries.empty()) {
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+	}
+
+	for (const auto &entry : Help::always()) {
+		draw_help_row(Help::glyphs(entry.control), _ctx.get_string(entry.string_key), glyph_size);
+	}
+
+	ImGui::End();
+}
+
+auto Sorcery::UI::draw_help_row(const std::span<const Enums::Controls::HelpGlyph> glyphs, const std::string_view text,
+								const ImVec2 &glyph_size) -> void {
+
+	const auto scale{_ctx.display->get_display_metrics().scale};
+	const auto row_x{ImGui::GetCursorPosX()};
+	const auto row_y{ImGui::GetCursorPosY()};
+
+	const auto glyph_spacing{6.0f * scale};
+	const auto text_spacing{12.0f * scale};
+
+	// Keep rows fairly tight vertically; the glyph itself provides
+	// most of the visual separation we need.
+	const auto row_spacing{1.5f * scale};
+
+	const auto glyph_column_width{(static_cast<float>(Help::MAX_GLYPHS) * glyph_size.x) +
+								  (static_cast<float>(Help::MAX_GLYPHS - 1) * glyph_spacing)};
+
+	auto glyph_x{row_x};
+
+	for (const auto glyph : glyphs.first(std::min(glyphs.size(), Help::MAX_GLYPHS))) {
+
+		ImGui::SetCursorPos(ImVec2{glyph_x, row_y});
+
+		draw_help_glyph(glyph, glyph_size);
+
+		glyph_x += glyph_size.x + glyph_spacing;
+	}
+
+	const auto text_y{row_y + ((glyph_size.y - ImGui::GetTextLineHeight()) / 2.0f)};
+
+	ImGui::SetCursorPos(ImVec2{row_x + glyph_column_width + text_spacing, text_y});
+
+	ImGui::TextUnformatted(text.data(), text.data() + text.size());
+
+	const auto text_width{ImGui::CalcTextSize(text.data(), text.data() + text.size()).x};
+
+	const ImVec2 row_size{glyph_column_width + text_spacing + text_width, glyph_size.y + row_spacing};
+
+	ImGui::SetCursorPos(ImVec2{row_x, row_y});
+	ImGui::Dummy(row_size);
+}
+
+auto Sorcery::UI::draw_help_glyph(const Enums::Controls::HelpGlyph glyph, const ImVec2 &size) -> void {
+
+	draw_atlas_tile(CONTROLS_TEXTURE, static_cast<int>(glyph), size);
+}
+
+auto Sorcery::UI::draw_atlas_tile(const std::string_view source, const int idx, const ImVec2 &size, const ImVec4 &tint)
+	-> void {
+
+	if (!images->show_images) {
+		ImGui::Dummy(size);
+		return;
+	}
+
+	const auto src_image{images->get(std::string{source})};
+
+	int tile_row_count{0};
+
+	if (source == CONTROLS_TEXTURE)
+		tile_row_count = CONTROLS_TILE_ROW_COUNT;
+	else if (source == ICONS_TEXTURE)
+		tile_row_count = ICONS_TILE_ROW_COUNT;
+	else if (source == EVENTS_TEXTURE)
+		tile_row_count = EVENTS_TILE_ROW_COUNT;
+	else if (source == ITEMS_TEXTURE)
+		tile_row_count = ITEM_TILE_ROW_COUNT;
+	else if (source == MAPS_TEXTURE)
+		tile_row_count = MAP_TILE_ROW_COUNT;
+	else
+		return;
+
+	if (tile_row_count <= 0)
+		return;
+
+	const auto tile_size{src_image.width / tile_row_count};
+	const auto from{ImVec4{static_cast<float>(tile_size * (idx % tile_row_count)),
+						   static_cast<float>(tile_size * (idx / tile_row_count)), static_cast<float>(tile_size),
+						   static_cast<float>(tile_size)}};
+
+	const ImVec2 uv_0{from.x / static_cast<float>(src_image.width), from.y / static_cast<float>(src_image.height)};
+	const ImVec2 uv_1{(from.x + from.z) / static_cast<float>(src_image.width),
+					  (from.y + from.w) / static_cast<float>(src_image.height)};
+
+	const auto texture{ImTextureRef{_to_imgui(src_image.texture)}};
+
+	ImGui::ImageWithBg(texture, size, uv_0, uv_1, ImVec4{0.0f, 0.0f, 0.0f, 0.0f}, tint);
 }

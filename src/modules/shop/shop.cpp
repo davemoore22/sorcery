@@ -20,6 +20,7 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+// TODO: IWYU this
 #include "modules/shop/shop.hpp"
 #include "common/macro.hpp"
 #include "core/application.hpp"
@@ -34,10 +35,10 @@
 #include "display/ui/ui.hpp"
 #include "drawables/define.hpp"
 #include "drawables/dialog.hpp"
+#include "game/game.hpp"
 #include "modules/shop/store.hpp"
 #include "modules/tavern/inspect.hpp"
 #include "resources/define.hpp"
-#include "types/game.hpp"
 
 Sorcery::Shop::Shop(Context &ctx)
 	: Module{ctx} {
@@ -61,6 +62,9 @@ auto Sorcery::Shop::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::SHOP);
 	_ctx.controller->initialise();
+
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
 
 	show_immediately();
 

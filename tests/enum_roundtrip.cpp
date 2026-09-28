@@ -1,5 +1,7 @@
 #include "common/enum.hpp"
 #include "core/enum.hpp"
+#include "core/controller/inputmode.hpp"
+#include "magic/enum.hpp"
 #include "types/enum.hpp"
 #include "types/meta.hpp"
 #include <iostream>
@@ -32,7 +34,15 @@ int main() {
     check(Items::TypeID::BROKEN_ITEM, "BROKEN_ITEM");
     check(Items::TypeID::BLUE_RIBBON, "BLUE_RIBBON");
     check(Monsters::TypeID::LVL_7_FIGHTER, "LVL_7_FIGHTER");
+    check(Magic::SpellID::NO_SPELL, "NO_SPELL");
+    check(Magic::SpellID::MALOR, "MALOR");
+    check(Magic::SpellID::MILWA, "MILWA");
+    check(Magic::SpellID::MAPORFIC, "MAPORFIC");
     check(Magic::SpellID::MALIKTO, "MALIKTO");
+    check(Magic::CastContext::FIELD, "FIELD");
+    check(Magic::CastContext::COMBAT, "COMBAT");
+    check(Magic::CastContext::TRAPS, "TRAPS");
+    check(Input::Mode::ENGINE, "ENGINE");
     check(System::Random::ZERO_TO_437, "ZERO_TO_437");
     check(Screen::CREATE_CONFIRM, "CREATE_CONFIRM");
     require(!enum_cast<System::Error>(5), "undefined gap accepted");

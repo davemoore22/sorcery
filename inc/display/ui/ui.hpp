@@ -33,6 +33,7 @@
 #include <map>		   // for map
 #include <memory>	   // for unique_ptr, shared_ptr
 #include <optional>	   // for optional, nullopt, nullopt_t
+#include <span>		   // for span
 #include <string>	   // for string, basic_string
 #include <string_view> // for string_view`
 #include <vector>	   // for vector
@@ -66,6 +67,7 @@ namespace Enums {
 		enum class SpellID;
 		enum class SpellType;
 	}
+	namespace Controls { enum class HelpGlyph : unsigned int; }
 }
 }
 namespace Sorcery {
@@ -180,6 +182,8 @@ class UI {
 
 		// Composite Drawing Drawables
 		auto draw_attract_mode() -> void;
+		auto draw_atlas_tile(std::string_view source, int idx, const ImVec2 &size,
+							 const ImVec4 &tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f}) -> void;
 		auto draw_automap_legend(Component *component) -> void;
 		auto draw_bg_video() -> void;
 		auto draw_buffbar() -> void;
@@ -190,10 +194,14 @@ class UI {
 		auto draw_cursor() -> void;
 		auto draw_cursor(const bool value) -> void;
 		auto draw_debug() -> void;
+		auto draw_help_glyph(Enums::Controls::HelpGlyph glyph, const ImVec2 &size) -> void;
+		auto draw_help_window() -> void;
 		auto draw_icons() -> void;
 		auto draw_item_info() -> void;
 		auto draw_level_name() -> void;
 		auto draw_help_icon() -> void;
+		auto draw_help_row(std::span<const Enums::Controls::HelpGlyph> glyphs, std::string_view text,
+						   const ImVec2 &glyph_size) -> void;
 		auto draw_build_info() -> void;
 		auto draw_shadowed_text(ImVec2 pos, std::string_view text, ImVec4 colour, float scale) -> void;
 
@@ -267,6 +275,7 @@ class UI {
 		std::vector<unsigned int> _attract_data;
 		std::string _imgui_ini_path;
 		std::optional<TransientMessage> _transient_message;
+		int _ui_music_volume_setting{100};
 
 		std::optional<Enums::Magic::SpellID> _character_spell_selected;
 		bool _reset_arcane_spell_tab{false};

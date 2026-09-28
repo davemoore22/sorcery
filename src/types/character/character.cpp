@@ -146,6 +146,16 @@ auto Sorcery::Character::get_name_status_and_loc() const -> std::string {
 	return std::format("{:<24} {:<9} {:^5}", desc, status, out);
 }
 
+auto Sorcery::Character::get_name_status_and_loc_in_maze() const -> std::string {
+
+	const auto name{_name};
+	const auto status{_status != Enums::Character::Status::OK ? get_status_string() : ""};
+	const auto loc{
+		std::format("B{}F {:>2}N/{:>2}E", std::abs(depth.value()), coordinate.value().y, coordinate.value().x)};
+
+	return std::format("{:<16} {:<9} {:^11}", name, status, loc);
+};
+
 auto Sorcery::Character::get_race() const -> Enums::Character::Race {
 
 	return _race;
@@ -414,6 +424,11 @@ auto Sorcery::Character::apply_regeneration_and_poison() -> bool {
 	return true;
 }
 
+auto Sorcery::Character::get_spell_resurrection_chance() const -> unsigned int {
+
+	return _abilities.at(Enums::Character::Ability::DI_KADORTO_RESURRECT);
+}
+
 auto Sorcery::Character::get_status_string() const -> std::string {
 
 	if (!_hidden) {
@@ -574,7 +589,7 @@ auto Sorcery::Character::get_cure_cost() const -> unsigned int {
 	return cost_per_level * _abilities.at(Enums::Character::Ability::CURRENT_LEVEL);
 }
 
-auto Sorcery::Character::get_party_panel_text(const int position) -> std::string {
+auto Sorcery::Character::get_party_panel_text(const int position, const bool maporfic) -> std::string {
 
 	auto name{_name};
 	auto can_level{_abilities.at(Enums::Character::Ability::CURRENT_XP) >
@@ -582,8 +597,8 @@ auto Sorcery::Character::get_party_panel_text(const int position) -> std::string
 					   ? "*"
 					   : " "};
 	return std::format("{}{}{:<15} {}-{} {:>2} {:>4}{}{:<6}", position, can_level, name,
-					   alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3), get_cur_ac(),
-					   get_short_hp_summary(), get_hp_adjustment_symbol(), get_short_cond());
+					   alignment_to_str(_alignment).substr(0, 1), class_to_str(_class).substr(0, 3),
+					   get_cur_ac(maporfic), get_short_hp_summary(), get_hp_adjustment_symbol(), get_short_cond());
 }
 
 auto Sorcery::Character::get_age() const -> int {
@@ -691,7 +706,7 @@ auto Sorcery::Character::get_next_xp() const -> int {
 	return _abilities.at(Enums::Character::Ability::NEXT_LEVEL_XP);
 }
 
-auto Sorcery::Character::get_cur_ac() const -> int {
+auto Sorcery::Character::get_cur_ac(const bool maporfic) const -> int {
 
 	auto ac{_abilities.at(Enums::Character::Ability::BASE_ARMOUR_CLASS)};
 
@@ -702,12 +717,15 @@ auto Sorcery::Character::get_cur_ac() const -> int {
 			ac = ac - _ctx->resources->items->get(item.get_type_id()).get_ac_mod();
 	}
 
+	if (maporfic)
+		ac -= 2;
+
 	return ac;
 }
 
-auto Sorcery::Character::get_cur_ac_str() const -> std::string {
+auto Sorcery::Character::get_cur_ac_str(const bool maporfic) const -> std::string {
 
-	auto ac{get_cur_ac()};
+	auto ac{get_cur_ac(maporfic)};
 	if (ac <= -10)
 		return "LO";
 	else

@@ -23,7 +23,6 @@
 #include "core/system.hpp"
 #include "SimpleIni.h"				  // for CSimpleIniTempl, CSimpleIniA
 #include "core/audio/audioplayer.hpp" // for AudioPlayer
-#include "core/macro.hpp"			  // for CSTR
 #include "core/random.hpp"			  // for Random
 #include "display/animation.hpp"	  // for Animation
 #include "resources/define.hpp"		  // for CONFIG_FILE, STRINGS_FILE
@@ -38,6 +37,9 @@
 #include <iterator>					  // for size, data
 #include <print>					  // for println
 
+/// @brief
+/// @param argc
+/// @param argv
 Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
 
 	// Initialise SDL Audio first as it's a dependency of AudioPlayer, but we
@@ -64,14 +66,21 @@ Sorcery::System::System(int argc __attribute__((unused)), char **argv __attribut
 
 Sorcery::System::~System() {}
 
-// Diceroll to String
+/// @brief Diceroll to String
+/// @param message
+/// @param dice
+/// @param roll
+/// @param needed
+/// @return
 auto Sorcery::System::dice_roll_to_str(const std::string &message, const int dice, const int roll,
 									   const int needed) const -> std::string {
 
 	return std::format("d{:<3}: {:>3}/{:>3}: {}", dice, roll, needed, message);
 }
 
-// Timepoint to String
+/// @brief Timepoint to String
+/// @param tp
+/// @return
 auto Sorcery::System::convert_tp_to_str(const std::chrono::time_point<std::chrono::system_clock> tp) const
 	-> std::string {
 

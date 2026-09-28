@@ -20,21 +20,26 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
-#include "types/image.hpp"
+#pragma once
 
-Sorcery::Image::Image()
-	: key{""},
-	  texture{0},
-	  width{0},
-	  height{0} {};
+#include "drawables/drawable.hpp"
+#include "magic/malor.hpp"
 
-Sorcery::Image::Image(std::string key_, GLuint texture_, int width_, int height_)
-	: key{key_},
-	  texture{texture_},
-	  width{width_},
-	  height{height_} {};
+namespace Sorcery {
 
-auto Sorcery::Image::operator<=>(const Image &a) const {
+class MalorDialog final : public Drawable {
 
-	return key <=> a.key;
+	public:
+		explicit MalorDialog(Context &ctx);
+
+		auto build(Component &component) -> void;
+		auto display() -> void;
+
+		[[nodiscard]]
+		auto destination() const -> Magic::MalorDestination;
+
+	private:
+		Magic::MalorDestination _destination{};
+};
+
 }

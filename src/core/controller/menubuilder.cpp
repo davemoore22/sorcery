@@ -20,19 +20,21 @@
 // the licensors of this program grant you additional permission to convey
 // the resulting work.
 
+// TODO: iwyu this header
 #include "core/controller/menubuilder.hpp"
 #include "common/enum.hpp"
 #include "core/context.hpp"
 #include "core/controller/controller.hpp"
-#include "core/debug.hpp"
+#include "core/debug.hpp" // for DEBUG_LOGF, debug_logf
 #include "core/define.hpp"
 #include "core/resources.hpp"
 #include "drawables/define.hpp"
+#include "game/game.hpp"
+#include "magic/castcontext.hpp"
 #include "resources/itemstore.hpp"
 #include "resources/monsterstore.hpp"
 #include "resources/spellstore.hpp"
 #include "resources/stringstore.hpp"
-#include "types/game.hpp"
 #include "types/meta.hpp"
 #include "types/state.hpp"
 #include <algorithm>
@@ -82,6 +84,8 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 	{"invoke_menu", {"INVOKE_RETURN"}},
 	{"give_menu", {"GIVE_RETURN"}},
 	{"remove_item_menu", {"REMOVE_ITEM_RETURN"}},
+
+	{"party_spell_target_menu", {"PARTY_SPELL_TARGET_RETURN"}},
 
 	{"inn_menu", {"INN_RETURN"}},
 
@@ -161,11 +165,18 @@ const std::unordered_map<std::string, StringList> FIXED_MENUS = {
 
 }
 
+/// @brief
+/// @param ctx
 Sorcery::MenuBuilder::MenuBuilder(Context &ctx)
 	: _ctx{ctx} {}
 
+/// @brief
 Sorcery::MenuBuilder::~MenuBuilder() {}
 
+/// @brief
+/// @param items
+/// @param data
+/// @return
 auto Sorcery::MenuBuilder::_load_roster_characters(std::vector<std::string> &items, std::vector<int> &data) -> void {
 
 	// Alphabetically Sort Characters
@@ -184,6 +195,10 @@ auto Sorcery::MenuBuilder::_load_roster_characters(std::vector<std::string> &ite
 	}
 }
 
+/// @brief
+/// @param items
+/// @param data
+/// @return
 auto Sorcery::MenuBuilder::_load_retrainable_characters(std::vector<std::string> &items, std::vector<int> &data)
 	-> void {
 
@@ -207,6 +222,12 @@ auto Sorcery::MenuBuilder::_load_retrainable_characters(std::vector<std::string>
 	}
 }
 
+/// @brief
+/// @param items
+/// @param data
+/// @param flags
+/// @param reorder
+/// @return
 auto Sorcery::MenuBuilder::_load_party_characters(std::vector<std::string> &items, std::vector<int> &data,
 												  const int flags, const bool reorder) -> void {
 
@@ -227,16 +248,15 @@ auto Sorcery::MenuBuilder::_load_party_characters(std::vector<std::string> &item
 			items.emplace_back(std::format("{:<16} {:>8} G.P.", name_str, character.get_gold()));
 		else if (flags & MENU_SHOW_IDENTIFY_TRAP) {
 			items.emplace_back(std::format("{:<21} {:>3}%", name_str, character.get_identify_trap()));
-
 		} else if (flags & MENU_SHOW_AVOID_TRAP) {
 			items.emplace_back(std::format("{:<21} {:>3}%", name_str, 100 - character.get_activate_trap()));
-
+		} else if (flags & MENU_SHOW_HEALTH) {
+			items.emplace_back(std::format("{:<16} {:>3}/{:<3} {:<8}", name_str, character.get_current_hp(),
+										   character.get_max_hp(), character.get_status_string()));
 		} else if (flags & MENU_SHOW_DISARM_TRAP) {
 			items.emplace_back(std::format("{:<21} {:>3}%", name_str, character.get_disarm_trap()));
-
 		} else if (flags & MENU_SHOW_CALFO_USES_LEFT) {
 			items.emplace_back(std::format("{:<21} ({:>1})", name_str, character.magic().get_calfo_uses_left()));
-
 		} else if (flags & MENU_SHOW_SPACE) {
 			const auto slots_free{character.inventory.get_empty_slots()};
 			items.emplace_back(std::format("{:<21} ({:>1})", name_str, slots_free));
@@ -252,6 +272,10 @@ auto Sorcery::MenuBuilder::_load_party_characters(std::vector<std::string> &item
 	}
 }
 
+/// @brief
+/// @param items
+/// @param data
+/// @return
 auto Sorcery::MenuBuilder::_load_maze_characters(std::vector<std::string> &items, std::vector<int> &data) -> void {
 
 	if (_ctx.game->characters.empty())
@@ -267,6 +291,10 @@ auto Sorcery::MenuBuilder::_load_maze_characters(std::vector<std::string> &items
 	}
 }
 
+/// @brief
+/// @param items
+/// @param data
+/// @return
 auto Sorcery::MenuBuilder::_load_tavern_characters(std::vector<std::string> &items, std::vector<int> &data) -> void {
 
 	if (_ctx.game->characters.empty())
@@ -281,6 +309,10 @@ auto Sorcery::MenuBuilder::_load_tavern_characters(std::vector<std::string> &ite
 	}
 }
 
+/// @brief
+/// @param items
+/// @param data
+/// @return
 auto Sorcery::MenuBuilder::_load_sick_characters(std::vector<std::string> &items, std::vector<int> &data) -> void {
 
 	if (_ctx.game->characters.empty())
@@ -298,6 +330,10 @@ auto Sorcery::MenuBuilder::_load_sick_characters(std::vector<std::string> &items
 	}
 }
 
+/// @brief
+/// @param width
+/// @param items
+/// @return
 auto Sorcery::MenuBuilder::_load_bestiary_menu(unsigned int width, std::vector<std::string> &items) -> void {
 
 	for (const auto &monster : _ctx.resources->monsters->get_all_types()) {
@@ -313,6 +349,10 @@ auto Sorcery::MenuBuilder::_load_bestiary_menu(unsigned int width, std::vector<s
 	items.emplace_back(std::format("{:^{}}", _ctx.get_string("BESTIARY_RETURN"), width));
 }
 
+/// @brief
+/// @param width
+/// @param items
+/// @return
 auto Sorcery::MenuBuilder::_load_spellbook_menu(unsigned int width, std::vector<std::string> &items) -> void {
 
 	for (const auto &spell : _ctx.resources->spells->get_all()) {
@@ -323,6 +363,11 @@ auto Sorcery::MenuBuilder::_load_spellbook_menu(unsigned int width, std::vector<
 	items.emplace_back(std::format("{:^{}}", _ctx.get_string("SPELLBOOK_RETURN"), width));
 }
 
+/// @brief
+/// @param width
+/// @param items
+/// @param data
+/// @return
 auto Sorcery::MenuBuilder::_load_buy_menu(unsigned int width, std::vector<std::string> &items, std::vector<int> &data)
 	-> void {
 
@@ -347,6 +392,10 @@ auto Sorcery::MenuBuilder::_load_buy_menu(unsigned int width, std::vector<std::s
 	}
 }
 
+/// @brief
+/// @param width
+/// @param items
+/// @return
 auto Sorcery::MenuBuilder::_load_museum_menu(unsigned int width, std::vector<std::string> &items) -> void {
 
 	for (const auto &item_type : _ctx.resources->items->get_all_types()) {
@@ -362,6 +411,13 @@ auto Sorcery::MenuBuilder::_load_museum_menu(unsigned int width, std::vector<std
 	items.emplace_back(std::format("{:^{}}", _ctx.get_string("MUSEUM_RETURN"), width));
 }
 
+/// @brief
+/// @param menu_name
+/// @param width
+/// @param items
+/// @param data
+/// @param reorder
+/// @return
 auto Sorcery::MenuBuilder::build(const std::string &menu_name, unsigned int width, std::vector<std::string> &items,
 								 std::vector<int> &data, bool reorder) -> void {
 
@@ -373,7 +429,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name, unsigned int widt
 
 	// Dynamic menus
 	if (menu_name == "choose_menu" || menu_name == "inspect_menu" || menu_name == "remove_character_menu" ||
-		menu_name == "tithe_menu" || menu_name == "pay_menu" || menu_name == "give_menu") {
+		menu_name == "tithe_menu" || menu_name == "pay_menu" || menu_name == "give_menu" ||
+		menu_name == "party_spell_target_menu") {
 
 		_load_party_characters(items, data, flags, reorder);
 		_load_fixed_menu(menu_name, width, items);
@@ -475,6 +532,11 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name, unsigned int widt
 		_load_fixed_menu(menu_name, width, items);
 }
 
+/// @brief
+/// @param menu_name
+/// @param width
+/// @param items
+/// @return
 auto Sorcery::MenuBuilder::_load_fixed_menu(const std::string &menu_name, unsigned int width,
 											std::vector<std::string> &items) -> void {
 
@@ -489,6 +551,9 @@ auto Sorcery::MenuBuilder::_load_fixed_menu(const std::string &menu_name, unsign
 	}
 }
 
+/// @brief
+/// @param menu_name
+/// @return
 auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const -> int {
 
 	constexpr std::array MENU_FLAG_MAP{
@@ -516,6 +581,7 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const -> 
 		std::pair{"chest_open_menu", MENU_SHOW_AVOID_TRAP},
 		std::pair{"chest_calfo_menu", MENU_SHOW_CALFO_USES_LEFT},
 		std::pair{"chest_disarm_menu", MENU_SHOW_DISARM_TRAP},
+		std::pair{"party_spell_target_menu", MENU_SHOW_HEALTH},
 	};
 
 	if (const auto it = std::ranges::find(MENU_FLAG_MAP, menu_name, &std::pair<const char *, int>::first);
@@ -525,13 +591,14 @@ auto Sorcery::MenuBuilder::_get_menu_flags(std::string_view menu_name) const -> 
 	return NO_FLAGS;
 }
 
+/// @brief
+/// @param menu_name
+/// @param items
+/// @param data
+/// @return
 auto Sorcery::MenuBuilder::_load_character_spells(std::string_view menu_name, std::vector<std::string> &items,
 												  std::vector<int> &data) -> void {
 
-	// Get the character that is currently being inspected, and then filter
-	// their known spells to only those that are castable (i.e. known, of
-	// the correct category, and with sufficient spell points for the
-	// relevant level).
 	if (!_ctx.game || _ctx.game->characters.empty())
 		return;
 
@@ -541,31 +608,25 @@ auto Sorcery::MenuBuilder::_load_character_spells(std::string_view menu_name, st
 	const auto char_id{_ctx.controller->get_character(Enums::CharacterSlot::INSPECT)};
 	const auto &character{_ctx.game->characters.at(char_id)};
 
-	// Work out castable spells for the character, filtering out as above.
-	auto castable_spells{character.magic().get_spells() | std::views::filter([&character](const Spell &spell) {
-							 return (spell.known && (spell.category != Enums::Magic::SpellCategory::HEALING ||
-													 spell.category != Enums::Magic::SpellCategory::FIELD));
+	using enum Enums::Magic::SpellCategory;
+	auto castable_spells{character.magic().get_spells() | std::views::filter([](const Spell &spell) {
+							 return spell.known && Magic::can_cast_in(spell, Enums::Magic::CastContext::FIELD);
 						 })};
 
-	// Build up the spell list (note that spells that are unable to be
-	// currently cast due to lack of spell points are also included here,
-	// but are disabled)
 	for (const auto &spell : castable_spells) {
-
 		const auto spell_type{enum_name(spell.type)};
-		const auto spell_level{spell.level};
-		const auto spell_english{spell.translated_name};
-		const auto spell_name{spell.name};
-
-		const auto spell_desc{std::format("{} ({})", spell_name, spell_english)};
-
-		std::string line{std::format("{:<22} {} {}", spell_desc, spell_type, spell_level)};
-
-		items.emplace_back(std::move(line));
+		const auto spell_desc{std::format("{} ({})", spell.name, spell.translated_name)};
+		items.emplace_back(std::format("{:<22} {} {}", spell_desc, spell_type, spell.level));
 		data.emplace_back(std::to_underlying(spell.id));
 	}
 }
 
+/// @brief
+/// @param menu_name
+/// @param items
+/// @param data
+/// @param source
+/// @return
 auto Sorcery::MenuBuilder::_load_possible_classes(std::string_view menu_name, std::vector<std::string> &items,
 												  std::vector<int> &data, const Enums::CharacterSlot source) -> void {
 
@@ -591,6 +652,12 @@ auto Sorcery::MenuBuilder::_load_possible_classes(std::string_view menu_name, st
 	};
 }
 
+/// @brief
+/// @param menu_name
+/// @param items
+/// @param data
+/// @param source
+/// @return
 auto Sorcery::MenuBuilder::_load_character_items(std::string_view menu_name, std::vector<std::string> &items,
 												 std::vector<int> &data, const Enums::CharacterSlot source) -> void {
 

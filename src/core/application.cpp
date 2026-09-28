@@ -38,6 +38,7 @@
 #include "engine/engine.hpp"			  // for Engine
 #include "frontend/mainmenu.hpp"		  // for MainMenu
 #include "frontend/splash.hpp"			  // for Splash
+#include "game/game.hpp"				  // for Game
 #include "modules/castle.hpp"			  // for Castle
 #include "modules/edgeoftown.hpp"		  // for EdgeOfTown
 #include "resources/imagestore.hpp"		  // for ImageStore
@@ -46,7 +47,6 @@
 #include "types/character/create.hpp"	  // for CharacterCreate
 #include "types/character/inventory.hpp"  // for Inventory
 #include "types/enum.hpp"				  // for TypeID, TypeID::LEATHER_ARMOR
-#include "types/game.hpp"				  // for Game
 #include "types/item/itemtype.hpp"		  // for ItemType
 #include "types/state.hpp"				  // for State
 #include <algorithm>					  // for __contains_fn, __transform_fn
@@ -211,12 +211,15 @@ auto Sorcery::Application::start() -> int {
 
 		case AppFlow::NEW_GAME:
 			_start_new_game(true);
+			ctx.images->unload_all();
 			flow = AppFlow::TOWN;
 			break;
 
 		case AppFlow::CONTINUE_GAME:
 			if (ctx.controller->has_saved_game())
 				_load_existing_game();
+
+			ctx.images->unload_all();
 			flow = AppFlow::TOWN;
 			break;
 
@@ -262,6 +265,8 @@ auto Sorcery::Application::_run_town() -> AppFlow {
 	while (true) {
 
 		const auto castle_result{_castle->start()};
+		if (castle_result == LEAVE_GAME)
+			ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
 
 		_castle->stop();
 
@@ -276,6 +281,20 @@ auto Sorcery::Application::_run_town() -> AppFlow {
 
 		const auto edge_result{_edge_of_town->start(DEST_NONE)};
 
+		switch (edge_result) {
+		case EDGE_OF_TOWN_GO_TO_MAZE:
+		case RESTART_MAZE:
+			ctx.audio->set_track(Enums::Audio::Track::ENGINE);
+			break;
+
+		case LEAVE_GAME:
+			ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
+			break;
+
+		default:
+			break;
+		}
+
 		_edge_of_town->stop();
 
 		switch (edge_result) {
@@ -288,6 +307,7 @@ auto Sorcery::Application::_run_town() -> AppFlow {
 			return AppFlow::MAZE;
 
 		case RESTART_MAZE:
+
 			return AppFlow::RESTART_MAZE;
 
 		case EDGE_OF_TOWN_GO_TO_TRAINING:
@@ -347,6 +367,12 @@ auto Sorcery::Application::_run_maze(const int mode) -> AppFlow {
 	ctx.audio->set_track(Enums::Audio::Track::ENGINE);
 
 	const auto result{_engine->start(mode)};
+
+	if (result == LEAVE_GAME)
+		ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
+	else if (result != ABORT_GAME)
+		ctx.audio->set_track(Enums::Audio::Track::TOWN);
+
 	_engine->stop();
 
 	if (result == ABORT_GAME)
@@ -468,6 +494,19 @@ auto Sorcery::Application::_run_main_menu() -> AppFlow {
 	ctx.audio->set_track(Enums::Audio::Track::MAIN_MENU);
 
 	const auto result{_main_menu->start()};
+
+	switch (result) {
+
+	case MAIN_MENU_NEW_GAME:
+	case MAIN_MENU_CONTINUE_GAME:
+		ctx.audio->set_track(Enums::Audio::Track::TOWN);
+		break;
+
+	case MAIN_MENU_EXIT_GAME:
+	case ABORT_GAME:
+		ctx.audio->set_track(Enums::Audio::Track::NONE);
+		break;
+	}
 	_main_menu->stop();
 
 	switch (result) {
@@ -549,6 +588,8 @@ auto Sorcery::Application::_start_new_game(const bool quickstart) -> void {
 /// @brief
 /// @return
 auto Sorcery::Application::_add_quickstart_party() -> void {
+
+	constexpr auto LEVEL_BOOST{20};
 
 	ctx.game->state->clear_party();
 
@@ -636,6 +677,9 @@ auto Sorcery::Application::_add_quickstart_party() -> void {
 		default:
 			break;
 		}
+
+		for (auto i = 1; i <= LEVEL_BOOST; i++)
+			pc.create().level_up();
 
 		if (i < 6)
 			pc.set_location(Enums::Character::Location::PARTY);

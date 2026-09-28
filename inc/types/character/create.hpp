@@ -22,12 +22,22 @@
 
 #pragma once
 
-#include "common/enum.hpp" // for Align (ptr only), SpellType (ptr only)
+#include "common/enum.hpp" // for Align (ptr only), Attribute, Class, Race ...
 #include <map>			   // for map
 #include <string>		   // for string
 #include <string_view>	   // for string_view
 
 namespace Sorcery { class Character; }
+namespace Sorcery {
+namespace Enums {
+	namespace Magic { enum class SpellID; }
+}
+}
+namespace Sorcery {
+namespace Enums {
+	namespace Magic { enum class SpellType; }
+}
+}
 
 namespace Sorcery {
 
@@ -44,6 +54,7 @@ class ConstCharacterCreate {
 		auto get_possible_classes() const -> std::map<Enums::Character::Class, bool>;
 		auto get_possible_classes_display() -> std::string;
 		auto can_change_class() const -> bool;
+		auto get_xp_needed() const -> int;
 
 	protected:
 		const Character *_character;

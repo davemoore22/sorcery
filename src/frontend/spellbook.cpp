@@ -22,14 +22,15 @@
 
 #include "frontend/spellbook.hpp"
 #include "backends/imgui_impl_sdl2.h"		// for SDL_Event
-#include "common/enum.hpp"					// for SpellID
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
 #include "drawables/define.hpp"				// for ABORT_GAME, GO_TO_COMPEN...
+#include "magic/enum.hpp"					// for SpellID
 #include <SDL_events.h>						// for SDL_PollEvent
 #include <memory>							// for unique_ptr
 #include <utility>							// for to_underlying
@@ -51,6 +52,9 @@ auto Sorcery::SpellBook::start() -> int {
 
 	_ctx.controller->go_to(Enums::Screen::SPELLBOOK);
 	_ctx.controller->initialise();
+
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
 
 	fade_in(Enums::Screen::SPELLBOOK, QUICK_FADE);
 

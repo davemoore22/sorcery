@@ -25,6 +25,7 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
+#include "core/controller/inputmode.hpp"	// for Mode
 #include "core/enum.hpp"					// for CharacterSlot, Screen
 #include "display/ui/popupmanager.hpp"		// for PopupManager
 #include "display/ui/ui.hpp"				// for UI
@@ -58,6 +59,9 @@ auto Sorcery::Inn::start() -> int {
 
 	_ctx.controller->initialise();
 	_ctx.controller->go_to(Enums::Screen::INN);
+
+	// Set the Input mode
+	_ctx.controller->set_input_mode(Enums::Input::Mode::MENU);
 
 	_ctx.controller->clear_character(Enums::CharacterSlot::INSPECT);
 	_ctx.controller->clear_character(Enums::CharacterSlot::STAY);

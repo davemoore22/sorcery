@@ -29,12 +29,12 @@
 #include "display/ui/popupmanager.hpp"	  // for PopupManager
 #include "display/ui/ui.hpp"			  // for UI
 #include "display/ui/uimetrics.hpp"		  // for UIMetrics
+#include "game/game.hpp"				  // for Game
 #include "misc/cpp/imgui_stdlib.h"		  // for InputText
 #include "resources/fontstore.hpp"		  // for FontStore
 #include "types/character/character.hpp"  // for Character
 #include "types/component.hpp"			  // for Component
 #include "types/enum.hpp"				  // for DialogType, Font
-#include "types/game.hpp"				  // for Game
 #include <imgui_sugar.hpp>				  // for BooleanGuard, set_StyleVar
 #include <map>							  // for map
 #include <memory>						  // for unique_ptr
@@ -92,10 +92,9 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 	const auto width{(_width + 4) * _ctx.ui->metrics->grid_sz()};
 	const auto height{_height * _ctx.ui->metrics->grid_sz()};
 
-	ImVec2 centre{ImGui::GetMainViewport()->GetCenter()};
-	ImGui::SetNextWindowPos(centre, ImGuiCond_Always, ImVec2{0.5f, 0.5f});
-	ImGui::SetNextWindowSize(ImVec2{width, height});
-	ImGui::SetNextWindowBgAlpha(1.0f);
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowPos(viewport->GetCenter(), ImGuiCond_Always, ImVec2{0.5f, 0.5f});
 
 	set_StyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
 	set_StyleVar(ImGuiStyleVar_WindowBorderSize, 0);
@@ -107,7 +106,8 @@ auto Sorcery::Input::display([[maybe_unused]] bool &is_yes) -> void {
 	if (show)
 		ImGui::OpenPopup(CSTR(_id));
 
-	with_PopupModal(CSTR(_id), nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove) {
+	with_PopupModal(CSTR(_id), nullptr,
+					ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking) {
 
 		const auto p_min{ImGui::GetWindowPos()};
 		const auto p_max{ImVec2{ImGui::GetWindowPos().x + width, ImGui::GetWindowPos().y + height}};
