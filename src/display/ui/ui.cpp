@@ -334,9 +334,8 @@ auto Sorcery::UI::display_engine() -> void {
 	draw_help_window();
 	draw_cursor();
 
-	static bool show_metrics{true};
-	if (show_metrics)
-		ImGui::ShowMetricsWindow(&show_metrics);
+	if (_ctx.controller->get_flag("debug_ui"))
+		ImGui::ShowMetricsWindow();
 
 	ImGui::Render();
 
