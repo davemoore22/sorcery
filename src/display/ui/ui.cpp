@@ -2933,14 +2933,17 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color, con
 				}
 			}
 
-			if (ImGui::IsItemHovered()) {
+			if (ImGui::IsItemHovered() || ImGui::IsItemFocused()) {
 
 				selected[name] = index;
 				highlighted[name] = index;
 			}
 
-			if (is_selected)
+			if (is_selected) {
 				ImGui::SetItemDefaultFocus();
+				if (ImGui::IsWindowAppearing())
+					ImGui::SetKeyboardFocusHere(-1);
+			}
 
 			if (reorder && !disabled)
 				_handle_menu_reordering(name, items, data, i, data_item);
