@@ -12,6 +12,7 @@
 #include "types/character/create.hpp"
 #include "types/character/magic.hpp"
 #include "types/state.hpp"
+#include <SDL.h> // Use SDL's portable entry point, including SDL_main on Windows.
 #include <filesystem>
 #include <iostream>
 #include <map>
@@ -120,10 +121,10 @@ auto check_restoration(Context &ctx, Game &game) -> void {
 
 }
 
-int main() {
+int main(int argc, char **argv) {
 	try {
 		TemporarySaves temporary;
-		System system{0, nullptr}; // CTest selects SDL's dummy audio backend; no graphics are initialized.
+		System system{argc, argv}; // CTest selects SDL's dummy audio backend; no graphics are initialized.
 		require(system.files != nullptr, "Headless system initialization failed");
 		Context ctx{};
 		ctx.system = &system;
