@@ -1,3 +1,4 @@
+#include "test_assert.hpp"
 #include "common/cereal.hpp"
 #include "common/macro.hpp"
 #include "core/context.hpp"
@@ -17,24 +18,23 @@
 #include <iostream>
 #include <map>
 #include <sstream>
-#include <stdexcept>
 #include <system_error>
 
 namespace {
 
 using namespace Sorcery;
 
-auto require(const bool condition, const char *message) -> void {
-	if (!condition)
-		throw std::runtime_error{message};
-}
+using Sorcery::Test::require;
 
 class TemporarySaves {
 	public:
-		TemporarySaves() {
+		explicit TemporarySaves(const std::filesystem::path &root) {
 			const auto id{Sorcery::GUID()};
 			require(!id.empty(), "Could not generate a test directory ID");
-			path = std::filesystem::temp_directory_path() / ("sorcery-save-test-" + id);
+			// CTest supplies its build directory, not a shared system temporary directory.
+			// Atomic creation must succeed before we write to or own this path.
+			require(std::filesystem::is_directory(root), "Test save root does not exist");
+			path = root / ("sorcery-save-test-" + id);
 			require(std::filesystem::create_directory(path), "Test directory already exists");
 		}
 		~TemporarySaves() {
@@ -104,7 +104,7 @@ auto check_restoration(Context &ctx, Game &game) -> void {
 	require(known_spells(*game.creation_candidate) == expected_spells, "Creation candidate spells were not restored");
 	require(restored.get_condition() == priest.get_condition(), "Restored character context is unusable");
 	game.state->add_log_dice_roll("Restored context", 6, 2, 4);
-	require(game.state->get_log_messages(1).back().text.find("Restored context") != std::string::npos,
+	require(game.state->get_log_messages(1).back().text.contains("Restored context"),
 			"Restored state context is unusable");
 
 	// Rehydration is safe more than once and must not change the learned flags or points.
@@ -123,7 +123,8 @@ auto check_restoration(Context &ctx, Game &game) -> void {
 
 int main(int argc, char **argv) {
 	try {
-		TemporarySaves temporary;
+		require(argc == 2, "Usage: sorcery_save_tests <build-directory-for-test-saves>");
+		TemporarySaves temporary{argv[1]};
 		System system{argc, argv}; // CTest selects SDL's dummy audio backend; no graphics are initialized.
 		require(system.files != nullptr, "Headless system initialization failed");
 		Context ctx{};

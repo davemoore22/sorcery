@@ -25,5 +25,8 @@ get_target_property(sorcery_runtime_libraries sorcery LINK_LIBRARIES)
 target_link_libraries(sorcery_save_tests PRIVATE ${sorcery_runtime_libraries})
 # FileStore resolves the runtime assets next to the executable, as in the game.
 add_dependencies(sorcery_save_tests sorcery)
-add_test(NAME saved_game_runtime_restoration COMMAND sorcery_save_tests)
+# Keep disposable saves inside the developer-owned build tree. Each run creates
+# an exclusive UUID child directory and only removes the directory it created.
+add_test(NAME saved_game_runtime_restoration
+    COMMAND sorcery_save_tests "${CMAKE_CURRENT_BINARY_DIR}")
 set_tests_properties(saved_game_runtime_restoration PROPERTIES ENVIRONMENT "SDL_AUDIODRIVER=dummy")

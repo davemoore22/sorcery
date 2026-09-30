@@ -1,3 +1,4 @@
+#include "test_assert.hpp"
 #include "common/enum.hpp"
 #include "core/controller/inputmode.hpp"
 #include "core/enum.hpp"
@@ -7,13 +8,9 @@
 #include "types/meta.hpp"
 #include <iostream>
 #include <limits>
-#include <stdexcept>
 
 namespace {
-void require(bool condition, const char *message) {
-	if (!condition)
-		throw std::runtime_error(message);
-}
+using Sorcery::Test::require;
 
 template <Sorcery::Enum E> void check(E value, std::string_view name, std::intmax_t saved_id) {
 	using namespace Sorcery;

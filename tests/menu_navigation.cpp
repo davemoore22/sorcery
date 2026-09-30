@@ -1,15 +1,12 @@
+#include "test_assert.hpp"
 #include "display/ui/menunavigation.hpp"
 #include "imgui.h"
 #include <array>
 #include <iostream>
-#include <stdexcept>
 
 namespace {
 
-auto require(const bool condition, const char *message) -> void {
-	if (!condition)
-		throw std::runtime_error{message};
-}
+using Sorcery::Test::require;
 
 // Exercise the production navigation helper with real ImGui frames and input
 // events. No platform window, renderer, or user configuration is needed.
@@ -25,7 +22,8 @@ class MenuFixture {
 			io.AddMousePosEvent(700.0f, 550.0f);
 			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 			unsigned char *pixels{};
-			int width{}, height{};
+			int width{};
+			int height{};
 			io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 		}
 
@@ -43,28 +41,8 @@ class MenuFixture {
 		auto frame(const bool visible = true) -> void {
 			activated = -1;
 			ImGui::NewFrame();
-			if (visible) {
-				ImGui::SetNextWindowPos({0.0f, 0.0f});
-				ImGui::SetNextWindowSize({500.0f, 400.0f});
-				ImGui::Begin("Navigation test");
-				if (ImGui::BeginListBox("##menu", {350.0f, 150.0f})) {
-					constexpr std::array labels{"First", "Second", "Third"};
-					for (int i{}; i < 3; ++i) {
-						const bool is_selected{selected == i};
-						ImGui::BeginDisabled(disabled[i]);
-						if (ImGui::Selectable(labels[i], is_selected))
-							activated = i;
-						centers[i] = ImGui::GetItemRectMin();
-						centers[i].x += 20.0f;
-						centers[i].y += 5.0f;
-						if (Sorcery::update_menu_navigation(is_selected, disabled[i]))
-							selected = i;
-						ImGui::EndDisabled();
-					}
-					ImGui::EndListBox();
-				}
-				ImGui::End();
-			}
+			if (visible)
+				draw_menu();
 			ImGui::Render();
 		}
 
@@ -85,6 +63,35 @@ class MenuFixture {
 		auto hover(const int row) -> void {
 			ImGui::GetIO().AddMousePosEvent(centers[row].x, centers[row].y);
 			settle();
+		}
+
+	private:
+		auto draw_menu() -> void {
+			ImGui::SetNextWindowPos({0.0f, 0.0f});
+			ImGui::SetNextWindowSize({500.0f, 400.0f});
+			if (ImGui::Begin("Navigation test")) {
+				if (ImGui::BeginListBox("##menu", {350.0f, 150.0f})) {
+					draw_rows();
+					ImGui::EndListBox();
+				}
+			}
+			ImGui::End();
+		}
+
+		auto draw_rows() -> void {
+			constexpr std::array labels{"First", "Second", "Third"};
+			for (int i{}; i < 3; ++i) {
+				const bool is_selected{selected == i};
+				ImGui::BeginDisabled(disabled[i]);
+				if (ImGui::Selectable(labels[i], is_selected))
+					activated = i;
+				centers[i] = ImGui::GetItemRectMin();
+				centers[i].x += 20.0f;
+				centers[i].y += 5.0f;
+				if (Sorcery::update_menu_navigation(is_selected, disabled[i]))
+					selected = i;
+				ImGui::EndDisabled();
+			}
 		}
 };
 
