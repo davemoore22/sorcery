@@ -12,3 +12,8 @@ add_test(NAME preserve_saves_on_rebuild
         "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}/save-initialization"
         "-DPROJECT_SOURCE=${CMAKE_SOURCE_DIR}"
         -P "${CMAKE_CURRENT_SOURCE_DIR}/initialize_saves.cmake")
+
+add_executable(sorcery_menu_tests menu_navigation.cpp ../src/display/ui/menunavigation.cpp)
+target_include_directories(sorcery_menu_tests PRIVATE ../inc)
+target_link_libraries(sorcery_menu_tests PRIVATE dear_imgui)
+add_test(NAME menu_keyboard_navigation COMMAND sorcery_menu_tests)

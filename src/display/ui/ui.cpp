@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "display/ui/ui.hpp"
+#include "display/ui/menunavigation.hpp"
 #include "backends/imgui_impl_opengl3.h"	 // for ImGui_ImplOpenGL3_NewFrame
 #include "backends/imgui_impl_sdl2.h"		 // for ImGui_ImplSDL2_NewFrame
 #include "common/enum.hpp"					 // for Options, Feature, Ability
@@ -2929,16 +2930,10 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color, con
 				}
 			}
 
-			if (ImGui::IsItemHovered() || ImGui::IsItemFocused()) {
+			if (update_menu_navigation(is_selected, disabled)) {
 
 				selected[name] = index;
 				highlighted[name] = index;
-			}
-
-			if (is_selected) {
-				ImGui::SetItemDefaultFocus();
-				if (ImGui::IsWindowAppearing())
-					ImGui::SetKeyboardFocusHere(-1);
 			}
 
 			if (reorder && !disabled)
