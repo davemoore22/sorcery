@@ -1,8 +1,8 @@
 # Sorcery
 
-Sorcery is an open-source remake/remaster of the classic CRPG **Wizardry: Proving Grounds of the Mad Overlord**.
+Sorcery is an open-source remake/remaster of the classic CRPG **Wizardry: Proving Grounds of the Mad Overlord** by Dave Moore.
 
-The project is under active development and is built using **C++26, Dear ImGui, SDL2 and OpenGL**. Sorcery targets **Debian/Ubuntu Linux** and **64-bit Windows**. This branch also includes an experimental [native macOS development build](doc/MACOS.md) using Apple Clang and a C++23 enum fallback.
+The project is under active development and is built using **C++26, Dear ImGui, SDL2 and OpenGL**. Sorcery is mainly available on **Debian/Ubuntu Linux** and **64-bit Windows**; it also has experimental **MacOS** support.
 
 **Alpha #1 is available now from the Releases section. Alpha #2 is coming soon.**
 
@@ -113,6 +113,13 @@ Current Alpha #2 changes (as of 25th September) include:
 - The buff bar now displays the status of **MILWA/LOMILWA, LATUMAPIC and MAPORFIC**.
 - Darkness squares now extinguish any active light spell.
 
+Thanks to Greg Evans for the following enhancements:
+  
+- Enhanced Menu Navigation.
+- Additional Save/Restore State Bug Fixes.
+- MacOS Support added.
+- cTest Support.
+
 The broader Alpha #2 development cycle is focused on implementing **Magic and Combat**, together with **Creatures, Combat and NPCs**. I will release this as soon as feasible
 
 ### Alpha #3 — Planned
@@ -161,15 +168,11 @@ Sorcery requires:
 
 ## Compilation
 
-Sorcery uses a **single source tree** for both Linux and Windows.
+Sorcery uses a **single source tree** for Linux, Windows and macOS.
 
-The primary development platform is Ubuntu/Debian Linux. Windows builds are supported using **MSYS2 UCRT64**, GCC, CMake and Ninja. Other Windows toolchains are not currently tested or officially supported, although contributions documenting additional working configurations are welcome.
+The primary development platform is Ubuntu/Debian Linux. Windows builds are supported using **MSYS2 UCRT64**, GCC, CMake and Ninja. Other Windows toolchains are not currently tested or officially supported, although contributions documenting additional working configurations are welcome. For further information on experimental macOS support - see [native macOS development build](doc/MACOS.md) (using Apple Clang and a C++23 enum fallback)
 
-The project targets **C++26** and uses C++ reflection, so **GCC 16.1 or later is required**. The current development toolchain uses **GCC 16.2**.
-
-Platform-specific differences are handled by CMake and the source code; no separate Windows or Linux source trees are required.
-
-See [`doc/COMPILE.md`](doc/COMPILE.md) for full build instructions.
+The project targets **C++26** and uses C++ reflection, so **GCC 16.1 or later is required**. The current development toolchain uses **GCC 16.2**. Platform-specific differences are handled by CMake and the source code; no separate source trees are required. See [`doc/COMPILE.md`](doc/COMPILE.md) for full build instructions on Windows and Linux.
 
 ## License
 
@@ -179,7 +182,7 @@ Graphics and music are used under their respective licenses, as listed below. No
 
 ## Contact and Help
 
-Comments, criticism and contributions are welcome.
+Comments, criticism, PRs, and contributions are most welcome.
 
 You can usually find me as **Typhon** on the **C++ Help** and **DungeonCrawlers.org** Discord servers, or contact me by email at:
 
@@ -187,7 +190,11 @@ You can usually find me as **Typhon** on the **C++ Help** and **DungeonCrawlers.
 
 ## Credits
 
-### Graphics
+### Programming Thanks
+
+Thanks to Greg Evans for code-tidy-up PRs and macOS support!
+
+### Graphics Thanks
 
 Creative Commons graphics are used from:
 
@@ -195,7 +202,7 @@ Creative Commons graphics are used from:
 - [game-icons.net](https://game-icons.net/)
 - [Xelu](https://thoseawesomeguys.com/prompts/)
 
-### Music
+### Music Thanks
 
 Music is used under the Soundimage International Public License and is by:
 
