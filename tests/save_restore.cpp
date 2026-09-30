@@ -145,4 +145,5 @@ int main(int argc, char **argv) {
 		std::cerr << error.what() << '\n';
 		return 1;
 	}
+	return 0; // SDL_main is an ordinary function on Windows, not C++'s special main.
 }
