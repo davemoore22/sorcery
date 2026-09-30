@@ -69,11 +69,9 @@ class MenuFixture {
 		auto draw_menu() -> void {
 			ImGui::SetNextWindowPos({0.0f, 0.0f});
 			ImGui::SetNextWindowSize({500.0f, 400.0f});
-			if (ImGui::Begin("Navigation test")) {
-				if (ImGui::BeginListBox("##menu", {350.0f, 150.0f})) {
-					draw_rows();
-					ImGui::EndListBox();
-				}
+			if (ImGui::Begin("Navigation test") && ImGui::BeginListBox("##menu", {350.0f, 150.0f})) {
+				draw_rows();
+				ImGui::EndListBox();
 			}
 			ImGui::End();
 		}
