@@ -70,6 +70,15 @@ Sorcery::Game::~Game() = default;
 auto Sorcery::Game::post_construct(Context &ctx) -> void {
 
 	_ctx = ctx;
+
+	if (state)
+		state->post_construct(&_ctx);
+
+	for (auto &[id, character] : characters)
+		character.post_construct(&_ctx);
+
+	if (creation_candidate)
+		creation_candidate->post_construct(&_ctx);
 }
 
 auto Sorcery::Game::reset() -> void {
@@ -453,8 +462,7 @@ auto Sorcery::Game::_load_characters() -> void {
 			cereal::XMLInputArchive in_archive(ss);
 			in_archive(character);
 		}
-		character.magic().create_spells();
-		character.magic().set_spells();
+		character.post_construct(&_ctx);
 		characters[char_id] = character;
 	}
 }

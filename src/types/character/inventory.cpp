@@ -345,7 +345,7 @@ auto Sorcery::Inventory::_valid_slot(const unsigned int slot) const -> bool {
 	return slot > 0 && slot <= _items.size();
 }
 
-const auto Sorcery::Inventory::is_equippable_category(const Enums::Items::Category category) const -> bool {
+auto Sorcery::Inventory::is_equippable_category(const Enums::Items::Category category) const -> bool {
 
 	using enum Enums::Items::Category;
 
@@ -363,7 +363,7 @@ const auto Sorcery::Inventory::is_equippable_category(const Enums::Items::Catego
 	}
 }
 
-const auto Sorcery::Inventory::is_equippable_category(const Enums::Items::Category category) -> bool {
+auto Sorcery::Inventory::is_equippable_category(const Enums::Items::Category category) -> bool {
 
 	using enum Enums::Items::Category;
 

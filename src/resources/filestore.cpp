@@ -24,6 +24,10 @@
 #ifdef __linux__
 #include <limits.h> // for PATH_MAX
 #include <unistd.h> // for readlink
+#elif defined(__APPLE__)
+#include <cstdint>
+#include <mach-o/dyld.h>
+#include <vector>
 #elif defined(_WIN32)
 #include <windows.h> // for DWORD, MAX_PATH, GetModuleFileNameW
 #endif
@@ -274,6 +278,19 @@ auto Sorcery::FileStore::_get_exe_path() const -> std::filesystem::path {
 	result[static_cast<std::size_t>(count)] = '\0';
 
 	return std::filesystem::path{result.data()}.parent_path();
+
+#elif defined(__APPLE__)
+
+	std::uint32_t size{};
+	_NSGetExecutablePath(nullptr, &size);
+	std::vector<char> buffer(size);
+	if (_NSGetExecutablePath(buffer.data(), &size) != 0)
+		return {};
+
+	// dyld can return symlinks and relative components.
+	std::error_code error;
+	const auto executable = std::filesystem::canonical(buffer.data(), error);
+	return error ? std::filesystem::path{} : executable.parent_path();
 
 #elif defined(_WIN32)
 

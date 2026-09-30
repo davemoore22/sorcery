@@ -36,6 +36,7 @@ class Shop final : public Module {
 	public:
 		// Standard Constructor
 		Shop(Context &ctx);
+		~Shop() override;
 
 		// Public Methods
 		auto start() -> int;

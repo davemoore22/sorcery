@@ -169,7 +169,7 @@ auto Sorcery::Application::load_state_from_binary(const std::filesystem::path &f
 		return false;
 	}
 
-	// Note we serialize INTO existing objects thus no need to reinject
+	// Game restores its runtime links as part of deserialization.
 	cereal::BinaryInputArchive archive(is);
 	archive(*_game, *_controller);
 

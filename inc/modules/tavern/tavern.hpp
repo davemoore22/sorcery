@@ -38,6 +38,7 @@ class Tavern final : public Module {
 	public:
 		// Standard Constructor
 		Tavern(Context &ctx);
+		~Tavern() override;
 
 		// Public Methods
 		auto start() -> int;

@@ -60,6 +60,10 @@ class Game {
 		template <class Archive> auto serialize(Archive &archive) -> void {
 			archive(characters, creation_candidate, state, _start_time, _last_time, _key, _id, _status, _char_ids,
 					_show_console, _events);
+			// Restored objects need runtime links and spell definitions before use.
+			// Keep this invariant at the archive boundary for every loading caller.
+			if constexpr (Archive::is_loading::value)
+				post_construct(_ctx);
 		}
 
 		// Public Members

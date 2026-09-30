@@ -21,6 +21,7 @@
 // the resulting work.
 
 #include "display/ui/ui.hpp"
+#include "display/ui/menunavigation.hpp"
 #include "backends/imgui_impl_opengl3.h"	 // for ImGui_ImplOpenGL3_NewFrame
 #include "backends/imgui_impl_sdl2.h"		 // for ImGui_ImplSDL2_NewFrame
 #include "common/enum.hpp"					 // for Options, Feature, Ability
@@ -187,6 +188,7 @@ auto Sorcery::UI::start() -> void {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	_io = &ImGui::GetIO();
+	_io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	_io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	_io->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
@@ -333,10 +335,8 @@ auto Sorcery::UI::display_engine() -> void {
 	draw_help_window();
 	draw_cursor();
 
-	// TODO: for Multiviewport Stuff
-	// static bool show_metrics{true};
-	// if (show_metrics)
-	//	ImGui::ShowMetricsWindow(&show_metrics);
+	if (_ctx.controller->get_flag("debug_ui"))
+		ImGui::ShowMetricsWindow();
 
 	ImGui::Render();
 
@@ -2930,14 +2930,11 @@ auto Sorcery::UI::draw_menu(const std::string name, const ImColor sel_color, con
 				}
 			}
 
-			if (ImGui::IsItemHovered()) {
+			if (update_menu_navigation(is_selected, disabled)) {
 
 				selected[name] = index;
 				highlighted[name] = index;
 			}
-
-			if (is_selected)
-				ImGui::SetItemDefaultFocus();
 
 			if (reorder && !disabled)
 				_handle_menu_reordering(name, items, data, i, data_item);
@@ -3221,8 +3218,9 @@ auto Sorcery::UI::draw_tiled_bg_atlas([[maybe_unused]] Component *component) -> 
 												 .idx = _ctx.animation->wp_idx,
 												 .source_tile_size = ImVec2{400.0f, 400.0f},
 												 .draw_tile_size = ImVec2{400.0f, 400.0f},
-												 .p_min = ImVec2{0.0f, 0.0f},
-												 .p_max = viewport->Size,
+												 .p_min = viewport->Pos,
+												 .p_max = ImVec2{viewport->Pos.x + viewport->Size.x,
+																 viewport->Pos.y + viewport->Size.y},
 												 .mode = AtlasDrawMode::TILE,
 												 .tint = ImVec4{1.0f, 1.0f, 1.0f, 1.0f}});
 }

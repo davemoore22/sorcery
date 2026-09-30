@@ -21,20 +21,29 @@
 // the resulting work.
 
 #include "types/meta.hpp"
-#include "common/enum.hpp" // for CharacterSlot, Screen
-#include "core/enum.hpp"   // for System::Error, System::Random
-#include "core/help.hpp"   // for help-related enum declarations
-#include "engine/enum.hpp" // for Monsters::Category, Class, TypeID
-#include "magic/enum.hpp"  // for SpellCategory, SpellID, SpellType
-#include "types/enum.hpp"  // for Character, Chests, Input, Items enums
-#include <array>		   // for array
-#include <meta>			   // for enumerators_of, identifier_of, reflection operators
-#include <utility>		   // for pair, cmp_equal, to_underlying
+#include "common/enum.hpp"
+#include "core/enum.hpp"
+#include "core/controller/inputmode.hpp"
+#include "engine/enum.hpp"
+#include "magic/enum.hpp"
+#include "types/enum.hpp"
+#include <array>
+#ifdef SORCERY_PORTABLE_ENUMS
+#include <magic_enum/magic_enum.hpp>
+#else
+#include <meta>
+#endif
+#include <utility>
 
 namespace Sorcery {
 
 namespace {
 
+#ifdef SORCERY_PORTABLE_ENUMS
+	// All currently reflected enums fit magic_enum's default [-128, 127]
+	// range. Extend its enum_range specializations if larger values are added.
+	template <Enum E> inline constexpr auto enum_entries{magic_enum::enum_entries<E>()};
+#else
 	/// @brief
 	/// @tparam E
 	/// @return
@@ -54,6 +63,7 @@ namespace {
 	}
 
 	template <Enum E> inline constexpr auto enum_entries{make_enum_entries<E>()};
+#endif
 
 } // namespace
 

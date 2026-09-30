@@ -49,6 +49,8 @@ Sorcery::Shop::Shop(Context &ctx)
 	_initialise();
 };
 
+Sorcery::Shop::~Shop() = default;
+
 auto Sorcery::Shop::_initialise() -> bool {
 
 	_ctx.controller->set_selected("party_panel_selected", 0);

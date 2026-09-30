@@ -32,8 +32,12 @@ target_sources(sorcery_types PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}/world/tile.cpp
 )
 
-set_source_files_properties(
-    ${CMAKE_CURRENT_LIST_DIR}/meta.cpp
-    PROPERTIES
-        COMPILE_OPTIONS "-freflection"
-)
+if(SORCERY_PORTABLE_ENUMS)
+    target_link_libraries(sorcery_types PRIVATE magic_enum::magic_enum)
+    target_compile_definitions(sorcery_types PRIVATE SORCERY_PORTABLE_ENUMS)
+else()
+    set_source_files_properties(
+        ${CMAKE_CURRENT_LIST_DIR}/meta.cpp
+        PROPERTIES COMPILE_OPTIONS "-freflection"
+    )
+endif()
