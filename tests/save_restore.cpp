@@ -31,7 +31,7 @@ auto require(const bool condition, const char *message) -> void {
 class TemporarySaves {
 	public:
 		TemporarySaves() {
-			const auto id{GUID()};
+			const auto id{Sorcery::GUID()};
 			require(!id.empty(), "Could not generate a test directory ID");
 			path = std::filesystem::temp_directory_path() / ("sorcery-save-test-" + id);
 			require(std::filesystem::create_directory(path), "Test directory already exists");
