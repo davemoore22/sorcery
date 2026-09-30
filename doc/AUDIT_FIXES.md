@@ -56,11 +56,32 @@ reopening camp. Fullscreen rendered and the remembered camp Options selection
 activated with Enter after reopening. The game returned to windowed mode.
 This used an isolated copy of the runtime configuration and saves.
 
-Fresh Windows and Ubuntu interactive checks remain pending: Windows was locked
-at the RustDesk login screen, and Ubuntu rejected the saved RustDesk password.
-SSH builds and CTest ran successfully on both. Prior fullscreen limitations in
-`ALPHA2_INTEGRATION.md` are not superseded by these automated results. This is
-not a complete gameplay, combat, spell, or release-acceptance test pass.
+Windows passed first-Enter main-menu activation, keyboard dialog cancellation,
+loading the saved party, Castle/Edge of Town navigation into the maze, and
+first-Enter Inspect Party activation both initially and after reopening camp.
+In fullscreen, Escape reopened camp and the first Enter activated its remembered
+Options selection. Switching back to windowed mode also succeeded.
+
+Ubuntu passed saved-party loading, arrow/Enter navigation through Castle and
+Edge of Town, keyboard cancellation of the stairs dialog, and first-Enter
+Inspect Party activation initially and after reopening camp. Fullscreen rendered;
+reconnecting RustDesk revealed subsequent camp and Options screens. Gregory
+also checked the physical Ubuntu monitor and reported that the animations were
+moving, the controls he tried worked, and he walked around the dungeon.
+
+RustDesk intermittently retained stale frames after fullscreen transitions on
+both remote machines. Refreshing the Windows stream restored observation;
+Ubuntu required reconnection and still had intermittent stale frames. Therefore
+Ubuntu's fullscreen responsiveness is supported by the user's physical-monitor
+check; an exact first-Enter fullscreen sequence was not independently verified
+through RustDesk. Its initial main-menu first-Enter check was also inconclusive
+after a mouse click changed navigation focus. The automated navigation tests
+passed on all three platforms. No application freeze was established.
+
+Both remote runs used isolated copies of the existing test configuration and
+saves. These results supplement the historical limitations in
+`ALPHA2_INTEGRATION.md`; they are focused regression and smoke checks, not a
+complete gameplay, combat, spell, or release-acceptance test pass.
 
 ## Evidence
 
@@ -76,5 +97,5 @@ Executable SHA-256:
 - Windows: `f4a09d13da49b497ad237ea0ff37b13642830fa20f622219b1470e258ce95526`
 - Ubuntu: `101993b054136fa79bc88fa95b3ac5dbe14ee877154c7576381cb6fa47ff45da`
 
-The branch has not been pushed or submitted for review as part of this audit
-fix pass; remaining remote interactive checks should be recorded first.
+The audit fixes and focused three-platform validation are ready to share on
+`m-series_mac_support`. No pull request has been created as part of this pass.
