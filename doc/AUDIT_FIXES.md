@@ -99,3 +99,32 @@ Executable SHA-256:
 
 The audit fixes and focused three-platform validation are ready to share on
 `m-series_mac_support`. No pull request has been created as part of this pass.
+
+
+## Local SonarCloud follow-up — awaiting approval to push
+
+SonarCloud reported 23 open findings on PR #9, all in the new test sources.
+Commit `cdbf249` addresses the reported patterns without changing game code:
+
+- Share a dedicated assertion exception instead of throwing generic runtime
+  errors in three tests (`S112`).
+- Keep disposable save-test directories under the CTest build directory,
+  passed explicitly as an argument, instead of the system temporary directory
+  (`S5443`). Each run still requires successful exclusive directory creation
+  before writing or taking cleanup ownership.
+- Use `std::string::contains` for the log assertion (`S7034`).
+- Split the font width/height declarations (`S1659`) and extract menu rendering
+  helpers to reduce nesting (`S134`).
+- Scope `using enum` separately for each enum in the frozen fixture (`S6177`).
+  A comparison against the committed fixture confirmed that all 522 enum
+  values, expected names, and literal numeric IDs are unchanged.
+
+The updated test targets built on Mac and all four CTests passed. Missing
+save-root arguments and nonexistent save roots both failed with exit code 1;
+no nonexistent root was created. Build/test logs are retained as
+`sonar-local-*.log` under `build/audit-fixes-evidence/`.
+
+These changes have only been validated locally on Mac. Windows and Ubuntu
+were not modified or retested for this cleanup. No push, PR update, or new
+SonarCloud analysis was performed; clearance of the reported issues and the
+quality gate remains unverified until an approved push triggers analysis.
