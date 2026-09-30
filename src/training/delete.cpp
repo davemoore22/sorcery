@@ -97,13 +97,11 @@ auto Sorcery::Delete::start() -> int {
 
 		_ctx.tick();
 
-		// Return selected from the menu.
+		// Return selected from the menu
 		if (!_ctx.controller->wants(Enums::Screen::DELETE) && _ctx.controller->wants(Enums::Screen::TRAINING))
 			return BACK_TO_TRAINING_GROUNDS;
 
-		//
-		// Deal with the result of an existing confirmation first.
-		//
+		// Deal with the result of an existing confirmation first
 		if (confirming) {
 
 			if (const auto result{_ctx.ui->popup_manager->consume_result("dialog_delete")}) {
@@ -132,9 +130,7 @@ auto Sorcery::Delete::start() -> int {
 			continue;
 		}
 
-		//
-		// A character has just been selected: ask for confirmation.
-		//
+		// A character has just been selected: ask for confirmation
 		if (_ctx.controller->has_character(Enums::CharacterSlot::EDIT)) {
 
 			_ctx.ui->popup_manager->open_dialog("delete:dialog_delete", Enums::Layout::DialogType::CONFIRM);

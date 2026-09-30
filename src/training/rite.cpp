@@ -65,7 +65,7 @@ auto Sorcery::Rite::start() -> int {
 
 	_stage = 0;
 
-	// Confirm the rite.
+	// Confirm the rite
 	while (true) {
 
 		SDL_Event event{};
@@ -111,7 +111,7 @@ auto Sorcery::Rite::start() -> int {
 		}
 	}
 
-	// Rite proper starts here.
+	// Rite proper starts here
 	_stage = 1;
 
 	_stage_visible = true;
@@ -153,7 +153,7 @@ auto Sorcery::Rite::start() -> int {
 
 		_ctx.tick();
 
-		// Ceremony complete, perform the actual rite on the selected character.
+		// Ceremony complete, perform the actual rite on the selected character
 		if (_rite_ready.load()) {
 
 			_rite_tick = 0;
@@ -195,24 +195,23 @@ auto Sorcery::Rite::_callback_rite_tick(std::uint32_t, void *param) -> std::uint
 
 	auto *rite{static_cast<Rite *>(param)};
 
-	// Current message has finished its two-second display.
+	// Current message has finished its two-second display
 	if (rite->_stage_visible.load()) {
 
-		// Stage 5 is the final message. No trailing blank period;
-		// the Rite can now be applied.
+		// Stage 5 is the final message. No trailing blank period; the Rite can now be applied
 		if (rite->_stage.load() == 5) {
 
 			rite->_rite_ready = true;
 			return 0;
 		}
 
-		// Half-second blank interval before the next stage.
+		// Half-second blank interval before the next stage
 		rite->_stage_visible = false;
 
 		return 500;
 	}
 
-	// Blank interval has finished: advance to the next message.
+	// Blank interval has finished: advance to the next message
 	++rite->_stage;
 	rite->_stage_visible = true;
 

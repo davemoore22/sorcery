@@ -149,7 +149,7 @@ auto Sorcery::ConstCharacterCreate::_get_xp_for_level(unsigned int level) const 
 	// way USCD pascal stores large numbers, they are stored in 16 bit LSB
 	// "chunks", for example, 134586 is stored at &0002013C as EA 11 0D, or 4586
 	// - to get the actual value for the level we add this to 0D in decimal (13)
-	// times 10000, to get 134586.
+	// times 10000, to get 134586
 	static constexpr Grid<int, 8, 14> levels{std::array<std::array<int, 14>, 8>{
 		{{0, 1000, 1724, 2972, 5124, 8834, 15231, 26260, 45275, 78060, 134586, 232044, 400075, 289709},
 

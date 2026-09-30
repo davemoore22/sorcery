@@ -108,11 +108,11 @@ auto Sorcery::LevelStore::_load(const std::filesystem::path filename) -> bool {
 			const auto width{JsonHelper::get_int(bounds, "width")};
 			const auto height{JsonHelper::get_int(bounds, "height")};
 
-			// Keep these as values for now because Level::load()
-			// currently owns the Grid Cartographer parsing step.
+			// Keep these as values for now because Level::load() currently owns the Grid Cartographer parsing step
 			auto rows{tiles["rows"]};
 			auto notes{layer["notes"]};
 
+			// TODO: get rid of GC format maps eventually and rely upon our own
 			Level level{Enums::Map::Type::MAZE, dungeon, depth, Coordinate{x_origin, y_origin}, Size{width, height}};
 
 			level.load(rows, notes);

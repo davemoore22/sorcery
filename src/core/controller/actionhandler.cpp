@@ -81,7 +81,7 @@ auto Sorcery::ControllerActionHandler::button(const std::string_view component, 
 
 	} else if (component == "button_trade") {
 
-		// Leave this legacy for now.
+		// Leave this legacy for now
 		_host.unset_selected("trade_item_selected");
 		_host.unset_selected("trade_target_selected");
 

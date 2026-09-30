@@ -653,7 +653,7 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state) -> v
 	auto component{_ui.components->get("engine_base_ui:wire_frame_view")};
 	_ui.render->draw(&component);
 
-	// Only the main chest state has a persistent menu.
+	// Only the main chest state has a persistent menu
 	_ui.draw_components("chest_menu");
 
 	// Chest
@@ -673,7 +673,7 @@ auto Sorcery::ScreenRenderer::_draw_chest(const Enums::Chests::State state) -> v
 	const auto p_min{ImVec2{x, y}};
 	const auto p_max{ImVec2{x + chest_w, y + chest_h}};
 
-	// Opaque backing behind the chest graphic.
+	// Opaque backing behind the chest graphic
 	const auto *viewport{ImGui::GetMainViewport()};
 	ImGui::SetNextWindowViewport(viewport->ID);
 	with_Window(WINDOW_LAYER_IMAGES, nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs) {

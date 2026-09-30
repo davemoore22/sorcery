@@ -137,8 +137,8 @@ auto Sorcery::FontStore::_load_font(const std::string &path, bool is_monospace, 
 	config.OversampleV = 3;
 	config.PixelSnapH = false;
 
-	// Make the font available to ImGui at different sizes by setting the size
-	// to 0.0f and using ImGui::SetFontScale() when rendering text.
+	// Make the font available to ImGui at different sizes by setting the size to 0.0f and using ImGui::SetFontScale()
+	// when rendering text
 	ImFont *font{_io->Fonts->AddFontFromFileTTF(path.c_str(), 0.0f, &config)};
 	if (!font) {
 

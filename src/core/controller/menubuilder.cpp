@@ -454,8 +454,8 @@ auto Sorcery::MenuBuilder::build(const std::string &menu_name, unsigned int widt
 		_load_fixed_menu(menu_name, width, items);
 	} else if (menu_name == "buy_menu") {
 
-		// No fixed menu for this one, as the items are dynamic and depend
-		// on the store stock, and to leave the screen click on a button.
+		// No fixed menu for this one, as the items are dynamic and depends on the store stock, and to leave the screen
+		// click on a button
 		_load_buy_menu(width, items, data);
 
 	} else if (menu_name == "chest_inspect_menu") {
