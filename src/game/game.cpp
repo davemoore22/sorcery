@@ -69,8 +69,6 @@ Sorcery::Game::~Game() = default;
 
 auto Sorcery::Game::post_construct(Context &ctx) -> void {
 
-	_ctx = ctx;
-
 	if (state)
 		state->post_construct(&_ctx);
 

@@ -4,7 +4,7 @@ Sorcery is an open-source remake/remaster of the classic CRPG **Wizardry: Provin
 
 The project is under active development and is built using **C++26, Dear ImGui, SDL2 and OpenGL**. Sorcery is mainly available on **Debian/Ubuntu Linux** and **64-bit Windows**; it also has experimental **MacOS** support.
 
-**Alpha #1 is available now from the Releases section. Alpha #2 is coming soon.**
+**Alpha #2 is available now from the Releases section. Alpha #3 is coming soon.**
 
 ## Screenshots
 
@@ -57,6 +57,33 @@ Brief gameplay videos are also available on [YouTube](https://www.youtube.com/ch
 
 ## Current Status
 
+### Alpha #2 — Released 20th October 2026
+
+Alpha #2 changes include:
+
+- Reduced required graphics memory to approximately **400 MB**.
+- Corrected fullscreen rendering.
+- Added a **music volume control**.
+- Added **context-sensitive help** using **F1**.
+- Expanded the **Cheat Menu** available through **F2**.
+- Implemented out-of-combat spellcasting for:
+  - **Divine spells**
+    - DIOS, DIAL, DIALMA, LATUMOFIS, MADI
+    - MILWA, LOMILWA, LATUMAPIC
+    - MAPORFIC, KANDI
+    - DI, KADORTO
+  - **Arcane spells**
+    - DUMAPIC, MALOR
+- The buff bar now displays the status of **MILWA/LOMILWA, LATUMAPIC and MAPORFIC**.
+- Darkness squares now extinguish any active light spell.
+
+Thanks to Greg Evans for the following enhancements:
+  
+- Enhanced Menu Navigation.
+- Additional Save/Restore State Bug Fixes.
+- Compliation Support for MacOS added.
+- cTest Support.
+
 ### Alpha #1 — Released 19 September 2026
 
 Alpha #1 is the first public release of Sorcery and contains the majority of the core game framework and non-combat systems.
@@ -93,36 +120,11 @@ Implemented functionality includes:
   - Compendium
   - Music
 
-### Alpha #2 — Coming Soon
-
-Current Alpha #2 changes (as of 25th September) include:
-
-- Reduced required graphics memory to approximately **400 MB**.
-- Corrected fullscreen rendering.
-- Added a **music volume control**.
-- Added **context-sensitive help** using **F1**.
-- Expanded the **Cheat Menu** available through **F2**.
-- Implemented out-of-combat spellcasting for:
-  - **Divine spells**
-    - DIOS, DIAL, DIALMA, LATUMOFIS, MADI
-    - MILWA, LOMILWA, LATUMAPIC
-    - MAPORFIC, KANDI
-    - DI, KADORTO
-  - **Arcane spells**
-    - DUMAPIC, MALOR
-- The buff bar now displays the status of **MILWA/LOMILWA, LATUMAPIC and MAPORFIC**.
-- Darkness squares now extinguish any active light spell.
-
-Thanks to Greg Evans for the following enhancements:
-  
-- Enhanced Menu Navigation.
-- Additional Save/Restore State Bug Fixes.
-- MacOS Support added.
-- cTest Support.
-
-The broader Alpha #2 development cycle is focused on implementing **Magic and Combat**, together with **Creatures, Combat and NPCs**. I will release this as soon as feasible
-
 ### Alpha #3 — Planned
+
+The broader Alpha #3 development cycle is focused on implementing **Magic and Combat**, together with **Creatures, Combat and NPCs**. I will release this as soon as feasible
+
+### Alpha #4 — Planned
 
 Current Alpha #3 targets include:
 
