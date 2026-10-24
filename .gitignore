@@ -49,6 +49,8 @@ obj/*
 build-iwyu/*
 iwyu.txt
 
+generated/
+build/
 bin/Debug/sorcery-sfml
 bin/Debug/dat/strings.json
 profiler_analysis.stats
