@@ -57,6 +57,12 @@ Brief gameplay videos are also available on [YouTube](https://www.youtube.com/ch
 
 ## Current Status
 
+### Alpha #3 — Released xxxx xxxxxxx xxxx
+
+Alpha #2 changes include:
+
+- Saved Game Version Checking
+
 ### Alpha #2 — Released 20th October 2026
 
 Alpha #2 changes include:
@@ -120,13 +126,9 @@ Implemented functionality includes:
   - Compendium
   - Music
 
-### Alpha #3 — Planned
+### Future Alphas onwards — Planned
 
-The broader Alpha #3 development cycle is focused on implementing **Magic and Combat**, together with **Creatures, Combat and NPCs**. I will release this as soon as feasible
-
-### Alpha #4 — Planned
-
-Current Alpha #3 targets include:
+The broader development cycle is focused on implementing **Magic and Combat**, together with **Creatures, Combat and NPCs**. I will release this functionality as soon as feasible. Content for future Alphas include:
 
 - Encounter tables
 - Fixed combats

@@ -224,7 +224,7 @@ auto Sorcery::SaveStore::create_game_state(std::string key, std::string data) ->
 
 	constexpr unsigned int game_id{1};
 	const auto now{std::chrono::system_clock::now()};
-	GameSaveRecord game{.version = 1,
+	GameSaveRecord game{.version = GAME_SAVE_VERSION,
 						.id = game_id,
 						.key = key,
 						.status = "OK",
@@ -301,9 +301,11 @@ auto Sorcery::SaveStore::load_game_state() const -> std::optional<GameEntry> {
 			throw std::runtime_error{"Unable to read game save file: " + _game_file.string()};
 		}
 
-		if (game.version != 1) {
-			throw std::runtime_error{"Unsupported game save version " + std::to_string(game.version) +
-									 " in file: " + _game_file.string()};
+		if (game.version != GAME_SAVE_VERSION) {
+			throw std::runtime_error{
+				std::format("Incompatible saved game version {}. "
+							"Saved game version {} needed.",
+							game.version, GAME_SAVE_VERSION)};
 		}
 
 		if (game.id == 0) {
