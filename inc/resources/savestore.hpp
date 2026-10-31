@@ -30,6 +30,8 @@
 #include <string_view> // for string_view
 #include <vector>	   // for vector
 
+constexpr std::uint32_t GAME_SAVE_VERSION{2};
+
 namespace Sorcery { struct GameEntry; }
 
 namespace Sorcery {
