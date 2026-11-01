@@ -62,6 +62,7 @@ Brief gameplay videos are also available on [YouTube](https://www.youtube.com/ch
 Alpha #2 changes include:
 
 - Saved Game Version Checking
+- Proper Gamepad Support
 
 ### Alpha #2 — Released 20th October 2026
 
