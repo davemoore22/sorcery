@@ -22,38 +22,37 @@
 
 #pragma once
 
-#ifdef SORCERY_DEBUG
+#include "core/diagnostics.hpp"
 
-#include <chrono>
 #include <format>
-#include <print>
-#include <string>
 #include <string_view>
 #include <utility>
 
 namespace Sorcery {
 
-// Simple message logger
-inline auto debug_log(std::string_view message) -> void {
+inline auto debug_log(std::string_view message, std::source_location location = std::source_location::current())
+	-> void {
 
-	std::println("[DEBUG] {}", message);
+	Diagnostics::instance().log(LogLevel::DEBUG, message, location);
 }
 
-// Formatted logger
-template <typename... Args> inline auto debug_logf(std::format_string<Args...> fmt, Args &&...args) -> void {
+template <typename... Args>
+inline auto debug_logf(std::source_location location, std::format_string<Args...> fmt, Args &&...args) -> void {
 
-	auto message{std::format(fmt, std::forward<Args>(args)...)};
-	std::println("[DEBUG] {}", message);
+	auto &diagnostics{Diagnostics::instance()};
+
+	if (!diagnostics.debug_enabled())
+		return;
+
+	diagnostics.log(LogLevel::DEBUG, std::format(fmt, std::forward<Args>(args)...), location);
 }
 
-} // namespace Sorcery
+}
 
-#define DEBUG_LOG(msg) Sorcery::debug_log(msg)
-#define DEBUG_LOGF(...) Sorcery::debug_logf(__VA_ARGS__)
+#define DEBUG_LOG(msg) Sorcery::debug_log(msg, std::source_location::current())
 
-#else
-
-#define DEBUG_LOG(msg) ((void)0)
-#define DEBUG_LOGF(...) ((void)0)
-
-#endif
+#define DEBUG_LOGF(...)                                                                                                \
+	do {                                                                                                               \
+		if (Sorcery::Diagnostics::instance().debug_enabled())                                                          \
+			Sorcery::debug_logf(std::source_location::current(), __VA_ARGS__);                                         \
+	} while (false)

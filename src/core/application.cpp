@@ -26,42 +26,44 @@
 #include "core/audio/audioplayer.hpp"	  // for AudioPlayer
 #include "core/audio/music.hpp"			  // for Track
 #include "core/controller/controller.hpp" // for Controller
-#include "core/define.hpp"				  // for EXPEDITION_GOTO, EXPEDITIO...
-#include "core/enum.hpp"				  // for CharacterSlot
-#include "core/resources.hpp"			  // for Resources
-#include "core/system.hpp"				  // for System
-#include "display/animation.hpp"		  // for Animation
-#include "display/display.hpp"			  // for Display
-#include "display/ui/ui.hpp"			  // for UI
-#include "drawables/define.hpp"			  // for ABORT_GAME, LEAVE_GAME
-#include "engine/define.hpp"			  // for RETURN_TO_TOWN
-#include "engine/engine.hpp"			  // for Engine
-#include "frontend/mainmenu.hpp"		  // for MainMenu
-#include "frontend/splash.hpp"			  // for Splash
-#include "game/game.hpp"				  // for Game
-#include "modules/castle.hpp"			  // for Castle
-#include "modules/edgeoftown.hpp"		  // for EdgeOfTown
-#include "resources/imagestore.hpp"		  // for ImageStore
-#include "resources/itemstore.hpp"		  // for ItemStore
-#include "types/character/character.hpp"  // for Character
-#include "types/character/create.hpp"	  // for CharacterCreate
-#include "types/character/inventory.hpp"  // for Inventory
-#include "types/enum.hpp"				  // for TypeID, TypeID::LEATHER_ARMOR
-#include "types/item/itemtype.hpp"		  // for ItemType
-#include "types/state.hpp"				  // for State
-#include <algorithm>					  // for __contains_fn, __transform_fn
-#include <cctype>						  // for tolower
-#include <cerrno>						  // for errno
-#include <csignal>						  // for signal, SIGINT, SIGTERM
-#include <cstdlib>						  // for abort
-#include <cstring>						  // for strerror
-#include <exception>					  // for exception, exception_ptr
-#include <fstream>						  // for basic_ostream, operator<<
-#include <iostream>						  // for cerr
-#include <map>							  // for map
-#include <stdexcept>					  // for runtime_error
-#include <typeinfo>						  // for type_info
-#include <utility>						  // for move
+#include "core/debug.hpp"
+#include "core/define.hpp" // for EXPEDITION_GOTO, EXPEDITIO...
+#include "core/diagnostics.hpp"
+#include "core/enum.hpp"				 // for CharacterSlot
+#include "core/resources.hpp"			 // for Resources
+#include "core/system.hpp"				 // for System
+#include "display/animation.hpp"		 // for Animation
+#include "display/display.hpp"			 // for Display
+#include "display/ui/ui.hpp"			 // for UI
+#include "drawables/define.hpp"			 // for ABORT_GAME, LEAVE_GAME
+#include "engine/define.hpp"			 // for RETURN_TO_TOWN
+#include "engine/engine.hpp"			 // for Engine
+#include "frontend/mainmenu.hpp"		 // for MainMenu
+#include "frontend/splash.hpp"			 // for Splash
+#include "game/game.hpp"				 // for Game
+#include "modules/castle.hpp"			 // for Castle
+#include "modules/edgeoftown.hpp"		 // for EdgeOfTown
+#include "resources/imagestore.hpp"		 // for ImageStore
+#include "resources/itemstore.hpp"		 // for ItemStore
+#include "types/character/character.hpp" // for Character
+#include "types/character/create.hpp"	 // for CharacterCreate
+#include "types/character/inventory.hpp" // for Inventory
+#include "types/enum.hpp"				 // for TypeID, TypeID::LEATHER_ARMOR
+#include "types/item/itemtype.hpp"		 // for ItemType
+#include "types/state.hpp"				 // for State
+#include <algorithm>					 // for __contains_fn, __transform_fn
+#include <cctype>						 // for tolower
+#include <cerrno>						 // for errno
+#include <csignal>						 // for signal, SIGINT, SIGTERM
+#include <cstdlib>						 // for abort
+#include <cstring>						 // for strerror
+#include <exception>					 // for exception, exception_ptr
+#include <fstream>						 // for basic_ostream, operator<<
+#include <iostream>						 // for cerr
+#include <map>							 // for map
+#include <stdexcept>					 // for runtime_error
+#include <typeinfo>						 // for type_info
+#include <utility>						 // for move
 
 /// @brief Standard Constructor
 /// @param argc
@@ -96,6 +98,17 @@ Sorcery::Application::Application(int argc, char **argv) {
 			return static_cast<char>(std::tolower(c));
 		});
 	}
+
+	// Initialise runtime diagnostics
+	auto &diagnostics{Diagnostics::instance()};
+
+	const bool debug_enabled{_check_param("--debug")};
+
+	diagnostics.set_debug_enabled(debug_enabled);
+	diagnostics.set_terminal_enabled(debug_enabled);
+
+	DEBUG_LOG("Runtime diagnostics initialised");
+
 	// And the Context object used for DI
 	ctx = Context{};
 	ctx.application = this;
