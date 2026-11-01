@@ -55,7 +55,7 @@ struct CharacterSaveRecord {
 };
 
 struct GameSaveRecord {
-		std::uint32_t version{1};
+		std::uint32_t version{GAME_SAVE_VERSION};
 		unsigned int id{1};
 		std::string key;
 		std::string status;
@@ -356,7 +356,7 @@ auto Sorcery::SaveStore::save_game_state(const unsigned int game_id, const std::
 		throw std::runtime_error{"Unable to deserialize game save file '" + _game_file.string() + "': " + error.what()};
 	}
 
-	if (game.version != 1) {
+	if (game.version != GAME_SAVE_VERSION) {
 		throw std::runtime_error{"Unsupported game save version " + std::to_string(game.version) +
 								 " in file: " + _game_file.string()};
 	}

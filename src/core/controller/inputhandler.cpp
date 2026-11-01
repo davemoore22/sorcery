@@ -31,13 +31,20 @@
 #include "imgui.h"						  // for CloseCurrentPopup, ImGuiKey
 #include "types/state.hpp"				  // for State
 #include <SDL_events.h>					  // for SDL_EventType, SDL_Event
-#include <SDL_keycode.h>				  // for SDL_KeyCode
-#include <SDL_mouse.h>					  // for SDL_BUTTON_RIGHT
-#include <SDL_scancode.h>				  // for SDL_Scancode
-#include <SDL_video.h>					  // for SDL_WindowEventID, SDL_Get...
-#include <memory>						  // for unique_ptr
-#include <optional>						  // for optional, nullopt_t, nullopt
-#include <utility>						  // for exchange
+#include <SDL_gamecontroller.h>
+#include <SDL_keycode.h>  // for SDL_KeyCode
+#include <SDL_mouse.h>	  // for SDL_BUTTON_RIGHT
+#include <SDL_scancode.h> // for SDL_Scancode
+#include <SDL_video.h>	  // for SDL_WindowEventID, SDL_Get...
+#include <memory>		  // for unique_ptr
+#include <optional>		  // for optional, nullopt_t, nullopt
+#include <utility>		  // for exchange
+
+// Helper for Gamepad Navigation
+auto gamepad_button(const SDL_Event &event, const SDL_GameControllerButton button) -> bool {
+
+	return event.type == SDL_CONTROLLERBUTTONDOWN && event.cbutton.button == static_cast<Uint8>(button);
+}
 
 /// @brief
 /// @param host
@@ -108,19 +115,35 @@ auto Sorcery::ControllerInputHandler::movement(const SDL_Event &event) const -> 
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x)
 		return MOVE_TURN_AROUND;
-	else if (event.type == SDL_KEYDOWN &&
-			 (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_l || event.key.keysym.sym == SDLK_LEFT))
+
+	if (event.type == SDL_KEYDOWN &&
+		(event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_l || event.key.keysym.sym == SDLK_LEFT))
 		return MOVE_TURN_LEFT;
-	else if (event.type == SDL_KEYDOWN &&
-			 (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_r || event.key.keysym.sym == SDLK_RIGHT))
+
+	if (event.type == SDL_KEYDOWN &&
+		(event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_r || event.key.keysym.sym == SDLK_RIGHT))
 		return MOVE_TURN_RIGHT;
-	else if (event.type == SDL_KEYDOWN &&
-			 (event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_f || event.key.keysym.sym == SDLK_UP))
+
+	if (event.type == SDL_KEYDOWN &&
+		(event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_f || event.key.keysym.sym == SDLK_UP))
 		return MOVE_FORWARD;
-	else if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_z || event.key.keysym.sym == SDLK_DOWN))
+
+	if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_z || event.key.keysym.sym == SDLK_DOWN))
 		return MOVE_BACKWARD;
-	else
-		return MOVE_NONE;
+
+	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_LEFT))
+		return MOVE_TURN_LEFT;
+
+	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
+		return MOVE_TURN_RIGHT;
+
+	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_UP))
+		return MOVE_FORWARD;
+
+	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
+		return MOVE_BACKWARD;
+
+	return MOVE_NONE;
 }
 
 /// @brief
@@ -128,7 +151,10 @@ auto Sorcery::ControllerInputHandler::movement(const SDL_Event &event) const -> 
 /// @return
 auto Sorcery::ControllerInputHandler::help(const SDL_Event &event) const -> bool {
 
-	return event.type == SDL_KEYDOWN && event.key.repeat == 0 && event.key.keysym.sym == SDLK_F1;
+	if (event.type == SDL_KEYDOWN && event.key.repeat == 0 && event.key.keysym.sym == SDLK_F1)
+		return true;
+
+	return gamepad_button(event, SDL_CONTROLLER_BUTTON_Y);
 }
 
 /// @brief Check if the SDL event is go-back-to-previous event
@@ -138,7 +164,11 @@ auto Sorcery::ControllerInputHandler::back(const SDL_Event &event) const -> bool
 
 	if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		return true;
-	else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
+
+	if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
+		return true;
+
+	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_B))
 		return true;
 
 	return false;
@@ -165,9 +195,7 @@ auto Sorcery::ControllerInputHandler::resize(const SDL_Event &event) -> void {
 /// @return
 auto Sorcery::ControllerInputHandler::back(const SDL_Event &event, bool &flag) const -> void {
 
-	if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-		flag = true;
-	else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
+	if (back(event))
 		flag = true;
 }
 
