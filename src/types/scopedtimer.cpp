@@ -21,19 +21,32 @@
 // the resulting work.
 
 #include "types/scopedtimer.hpp"
-#include "core/debug.hpp" // for DEBUG_LOGF, debug_logf
 
-/// @brief
-/// @param name
-Sorcery::ScopedTimer::ScopedTimer(std::string_view name)
-	: _name{name},
-	  _start{clock::now()} {}
+#include "core/profiler.hpp"
 
-/// @brief
-Sorcery::ScopedTimer::~ScopedTimer() {
+Sorcery::ScopedTimer::ScopedTimer(std::string_view name) {
+
+	_active = Profiler::instance().enabled();
+
+	if (!_active)
+		return;
+
+	_name = name;
+	_start = clock::now();
+}
+
+Sorcery::ScopedTimer::~ScopedTimer() noexcept {
+
+	if (!_active)
+		return;
 
 	const auto end{clock::now()};
-	const auto elapsed{std::chrono::duration_cast<std::chrono::microseconds>(end - _start)};
 
-	DEBUG_LOGF("[TIMER] {}: {} us", _name, elapsed.count());
+	const auto elapsed{std::chrono::duration<double, std::micro>(end - _start).count()};
+
+	try {
+		Profiler::instance().record(_name, elapsed);
+	} catch (...) {
+		// Profiling must never terminate the application.
+	}
 }

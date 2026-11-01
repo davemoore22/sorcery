@@ -23,17 +23,18 @@
 #include "resources/fontstore.hpp"
 #include "core/context.hpp"
 #include "resources/define.hpp" // for DATA_DIR
-#include <algorithm>			// for __lexicographical_compare_fn, __sort_fn
-#include <cctype>				// for tolower
-#include <filesystem>			// for path, directory_entry, directory_ite...
-#include <freetype/fttypes.h>	// for FT_Error, FT_Long
-#include <fstream>				// for basic_ostream, basic_ifstream, opera...
-#include <functional>			// for less
-#include <initializer_list>		// for initializer_list
-#include <iostream>				// for cerr
-#include <iterator>				// for istreambuf_iterator, operator==
-#include <string_view>			// for basic_string_view, string_view
-#include <utility>				// for pair
+#include "types/scopedtimer.hpp"
+#include <algorithm>		  // for __lexicographical_compare_fn, __sort_fn
+#include <cctype>			  // for tolower
+#include <filesystem>		  // for path, directory_entry, directory_ite...
+#include <freetype/fttypes.h> // for FT_Error, FT_Long
+#include <fstream>			  // for basic_ostream, basic_ifstream, opera...
+#include <functional>		  // for less
+#include <initializer_list>	  // for initializer_list
+#include <iostream>			  // for cerr
+#include <iterator>			  // for istreambuf_iterator, operator==
+#include <string_view>		  // for basic_string_view, string_view
+#include <utility>			  // for pair
 
 Sorcery::FontStore::FontStore(Context &ctx, ImGuiIO *io)
 	: _ctx(ctx),
@@ -121,6 +122,8 @@ auto Sorcery::FontStore::scan_and_load(const std::string &directory) -> void {
 }
 
 auto Sorcery::FontStore::_load_font(const std::string &path, bool is_monospace, Enums::Layout::Font font_type) -> void {
+
+	PROFILE_SCOPE("FontStore::_load_font");
 
 	std::ifstream file(path, std::ios::binary);
 	if (!file.is_open())

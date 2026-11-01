@@ -23,6 +23,7 @@
 #pragma once
 
 #include <chrono>
+#include <string>
 #include <string_view>
 
 namespace Sorcery {
@@ -32,20 +33,26 @@ class ScopedTimer {
 		using clock = std::chrono::steady_clock;
 
 		explicit ScopedTimer(std::string_view name);
-		~ScopedTimer();
+		~ScopedTimer() noexcept;
+
+		ScopedTimer(const ScopedTimer &) = delete;
+		auto operator=(const ScopedTimer &) -> ScopedTimer & = delete;
+
+		ScopedTimer(ScopedTimer &&) = delete;
+		auto operator=(ScopedTimer &&) -> ScopedTimer & = delete;
 
 	private:
-		std::string_view _name;
-		std::chrono::time_point<clock> _start;
+		std::string _name;
+		clock::time_point _start{};
+		bool _active{false};
 };
 
 }
 
-#ifdef SORCERY_PROFILE
+#define SORCERY_PROFILE_CONCAT_IMPL(a, b) a##b
+#define SORCERY_PROFILE_CONCAT(a, b) SORCERY_PROFILE_CONCAT_IMPL(a, b)
+
 #define PROFILE_SCOPE(name)                                                                                            \
-	Sorcery::ScopedTimer timer {                                                                                       \
+	[[maybe_unused]] Sorcery::ScopedTimer SORCERY_PROFILE_CONCAT(_scoped_timer_, __COUNTER__) {                        \
 		name                                                                                                           \
 	}
-#else
-#define PROFILE_SCOPE(name)
-#endif

@@ -108,6 +108,8 @@ auto Sorcery::ImageStore::has_loaded(const std::string &file) -> bool {
 /// @return
 auto Sorcery::ImageStore::_load_image(const std::string &file) -> bool {
 
+	PROFILE_SCOPE("ImageStore::_load_image");
+
 	if (has_loaded(file))
 		return false;
 
@@ -190,8 +192,8 @@ auto Sorcery::ImageStore::_load_texture_from_disc(const std::filesystem::path &f
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 
 	if (const auto error{glGetError()}; error != GL_NO_ERROR) {
-		DEBUG_LOGF("Texture allocation failed: {} ({}x{}) OpenGL error=0x{:04x}", filename.string(), image_width, image_height,
-				   static_cast<unsigned int>(error));
+		DEBUG_LOGF("Texture allocation failed: {} ({}x{}) OpenGL error=0x{:04x}", filename.string(), image_width,
+				   image_height, static_cast<unsigned int>(error));
 	}
 
 	stbi_image_free(image_data);

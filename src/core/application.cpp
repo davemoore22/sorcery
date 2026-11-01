@@ -29,7 +29,8 @@
 #include "core/debug.hpp"
 #include "core/define.hpp" // for EXPEDITION_GOTO, EXPEDITIO...
 #include "core/diagnostics.hpp"
-#include "core/enum.hpp"				 // for CharacterSlot
+#include "core/enum.hpp" // for CharacterSlot
+#include "core/profiler.hpp"
 #include "core/resources.hpp"			 // for Resources
 #include "core/system.hpp"				 // for System
 #include "display/animation.hpp"		 // for Animation
@@ -50,20 +51,22 @@
 #include "types/character/inventory.hpp" // for Inventory
 #include "types/enum.hpp"				 // for TypeID, TypeID::LEATHER_ARMOR
 #include "types/item/itemtype.hpp"		 // for ItemType
-#include "types/state.hpp"				 // for State
-#include <algorithm>					 // for __contains_fn, __transform_fn
-#include <cctype>						 // for tolower
-#include <cerrno>						 // for errno
-#include <csignal>						 // for signal, SIGINT, SIGTERM
-#include <cstdlib>						 // for abort
-#include <cstring>						 // for strerror
-#include <exception>					 // for exception, exception_ptr
-#include <fstream>						 // for basic_ostream, operator<<
-#include <iostream>						 // for cerr
-#include <map>							 // for map
-#include <stdexcept>					 // for runtime_error
-#include <typeinfo>						 // for type_info
-#include <utility>						 // for move
+#include "types/scopedtimer.hpp"
+#include "types/state.hpp" // for State
+#include <algorithm>	   // for __contains_fn, __transform_fn
+#include <cctype>		   // for tolower
+#include <cerrno>		   // for errno
+#include <csignal>		   // for signal, SIGINT, SIGTERM
+#include <cstdlib>		   // for abort
+#include <cstring>		   // for strerror
+#include <exception>	   // for exception, exception_ptr
+#include <fstream>		   // for basic_ostream, operator<<
+#include <iostream>		   // for cerr
+#include <map>			   // for map
+#include <print>
+#include <stdexcept> // for runtime_error
+#include <typeinfo>	 // for type_info
+#include <utility>	 // for move
 
 /// @brief Standard Constructor
 /// @param argc
@@ -101,13 +104,16 @@ Sorcery::Application::Application(int argc, char **argv) {
 
 	// Initialise runtime diagnostics
 	auto &diagnostics{Diagnostics::instance()};
-
 	const bool debug_enabled{_check_param("--debug")};
 
 	diagnostics.set_debug_enabled(debug_enabled);
 	diagnostics.set_terminal_enabled(debug_enabled);
 
 	DEBUG_LOG("Runtime diagnostics initialised");
+
+	// Initialise runtime profiling
+	auto &profiler{Profiler::instance()};
+	profiler.set_enabled(_check_param("--profile"));
 
 	// And the Context object used for DI
 	ctx = Context{};
@@ -203,6 +209,8 @@ auto Sorcery::Application::get_resources() const -> Resources * {
 /// @return
 auto Sorcery::Application::start() -> int {
 
+	PROFILE_SCOPE("Application::start");
+
 	ctx.ui->start();
 
 	_splash->start();
@@ -265,6 +273,16 @@ auto Sorcery::Application::start() -> int {
 	}
 	ctx.audio->set_track(Enums::Audio::Track::NONE);
 	ctx.ui->stop();
+
+	if (Profiler::instance().enabled()) {
+
+		for (const auto &entry : Profiler::instance().entries()) {
+			std::println(
+				"{}: count={}, avg={:.2f}us, min={:.2f}us, "
+				"max={:.2f}us, total={:.2f}us",
+				entry.name, entry.count, entry.average_us(), entry.min_us, entry.max_us, entry.total_us);
+		}
+	}
 
 	return 0;
 }

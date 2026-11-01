@@ -98,7 +98,7 @@ auto Sorcery::AudioPlayer::_free_resources() -> void {
 /// @return
 auto Sorcery::AudioPlayer::_load(const std::filesystem::path &filename) -> void {
 
-	// PROFILE_SCOPE("AudioPlayer::load");
+	PROFILE_SCOPE("AudioPlayer::_load");
 	//  DEBUG_LOGF("Loading Resource: {}", filename);
 
 	_free_resources();
