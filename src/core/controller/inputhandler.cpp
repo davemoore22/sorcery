@@ -23,14 +23,15 @@
 #include "core/controller/inputhandler.hpp"
 #include "core/context.hpp"				  // for Context
 #include "core/controller/controller.hpp" // for Controller
-#include "display/display.hpp"			  // for Display
-#include "display/ui/ui.hpp"			  // for UI
-#include "display/ui/uimetrics.hpp"		  // for UIMetrics
-#include "engine/define.hpp"			  // for MOVE_BACKWARD, MOVE_FORWARD
-#include "game/game.hpp"				  // for Game
-#include "imgui.h"						  // for CloseCurrentPopup, ImGuiKey
-#include "types/state.hpp"				  // for State
-#include <SDL_events.h>					  // for SDL_EventType, SDL_Event
+#include "core/debug.hpp"
+#include "display/display.hpp"		// for Display
+#include "display/ui/ui.hpp"		// for UI
+#include "display/ui/uimetrics.hpp" // for UIMetrics
+#include "engine/define.hpp"		// for MOVE_BACKWARD, MOVE_FORWARD
+#include "game/game.hpp"			// for Game
+#include "imgui.h"					// for CloseCurrentPopup, ImGuiKey
+#include "types/state.hpp"			// for State
+#include <SDL_events.h>				// for SDL_EventType, SDL_Event
 #include <SDL_gamecontroller.h>
 #include <SDL_keycode.h>  // for SDL_KeyCode
 #include <SDL_mouse.h>	  // for SDL_BUTTON_RIGHT
@@ -40,7 +41,10 @@
 #include <optional>		  // for optional, nullopt_t, nullopt
 #include <utility>		  // for exchange
 
-// Helper for Gamepad Navigation
+/// @brief Helper for Gamepad Navigation
+/// @param event
+/// @param button
+/// @return
 auto gamepad_button(const SDL_Event &event, const SDL_GameControllerButton button) -> bool {
 
 	return event.type == SDL_CONTROLLERBUTTONDOWN && event.cbutton.button == static_cast<Uint8>(button);
@@ -53,7 +57,28 @@ Sorcery::ControllerInputHandler::ControllerInputHandler(Controller &host, Contex
 	: _host{host},
 	  _ctx{ctx} {
 
-	  };
+	for (auto index{0}; index < SDL_NumJoysticks(); ++index) {
+
+		if (!SDL_IsGameController(index))
+			continue;
+
+		_gamepad = SDL_GameControllerOpen(index);
+
+		if (_gamepad) {
+			DEBUG_LOGF("GAMEPAD Opened controller: {}", SDL_GameControllerName(_gamepad));
+
+			break;
+		}
+
+		DEBUG_LOGF("GAMEPAD Failed to open controller {}: {}", index, SDL_GetError());
+	}
+}
+
+Sorcery::ControllerInputHandler::~ControllerInputHandler() {
+
+	if (_gamepad)
+		SDL_GameControllerClose(_gamepad);
+}
 
 /// @brief
 /// @param event

@@ -26,14 +26,15 @@
 #include "core/context.hpp"					// for Context
 #include "core/controller/controller.hpp"	// for Controller
 #include "core/controller/inputhandler.hpp" // for ControllerInputHandler
-#include "display/display.hpp"				// for Display
-#include "display/ui/ui.hpp"				// for UI
-#include "resources/define.hpp"				// for SAVE_STATE_FILENAME
-#include <algorithm>						// for clamp
-#include <any>								// for any
-#include <chrono>							// for duration, milliseconds
-#include <cmath>							// for lerp
-#include <memory>							// for unique_ptr
+#include "core/debug.hpp"
+#include "display/display.hpp"	// for Display
+#include "display/ui/ui.hpp"	// for UI
+#include "resources/define.hpp" // for SAVE_STATE_FILENAME
+#include <algorithm>			// for clamp
+#include <any>					// for any
+#include <chrono>				// for duration, milliseconds
+#include <cmath>				// for lerp
+#include <memory>				// for unique_ptr
 
 namespace Sorcery {
 namespace Enums { enum class Screen; }
@@ -194,6 +195,13 @@ auto Sorcery::Module::process_event(const SDL_Event &event, const EventOptions &
 
 	// Always give ImGui the event first
 	ImGui_ImplSDL2_ProcessEvent(&event);
+
+	if (event.type == SDL_CONTROLLERBUTTONDOWN) {
+
+		const auto button{static_cast<SDL_GameControllerButton>(event.cbutton.button)};
+
+		DEBUG_LOGF("GAMEPAD Button: {} ({})", event.cbutton.button, SDL_GameControllerGetStringForButton(button));
+	}
 
 	// Application/window-level events must still work while help is open
 	if (_ctx.controller->input->abort(event))

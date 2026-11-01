@@ -28,6 +28,8 @@
 namespace Sorcery { class Controller; }
 namespace Sorcery { struct Context; }
 union SDL_Event; // Global Namespace Forward Declaration
+struct _SDL_GameController;
+using SDL_GameController = _SDL_GameController;
 
 namespace Sorcery {
 
@@ -35,8 +37,7 @@ class ControllerInputHandler {
 
 	public:
 		explicit ControllerInputHandler(Controller &host, Context &_ctx);
-
-		ControllerInputHandler() = delete;
+		~ControllerInputHandler();
 
 		auto abort(const SDL_Event &event) -> bool;
 		auto back(const SDL_Event &event) const -> bool;
@@ -67,6 +68,7 @@ class ControllerInputHandler {
 		Context &_ctx;
 
 		std::optional<int> _menu_key;
+		SDL_GameController *_gamepad{nullptr};
 };
 
 }
