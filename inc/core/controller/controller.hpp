@@ -134,6 +134,10 @@ class Controller {
 		auto pop_input_mode() -> void;
 		auto clear_input_modes() -> void;
 
+		auto set_gamepad_ui_focus(bool value) -> void;
+		auto get_gamepad_ui_focus() const -> bool;
+		auto toggle_gamepad_ui_focus() -> void;
+
 		[[nodiscard]]
 		auto get_input_mode() const -> Enums::Input::Mode;
 
@@ -167,6 +171,7 @@ class Controller {
 		std::map<std::string, int, std::less<>> _selected;		// Menu Selections
 		std::string _input_buffer;								// Input Buffer for Text Input
 		bool _go_back{};
+		bool _gamepad_ui_focus{false};
 };
 
 };

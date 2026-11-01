@@ -652,6 +652,28 @@ auto Sorcery::Controller::get_input_mode() const -> Enums::Input::Mode {
 	return _input_mode;
 }
 
+/// @brief
+/// @param value
+/// @return
+auto Sorcery::Controller::set_gamepad_ui_focus(bool value) -> void {
+
+	_gamepad_ui_focus = value;
+}
+
+/// @brief
+/// @return
+auto Sorcery::Controller::get_gamepad_ui_focus() const -> bool {
+
+	return _gamepad_ui_focus;
+}
+
+/// @brief
+/// @return
+auto Sorcery::Controller::toggle_gamepad_ui_focus() -> void {
+
+	_gamepad_ui_focus = !_gamepad_ui_focus;
+}
+
 namespace Sorcery {
 
 /// @brief
@@ -673,4 +695,4 @@ auto operator<<(std::ostream &out_stream, const Sorcery::Controller &controller)
 	return out_stream << std::endl;
 }
 
-} // namespace Sorcery
+}

@@ -100,6 +100,8 @@ auto Sorcery::Display::_initialise_SDL() -> int {
 		return -1;
 	}
 
+	_debug_controllers();
+
 	_GLSL_version = "#version 330 core";
 
 #ifdef __APPLE__
@@ -483,4 +485,41 @@ auto Sorcery::Display::_create_post_processor() -> void {
 
 		throw std::runtime_error{"Unable to find post-processing shader uniforms."};
 	}
+}
+
+/// @brief
+/// @return
+auto Sorcery::Display::_debug_controllers() const -> void {
+
+	const auto joystick_count{SDL_NumJoysticks()};
+
+	if (joystick_count < 0) {
+		DEBUG_LOGF("GAMEPAD Unable to enumerate controllers: {}", SDL_GetError());
+		return;
+	}
+
+	if (joystick_count == 0) {
+		DEBUG_LOGF("GAMEPAD No controllers detected");
+		return;
+	}
+
+	auto controller_count{0};
+	DEBUG_LOGF("GAMEPAD {} joystick device(s) detected", joystick_count);
+
+	for (auto index{0}; index < joystick_count; ++index) {
+		if (!SDL_IsGameController(index)) {
+
+			const auto *name{SDL_JoystickNameForIndex(index)};
+			DEBUG_LOGF("GAMEPAD [{}] {} - not a recognised game controller", index, name ? name : "Unknown");
+
+			continue;
+		}
+
+		++controller_count;
+		const auto *name{SDL_GameControllerNameForIndex(index)};
+
+		DEBUG_LOGF("GAMEPAD [{}] Controller: {}", index, name ? name : "Unknown");
+	}
+
+	DEBUG_LOGF("GAMEPAD {} compatible controller(s) available", controller_count);
 }

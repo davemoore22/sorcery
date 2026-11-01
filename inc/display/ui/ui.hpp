@@ -296,5 +296,7 @@ class UI {
 		[[nodiscard]] auto _get_cursor_colour(const bool busy, const double percent) const -> ImVec4;
 
 		auto _map_position(const MapGeometry &geometry, const Coordinate location) const -> ImVec2;
+
+		auto _set_gamepad_navigation(const bool enabled) -> void;
 };
 };

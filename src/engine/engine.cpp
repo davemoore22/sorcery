@@ -133,6 +133,20 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				break;
 			}
 
+			// Handle the annoying clash between gamepad movement and party-panel menu navigation
+			if (!_ctx.ui->popup_manager->active() && _ctx.controller->input->gamepad_ui_focus(event)) {
+
+				continue;
+			}
+
+			if (!_ctx.ui->popup_manager->active() && _ctx.controller->get_gamepad_ui_focus() &&
+				_ctx.controller->input->gamepad_cancel_ui(event)) {
+
+				_ctx.controller->set_gamepad_ui_focus(false);
+
+				continue;
+			}
+
 			// Check for Debug
 			_ctx.controller->input->debug(event);
 

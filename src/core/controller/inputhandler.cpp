@@ -131,17 +131,20 @@ auto Sorcery::ControllerInputHandler::movement(const SDL_Event &event) const -> 
 	if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_z || event.key.keysym.sym == SDLK_DOWN))
 		return MOVE_BACKWARD;
 
-	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_LEFT))
-		return MOVE_TURN_LEFT;
+	if (!_host.get_gamepad_ui_focus()) {
 
-	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
-		return MOVE_TURN_RIGHT;
+		if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_LEFT))
+			return MOVE_TURN_LEFT;
 
-	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_UP))
-		return MOVE_FORWARD;
+		if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
+			return MOVE_TURN_RIGHT;
 
-	if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
-		return MOVE_BACKWARD;
+		if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_UP))
+			return MOVE_FORWARD;
+
+		if (gamepad_button(event, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
+			return MOVE_BACKWARD;
+	}
 
 	return MOVE_NONE;
 }
@@ -335,4 +338,25 @@ auto Sorcery::ControllerInputHandler::menu_key(const SDL_Event &event) -> void {
 	default:
 		break;
 	}
+}
+
+/// @brief
+/// @param event
+/// @return
+auto Sorcery::ControllerInputHandler::gamepad_ui_focus(const SDL_Event &event) -> bool {
+
+	if (!gamepad_button(event, SDL_CONTROLLER_BUTTON_BACK))
+		return false;
+
+	_host.toggle_gamepad_ui_focus();
+
+	return true;
+}
+
+/// @brief
+/// @param event
+/// @return
+auto Sorcery::ControllerInputHandler::gamepad_cancel_ui(const SDL_Event &event) const -> bool {
+
+	return gamepad_button(event, SDL_CONTROLLER_BUTTON_B);
 }

@@ -292,6 +292,10 @@ auto Sorcery::UI::close_all_popups() -> void {
 // TODO: Don't move this for now
 auto Sorcery::UI::display_engine() -> void {
 
+	const auto gamepad_nav{_ctx.controller->get_gamepad_ui_focus() || popup_manager->active()};
+
+	_set_gamepad_navigation(gamepad_nav);
+
 	// Start a new Rendering Frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
@@ -347,6 +351,8 @@ auto Sorcery::UI::display_engine() -> void {
 auto Sorcery::UI::display_screen(const Enums::Screen screen, const std::any &payload) -> void {
 
 	_ctx.controller->set_last_screen(screen);
+
+	_set_gamepad_navigation(true);
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
@@ -3895,4 +3901,12 @@ auto Sorcery::UI::draw_atlas_tile(const std::string_view source, const int idx, 
 	const auto texture{ImTextureRef{_to_imgui(src_image.texture)}};
 
 	ImGui::ImageWithBg(texture, size, uv_0, uv_1, ImVec4{0.0f, 0.0f, 0.0f, 0.0f}, tint);
+}
+
+auto Sorcery::UI::_set_gamepad_navigation(const bool enabled) -> void {
+
+	if (enabled)
+		_io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+	else
+		_io->ConfigFlags &= ~ImGuiConfigFlags_NavEnableGamepad;
 }

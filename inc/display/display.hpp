@@ -74,6 +74,7 @@ class Display {
 		auto _initialise_SDL() -> int;
 		auto _create_post_processor() -> void;
 		auto _compile_shader(const GLenum type, const char *source) -> GLuint;
+		auto _debug_controllers() const -> void;
 
 		Context &_ctx;
 		SDL_Window *_SDL_window;

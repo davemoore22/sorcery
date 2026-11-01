@@ -59,6 +59,9 @@ class ControllerInputHandler {
 		auto menu_key(const SDL_Event &event) -> void;
 		auto consume_menu_key(std::size_t item_count) -> std::optional<std::size_t>;
 
+		auto gamepad_ui_focus(const SDL_Event &event) -> bool;
+		auto gamepad_cancel_ui(const SDL_Event &event) const -> bool;
+
 	private:
 		Controller &_host;
 		Context &_ctx;
