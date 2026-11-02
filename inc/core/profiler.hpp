@@ -50,10 +50,13 @@ struct ProfileEntry {
 
 class Profiler {
 	public:
+		auto set_paused(bool paused) -> void;
+		[[nodiscard]] auto paused() const -> bool;
+		[[nodiscard]] auto available() const -> bool;
+
 		static auto instance() -> Profiler &;
 
 		auto set_enabled(bool enabled) -> void;
-
 		[[nodiscard]] auto enabled() const -> bool;
 
 		auto record(std::string_view name, double elapsed_us) -> void;
@@ -69,6 +72,8 @@ class Profiler {
 		std::unordered_map<std::string, ProfileEntry> _entries;
 
 		std::atomic_bool _enabled{false};
+		std::atomic_bool _available{false};
+		std::atomic_bool _paused{false};
 };
 
 }

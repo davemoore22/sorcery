@@ -138,6 +138,9 @@ The project uses the MinGW-w64 UCRT runtime and produces a native Windows execut
   - --start-engine: use with --quickstart to go directly with a party to the dungeon
   - --go-to: use with --start-engine to go to the coordinates/floor listed in the config.ini file
 
+- --debug: enables the optional debug window (tilde/backtick to toggle)
+- --profile: enables the optional profile window (tilde/backtick to toggle)
+
 ---
 
 # System Dependencies

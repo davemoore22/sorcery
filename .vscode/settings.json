@@ -98,8 +98,8 @@
 			"--profile"
 		]
 	},
-	"editor.fontSize": 12,
-	"editor.fontFamily": "fira code, monaco, proggyvector, monospace",
+	"editor.fontSize": 14,
+	"editor.fontFamily": "monaco, fira code, proggyvector, monospace",
 	"editor.tabSize": 4,
 	"editor.insertSpaces": false,
 	"editor.rulers": [

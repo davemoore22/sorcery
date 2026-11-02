@@ -107,7 +107,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 	const bool debug_enabled{_check_param("--debug")};
 
 	diagnostics.set_debug_enabled(debug_enabled);
-	diagnostics.set_terminal_enabled(debug_enabled);
+	diagnostics.set_terminal_enabled(false);
 
 	DEBUG_LOG("Runtime diagnostics initialised");
 
@@ -273,16 +273,6 @@ auto Sorcery::Application::start() -> int {
 	}
 	ctx.audio->set_track(Enums::Audio::Track::NONE);
 	ctx.ui->stop();
-
-	if (Profiler::instance().enabled()) {
-
-		for (const auto &entry : Profiler::instance().entries()) {
-			std::println(
-				"{}: count={}, avg={:.2f}us, min={:.2f}us, "
-				"max={:.2f}us, total={:.2f}us",
-				entry.name, entry.count, entry.average_us(), entry.min_us, entry.max_us, entry.total_us);
-		}
-	}
 
 	return 0;
 }

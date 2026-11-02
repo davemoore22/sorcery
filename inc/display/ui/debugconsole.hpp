@@ -45,6 +45,9 @@ class DebugConsole {
 		char _search[256]{};
 
 		std::uint64_t _last_sequence{0};
+
+		auto _draw_log() -> void;
+		auto _draw_profiler() -> void;
 };
 
 }

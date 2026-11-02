@@ -22,12 +22,16 @@
 
 #include "display/ui/debugconsole.hpp"
 #include "core/diagnostics.hpp"
+#include "core/profiler.hpp"
 #include "imgui.h"
 #include <SDL_events.h>
 #include <SDL_scancode.h>
+#include <algorithm>
+#include <cmath>
 #include <format>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace {
 
@@ -76,7 +80,8 @@ auto matches_search(std::string_view message, std::string_view search) -> bool {
 
 auto Sorcery::DebugConsole::handle_event(const SDL_Event &event) -> bool {
 
-	if (!Diagnostics::instance().debug_enabled())
+	const auto console_available{Diagnostics::instance().debug_enabled() || Profiler::instance().available()};
+	if (!console_available)
 		return false;
 
 	// Toggle using the physical grave/backtick key.
@@ -126,34 +131,9 @@ auto Sorcery::DebugConsole::handle_event(const SDL_Event &event) -> bool {
 	}
 }
 
-auto Sorcery::DebugConsole::draw() -> void {
+auto Sorcery::DebugConsole::_draw_log() -> void {
 
 	auto &diagnostics{Diagnostics::instance()};
-
-	// The console is only available in debug mode for now
-	if (!diagnostics.debug_enabled())
-		return;
-
-	// Toggle with the grave/backtick key
-	if (ImGui::IsKeyPressed(ImGuiKey_GraveAccent, false))
-		_visible = !_visible;
-
-	if (!_visible)
-		return;
-
-	// Use a second window
-	const auto *viewport{ImGui::GetMainViewport()};
-	ImGui::SetNextWindowPos(ImVec2{viewport->Pos.x + viewport->Size.x + 20.0f, viewport->Pos.y},
-							ImGuiCond_FirstUseEver);
-	ImGui::SetNextWindowSize(ImVec2{800.0f, 500.0f}, ImGuiCond_FirstUseEver);
-	ImGui::SetNextWindowBgAlpha(0.95f);
-
-	constexpr auto flags{ImGuiWindowFlags_NoCollapse};
-
-	if (!ImGui::Begin("Sorcery Developer Console", &_visible, flags)) {
-		ImGui::End();
-		return;
-	}
 
 	// Filters
 	ImGui::SetNextItemWidth(130.0f);
@@ -241,6 +221,166 @@ auto Sorcery::DebugConsole::draw() -> void {
 	ImGui::SameLine();
 
 	ImGui::TextDisabled("%zu messages", entries.size());
+}
 
-	ImGui::End();
+// TODO: convert over to using ImguiSugar
+auto Sorcery::DebugConsole::draw() -> void {
+
+	// The console is only available in debug mode for now
+	const auto console_available{Diagnostics::instance().debug_enabled() || Profiler::instance().available()};
+	if (!console_available)
+		return;
+
+	// Toggle with the grave/backtick key
+	if (ImGui::IsKeyPressed(ImGuiKey_GraveAccent, false))
+		_visible = !_visible;
+
+	if (!_visible)
+		return;
+
+	// Use a second window
+	const auto *viewport{ImGui::GetMainViewport()};
+	ImGui::SetNextWindowPos(ImVec2{viewport->Pos.x + viewport->Size.x + 20.0f, viewport->Pos.y},
+							ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2{800.0f, 500.0f}, ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowBgAlpha(0.95f);
+
+	constexpr auto flags{ImGuiWindowFlags_NoCollapse};
+
+	if (!ImGui::Begin("Sorcery Developer Console", &_visible, flags)) {
+		ImGui::End();
+		return;
+	}
+
+	if (ImGui::BeginTabBar("##diagnostics_tabs")) {
+
+		if (ImGui::BeginTabItem("Log")) {
+			_draw_log();
+			ImGui::EndTabItem();
+		}
+
+		if (Profiler::instance().available()) {
+			if (ImGui::BeginTabItem("Profiler")) {
+				_draw_profiler();
+				ImGui::EndTabItem();
+			}
+		}
+
+		ImGui::EndTabBar();
+	}
+
+	ImGui::End(); // Close Sorcery Developer Console
+}
+
+auto Sorcery::DebugConsole::_draw_profiler() -> void {
+
+	auto &profiler{Profiler::instance()};
+
+	// Profiler controls
+	if (ImGui::Button(profiler.paused() ? "Resume" : "Pause"))
+		profiler.set_paused(!profiler.paused());
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Reset Statistics"))
+		profiler.clear();
+
+	ImGui::SameLine();
+	ImGui::TextDisabled("%s", profiler.paused() ? "Paused" : "Recording");
+
+	ImGui::Separator();
+
+	auto entries{profiler.entries()};
+
+	const auto timing_text{[](double us) -> std::string {
+		if (us >= 1'000'000.0)
+			return std::format("{:.3f} s", us / 1'000'000.0);
+
+		if (us >= 1'000.0)
+			return std::format("{:.3f} ms", us / 1'000.0);
+
+		return std::format("{:.2f} us", us);
+	}};
+
+	constexpr auto flags{ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable |
+						 ImGuiTableFlags_Reorderable | ImGuiTableFlags_Sortable | ImGuiTableFlags_ScrollY |
+						 ImGuiTableFlags_SizingStretchProp};
+
+	if (ImGui::BeginTable("##profiler_table", 7, flags, ImVec2{0.0f, 0.0f})) {
+
+		ImGui::TableSetupColumn("Scope", ImGuiTableColumnFlags_DefaultSort, 2.5f);
+
+		ImGui::TableSetupColumn("Calls", 0, 0.8f);
+		ImGui::TableSetupColumn("Last", 0, 1.1f);
+		ImGui::TableSetupColumn("Average", 0, 1.1f);
+		ImGui::TableSetupColumn("Minimum", 0, 1.1f);
+		ImGui::TableSetupColumn("Maximum", 0, 1.1f);
+		ImGui::TableSetupColumn("Total", 0, 1.1f);
+
+		ImGui::TableSetupScrollFreeze(0, 1);
+		ImGui::TableHeadersRow();
+
+		if (const auto *sort_specs{ImGui::TableGetSortSpecs()}; sort_specs && sort_specs->SpecsCount > 0) {
+
+			const auto &spec{sort_specs->Specs[0]};
+
+			const bool ascending{spec.SortDirection == ImGuiSortDirection_Ascending};
+
+			const auto less{[&](const ProfileEntry &a, const ProfileEntry &b) -> bool {
+				switch (spec.ColumnIndex) {
+				case 0:
+					return a.name < b.name;
+				case 1:
+					return a.count < b.count;
+				case 2:
+					return a.last_us < b.last_us;
+				case 3:
+					return a.average_us() < b.average_us();
+				case 4:
+					return a.min_us < b.min_us;
+				case 5:
+					return a.max_us < b.max_us;
+				case 6:
+					return a.total_us < b.total_us;
+				default:
+					return a.name < b.name;
+				}
+			}};
+
+			std::ranges::stable_sort(entries, [&](const ProfileEntry &a, const ProfileEntry &b) -> bool {
+				if (ascending)
+					return less(a, b);
+
+				return less(b, a);
+			});
+		}
+
+		for (const auto &entry : entries) {
+
+			ImGui::TableNextRow();
+
+			ImGui::TableSetColumnIndex(0);
+			ImGui::TextUnformatted(entry.name.c_str());
+
+			ImGui::TableSetColumnIndex(1);
+			ImGui::Text("%llu", static_cast<unsigned long long>(entry.count));
+
+			ImGui::TableSetColumnIndex(2);
+			ImGui::TextUnformatted(timing_text(entry.last_us).c_str());
+
+			ImGui::TableSetColumnIndex(3);
+			ImGui::TextUnformatted(timing_text(entry.average_us()).c_str());
+
+			ImGui::TableSetColumnIndex(4);
+			ImGui::TextUnformatted(timing_text(entry.min_us).c_str());
+
+			ImGui::TableSetColumnIndex(5);
+			ImGui::TextUnformatted(timing_text(entry.max_us).c_str());
+
+			ImGui::TableSetColumnIndex(6);
+			ImGui::TextUnformatted(timing_text(entry.total_us).c_str());
+		}
+
+		ImGui::EndTable();
+	}
 }

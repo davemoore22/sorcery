@@ -427,9 +427,7 @@ auto Sorcery::UI::get_hl_colour(const double percent) const -> ImColor {
 auto Sorcery::UI::_get_cursor_colour(const bool busy, const double percent) const -> ImVec4 {
 
 	const auto pulse{static_cast<float>(percent * percent * (3.0 - (2.0 * percent)))};
-
 	const auto dim{busy ? ImVec4{0.65f, 0.05f, 0.05f, 0.80f} : ImVec4{0.05f, 0.60f, 0.15f, 0.80f}};
-
 	const auto bright{busy ? ImVec4{1.00f, 0.55f, 0.40f, 1.00f} : ImVec4{0.60f, 1.00f, 0.70f, 1.00f}};
 
 	return lerp_colour_engine(dim, bright, pulse);

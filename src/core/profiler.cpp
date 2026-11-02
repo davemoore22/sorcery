@@ -33,7 +33,28 @@ auto Sorcery::Profiler::instance() -> Profiler & {
 
 auto Sorcery::Profiler::set_enabled(bool enabled) -> void {
 
+	_available.store(enabled, std::memory_order_relaxed);
+	_paused.store(false, std::memory_order_relaxed);
 	_enabled.store(enabled, std::memory_order_relaxed);
+}
+
+auto Sorcery::Profiler::available() const -> bool {
+
+	return _available.load(std::memory_order_relaxed);
+}
+
+auto Sorcery::Profiler::paused() const -> bool {
+
+	return _paused.load(std::memory_order_relaxed);
+}
+
+auto Sorcery::Profiler::set_paused(bool paused) -> void {
+
+	if (!available())
+		return;
+
+	_paused.store(paused, std::memory_order_relaxed);
+	_enabled.store(!paused, std::memory_order_relaxed);
 }
 
 auto Sorcery::Profiler::enabled() const -> bool {
