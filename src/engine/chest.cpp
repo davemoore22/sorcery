@@ -88,6 +88,8 @@ auto Sorcery::Chest::start(void) -> Enums::Chests::Result {
 				return Enums::Chests::Result::ABORT;
 				break;
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 

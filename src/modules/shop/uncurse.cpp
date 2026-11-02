@@ -65,6 +65,8 @@ auto Sorcery::Uncurse::start() -> int {
 			case ModuleEvent::ABORT:
 				return abort();
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 

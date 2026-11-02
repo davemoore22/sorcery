@@ -76,6 +76,8 @@ auto Sorcery::Inspect::start(const int mode, const int start_char) -> int {
 			case ModuleEvent::ABORT:
 				return abort();
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 

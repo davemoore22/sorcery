@@ -44,7 +44,8 @@
 #include "display/display.hpp"				 // for Display, DisplayMetrics
 #include "display/render.hpp"				 // for Render
 #include "display/ui/atlasimage.hpp"		 // for AtlasImage, AtlasDrawMode
-#include "display/ui/mapview.hpp"			 // for MapGeometry, MapView
+#include "display/ui/debugconsole.hpp"
+#include "display/ui/mapview.hpp" // for MapGeometry, MapView
 #include "display/ui/menunavigation.hpp"
 #include "display/ui/popupmanager.hpp"	 // for PopupManager
 #include "display/ui/screenrenderer.hpp" // for ScreenRenderer
@@ -128,6 +129,7 @@ Sorcery::UI::UI(Context &ctx)
 	popup_manager = std::make_unique<PopupManager>(_ctx);
 	screens = std::make_unique<ScreenRenderer>(*this, _ctx);
 	metrics = std::make_unique<UIMetrics>(_ctx);
+	debug_console = std::make_unique<DebugConsole>();
 
 	// Can't create fontstore just yet as it needs IMGUI initialised
 
@@ -292,7 +294,8 @@ auto Sorcery::UI::close_all_popups() -> void {
 // TODO: Don't move this for now
 auto Sorcery::UI::display_engine() -> void {
 
-	const auto gamepad_nav{_ctx.controller->get_gamepad_ui_focus() || popup_manager->active()};
+	const auto gamepad_nav{!debug_console->visible() &&
+						   (_ctx.controller->get_gamepad_ui_focus() || popup_manager->active())};
 
 	_set_gamepad_navigation(gamepad_nav);
 
@@ -334,7 +337,7 @@ auto Sorcery::UI::display_engine() -> void {
 	// Transient overlay
 	draw_transient();
 
-	// And Cursor etc on Top
+	// And Cursor and Help etc on Top
 	draw_debug();
 	draw_cheat_tools();
 	draw_help_window();
@@ -342,6 +345,9 @@ auto Sorcery::UI::display_engine() -> void {
 
 	if (_ctx.controller->get_flag("debug_ui"))
 		ImGui::ShowMetricsWindow();
+
+	// Developer console
+	debug_console->draw();
 
 	ImGui::Render();
 
@@ -352,21 +358,28 @@ auto Sorcery::UI::display_screen(const Enums::Screen screen, const std::any &pay
 
 	_ctx.controller->set_last_screen(screen);
 
-	_set_gamepad_navigation(true);
+	_set_gamepad_navigation(!debug_console->visible());
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
+	if (ImGui::IsKeyPressed(ImGuiKey_GraveAccent, false))
+		DEBUG_LOG("Console toggle key detected");
+
 	_setup_windows();
 
 	screens->display(screen, payload);
 
+	// And Cursor and Help etc on Top
 	if (screen != Enums::Screen::SPLASH) {
 		draw_help_icon();
 		draw_help_window();
 		draw_cursor();
 	}
+
+	// Developer console
+	debug_console->draw();
 
 	ImGui::Render();
 
@@ -3904,6 +3917,11 @@ auto Sorcery::UI::draw_atlas_tile(const std::string_view source, const int idx, 
 }
 
 auto Sorcery::UI::_set_gamepad_navigation(const bool enabled) -> void {
+
+	if (debug_console && debug_console->visible()) {
+		_io->ConfigFlags &= ~ImGuiConfigFlags_NavEnableGamepad;
+		return;
+	}
 
 	if (enabled)
 		_io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;

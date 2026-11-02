@@ -53,6 +53,7 @@ namespace Sorcery { class ScreenRenderer; }
 namespace Sorcery { class UIMetrics; }
 namespace Sorcery { class VideoPlayer; }
 namespace Sorcery { struct AtlasImage; }
+namespace Sorcery { class DebugConsole; }
 namespace Sorcery {
 namespace Enums { enum class Screen; }
 }
@@ -253,6 +254,7 @@ class UI {
 		std::unique_ptr<Render> render;
 		std::unique_ptr<ScreenRenderer> screens;
 		std::unique_ptr<UIMetrics> metrics;
+		std::unique_ptr<DebugConsole> debug_console;
 		unsigned int frame_rd;
 		unsigned int ui_rd;
 		ImVec4 ui_colour;

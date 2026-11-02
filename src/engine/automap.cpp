@@ -65,6 +65,8 @@ auto Sorcery::Automap::start(void) -> int {
 				return abort();
 				break;
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 

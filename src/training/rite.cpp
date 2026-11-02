@@ -77,6 +77,8 @@ auto Sorcery::Rite::start() -> int {
 			case ModuleEvent::ABORT:
 				return abort();
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 
@@ -131,6 +133,8 @@ auto Sorcery::Rite::start() -> int {
 			case ModuleEvent::ABORT:
 				return ABORT_GAME;
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 

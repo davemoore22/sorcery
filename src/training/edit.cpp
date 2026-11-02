@@ -74,6 +74,8 @@ auto Sorcery::Edit::start() -> int {
 			case ModuleEvent::ABORT:
 				return abort();
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 

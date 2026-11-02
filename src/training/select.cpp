@@ -84,6 +84,8 @@ auto Sorcery::Select::start(const Enums::Selection::Edit mode) -> int {
 			case ModuleEvent::ABORT:
 				return abort();
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 

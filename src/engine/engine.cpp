@@ -126,6 +126,8 @@ auto Sorcery::Engine::start(const int mode) -> int {
 				return _abort();
 				break;
 
+			case ModuleEvent::CONSUMED:
+				[[fallthrough]];
 			case ModuleEvent::QUICKLOAD:
 				continue;
 

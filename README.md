@@ -59,10 +59,11 @@ Brief gameplay videos are also available on [YouTube](https://www.youtube.com/ch
 
 ### Alpha #3 — Released xxxx xxxxxxx xxxx
 
-Alpha #2 changes include:
+Alpha #3 changes include:
 
 - Saved Game Version Checking
 - Proper Gamepad Support
+- Added Debug/Profile Console {~ to activate}
 
 ### Alpha #2 — Released 20th October 2026
 
