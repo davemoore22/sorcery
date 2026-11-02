@@ -128,6 +128,9 @@ The project uses the MinGW-w64 UCRT runtime and produces a native Windows execut
 
 # Command Line Shortcuts
 
+- -=help: displays list of shortcuts
+- --version: displays version and build information
+
 - --mute: disables sound
 - --no-images: disables image loading (will draw blank placeholders)
 

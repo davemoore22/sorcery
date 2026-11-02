@@ -42,6 +42,7 @@
 #include "frontend/mainmenu.hpp"		 // for MainMenu
 #include "frontend/splash.hpp"			 // for Splash
 #include "game/game.hpp"				 // for Game
+#include "generated/version.hpp"		 // for VERSION, LABEL, DATE
 #include "modules/castle.hpp"			 // for Castle
 #include "modules/edgeoftown.hpp"		 // for EdgeOfTown
 #include "resources/imagestore.hpp"		 // for ImageStore
@@ -67,6 +68,45 @@
 #include <stdexcept> // for runtime_error
 #include <typeinfo>	 // for type_info
 #include <utility>	 // for move
+
+namespace {
+
+auto print_version() -> void {
+
+	std::println("Sorcery {} ({}) - {}", Sorcery::Build::VERSION, Sorcery::Build::LABEL, Sorcery::Build::DATE);
+}
+
+auto print_help() -> void {
+
+	std::println(R"(Sorcery - Command Line Options
+
+Usage: sorcery [options]
+
+General:
+  -h, --help       Display this help message
+  -v, --version    Display version and build information
+  --mute           Disable sound
+  --no-images      Disable image loading (draw blank placeholders)
+
+Game Startup:
+  --new            Skip the main menu and start a new game
+  --load           Skip the main menu and load an existing game
+  --quickstart     Skip the main menu and start a new game with
+                   12 pregenerated and leveled characters
+  --start-engine   With --quickstart, go directly to the dungeon
+  --go-to          With --start-engine, go to the coordinates and
+                   floor specified in config.ini
+
+Diagnostics:
+  --debug          Enable the developer console (Log tab)
+  --profile        Enable the developer console (Profiler tab)
+
+                   Press tilde/backtick (`) to toggle the console.
+                   --debug and --profile can be used together.
+)");
+}
+
+} // namespace
 
 /// @brief Standard Constructor
 /// @param argc
@@ -102,9 +142,24 @@ Sorcery::Application::Application(int argc, char **argv) {
 		});
 	}
 
+	constexpr auto PARAM_VERSION{"--version"sv};
+	constexpr auto PARAM_DEBUG{"--debug"sv};
+	constexpr auto PARAM_PROFILE{"--profile"sv};
+	constexpr auto PARAM_HELP{"--help"sv};
+
+	if (_check_param("--help") || _check_param("-h")) {
+		print_help();
+		std::exit(EXIT_SUCCESS);
+	}
+
+	if (_check_param("--version") || _check_param("-v")) {
+		print_version();
+		std::exit(EXIT_SUCCESS);
+	}
+
 	// Initialise runtime diagnostics
 	auto &diagnostics{Diagnostics::instance()};
-	const bool debug_enabled{_check_param("--debug")};
+	const bool debug_enabled{_check_param(PARAM_DEBUG)};
 
 	diagnostics.set_debug_enabled(debug_enabled);
 	diagnostics.set_terminal_enabled(false);
@@ -113,7 +168,7 @@ Sorcery::Application::Application(int argc, char **argv) {
 
 	// Initialise runtime profiling
 	auto &profiler{Profiler::instance()};
-	profiler.set_enabled(_check_param("--profile"));
+	profiler.set_enabled(_check_param(PARAM_PROFILE));
 
 	// And the Context object used for DI
 	ctx = Context{};
@@ -430,7 +485,7 @@ auto Sorcery::Application::_run_restart_maze(const int mode) -> AppFlow {
 /// @return
 auto Sorcery::Application::_build_startup_plan() -> StartupPlan {
 
-	// Command-line parameters (debug-only)
+	// Command-line parameters
 	constexpr auto PARAM_NO_IMAGES{"--no-images"sv};
 	constexpr auto PARAM_LOAD_GAME{"--load"sv};
 	constexpr auto PARAM_NEW_GAME{"--new"sv};

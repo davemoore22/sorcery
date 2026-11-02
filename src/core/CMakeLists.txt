@@ -4,6 +4,10 @@ target_include_directories(sorcery_core PUBLIC
 	${CMAKE_SOURCE_DIR}/inc
 )
 
+target_include_directories(sorcery_core PRIVATE
+    ${CMAKE_BINARY_DIR}
+)
+
 target_link_libraries(sorcery_core PUBLIC
 	dear_imgui
 	Freetype::Freetype

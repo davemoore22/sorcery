@@ -64,6 +64,7 @@ Alpha #3 changes include:
 - Saved Game Version Checking
 - Proper Gamepad Support
 - Added Debug/Profile Console
+- Added --help and --version to command line options
 
 ### Alpha #2 — Released 20th October 2026
 
