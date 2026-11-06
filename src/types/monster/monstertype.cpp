@@ -331,17 +331,17 @@ auto Sorcery::MonsterType::set_mage_level(const unsigned int value) -> void {
 
 auto Sorcery::MonsterType::get_priest_level() const -> unsigned int {
 
-	return _mage_level;
+	return _priest_level;
 }
 
 auto Sorcery::MonsterType::get_mage_level() const -> unsigned int {
 
-	return _priest_level;
+	return _mage_level;
 }
 
 auto Sorcery::MonsterType::get_spell_resistance() const -> unsigned int {
 
-	return _mage_level;
+	return _spell_resistance;
 }
 
 auto Sorcery::MonsterType::set_spell_resistance(const unsigned int value) -> void {

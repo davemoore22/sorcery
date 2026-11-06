@@ -6,6 +6,8 @@ The project is under active development and is built using **C++26, Dear ImGui, 
 
 **Alpha #2 is available now from the Releases section. Alpha #3 is coming soon.**
 
+Please note that all artwork/music has been created by humans, and no part of this project is vibe-coded (this project has been on-going since early 2023).
+
 ## Screenshots
 
 <table>
@@ -64,7 +66,7 @@ Alpha #3 changes include:
 - Saved Game Version Checking
 - Proper Gamepad Support
 - Added Debug/Profile Console
-- Added --help and --version to command line options
+- Added --help and --version cli shortcuts
 
 ### Alpha #2 — Released 20th October 2026
 
@@ -183,9 +185,7 @@ The project targets **C++26** and uses C++ reflection, so **GCC 16.1 or later is
 
 ## License
 
-Sorcery source code is released under the **GNU GPLv2**. See [`doc/LICENSE.md`](doc/LICENSE.md) for full details.
-
-Graphics and music are used under their respective licenses, as listed below. Note that all artwork/music is authored by humans.
+Sorcery source code is released under the **GNU GPLv2**. See [`doc/LICENSE.md`](doc/LICENSE.md) for full details. Graphics and music are used under their respective licenses, as listed below.
 
 ## Contact and Help
 
